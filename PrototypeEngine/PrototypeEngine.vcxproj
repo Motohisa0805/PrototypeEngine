@@ -1,0 +1,388 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\GLEW-static.2.2.0\build\native\GLEW-static.props" Condition="Exists('..\packages\GLEW-static.2.2.0\build\native\GLEW-static.props')" />
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>17.0</VCProjectVersion>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{7d87e437-00a2-4e9a-86ba-5df9a975e5fa}</ProjectGuid>
+    <RootNamespace>PrototypeEngine</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <OutDir>$(SolutionDir)</OutDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;SDL_VERSION=SDL3-3.2.8;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>Default</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <AdditionalIncludeDirectories>$(ProjectDir)SDL3-3.2.8\include;$(ProjectDir)SDL3_image-3.2.4\include;$(ProjectDir)FMOD Studio API Windows\api\lowlevel\inc;$(ProjectDir)FMOD Studio API Windows\api\studio\inc;$(ProjectDir)SDL3_ttf-3.1.0\include;$(ProjectDir)rapidjson-master\rapidjson-master\include;$(ProjectDir)ImGui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(ProjectDir)SDL3-3.2.8\lib\x64;$(ProjectDir)SDL3_image-3.2.4\lib\x64;$(ProjectDir)FMOD Studio API Windows\api\studio\lib;$(ProjectDir)FMOD Studio API Windows\api\lowlevel\lib;$(ProjectDir)SDL3_ttf-3.1.0\lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>SDL3.lib;SDL3_image.lib;fmod_vc.lib;fmod64_vc.lib;fmodL_vc.lib;fmodL64_vc.lib;fmodstudio_vc.lib;fmodstudio64_vc.lib;fmodstudioL_vc.lib;fmodstudioL64_vc.lib;SDL3_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <None Include="..\Shaders\Arrow.frag" />
+    <None Include="..\Shaders\Arrow.vert" />
+    <None Include="..\Shaders\BasicMesh.vert" />
+    <None Include="..\Shaders\GBufferGlobal.frag" />
+    <None Include="..\Shaders\GBufferGlobal.vert" />
+    <None Include="..\Shaders\GBufferPointLight.frag" />
+    <None Include="..\Shaders\GBufferWrite.frag" />
+    <None Include="..\Shaders\Grid.frag" />
+    <None Include="..\Shaders\Grid.vert" />
+    <None Include="..\Shaders\ParticleSprite.frag" />
+    <None Include="..\Shaders\Phong.vert" />
+    <None Include="..\Shaders\ShadowDepth.frag" />
+    <None Include="..\Shaders\ShadowDepth.vert" />
+    <None Include="..\Shaders\Skinned.vert" />
+    <None Include="..\Shaders\SkinnedShadowDepth.frag" />
+    <None Include="..\Shaders\SkinnedShadowDepth.vert" />
+    <None Include="..\Shaders\Skybox.frag" />
+    <None Include="..\Shaders\Skybox.vert" />
+    <None Include="..\Shaders\Sprite.frag" />
+    <None Include="..\Shaders\Sprite.vert" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Actor.cpp" />
+    <ClCompile Include="Animation.cpp" />
+    <ClCompile Include="Animator.cpp" />
+    <ClCompile Include="Asteroid.cpp" />
+    <ClCompile Include="AudioBankProperty.cpp" />
+    <ClCompile Include="AudioComponent.cpp" />
+    <ClCompile Include="AudioSystem.cpp" />
+    <ClCompile Include="BaseCamera.cpp" />
+    <ClCompile Include="BaseScene.cpp" />
+    <ClCompile Include="BasicInputAction.cpp" />
+    <ClCompile Include="BoneActor.cpp" />
+    <ClCompile Include="BoneTransform.cpp" />
+    <ClCompile Include="BoxCollider.cpp" />
+    <ClCompile Include="BulletActor.cpp" />
+    <ClCompile Include="Button.cpp" />
+    <ClCompile Include="CallBackManager.cpp" />
+    <ClCompile Include="CameraActor.cpp" />
+    <ClCompile Include="Canvas.cpp" />
+    <ClCompile Include="CapsuleActor.cpp" />
+    <ClCompile Include="CapsuleCollider.cpp" />
+    <ClCompile Include="Collider.cpp" />
+    <ClCompile Include="Collision.cpp" />
+    <ClCompile Include="Component.cpp" />
+    <ClCompile Include="ConvertNumToString.cpp" />
+    <ClCompile Include="CubeActor.cpp" />
+    <ClCompile Include="DebugGrid.cpp" />
+    <ClCompile Include="DebugScene01.cpp" />
+    <ClCompile Include="DebugScene02.cpp" />
+    <ClCompile Include="DialogBox.cpp" />
+    <ClCompile Include="DirectionalLightActor.cpp" />
+    <ClCompile Include="DirectionalLightComponent.cpp" />
+    <ClCompile Include="EngineWindow.cpp" />
+    <ClCompile Include="FollowCamera.cpp" />
+    <ClCompile Include="FollowObjectMovement.cpp" />
+    <ClCompile Include="Font.cpp" />
+    <ClCompile Include="FPSActor.cpp" />
+    <ClCompile Include="FPSCamera.cpp" />
+    <ClCompile Include="FPSCanvas.cpp" />
+    <ClCompile Include="FreeCamera.cpp" />
+    <ClCompile Include="FreeCameraActor.cpp" />
+    <ClCompile Include="GameApp.cpp" />
+    <ClCompile Include="GameWinMain.cpp" />
+    <ClCompile Include="GBuffer.cpp" />
+    <ClCompile Include="GUIWinMain.cpp" />
+    <ClCompile Include="GunActor.cpp" />
+    <ClCompile Include="Image.cpp" />
+    <ClCompile Include="ImGui\imgui.cpp" />
+    <ClCompile Include="ImGui\imgui_demo.cpp" />
+    <ClCompile Include="ImGui\imgui_draw.cpp" />
+    <ClCompile Include="ImGui\imgui_impl_opengl3.cpp" />
+    <ClCompile Include="ImGui\imgui_impl_sdl3.cpp" />
+    <ClCompile Include="ImGui\imgui_tables.cpp" />
+    <ClCompile Include="ImGui\imgui_widgets.cpp" />
+    <ClCompile Include="InputSystem.cpp" />
+    <ClCompile Include="Laser.cpp" />
+    <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Math.cpp" />
+    <ClCompile Include="Mesh.cpp" />
+    <ClCompile Include="MeshActor.cpp" />
+    <ClCompile Include="MeshRenderer.cpp" />
+    <ClCompile Include="OrbitActor.cpp" />
+    <ClCompile Include="OrbitCamera.cpp" />
+    <ClCompile Include="ParticleSystem.cpp" />
+    <ClCompile Include="ParticleTestActor.cpp" />
+    <ClCompile Include="PauseMenu.cpp" />
+    <ClCompile Include="PhysWorld.cpp" />
+    <ClCompile Include="PlaneActor.cpp" />
+    <ClCompile Include="PortalActor.cpp" />
+    <ClCompile Include="PushButtonMove.cpp" />
+    <ClCompile Include="Random.cpp" />
+    <ClCompile Include="Renderer.cpp" />
+    <ClCompile Include="Rigidbody.cpp" />
+    <ClCompile Include="SceneManager.cpp" />
+    <ClCompile Include="SceneViewEditor.cpp" />
+    <ClCompile Include="Shader.cpp" />
+    <ClCompile Include="ShadowMap.cpp" />
+    <ClCompile Include="Ship.cpp" />
+    <ClCompile Include="SkeletalMeshRenderer.cpp" />
+    <ClCompile Include="Skeleton.cpp" />
+    <ClCompile Include="SkeletonMeshActor.cpp" />
+    <ClCompile Include="SkyBoxRenderer.cpp" />
+    <ClCompile Include="SoundEventClip.cpp" />
+    <ClCompile Include="SphereActor.cpp" />
+    <ClCompile Include="SphereCollider.cpp" />
+    <ClCompile Include="SplineActor.cpp" />
+    <ClCompile Include="SplineCamera.cpp" />
+    <ClCompile Include="Stages00.cpp" />
+    <ClCompile Include="Stages01.cpp" />
+    <ClCompile Include="TargetActor.cpp" />
+    <ClCompile Include="TargetComponent.cpp" />
+    <ClCompile Include="TargetComponentSystem.cpp" />
+    <ClCompile Include="Text.cpp" />
+    <ClCompile Include="Texture.cpp" />
+    <ClCompile Include="Time.cpp" />
+    <ClCompile Include="TitleCanvas.cpp" />
+    <ClCompile Include="TitleScene.cpp" />
+    <ClCompile Include="TPSCanvas.cpp" />
+    <ClCompile Include="TPSPlayer.cpp" />
+    <ClCompile Include="Transform.cpp" />
+    <ClCompile Include="VertexArray.cpp" />
+    <ClCompile Include="WindowRenderProperty.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Actor.h" />
+    <ClInclude Include="Animation.h" />
+    <ClInclude Include="Animator.h" />
+    <ClInclude Include="Assimp.h" />
+    <ClInclude Include="Asteroid.h" />
+    <ClInclude Include="AudioBankProperty.h" />
+    <ClInclude Include="AudioComponent.h" />
+    <ClInclude Include="AudioSystem.h" />
+    <ClInclude Include="BaseCamera.h" />
+    <ClInclude Include="BaseScene.h" />
+    <ClInclude Include="BasicInputAction.h" />
+    <ClInclude Include="BoneActor.h" />
+    <ClInclude Include="BoneTransform.h" />
+    <ClInclude Include="BoxCollider.h" />
+    <ClInclude Include="BulletActor.h" />
+    <ClInclude Include="Button.h" />
+    <ClInclude Include="CallBackManager.h" />
+    <ClInclude Include="CameraActor.h" />
+    <ClInclude Include="Canvas.h" />
+    <ClInclude Include="CapsuleActor.h" />
+    <ClInclude Include="CapsuleCollider.h" />
+    <ClInclude Include="Collider.h" />
+    <ClInclude Include="Collision.h" />
+    <ClInclude Include="Component.h" />
+    <ClInclude Include="ConvertNumToString.h" />
+    <ClInclude Include="CubeActor.h" />
+    <ClInclude Include="DebugGrid.h" />
+    <ClInclude Include="DebugManager.h" />
+    <ClInclude Include="DebugScene01.h" />
+    <ClInclude Include="DebugScene02.h" />
+    <ClInclude Include="Debug_memory.h" />
+    <ClInclude Include="DialogBox.h" />
+    <ClInclude Include="DirectionalLightActor.h" />
+    <ClInclude Include="DirectionalLightComponent.h" />
+    <ClInclude Include="EngineWindow.h" />
+    <ClInclude Include="FilePath.h" />
+    <ClInclude Include="FollowCamera.h" />
+    <ClInclude Include="FollowObjectMovement.h" />
+    <ClInclude Include="Font.h" />
+    <ClInclude Include="FPSActor.h" />
+    <ClInclude Include="FPSCamera.h" />
+    <ClInclude Include="FPSCanvas.h" />
+    <ClInclude Include="FreeCamera.h" />
+    <ClInclude Include="FreeCameraActor.h" />
+    <ClInclude Include="GameApp.h" />
+    <ClInclude Include="GameFunctions.h" />
+    <ClInclude Include="GameWinMain.h" />
+    <ClInclude Include="GBuffer.h" />
+    <ClInclude Include="GUIWinMain.h" />
+    <ClInclude Include="GunActor.h" />
+    <ClInclude Include="Image.h" />
+    <ClInclude Include="ImGui\imconfig.h" />
+    <ClInclude Include="ImGui\imgui.h" />
+    <ClInclude Include="ImGui\imgui_impl_opengl3.h" />
+    <ClInclude Include="ImGui\imgui_impl_opengl3_loader.h" />
+    <ClInclude Include="ImGui\imgui_impl_sdl3.h" />
+    <ClInclude Include="ImGui\imgui_internal.h" />
+    <ClInclude Include="ImGui\imstb_rectpack.h" />
+    <ClInclude Include="ImGui\imstb_textedit.h" />
+    <ClInclude Include="ImGui\imstb_truetype.h" />
+    <ClInclude Include="InputSystem.h" />
+    <ClInclude Include="Laser.h" />
+    <ClInclude Include="Math.h" />
+    <ClInclude Include="MatrixPalette.h" />
+    <ClInclude Include="Mesh.h" />
+    <ClInclude Include="MeshActor.h" />
+    <ClInclude Include="MeshRenderer.h" />
+    <ClInclude Include="OrbitActor.h" />
+    <ClInclude Include="OrbitCamera.h" />
+    <ClInclude Include="ParticleSystem.h" />
+    <ClInclude Include="ParticleTestActor.h" />
+    <ClInclude Include="PauseMenu.h" />
+    <ClInclude Include="PhysWorld.h" />
+    <ClInclude Include="PlaneActor.h" />
+    <ClInclude Include="PortalActor.h" />
+    <ClInclude Include="PushButtonMove.h" />
+    <ClInclude Include="Random.h" />
+    <ClInclude Include="Renderer.h" />
+    <ClInclude Include="Rigidbody.h" />
+    <ClInclude Include="SceneManager.h" />
+    <ClInclude Include="SceneViewEditor.h" />
+    <ClInclude Include="SDL3.h" />
+    <ClInclude Include="SDL_Scancode.h" />
+    <ClInclude Include="SDOpenLib.h" />
+    <ClInclude Include="Shader.h" />
+    <ClInclude Include="ShadowMap.h" />
+    <ClInclude Include="Ship.h" />
+    <ClInclude Include="SkeletalMeshRenderer.h" />
+    <ClInclude Include="Skeleton.h" />
+    <ClInclude Include="SkeletonMeshActor.h" />
+    <ClInclude Include="SkyBoxRenderer.h" />
+    <ClInclude Include="SoundEventClip.h" />
+    <ClInclude Include="SphereActor.h" />
+    <ClInclude Include="SphereCollider.h" />
+    <ClInclude Include="SplineActor.h" />
+    <ClInclude Include="SplineCamera.h" />
+    <ClInclude Include="Stages00.h" />
+    <ClInclude Include="Stages01.h" />
+    <ClInclude Include="StandardLibrary.h" />
+    <ClInclude Include="StringFormat.h" />
+    <ClInclude Include="TargetActor.h" />
+    <ClInclude Include="TargetComponent.h" />
+    <ClInclude Include="TargetComponentSystem.h" />
+    <ClInclude Include="Text.h" />
+    <ClInclude Include="Texture.h" />
+    <ClInclude Include="Time.h" />
+    <ClInclude Include="TitleCanvas.h" />
+    <ClInclude Include="TitleScene.h" />
+    <ClInclude Include="TPSCanvas.h" />
+    <ClInclude Include="TPSPlayer.h" />
+    <ClInclude Include="Transform.h" />
+    <ClInclude Include="Typedefs.h" />
+    <ClInclude Include="VertexArray.h" />
+    <ClInclude Include="WindowRenderProperty.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+    <Import Project="..\packages\assimp-v143.5.4.3\build\native\assimp-v143.targets" Condition="Exists('..\packages\assimp-v143.5.4.3\build\native\assimp-v143.targets')" />
+    <Import Project="..\packages\SOIL-VC141.1.0.1\build\native\SOIL-VC141.targets" Condition="Exists('..\packages\SOIL-VC141.1.0.1\build\native\SOIL-VC141.targets')" />
+  </ImportGroup>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>このプロジェクトは、このコンピューター上にない NuGet パッケージを参照しています。それらのパッケージをダウンロードするには、[NuGet パッケージの復元] を使用します。詳細については、http://go.microsoft.com/fwlink/?LinkID=322105 を参照してください。見つからないファイルは {0} です。</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\assimp-v143.5.4.3\build\native\assimp-v143.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\assimp-v143.5.4.3\build\native\assimp-v143.targets'))" />
+    <Error Condition="!Exists('..\packages\GLEW-static.2.2.0\build\native\GLEW-static.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\GLEW-static.2.2.0\build\native\GLEW-static.props'))" />
+    <Error Condition="!Exists('..\packages\SOIL-VC141.1.0.1\build\native\SOIL-VC141.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\SOIL-VC141.1.0.1\build\native\SOIL-VC141.targets'))" />
+  </Target>
+</Project>

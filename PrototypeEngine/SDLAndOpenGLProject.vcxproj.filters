@@ -1,0 +1,890 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="ソース ファイル">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="ヘッダー ファイル">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="リソース ファイル">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Shaders">
+      <UniqueIdentifier>{a5b37b05-5ea2-4d97-8b39-c0331ab420e7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceFiles">
+      <UniqueIdentifier>{a3fc0ee0-7038-4b50-81b2-53a79b7ec651}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceFiles\B_GameObjects">
+      <UniqueIdentifier>{531719a1-6d92-4b9b-a699-00233e6ee899}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceFiles\B_GameObjects\3Ds">
+      <UniqueIdentifier>{f6615e25-fc7b-4882-8d16-d1f8172d73ae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceFiles\B_GameObjects\2Ds%28未使用%29">
+      <UniqueIdentifier>{49e7b533-4608-46e4-a543-95524043d5a3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceFiles\C_Components">
+      <UniqueIdentifier>{99232915-7c94-469e-8635-f2c9ef0183bc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceFiles\A_Mains">
+      <UniqueIdentifier>{cc57f91a-d7f4-4425-b1f1-fbeee5f70532}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceFiles\D_UIs">
+      <UniqueIdentifier>{7c07c064-fa35-4491-9b87-c66e6dcc30c4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceFiles\E_Scenes">
+      <UniqueIdentifier>{d75df269-da34-4515-a3cf-1c3e3b66d3e3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceFiles\F_Editor">
+      <UniqueIdentifier>{2694a7e8-b7f5-44ca-8f6a-cdebf823b78a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceFiles\F_Editor\Defines">
+      <UniqueIdentifier>{f9cd43ee-397a-40bb-b8d5-0bc167d5dcfa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceFiles\F_Editor\Libs">
+      <UniqueIdentifier>{63f3a5bc-17d7-469f-a700-9a784f864369}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceFiles\F_Editor\Utilitys">
+      <UniqueIdentifier>{d595bc1c-3b9f-4f68-968d-793bcd77046b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceFiles\F_Editor\Renderers">
+      <UniqueIdentifier>{24f3e5a7-911e-444d-8669-52389bef20fb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceFiles\F_Editor\Animations">
+      <UniqueIdentifier>{951c41e7-f311-4c95-a568-c8286a7b9b6b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceFiles\F_Editor\Actors">
+      <UniqueIdentifier>{e37340a2-b0dc-4077-a13e-a53c9bc5964e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceFiles\F_Editor\Actors\Defaults">
+      <UniqueIdentifier>{d5dc39e5-fc53-4164-abcd-13bd8fa73ce8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceFiles\F_Editor\Actors\Base">
+      <UniqueIdentifier>{65e17607-1ec7-4aab-a133-8a9fda7250bb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceFiles\F_Editor\Actors\Base\Transform">
+      <UniqueIdentifier>{06f3dfc9-458c-4986-859c-333bf6abc7b1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceFiles\F_Editor\Actors\Base\Actor">
+      <UniqueIdentifier>{1900f0b6-97a1-485c-a371-b7d8138dd767}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceFiles\F_Editor\Actors\Bones">
+      <UniqueIdentifier>{9cbd482c-53d6-4ac4-b05a-acc1c88e50d2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceFiles\F_Editor\Inputs">
+      <UniqueIdentifier>{5894dda8-c01c-474d-a144-06cde7d954ff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceFiles\F_Editor\Components">
+      <UniqueIdentifier>{46735d4f-7eed-4119-9eeb-57339f591391}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceFiles\F_Editor\Components\Base">
+      <UniqueIdentifier>{7282c136-dc6a-4e01-bfcc-6530a5d25c04}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceFiles\F_Editor\Collisions">
+      <UniqueIdentifier>{6c153ca1-6e7f-4e22-9ecf-8dca3d0d9dd4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceFiles\F_Editor\Rigidbody">
+      <UniqueIdentifier>{7e09cc8c-afca-421b-aed9-07cf5a263a8a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceFiles\F_Editor\UIs">
+      <UniqueIdentifier>{afe7dad8-d789-42b7-8c93-ce01ec481ec2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceFiles\F_Editor\Cameras">
+      <UniqueIdentifier>{4d020a1f-3495-4a87-a606-a6b7f1f2008c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceFiles\F_Editor\Cameras\Base">
+      <UniqueIdentifier>{458257fe-9f4f-4cc1-9a97-0ec9e1d4404c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceFiles\F_Editor\Scenes">
+      <UniqueIdentifier>{576a3669-8caf-4cf8-80dd-9c6bb586dfee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceFiles\F_Editor\Scenes\LoadManager">
+      <UniqueIdentifier>{73369c76-ae4b-4f86-8f14-bc5a60070ff7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceFiles\F_Editor\Audios">
+      <UniqueIdentifier>{76423572-8a91-4d87-8c40-a9ab28d522a3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceFiles\G_Unused/未使用ファイル">
+      <UniqueIdentifier>{06ed5f55-ba5d-48a9-be9d-a925c0efb940}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceFiles\F_Editor\Debugs">
+      <UniqueIdentifier>{f2b1f472-34a9-47b3-bfc0-6c7393dc4633}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceFiles\G_GUI">
+      <UniqueIdentifier>{3cf9cb92-2e30-439e-a012-e07721b82c7a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceFiles\G_GUI\ImGui">
+      <UniqueIdentifier>{d0c717c0-6127-4845-80c2-ba43af620543}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceFiles\G_GUI\Images">
+      <UniqueIdentifier>{b9ab2b00-76dd-4f0e-8fa6-be245a7253e1}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Component.cpp">
+      <Filter>SourceFiles\F_Editor\Components\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="TargetComponent.cpp">
+      <Filter>SourceFiles\C_Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Animation.cpp">
+      <Filter>SourceFiles\F_Editor\Animations</Filter>
+    </ClCompile>
+    <ClCompile Include="GBuffer.cpp">
+      <Filter>SourceFiles\F_Editor\Renderers</Filter>
+    </ClCompile>
+    <ClCompile Include="Mesh.cpp">
+      <Filter>SourceFiles\F_Editor\Renderers</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer.cpp">
+      <Filter>SourceFiles\F_Editor\Renderers</Filter>
+    </ClCompile>
+    <ClCompile Include="Shader.cpp">
+      <Filter>SourceFiles\F_Editor\Renderers</Filter>
+    </ClCompile>
+    <ClCompile Include="Animator.cpp">
+      <Filter>SourceFiles\F_Editor\Animations</Filter>
+    </ClCompile>
+    <ClCompile Include="DebugScene02.cpp">
+      <Filter>SourceFiles\E_Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="FPSCanvas.cpp">
+      <Filter>SourceFiles\D_UIs</Filter>
+    </ClCompile>
+    <ClCompile Include="PauseMenu.cpp">
+      <Filter>SourceFiles\D_UIs</Filter>
+    </ClCompile>
+    <ClCompile Include="FPSActor.cpp">
+      <Filter>SourceFiles\B_GameObjects\3Ds</Filter>
+    </ClCompile>
+    <ClCompile Include="Asteroid.cpp">
+      <Filter>SourceFiles\B_GameObjects\2Ds%28未使用%29</Filter>
+    </ClCompile>
+    <ClCompile Include="CameraActor.cpp">
+      <Filter>SourceFiles\B_GameObjects\2Ds%28未使用%29</Filter>
+    </ClCompile>
+    <ClCompile Include="Laser.cpp">
+      <Filter>SourceFiles\B_GameObjects\2Ds%28未使用%29</Filter>
+    </ClCompile>
+    <ClCompile Include="Ship.cpp">
+      <Filter>SourceFiles\B_GameObjects\2Ds%28未使用%29</Filter>
+    </ClCompile>
+    <ClCompile Include="Collision.cpp">
+      <Filter>SourceFiles\F_Editor\Collisions</Filter>
+    </ClCompile>
+    <ClCompile Include="BaseCamera.cpp">
+      <Filter>SourceFiles\F_Editor\Cameras\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="BoxCollider.cpp">
+      <Filter>SourceFiles\F_Editor\Collisions</Filter>
+    </ClCompile>
+    <ClCompile Include="SphereCollider.cpp">
+      <Filter>SourceFiles\F_Editor\Collisions</Filter>
+    </ClCompile>
+    <ClCompile Include="Collider.cpp">
+      <Filter>SourceFiles\F_Editor\Collisions</Filter>
+    </ClCompile>
+    <ClCompile Include="CapsuleCollider.cpp">
+      <Filter>SourceFiles\F_Editor\Collisions</Filter>
+    </ClCompile>
+    <ClCompile Include="CapsuleActor.cpp">
+      <Filter>SourceFiles\F_Editor\Actors\Defaults</Filter>
+    </ClCompile>
+    <ClCompile Include="SphereActor.cpp">
+      <Filter>SourceFiles\F_Editor\Actors\Defaults</Filter>
+    </ClCompile>
+    <ClCompile Include="CubeActor.cpp">
+      <Filter>SourceFiles\F_Editor\Actors\Defaults</Filter>
+    </ClCompile>
+    <ClCompile Include="BoneActor.cpp">
+      <Filter>SourceFiles\F_Editor\Actors\Bones</Filter>
+    </ClCompile>
+    <ClCompile Include="DebugScene01.cpp">
+      <Filter>SourceFiles\E_Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneManager.cpp">
+      <Filter>SourceFiles\F_Editor\Scenes\LoadManager</Filter>
+    </ClCompile>
+    <ClCompile Include="PlaneActor.cpp">
+      <Filter>SourceFiles\F_Editor\Actors\Defaults</Filter>
+    </ClCompile>
+    <ClCompile Include="BasicInputAction.cpp">
+      <Filter>SourceFiles\C_Components</Filter>
+    </ClCompile>
+    <ClCompile Include="InputSystem.cpp">
+      <Filter>SourceFiles\F_Editor\Inputs</Filter>
+    </ClCompile>
+    <ClCompile Include="PushButtonMove.cpp">
+      <Filter>SourceFiles\C_Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Skeleton.cpp">
+      <Filter>SourceFiles\F_Editor\Renderers</Filter>
+    </ClCompile>
+    <ClCompile Include="BoneTransform.cpp">
+      <Filter>SourceFiles\F_Editor\Renderers</Filter>
+    </ClCompile>
+    <ClCompile Include="GameApp.cpp">
+      <Filter>SourceFiles\A_Mains</Filter>
+    </ClCompile>
+    <ClCompile Include="Main.cpp">
+      <Filter>SourceFiles\A_Mains</Filter>
+    </ClCompile>
+    <ClCompile Include="GameWinMain.cpp">
+      <Filter>SourceFiles\A_Mains</Filter>
+    </ClCompile>
+    <ClCompile Include="ColliderActor.cpp">
+      <Filter>SourceFiles\G_Unused/未使用ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="BallMove.cpp">
+      <Filter>SourceFiles\G_Unused/未使用ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="BallActor.cpp">
+      <Filter>SourceFiles\G_Unused/未使用ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="InputComponent.cpp">
+      <Filter>SourceFiles\G_Unused/未使用ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="MoveComponent.cpp">
+      <Filter>SourceFiles\G_Unused/未使用ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="CircleComponent.cpp">
+      <Filter>SourceFiles\G_Unused/未使用ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Rigidbody.cpp">
+      <Filter>SourceFiles\F_Editor\Rigidbody</Filter>
+    </ClCompile>
+    <ClCompile Include="FollowObjectMovement.cpp">
+      <Filter>SourceFiles\C_Components</Filter>
+    </ClCompile>
+    <ClCompile Include="ConvertNumToString.cpp">
+      <Filter>SourceFiles\F_Editor\Utilitys</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysWorld.cpp">
+      <Filter>SourceFiles\F_Editor\Collisions</Filter>
+    </ClCompile>
+    <ClCompile Include="WindowRenderProperty.cpp">
+      <Filter>SourceFiles\A_Mains</Filter>
+    </ClCompile>
+    <ClCompile Include="AudioBankProperty.cpp">
+      <Filter>SourceFiles\A_Mains</Filter>
+    </ClCompile>
+    <ClCompile Include="TPSPlayer.cpp">
+      <Filter>SourceFiles\B_GameObjects\3Ds</Filter>
+    </ClCompile>
+    <ClCompile Include="TitleScene.cpp">
+      <Filter>SourceFiles\E_Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="TitleCanvas.cpp">
+      <Filter>SourceFiles\D_UIs</Filter>
+    </ClCompile>
+    <ClCompile Include="GunActor.cpp">
+      <Filter>SourceFiles\B_GameObjects\3Ds</Filter>
+    </ClCompile>
+    <ClCompile Include="BulletActor.cpp">
+      <Filter>SourceFiles\B_GameObjects\3Ds</Filter>
+    </ClCompile>
+    <ClCompile Include="FreeCameraActor.cpp">
+      <Filter>SourceFiles\F_Editor\Actors</Filter>
+    </ClCompile>
+    <ClCompile Include="SplineActor.cpp">
+      <Filter>SourceFiles\F_Editor\Actors</Filter>
+    </ClCompile>
+    <ClCompile Include="OrbitActor.cpp">
+      <Filter>SourceFiles\F_Editor\Actors</Filter>
+    </ClCompile>
+    <ClCompile Include="Transform.cpp">
+      <Filter>SourceFiles\F_Editor\Actors\Base\Transform</Filter>
+    </ClCompile>
+    <ClCompile Include="Actor.cpp">
+      <Filter>SourceFiles\F_Editor\Actors\Base\Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="MeshActor.cpp">
+      <Filter>SourceFiles\F_Editor\Actors</Filter>
+    </ClCompile>
+    <ClCompile Include="SkeletonMeshActor.cpp">
+      <Filter>SourceFiles\F_Editor\Actors</Filter>
+    </ClCompile>
+    <ClCompile Include="SkeletalMeshRenderer.cpp">
+      <Filter>SourceFiles\F_Editor\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="MeshRenderer.cpp">
+      <Filter>SourceFiles\F_Editor\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="PointLightComponent.cpp">
+      <Filter>SourceFiles\F_Editor\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Text.cpp">
+      <Filter>SourceFiles\F_Editor\UIs</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture.cpp">
+      <Filter>SourceFiles\F_Editor\UIs</Filter>
+    </ClCompile>
+    <ClCompile Include="DialogBox.cpp">
+      <Filter>SourceFiles\F_Editor\UIs</Filter>
+    </ClCompile>
+    <ClCompile Include="Canvas.cpp">
+      <Filter>SourceFiles\F_Editor\UIs</Filter>
+    </ClCompile>
+    <ClCompile Include="Button.cpp">
+      <Filter>SourceFiles\F_Editor\UIs</Filter>
+    </ClCompile>
+    <ClCompile Include="Font.cpp">
+      <Filter>SourceFiles\F_Editor\UIs</Filter>
+    </ClCompile>
+    <ClCompile Include="Image.cpp">
+      <Filter>SourceFiles\F_Editor\UIs</Filter>
+    </ClCompile>
+    <ClCompile Include="FollowCamera.cpp">
+      <Filter>SourceFiles\F_Editor\Cameras</Filter>
+    </ClCompile>
+    <ClCompile Include="FPSCamera.cpp">
+      <Filter>SourceFiles\F_Editor\Cameras</Filter>
+    </ClCompile>
+    <ClCompile Include="FreeCamera.cpp">
+      <Filter>SourceFiles\F_Editor\Cameras</Filter>
+    </ClCompile>
+    <ClCompile Include="OrbitCamera.cpp">
+      <Filter>SourceFiles\F_Editor\Cameras</Filter>
+    </ClCompile>
+    <ClCompile Include="SplineCamera.cpp">
+      <Filter>SourceFiles\F_Editor\Cameras</Filter>
+    </ClCompile>
+    <ClCompile Include="BaseScene.cpp">
+      <Filter>SourceFiles\F_Editor\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="AudioComponent.cpp">
+      <Filter>SourceFiles\F_Editor\Audios</Filter>
+    </ClCompile>
+    <ClCompile Include="AudioSystem.cpp">
+      <Filter>SourceFiles\F_Editor\Audios</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundEventClip.cpp">
+      <Filter>SourceFiles\F_Editor\Audios</Filter>
+    </ClCompile>
+    <ClCompile Include="TargetActor.cpp">
+      <Filter>SourceFiles\B_GameObjects\3Ds</Filter>
+    </ClCompile>
+    <ClCompile Include="Stages00.cpp">
+      <Filter>SourceFiles\B_GameObjects\3Ds</Filter>
+    </ClCompile>
+    <ClCompile Include="Stages01.cpp">
+      <Filter>SourceFiles\B_GameObjects\3Ds</Filter>
+    </ClCompile>
+    <ClCompile Include="CallBackManager.cpp">
+      <Filter>SourceFiles\F_Editor\Utilitys</Filter>
+    </ClCompile>
+    <ClCompile Include="Math.cpp">
+      <Filter>SourceFiles\F_Editor\Utilitys</Filter>
+    </ClCompile>
+    <ClCompile Include="Random.cpp">
+      <Filter>SourceFiles\F_Editor\Utilitys</Filter>
+    </ClCompile>
+    <ClCompile Include="Time.cpp">
+      <Filter>SourceFiles\F_Editor\Utilitys</Filter>
+    </ClCompile>
+    <ClCompile Include="VertexArray.cpp">
+      <Filter>SourceFiles\F_Editor\Utilitys</Filter>
+    </ClCompile>
+    <ClCompile Include="TargetComponentSystem.cpp">
+      <Filter>SourceFiles\B_GameObjects\3Ds</Filter>
+    </ClCompile>
+    <ClCompile Include="PortalActor.cpp">
+      <Filter>SourceFiles\B_GameObjects\3Ds</Filter>
+    </ClCompile>
+    <ClCompile Include="TPSCanvas.cpp">
+      <Filter>SourceFiles\D_UIs</Filter>
+    </ClCompile>
+    <ClCompile Include="ParticleTestActor.cpp">
+      <Filter>SourceFiles\B_GameObjects\3Ds</Filter>
+    </ClCompile>
+    <ClCompile Include="ParticleSystem.cpp">
+      <Filter>SourceFiles\F_Editor\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="DebugGrid.cpp">
+      <Filter>SourceFiles\F_Editor\Debugs</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectionalLightComponent.cpp">
+      <Filter>SourceFiles\F_Editor\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectionalLightActor.cpp">
+      <Filter>SourceFiles\F_Editor\Actors</Filter>
+    </ClCompile>
+    <ClCompile Include="ShadowMap.cpp">
+      <Filter>SourceFiles\F_Editor\Renderers</Filter>
+    </ClCompile>
+    <ClCompile Include="SkyBoxRenderer.cpp">
+      <Filter>SourceFiles\F_Editor\Renderers</Filter>
+    </ClCompile>
+    <ClCompile Include="GUIWinMain.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="GUITexture.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGui\imgui.cpp">
+      <Filter>SourceFiles\G_GUI\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGui\imgui_demo.cpp">
+      <Filter>SourceFiles\G_GUI\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGui\imgui_draw.cpp">
+      <Filter>SourceFiles\G_GUI\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGui\imgui_impl_opengl3.cpp">
+      <Filter>SourceFiles\G_GUI\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGui\imgui_impl_sdl3.cpp">
+      <Filter>SourceFiles\G_GUI\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGui\imgui_tables.cpp">
+      <Filter>SourceFiles\G_GUI\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGui\imgui_widgets.cpp">
+      <Filter>SourceFiles\G_GUI\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneViewEditor.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Component.h">
+      <Filter>SourceFiles\F_Editor\Components\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="TargetComponent.h">
+      <Filter>SourceFiles\C_Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer.h">
+      <Filter>SourceFiles\F_Editor\Renderers</Filter>
+    </ClInclude>
+    <ClInclude Include="Shader.h">
+      <Filter>SourceFiles\F_Editor\Renderers</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseCamera.h">
+      <Filter>SourceFiles\F_Editor\Cameras\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Animation.h">
+      <Filter>SourceFiles\F_Editor\Animations</Filter>
+    </ClInclude>
+    <ClInclude Include="Collision.h">
+      <Filter>SourceFiles\F_Editor\Collisions</Filter>
+    </ClInclude>
+    <ClInclude Include="GBuffer.h">
+      <Filter>SourceFiles\F_Editor\Renderers</Filter>
+    </ClInclude>
+    <ClInclude Include="Mesh.h">
+      <Filter>SourceFiles\F_Editor\Renderers</Filter>
+    </ClInclude>
+    <ClInclude Include="FilePath.h">
+      <Filter>SourceFiles\F_Editor\Defines</Filter>
+    </ClInclude>
+    <ClInclude Include="Animator.h">
+      <Filter>SourceFiles\F_Editor\Animations</Filter>
+    </ClInclude>
+    <ClInclude Include="StandardLibrary.h">
+      <Filter>SourceFiles\F_Editor\Libs</Filter>
+    </ClInclude>
+    <ClInclude Include="SDL3.h">
+      <Filter>SourceFiles\F_Editor\Libs</Filter>
+    </ClInclude>
+    <ClInclude Include="Assimp.h">
+      <Filter>SourceFiles\F_Editor\Libs</Filter>
+    </ClInclude>
+    <ClInclude Include="DebugScene02.h">
+      <Filter>SourceFiles\E_Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="FPSCanvas.h">
+      <Filter>SourceFiles\D_UIs</Filter>
+    </ClInclude>
+    <ClInclude Include="PauseMenu.h">
+      <Filter>SourceFiles\D_UIs</Filter>
+    </ClInclude>
+    <ClInclude Include="FPSActor.h">
+      <Filter>SourceFiles\B_GameObjects\3Ds</Filter>
+    </ClInclude>
+    <ClInclude Include="Asteroid.h">
+      <Filter>SourceFiles\B_GameObjects\2Ds%28未使用%29</Filter>
+    </ClInclude>
+    <ClInclude Include="CameraActor.h">
+      <Filter>SourceFiles\B_GameObjects\2Ds%28未使用%29</Filter>
+    </ClInclude>
+    <ClInclude Include="Laser.h">
+      <Filter>SourceFiles\B_GameObjects\2Ds%28未使用%29</Filter>
+    </ClInclude>
+    <ClInclude Include="Ship.h">
+      <Filter>SourceFiles\B_GameObjects\2Ds%28未使用%29</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysWorld.h">
+      <Filter>SourceFiles\F_Editor\Collisions</Filter>
+    </ClInclude>
+    <ClInclude Include="BoxCollider.h">
+      <Filter>SourceFiles\F_Editor\Collisions</Filter>
+    </ClInclude>
+    <ClInclude Include="SphereCollider.h">
+      <Filter>SourceFiles\F_Editor\Collisions</Filter>
+    </ClInclude>
+    <ClInclude Include="Collider.h">
+      <Filter>SourceFiles\F_Editor\Collisions</Filter>
+    </ClInclude>
+    <ClInclude Include="CapsuleCollider.h">
+      <Filter>SourceFiles\F_Editor\Collisions</Filter>
+    </ClInclude>
+    <ClInclude Include="SphereActor.h">
+      <Filter>SourceFiles\F_Editor\Actors\Defaults</Filter>
+    </ClInclude>
+    <ClInclude Include="CapsuleActor.h">
+      <Filter>SourceFiles\F_Editor\Actors\Defaults</Filter>
+    </ClInclude>
+    <ClInclude Include="CubeActor.h">
+      <Filter>SourceFiles\F_Editor\Actors\Defaults</Filter>
+    </ClInclude>
+    <ClInclude Include="BoneActor.h">
+      <Filter>SourceFiles\F_Editor\Actors\Bones</Filter>
+    </ClInclude>
+    <ClInclude Include="DebugScene01.h">
+      <Filter>SourceFiles\E_Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="GameFunctions.h">
+      <Filter>SourceFiles\F_Editor\Libs</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneManager.h">
+      <Filter>SourceFiles\F_Editor\Scenes\LoadManager</Filter>
+    </ClInclude>
+    <ClInclude Include="PlaneActor.h">
+      <Filter>SourceFiles\F_Editor\Actors\Defaults</Filter>
+    </ClInclude>
+    <ClInclude Include="BasicInputAction.h">
+      <Filter>SourceFiles\C_Components</Filter>
+    </ClInclude>
+    <ClInclude Include="InputSystem.h">
+      <Filter>SourceFiles\F_Editor\Inputs</Filter>
+    </ClInclude>
+    <ClInclude Include="PushButtonMove.h">
+      <Filter>SourceFiles\C_Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Skeleton.h">
+      <Filter>SourceFiles\F_Editor\Renderers</Filter>
+    </ClInclude>
+    <ClInclude Include="BoneTransform.h">
+      <Filter>SourceFiles\F_Editor\Renderers</Filter>
+    </ClInclude>
+    <ClInclude Include="GameWinMain.h">
+      <Filter>SourceFiles\A_Mains</Filter>
+    </ClInclude>
+    <ClInclude Include="GameApp.h">
+      <Filter>SourceFiles\A_Mains</Filter>
+    </ClInclude>
+    <ClInclude Include="ColliderActor.h">
+      <Filter>SourceFiles\G_Unused/未使用ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="BallMove.h">
+      <Filter>SourceFiles\G_Unused/未使用ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="BallActor.h">
+      <Filter>SourceFiles\G_Unused/未使用ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="InputComponent.h">
+      <Filter>SourceFiles\G_Unused/未使用ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="MoveComponent.h">
+      <Filter>SourceFiles\G_Unused/未使用ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="CircleComponent.h">
+      <Filter>SourceFiles\G_Unused/未使用ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="SDL_Scancode.h">
+      <Filter>SourceFiles\F_Editor\Defines</Filter>
+    </ClInclude>
+    <ClInclude Include="Rigidbody.h">
+      <Filter>SourceFiles\F_Editor\Rigidbody</Filter>
+    </ClInclude>
+    <ClInclude Include="FollowObjectMovement.h">
+      <Filter>SourceFiles\C_Components</Filter>
+    </ClInclude>
+    <ClInclude Include="MatrixPalette.h">
+      <Filter>SourceFiles\F_Editor\Defines</Filter>
+    </ClInclude>
+    <ClInclude Include="Typedefs.h">
+      <Filter>SourceFiles\F_Editor\Defines</Filter>
+    </ClInclude>
+    <ClInclude Include="ConvertNumToString.h">
+      <Filter>SourceFiles\F_Editor\Utilitys</Filter>
+    </ClInclude>
+    <ClInclude Include="StringFormat.h">
+      <Filter>SourceFiles\F_Editor\Utilitys</Filter>
+    </ClInclude>
+    <ClInclude Include="SDOpenLib.h">
+      <Filter>SourceFiles\F_Editor\Libs</Filter>
+    </ClInclude>
+    <ClInclude Include="WindowRenderProperty.h">
+      <Filter>SourceFiles\A_Mains</Filter>
+    </ClInclude>
+    <ClInclude Include="AudioBankProperty.h">
+      <Filter>SourceFiles\A_Mains</Filter>
+    </ClInclude>
+    <ClInclude Include="TPSPlayer.h">
+      <Filter>SourceFiles\B_GameObjects\3Ds</Filter>
+    </ClInclude>
+    <ClInclude Include="TitleScene.h">
+      <Filter>SourceFiles\E_Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="TitleCanvas.h">
+      <Filter>SourceFiles\D_UIs</Filter>
+    </ClInclude>
+    <ClInclude Include="GunActor.h">
+      <Filter>SourceFiles\B_GameObjects\3Ds</Filter>
+    </ClInclude>
+    <ClInclude Include="BulletActor.h">
+      <Filter>SourceFiles\B_GameObjects\3Ds</Filter>
+    </ClInclude>
+    <ClInclude Include="FreeCameraActor.h">
+      <Filter>SourceFiles\F_Editor\Actors</Filter>
+    </ClInclude>
+    <ClInclude Include="SplineActor.h">
+      <Filter>SourceFiles\F_Editor\Actors</Filter>
+    </ClInclude>
+    <ClInclude Include="OrbitActor.h">
+      <Filter>SourceFiles\F_Editor\Actors</Filter>
+    </ClInclude>
+    <ClInclude Include="Transform.h">
+      <Filter>SourceFiles\F_Editor\Actors\Base\Transform</Filter>
+    </ClInclude>
+    <ClInclude Include="Actor.h">
+      <Filter>SourceFiles\F_Editor\Actors\Base\Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="SkeletonMeshActor.h">
+      <Filter>SourceFiles\F_Editor\Actors</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshActor.h">
+      <Filter>SourceFiles\F_Editor\Actors</Filter>
+    </ClInclude>
+    <ClInclude Include="SkeletalMeshRenderer.h">
+      <Filter>SourceFiles\F_Editor\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshRenderer.h">
+      <Filter>SourceFiles\F_Editor\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="PointLightComponent.h">
+      <Filter>SourceFiles\F_Editor\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture.h">
+      <Filter>SourceFiles\F_Editor\UIs</Filter>
+    </ClInclude>
+    <ClInclude Include="Text.h">
+      <Filter>SourceFiles\F_Editor\UIs</Filter>
+    </ClInclude>
+    <ClInclude Include="DialogBox.h">
+      <Filter>SourceFiles\F_Editor\UIs</Filter>
+    </ClInclude>
+    <ClInclude Include="Canvas.h">
+      <Filter>SourceFiles\F_Editor\UIs</Filter>
+    </ClInclude>
+    <ClInclude Include="Font.h">
+      <Filter>SourceFiles\F_Editor\UIs</Filter>
+    </ClInclude>
+    <ClInclude Include="Button.h">
+      <Filter>SourceFiles\F_Editor\UIs</Filter>
+    </ClInclude>
+    <ClInclude Include="Image.h">
+      <Filter>SourceFiles\F_Editor\UIs</Filter>
+    </ClInclude>
+    <ClInclude Include="FollowCamera.h">
+      <Filter>SourceFiles\F_Editor\Cameras</Filter>
+    </ClInclude>
+    <ClInclude Include="FPSCamera.h">
+      <Filter>SourceFiles\F_Editor\Cameras</Filter>
+    </ClInclude>
+    <ClInclude Include="FreeCamera.h">
+      <Filter>SourceFiles\F_Editor\Cameras</Filter>
+    </ClInclude>
+    <ClInclude Include="OrbitCamera.h">
+      <Filter>SourceFiles\F_Editor\Cameras</Filter>
+    </ClInclude>
+    <ClInclude Include="SplineCamera.h">
+      <Filter>SourceFiles\F_Editor\Cameras</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseScene.h">
+      <Filter>SourceFiles\F_Editor\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="AudioComponent.h">
+      <Filter>SourceFiles\F_Editor\Audios</Filter>
+    </ClInclude>
+    <ClInclude Include="AudioSystem.h">
+      <Filter>SourceFiles\F_Editor\Audios</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundEventClip.h">
+      <Filter>SourceFiles\F_Editor\Audios</Filter>
+    </ClInclude>
+    <ClInclude Include="TargetActor.h">
+      <Filter>SourceFiles\B_GameObjects\3Ds</Filter>
+    </ClInclude>
+    <ClInclude Include="Stages00.h">
+      <Filter>SourceFiles\B_GameObjects\3Ds</Filter>
+    </ClInclude>
+    <ClInclude Include="Stages01.h">
+      <Filter>SourceFiles\B_GameObjects\3Ds</Filter>
+    </ClInclude>
+    <ClInclude Include="VertexArray.h">
+      <Filter>SourceFiles\F_Editor\Utilitys</Filter>
+    </ClInclude>
+    <ClInclude Include="CallBackManager.h">
+      <Filter>SourceFiles\F_Editor\Utilitys</Filter>
+    </ClInclude>
+    <ClInclude Include="DebugManager.h">
+      <Filter>SourceFiles\F_Editor\Utilitys</Filter>
+    </ClInclude>
+    <ClInclude Include="Math.h">
+      <Filter>SourceFiles\F_Editor\Utilitys</Filter>
+    </ClInclude>
+    <ClInclude Include="Random.h">
+      <Filter>SourceFiles\F_Editor\Utilitys</Filter>
+    </ClInclude>
+    <ClInclude Include="Time.h">
+      <Filter>SourceFiles\F_Editor\Utilitys</Filter>
+    </ClInclude>
+    <ClInclude Include="PortalActor.h">
+      <Filter>SourceFiles\B_GameObjects\3Ds</Filter>
+    </ClInclude>
+    <ClInclude Include="TargetComponentSystem.h">
+      <Filter>SourceFiles\B_GameObjects\3Ds</Filter>
+    </ClInclude>
+    <ClInclude Include="TPSCanvas.h">
+      <Filter>SourceFiles\D_UIs</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleTestActor.h">
+      <Filter>SourceFiles\B_GameObjects\3Ds</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleSystem.h">
+      <Filter>SourceFiles\F_Editor\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="DebugGrid.h">
+      <Filter>SourceFiles\F_Editor\Debugs</Filter>
+    </ClInclude>
+    <ClInclude Include="Debug_memory.h">
+      <Filter>SourceFiles\F_Editor\Debugs</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectionalLightComponent.h">
+      <Filter>SourceFiles\F_Editor\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectionalLightActor.h">
+      <Filter>SourceFiles\F_Editor\Actors</Filter>
+    </ClInclude>
+    <ClInclude Include="ShadowMap.h">
+      <Filter>SourceFiles\F_Editor\Renderers</Filter>
+    </ClInclude>
+    <ClInclude Include="SkyBoxRenderer.h">
+      <Filter>SourceFiles\F_Editor\Renderers</Filter>
+    </ClInclude>
+    <ClInclude Include="GUIWinMain.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="GUITexture.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\imconfig.h">
+      <Filter>SourceFiles\G_GUI\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\imgui.h">
+      <Filter>SourceFiles\G_GUI\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\imgui_impl_opengl3.h">
+      <Filter>SourceFiles\G_GUI\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\imgui_impl_opengl3_loader.h">
+      <Filter>SourceFiles\G_GUI\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\imgui_impl_sdl3.h">
+      <Filter>SourceFiles\G_GUI\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\imgui_internal.h">
+      <Filter>SourceFiles\G_GUI\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\imstb_rectpack.h">
+      <Filter>SourceFiles\G_GUI\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\imstb_textedit.h">
+      <Filter>SourceFiles\G_GUI\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\imstb_truetype.h">
+      <Filter>SourceFiles\G_GUI\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneViewEditor.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+    <None Include="..\Shaders\BasicMesh.vert">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\Shaders\GBufferGlobal.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\Shaders\GBufferGlobal.vert">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\Shaders\GBufferPointLight.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\Shaders\GBufferWrite.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\Shaders\Phong.vert">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\Shaders\Skinned.vert">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\Shaders\Sprite.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\Shaders\Sprite.vert">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\Shaders\ParticleSprite.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\Shaders\Grid.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\Shaders\Grid.vert">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\Shaders\Arrow.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\Shaders\Arrow.vert">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\Shaders\ShadowDepth.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\Shaders\ShadowDepth.vert">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\Shaders\SkinnedShadowDepth.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\Shaders\SkinnedShadowDepth.vert">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\Shaders\Skybox.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\Shaders\Skybox.vert">
+      <Filter>Shaders</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="SDLAndOpenGLProject.rc">
+      <Filter>リソース ファイル</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>
