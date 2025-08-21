@@ -8,7 +8,7 @@ FPSCanvas::FPSCanvas()
 	, mTargetEnemy(false)
 	, mCrosshairAngle(0)
 {
-	Renderer* r = GameWinMain::GetRenderer();
+	Renderer* r = EngineWindow::GetRenderer();
 
 	Font* font = mGame->GetFont("NotoSansJP-Bold.ttf");
 
@@ -177,7 +177,7 @@ void FPSCanvas::UpdateCrosshair(float deltaTime)
 	const float cAimDist = 500.0f;
 	Vector3 start = Vector3::Zero;
 	Vector3 dir = Vector3::Zero;
-	GameWinMain::GetRenderer()->GetScreenDirection(start, dir);
+	EngineWindow::GetRenderer()->GetScreenDirection(start, dir);
 	LineSegment l(start, start + dir * cAimDist);
 	// Segment cast
 	PhysWorld::CollisionInfo info;

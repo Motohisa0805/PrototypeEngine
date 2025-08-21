@@ -64,8 +64,6 @@ public:
 	virtual bool									Update();
 	//‰ğ•ú
 	void											UnloadData();
-	//ƒQ[ƒ€I—¹‚Ì‰ğ•ú
-	void											Shutdown();
 
 	void											SetMouseMode(MouseMode mode);
 

@@ -32,7 +32,7 @@ void GunActor::Fire()
 	Vector3 firePoint = mPosition + (GetUp() * 0.1f + GetForward());
 
 	Vector3 screenPos, screenDir;
-	GameWinMain::GetRenderer()->GetScreenDirection(screenPos, screenDir);
+	EngineWindow::GetRenderer()->GetScreenDirection(screenPos, screenDir);
 
 	// Make a line segment
 	const float cAimDist = 100.0f;

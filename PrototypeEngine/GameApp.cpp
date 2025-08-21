@@ -5,8 +5,6 @@
 #include "DebugScene02.h"
 
 
-BaseScene* GameApp::mActiveScene = nullptr;
-
 GameApp::GameApp(GameWinMain* main) 
 	:mWinMain(main)
 {
@@ -15,25 +13,8 @@ GameApp::GameApp(GameWinMain* main)
 
 bool GameApp::Initialize()
 {
-	//シーン生成
-	mTitleScene = new TitleScene();
-	mDebugScene01 = new DebugScene01();
-	mDebugScene02 = new DebugScene02();
-	//シーンをリストに追加
-	SceneManager::AddSceneList(mTitleScene);
-	SceneManager::AddSceneList(mDebugScene01);
-	SceneManager::AddSceneList(mDebugScene02);
-	//ベースに最初のシーンを設定
-	mActiveScene = mTitleScene;
-	//シーンの初期化
-	if (!mActiveScene->Initialize())
-	{
-		return false;
-	}
 	//ゲームの状態を設定
 	GameStateClass::SetGameState(GameState::GamePlay);
-	//Rendererに現在のシーンを設定
-	GameWinMain::GetRenderer()->SetBaseScene(mActiveScene);
 	return true;
 }
 
@@ -58,8 +39,16 @@ bool GameApp::ProcessInput()
 	}
 
 	//入力更新
-	mActiveScene->InputUpdate(state);
+	SceneManager::GetNowScene()->InputUpdate(state);
 	InputSystem::PrepareForUpdate();
+	return true;
+}
+
+bool GameApp::ProcessInput2()
+{
+	const InputState& state = InputSystem::GetState();
+	//入力更新
+	SceneManager::GetNowScene()->InputUpdate(state);
 	return true;
 }
 
@@ -68,35 +57,23 @@ bool GameApp::LoadUpdate()
 	//ロードフラグがtrueなら
 	if (SceneManager::IsLoading())
 	{
-		//現在のシーンのオブジェクト、画像などをアンロード
-		mActiveScene->UnloadData();
-		//Rendererのものもアンロード
-		mWinMain->GetRenderer()->UnloadData();
-		//シーンを変更
-		mActiveScene = SceneManager::GetNowScene();
-		GameStateClass::SetGameState(GameState::GamePlay);
-		//staticも変更
-		//新しいシーンの初期化
-		mActiveScene->Initialize();
-		//Rendererのシーンも変更
-		mWinMain->GetRenderer()->SetBaseScene(mActiveScene);
-		//ロードフラグを解除
-		SceneManager::DisabledLoading();
+		SceneManager::ChangeScene();
 	}
 	return true;
 }
 
 bool GameApp::Update()
 {
-	mActiveScene->FixedUpdate();
-	mActiveScene->Update();
+	SceneManager::GetNowScene()->FixedUpdate();
+	SceneManager::GetNowScene()->Update();
 	return true;
 }
 
 bool GameApp::Release()
 {
-	mActiveScene->UnloadData();
-	SceneManager::ReleaseAllScenes();
+	//ゲームシーンの解放
+	SceneManager::GetNowScene()->UnloadData();
+	//入力システムのシャットダウン
 	InputSystem::Shutdown();
 	return true;
 }

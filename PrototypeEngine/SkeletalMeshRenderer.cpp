@@ -103,7 +103,7 @@ void SkeletalMeshRenderer::Update(float deltaTime)
 }
 void SkeletalMeshRenderer::LoadSkeletonMesh(const string& fileName, ActorObject* actor)
 {
-	const vector<class Mesh*>& mesh = GameWinMain::GetRenderer()->GetMeshs(fileName);
+	const vector<class Mesh*>& mesh = EngineWindow::GetRenderer()->GetMeshs(fileName);
 	mMeshs.insert(mMeshs.end(), mesh.begin(), mesh.end());
 
 	Skeleton* sk = mGame->GetSkeleton(fileName);

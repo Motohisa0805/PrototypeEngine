@@ -25,13 +25,13 @@ void PortalActor::RelativeMouseMode(bool relative)
 	if (SceneManager::IsLoading()) { return; }
 	if (relative)
 	{
-		SDL_SetWindowRelativeMouseMode(GameWinMain::GetRenderer()->GetWindow(), true);
+		SDL_SetWindowRelativeMouseMode(EngineWindow::GetRenderer()->GetWindow(), true);
 		// Make an initial call to get relative to clear out
 		SDL_GetRelativeMouseState(nullptr, nullptr);
 	}
 	else
 	{
-		SDL_SetWindowRelativeMouseMode(GameWinMain::GetRenderer()->GetWindow(), false);
+		SDL_SetWindowRelativeMouseMode(EngineWindow::GetRenderer()->GetWindow(), false);
 	}
 }
 

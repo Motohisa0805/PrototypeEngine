@@ -4,7 +4,7 @@ CubeActor::CubeActor()
 	:ActorObject()
 {
 	MeshRenderer* mc = new MeshRenderer(this);
-	vector<class Mesh*> mesh = GameWinMain::GetRenderer()->GetMeshs("Cube.fbx");
+	vector<class Mesh*> mesh = EngineWindow::GetRenderer()->GetMeshs("Cube.fbx");
 	mc->SetMeshs(mesh);
 
 

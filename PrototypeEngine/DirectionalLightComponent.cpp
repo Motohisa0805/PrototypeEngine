@@ -47,5 +47,5 @@ void DirectionalLightComponent::OnUpdateWorldTransform()
 
 
     mDirectionalLight.mPosition = mOwner->GetPosition();
-    GameWinMain::GetRenderer()->SetDirectionalLight(mDirectionalLight);
+    EngineWindow::GetRenderer()->SetDirectionalLight(mDirectionalLight);
 }

@@ -484,19 +484,16 @@
       <Filter>SourceFiles\G_GUI\ImGui</Filter>
     </ClCompile>
     <ClCompile Include="GUIWinMain.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="SceneViewEditor.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>SourceFiles\A_Mains</Filter>
     </ClCompile>
     <ClCompile Include="EngineWindow.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>SourceFiles\A_Mains</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneViewEditor.cpp">
+      <Filter>SourceFiles\A_Mains</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AudioBankProperty.h">
-      <Filter>SourceFiles\A_Mains</Filter>
-    </ClInclude>
     <ClInclude Include="GameApp.h">
       <Filter>SourceFiles\A_Mains</Filter>
     </ClInclude>
@@ -827,14 +824,17 @@
     <ClInclude Include="ImGui\imstb_truetype.h">
       <Filter>SourceFiles\G_GUI\ImGui</Filter>
     </ClInclude>
-    <ClInclude Include="GUIWinMain.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="AudioBankProperty.h">
+      <Filter>SourceFiles\A_Mains</Filter>
     </ClInclude>
-    <ClInclude Include="SceneViewEditor.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="GUIWinMain.h">
+      <Filter>SourceFiles\A_Mains</Filter>
     </ClInclude>
     <ClInclude Include="EngineWindow.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>SourceFiles\A_Mains</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneViewEditor.h">
+      <Filter>SourceFiles\A_Mains</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

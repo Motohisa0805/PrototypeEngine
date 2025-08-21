@@ -7,12 +7,12 @@ MeshRenderer::MeshRenderer(ActorObject* owner, bool isSkeletal)
 	, mVisible(true)
 	, mIsSkeletal(isSkeletal)
 {
-	GameWinMain::GetRenderer()->AddMeshComp(this);
+	EngineWindow::GetRenderer()->AddMeshComp(this);
 }
 
 MeshRenderer::~MeshRenderer()
 {
-	GameWinMain::GetRenderer()->RemoveMeshComp(this);
+	EngineWindow::GetRenderer()->RemoveMeshComp(this);
 }
 
 void MeshRenderer::Draw(Shader* shader)

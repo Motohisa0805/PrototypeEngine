@@ -13,17 +13,11 @@ private:
 	static std::unordered_map<int, class BaseScene*>	mScenes;
 	//現在のシーン
 	static class BaseScene*								mNowScene;
+	static class BaseScene*								mNextScene;
 	//ロードフラグ
 	static bool											loading;
 	//現在のシーンの数値
 	static int											mNowSceneIndex;
-
-
-	static class TitleScene*							mTitleScene;
-	//シーン01
-	static class DebugScene01*							mDebugScene01;
-	//シーン02
-	static class DebugScene02*							mDebugScene02;
 public:
 	//シーンの初期化処理
 	static bool											InitializeScenes();
@@ -36,6 +30,7 @@ public:
 	static void											ReleaseAllScenes();
 	//現在のシーンの取得
 	static class BaseScene*								GetNowScene() { return mNowScene; }
+	static void											ChangeScene();
 	//ロードフラグの取得
 	static bool											IsLoading() { return loading; }
 	//ロードフラグを解除

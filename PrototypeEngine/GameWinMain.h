@@ -23,12 +23,10 @@ public:
 class GameWinMain
 {
 private:
-	static class Renderer*		mRenderer;
 
 	//ゲーム内処理
 	class GameApp*		mGameApp;
-	//ゲーム内の全ての描画を行うクラス
-	void				Render();
+
 	//シーン遷移時の解放処理
 	void				UnloadData();
 
@@ -37,10 +35,10 @@ public:
 						~GameWinMain();
 	//初期化
 	bool				Initialize();
+	void				InputUpdate();
 	//ゲーム処理
 	void				RunLoop();
+	void				GameRunLoop();
 	//ゲーム終了処理
 	void				Shutdown();
-	//Rendererの取得
-	static class Renderer*		GetRenderer() { return mRenderer; }
 };

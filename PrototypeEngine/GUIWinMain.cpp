@@ -8,6 +8,10 @@ bool GUIWinMain::isPaused = false;
 
 bool GUIWinMain::isPlaying = false;
 
+bool GUIWinMain::isStarting = false;
+
+bool GUIWinMain::isPushEnd = false;
+
 Texture* GUIWinMain::mPlayButtonTexture = nullptr;
 Texture* GUIWinMain::mPauseButtonTexture = nullptr;
 Texture* GUIWinMain::mStopButtonTexture = nullptr;
@@ -84,6 +88,9 @@ void GUIWinMain::RenderImGui()
 		{
 			isPlaying = true;
 			isPaused = false;
+
+			// スタートボタンが押された
+			isStarting = true; 
 		}
 
 		// 同じ行に Pause
@@ -99,6 +106,8 @@ void GUIWinMain::RenderImGui()
 		{
 			isPlaying = false;
 			isPaused = false;
+
+			isPushEnd = true; // 停止ボタンが押された
 		}
 
 		ImGui::End();
@@ -112,14 +121,7 @@ void GUIWinMain::RenderImGui()
 		ImGui::SetNextWindowSize(ImVec2((float)windowWidth * 0.5f, (float)windowHeight * 0.5f));
 		ImGui::Begin("Scene");
 		{
-			// ウィンドウサイズに合わせて描画
-			ImVec2 size = ImGui::GetContentRegionAvail();
-			ImGui::Image(
-				(ImTextureID)(intptr_t)mRenderer->GetSceneViewEditor()->GetSceneColorTex(),
-				size,
-				ImVec2(0, 1),  // uv0 (上下反転に注意)
-				ImVec2(1, 0)   // uv1
-			);
+
 		}
 		ImGui::End();
 	}
@@ -130,7 +132,14 @@ void GUIWinMain::RenderImGui()
 		ImGui::SetNextWindowSize(ImVec2((float)windowWidth * 0.5f, (float)windowHeight * 0.5f));
 		ImGui::Begin("Game");
 		{
-			ImGui::Text("GameRenderer");
+			// ウィンドウサイズに合わせて描画
+			ImVec2 size = ImGui::GetContentRegionAvail();
+			ImGui::Image(
+				(ImTextureID)(intptr_t)mRenderer->GetSceneViewEditor()->GetSceneColorTex(),
+				size,
+				ImVec2(0, 1),  // uv0 (上下反転に注意)
+				ImVec2(1, 0)   // uv1
+			);
 		}
 		ImGui::End();
 	}

@@ -4,7 +4,7 @@
 TPSCanvas::TPSCanvas()
 	: Canvas()
 {
-	Renderer* r = GameWinMain::GetRenderer();
+	Renderer* r = EngineWindow::GetRenderer();
 
 	Font* font = mGame->GetFont("NotoSansJP-Bold.ttf");
 	//ƒV[ƒ“–¼¶¬
