@@ -4,7 +4,7 @@ SphereActor::SphereActor()
 	:ActorObject()
 {
 	MeshRenderer* mc = new MeshRenderer(this);
-	vector<class Mesh*> mesh = GameWinMain::GetRenderer()->GetMeshs("Sphere.fbx");
+	vector<class Mesh*> mesh = EngineWindow::GetRenderer()->GetMeshs("Sphere.fbx");
 	mc->SetMeshs(mesh);
 	// Add collision Sphere
 	mSphere = new SphereCollider(this);

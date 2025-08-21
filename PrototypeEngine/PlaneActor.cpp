@@ -5,7 +5,7 @@ PlaneActor::PlaneActor()
 {
 	mActorTag = ActorTag::Ground;
 	mMeshComp = new MeshRenderer(this);
-	mMeshComp->SetMeshs(GameWinMain::GetRenderer()->GetMeshs("Plane.fbx"));
+	mMeshComp->SetMeshs(EngineWindow::GetRenderer()->GetMeshs("Plane.fbx"));
 
 	AABB myBox(Vector3(-5.0f, -0.0f, -5.0f), Vector3(5.0f, 0.1f, 5.0f));
 	BoxCollider* box = new BoxCollider(this);

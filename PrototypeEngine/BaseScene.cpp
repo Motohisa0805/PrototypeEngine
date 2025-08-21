@@ -14,22 +14,16 @@ BaseScene::BaseScene()
 {
 }
 
-void BaseScene::Shutdown()
-{
-	//ƒQ[ƒ€I—¹Žž‚Ì‰ð•úˆ—
-	InputSystem::Shutdown();
-}
-
 void BaseScene::SetMouseMode(MouseMode mode)
 {
 	if (mode == MouseMode::Relative)
 	{
-		SDL_SetWindowRelativeMouseMode(GameWinMain::GetRenderer()->GetWindow(), true);
+		SDL_SetWindowRelativeMouseMode(EngineWindow::GetRenderer()->GetWindow(), true);
 		SDL_GetRelativeMouseState(nullptr, nullptr);
 	}
 	else if (mode == MouseMode::Absolute)
 	{
-		SDL_SetWindowRelativeMouseMode(GameWinMain::GetRenderer()->GetWindow(), false);
+		SDL_SetWindowRelativeMouseMode(EngineWindow::GetRenderer()->GetWindow(), false);
 	}
 	else
 	{
@@ -39,7 +33,7 @@ void BaseScene::SetMouseMode(MouseMode mode)
 
 void BaseScene::LoadSkyBoxTexture(string file)
 {
-	GameWinMain::GetRenderer()->GetSkyBoxRenderer()->Load(file);
+	EngineWindow::GetRenderer()->GetSkyBoxRenderer()->Load(file);
 }
 
 bool BaseScene::Initialize()
@@ -235,15 +229,6 @@ void BaseScene::AddActor(ActorObject* actor)
 {
 	// If we're updating actors, need to add to pending
 	mPendingActors.emplace_back(actor);
-	/*
-	if (mUpdatingActors)
-	{
-	}
-	else
-	{
-		mActors.emplace_back(actor);
-	}
-	*/
 }
 
 void BaseScene::RemoveActor(ActorObject* actor)

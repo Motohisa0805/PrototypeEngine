@@ -19,6 +19,6 @@ void BaseCamera::SetViewMatrix(const Matrix4& view)
 {
 	// ビュー行列をレンダラーとオーディオシステムに渡す
 	BaseScene* game = mOwner->GetGame();
-	GameWinMain::GetRenderer()->SetViewMatrix(view);
+	EngineWindow::GetRenderer()->SetViewMatrix(view);
 	game->GetAudioSystem()->SetListener(view);
 }

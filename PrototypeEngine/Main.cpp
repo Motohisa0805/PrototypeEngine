@@ -1,5 +1,6 @@
 
 #include "GameWinMain.h"
+#include "EngineWindow.h"
 #include <SDL3/SDL.h>
 
 #define DISABLE_DEBUG_NEW // 一時的に無効にして
@@ -13,7 +14,16 @@
 int main(int argc, char* argv[])
 {
 	// メモリリーク検出を有効にする
-	EnableMemoryLeakCheck(); 
+	EnableMemoryLeakCheck();
+	// エンジンの初期化
+	EngineWindow engine;
+	bool success = engine.EngineInitialize();
+	if (success)
+	{
+		engine.EngineRunLoop();
+	}
+	engine.EngineShutdown();
+	/*
 	//エンジンの初期化
 	GameWinMain game;
 	bool success = game.Initialize();
@@ -22,6 +32,7 @@ int main(int argc, char* argv[])
 		game.RunLoop();
 	}
 	game.Shutdown();
+	*/
 	return 0;
 }
 // プロジェクトの実行場所がReleaseなら

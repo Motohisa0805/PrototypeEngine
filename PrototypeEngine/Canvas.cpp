@@ -2,7 +2,7 @@
 
 
 Canvas::Canvas()
-	:mGame(GameApp::GetActiveScene())
+	:mGame(SceneManager::GetNowScene())
 	, mTitle(nullptr)
 	, mBackground(nullptr)
 	, mTitlePos(0.0f, 300.0f)
@@ -203,13 +203,13 @@ void Canvas::SetRelativeMouseMode(bool relative)
 	if (SceneManager::IsLoading()) { return; }
 	if (relative)
 	{
-		SDL_SetWindowRelativeMouseMode(GameWinMain::GetRenderer()->GetWindow(), true);
+		SDL_SetWindowRelativeMouseMode(EngineWindow::GetRenderer()->GetWindow(), true);
 		// Make an initial call to get relative to clear out
 		SDL_GetRelativeMouseState(nullptr, nullptr);
 	}
 	else
 	{
-		SDL_SetWindowRelativeMouseMode(GameWinMain::GetRenderer()->GetWindow(),false);
+		SDL_SetWindowRelativeMouseMode(EngineWindow::GetRenderer()->GetWindow(),false);
 	}
 }
 

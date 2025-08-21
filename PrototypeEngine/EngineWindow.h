@@ -6,7 +6,6 @@
 
 enum EngineState
 {
-	None,
 	Run,
 	End
 };
@@ -15,7 +14,7 @@ class EngineWindow
 {
 private:
 	//エンジン用のRendererを用意	
-	class Renderer* mRenderer;
+	static class Renderer* mRenderer;
 
 	//ゲーム内のウィンドウ
 	class GameWinMain* mGameWindow;
@@ -28,13 +27,15 @@ public:
 
 	bool			EngineInitialize();
 
+	void			EngineProcessInput();
+
 	void			EngineRunLoop();
 	void			EngineRender();
 
 	void			EngineUnloadData();
 	void			EngineShutdown();
 
-	class Renderer* GetRenderer() { return mRenderer; }
+	static class Renderer* GetRenderer() { return mRenderer; }
 
 	static EngineState GetEngineState() { return mEngineState; }
 	static void SetEngineState(EngineState state) { mEngineState = state; }

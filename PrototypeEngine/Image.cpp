@@ -2,7 +2,7 @@
 
 
 Image::Image(int function)
-	:mGame(GameApp::GetActiveScene())
+	:mGame(SceneManager::GetNowScene())
 	,mTexture(nullptr)
 	,mAngleZ(0)
 {
@@ -28,7 +28,7 @@ Image::~Image()
 void Image::Load(string file)
 {
 	string filePath = TexFile::TextureFilePath + file;
-	mTexture = GameWinMain::GetRenderer()->GetTexture(filePath);
+	mTexture = EngineWindow::GetRenderer()->GetTexture(filePath);
 	mTextureRect.x = 0;
 	mTextureRect.y = 0;
 	mTextureRect.w = static_cast<float>(mTexture->GetWidth());

@@ -17,17 +17,17 @@ ParticleSystem::ParticleSystem(ActorObject* owner)
 	, mDefaultColor(Vector4(1.0f, 1.0f, 1.0f, 1.0f)) // デフォルトの色（白）
 	, mParticleTexture(nullptr) // 初期化時はテクスチャなし
 {
-	GameWinMain::GetRenderer()->AddParticleComp(this);
+	EngineWindow::GetRenderer()->AddParticleComp(this);
 
 	mParticleAllLifeTime = mParticleLifeTime;
 
 	//生成時に初期画像を読み込む
-	mParticleTexture = GameWinMain::GetRenderer()->GetTexture("Assets/Particle/Default.png");
+	mParticleTexture = EngineWindow::GetRenderer()->GetTexture("Assets/Particle/Default.png");
 }
 
 ParticleSystem::~ParticleSystem()
 {
-	GameWinMain::GetRenderer()->RemoveParticleComp(this);
+	EngineWindow::GetRenderer()->RemoveParticleComp(this);
 
 	for (auto& p : mParticle)
 		delete p;
@@ -37,7 +37,7 @@ ParticleSystem::~ParticleSystem()
 void ParticleSystem::LoadTexture(string name)
 {
 	string path = File_P::AssetPath + "Particle/" + name;
-	mParticleTexture = GameWinMain::GetRenderer()->GetTexture(path);
+	mParticleTexture = EngineWindow::GetRenderer()->GetTexture(path);
 	if (!mParticleTexture)
 	{
 		SDL_Log("Failed to load particle texture: %s", path.c_str());
@@ -155,7 +155,7 @@ void ParticleSystem::Update(float deltaTime)
 void ParticleSystem::Draw(Shader* shader)
 {
 	// カメラのビュー行列の逆行列を取得（ワールド変換行列）
-	Matrix4 viewMatrix = GameWinMain::GetRenderer()->GetView();
+	Matrix4 viewMatrix = EngineWindow::GetRenderer()->GetView();
 	viewMatrix.Invert(); // カメラのワールド空間情報
 
 	// カメラの向きを取得

@@ -5,7 +5,7 @@ OrbitActor::OrbitActor()
 	:ActorObject()
 {
 	mMeshComp = new MeshRenderer(this);
-	mMeshComp->SetMesh(GameWinMain::GetRenderer()->GetMesh("RacingCar.gpmesh"));
+	mMeshComp->SetMesh(EngineWindow::GetRenderer()->GetMesh("RacingCar.gpmesh"));
 	SetLocalPosition(Vector3(0.0f, 0.0f, -100.0f));
 
 	mCameraComp = new OrbitCamera(this);

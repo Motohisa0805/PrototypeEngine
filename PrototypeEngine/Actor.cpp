@@ -4,7 +4,7 @@ ActorObject::ActorObject()
 	: Transform()
 	, mState(EActive)
 	, mActorTag(ActorTag::None)
-	, mGame(GameApp::GetActiveScene())
+	, mGame(SceneManager::GetNowScene())
 	, mCollider(nullptr)
 	, mRigidbody(nullptr)
 {

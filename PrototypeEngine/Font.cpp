@@ -1,7 +1,7 @@
 #include "Font.h"
 
 Font::Font()
-	:mGame(GameApp::GetActiveScene())
+	:mGame(SceneManager::GetNowScene())
 {
 
 }
