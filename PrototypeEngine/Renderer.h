@@ -115,6 +115,8 @@ public:
 	void												MeshOrderUpdate();
 	//•`‰æˆ—
 	void												Draw();
+	void												StartDraw();
+	void												EndDraw();
 	//Mesh’Ç‰Áˆ—
 	void												AddMeshComp(class MeshRenderer* mesh);
 	//Meshíœˆ—
@@ -167,6 +169,8 @@ public:
 	SDL_Window*											GetWindow() { return mWindow; }
 	// mContext‚ÌGetter
 	SDL_GLContext										GetContext() { return mContext; }
+
+	class ShadowMap*									GetShadowMap() { return mShadowMap; }
 
 	// mSceneViewEditor‚ÌGetter
 	class SceneViewEditor*								GetSceneViewEditor() { return mSceneViewEditor; }

@@ -101,7 +101,6 @@ void EngineWindow::EngineRunLoop()
 
 		GUIWinMain::UpdateImGuiState();
 
-		EngineRender();
 
 		//ここからゲーム内の更新開始
 		//ゲームが開始したら
@@ -141,16 +140,17 @@ void EngineWindow::EngineRunLoop()
 
 			GUIWinMain::SetIsPushEnd(false);
 		}
+		EngineRender();
 
 	}
 }
 
 void EngineWindow::EngineRender()
 {
+	mRenderer->StartDraw();
 	//ImGuiの描画
 	GUIWinMain::RenderImGui();
-
-	mRenderer->Draw();
+	mRenderer->EndDraw();
 }
 
 void EngineWindow::EngineUnloadData()
