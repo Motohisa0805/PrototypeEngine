@@ -1,6 +1,8 @@
 ﻿#include "GUIWinMain.h"
 #include "Renderer.h"
 #include "SceneViewEditor.h"
+#include "ShadowMap.h"
+#include "GBuffer.h"
 
 bool GUIWinMain::mToggle = false;
 
@@ -152,7 +154,7 @@ void GUIWinMain::RenderImGui()
 		ImGui::SetNextWindowPos(ImVec2((windowWidth * 0.5f), 30));
 		ImGui::SetNextWindowSize(ImVec2(windowWidth * 0.15f, (float)windowHeight - 25));
 		//  新しいウィンドウの作成
-		ImGui::Begin("Hierarchy", nullptr, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse);
+		ImGui::Begin("Hierarchy", nullptr, ImGuiWindowFlags_NoMove);
 		{
 			//  テキストの表示
 			ImGui::Text("Hello, world!!");
@@ -179,7 +181,7 @@ void GUIWinMain::RenderImGui()
 		ImGui::SetNextWindowPos(ImVec2(windowWidth * 0.65f, 30));
 		ImGui::SetNextWindowSize(ImVec2(windowWidth * 0.15f, (float)windowHeight - 25));
 		//  新しいウィンドウの作成
-		ImGui::Begin("Project", nullptr, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse);
+		ImGui::Begin("Project", nullptr, ImGuiWindowFlags_NoMove);
 		{
 
 		}
@@ -193,21 +195,9 @@ void GUIWinMain::RenderImGui()
 		ImGui::SetNextWindowPos(ImVec2(windowWidth * 0.8f, 30));
 		ImGui::SetNextWindowSize(ImVec2((windowWidth * 0.2f), (float)windowHeight - 25));
 		//  新しいウィンドウの作成
-		ImGui::Begin("SelectItem",nullptr, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse);
+		ImGui::Begin("SelectItem",nullptr, ImGuiWindowFlags_NoMove);
 		{
-			//  テキストの表示
-			ImGui::Text("Hello, world!!");
 
-			if (ImGui::Button("TestButton"))
-			{
-				//  ボタンを押されたときの処理
-			}
-
-			ImGui::Checkbox("TestToggle", &mToggle);
-			if (mToggle)
-			{
-				//  チェックがついているときの処理
-			}
 		}
 		ImGui::End();
 	}
