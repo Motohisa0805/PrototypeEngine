@@ -81,7 +81,7 @@ void EngineWindow::EngineProcessInput()
 		}
 	}
 
-	if (GUIWinMain::IsPlaying())
+	if (GUIWinMain::IsPlaying()&& !GUIWinMain::IsPaused())
 	{
 		//ゲームが実行中なら
 		mGameWindow->InputUpdate();
@@ -104,7 +104,7 @@ void EngineWindow::EngineRunLoop()
 
 		//ここからゲーム内の更新開始
 		//ゲームが開始したら
-		if (GUIWinMain::IsPlaying())
+		if (GUIWinMain::IsPlaying() && !GUIWinMain::IsPaused())
 		{
 			//開始した瞬間なら
 			if (GUIWinMain::IsStarting())

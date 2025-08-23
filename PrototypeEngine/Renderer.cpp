@@ -375,18 +375,10 @@ void Renderer::StartDraw()
 	DrawShadow3DScene();
 	// G-bufferに3Dシーンを描画します。
 	Draw3DScene(mGBuffer->GetBufferID(), mView, mProjection, 1.0f, true);
-	/*
-	// フレームバッファをゼロ（スクリーンのフレームバッファ）に戻します
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-	// Gバッファから描画する
-	DrawFromGBuffer();
 
-	*/
 	glBindFramebuffer(GL_FRAMEBUFFER, mSceneViewEditor->GetSceneFBO());
 	// Gバッファから描画する
 	DrawFromGBuffer();
-	// フレームバッファをゼロ（スクリーンのフレームバッファ）に戻します
-	//glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
 	// すべてのスプライトコンポーネントを描画する
 	// 深度バッファリングを無効にする
@@ -452,6 +444,7 @@ void Renderer::StartDraw()
 		}
 	}
 	// FBO終了
+	// フレームバッファをゼロ（スクリーンのフレームバッファ）に戻します
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
 }

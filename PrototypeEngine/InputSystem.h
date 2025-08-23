@@ -2,7 +2,7 @@
 #include "DebugManager.h"
 #include "SDL_Scancode.h"
 #include "Math.h"
-
+#include "GUIWinMain.h"
 /*
 * ===エンジン内部処理/Engine internal processing===
 */
@@ -48,6 +48,8 @@ class MouseState
 private:
 	// 現在のマウスの位置を保存
 	Vector2			mMousePos;
+	// Editor用のマウス位置
+	Vector2			mEditorMousePos;
 	// スクロールホイールの移動
 	Vector2			mScrollWheel;
 	// ボタンデータを保存
@@ -60,6 +62,7 @@ public:
 
 	// マウスの位置情報
 	const Vector2&	GetPosition() const { return mMousePos; }
+	const Vector2&	GetEditorPosition() const { return mEditorMousePos; }
 	const Vector2&	GetScrollWheel() const { return mScrollWheel; }
 	bool			IsRelative() const { return mIsRelative; }
 
