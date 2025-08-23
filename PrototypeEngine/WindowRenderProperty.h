@@ -11,6 +11,7 @@ private:
 	static float		mWidth;
 	//画面サイズ(縦)
 	static float		mHeight;
+
 	//ビュー投影行列(カメラの目)
 	static Vector3		mViewEye;
 	//ビュー投影行列(カメラターゲット)

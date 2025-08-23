@@ -14,11 +14,17 @@ bool GUIWinMain::isStarting = false;
 
 bool GUIWinMain::isPushEnd = false;
 
+bool GUIWinMain::isFrameByFrame = false;
+
 Texture* GUIWinMain::mPlayButtonTexture = nullptr;
-Texture* GUIWinMain::mPauseButtonTexture = nullptr;
 Texture* GUIWinMain::mStopButtonTexture = nullptr;
+Texture* GUIWinMain::mPauseButtonTexture = nullptr;
+Texture* GUIWinMain::mFrameByFrameButtonTexture = nullptr;
 
 Renderer* GUIWinMain::mRenderer = nullptr;
+
+Vector2 GUIWinMain::mGameWinPos = Vector2::Zero;
+Vector2 GUIWinMain::mGameWinSize = Vector2::Zero;
 
 bool GUIWinMain::InitializeImGui(SDL_Window* window, SDL_GLContext glContext)
 {
@@ -35,6 +41,13 @@ bool GUIWinMain::InitializeImGui(SDL_Window* window, SDL_GLContext glContext)
 		return false;
 	}
 
+	mStopButtonTexture = new Texture();
+	if (!mStopButtonTexture->Load("Assets/Editor/StopButton.png"))
+	{
+		Debug::ErrorLog("Failed to load stop button texture");
+		return false;
+	}
+
 	mPauseButtonTexture = new Texture();
 	if (!mPauseButtonTexture->Load("Assets/Editor/PauseButton.png"))
 	{
@@ -42,10 +55,10 @@ bool GUIWinMain::InitializeImGui(SDL_Window* window, SDL_GLContext glContext)
 		return false;
 	}
 
-	mStopButtonTexture = new Texture();
-	if (!mStopButtonTexture->Load("Assets/Editor/StopButton.png"))
+	mFrameByFrameButtonTexture = new Texture();
+	if (!mFrameByFrameButtonTexture->Load("Assets/Editor/FrameByFrame.png"))
 	{
-		Debug::ErrorLog("Failed to load stop button texture");
+		Debug::ErrorLog("Failed to load frame by frame button texture");
 		return false;
 	}
 
@@ -85,14 +98,27 @@ void GUIWinMain::RenderImGui()
 
 		ImGui::SetCursorPosX(windowWidth * 0.5f - 30); // 中央寄せ調整（60はボタン群の半幅）
 
-		// ▶ Play
-		if (ImGui::ImageButton("PlayButton", (ImTextureID)(intptr_t)mPlayButtonTexture->GetTextureID(), ImVec2(15, 15)))
+		//再生/停止ボタン
+		if (!isPlaying)
 		{
-			isPlaying = true;
-			isPaused = false;
+			if (ImGui::ImageButton("PlayButton", (ImTextureID)(intptr_t)mPlayButtonTexture->GetTextureID(), ImVec2(15, 15)))
+			{
+				isPlaying = true;
+				isPaused = false;
 
-			// スタートボタンが押された
-			isStarting = true; 
+				// スタートボタンが押された
+				isStarting = true; 
+			}
+		}
+		else
+		{
+			if (ImGui::ImageButton("PlayButton", (ImTextureID)(intptr_t)mStopButtonTexture->GetTextureID(), ImVec2(15, 15)))
+			{
+				isPlaying = false;
+				isPaused = false;
+
+				isPushEnd = true; // 停止ボタンが押された
+			}
 		}
 
 		// 同じ行に Pause
@@ -102,14 +128,18 @@ void GUIWinMain::RenderImGui()
 			if (isPlaying) isPaused = !isPaused;
 		}
 
-		// 同じ行に Stop
-		ImGui::SameLine();
-		if (ImGui::ImageButton("StopButton", (ImTextureID)(intptr_t)mStopButtonTexture->GetTextureID(), ImVec2(15, 15)))
+		if (isFrameByFrame)
 		{
-			isPlaying = false;
-			isPaused = false;
+			isPaused = true;
+			isFrameByFrame = false;
+		}
 
-			isPushEnd = true; // 停止ボタンが押された
+		// 同じ行に FrameByFrame
+		ImGui::SameLine();
+		if (ImGui::ImageButton("FrameByFrameButton", (ImTextureID)(intptr_t)mFrameByFrameButtonTexture->GetTextureID(), ImVec2(15, 15)))
+		{
+			if (isPlaying && isPaused) isFrameByFrame = true;
+			isPaused = false;
 		}
 
 		ImGui::End();
@@ -121,7 +151,7 @@ void GUIWinMain::RenderImGui()
 		// ウインドウ位置とサイズを固定
 		ImGui::SetNextWindowPos(ImVec2(0.0f, 30));
 		ImGui::SetNextWindowSize(ImVec2((float)windowWidth * 0.5f, (float)windowHeight * 0.5f));
-		ImGui::Begin("Scene");
+		ImGui::Begin("Scene",nullptr, ImGuiWindowFlags_NoCollapse);
 		{
 
 		}
@@ -132,8 +162,14 @@ void GUIWinMain::RenderImGui()
 		// ウインドウ位置とサイズを固定
 		ImGui::SetNextWindowPos(ImVec2(0.0f, (float)windowHeight * 0.5f));
 		ImGui::SetNextWindowSize(ImVec2((float)windowWidth * 0.5f, (float)windowHeight * 0.5f));
-		ImGui::Begin("Game");
+		ImGui::Begin("Game",nullptr, ImGuiWindowFlags_NoCollapse);
 		{
+			ImVec2 winPos = ImGui::GetCursorScreenPos();
+			ImVec2 winSize = ImGui::GetContentRegionAvail();
+
+			mGameWinPos = Vector2(winPos.x, winPos.y);
+			mGameWinSize = Vector2(winSize.x, winSize.y);
+
 			// ウィンドウサイズに合わせて描画
 			ImVec2 size = ImGui::GetContentRegionAvail();
 			ImGui::Image(
@@ -154,21 +190,9 @@ void GUIWinMain::RenderImGui()
 		ImGui::SetNextWindowPos(ImVec2((windowWidth * 0.5f), 30));
 		ImGui::SetNextWindowSize(ImVec2(windowWidth * 0.15f, (float)windowHeight - 25));
 		//  新しいウィンドウの作成
-		ImGui::Begin("Hierarchy", nullptr, ImGuiWindowFlags_NoMove);
+		ImGui::Begin("Hierarchy", nullptr, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse);
 		{
-			//  テキストの表示
-			ImGui::Text("Hello, world!!");
 
-			if (ImGui::Button("TestButton"))
-			{
-				//  ボタンを押されたときの処理
-			}
-
-			ImGui::Checkbox("TestToggle", &mToggle);
-			if (mToggle)
-			{
-				//  チェックがついているときの処理
-			}
 		}
 		ImGui::End();
 	}
@@ -181,7 +205,7 @@ void GUIWinMain::RenderImGui()
 		ImGui::SetNextWindowPos(ImVec2(windowWidth * 0.65f, 30));
 		ImGui::SetNextWindowSize(ImVec2(windowWidth * 0.15f, (float)windowHeight - 25));
 		//  新しいウィンドウの作成
-		ImGui::Begin("Project", nullptr, ImGuiWindowFlags_NoMove);
+		ImGui::Begin("Project", nullptr, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse);
 		{
 
 		}
@@ -195,7 +219,7 @@ void GUIWinMain::RenderImGui()
 		ImGui::SetNextWindowPos(ImVec2(windowWidth * 0.8f, 30));
 		ImGui::SetNextWindowSize(ImVec2((windowWidth * 0.2f), (float)windowHeight - 25));
 		//  新しいウィンドウの作成
-		ImGui::Begin("SelectItem",nullptr, ImGuiWindowFlags_NoMove);
+		ImGui::Begin("SelectItem",nullptr, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse);
 		{
 
 		}
@@ -231,5 +255,11 @@ void GUIWinMain::ShutdownImGui()
 		mStopButtonTexture->Unload();
 		delete mStopButtonTexture;
 		mStopButtonTexture = nullptr;
+	}
+	if (mFrameByFrameButtonTexture)
+	{
+		mFrameByFrameButtonTexture->Unload();
+		delete mFrameByFrameButtonTexture;
+		mFrameByFrameButtonTexture = nullptr;
 	}
 }

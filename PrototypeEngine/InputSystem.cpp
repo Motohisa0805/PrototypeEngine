@@ -208,6 +208,7 @@ void InputSystem::Update()
 	mState.Mouse.mMousePos.x = static_cast<float>(x);
 	mState.Mouse.mMousePos.y = static_cast<float>(y);
 
+
 	// Controller
 	// Buttons
 	for (int i = 0; i < SDL_GAMEPAD_BUTTON_COUNT; i++)

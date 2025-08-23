@@ -21,12 +21,19 @@ private:
 	//終わった瞬間かどうか
 	static bool				isPushEnd;
 
+	static bool				isFrameByFrame;
+
 	static Texture*			mPlayButtonTexture;
 	static Texture*			mPauseButtonTexture;
 	static Texture*			mStopButtonTexture;
+	static Texture*			mFrameByFrameButtonTexture;
 
 	static class Renderer*	mRenderer;
 
+
+	//ゲームウィンドウのサイズ(横)
+	static Vector2 			mGameWinPos;
+	static Vector2 			mGameWinSize;
 public:
 	GUIWinMain() = default;
 	~GUIWinMain() = default;
@@ -50,5 +57,8 @@ public:
 	static void SetIsPushEnd(bool pushEnd) { isPushEnd = pushEnd; }
 
 	static void SetRenderer(class Renderer* renderer) { mRenderer = renderer; }
+
+	static Vector2 GetGameWinPos() { return mGameWinPos; }
+	static Vector2 GetGameWinSize() { return mGameWinSize; }
 };
 

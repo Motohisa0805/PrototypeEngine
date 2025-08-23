@@ -90,16 +90,41 @@ void Canvas::Draw(Shader* shader)
 
 void Canvas::ProcessInput(const struct InputState& keys)
 {
-	// Do we have buttons?
+	// ボタンがあるか?
 	if (!mButtons.empty())
 	{
-		// Get position of mouse
-		float x, y;
-		SDL_GetMouseState(&x, &y);
 		// Convert to (0,0) center coordinates
-		Vector2 mousePos(static_cast<float>(x), static_cast<float>(y));
+		//Vector2 mousePos(static_cast<float>(x), static_cast<float>(y));
+		
+		//エンジンとビルド済みで計算を変更する(将来的に)
+		// マウスの座標を取得
+		Vector2 mousePos = keys.Mouse.GetPosition();
+		//ビルド済み
+		{
+
+
+		}
+		//エンジン用の計算
+		{
+			Vector2 winPos = GUIWinMain::GetGameWinPos();
+			Vector2 winSize = GUIWinMain::GetGameWinSize();
+
+			// ImGui Gameウィンドウ基準に補正
+			mousePos.x -= winPos.x;
+			mousePos.y -= winPos.y;
+
+			// ゲーム解像度にスケーリング
+			float scaleX = WindowRenderProperty::GetWidth() / winSize.x;
+			float scaleY = WindowRenderProperty::GetHeight() / winSize.y;
+			mousePos.x *= scaleX;
+			mousePos.y *= scaleY;
+
+
+		}
+		// 中心原点に変換
 		mousePos.x -= WindowRenderProperty::GetWidth() * 0.5f;
 		mousePos.y = WindowRenderProperty::GetHeight() * 0.5f - mousePos.y;
+
 
 		// Highlight any buttons
 		for (auto b : mButtons)
