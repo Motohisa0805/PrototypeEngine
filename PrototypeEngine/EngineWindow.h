@@ -21,6 +21,8 @@ private:
 
 	static EngineState mEngineState;
 
+	static class SceneEditorCamera* mSceneEditorCamera;
+
 public:
 					EngineWindow();
 					~EngineWindow();
@@ -39,5 +41,7 @@ public:
 
 	static EngineState GetEngineState() { return mEngineState; }
 	static void SetEngineState(EngineState state) { mEngineState = state; }
+
+	static class SceneEditorCamera* GetSceneEditorCamera() { return mSceneEditorCamera; }
 };
 

@@ -22,6 +22,10 @@ private:
 	vector<class Texture*>		mTextures;
 	// Frame buffer object ID
 	unsigned int				mBufferID;
+
+	GLuint						mDepthBuffer;
+	int 						mWidth;
+	int 						mHeight;
 public:
 
 								GBuffer();
@@ -29,6 +33,7 @@ public:
 
 	// Create/destroy the G-buffer
 	bool						Create(int width, int height);
+	bool						Resize(int width, int height);
 	void						Destroy();
 
 	// Get the texture for a specific type of data
@@ -37,4 +42,9 @@ public:
 	unsigned int				GetBufferID() const { return mBufferID; }
 	// Setup all the G-buffer textures for sampling
 	void						SetTexturesActive();
+
+	bool						NeedsResize(Vector2 size);
+
+	//ImGui Ç…ìnÇ∑ÇΩÇﬂÇÃä÷êîÇí«â¡
+	GLuint						GetImGuiColorAttachment(int index = 0) const;
 };

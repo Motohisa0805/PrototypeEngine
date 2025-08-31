@@ -7,7 +7,7 @@ BaseScene::BaseScene()
 	, mUpdatingActors(false)
 	, mFixed_Delta_Time(0.02f)
 	, mPlayer(nullptr)
-	, mMainCamera(nullptr)
+	, mCameras()
 	, mFixedTimeAccumulator(0.0f)
 	, mDirectionalLightActor(nullptr)
 	, mFrameRateText(nullptr)
@@ -343,6 +343,45 @@ void BaseScene::RemoveDebugImage(Image* screen)
 		std::iter_swap(iter, mDebugImageStack.end() - 1);
 		mDebugImageStack.pop_back();
 	}
+}
+
+void BaseScene::AddCamera(BaseCamera* camera)
+{
+	// ‚·‚Å‚É“o˜^‚³‚ê‚Ä‚¢‚éê‡‚Í‰½‚à‚µ‚È‚¢
+	for(auto& cam : mCameras)
+	{
+		if (cam.second == camera)
+		{
+			return;
+		}
+	}
+	// ƒƒCƒ“ƒJƒƒ‰‚ÉÝ’è
+	for (auto& cam : mCameras)
+	{
+		cam.second->SetIsMain(false);
+	}
+	camera->SetIsMain(true);
+	// –¼‘O‚ðŽ©“®¶¬‚µ‚Ä“o˜^
+	int index = mCameras.size();
+	string name = "Camera" + std::to_string(index);
+	mCameras.emplace(name, camera);
+}
+
+void BaseScene::RemoveCamera(BaseCamera* camera)
+{
+	for (auto iter = mCameras.begin(); iter != mCameras.end(); ++iter)
+	{
+		if (iter->second == camera)
+		{
+			mCameras.erase(iter);
+			break;
+		}
+	}
+}
+
+BaseCamera* BaseScene::GetCamera(const string& name)
+{
+	return mCameras[name];
 }
 
 void BaseScene::UnloadData()

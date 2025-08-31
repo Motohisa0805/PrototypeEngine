@@ -37,6 +37,8 @@ uniform DirectionalLight uDirLight;
 uniform sampler2DShadow uShadowMap;
 uniform mat4 uLightViewProj;
 
+uniform bool uEnableShadow;
+
 // 事前に固定Poissonオフセット（正規化）を定義
 const vec2 poissonDisk[16] = vec2[](
     vec2(-0.94201624, -0.39906216),
@@ -112,12 +114,16 @@ void main()
 	{
 		vec3 Diffuse = uDirLight.mDiffuseColor * NdotL;
 
-		// フラグメントごとにランダム角度生成（ノイズテクスチャ or screen-space乱数）
-        vec2 randomRot = vec2(fract(sin(dot(fragTexCoord.xy ,vec2(12.9898,78.233))) * 43758.5453), 0.0);
+        float shadow = 1.0; // デフォルトは「影なし = 100%ライトが届く」
         
-        float shadow = ComputeShadow_Poisson(vec4(gbufferWorldPos, 1.0), randomRot);
-		shadow = clamp(shadow, 0.0, 1.0);
-		Phong += Diffuse * shadow; // ← shadowを掛けるのは拡散光のみに限定
+        if (uEnableShadow) 
+        {
+            // フラグがtrueのときだけ影を計算
+            vec2 randomRot = vec2(fract(sin(dot(fragTexCoord.xy ,vec2(12.9898,78.233))) * 43758.5453), 0.0);
+            shadow = ComputeShadow_Poisson(vec4(gbufferWorldPos, 1.0), randomRot);
+            shadow = clamp(shadow, 0.0, 1.0);
+        }
+        Phong += Diffuse * shadow;
 	}
 
 
