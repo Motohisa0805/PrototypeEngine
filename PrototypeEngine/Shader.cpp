@@ -143,6 +143,15 @@ void Shader::SetMaterialUniform(const char* name, const Vector3& color)
 	glUniform3f(loc, color.x, color.y, color.z);
 }
 
+void Shader::SetBoolUniform(const char* name, bool value)
+{
+	GLint loc = glGetUniformLocation(mShaderProgram, name);
+	if (loc != -1)
+	{
+		glUniform1i(loc, (int)value);
+	}
+}
+
 void Shader::SetNoTexture()
 {
 	glActiveTexture(GL_TEXTURE0);

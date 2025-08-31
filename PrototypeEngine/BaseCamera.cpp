@@ -11,14 +11,18 @@ BaseCamera::BaseCamera(ActorObject* owner, int updateOrder)
 	, mCameraRight(Vector3::Zero)
 	, mCameraUp(Vector3::Zero)
 	, mCameraYawRot()
+	, mIsMain(false)
+	, mView()
 {
-	mGame->SetMainCamera(this);
+	mGame->AddCamera(this);
+}
+
+BaseCamera::~BaseCamera()
+{
+	mGame->RemoveCamera(this);
 }
 
 void BaseCamera::SetViewMatrix(const Matrix4& view)
 {
-	// ビュー行列をレンダラーとオーディオシステムに渡す
-	BaseScene* game = mOwner->GetGame();
-	EngineWindow::GetRenderer()->SetViewMatrix(view);
-	game->GetAudioSystem()->SetListener(view);
+	mView = view;
 }

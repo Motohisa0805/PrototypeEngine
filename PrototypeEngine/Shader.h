@@ -53,5 +53,7 @@ public:
 
 	void		SetMaterialUniform(const char* name, const Vector3& color);
 
+	void		SetBoolUniform(const char* name, bool value);
+
 	void		SetNoTexture();
 };

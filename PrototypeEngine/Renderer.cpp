@@ -1,5 +1,6 @@
 ﻿#include "Renderer.h"
 #include "BaseScene.h"
+#include "BaseCamera.h"
 #include <GL/glew.h>
 #include "Texture.h"
 #include "Mesh.h"
@@ -18,6 +19,7 @@
 #include "SkyBoxRenderer.h"
 
 #include "SceneViewEditor.h"
+#include "SceneEditorCamera.h"
 
 Renderer::Renderer()
 	: mNowScene(nullptr)
@@ -25,6 +27,7 @@ Renderer::Renderer()
 	, mMeshShader(nullptr)
 	, mSkinnedShader(nullptr)
 	, mGBuffer(nullptr)
+	, mSceneBuffer(nullptr)
 	, mGGlobalShader(nullptr)
 	, mShadowMap(nullptr)
 	, mShadowShader(nullptr)
@@ -106,6 +109,12 @@ bool Renderer::Initialize(float screenWidth, float screenHeight)
 		SDL_Log("Failed to create G-buffer.");
 		return false;
 	}
+	mSceneBuffer = new GBuffer();
+	if (!mSceneBuffer->Create(width, height))
+	{
+		SDL_Log("Failed to create mSceneBuffer.");
+		return false;
+	}
 	//シャドウマップを作成する
 	mShadowMap = new ShadowMap();
 	if(!mShadowMap->Initialize(width, height))
@@ -122,6 +131,8 @@ bool Renderer::Initialize(float screenWidth, float screenHeight)
 
 	mSceneViewEditor = new SceneViewEditor();
 	mSceneViewEditor->CreateSceneFBO(width, height);
+	mGameSceneViewEditor = new SceneViewEditor();
+	mGameSceneViewEditor->CreateSceneFBO(width, height);
 	
 	GUIWinMain::SetRenderer(this);
 	return true;
@@ -292,91 +303,42 @@ void Renderer::MeshOrderUpdate()
 	mMeshComps.insert(mMeshComps.end(), transparentList.begin(), transparentList.end());
 }
 
-void Renderer::Draw()
-{
-	//Meshの順番を変更
-	MeshOrderUpdate();
-	// ライト視点で深度情報をシャドウマップに描画
-	DrawShadow3DScene();
-	// G-bufferに3Dシーンを描画します。
-	Draw3DScene(mGBuffer->GetBufferID(), mView, mProjection, 1.0f, true);
-	// フレームバッファをゼロ（スクリーンのフレームバッファ）に戻します
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-	// Gバッファから描画する
-	DrawFromGBuffer();
-
-	// すべてのスプライトコンポーネントを描画する
-	// 深度バッファリングを無効にする
-	glDisable(GL_DEPTH_TEST);
-	// カラー バッファでアルファ ブレンディングを有効にします
-	glEnable(GL_BLEND);
-	glBlendEquationSeparate(GL_FUNC_ADD, GL_FUNC_ADD);
-	glBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_ONE, GL_ZERO);
-
-	// シェーダー/VAOをアクティブに設定
-	mSpriteShader->SetActive();
-
-	mSpriteVerts->SetActive();
-
-	for (auto ui : mNowScene->GetImageStack())
-	{
-		if (ui->GetState() == Image::EActive) 
-		{
-			if (ui->GetFillMethod() == Image::Radial360)
-			{
-				int count = CreateFanSpriteVerts(ui->GetFillAmount(),30);
-				ui->SetVerticesCount(count);
-				mFanSpriteVerts->SetActive();
-			}
-			else
-			{
-				mSpriteVerts->SetActive();
-			}
-			ui->Draw(mSpriteShader);
-		}
-	}
-
-	if (GameStateClass::mDebugFrag)
-	{
-		for (auto ui : mNowScene->GetDebugImageStack())
-		{
-			if (ui->GetState() == Image::EActive)
-			{
-				if (ui->GetFillMethod() == Image::Radial360)
-				{
-					int count = CreateFanSpriteVerts(ui->GetFillAmount(), 30);
-					ui->SetVerticesCount(count);
-					mFanSpriteVerts->SetActive();
-				}
-				else
-				{
-					mSpriteVerts->SetActive();
-				}
-				ui->Draw(mSpriteShader);
-			}
-		}
-	}
-
-
-
-
-	ImGui::Render();
-	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-
-	// バッファを入れ替える
-	SDL_GL_SwapWindow(mWindow);
-}
-
 void Renderer::StartDraw()
 {
+	//複数のカメラからメインカメラからmViewを設定
+	for(auto cam : mNowScene->GetCameras())
+	{
+		if(cam.second->IsMain())
+		{
+			// ビュー行列をレンダラーとオーディオシステムに渡す
+			mView = cam.second->GetViewMatrix();
+			mNowScene->GetAudioSystem()->SetListener(mView);
+			break;
+		}
+	}
 	//Meshの順番を変更
 	MeshOrderUpdate();
+
+
 	// ライト視点で深度情報をシャドウマップに描画
 	DrawShadow3DScene();
+	//***SceneViewEditorのSceneFBOに描画
+
+	// G-bufferに3Dシーンを描画します。
+	EditorDraw3DScene(mSceneBuffer->GetBufferID(), EngineWindow::GetSceneEditorCamera()->GetViewMatrix(), mProjection, 1.0f, true);
+
+	glBindFramebuffer(GL_FRAMEBUFFER, mSceneViewEditor->GetSceneFBO());
+
+	// Gバッファから描画する
+	DrawFromGBufferForEditor();
+
+	//***gameViewEditorのGameSceneFBOに描画***
+
 	// G-bufferに3Dシーンを描画します。
 	Draw3DScene(mGBuffer->GetBufferID(), mView, mProjection, 1.0f, true);
 
-	glBindFramebuffer(GL_FRAMEBUFFER, mSceneViewEditor->GetSceneFBO());
+	glBindFramebuffer(GL_FRAMEBUFFER, mGameSceneViewEditor->GetSceneFBO());
+
 	// Gバッファから描画する
 	DrawFromGBuffer();
 
@@ -451,10 +413,105 @@ void Renderer::StartDraw()
 
 void Renderer::EndDraw()
 {
+	// デフォルトフレームバッファをクリア
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	glViewport(0, 0, (int)WindowRenderProperty::GetWidth(), (int)WindowRenderProperty::GetHeight());
+	glClearColor(0,0,0,0);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
 	ImGui::Render();
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 	// バッファを入れ替える
 	SDL_GL_SwapWindow(mWindow);
+}
+
+void Renderer::EditorDraw3DScene(unsigned int framebuffer, const Matrix4& view, const Matrix4& proj, float viewPortScale, bool lit)
+{
+	// 現在のフレームバッファを設定する
+	glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
+
+	// スケールに基づいてビューポートサイズを設定します
+	Vector2 sceneWinSize = GUIWinMain::GetSceneWinSize();
+	glViewport(0,0, (int)sceneWinSize.x,(int)sceneWinSize.y);
+
+	// カラー バッファ/深度バッファをクリア
+	glClearColor(Color::mClearColor.x, Color::mClearColor.y, Color::mClearColor.z, Color::mClearColor.w);
+	glDepthMask(GL_TRUE);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	// メッシュコンポーネントを描画する深度バッファリングを有効にする
+	// アルファブレンドを無効にする
+	glEnable(GL_DEPTH_TEST);
+	glDisable(GL_BLEND);
+
+	// メッシュ（静的）
+	mMeshShader->SetActive();
+	mMeshShader->SetMatrixUniform("uViewProj", view * proj);
+	SetLightUniforms(mMeshShader, view);
+
+	for (auto mc : mMeshComps)
+	{
+		if (mc->GetVisible())
+		{
+			mc->Draw(mMeshShader);
+		}
+	}
+
+	// スキンメッシュを有効
+	mSkinnedShader->SetActive();
+	// ビュー投影行列を更新する
+	mSkinnedShader->SetMatrixUniform("uViewProj", view * proj);
+	// 照明のユニフォームを更新する
+	SetLightUniforms(mSkinnedShader, view);
+	for (auto sk : mSkeletalMeshes)
+	{
+		if (sk->GetVisible())
+		{
+			sk->Draw(mSkinnedShader);
+		}
+	}
+	// 2. パーティクルなど半透明物体を描画
+	//  Z比較を有効（必須）
+	glEnable(GL_DEPTH_TEST);
+	//  Zバッファ書き込みを防ぐ
+	glDepthMask(GL_FALSE);
+	//  透過合成
+	glEnable(GL_BLEND);
+	// アルファブレンド
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	//パーティクルシステムの描画
+	mParticleShader->SetActive();
+	//パーティクルで使うため板ポリをアクティブに設定
+	mSpriteVerts->SetActive(); // 板ポリ
+	mParticleShader->SetMatrixUniform("uViewProj", view * proj);
+	for (auto p : mParticlesComps)
+	{
+		if (p->IsVisible())
+		{
+			p->Draw(mParticleShader);
+		}
+	}
+	//デバッグ描画
+	if (GameStateClass::mDebugFrag)
+	{
+		mArrowShader->SetActive();
+		mArrowShader->SetMatrixUniform("uViewProj", view * proj);
+		for (auto actor : mNowScene->GetActors())
+		{
+			if (actor->GetState() == ActorObject::EActive)
+			{
+				// アクターのデバッグ描画
+				mArrowShader->SetMatrixUniform("uModel", actor->GetWorldTransform());
+
+				mAxisVAO->SetActive(); // 6頂点（3軸 × 2点）
+				glLineWidth(3.0f); // 線の太さを3ピクセルに設定
+				glDrawArrays(GL_LINES, 0, 6);
+			}
+		}
+		mDebugGrid->Draw(mGridShader, view * proj);
+	}
+
+	glDepthMask(GL_TRUE);  // 書き込みを戻す
 }
 
 void Renderer::Draw3DScene(unsigned int framebuffer, const Matrix4& view, const Matrix4& proj,float viewPortScale, bool lit)
@@ -525,25 +582,6 @@ void Renderer::Draw3DScene(unsigned int framebuffer, const Matrix4& view, const 
 			p->Draw(mParticleShader);
 		}
 	}
-	//デバッグ描画
-	if (GameStateClass::mDebugFrag)
-	{
-		mArrowShader->SetActive();
-		mArrowShader->SetMatrixUniform("uViewProj", view * proj);
-		for(auto actor : mNowScene->GetActors())
-		{
-			if (actor->GetState() == ActorObject::EActive)
-			{
-				// アクターのデバッグ描画
-				mArrowShader->SetMatrixUniform("uModel", actor->GetWorldTransform());
-
-				mAxisVAO->SetActive(); // 6頂点（3軸 × 2点）
-				glLineWidth(3.0f); // 線の太さを3ピクセルに設定
-				glDrawArrays(GL_LINES, 0, 6);
-			}
-		}
-		mDebugGrid->Draw(mGridShader, view * proj);
-	}
 
 	glDepthMask(GL_TRUE);  // 書き込みを戻す
 }
@@ -589,6 +627,29 @@ void Renderer::DrawShadow3DScene()
 	mShadowMap->EndRender(); 
 }
 
+void Renderer::DrawFromGBufferForEditor()
+{
+	glDisable(GL_DEPTH_TEST);
+
+	mGGlobalShader->SetActive();
+	mSpriteVerts->SetActive();
+	mSceneBuffer->SetTexturesActive();
+	// シャドウマップを無効にする
+	mGGlobalShader->SetBoolUniform("uEnableShadow", false); // withShadow = true/false
+	
+	SetLightUniforms(mGGlobalShader, mView);
+
+	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+
+	// 深度バッファをコピー（必要に応じて）
+	glBindFramebuffer(GL_READ_FRAMEBUFFER, mSceneBuffer->GetBufferID());
+	int width = (int)GUIWinMain::GetSceneWinSize().x;
+	int height = (int)GUIWinMain::GetSceneWinSize().y;
+	glBlitFramebuffer(0, 0, width, height, 0, 0, width, height,GL_DEPTH_BUFFER_BIT, GL_NEAREST);
+
+	glEnable(GL_DEPTH_TEST);
+}
+
 void Renderer::DrawFromGBuffer()
 {
 	// グローバルライティングパスの深度テストを無効にします
@@ -599,6 +660,8 @@ void Renderer::DrawFromGBuffer()
 	mSpriteVerts->SetActive();
 	// Gバッファーテクスチャをサンプリングするように設定する
 	mGBuffer->SetTexturesActive();
+	// シャドウマップを有効にする
+	mGGlobalShader->SetBoolUniform("uEnableShadow", true); // withShadow = true/false
 
 	glActiveTexture(GL_TEXTURE3);
 	glBindTexture(GL_TEXTURE_2D, mShadowMap->GetDepthTexture());
@@ -653,6 +716,12 @@ void Renderer::Shutdown()
 		delete mGBuffer;
 		mGBuffer = nullptr;
 	}
+	if (mSceneBuffer)
+	{
+		mSceneBuffer->Destroy();
+		delete mSceneBuffer;
+		mSceneBuffer = nullptr;
+	}
 	// シャドウマップを取り除く
 	if (mShadowMap)
 	{
@@ -664,6 +733,11 @@ void Renderer::Shutdown()
 	{
 		delete mSceneViewEditor;
 		mSceneViewEditor = nullptr;
+	}
+	if (mGameSceneViewEditor)
+	{
+		delete mGameSceneViewEditor;
+		mGameSceneViewEditor = nullptr;
 	}
 
 	// ポイントライトを削除する

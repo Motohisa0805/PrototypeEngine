@@ -41,7 +41,8 @@ protected:
 
 	class DirectionalLightActor*					mDirectionalLightActor;
 
-	class BaseCamera*								mMainCamera;
+
+	std::unordered_map<string, class BaseCamera*>	mCameras;
 
 	// 50HzAUnity‚Æ“¯‚¶
 	const float										mFixed_Delta_Time = 0.02f;
@@ -105,10 +106,14 @@ public:
 	class ActorObject*								GetPlayer() { return mPlayer; }
 	//ŠÂ‹«Œõ‚Ìİ’è
 	class DirectionalLightActor*					GetDirectionalLightActor() { return mDirectionalLightActor; }
-	//Camera‚ÌGetter
-	class BaseCamera*								GetCamera() { return mMainCamera; }
-	//MainCamera‚Ìİ’è
-	void											SetMainCamera(class BaseCamera* camera) { mMainCamera = camera; }
+
+	//Camera‚Ì’Ç‰Á
+	void											AddCamera(class BaseCamera* camera);
+	//Camera‚Ìíœ
+	void											RemoveCamera(class BaseCamera* camera);
+	//Camera‚Ìæ“¾
+	class BaseCamera*								GetCamera(const string& name = "Camera0");
+	std::unordered_map<string, class BaseCamera*> 	GetCameras() { return mCameras; }
 };
 
 template<typename T>

@@ -2,6 +2,9 @@
 
 GBuffer::GBuffer()
 	:mBufferID(0)
+	, mDepthBuffer(0)
+	, mWidth(0)
+	, mHeight(0)
 {
 
 }
@@ -18,13 +21,12 @@ bool GBuffer::Create(int width, int height)
 	glBindFramebuffer(GL_FRAMEBUFFER, mBufferID);
 
 	// Add a depth buffer to this target
-	GLuint depthBuffer;
-	glGenRenderbuffers(1, &depthBuffer);
-	glBindRenderbuffer(GL_RENDERBUFFER, depthBuffer);
+	glGenRenderbuffers(1, &mDepthBuffer);
+	glBindRenderbuffer(GL_RENDERBUFFER, mDepthBuffer);
 	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT,
 		width, height);
 	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT,
-		GL_RENDERBUFFER, depthBuffer);
+		GL_RENDERBUFFER, mDepthBuffer);
 
 	// Create textures for each output in the G-buffer
 	for (int i = 0; i < NUM_GBUFFER_TEXTURES; i++)
@@ -59,6 +61,39 @@ bool GBuffer::Create(int width, int height)
 	return true;
 }
 
+bool GBuffer::Resize(int width, int height)
+{
+	mWidth = width;
+	mHeight = height;
+
+	// 既存のFBOをバインド
+	glBindFramebuffer(GL_FRAMEBUFFER, mBufferID);
+
+	// デプスバッファを再確保
+	glBindRenderbuffer(GL_RENDERBUFFER, mDepthBuffer);
+	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, width, height);
+
+	// 既存のG-Bufferテクスチャをサイズ変更
+	for (int i = 0; i < NUM_GBUFFER_TEXTURES; i++)
+	{
+		glBindTexture(GL_TEXTURE_2D, mTextures[i]->GetTextureID());
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB32F, width, height, 0,
+			GL_RGB, GL_FLOAT, nullptr);
+	}
+
+	// FBOがまだ有効か確認（必須）
+	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+	{
+		printf("GBuffer resize failed!\n");
+		Destroy();
+		return false;
+	}
+
+	// FBOをアンバインド
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	return true;
+}
+
 void GBuffer::Destroy()
 {
 	glDeleteFramebuffers(1, &mBufferID);
@@ -87,4 +122,19 @@ void GBuffer::SetTexturesActive()
 	{
 		mTextures[i]->SetActive(i);
 	}
+}
+
+bool GBuffer::NeedsResize(Vector2 size)
+{
+	bool b = (size.x != mWidth || size.y != mHeight);
+	return b;
+}
+
+GLuint GBuffer::GetImGuiColorAttachment(int index) const
+{
+	if (index < 0 || index >= (int)mTextures.size())
+	{
+		return 0;
+	}
+	return mTextures[index]->GetTextureID();
 }

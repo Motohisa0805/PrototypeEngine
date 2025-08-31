@@ -63,6 +63,7 @@ private:
 	SDL_GLContext										mContext;
 	//GBufferクラス
 	class GBuffer*										mGBuffer;
+	class GBuffer*										mSceneBuffer;
 	// GBuffer shader
 	class Shader*										mGGlobalShader;
 	//シャドウマップのクラス
@@ -85,11 +86,17 @@ private:
 	class VertexArray*									mAxisVAO;
 
 	class SceneViewEditor*								mSceneViewEditor;
+	class SceneViewEditor*								mGameSceneViewEditor;
 
+	//3D描画処理
+	void												EditorDraw3DScene(unsigned int framebuffer, const Matrix4& view, const Matrix4& proj,
+		float viewPortScale = 1.0f, bool lit = true);
 	//3D描画処理
 	void												Draw3DScene(unsigned int framebuffer, const Matrix4& view, const Matrix4& proj,
 		float viewPortScale = 1.0f, bool lit = true);
 	void												DrawShadow3DScene();
+
+	void												DrawFromGBufferForEditor();
 	//ライト描画処理
 	void												DrawFromGBuffer();
 	//Shaderの読み込み
@@ -114,7 +121,6 @@ public:
 	void												UnloadData();
 	void												MeshOrderUpdate();
 	//描画処理
-	void												Draw();
 	void												StartDraw();
 	void												EndDraw();
 	//Mesh追加処理
@@ -159,6 +165,7 @@ public:
 	void												GetScreenDirection(Vector3& outStart, Vector3& outDir) const;
 	//GBufferのGetter
 	class GBuffer*										GetGBuffer() { return mGBuffer; }
+	class GBuffer*										GetSceneBuffer() { return mSceneBuffer; }
 	// Mesh shader
 	class Shader*										GetMeshShader() { return mMeshShader; }
 	// Skinned shader
@@ -174,4 +181,6 @@ public:
 
 	// mSceneViewEditorのGetter
 	class SceneViewEditor*								GetSceneViewEditor() { return mSceneViewEditor; }
+	// mGameSceneViewEditorのGetter
+	class SceneViewEditor*								GetGameSceneViewEditor() { return mGameSceneViewEditor; }
 };
