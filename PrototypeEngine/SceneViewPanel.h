@@ -1,6 +1,6 @@
 #pragma once
-#include "GUIPanel.h"
 #include "GUIWinMain.h"
+#include "GUIPanel.h"
 
 class SceneViewPanel : public GUIPanel
 {

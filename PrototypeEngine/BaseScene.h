@@ -10,12 +10,6 @@
 // シーンごとに継承して使用します。
 class BaseScene
 {
-public:
-	enum MouseMode
-	{
-		Relative, // 相対モード
-		Absolute  // 絶対モード
-	};
 protected:
 
 	AudioSystem*									mAudioSystem;
@@ -65,8 +59,6 @@ public:
 	virtual bool									Update();
 	//解放
 	void											UnloadData();
-
-	void											SetMouseMode(MouseMode mode);
 
 	void											LoadSkyBoxTexture(string file);
 

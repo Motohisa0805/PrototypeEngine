@@ -14,23 +14,6 @@ BaseScene::BaseScene()
 {
 }
 
-void BaseScene::SetMouseMode(MouseMode mode)
-{
-	if (mode == MouseMode::Relative)
-	{
-		SDL_SetWindowRelativeMouseMode(EngineWindow::GetRenderer()->GetWindow(), true);
-		SDL_GetRelativeMouseState(nullptr, nullptr);
-	}
-	else if (mode == MouseMode::Absolute)
-	{
-		SDL_SetWindowRelativeMouseMode(EngineWindow::GetRenderer()->GetWindow(), false);
-	}
-	else
-	{
-		SDL_Log("Unknown mouse mode");
-	}
-}
-
 void BaseScene::LoadSkyBoxTexture(string file)
 {
 	EngineWindow::GetRenderer()->GetSkyBoxRenderer()->Load(file);

@@ -163,7 +163,7 @@ void FPSCanvas::ProcessInput(const InputState& keys)
 		mCrosshair->SetFillAmount(fill);
 	}
 
-	if (keys.Keyboard.GetKeyDown(KEY_ESCAPE))
+	if (keys.Keyboard.GetKeyDown(KEY_TAB))
 	{
 		new PauseMenu();
 	}
