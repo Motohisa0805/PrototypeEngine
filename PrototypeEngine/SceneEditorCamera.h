@@ -20,6 +20,13 @@ private:
 	float	mHorizontalMouseSpeed;
 	float	mVertexMouseSpeed;
 
+	float   mLastMouseX;
+	float   mLastMouseY;
+
+	float	mForwardSpeed;
+
+	float	mStrafeSpeed;
+
 public:
 	SceneEditorCamera();
 

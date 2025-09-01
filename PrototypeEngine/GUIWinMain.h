@@ -1,8 +1,5 @@
 #pragma once
-#include "SDOpenLib.h"
 #include "SDL3.h"
-
-#include "Texture.h"
 
 #include "imgui.h"
 #include "imgui_impl_sdl3.h"
@@ -80,5 +77,12 @@ public:
 
 	static Vector2 GetSceneWinSize() { return mSceneWinSize; }
 	static void SetSceneWinSize(const Vector2& size) { mSceneWinSize = size; }
+
+	static class ToolbarPanel* GetToolbarPanel() { return mToolbarPanel; }
+	static class SceneViewPanel* GetSceneViewPanel() { return mSceneViewPanel; }
+	static class GameViewPanel* GetGameViewPanel() { return mGameViewPanel; }
+	static class HierarchyPanel* GetHierarchyPanel() { return mHierarchyPanel; }
+	static class ProjectPanel* GetProjectPanel() { return mProjectPanel; }
+	static class SelectItemPanel* GetSelectItemPanel() { return mSelectItemPanel; }
 };
 

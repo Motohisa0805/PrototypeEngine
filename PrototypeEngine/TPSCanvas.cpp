@@ -70,7 +70,7 @@ void TPSCanvas::Update(float deltaTime)
 void TPSCanvas::ProcessInput(const InputState& keys)
 {
 	Canvas::ProcessInput(keys);
-	if (keys.Keyboard.GetKeyDown(KEY_ESCAPE))
+	if (keys.Keyboard.GetKeyDown(KEY_TAB))
 	{
 		new PauseMenu();
 	}

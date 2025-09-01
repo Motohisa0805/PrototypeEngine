@@ -119,6 +119,13 @@ struct InputState
 
 class InputSystem
 {
+public:
+	enum MouseMode
+	{
+		RelativeMouse, // 相対モード
+		AbsoluteMouse,  // 絶対モード
+		CaptureMouse
+	};
 private:
 	static float				Filter1D(int input);
 	
@@ -129,6 +136,8 @@ private:
 	static SDL_Gamepad*			mController;
 
 	static SDL_Window*			mWindow;
+
+	static MouseMode			mMouseMode;
 public:
 	static bool					Initialize();
 	static void					Shutdown();
@@ -147,4 +156,9 @@ public:
 	static void					SetRelativeMouseMode(bool value);
 
 	static void					SetSDL_Window(SDL_Window* window) { mWindow = window; }
+
+	static void					SetMouseMode(MouseMode mode);
+	//マウスを非表示にし非表示にした場所に固定する
+	static void					RelativeMouseMode();
+	static void					AbsoluteMouseMode();
 };

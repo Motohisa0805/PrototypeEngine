@@ -1,6 +1,5 @@
 #pragma once
 #include "GUIPanel.h"
-#include "GUIWinMain.h"
 
 class ToolbarPanel : public GUIPanel
 {

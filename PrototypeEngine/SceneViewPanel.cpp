@@ -23,6 +23,17 @@ void SceneViewPanel::Draw(float width, float height, ImTextureRef ref)
 			GUIWinMain::SetSceneWinSize(Vector2(winsize.x, winsize.y));
 		}
 
+		if(!InputSystem::GetState().Mouse.GetButton(SDL_BUTTON_RIGHT))
+		{
+			isMouseHovered = false;
+		}
+		// ★ マウスがこのウィンドウにあるかどうか判定
+		if (ImGui::IsWindowHovered(ImGuiHoveredFlags_AllowWhenBlockedByActiveItem))
+		{
+			// SceneViewパネルにマウスが乗っているときの処理
+			isMouseHovered = true;
+		}
+
 		ImVec2 size = ImGui::GetContentRegionAvail();
 		// SceneView のテクスチャを貼る
 		ImGui::Image(ref,

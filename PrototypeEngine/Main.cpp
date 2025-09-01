@@ -1,7 +1,7 @@
 
 #include "GameWinMain.h"
 #include "EngineWindow.h"
-#include <SDL3/SDL.h>
+#include "SDL3.h"
 
 #define DISABLE_DEBUG_NEW // ˆêŽž“I‚É–³Œø‚É‚µ‚Ä
 #include "Debug_memory.h"

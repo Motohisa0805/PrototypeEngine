@@ -16,7 +16,7 @@ bool TitleScene::Initialize()
 	BaseScene::Initialize();
 
 
-	SetMouseMode(MouseMode::Absolute);
+	InputSystem::SetMouseMode(InputSystem::AbsoluteMouse);
 
 	mTitleCanvas = new TitleCanvas();
 

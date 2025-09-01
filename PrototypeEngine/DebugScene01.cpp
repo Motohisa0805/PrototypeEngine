@@ -25,10 +25,11 @@ bool DebugScene01::Initialize()
 	// BGM一時停止
 	mMusicEvent.Pause();
 
-	SetMouseMode(MouseMode::Relative);
+	InputSystem::SetMouseMode(InputSystem::RelativeMouse);
 
 	// デバッグ用のステージ追加
 	mStages = new Stages00();
+
 	mStages->Initialize();
 
 	// プレイヤー生成

@@ -1,12 +1,15 @@
 #include "InputSystem.h"
 #include <SDL3/SDL.h>
 #include <cstring>
+#include "EngineWindow.h"
 
 InputState InputSystem::mState;
 
 SDL_Gamepad* InputSystem::mController = nullptr;
 
 SDL_Window* InputSystem::mWindow = nullptr;
+
+InputSystem::MouseMode InputSystem::mMouseMode = AbsoluteMouse;
 
 bool KeyboardState::GetKeyValue(SDL_Scancode keyCode) const
 {
@@ -205,9 +208,16 @@ void InputSystem::Update()
 		mState.Mouse.mCurrButtons = SDL_GetMouseState(&x, &y);
 	}
 
-	mState.Mouse.mMousePos.x = static_cast<float>(x);
-	mState.Mouse.mMousePos.y = static_cast<float>(y);
 
+	if(mMouseMode == MouseMode::CaptureMouse)
+	{
+		SDL_WarpMouseInWindow(EngineWindow::GetRenderer()->GetWindow(), mState.Mouse.mMousePos.x, mState.Mouse.mMousePos.y);
+	}
+	else
+	{
+		mState.Mouse.mMousePos.x = static_cast<float>(x);
+		mState.Mouse.mMousePos.y = static_cast<float>(y);
+	}
 
 	// Controller
 	// Buttons
@@ -257,7 +267,7 @@ void InputSystem::ProcessEvent(SDL_Event& event)
 void InputSystem::SetRelativeMouseMode(bool value)
 {
 	bool set = value ? true : false;
-	SDL_SetWindowRelativeMouseMode(mWindow,set);
+	SDL_SetWindowRelativeMouseMode(EngineWindow::GetRenderer()->GetWindow(),set);
 
 	mState.Mouse.mIsRelative = value;
 }
@@ -318,4 +328,39 @@ Vector2 InputSystem::Filter2D(int inputX, int inputY)
 	}
 
 	return dir;
+}
+
+void InputSystem::SetMouseMode(MouseMode mode)
+{
+	if (mode == MouseMode::RelativeMouse)
+	{
+		SDL_SetWindowRelativeMouseMode(EngineWindow::GetRenderer()->GetWindow(), true);
+		SDL_GetRelativeMouseState(nullptr, nullptr);
+	}
+	else if (mode == MouseMode::AbsoluteMouse)
+	{
+		SDL_SetWindowRelativeMouseMode(EngineWindow::GetRenderer()->GetWindow(), false);
+	}
+	else
+	{
+		SDL_Log("Unknown mouse mode");
+	}
+}
+
+void InputSystem::RelativeMouseMode()
+{
+	mMouseMode = MouseMode::CaptureMouse;
+	// --- 非表示にする瞬間 ---
+	SDL_GetMouseState(&mState.Mouse.mMousePos.x, &mState.Mouse.mMousePos.y);   // 現在位置を保存
+	SDL_HideCursor();                      // カーソル非表示
+	// 相対モードON（移動量取得可）
+	SDL_SetWindowRelativeMouseMode(EngineWindow::GetRenderer()->GetWindow(), true);
+}
+
+void InputSystem::AbsoluteMouseMode()
+{
+	mMouseMode = MouseMode::AbsoluteMouse;
+	SDL_SetWindowRelativeMouseMode(EngineWindow::GetRenderer()->GetWindow(), false);// 相対モードOFF
+	SDL_ShowCursor();                      // カーソル再表示
+	SDL_WarpMouseInWindow(EngineWindow::GetRenderer()->GetWindow(), mState.Mouse.mMousePos.x, mState.Mouse.mMousePos.y);  // 元の位置に復元
 }
