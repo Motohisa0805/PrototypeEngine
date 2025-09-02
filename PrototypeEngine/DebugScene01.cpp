@@ -25,7 +25,7 @@ bool DebugScene01::Initialize()
 	// BGM一時停止
 	mMusicEvent.Pause();
 
-	InputSystem::SetMouseMode(InputSystem::RelativeMouse);
+	InputSystem::SetGameMouseMode(InputSystem::RelativeMouse);
 
 	// デバッグ用のステージ追加
 	mStages = new Stages00();

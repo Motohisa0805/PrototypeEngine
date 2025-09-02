@@ -57,10 +57,11 @@ void SceneEditorCamera::Update()
 	mViewMatrix = view;
 
 	//X、Z移動処理
+	// 前後移動、左右移動
 	if (!Math::NearZero(mForwardSpeed) || !Math::NearZero(mStrafeSpeed))
 	{
 		Vector3 pos = mLocalPosition;
-		pos += GetForward() * mForwardSpeed * Time::gUnscaledDeltaTime;
+		pos += viewForward * mForwardSpeed * Time::gUnscaledDeltaTime;
 		pos += GetRight() * mStrafeSpeed * Time::gUnscaledDeltaTime;
 		mLocalPosition = pos;
 	}
@@ -70,6 +71,7 @@ void SceneEditorCamera::Update()
 
 void SceneEditorCamera::ProcessInput(const struct InputState& keyState)
 {
+	//マウス入力
 	mAngularSpeed = 0;
 	mPitchSpeed = 0;
 	// SceneViewパネルにマウスが乗っていない場合、何もしない
@@ -115,7 +117,7 @@ void SceneEditorCamera::ProcessInput(const struct InputState& keyState)
 		InputSystem::AbsoluteMouseMode();
 	}
 
-
+	// キーボード入力
 	float forwardSpeed = 0.0f;
 	float strafeSpeed = 0.0f;
 	// wasd movement

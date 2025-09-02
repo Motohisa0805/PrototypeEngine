@@ -72,7 +72,11 @@ void EngineWindow::EngineProcessInput()
 	SDL_Event event;
 	while (SDL_PollEvent(&event))
 	{
-		// ImGui用のイベント処理
+		//入力モードがエンジン入力モードなら
+		if (InputContextManager::IsEngineInputActive())
+		{
+			// ImGui用のイベント処理
+		}
 		ImGui_ImplSDL3_ProcessEvent(&event);
 		switch (event.type)
 		{
@@ -85,12 +89,24 @@ void EngineWindow::EngineProcessInput()
 			break;
 		}
 	}
-
+	//TODO : ESCキーを押してゲーム入力を解除
+	if (state.Keyboard.GetKeyDown(KEY_ESCAPE))
+	{
+		if (InputContextManager::IsGameInputActive())
+		{
+			InputContextManager::SetContext(InputContext::Engine);
+		}
+	}
+	//シーンビューのエディターカメラ入力
 	mSceneEditorCamera->ProcessInput(state);
+	//シーンの入力処理
 	if (GUIWinMain::IsPlaying()&& !GUIWinMain::IsPaused())
 	{
-		//ゲームが実行中なら
-		mGameWindow->InputUpdate();
+		if (InputContextManager::IsGameInputActive())
+		{
+			//ゲームが実行中なら
+			mGameWindow->InputUpdate();
+		}
 	}
 
 	InputSystem::PrepareForUpdate();

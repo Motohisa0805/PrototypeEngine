@@ -9,7 +9,11 @@ SDL_Gamepad* InputSystem::mController = nullptr;
 
 SDL_Window* InputSystem::mWindow = nullptr;
 
+InputSystem::MouseMode InputSystem::mGameMouseMode = AbsoluteMouse;
+
 InputSystem::MouseMode InputSystem::mMouseMode = AbsoluteMouse;
+
+InputContext InputContextManager::sCurrentContext = InputContext::Engine;
 
 bool KeyboardState::GetKeyValue(SDL_Scancode keyCode) const
 {
@@ -330,6 +334,24 @@ Vector2 InputSystem::Filter2D(int inputX, int inputY)
 	return dir;
 }
 
+void InputSystem::SetGameMouseMode(MouseMode mode)
+{
+	if (mode == MouseMode::RelativeMouse)
+	{
+		SDL_SetWindowRelativeMouseMode(EngineWindow::GetRenderer()->GetWindow(), true);
+		SDL_GetRelativeMouseState(nullptr, nullptr);
+	}
+	else if (mode == MouseMode::AbsoluteMouse)
+	{
+		SDL_SetWindowRelativeMouseMode(EngineWindow::GetRenderer()->GetWindow(), false);
+	}
+	else
+	{
+		SDL_Log("Unknown mouse mode");
+	}
+	mGameMouseMode = mode;
+}
+
 void InputSystem::SetMouseMode(MouseMode mode)
 {
 	if (mode == MouseMode::RelativeMouse)
@@ -363,4 +385,17 @@ void InputSystem::AbsoluteMouseMode()
 	SDL_SetWindowRelativeMouseMode(EngineWindow::GetRenderer()->GetWindow(), false);// 相対モードOFF
 	SDL_ShowCursor();                      // カーソル再表示
 	SDL_WarpMouseInWindow(EngineWindow::GetRenderer()->GetWindow(), mState.Mouse.mMousePos.x, mState.Mouse.mMousePos.y);  // 元の位置に復元
+}
+
+void InputContextManager::SetContext(InputContext ctx)
+{
+	sCurrentContext = ctx;
+	if(ctx == InputContext::Engine)
+	{
+		InputSystem::SetMouseMode(InputSystem::AbsoluteMouse);
+	}
+	else
+	{
+		InputSystem::SetMouseMode(InputSystem::GetGameMouseMode());
+	}
 }
