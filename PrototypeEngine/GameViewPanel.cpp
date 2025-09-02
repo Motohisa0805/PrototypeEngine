@@ -14,6 +14,18 @@ void GameViewPanel::Draw(float width, float height, ImTextureRef ref)
 	ImGui::SetNextWindowSize(ImVec2((float)width * 0.5f, (float)height * 0.5f));
 	ImGui::Begin(GetName(), nullptr, ImGuiWindowFlags_NoCollapse);
 	{
+		// マウスがこのウィンドウにあるかどうか判定
+		if (ImGui::IsWindowHovered(ImGuiHoveredFlags_AllowWhenBlockedByActiveItem)&&
+			InputSystem::GetState().Mouse.GetButton(SDL_BUTTON_LEFT))
+		{
+			if(InputContextManager::IsEngineInputActive())
+			{
+				// GameViewパネルにマウスが乗っているときの処理
+				InputContextManager::SetContext(InputContext::Game);
+			}
+		}
+
+
 		ImVec2 winPos = ImGui::GetCursorScreenPos();
 		ImVec2 winSize = ImGui::GetContentRegionAvail();
 

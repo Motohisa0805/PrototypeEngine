@@ -19,7 +19,7 @@ bool DebugScene02::Initialize()
 	// Start music
 	mMusicEvent = mAudioSystem->PlayEvent("event:/Music");
 
-	InputSystem::SetMouseMode(InputSystem::RelativeMouse);
+	InputSystem::SetGameMouseMode(InputSystem::RelativeMouse);
 
 	// デバッグ用のステージ追加
 	mStages01 = new Stages01();

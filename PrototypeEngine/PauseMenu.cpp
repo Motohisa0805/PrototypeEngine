@@ -6,7 +6,7 @@ PauseMenu::PauseMenu()
 {
 	GameStateClass::SetGameState(GameState::TimeStop);
 	Time::gTimeScale = 0;
-	InputSystem::SetMouseMode(InputSystem::AbsoluteMouse);
+	InputSystem::SetGameMouseMode(InputSystem::AbsoluteMouse);
 
 	mTitleImage = new Image();
 	mTitleImage->Load("UIFrame.png");

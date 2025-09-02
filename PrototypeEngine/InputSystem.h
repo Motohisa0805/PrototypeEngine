@@ -137,6 +137,8 @@ private:
 
 	static SDL_Window*			mWindow;
 
+	static MouseMode			mGameMouseMode;
+
 	static MouseMode			mMouseMode;
 public:
 	static bool					Initialize();
@@ -153,12 +155,33 @@ public:
 
 	static const InputState&	GetState(){ return mState; }
 
+	static MouseMode			GetGameMouseMode() { return mGameMouseMode; }
+
 	static void					SetRelativeMouseMode(bool value);
 
 	static void					SetSDL_Window(SDL_Window* window) { mWindow = window; }
 
+	static void					SetGameMouseMode(MouseMode mode);
 	static void					SetMouseMode(MouseMode mode);
 	//マウスを非表示にし非表示にした場所に固定する
 	static void					RelativeMouseMode();
 	static void					AbsoluteMouseMode();
+};
+
+enum class InputContext {
+	Engine,  // Sceneビューなどエディタ用
+	Game     // Gameビュー
+};
+
+class InputContextManager {
+public:
+	static void SetContext(InputContext ctx);
+	static InputContext GetContext() { return sCurrentContext; }
+
+	// コンテキストに応じた入力有効判定
+	static bool IsGameInputActive() { return sCurrentContext == InputContext::Game; }
+	static bool IsEngineInputActive() { return sCurrentContext == InputContext::Engine; }
+
+private:
+	static InputContext sCurrentContext;
 };
