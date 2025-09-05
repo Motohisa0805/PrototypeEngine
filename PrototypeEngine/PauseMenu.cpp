@@ -41,19 +41,16 @@ PauseMenu::PauseMenu()
 
 PauseMenu::~PauseMenu()
 {
-	
-	SetRelativeMouseMode(true);
+	InputSystem::SetGameMouseMode(InputSystem::RelativeMouse);
 	GameStateClass::SetGameState(GameState::GamePlay);
 	Time::gTimeScale = 1;
-
-
 }
 
 void PauseMenu::ProcessInput(const InputState& keys)
 {
 	Canvas::ProcessInput(keys);
 	// ‚±‚±‚Å“ü—Í‚ğˆ—
-	if(keys.Keyboard.GetKeyDown(KEY_ESCAPE))
+	if(keys.Keyboard.GetKeyDown(KEY_TAB))
 	{
 		Close();
 	}

@@ -4,7 +4,6 @@ TitleCanvas::TitleCanvas()
 	:Canvas()
 {
 	GameStateClass::SetGameState(GameState::TimeStop);
-	SetRelativeMouseMode(false);
 
 	mTitleFont = new Text(mGame->GetFont("NotoSansJP-Bold.ttf"), Vector2::Zero);
 

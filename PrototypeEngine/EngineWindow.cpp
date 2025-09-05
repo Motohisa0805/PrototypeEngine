@@ -1,6 +1,7 @@
 #include "EngineWindow.h"
 #include "BaseScene.h"
 #include "SceneEditorCamera.h"
+#include "GameViewPanel.h"
 
 EngineState EngineWindow::mEngineState = EngineState::Run;
 
@@ -72,11 +73,7 @@ void EngineWindow::EngineProcessInput()
 	SDL_Event event;
 	while (SDL_PollEvent(&event))
 	{
-		//入力モードがエンジン入力モードなら
-		if (InputContextManager::IsEngineInputActive())
-		{
-			// ImGui用のイベント処理
-		}
+		// ImGui用のイベント処理
 		ImGui_ImplSDL3_ProcessEvent(&event);
 		switch (event.type)
 		{
@@ -90,7 +87,7 @@ void EngineWindow::EngineProcessInput()
 		}
 	}
 	//TODO : ESCキーを押してゲーム入力を解除
-	if (state.Keyboard.GetKeyDown(KEY_ESCAPE))
+	if (state.Keyboard.GetKeyDown(KEY_ESCAPE)||!GUIWinMain::GetGameViewPanel()->IsMouseHovered())
 	{
 		if (InputContextManager::IsGameInputActive())
 		{

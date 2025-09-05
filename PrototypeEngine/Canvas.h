@@ -71,8 +71,6 @@ public:
 	void					AddButton(const string& name, std::function<void()> onClick);
 	class Button*			CreateButton(const string& name,const Vector2& pos, std::function<void()> onClick);
 	class Button*			CreateButton(const char8_t* name,const Vector2& pos, std::function<void()> onClick);
-	// マウスモードを相対モードに設定するかどうか
-	void					SetRelativeMouseMode(bool relative);
 
 	void					AddChildUIImage(Image* image);
 };

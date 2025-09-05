@@ -213,7 +213,7 @@ void InputSystem::Update()
 	}
 
 
-	if(mMouseMode == MouseMode::CaptureMouse)
+	if(mMouseMode == MouseMode::RelativeMouse)
 	{
 		SDL_WarpMouseInWindow(EngineWindow::GetRenderer()->GetWindow(), mState.Mouse.mMousePos.x, mState.Mouse.mMousePos.y);
 	}
@@ -338,11 +338,16 @@ void InputSystem::SetGameMouseMode(MouseMode mode)
 {
 	if (mode == MouseMode::RelativeMouse)
 	{
+		mMouseMode = MouseMode::RelativeMouse;
+		// --- 非表示にする瞬間 ---
+		SDL_GetMouseState(&mState.Mouse.mMousePos.x, &mState.Mouse.mMousePos.y);   // 現在位置を保存
+		SDL_HideCursor();                      // カーソル非表示
 		SDL_SetWindowRelativeMouseMode(EngineWindow::GetRenderer()->GetWindow(), true);
-		SDL_GetRelativeMouseState(nullptr, nullptr);
+		//SDL_GetRelativeMouseState(nullptr, nullptr);
 	}
 	else if (mode == MouseMode::AbsoluteMouse)
 	{
+		mMouseMode = MouseMode::AbsoluteMouse;
 		SDL_SetWindowRelativeMouseMode(EngineWindow::GetRenderer()->GetWindow(), false);
 	}
 	else
@@ -356,11 +361,16 @@ void InputSystem::SetMouseMode(MouseMode mode)
 {
 	if (mode == MouseMode::RelativeMouse)
 	{
+		mMouseMode = MouseMode::RelativeMouse;
+		// --- 非表示にする瞬間 ---
+		SDL_GetMouseState(&mState.Mouse.mMousePos.x, &mState.Mouse.mMousePos.y);   // 現在位置を保存
+		SDL_HideCursor();                      // カーソル非表示
 		SDL_SetWindowRelativeMouseMode(EngineWindow::GetRenderer()->GetWindow(), true);
-		SDL_GetRelativeMouseState(nullptr, nullptr);
+		//SDL_GetRelativeMouseState(nullptr, nullptr);
 	}
 	else if (mode == MouseMode::AbsoluteMouse)
 	{
+		mMouseMode = MouseMode::AbsoluteMouse;
 		SDL_SetWindowRelativeMouseMode(EngineWindow::GetRenderer()->GetWindow(), false);
 	}
 	else
@@ -371,7 +381,7 @@ void InputSystem::SetMouseMode(MouseMode mode)
 
 void InputSystem::RelativeMouseMode()
 {
-	mMouseMode = MouseMode::CaptureMouse;
+	mMouseMode = MouseMode::RelativeMouse;
 	// --- 非表示にする瞬間 ---
 	SDL_GetMouseState(&mState.Mouse.mMousePos.x, &mState.Mouse.mMousePos.y);   // 現在位置を保存
 	SDL_HideCursor();                      // カーソル非表示

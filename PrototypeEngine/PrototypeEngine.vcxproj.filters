@@ -109,9 +109,6 @@
     <Filter Include="SourceFiles\F_Editor\Debugs">
       <UniqueIdentifier>{e79f8280-ecff-42c4-b976-639f6b85e267}</UniqueIdentifier>
     </Filter>
-    <Filter Include="SourceFiles\G_Unused/未使用ファイル">
-      <UniqueIdentifier>{0d12a485-f5b8-4f9b-a7ca-4d2216e7f155}</UniqueIdentifier>
-    </Filter>
     <Filter Include="SourceFiles\G_GUI">
       <UniqueIdentifier>{e45438c9-7504-4a6c-9785-c706183d4edd}</UniqueIdentifier>
     </Filter>
@@ -127,7 +124,7 @@
     <Filter Include="SourceFiles\G_GUI\Panels">
       <UniqueIdentifier>{b11a48d9-2d8c-4dca-846d-47c2a0248981}</UniqueIdentifier>
     </Filter>
-    <Filter Include="SourceFiles\G_GUI\EditorActors">
+    <Filter Include="SourceFiles\G_GUI\EditorCameras">
       <UniqueIdentifier>{640f1662-933f-45d5-aaf2-8794fc6f98f0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -520,7 +517,7 @@
       <Filter>SourceFiles\G_GUI\Panels</Filter>
     </ClCompile>
     <ClCompile Include="SceneEditorCamera.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>SourceFiles\G_GUI\EditorCameras</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -888,7 +885,7 @@
       <Filter>SourceFiles\G_GUI\Panels</Filter>
     </ClInclude>
     <ClInclude Include="SceneEditorCamera.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>SourceFiles\G_GUI\EditorCameras</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -2,6 +2,8 @@
 #include "GUIWinMain.h"
 #include "GUIPanel.h"
 
+//エディターシーンの描画処理クラス
+//
 class SceneViewPanel : public GUIPanel
 {
 private:
@@ -9,7 +11,9 @@ private:
 public:
 	SceneViewPanel(class Renderer* renderer);
 
-	void Draw(float width, float height, ImTextureRef ref);
+	bool		MouseHoveredDisble()override;
+
+	void		Draw(float width, float height, ImTextureRef ref);
 
 	const char* GetName()override { return "Scene"; }
 };

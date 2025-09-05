@@ -1,6 +1,8 @@
 #pragma once
 #include "Transform.h"
 
+
+//GUIのエディターシーンのカメラの処理を行うクラス
 class SceneEditorCamera : public Transform
 {
 private:
