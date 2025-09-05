@@ -432,7 +432,7 @@ void Renderer::EditorDraw3DScene(unsigned int framebuffer, const Matrix4& view, 
 
 	// スケールに基づいてビューポートサイズを設定します
 	Vector2 sceneWinSize = GUIWinMain::GetSceneWinSize();
-	glViewport(0,0, (int)sceneWinSize.x,(int)sceneWinSize.y);
+	glViewport(0,0, (int)sceneWinSize.x * viewPortScale,(int)sceneWinSize.y * viewPortScale);
 
 	// カラー バッファ/深度バッファをクリア
 	glClearColor(Color::mClearColor.x, Color::mClearColor.y, Color::mClearColor.z, Color::mClearColor.w);
@@ -508,8 +508,8 @@ void Renderer::EditorDraw3DScene(unsigned int framebuffer, const Matrix4& view, 
 				glDrawArrays(GL_LINES, 0, 6);
 			}
 		}
-		mDebugGrid->Draw(mGridShader, view * proj);
 	}
+	mDebugGrid->Draw(mGridShader, view * proj);
 
 	glDepthMask(GL_TRUE);  // 書き込みを戻す
 }

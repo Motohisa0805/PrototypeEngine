@@ -1,36 +1,14 @@
-﻿  DebugScene01.cpp
+﻿  Renderer.cpp
 C:\C++Files\PrototypeEngine\PrototypeEngine\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
-  (ソース ファイル 'DebugScene01.cpp' をコンパイルしています)
+  (ソース ファイル 'Renderer.cpp' をコンパイルしています)
       C:\C++Files\PrototypeEngine\PrototypeEngine\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
       'SDL_VERSION' は以前にコマンド ラインで宣言されています
   
-  DebugScene02.cpp
+C:\C++Files\PrototypeEngine\PrototypeEngine\Renderer.cpp(435,74): warning C4244: '引数': 'float' から 'GLsizei' への変換です。データが失われる可能性があります。
+C:\C++Files\PrototypeEngine\PrototypeEngine\Renderer.cpp(435,38): warning C4244: '引数': 'float' から 'GLsizei' への変換です。データが失われる可能性があります。
+  SceneEditorCamera.cpp
 C:\C++Files\PrototypeEngine\PrototypeEngine\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
-  (ソース ファイル 'DebugScene02.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
-      'SDL_VERSION' は以前にコマンド ラインで宣言されています
-  
-  InputSystem.cpp
-C:\C++Files\PrototypeEngine\PrototypeEngine\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
-  (ソース ファイル 'InputSystem.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
-      'SDL_VERSION' は以前にコマンド ラインで宣言されています
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\InputSystem.cpp(246,6): warning C4244: '=': 'int' から 'float' への変換です。データが失われる可能性があります。
-C:\C++Files\PrototypeEngine\PrototypeEngine\InputSystem.cpp(248,45): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\C++Files\PrototypeEngine\PrototypeEngine\InputSystem.cpp(248,42): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\C++Files\PrototypeEngine\PrototypeEngine\InputSystem.cpp(252,6): warning C4244: '=': 'int' から 'float' への変換です。データが失われる可能性があります。
-C:\C++Files\PrototypeEngine\PrototypeEngine\InputSystem.cpp(254,46): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\C++Files\PrototypeEngine\PrototypeEngine\InputSystem.cpp(254,43): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
-  PauseMenu.cpp
-C:\C++Files\PrototypeEngine\PrototypeEngine\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
-  (ソース ファイル 'PauseMenu.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
-      'SDL_VERSION' は以前にコマンド ラインで宣言されています
-  
-  TitleScene.cpp
-C:\C++Files\PrototypeEngine\PrototypeEngine\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
-  (ソース ファイル 'TitleScene.cpp' をコンパイルしています)
+  (ソース ファイル 'SceneEditorCamera.cpp' をコンパイルしています)
       C:\C++Files\PrototypeEngine\PrototypeEngine\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
       'SDL_VERSION' は以前にコマンド ラインで宣言されています
   

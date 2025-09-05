@@ -216,21 +216,6 @@ void Canvas::DrawTexture(class Shader* shader, class Texture* texture,
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 }
 
-void Canvas::SetRelativeMouseMode(bool relative)
-{
-	if (SceneManager::IsLoading()) { return; }
-	if (relative)
-	{
-		SDL_SetWindowRelativeMouseMode(EngineWindow::GetRenderer()->GetWindow(), true);
-		// Make an initial call to get relative to clear out
-		SDL_GetRelativeMouseState(nullptr, nullptr);
-	}
-	else
-	{
-		SDL_SetWindowRelativeMouseMode(EngineWindow::GetRenderer()->GetWindow(),false);
-	}
-}
-
 void Canvas::AddChildUIImage(Image* image)
 {
 	mImages.emplace_back(image);

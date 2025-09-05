@@ -13,6 +13,7 @@ SceneEditorCamera::SceneEditorCamera()
 	, mForwardSpeed(0.0f)
 	, mStrafeSpeed(0.0f)
 {
+	//ƒJƒƒ‰‚ÌˆÊ’u‚ğ•ÏX
 }
 
 void SceneEditorCamera::Update()

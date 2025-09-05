@@ -160,8 +160,9 @@ public:
 	static void					SetRelativeMouseMode(bool value);
 
 	static void					SetSDL_Window(SDL_Window* window) { mWindow = window; }
-
+	//クライアント部分で使用する関数
 	static void					SetGameMouseMode(MouseMode mode);
+	//エンジン部分で使用する関数
 	static void					SetMouseMode(MouseMode mode);
 	//マウスを非表示にし非表示にした場所に固定する
 	static void					RelativeMouseMode();

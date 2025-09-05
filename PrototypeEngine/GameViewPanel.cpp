@@ -14,9 +14,9 @@ void GameViewPanel::Draw(float width, float height, ImTextureRef ref)
 	ImGui::SetNextWindowSize(ImVec2((float)width * 0.5f, (float)height * 0.5f));
 	ImGui::Begin(GetName(), nullptr, ImGuiWindowFlags_NoCollapse);
 	{
+		MouseHoveredDisble();
 		// マウスがこのウィンドウにあるかどうか判定
-		if (ImGui::IsWindowHovered(ImGuiHoveredFlags_AllowWhenBlockedByActiveItem)&&
-			InputSystem::GetState().Mouse.GetButton(SDL_BUTTON_LEFT))
+		if (WindowHoveredConfirmation() && InputSystem::GetState().Mouse.GetButton(SDL_BUTTON_LEFT))
 		{
 			if(InputContextManager::IsEngineInputActive())
 			{

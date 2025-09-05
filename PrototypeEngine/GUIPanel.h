@@ -2,6 +2,8 @@
 #include "Texture.h"
 #include "Renderer.h"
 
+//GUIのパネルの継承元クラス
+//名前、マウスカーソルがパネル内にあるかどうかなどの処理を行っています。
 class GUIPanel
 {
 protected:
@@ -11,7 +13,11 @@ private:
 public:
 	GUIPanel();
 
-	bool IsMouseHovered() const { return isMouseHovered; }
+	virtual bool		MouseHoveredDisble();
+
+	bool				WindowHoveredConfirmation();
+
+	bool				IsMouseHovered() const { return isMouseHovered; }
 	virtual const char* GetName() { return "BasePanel"; }
 };
 
