@@ -7,7 +7,6 @@
 class ProjectPanel : public GUIPanel
 {
 private:
-	class Renderer* mRenderer;
 public:
 	ProjectPanel(class Renderer* renderer);
 

@@ -11,25 +11,30 @@
 * ===エンジン内部処理/Engine internal processing===
 */
 
+//前方宣言
+class Text;
+
+class Font;
+
 //書籍元を改造したファイル
 //ボタンUIのクラス
 // ボタンは画像とテキストを持ち、クリックイベントを処理します
 class Button : public Image
 {
 public:
-	Button(const string& name, class Font* font,
+	Button(const string& name, Font* font,
 		std::function<void()> onClick,
 		const Vector2& pos, const Vector2& dims);
-	Button(const char8_t* name, class Font* font,
+	Button(const char8_t* name, Font* font,
 		std::function<void()> onClick,
 		const Vector2& pos, const Vector2& dims);
 	~Button();
 
 	void					Update(float deltaTime)override;
 
-	void					SetButtonText(class Texture* texture);
+	void					SetButtonText(Texture* texture);
 	// Getters/setters
-	class Text*				GetNameText() { return mNameText; }
+	Text*					GetNameText() { return mNameText; }
 	const Vector2&			GetPosition() const { return mPosition; }
 	void					SetHighlighted(bool sel) { mHighlighted = sel; }
 	bool					GetHighlighted() const { return mHighlighted; }
@@ -49,11 +54,11 @@ private:
 
 	string					mName;
 
-	class Image*			mButtonImage;
+	Image*					mButtonImage;
 
-	class Text*				mNameText;
+	Text*					mNameText;
 
-	class Font*				mFont;
+	Font*					mFont;
 
 	Vector2					mPosition;
 

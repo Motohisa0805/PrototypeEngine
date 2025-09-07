@@ -20,7 +20,7 @@ protected:
 
 	Image*									mBlipTex;
 
-	vector<class Image*>					mBlipTexs;
+	vector<Image*>							mBlipTexs;
 
 	Image*									mRadarArrow;
 
@@ -60,8 +60,8 @@ public:
 
 	void									ProcessInput(const struct InputState& keys)override;
 
-	void									AddTargetComponent(class TargetComponent* tc);
-	void									RemoveTargetComponent(class TargetComponent* tc);
+	void									AddTargetComponent(TargetComponent* tc);
+	void									RemoveTargetComponent(TargetComponent* tc);
 
 
 	Image*									GetHelthBar() { return mHelthBar; }

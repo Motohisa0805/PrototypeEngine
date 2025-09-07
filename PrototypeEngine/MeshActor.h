@@ -19,11 +19,11 @@ class MeshActor : public ActorObject
 private:
 	MeshRenderer*				mMeshRenderer;
 
-	class BoxCollider*			mBoxCollider;
+	BoxCollider*				mBoxCollider;
 
-	class SphereCollider*		mSphereCollider;
+	SphereCollider*				mSphereCollider;
 
-	class CapsuleCollider*		mCapsuleCollider;
+	CapsuleCollider*			mCapsuleCollider;
 
 public:
 	//コンストラクタ
@@ -44,11 +44,11 @@ public:
 
 	MeshRenderer*			GetMeshRenderer() { return mMeshRenderer; }
 
-	class BoxCollider*		GetBoxCollider() { return mBoxCollider; }
+	BoxCollider*			GetBoxCollider() { return mBoxCollider; }
 
-	class SphereCollider*	GetSphereCollider() { return mSphereCollider; }
+	SphereCollider*			GetSphereCollider() { return mSphereCollider; }
 
-	class CapsuleCollider*  GetCapsuleCollider() { return mCapsuleCollider; }
+	CapsuleCollider*		GetCapsuleCollider() { return mCapsuleCollider; }
 
 	//MeshRendererからAABBを取得処理を省略した関数
 	const AABB				GetBoxAABB();

@@ -7,6 +7,11 @@
 * ===エンジン内部処理/Engine internal processing===
 */
 
+//前方宣言
+class Collider;
+class ActorObject;
+class BaseScene;
+
 //書籍部分を改造したファイル
 //すべてのオブジェクトの衝突判定を管理しているクラス
 //Unityの当たり判定の衝突判定部分みたいな機能
@@ -29,9 +34,9 @@ public:
 		Vector3				mNormal;
 		float				mT;
 		// 衝突クラス
-		class Collider*		mCollider;
+		Collider*			mCollider;
 		// コンポーネントの所有Actor
-		class ActorObject*	mActor;
+		ActorObject*		mActor;
 	};
 
 	struct ContactPoint
@@ -43,13 +48,13 @@ public:
 private:
 	class BaseScene*									mGame;
 
-	vector<class Collider*>								mCollider;
+	vector<Collider*>									mCollider;
 
-	vector<class Collider*>								mColliderXAxis;
+	vector<Collider*>									mColliderXAxis;
 
-	vector<class Collider*>								mColliderYAxis;
+	vector<Collider*>									mColliderYAxis;
 
-	vector<class Collider*>								mColliderZAxis;
+	vector<Collider*>									mColliderZAxis;
 
 	std::set<std::pair<Collider*, Collider*>>			mHitColliderXAxis;
 
@@ -57,7 +62,7 @@ private:
 
 	std::set<std::pair<Collider*, Collider*>>			mHitColliderZAxis;
 
-	vector<class ActorObject*>							mDeadActors;
+	vector<ActorObject*>							mDeadActors;
 
 	std::set<std::pair<ActorObject*, ActorObject*>>		mPrevHitPairs;
 
@@ -65,7 +70,7 @@ private:
 
 public:
 
-														PhysWorld(class BaseScene* game);
+														PhysWorld(BaseScene* game);
 
 	// 線分をボックスに対して判定します。
 	// ボックスに衝突する場合は真を返します。
@@ -76,9 +81,9 @@ public:
 	//XYZのSweeppruneを使用した衝突判定
 	void												SweepAndPruneXYZ();
 	//押し出し処理の呼び出し元
-	void												FixCollisions(class Collider* dynamicCollider, class Collider* staticCollider);
+	void												FixCollisions(Collider* dynamicCollider, Collider* staticCollider);
 	//各コライダー同士の精密判定をまとめた関数
-	bool												IsOnCollision(class Collider* colliderA, class Collider* colliderB);
+	bool												IsOnCollision(Collider* colliderA, Collider* colliderB);
 	//各コライダー同士の押し出し処理をまとめた関数
 	void												IsCollectContactPoints(class Collider* colliderA, class Collider* colliderB, std::vector<ContactPoint>& outContacts, float contactOffset);
 
@@ -98,6 +103,6 @@ public:
 	void												CollectContactPoints_Sphere_Capsule(const Sphere& a, const Capsule& b, std::vector<ContactPoint>& outContacts, float contactOffset);
 
 	// 世界からボックスコンポーネントを追加/削除する
-	void												AddCollider(class Collider* box);
-	void												RemoveCollider(class Collider* box);
+	void												AddCollider(Collider* box);
+	void												RemoveCollider(Collider* box);
 };

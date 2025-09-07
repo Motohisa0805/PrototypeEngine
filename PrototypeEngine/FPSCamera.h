@@ -25,7 +25,7 @@ private:
 	float	mHorizontalMouseSpeed;
 	float	mVertexMouseSpeed;
 public:
-			FPSCamera(class ActorObject* owner);
+			FPSCamera(ActorObject* owner);
 
 	void	Update(float deltaTime) override;
 

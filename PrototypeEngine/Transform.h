@@ -7,6 +7,8 @@
 * ===エンジン内部処理/Engine internal processing===
 */
 
+//前方宣言
+class Matrix4;
 //オブジェクトの座標、回転、スケーリングの情報を管理
 //UnityのTransformに近いクラス
 class Transform
@@ -41,11 +43,11 @@ protected:
 	bool								mRecomputeWorldTransform;
 
 	//親オブジェクト
-	class Transform*					mParentActor;
+	Transform*							mParentActor;
 	//子オブジェクトの配列
-	vector<class Transform*>			mChildActor;
+	vector<Transform*>					mChildActor;
 
-	vector<class Component*>			mComponents;
+	vector<Component*>					mComponents;
 public:
 										Transform();
 
@@ -130,14 +132,14 @@ public:
 	virtual void						SetRotationAmountZ(float rot) { mRotationAmountZ = rot; }
 
 	//ワールド座標の更新		
-	virtual void						ComputeWorldTransform(const class Matrix4* parentMatrix);
+	virtual void						ComputeWorldTransform(const Matrix4* parentMatrix);
 
-	virtual void						LocalBonePositionUpdateActor(Matrix4 boneMatrix, const class Matrix4& parentActor);
+	virtual void						LocalBonePositionUpdateActor(Matrix4 boneMatrix, const Matrix4& parentActor);
 
 	//***子オブジェクト関係の処理***
-	virtual class Transform*			GetParentActor() { return mParentActor; }
+	virtual Transform*					GetParentActor() { return mParentActor; }
 
-	virtual const class Transform*		GetChildActor(Transform* actor);
+	virtual const Transform*			GetChildActor(Transform* actor);
 
 	// Add/remove components
 	virtual void						AddComponent(Component* component);
@@ -153,7 +155,7 @@ public:
 
 	virtual void						RemoveParentActor();
 
-	vector<class Component*>			GetComponents() { return mComponents; }
+	vector<Component*>					GetComponents() { return mComponents; }
 
 	//子オブジェクトの座標更新
 	virtual void						SetActive() { mRecomputeWorldTransform = true; }

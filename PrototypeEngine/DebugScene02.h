@@ -4,6 +4,7 @@
 #include "TPSCanvas.h"
 #include "Stages01.h"
 
+class TPSPlayer;
 //TPS視点のゲームシーン
 //ゲームの処理をここでまとめて行います。
 // UnityのSceneのようなもの。
@@ -12,7 +13,7 @@ class DebugScene02 : public BaseScene
 private:
 	// Game-specific code
 
-	class TPSPlayer*				mTPSPlayer;
+	TPSPlayer*						mTPSPlayer;
 
 	Stages01*						mStages01;
 

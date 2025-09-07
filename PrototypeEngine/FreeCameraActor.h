@@ -12,10 +12,10 @@
 class FreeCameraActor : public ActorObject
 {
 private:
-	class FreeCamera*	mCameraComp;
+	FreeCamera*			mCameraComp;
 public:
 						FreeCameraActor();
 
-	class FreeCamera*	GetCamera() { return mCameraComp; }
+	FreeCamera*			GetCamera() { return mCameraComp; }
 };
 

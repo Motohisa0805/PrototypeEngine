@@ -1,7 +1,7 @@
 #include "ProjectPanel.h"
 
 ProjectPanel::ProjectPanel(Renderer* renderer)
-	:mRenderer(renderer)
+	:GUIPanel(renderer)
 {
 }
 

@@ -28,13 +28,70 @@ struct AnimationBinTransform
 	Vector3		scale = Vector3();
 };
 
+//前方宣言
+class Skeleton;
+
 //アニメーション1つの情報を持つクラス
 //アニメーションのフレーム数、持続時間、各ボーンの変形情報を持つ
 //アニメーションの読み込みはAssimpを使用
 class Animation
 {
+private:
+	//bool									LoadFromJSON(const string& fileName);
+
+	bool									LoadFromFBX(const string& fileName);
+
+	size_t									FindTranslation(float AnimationTime, const aiNodeAnim* pNodeAnim);
+
+	void									CalcInterpolatedTranslation(aiVector3D& Out, float AnimationTime, const aiNodeAnim* pNodeAnim);
+
+	size_t									FindRotation(float AnimationTime, const aiNodeAnim* pNodeAnim);
+
+	void									CalcInterpolatedRotation(aiQuaternion& Out, float AnimationTime, const aiNodeAnim* pNodeAnim);
+
+	size_t									FindScaling(float AnimationTime, const aiNodeAnim* pNodeAnim);
+
+	void									CalcInterpolatedScaling(aiVector3D& Out, float AnimationTime, const aiNodeAnim* pNodeAnim);
+	// アニメーションのための骨の数
+	size_t									mNumBones;
+	// アニメーションのフレーム数
+	size_t									mNumFrames;
+	// アニメーションの持続時間（秒）
+	float									mDuration;
+	// アニメーションにおける各フレームの持続時間
+	float									mFrameDuration;
+	// トラック上の各フレームに対する情報を変換。
+	// 外側のベクトルの各インデックスは骨であり、
+	// 内側のベクトルはフレームです。
+	vector<vector<BoneTransform>>			mTracks;
+
+	vector<Vector3*>						mRootPosition;
+
+	Skeleton* mSkeleton;
+	//アニメーションをループさせるためのフラグ
+	bool									isLoop;
+	//アニメーションが再生終了したかどうか
+	bool									isAnimationEnd;
+	//ルートモーションのフラグ
+	bool									isRootMotion;
+	bool									isRootMotionX;
+	bool									isRootMotionY;
+	bool									isRootMotionZ;
+	//ルートモーションのオフセット
+	float									mRootMotionX;
+	float									mRootMotionY;
+	float									mRootMotionZ;
+
+	bool									isReLoad;
+
+	string									mFileName;
+
+	string									mAnimationName;
+
+	vector<Vector3>							mRootPositionOffset;
+
 public:
-											Animation(class Skeleton* skeleton);
+											Animation(Skeleton* skeleton);
 
 	bool									Load(const string& fileName);
 
@@ -54,7 +111,7 @@ public:
 	
 	float									GetFrameDuration() const { return mFrameDuration; }
 
-	void									SetSkeleton(class Skeleton* skeleton) { mSkeleton = skeleton; }
+	void									SetSkeleton(Skeleton* skeleton) { mSkeleton = skeleton; }
 
 	bool									IsLoop() const { return isLoop; }
 
@@ -108,58 +165,5 @@ public:
 
 	// 指定されたアニメーションの時間における各ボーンのグローバル（現在の）ポーズ行列を提供されたベクターに充填。
 	// 時間は0.0f以上でmDuration以下であること。
-	void									GetGlobalPoseAtTime(vector<Matrix4>& outPoses, const class Skeleton* inSkeleton, float inTime) const;
-private:
-	//bool									LoadFromJSON(const string& fileName);
-
-	bool									LoadFromFBX(const string& fileName);
-
-	size_t									FindTranslation(float AnimationTime, const aiNodeAnim* pNodeAnim);
-
-	void									CalcInterpolatedTranslation(aiVector3D& Out, float AnimationTime, const aiNodeAnim* pNodeAnim);
-
-	size_t									FindRotation(float AnimationTime, const aiNodeAnim* pNodeAnim);
-
-	void									CalcInterpolatedRotation(aiQuaternion& Out, float AnimationTime, const aiNodeAnim* pNodeAnim);
-
-	size_t									FindScaling(float AnimationTime, const aiNodeAnim* pNodeAnim);
-
-	void									CalcInterpolatedScaling(aiVector3D& Out, float AnimationTime, const aiNodeAnim* pNodeAnim);
-	// アニメーションのための骨の数
-	size_t									mNumBones;
-	// アニメーションのフレーム数
-	size_t									mNumFrames;
-	// アニメーションの持続時間（秒）
-	float									mDuration;
-	// アニメーションにおける各フレームの持続時間
-	float									mFrameDuration;
-	// トラック上の各フレームに対する情報を変換。
-	// 外側のベクトルの各インデックスは骨であり、
-	// 内側のベクトルはフレームです。
-	vector<vector<BoneTransform>>			mTracks;
-
-	vector<Vector3*>						mRootPosition;
-
-	class Skeleton*							mSkeleton;
-	//アニメーションをループさせるためのフラグ
-	bool									isLoop;
-	//アニメーションが再生終了したかどうか
-	bool									isAnimationEnd;
-	//ルートモーションのフラグ
-	bool									isRootMotion;
-	bool									isRootMotionX;
-	bool									isRootMotionY;
-	bool									isRootMotionZ;
-	//ルートモーションのオフセット
-	float									mRootMotionX;
-	float									mRootMotionY;
-	float									mRootMotionZ;
-
-	bool									isReLoad;
-
-	string									mFileName;
-
-	string									mAnimationName;
-
-	vector<Vector3>							mRootPositionOffset;
+	void									GetGlobalPoseAtTime(vector<Matrix4>& outPoses, const Skeleton* inSkeleton, float inTime) const;
 };

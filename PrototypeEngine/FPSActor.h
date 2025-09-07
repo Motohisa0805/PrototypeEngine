@@ -14,15 +14,15 @@ class FPSActor : public ActorObject
 {
 private:
 	//入力クラス
-	class BasicInputAction*	mBasicInput;
+	BasicInputAction*		mBasicInput;
 	//プレイヤー用のサウンド
-	class AudioComponent*	mAudioComp;
+	AudioComponent*			mAudioComp;
 	//Mesh
-	class MeshRenderer*		mMeshComp;
+	MeshRenderer*			mMeshComp;
 	//一人称カメラ
-	class FPSCamera*		mFPSCamera;
+	FPSCamera*				mFPSCamera;
 	//コライダー
-	class BoxCollider*		mBoxCollider;
+	BoxCollider*			mBoxCollider;
 	//足音SE
 	SoundEventClip			mFootstep;
 	//足音の間隔
@@ -50,7 +50,7 @@ public:
 
 	void					SetVisible(bool visible);
 
-	void					OnCollisionEnter(class ActorObject* target) override;
+	void					OnCollisionEnter(ActorObject* target) override;
 
-	void					OnCollisionExit(class ActorObject* target) override;
+	void					OnCollisionExit(ActorObject* target) override;
 };

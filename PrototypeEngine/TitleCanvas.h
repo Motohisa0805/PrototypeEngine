@@ -5,8 +5,8 @@
 class TitleCanvas : public Canvas
 {
 protected:
-	class Image*							mTitleLogo;
-	class GameDialogBox*					mDialogBox;
+	Image*									mTitleLogo;
+	GameDialogBox*							mDialogBox;
 public:
 											TitleCanvas();
 											~TitleCanvas();

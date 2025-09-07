@@ -5,7 +5,6 @@
 class ToolbarPanel : public GUIPanel
 {
 private:
-	class Renderer* mRenderer;
 
 	Texture* mPlayButtonTexture;
 	Texture* mPauseButtonTexture;

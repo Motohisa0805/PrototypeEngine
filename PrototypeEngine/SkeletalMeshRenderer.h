@@ -6,37 +6,39 @@
 * ===エンジン内部処理/Engine internal processing===
 */
 
+//前方宣言
+class Animator;
+class Skeleton;
+
 //スケルタルメッシュの描画を行うクラス
 //MeshRendererと同様スケルタルメッシュを読み込んで使用する
 class SkeletalMeshRenderer : public MeshRenderer
 {
+protected:
+	Animator*						mAnimator;
+
+	Skeleton*						mSkeleton;
 public:
-									SkeletalMeshRenderer(class ActorObject* owner);
+									SkeletalMeshRenderer(ActorObject* owner);
 									~SkeletalMeshRenderer();
 	// スケルタルモデルの描画
-	void							Draw(class Shader* shader) override;
+	void							Draw(Shader* shader) override;
 
-	void							DrawForShadowMap(class Shader* shader)override;
+	void							DrawForShadowMap(Shader* shader)override;
 
 	void							Update(float deltaTime) override;
 
-	void							LoadSkeletonMesh(const string& fileName,class ActorObject* actor);
+	void							LoadSkeletonMesh(const string& fileName,ActorObject* actor);
 	
 	// Setters
-	void							SetSkeleton(class Skeleton* sk, class ActorObject* actor) 
+	void							SetSkeleton(Skeleton* sk, ActorObject* actor) 
 	{
 		mSkeleton = sk; 
 		mSkeleton->SetParentActor(actor);
 	}
 
 
-	void							SetAnimator(class Animator* animator);
+	void							SetAnimator(Animator* animator);
 
-	class Skeleton*					GetSkeleton() { return mSkeleton; }
-
-protected:
-
-	class Animator*					mAnimator;
-
-	class Skeleton*					mSkeleton;
+	Skeleton*						GetSkeleton() { return mSkeleton; }
 };

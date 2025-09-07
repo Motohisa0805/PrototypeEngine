@@ -26,6 +26,10 @@ namespace FMOD
 		class Bus;
 	};
 };
+
+//前方宣言
+class BaseScene;
+
 //ゲームで使用するSE、BGMをバンクとして読み込み管理するクラス
 class AudioSystem
 {
@@ -36,7 +40,7 @@ private:
 	// イベントインスタンスに使用する次のIDを追跡
 	static unsigned int													sNextID;
 
-	class BaseScene*													mGame;
+	BaseScene*															mGame;
 	// Map of loaded banks
 	std::unordered_map<string, FMOD::Studio::Bank*>						mBanks;
 	// イベント名とイベント説明のマップ
@@ -50,7 +54,7 @@ private:
 	// FMOD Low-level system (in case needed)
 	FMOD::System*														mLowLevelSystem;
 public:
-																		AudioSystem(class BaseScene* game);
+																		AudioSystem(BaseScene* game);
 																		~AudioSystem();
 
 	bool																Initialize();

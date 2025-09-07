@@ -1,7 +1,8 @@
 #include "GUIPanel.h"
 
-GUIPanel::GUIPanel()
-	:isMouseHovered(false)
+GUIPanel::GUIPanel(Renderer* renderer)
+	: mRenderer(renderer)
+	, isMouseHovered(false)
 {
 }
 

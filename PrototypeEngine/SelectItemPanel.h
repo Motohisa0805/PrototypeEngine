@@ -7,7 +7,6 @@
 class SelectItemPanel : public GUIPanel
 {
 private:
-	class Renderer* mRenderer;
 public:
 	SelectItemPanel(class Renderer* renderer);
 

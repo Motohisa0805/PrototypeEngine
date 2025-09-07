@@ -20,7 +20,7 @@ private:
 	// ƒˆ[‚Ì‰ñ“]/•b‘¬“xB
 	float		mYawSpeed;
 public:
-	OrbitCamera(class ActorObject* owner);
+	OrbitCamera(ActorObject* owner);
 
 	void Update(float deltaTime) override;
 

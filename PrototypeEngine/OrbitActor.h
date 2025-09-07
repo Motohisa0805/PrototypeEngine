@@ -14,9 +14,9 @@
 class OrbitActor : public ActorObject
 {
 private:
-	class OrbitCamera*		mCameraComp;
+	OrbitCamera*			mCameraComp;
 
-	class MeshRenderer*		mMeshComp;
+	MeshRenderer*			mMeshComp;
 public:
 							OrbitActor();
 

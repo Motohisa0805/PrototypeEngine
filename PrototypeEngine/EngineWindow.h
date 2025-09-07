@@ -14,18 +14,23 @@ enum EngineState
 	End
 };
 
+//前方宣言
+class Renderer;
+class GameWinMain;
+class SceneEditorCamera;
+
 class EngineWindow
 {
 private:
 	//エンジン用のRendererを用意	
-	static class Renderer* mRenderer;
+	static Renderer*			mRenderer;
 
 	//ゲーム内のウィンドウ
-	class GameWinMain* mGameWindow;
+	GameWinMain*				mGameWindow;
 
-	static EngineState mEngineState;
+	static EngineState			mEngineState;
 
-	static class SceneEditorCamera* mSceneEditorCamera;
+	static SceneEditorCamera*	mSceneEditorCamera;
 
 public:
 					EngineWindow();
@@ -41,11 +46,11 @@ public:
 	void			EngineUnloadData();
 	void			EngineShutdown();
 
-	static class Renderer* GetRenderer() { return mRenderer; }
+	static Renderer*			GetRenderer() { return mRenderer; }
 
-	static EngineState GetEngineState() { return mEngineState; }
-	static void SetEngineState(EngineState state) { mEngineState = state; }
+	static EngineState			GetEngineState() { return mEngineState; }
+	static void					SetEngineState(EngineState state) { mEngineState = state; }
 
-	static class SceneEditorCamera* GetSceneEditorCamera() { return mSceneEditorCamera; }
+	static SceneEditorCamera*	GetSceneEditorCamera() { return mSceneEditorCamera; }
 };
 

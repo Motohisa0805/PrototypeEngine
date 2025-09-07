@@ -13,7 +13,7 @@
 class AudioComponent : public Component
 {
 public:
-						AudioComponent(class ActorObject* owner, int updateOrder = 200);
+						AudioComponent(ActorObject* owner, int updateOrder = 200);
 						~AudioComponent();
 
 	void				Update(float deltaTime) override;

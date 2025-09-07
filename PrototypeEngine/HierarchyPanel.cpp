@@ -1,7 +1,7 @@
 #include "HierarchyPanel.h"
 
 HierarchyPanel::HierarchyPanel(Renderer* renderer)
-	:mRenderer(renderer)
+	:GUIPanel(renderer)
 {
 }
 

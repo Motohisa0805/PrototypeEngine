@@ -19,7 +19,7 @@ private:
 	
 	bool			mShouldRotate;
 public:
-					BoxCollider(class ActorObject* owner, int updateOrder = 100);
+					BoxCollider(ActorObject* owner, int updateOrder = 100);
 					~BoxCollider();
 
 	void			OnUpdateWorldTransform() override;

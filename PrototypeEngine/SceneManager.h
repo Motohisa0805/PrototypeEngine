@@ -5,15 +5,18 @@
 * ===エンジン内部処理/Engine internal processing===
 */
 
+//前方宣言
+class BaseScene;
+
 //シーンの管理、ロード処理を行うクラス
 class SceneManager
 {
 private:
 	//ロード対象のシーンリスト
-	static std::unordered_map<int, class BaseScene*>	mScenes;
+	static std::unordered_map<int, BaseScene*>			mScenes;
 	//現在のシーン
-	static class BaseScene*								mNowScene;
-	static class BaseScene*								mNextScene;
+	static BaseScene*									mNowScene;
+	static BaseScene*									mNextScene;
 	//ロードフラグ
 	static bool											loading;
 	//現在のシーンの数値
@@ -25,11 +28,11 @@ public:
 	//シーンのロード処理
 	static void											LoadScene(int index);
 	//シーンリストに追加
-	static void											AddSceneList(class BaseScene* scene);
+	static void											AddSceneList(BaseScene* scene);
 	//シーンの削除
 	static void											ReleaseAllScenes();
 	//現在のシーンの取得
-	static class BaseScene*								GetNowScene() { return mNowScene; }
+	static BaseScene*									GetNowScene() { return mNowScene; }
 	static void											ChangeScene();
 	//ロードフラグの取得
 	static bool											IsLoading() { return loading; }

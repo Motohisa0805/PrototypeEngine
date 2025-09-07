@@ -12,6 +12,8 @@
 * ===エンジン内部処理/Engine internal processing===
 */
 
+class Shader;
+
 //ポーズ、ダイアログなどのUIの基底クラス
 // UnityのCanvasに近いクラス
 class Canvas
@@ -26,7 +28,7 @@ public:
 	};
 protected:
 	// 画像を描画する関数
-	void					DrawTexture(class Shader* shader, class Texture* texture,
+	void					DrawTexture(Shader* shader,Texture* texture,
 		const Vector2& offset = Vector2::Zero,
 		Vector3 scale = Vector3(1.0f, 1.0f, 1.0f), float angle = 0);
 	class BaseScene* mGame;
