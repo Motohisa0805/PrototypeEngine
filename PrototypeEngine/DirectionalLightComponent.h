@@ -9,7 +9,7 @@ class DirectionalLightComponent : public Component
 private:
 	DirectionalLightData mDirectionalLight;
 public:
-	DirectionalLightComponent(class ActorObject* owner);
+	DirectionalLightComponent(ActorObject* owner);
 	~DirectionalLightComponent();
 	void OnUpdateWorldTransform()override;
 

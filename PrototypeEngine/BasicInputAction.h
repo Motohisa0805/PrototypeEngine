@@ -7,7 +7,7 @@ class BasicInputAction : public Component
 {
 public:
 	// 更新の順序を下げて最初に更新
-			BasicInputAction(class ActorObject* owner, int updateOrder = 10);
+			BasicInputAction(ActorObject* owner, int updateOrder = 10);
 	void	FixedUpdate(float deltaTime)override;
 	void	Update(float deltaTime) override;
 	//基本的な移動動作を行う関数

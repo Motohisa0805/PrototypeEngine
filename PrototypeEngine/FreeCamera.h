@@ -17,7 +17,7 @@ private:
 	// カメラの上方向ベクトル。
 	Vector3		mUp;
 public:
-			FreeCamera(class ActorObject* owner);
+			FreeCamera(ActorObject* owner);
 
 	void    Initiailze();
 

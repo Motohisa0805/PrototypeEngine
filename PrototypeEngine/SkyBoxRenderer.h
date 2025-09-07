@@ -7,6 +7,9 @@
 
 #define SKYBOXVERTEX_COUNT 36
 
+class Texture;
+class VertexArray;
+
 //スカイボックスを描画するクラス
 // Cubemapを使って立方体のメッシュを描画する
 // 立方体のメッシュは裏面描画用
@@ -15,10 +18,10 @@ class SkyBoxRenderer
 {
 private:
     // Cubemap用
-    class Texture*                              mTexture;
-    std::unordered_map<string, class Texture*>	mTextures;
+    Texture*                                    mTexture;
+    std::unordered_map<string,Texture*>	        mTextures;
     // 裏面描画用の立方体メッシュ
-    class VertexArray*                          mCubeVAO;  
+    VertexArray*                                mCubeVAO;  
 	// 頂点数
     int                                         mVerticesCount;
 public:
@@ -26,14 +29,14 @@ public:
     ~SkyBoxRenderer();
 
     // Cubemap読み込み
-    void Load(const std::string& file, int faceSize = 512);
+    void        Load(const std::string& file, int faceSize = 512);
 
-    void Update(float deltaTime) {}
+    void        Update(float deltaTime) {}
 
-    void Draw(class Shader* shader, const Matrix4& view, const Matrix4& proj);
+    void        Draw(class Shader* shader, const Matrix4& view, const Matrix4& proj);
 
-    void UnLoad();
+    void        UnLoad();
 
-    class Texture* GetTexture() const { return mTexture; }
+    Texture*    GetTexture() const { return mTexture; }
 };
 

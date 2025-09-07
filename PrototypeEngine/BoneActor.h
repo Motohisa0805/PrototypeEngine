@@ -18,7 +18,7 @@ private:
 
 	ActorObject*	parentActor;
 public:
-	void			ComputeWorldTransform(const class Matrix4* parentMatrix)override;
+	void			ComputeWorldTransform(const Matrix4* parentMatrix)override;
 
 	void			SetBoneName(string name) { boneName = name; }
 

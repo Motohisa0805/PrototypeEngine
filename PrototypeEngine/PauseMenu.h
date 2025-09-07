@@ -8,9 +8,9 @@
 class PauseMenu : public Canvas
 {
 private:
-	class GameDialogBox* mDialogBox;
+	GameDialogBox*	mDialogBox;
 public:
-			PauseMenu();
-			~PauseMenu();
-	void	ProcessInput(const struct InputState& keys)override;
+					PauseMenu();
+					~PauseMenu();
+	void			ProcessInput(const struct InputState& keys)override;
 };

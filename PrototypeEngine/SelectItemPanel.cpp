@@ -1,7 +1,7 @@
 #include "SelectItemPanel.h"
 
 SelectItemPanel::SelectItemPanel(Renderer* renderer)
-	:mRenderer(renderer)
+	:GUIPanel(renderer)
 {
 }
 

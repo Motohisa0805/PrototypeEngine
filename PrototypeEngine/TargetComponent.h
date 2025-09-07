@@ -6,7 +6,7 @@
 class TargetComponent : public Component
 {
 public:
-	TargetComponent(class ActorObject* owner);
+	TargetComponent(ActorObject* owner);
 	~TargetComponent();
 };
 

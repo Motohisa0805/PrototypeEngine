@@ -14,9 +14,9 @@ class CapsuleActor : public ActorObject
 {
 private:
 	//カプセルコライダー
-	class CapsuleCollider*	mCapsule;
+	CapsuleCollider*		mCapsule;
 public:
 							CapsuleActor();
 
-	class CapsuleCollider*	GetCapsule() { return mCapsule; }
+	CapsuleCollider*		GetCapsule() { return mCapsule; }
 };

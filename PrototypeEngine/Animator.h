@@ -19,11 +19,11 @@ private:
 	//アニメーションを配列で持ってる変数
 	vector<Animation*>				mAnimations;
 
-	class Skeleton*					mSkeleton;
+	Skeleton*						mSkeleton;
 
-	class Animation*				mAnimation;
+	Animation*						mAnimation;
 
-	class Animation*				mBlendAnimation;
+	Animation*						mBlendAnimation;
 	//アニメーションの倍率
 	float							mAnimPlayRate;
 	//現在再生中のアニメーションの時間
@@ -43,9 +43,9 @@ public:
 	void							Update(float deltaTime)override;
 	// アニメーションを再生します。
 	// アニメーションの長さを返します。
-	float							PlayAnimation(class Animation* anim);
+	float							PlayAnimation(Animation* anim);
 	// ブレンドアニメーションを再生します。
-	float							PlayBlendAnimation(class Animation* anim);
+	float							PlayBlendAnimation(Animation* anim);
 	//スケルトンとアニメーションを使ってスキニング行列（palette）とボーンの可視化更新を行う
 	void							ComputeMatrixPalette();
 	//ブレンドアニメーションのスキニング行列（palette）とボーンの可視化更新を行う
@@ -55,13 +55,13 @@ public:
 	//アニメーションの配列のGetter
 	vector<Animation*>				GetAnimations() { return mAnimations; }
 	//スケルトンのGetter
-	class Skeleton*					GetSkeleton() { return mSkeleton; }
+	Skeleton*						GetSkeleton() { return mSkeleton; }
 	//スケルトンのSetter
-	void							SetSkeleton(class Skeleton* skeleton);
+	void							SetSkeleton(Skeleton* skeleton);
 	//現在再生中のアニメーションのGetter
-	class Animation*				GetAnimation() { return mAnimation; }
+	Animation*						GetAnimation() { return mAnimation; }
 	//ブレンドアニメーションのGetter
-	class Animation*				GetBlendAnimation() { return mBlendAnimation; }
+	Animation*						GetBlendAnimation() { return mBlendAnimation; }
 	//アニメーションの倍率
 	float							GetAnimPlayRate() { return mAnimPlayRate; }
 	//アニメーションの倍率をセットする関数

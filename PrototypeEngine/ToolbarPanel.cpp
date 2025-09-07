@@ -1,7 +1,7 @@
 #include "ToolbarPanel.h"
 
 ToolbarPanel::ToolbarPanel(Renderer* renderer)
-	:mRenderer(renderer)
+	:GUIPanel(renderer)
 	, mPlayButtonTexture(nullptr)
 	, mPauseButtonTexture(nullptr)
 	, mStopButtonTexture(nullptr)

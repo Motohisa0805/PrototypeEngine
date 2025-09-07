@@ -7,28 +7,30 @@
 * ===エンジン内部処理/Engine internal processing===
 */
 
+//前方宣言
+class Mesh;
 //メッシュの描画を行うクラス
 //読み込んだメッシュをセットして使用する
 class MeshRenderer : public Component
 {
 protected:
-	vector<class Mesh*>			mMeshs;
+	vector<Mesh*>				mMeshs;
 	size_t						mTextureIndex;
 	bool						mVisible;
 	bool						mIsSkeletal;
 public:
-								MeshRenderer(class ActorObject* owner, bool isSkeletal = false);
+								MeshRenderer(ActorObject* owner, bool isSkeletal = false);
 								~MeshRenderer();
 	// このメッシュコンポーネントを描画
-	virtual void				Draw(class Shader* shader);
-	virtual void				DrawForShadowMap(class Shader* shader);
+	virtual void				Draw(Shader* shader);
+	virtual void				DrawForShadowMap(Shader* shader);
 	// メッシュコンポーネントで使用されるメッシュ/テクスチャインデックスを設定する
-	virtual void				SetMesh(class Mesh* mesh) 
+	virtual void				SetMesh(Mesh* mesh) 
 	{
 		mMeshs.push_back(mesh);
 	}
 
-	virtual void				SetMeshs(const vector<class Mesh*>& mesh)
+	virtual void				SetMeshs(const vector<Mesh*>& mesh)
 	{
 		mMeshs.insert(mMeshs.end(), mesh.begin(), mesh.end());
 	}
@@ -40,7 +42,7 @@ public:
 
 	bool						GetIsSkeletal() const { return mIsSkeletal; }
 
-	vector<class Mesh*>			GetMeshs() const { return mMeshs; }
+	vector<Mesh*>				GetMeshs() const { return mMeshs; }
 
     void SetMaterialAlpha(float alpha)
 	{

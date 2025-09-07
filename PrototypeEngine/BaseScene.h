@@ -5,6 +5,15 @@
 * ===エンジン内部処理/Engine internal processing===
 */
 
+//前方宣言
+class ActorObject;
+class Canvas;
+class Image;
+class Font;
+class Skeleton;
+class DirectionalLightActor;
+class BaseCamera;
+class Text;
 //シーンの基底クラス
 //オブジェクトの更新などをまとめて行う部分になります。
 // シーンごとに継承して使用します。
@@ -19,24 +28,24 @@ protected:
 	bool											mUpdatingActors;
 
 	// All the actors in the game
-	vector<class ActorObject*>						mActors;
-	vector<class Canvas*>							mCanvasStack;
-	vector<class Image*>							mImageStack;
-	vector<class Image*>							mDebugImageStack;
+	vector<ActorObject*>							mActors;
+	vector<Canvas*>									mCanvasStack;
+	vector<Image*>									mImageStack;
+	vector<Image*>									mDebugImageStack;
 	// Map for fonts
-	std::unordered_map<string, class Font*>			mFonts;
+	std::unordered_map<string, Font*>				mFonts;
 	// Map of loaded skeletons
-	std::unordered_map<string, class Skeleton*>		mSkeletons;
+	std::unordered_map<string, Skeleton*>			mSkeletons;
 	// Any pending actors
-	vector<class ActorObject*>						mPendingActors;
+	vector<ActorObject*>							mPendingActors;
 
 
-	class ActorObject*								mPlayer;
+	ActorObject*									mPlayer;
 
-	class DirectionalLightActor*					mDirectionalLightActor;
+	DirectionalLightActor*							mDirectionalLightActor;
 
 
-	std::unordered_map<string, class BaseCamera*>	mCameras;
+	std::unordered_map<string, BaseCamera*>			mCameras;
 
 	// 50Hz、Unityと同じ
 	const float										mFixed_Delta_Time = 0.02f;
@@ -45,7 +54,7 @@ protected:
 
 	//***デバッグ機能***
 	//フレームレート表示テキスト
-	class Text*										mFrameRateText;
+	Text*											mFrameRateText;
 public:
 	//コンストラクタ
 													BaseScene();
@@ -62,50 +71,50 @@ public:
 
 	void											LoadSkyBoxTexture(string file);
 
-	vector<class ActorObject*>&						GetActors() { return mActors; }
+	vector<ActorObject*>&							GetActors() { return mActors; }
 	//オブジェクト追加
-	void											AddActor(class ActorObject* actor);
+	void											AddActor(ActorObject* actor);
 	//オブジェクト削除
-	void											RemoveActor(class ActorObject* actor);
+	void											RemoveActor(ActorObject* actor);
 
 	template<typename T>
 	vector<ActorObject*>							SelectAllActorComponent();
 
 	//FontのGetter
-	class Font*										GetFont(const string& fileName);
+	Font*											GetFont(const string& fileName);
 	//スケルトンのGetter
-	class Skeleton*									GetSkeleton(const string& fileName);
+	Skeleton*										GetSkeleton(const string& fileName);
 	//AudioSystemのGetter
-	class AudioSystem*								GetAudioSystem() { return mAudioSystem; }
+	AudioSystem*									GetAudioSystem() { return mAudioSystem; }
 	//PhysWorldのGetter
-	class PhysWorld*								GetPhysWorld() { return mPhysWorld; }
+	PhysWorld*										GetPhysWorld() { return mPhysWorld; }
 
 	// Manage UI stack
-	const vector<class Canvas*>&					GetUIStack() { return mCanvasStack; }
+	const vector<Canvas*>&							GetUIStack() { return mCanvasStack; }
 	//UIScreenの設定
-	void											PushUI(class Canvas* screen);
+	void											PushUI(Canvas* screen);
 	//Image配列のGetter
-	const vector<class Image*>&						GetImageStack() { return mImageStack; }
-	const vector<class Image*>&						GetDebugImageStack() { return mDebugImageStack; }
+	const vector<Image*>&							GetImageStack() { return mImageStack; }
+	const vector<Image*>&							GetDebugImageStack() { return mDebugImageStack; }
 	//Imageの追加
-	void											PushImage(class Image* screen);
-	void											RemoveImage(class Image* screen);
+	void											PushImage(Image* screen);
+	void											RemoveImage(Image* screen);
 	//DebugImageの追加
-	void											PushDebugImage(class Image* screen);
-	void											RemoveDebugImage(class Image* screen);
+	void											PushDebugImage(Image* screen);
+	void											RemoveDebugImage(Image* screen);
 	// Game-specific
 	//PlayerオブジェクトのGetter
-	class ActorObject*								GetPlayer() { return mPlayer; }
+	ActorObject*									GetPlayer() { return mPlayer; }
 	//環境光の設定
-	class DirectionalLightActor*					GetDirectionalLightActor() { return mDirectionalLightActor; }
+	DirectionalLightActor*							GetDirectionalLightActor() { return mDirectionalLightActor; }
 
 	//Cameraの追加
-	void											AddCamera(class BaseCamera* camera);
+	void											AddCamera(BaseCamera* camera);
 	//Cameraの削除
-	void											RemoveCamera(class BaseCamera* camera);
+	void											RemoveCamera(BaseCamera* camera);
 	//Cameraの取得
-	class BaseCamera*								GetCamera(const string& name = "Camera0");
-	std::unordered_map<string, class BaseCamera*> 	GetCameras() { return mCameras; }
+	BaseCamera*										GetCamera(const string& name = "Camera0");
+	std::unordered_map<string, BaseCamera*> 		GetCameras() { return mCameras; }
 };
 
 template<typename T>

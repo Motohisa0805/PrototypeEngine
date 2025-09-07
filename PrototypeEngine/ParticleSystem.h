@@ -9,6 +9,9 @@
 * ===エンジン内部処理/Engine internal processing===
 */
 
+//前方宣言
+class Texture;
+
 //パーティクルの構造体
 struct ParticleStruct
 {
@@ -27,7 +30,7 @@ protected:
 	// パーティクルのインスタンス
 	vector<ParticleStruct*> mParticle;
 	// パーティクルのテクスチャ
-	class Texture*			mParticleTexture;
+	Texture*				mParticleTexture;
 	//
 	bool					mIsAlphaFade;
 	// パーティクルのループフラグ
@@ -56,12 +59,12 @@ protected:
 	// パーティクルの発射タイマー
 	float					mEmitTimer = 0.0f;
 public:
-	ParticleSystem(class ActorObject* owner);
+	ParticleSystem(ActorObject* owner);
 	~ParticleSystem();
 	// パーティクルシステムの更新
 	void						Update(float deltaTime)override;
 	// パーティクルの描画
-	virtual void				Draw(class Shader* shader);
+	virtual void				Draw(Shader* shader);
 	// テクスチャの読み込み
 	void						LoadTexture(string name);
 	//速度を与える

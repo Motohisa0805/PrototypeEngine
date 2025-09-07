@@ -5,6 +5,9 @@
 * ===エンジン内部処理/Engine internal processing===
 */
 
+//前方宣言
+class Texture;
+
 //書籍元のファイル
 class GBuffer
 {
@@ -19,7 +22,7 @@ public:
 	};
 private:
 	// Gバッファに関連するテクスチャ
-	vector<class Texture*>		mTextures;
+	vector<Texture*>			mTextures;
 	// Frame buffer object ID
 	unsigned int				mBufferID;
 
@@ -37,7 +40,7 @@ public:
 	void						Destroy();
 
 	// Get the texture for a specific type of data
-	class Texture*				GetTexture(Type type);
+	Texture*					GetTexture(Type type);
 	// Get the framebuffer object ID
 	unsigned int				GetBufferID() const { return mBufferID; }
 	// Setup all the G-buffer textures for sampling

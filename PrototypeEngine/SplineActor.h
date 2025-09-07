@@ -14,7 +14,7 @@
 class SplineActor : public ActorObject
 {
 private:
-	class SplineCamera*		mCameraComp;
+	SplineCamera*			mCameraComp;
 public:
 							SplineActor();
 

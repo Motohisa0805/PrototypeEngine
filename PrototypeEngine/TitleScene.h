@@ -10,9 +10,9 @@ class TitleScene : public BaseScene
 private:
 	MeshActor*						mDebugStage;
 
-	class FreeCameraActor*			mFreeCameraActor;
+	FreeCameraActor*				mFreeCameraActor;
 
-	class TitleCanvas*				mTitleCanvas;
+	TitleCanvas*					mTitleCanvas;
 public:
 									TitleScene();
 									~TitleScene();

@@ -24,34 +24,48 @@ struct DirectionalLightData
 	Vector3 mPosition = Vector3();
 };
 
+class BaseScene;
+class Shader;
+class Texture;
+class VertexArray;
+class ParticleSystem;
+class Mesh;
+class MeshRenderer;
+class SkeletalMeshRenderer;
+class GBuffer;
+class PointLightComponent;
+class ShadowMap;
+class SkyBoxRenderer;
+class DebugGrid;
+class SceneViewEditor;
 // 3D描画のレンダラー
 //ゲームのレンダリングを担当するクラス
 class Renderer
 {
 private:
 	// BaseScene
-	class BaseScene*									mNowScene;
+	BaseScene*											mNowScene;
 	// テクスチャのマップが読み込み変数
-	std::unordered_map<string, class Texture*>			mTextures;
+	std::unordered_map<string,Texture*>					mTextures;
 	// Sprite shader
-	class Shader*										mSpriteShader;
+	Shader*												mSpriteShader;
 	// Sprite vertex array
-	class VertexArray*									mSpriteVerts;
+	VertexArray*										mSpriteVerts;
 	//2D画像用の頂点配列
-	class VertexArray*									mFanSpriteVerts;
+	VertexArray*										mFanSpriteVerts;
 	//パーティクルシステムの配列
-	vector<class ParticleSystem*>						mParticlesComps;
+	vector<ParticleSystem*>								mParticlesComps;
 	//パーティクルシェーダー
-	class Shader*										mParticleShader;
+	Shader*												mParticleShader;
 	// メッシュの地図がロード
-	std::unordered_map<string, class Mesh*>				mMeshes;
+	std::unordered_map<string,Mesh*>					mMeshes;
 	// すべての（骨格以外の）メッシュコンポーネント
-	vector<class MeshRenderer*>							mMeshComps;
-	vector<class SkeletalMeshRenderer*>					mSkeletalMeshes;
+	vector<MeshRenderer*>								mMeshComps;
+	vector<SkeletalMeshRenderer*>						mSkeletalMeshes;
 	// Mesh shader
-	class Shader*										mMeshShader;
+	Shader*												mMeshShader;
 	// Skinned shader
-	class Shader*										mSkinnedShader;
+	Shader*												mSkinnedShader;
 	// View/projection for 3D shaders
 	Matrix4												mView;
 	Matrix4												mProjection;
@@ -62,31 +76,31 @@ private:
 	// OpenGL context
 	SDL_GLContext										mContext;
 	//GBufferクラス
-	class GBuffer*										mGBuffer;
-	class GBuffer*										mSceneBuffer;
+	GBuffer*											mGBuffer;
+	GBuffer*											mSceneBuffer;
 	// GBuffer shader
-	class Shader*										mGGlobalShader;
+	Shader*												mGGlobalShader;
 	//シャドウマップのクラス
-	class ShadowMap*									mShadowMap;
-	class Shader*										mShadowShader;
-	class Shader*										mSkinnedShadowShader;
+	ShadowMap*											mShadowMap;
+	Shader*												mShadowShader;
+	Shader*												mSkinnedShadowShader;
 	//ポイントライトの配列
-	vector<class PointLightComponent*>					mPointLights;
-	class Shader*										mGPointLightShader;
-	class Mesh*											mPointLightMesh;
+	vector<PointLightComponent*>						mPointLights;
+	Shader*												mGPointLightShader;
+	Mesh*												mPointLightMesh;
 	//スカイボックスのレンダラー
-	class SkyBoxRenderer*								mSkyBoxRenderer;
-	class Shader*										mSkyBoxShader;
+	SkyBoxRenderer*										mSkyBoxRenderer;
+	Shader*												mSkyBoxShader;
 	//デバッググリッドのポインタクラス
-	class DebugGrid*									mDebugGrid;
+	DebugGrid*											mDebugGrid;
 	//グリッドのシェーダー
-	class Shader*										mGridShader;
-	class Shader*										mArrowShader;
+	Shader*												mGridShader;
+	Shader*												mArrowShader;
 	//オブジェクトの方向矢印用の頂点配列
-	class VertexArray*									mAxisVAO;
+	VertexArray*										mAxisVAO;
 
-	class SceneViewEditor*								mSceneViewEditor;
-	class SceneViewEditor*								mGameSceneViewEditor;
+	SceneViewEditor*									mSceneViewEditor;
+	SceneViewEditor*									mGameSceneViewEditor;
 
 	//3D描画処理
 	void												EditorDraw3DScene(unsigned int framebuffer, const Matrix4& view, const Matrix4& proj,
@@ -144,13 +158,13 @@ public:
 	// スクリーン座標からワールド座標への変換
 	Vector3												Unproject(const Vector3& screenPoint) const;
 	//スカイボックスのGetter
-	class SkyBoxRenderer*								GetSkyBoxRenderer() { return mSkyBoxRenderer; }
+	SkyBoxRenderer*										GetSkyBoxRenderer() { return mSkyBoxRenderer; }
 	//PointLightMeshの設定処理
 	void												SetPointLightMesh(class Mesh* mesh) { mPointLightMesh = mesh; }
 	//TextureのGetter
-	class Texture*										GetTexture(const string& fileName);
+	Texture*											GetTexture(const string& fileName);
 	//MeshのGetter
-	class Mesh*											GetMesh(const string& fileName);
+	Mesh*												GetMesh(const string& fileName);
 	//Mesh配列のGetter
 	vector<class Mesh*>									GetMeshs(const string& fileName);
 
@@ -164,12 +178,12 @@ public:
 	//スクリーンの方向を取得
 	void												GetScreenDirection(Vector3& outStart, Vector3& outDir) const;
 	//GBufferのGetter
-	class GBuffer*										GetGBuffer() { return mGBuffer; }
-	class GBuffer*										GetSceneBuffer() { return mSceneBuffer; }
+	GBuffer*											GetGBuffer() { return mGBuffer; }
+	GBuffer*											GetSceneBuffer() { return mSceneBuffer; }
 	// Mesh shader
-	class Shader*										GetMeshShader() { return mMeshShader; }
+	Shader*												GetMeshShader() { return mMeshShader; }
 	// Skinned shader
-	class Shader*										GetSkinnedShader() { return mSkinnedShader; }
+	Shader*												GetSkinnedShader() { return mSkinnedShader; }
 	//BaseSceneのGetter
 	void												SetBaseScene(class BaseScene* scene) { mNowScene = scene; }
 	//mWindowのGetter
@@ -177,10 +191,10 @@ public:
 	// mContextのGetter
 	SDL_GLContext										GetContext() { return mContext; }
 
-	class ShadowMap*									GetShadowMap() { return mShadowMap; }
+	ShadowMap*											GetShadowMap() { return mShadowMap; }
 
 	// mSceneViewEditorのGetter
-	class SceneViewEditor*								GetSceneViewEditor() { return mSceneViewEditor; }
+	SceneViewEditor*									GetSceneViewEditor() { return mSceneViewEditor; }
 	// mGameSceneViewEditorのGetter
-	class SceneViewEditor*								GetGameSceneViewEditor() { return mGameSceneViewEditor; }
+	SceneViewEditor*									GetGameSceneViewEditor() { return mGameSceneViewEditor; }
 };

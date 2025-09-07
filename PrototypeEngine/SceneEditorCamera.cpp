@@ -18,6 +18,7 @@ SceneEditorCamera::SceneEditorCamera()
 
 void SceneEditorCamera::Update()
 {
+	// SceneViewパネルにマウスが乗っていない場合、何もしない
 	if (!GUIWinMain::GetSceneViewPanel()->IsMouseHovered()) { return; }
 	//視点回転
 	if (!Math::NearZero(mAngularSpeed))

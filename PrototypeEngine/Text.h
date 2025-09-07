@@ -6,6 +6,9 @@
 * ===エンジン内部処理/Engine internal processing===
 */
 
+//前方宣言
+class Font;
+
 // テキストを表示するためのクラス
 // 主にフォントとテキストの内容を管理します。
 class Text : public Image
@@ -16,7 +19,7 @@ private:
 	// UTF-8形式のテキスト内容
 	ccp_String      mText;
 	// フォント
-	class Font*		mFont;
+	Font*			mFont;
 	// テキストの位置
 	Vector2			mDimensions;
 	
@@ -39,5 +42,5 @@ public:
 	void			SetColor(Vector3 color);
 
 
-	class Font*		GetFont()const { return mFont; }
+	Font*			GetFont()const { return mFont; }
 };

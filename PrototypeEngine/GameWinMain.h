@@ -17,6 +17,9 @@ public:
 	static bool			mGameEventFrag;
 	static bool			mDebugFrag;
 };
+
+class GameApp;
+
 //ゲームの描画処理管理クラス
 //主にRenderernなどの画面の構成を管理しているクラス
 class GameWinMain
@@ -24,7 +27,7 @@ class GameWinMain
 private:
 
 	//ゲーム内処理
-	class GameApp*		mGameApp;
+	GameApp*			mGameApp;
 
 	//シーン遷移時の解放処理
 	void				UnloadData();

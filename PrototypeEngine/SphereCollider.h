@@ -16,7 +16,7 @@ private:
 	
 	bool			mShouldRotate;
 public:
-					SphereCollider(class ActorObject* owner, int updateOrder = 100);
+					SphereCollider(ActorObject* owner, int updateOrder = 100);
 					~SphereCollider();
 	void			OnUpdateWorldTransform() override;
 

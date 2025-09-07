@@ -3,7 +3,7 @@
 #include "GBuffer.h"
 
 SceneViewPanel::SceneViewPanel(Renderer* renderer)
-	:mRenderer(renderer)
+	:GUIPanel(renderer)
 {
 }
 

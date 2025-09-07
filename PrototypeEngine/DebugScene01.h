@@ -3,6 +3,10 @@
 #include "FPSCanvas.h"
 #include "Stages00.h"
 
+//前方宣言	
+class FPSActor;
+class PauseMenu;
+
 //通常のモデルなどを生成しているゲームシーン
 //FPS視点のゲームシーン
 //ゲームの処理をここでまとめて行います。
@@ -11,15 +15,15 @@ class DebugScene01 : public BaseScene
 {
 private:
 	// Game-specific code
-	class FPSActor*					mFPSActor;
+	FPSActor*						mFPSActor;
 
 	Stages00*						mStages;
 
-	class SoundEventClip			mMusicEvent;
+	SoundEventClip					mMusicEvent;
 
 	FPSCanvas*						mGameCanvas00;
 
-	class PauseMenu*				mPauseMenu;
+	PauseMenu*						mPauseMenu;
 public:
 									DebugScene01();
 

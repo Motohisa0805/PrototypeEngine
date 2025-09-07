@@ -9,6 +9,12 @@
 * ===エンジン内部処理/Engine internal processing===
 */
 
+//前方宣言
+class BaseScene;
+class Texture;
+class Shader;
+
+
 //画像描画をカプセル化したクラス
 // UnityのImageに近いクラス
 class Image
@@ -36,9 +42,9 @@ public:
 		Radial360
 	};
 protected:
-	class BaseScene*		mGame;
+	BaseScene*				mGame;
 	//画像
-	class Texture*			mTexture;
+	Texture*				mTexture;
 	// Configure positions
 	Vector2					mTexturePos;
 
@@ -73,9 +79,9 @@ public:
 	//読み込み処理
 	virtual void			Load(string file);
 	virtual void			Update(float deltaTime);
-	virtual void			Draw(class Shader* shader);
+	virtual void			Draw(Shader* shader);
 	// テクスチャを描くための関数
-	void					DrawTexture(class Shader* shader);
+	void					DrawTexture(Shader* shader);
 
 	void					FillMethodCalculation(Vector4& uv,int& verticesCount);
 
@@ -97,11 +103,11 @@ public:
 		return mState; 
 	}
 
-	class Texture*			GetTexture() const { return mTexture; }
+	Texture*				GetTexture() const { return mTexture; }
 
 	//***Setter***
 	//画像を設定
-	virtual void			SetTexture(class Texture* texture);
+	virtual void			SetTexture(Texture* texture);
 	//画像の位置を設定
 	virtual void			SetPosition(Vector2 pos);
 	//画像のスケーリングを設定

@@ -43,7 +43,7 @@ private:
 	//ƒJƒƒ‰‚ğŒÅ’è‚·‚é‚©‚Ìƒtƒ‰ƒO
 	bool		mFixed;
 public:
-				FollowCamera(class ActorObject* owner);
+				FollowCamera(ActorObject* owner);
 
 	void		Update(float deltaTime) override;
 

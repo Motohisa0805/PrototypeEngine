@@ -5,12 +5,27 @@
 #include "imgui_impl_sdl3.h"
 #include "imgui_impl_opengl3.h"
 
+//前方宣言
+//描画クラス
+class Renderer;
+//ツールバーのパネル
+class ToolbarPanel;
+//シーンビューのパネル
+class SceneViewPanel;
+//ゲームビューのパネル
+class GameViewPanel;
+//ヒエラルキーパネル
+class HierarchyPanel;
+//プロジェクト選択用のパネル
+class ProjectPanel;
+//アイテム選択用のパネル
+class SelectItemPanel;
 
 class GUIWinMain
 {
 private:
-	//レンダラー
-	static class Renderer*	mRenderer;
+	//描画クラス
+	static Renderer*				mRenderer;
 
 	//***状態管理***
 	//再生中かどうか
@@ -32,17 +47,17 @@ private:
 	static Vector2 					mSceneWinSize;
 
 	//ツールバーのパネル
-	static class ToolbarPanel*		mToolbarPanel;
+	static ToolbarPanel*			mToolbarPanel;
 	//シーンビューのパネル
-	static class SceneViewPanel*	mSceneViewPanel;
+	static SceneViewPanel*			mSceneViewPanel;
 	//ゲームビューのパネル
-	static class GameViewPanel*		mGameViewPanel;
+	static GameViewPanel*			mGameViewPanel;
 	//ヒエラルキーパネル
-	static class HierarchyPanel*	mHierarchyPanel;
+	static HierarchyPanel*			mHierarchyPanel;
 	//プロジェクト選択用のパネル
-	static class ProjectPanel*		mProjectPanel;
+	static ProjectPanel*			mProjectPanel;
 	//アイテム選択用のパネル
-	static class SelectItemPanel*	mSelectItemPanel;
+	static SelectItemPanel*			mSelectItemPanel;
 
 public:
 	GUIWinMain() = default;

@@ -2,13 +2,16 @@
 #include "SDL3.h"
 #include "Renderer.h"
 
+//前方宣言
+class GameWinMain;
+
 //ゲーム全体の処理を行うクラス
 //ここにゲームに必要な処理を書いていく想定で制作しました。
 class GameApp
 {
 private:
 	//描画管理クラス
-	class GameWinMain*			mWinMain;
+	GameWinMain*				mWinMain;
 public:
 								GameApp(class GameWinMain* main);
 	//初期化

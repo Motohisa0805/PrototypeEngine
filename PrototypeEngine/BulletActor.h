@@ -25,6 +25,6 @@ public:
 
 	void					UpdateActor(float deltaTime) override;
 
-	void					OnCollisionEnter(class ActorObject* target) override;
+	void					OnCollisionEnter(ActorObject* target) override;
 };
 

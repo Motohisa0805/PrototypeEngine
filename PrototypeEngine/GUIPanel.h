@@ -2,16 +2,19 @@
 #include "Texture.h"
 #include "Renderer.h"
 
+//前方宣言
+class Renderer;
 //GUIのパネルの継承元クラス
 //名前、マウスカーソルがパネル内にあるかどうかなどの処理を行っています。
 class GUIPanel
 {
 protected:
-	bool isMouseHovered;
+	Renderer*			mRenderer;
+	bool				isMouseHovered;
 private:
 
 public:
-	GUIPanel();
+	GUIPanel(Renderer* renderer);
 
 	virtual bool		MouseHoveredDisble();
 

@@ -32,7 +32,7 @@ private:
 	// カメラを経路に沿って移動させるかどうか
 	bool	mPaused;
 public:
-			SplineCamera(class ActorObject* owner);
+			SplineCamera(ActorObject* owner);
 
 	void	Update(float deltaTime) override;
 	// スプラインを再起動してください

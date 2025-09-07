@@ -14,10 +14,10 @@ class SphereActor : public ActorObject
 {
 private:
 	//球のコライダー
-	class SphereCollider*	mSphere;
+	SphereCollider*			mSphere;
 public:
 							SphereActor();
 
-	class SphereCollider*	GetSphere() { return mSphere; }
+	SphereCollider*			GetSphere() { return mSphere; }
 };
 

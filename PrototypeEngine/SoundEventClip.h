@@ -5,6 +5,8 @@
 * ===エンジン内部処理/Engine internal processing===
 */
 
+class AudioSystem;
+
 //書籍元を改造したファイル
 //SE,BGMを再生するクラス
 //AudioSystem内にあるAudioBankから
@@ -15,10 +17,10 @@ class SoundEventClip
 protected:
 	// このコンストラクタをprotectedにし、AudioSystemを友達として設定して、
 	// AudioSystemのみがこのコンストラクタにアクセスできるようにします。
-	friend class		AudioSystem;
-						SoundEventClip(class AudioSystem* system, unsigned int id);
+	friend				AudioSystem;
+						SoundEventClip(AudioSystem* system, unsigned int id);
 private:
-	class AudioSystem*	mSystem;
+	AudioSystem*		mSystem;
 	unsigned int		mID;
 public:
 						SoundEventClip();

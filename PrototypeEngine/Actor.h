@@ -19,6 +19,8 @@ enum ActorTag
 	Recovery
 };
 
+//前方宣言
+class Rigidbody;
 //全3Dモデルの基底クラス
 class ActorObject : public Transform
 {
@@ -37,11 +39,11 @@ protected:
 	//オブジェクトのタグ
 	ActorTag					mActorTag = ActorTag::None;
 
-	class BaseScene*			mGame;
+	BaseScene*					mGame;
 
-	class Rigidbody*			mRigidbody;
+	Rigidbody*					mRigidbody;
 
-	class Collider*				mCollider;
+	Collider*					mCollider;
 public:
 	//コンストラクタ
 								ActorObject();
@@ -76,10 +78,10 @@ public:
 
 	void						SetActorTag(ActorTag tag) { mActorTag = tag; }
 	
-	class BaseScene*			GetGame() { return mGame; }
-	class Rigidbody*			GetRigidbody() { return mRigidbody; }
+	BaseScene*					GetGame() { return mGame; }
+	Rigidbody*					GetRigidbody() { return mRigidbody; }
 
-	class Collider*				GetCollider() { return mCollider; }
+	Collider*					GetCollider() { return mCollider; }
 
 
 	//親のアクターのGetter

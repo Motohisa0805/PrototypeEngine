@@ -6,7 +6,6 @@
 class GameViewPanel : public GUIPanel
 {
 private:
-	class Renderer* mRenderer;
 public:
 	GameViewPanel(class Renderer* renderer);
 

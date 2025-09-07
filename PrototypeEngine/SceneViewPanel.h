@@ -7,7 +7,6 @@
 class SceneViewPanel : public GUIPanel
 {
 private:
-	class Renderer* mRenderer;
 public:
 	SceneViewPanel(class Renderer* renderer);
 
