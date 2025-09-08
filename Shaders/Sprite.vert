@@ -3,26 +3,26 @@
 // Request GLSL 3.3
 #version 330
 
-// Uniforms for world transform and view-proj
+// ワールド座標変換とビュー射影のためのユニフォーム
 uniform mat4 uWorldTransform;
 uniform mat4 uViewProj;
 uniform vec4 uTexUV; // .xy = offset, .zw = scale
 
-// Attribute 0 is position, 1 is normal, 2 is tex coords.
+// 0 座標, 1 法線, 2 テクスチャ座標
 layout(location = 0) in vec3 inPosition;
 layout(location = 1) in vec3 inNormal;
 layout(location = 2) in vec2 inTexCoord;
 
-// Any vertex outputs (other than position)
+// 頂点シェーダーからフラグメントシェーダーに渡す変数
 out vec2 fragTexCoord;
 
 void main()
 {
-	// Convert position to homogeneous coordinates
+	// Vect4に拡張
 	vec4 pos = vec4(inPosition, 1.0);
-	// Transform to position world space, then clip space
+	// ワールド変換してから、クリップ空間に変換
 	gl_Position = pos * uWorldTransform * uViewProj;
 
-	// Pass along the texture coordinate to frag shader
+	// フラグメントシェーダーにテクスチャ座標を渡す
 	fragTexCoord = inTexCoord * uTexUV.zw + uTexUV.xy;
 }

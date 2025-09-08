@@ -1,7 +1,6 @@
 C:\C++Files\PrototypeEngine\PrototypeEngine\Actor.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\Actor.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\Animation.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\Animation.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\Animator.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\Animator.obj
-C:\C++Files\PrototypeEngine\PrototypeEngine\Asteroid.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\Asteroid.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\AudioBankProperty.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\AudioBankProperty.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\AudioComponent.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\AudioComponent.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\AudioSystem.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\AudioSystem.obj
@@ -14,7 +13,6 @@ C:\C++Files\PrototypeEngine\PrototypeEngine\BoxCollider.cpp;C:\C++Files\Prototyp
 C:\C++Files\PrototypeEngine\PrototypeEngine\BulletActor.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\BulletActor.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\Button.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\Button.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\CallBackManager.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\CallBackManager.obj
-C:\C++Files\PrototypeEngine\PrototypeEngine\CameraActor.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\CameraActor.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\Canvas.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\Canvas.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\CapsuleActor.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\CapsuleActor.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\CapsuleCollider.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\CapsuleCollider.obj
@@ -55,7 +53,6 @@ C:\C++Files\PrototypeEngine\PrototypeEngine\ImGui\imgui_impl_sdl3.cpp;C:\C++File
 C:\C++Files\PrototypeEngine\PrototypeEngine\ImGui\imgui_tables.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\imgui_tables.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\ImGui\imgui_widgets.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\imgui_widgets.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\InputSystem.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\InputSystem.obj
-C:\C++Files\PrototypeEngine\PrototypeEngine\Laser.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\Laser.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\Main.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\Main.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\Math.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\Math.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\Mesh.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\Mesh.obj
@@ -81,7 +78,6 @@ C:\C++Files\PrototypeEngine\PrototypeEngine\SceneViewPanel.cpp;C:\C++Files\Proto
 C:\C++Files\PrototypeEngine\PrototypeEngine\SelectItemPanel.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\SelectItemPanel.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\Shader.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\Shader.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\ShadowMap.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\ShadowMap.obj
-C:\C++Files\PrototypeEngine\PrototypeEngine\Ship.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\Ship.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\SkeletalMeshRenderer.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\SkeletalMeshRenderer.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\Skeleton.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\Skeleton.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\SkeletonMeshActor.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\SkeletonMeshActor.obj

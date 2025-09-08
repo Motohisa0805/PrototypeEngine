@@ -23,16 +23,6 @@ int main(int argc, char* argv[])
 		engine.EngineRunLoop();
 	}
 	engine.EngineShutdown();
-	/*
-	//エンジンの初期化
-	GameWinMain game;
-	bool success = game.Initialize();
-	if (success)
-	{
-		game.RunLoop();
-	}
-	game.Shutdown();
-	*/
 	return 0;
 }
 // プロジェクトの実行場所がReleaseなら
