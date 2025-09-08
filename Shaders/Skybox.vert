@@ -10,9 +10,6 @@ uniform mat4 uProj;
 void main()
 {
     TexCoords = aPos;
-    //vec4 pos = uProj * uView * vec4(aPos, 1.0);
-    //vec4 pos = uView * uProj * vec4(aPos, 1.0);
-    //vec4 pos = vec4(aPos, 1.0) * uProj * uView;
     vec4 pos = vec4(aPos, 1.0) * uView * uProj;
     gl_Position = pos.xyww; // ê[ìxÇç≈ëÂÇ…å≈íË
 }

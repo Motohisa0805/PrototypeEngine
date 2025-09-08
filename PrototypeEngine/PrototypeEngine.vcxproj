@@ -157,7 +157,6 @@
     <ClCompile Include="Actor.cpp" />
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="Animator.cpp" />
-    <ClCompile Include="Asteroid.cpp" />
     <ClCompile Include="AudioBankProperty.cpp" />
     <ClCompile Include="AudioComponent.cpp" />
     <ClCompile Include="AudioSystem.cpp" />
@@ -170,7 +169,6 @@
     <ClCompile Include="BulletActor.cpp" />
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="CallBackManager.cpp" />
-    <ClCompile Include="CameraActor.cpp" />
     <ClCompile Include="Canvas.cpp" />
     <ClCompile Include="CapsuleActor.cpp" />
     <ClCompile Include="CapsuleCollider.cpp" />
@@ -211,7 +209,6 @@
     <ClCompile Include="ImGui\imgui_tables.cpp" />
     <ClCompile Include="ImGui\imgui_widgets.cpp" />
     <ClCompile Include="InputSystem.cpp" />
-    <ClCompile Include="Laser.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Math.cpp" />
     <ClCompile Include="Mesh.cpp" />
@@ -237,7 +234,6 @@
     <ClCompile Include="SelectItemPanel.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="ShadowMap.cpp" />
-    <ClCompile Include="Ship.cpp" />
     <ClCompile Include="SkeletalMeshRenderer.cpp" />
     <ClCompile Include="Skeleton.cpp" />
     <ClCompile Include="SkeletonMeshActor.cpp" />
@@ -269,7 +265,6 @@
     <ClInclude Include="Animation.h" />
     <ClInclude Include="Animator.h" />
     <ClInclude Include="Assimp.h" />
-    <ClInclude Include="Asteroid.h" />
     <ClInclude Include="AudioBankProperty.h" />
     <ClInclude Include="AudioComponent.h" />
     <ClInclude Include="AudioSystem.h" />
@@ -282,7 +277,6 @@
     <ClInclude Include="BulletActor.h" />
     <ClInclude Include="Button.h" />
     <ClInclude Include="CallBackManager.h" />
-    <ClInclude Include="CameraActor.h" />
     <ClInclude Include="Canvas.h" />
     <ClInclude Include="CapsuleActor.h" />
     <ClInclude Include="CapsuleCollider.h" />
@@ -329,7 +323,6 @@
     <ClInclude Include="ImGui\imstb_textedit.h" />
     <ClInclude Include="ImGui\imstb_truetype.h" />
     <ClInclude Include="InputSystem.h" />
-    <ClInclude Include="Laser.h" />
     <ClInclude Include="Math.h" />
     <ClInclude Include="MatrixPalette.h" />
     <ClInclude Include="Mesh.h" />
@@ -358,7 +351,6 @@
     <ClInclude Include="SelectItemPanel.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="ShadowMap.h" />
-    <ClInclude Include="Ship.h" />
     <ClInclude Include="SkeletalMeshRenderer.h" />
     <ClInclude Include="Skeleton.h" />
     <ClInclude Include="SkeletonMeshActor.h" />

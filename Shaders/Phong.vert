@@ -3,11 +3,11 @@
 // Request GLSL 3.3
 #version 330
 //メッシュ用の基本的な頂点シェーダー
-// Uniforms for world transform and view-proj
+// 座標と法線、テクスチャ座標を受け取り、ワールド変換とビュー射影を行います
 uniform mat4 uWorldTransform;
 uniform mat4 uViewProj;
 
-// Attribute 0 is position, 1 is normal, 2 is tex coords.
+// 0 座標, 1 法線, 2 テクスチャ座標
 layout(location = 0) in vec3 inPosition;
 layout(location = 1) in vec3 inNormal;
 layout(location = 2) in vec2 inTexCoord;
@@ -21,20 +21,19 @@ out vec3 fragWorldPos;
 
 void main()
 {
-	// Convert position to homogeneous coordinates
+	// Vect4に拡張
 	vec4 pos = vec4(inPosition, 1.0);
-	// Transform position to world space
+	// 座標をワールド変換
 	pos = pos * uWorldTransform;
-	// Save world position
+	// ワールド座標をフラグメントシェーダーに渡す
 	fragWorldPos = pos.xyz;
-	// Transform to clip space
+	// 座標をクリップ空間に変換
 	gl_Position = pos * uViewProj;
 
-	// Transform normal into world space (w = 0)
+	// 座標変換に伴う法線の変換
 	mat3 normalMatrix = transpose(inverse(mat3(uWorldTransform)));
 	fragNormal = normalize(normalMatrix * inNormal);
-	//fragNormal = (vec4(inNormal, 0.0f) * uWorldTransform).xyz;
 
-	// Pass along the texture coordinate to frag shader
+	// シェーダーにテクスチャ座標を渡す
 	fragTexCoord = inTexCoord;
 }

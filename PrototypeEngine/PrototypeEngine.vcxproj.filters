@@ -25,9 +25,6 @@
     <Filter Include="SourceFiles\B_GameObjects\3Ds">
       <UniqueIdentifier>{907b256d-37f0-4fe4-b451-c5bcf42fb721}</UniqueIdentifier>
     </Filter>
-    <Filter Include="SourceFiles\B_GameObjects\2Ds%28未使用%29">
-      <UniqueIdentifier>{0a3d53bd-2ac0-4e99-b9ac-4229cdf7df97}</UniqueIdentifier>
-    </Filter>
     <Filter Include="SourceFiles\C_Components">
       <UniqueIdentifier>{467e75fa-b246-4d5a-9c65-57965719625d}</UniqueIdentifier>
     </Filter>
@@ -206,18 +203,6 @@
     </ClCompile>
     <ClCompile Include="WindowRenderProperty.cpp">
       <Filter>SourceFiles\A_Mains</Filter>
-    </ClCompile>
-    <ClCompile Include="Asteroid.cpp">
-      <Filter>SourceFiles\B_GameObjects\2Ds%28未使用%29</Filter>
-    </ClCompile>
-    <ClCompile Include="CameraActor.cpp">
-      <Filter>SourceFiles\B_GameObjects\2Ds%28未使用%29</Filter>
-    </ClCompile>
-    <ClCompile Include="Laser.cpp">
-      <Filter>SourceFiles\B_GameObjects\2Ds%28未使用%29</Filter>
-    </ClCompile>
-    <ClCompile Include="Ship.cpp">
-      <Filter>SourceFiles\B_GameObjects\2Ds%28未使用%29</Filter>
     </ClCompile>
     <ClCompile Include="BulletActor.cpp">
       <Filter>SourceFiles\B_GameObjects\3Ds</Filter>
@@ -529,18 +514,6 @@
     </ClInclude>
     <ClInclude Include="WindowRenderProperty.h">
       <Filter>SourceFiles\A_Mains</Filter>
-    </ClInclude>
-    <ClInclude Include="Asteroid.h">
-      <Filter>SourceFiles\B_GameObjects\2Ds%28未使用%29</Filter>
-    </ClInclude>
-    <ClInclude Include="CameraActor.h">
-      <Filter>SourceFiles\B_GameObjects\2Ds%28未使用%29</Filter>
-    </ClInclude>
-    <ClInclude Include="Laser.h">
-      <Filter>SourceFiles\B_GameObjects\2Ds%28未使用%29</Filter>
-    </ClInclude>
-    <ClInclude Include="Ship.h">
-      <Filter>SourceFiles\B_GameObjects\2Ds%28未使用%29</Filter>
     </ClInclude>
     <ClInclude Include="BulletActor.h">
       <Filter>SourceFiles\B_GameObjects\3Ds</Filter>

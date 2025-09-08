@@ -3,19 +3,19 @@
 // Request GLSL 3.3
 #version 330
 
-// Inputs from vertex shader
-// Tex coord
+// 頂点シェーダーからの入力
+// 画像のUV座標
 in vec2 fragTexCoord;
 
-// This corresponds to the output color to the color buffer
+// カラーテクスチャ出力
 layout(location = 0) out vec4 outColor;
 
-// Different textures from G-buffer
+// G-Bufferテクスチャ
 uniform sampler2D uGDiffuse;
 uniform sampler2D uGNormal;
 uniform sampler2D uGWorldPos;
 
-// Create a struct for the point light
+// ポイントライトの構造体
 struct PointLight
 {
 	// Position of light
@@ -28,41 +28,40 @@ struct PointLight
 };
 
 uniform PointLight uPointLight;
-// Stores width/height of screen
+// 画面サイズ
 uniform vec2 uScreenDimensions;
 
 void main()
 {
-	// From this fragment, calculate the coordinate to sample into the G-buffer
+	// GBufferのUV座標を計算
 	vec2 gbufferCoord = gl_FragCoord.xy / uScreenDimensions;
 	
-	// Sample from G-buffer
+	// GBufferテクスチャから情報を取得
 	vec3 gbufferDiffuse = texture(uGDiffuse, gbufferCoord).xyz;
 	vec3 gbufferNorm = texture(uGNormal, gbufferCoord).xyz;
 	vec3 gbufferWorldPos = texture(uGWorldPos, gbufferCoord).xyz;
 	
-	// Surface normal
+	// 法線の正規化
 	vec3 N = normalize(gbufferNorm);
-	// Vector from surface to light
+	// ライト方向の計算
 	vec3 L = normalize(uPointLight.mWorldPos - gbufferWorldPos);
 
-	// Compute Phong diffuse component for the light
+	// Phong照明モデル
 	vec3 Phong = vec3(0.0, 0.0, 0.0);
 	float NdotL = dot(N, L);
 	if (NdotL > 0)
 	{
-		// Get the distance between the light and the world pos
+		// 光とワールドの位置との距離を取得
 		float dist = distance(uPointLight.mWorldPos, gbufferWorldPos);
-		// Use smoothstep to compute value in range [0,1]
-		// between inner/outer radius
+		// スムースステップを使用して、内半径と外半径の間の[0,1]の範囲で値を計算します
 		float intensity = smoothstep(uPointLight.mInnerRadius,
 									 uPointLight.mOuterRadius, dist);
-		// The diffuse color of the light depends on intensity
+		// 光の強度を反転させる（内側が1、外側が0）
 		vec3 DiffuseColor = mix(uPointLight.mDiffuseColor,
 								vec3(0.0, 0.0, 0.0), intensity);
 		Phong = DiffuseColor * NdotL;
 	}
 
-	// Final color is texture color times phong light (alpha = 1)
+	// 最終的なライト情報を渡す (alpha = 1)
 	outColor = vec4(gbufferDiffuse * Phong, 1.0);
 }

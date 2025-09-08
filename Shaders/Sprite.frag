@@ -3,17 +3,17 @@
 // Request GLSL 3.3
 #version 330
 
-// Tex coord input from vertex shader
+// 頂点シェーダーからの入力
 in vec2 fragTexCoord;
 
-// This corresponds to the output color to the color buffer
+// カラーテクスチャ出力
 out vec4 outColor;
 
-// This is used for the texture sampling
+// 画像テクスチャ
 uniform sampler2D uTexture;
 
 void main()
 {
-	// Sample color from texture
+	// 画像テクスチャの色をそのまま出力
     outColor = texture(uTexture, fragTexCoord);
 }

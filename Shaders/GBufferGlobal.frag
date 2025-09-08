@@ -3,19 +3,19 @@
 // Request GLSL 3.3
 #version 330
 
-// Inputs from vertex shader
-// Tex coord
+// 頂点シェーダーからの入力
+// 画像のUV座標
 in vec2 fragTexCoord;
 
-// This corresponds to the output color to the color buffer
+// カラーテクスチャ出力
 layout(location = 0) out vec4 outColor;
 
-// Different textures from G-buffer
+// G-Bufferテクスチャ
 uniform sampler2D uGDiffuse;
 uniform sampler2D uGNormal;
 uniform sampler2D uGWorldPos;
 
-// Create a struct for directional light
+// ディレクショナルライトの構造体
 struct DirectionalLight
 {
 	// Direction of light
@@ -26,12 +26,12 @@ struct DirectionalLight
 	vec3 mSpecColor;
 };
 
-// Uniforms for lighting
-// Camera position (in world space)
+// ライト情報
+// カメラ座標 (ワールド空間)
 uniform vec3 uCameraPos;
-// Ambient light level
+// 環境ライト
 uniform vec3 uAmbientLight;
-// Directional Light
+// 光の方向
 uniform DirectionalLight uDirLight;
 
 uniform sampler2DShadow uShadowMap;
@@ -98,16 +98,16 @@ void main()
 	vec3 gbufferDiffuse = texture(uGDiffuse, fragTexCoord).xyz;
 	vec3 gbufferNorm = texture(uGNormal, fragTexCoord).xyz;
 	vec3 gbufferWorldPos = texture(uGWorldPos, fragTexCoord).xyz;
-	// Surface normal
+	// 法線正規化
 	vec3 N = normalize(gbufferNorm);
-	// Vector from surface to light
+	// ライトの方向（逆ベクトル）
 	vec3 L = normalize(-uDirLight.mDirection);
-	// Vector from surface to camera
+	// カメラの方向
 	vec3 V = normalize(uCameraPos - gbufferWorldPos);
-	// Reflection of -L about N
+	// -LとNから反射ベクトルを計算
 	vec3 R = normalize(reflect(-L, N));
 
-	// Compute phong reflection
+	// フォン反射を計算する
 	vec3 Phong = uAmbientLight;
 	float NdotL = dot(N, L);
 	if (NdotL > 0)
@@ -127,9 +127,9 @@ void main()
 	}
 
 
-	// Clamp light between 0-1 RGB values
+	// Phongスペキュラ計算
 	Phong = clamp(Phong, 0.0, 1.0);
 
-	// Final color is texture color times phong light (alpha = 1)
+	// 最終的なライト情報を渡す (alpha = 1)
 	outColor = vec4(gbufferDiffuse * Phong, 1.0);
 }
