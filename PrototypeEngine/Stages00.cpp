@@ -120,7 +120,7 @@ void Stages00::Initialize()
 	mCube->AddChildActor(mSphere);
 
 	mDice = new MeshActor();
-	mDice->Load("TestCube.fbx");
+	mDice->Load("TestSpiritBot.fbx");
 	mDice->SetLocalPosition(Vector3(8.0f, 0.0f, 6.0f));
 	mDice->AddBoxCollider();
 

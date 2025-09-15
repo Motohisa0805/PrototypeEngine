@@ -1,6 +1,6 @@
-﻿  Main.cpp
+﻿  Stages00.cpp
 C:\C++Files\PrototypeEngine\PrototypeEngine\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
-  (ソース ファイル 'Main.cpp' をコンパイルしています)
+  (ソース ファイル 'Stages00.cpp' をコンパイルしています)
       C:\C++Files\PrototypeEngine\PrototypeEngine\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
       'SDL_VERSION' は以前にコマンド ラインで宣言されています
   

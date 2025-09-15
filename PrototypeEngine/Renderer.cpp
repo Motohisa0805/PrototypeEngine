@@ -258,30 +258,29 @@ void Renderer::MeshOrderUpdate()
 	for (auto& mesh : mMeshComps)
 	{
 		if (!mesh->GetVisible()) continue;
-		//MeshRenderer内のMeshを1つずつチェック
+
+		bool isTransparent = false;
 		for (auto& m : mesh->GetMeshs())
 		{
-			// nullptrチェック
-			if (!m) continue; 
-			// マテリアルがない場合はスキップ
-			if (m->GetMaterialInfo().empty()) continue; 
+			if (!m) continue;
+			if (m->GetMaterialInfo().empty()) continue;
+
 			const auto& materials = m->GetMaterialInfo();
-			bool isTransparent = false;
 			for (const auto& mat : materials)
 			{
-				// 不透明度が1未満なら透明とみなす
-				if (mat.Color.w < 1.0f) 
+				if (mat.Color.w < 1.0f)
 				{
 					isTransparent = true;
 					break;
 				}
 			}
-
-			if (isTransparent)
-				transparentList.push_back(mesh);
-			else
-				opaqueList.push_back(mesh);
+			if (isTransparent) break; // ← 一つでも透明なら終了
 		}
+
+		if (isTransparent)
+			transparentList.push_back(mesh);
+		else
+			opaqueList.push_back(mesh);
 	}
 
 	// 2. 透明オブジェクトはカメラからの距離でソート（遠い順）
