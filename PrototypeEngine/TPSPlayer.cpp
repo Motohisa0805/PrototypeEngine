@@ -6,8 +6,8 @@ TPSPlayer::TPSPlayer()
 	mActorTag = ActorTag::Player;
 
 	mSkeletonMeshActor = new SkeletonMeshActor();
-	//mSkeletonMeshActor->Load("Y Bot.fbx");
 	mSkeletonMeshActor->Load("Y Bot.fbx");
+	//mSkeletonMeshActor->Load("TestSpirit.fbx");
 	//アニメーションの読み込み
 	mSkeletonMeshActor->SetAnimatorName("TPSPlayer");
 	mSkeletonMeshActor->GetAnimator()->Load("Sword And Shield Idle.fbx", true, true);

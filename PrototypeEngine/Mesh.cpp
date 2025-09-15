@@ -8,6 +8,17 @@ namespace
 		float f;
 		uint8_t b[4];
 	};
+	/*
+
+	struct Vertex
+	{
+		Vector3 pos;
+		Vector3 normal;
+		Vector2 uv;
+		uint8_t boneIndex[4] = { 0,0,0,0 };
+		float boneWeight[4] = { 0,0,0,0 };
+	};
+	*/
 }
 
 Mesh::Mesh()
@@ -292,11 +303,60 @@ bool Mesh::LoadFromFBX(const string& fileName, Renderer* renderer, int index)
 	vector<unsigned int> indices;
 	float radius = 0.0f;
 	AABB box = AABB(Vector3::Infinity, Vector3::NegInfinity);
-	OBB obbBox = OBB(Vector3::Zero,Quaternion::Identity,Vector3::Zero);
+	//OBB obbBox = OBB(Vector3::Zero,Quaternion::Identity,Vector3::Zero);
 
 	mesh = scene->mMeshes[index];
 
 	//頂点データの変換
+	/*
+	for (unsigned int i = 0; i < mesh->mNumVertices; i++)
+	{
+		Vertex v{};
+		aiVector3D pos = mesh->mVertices[i];
+		aiVector3D norm = mesh->HasNormals() ? mesh->mNormals[i] : aiVector3D(0, 1, 0);
+		aiVector3D uv = mesh->HasTextureCoords(0) ? mesh->mTextureCoords[0][i] : aiVector3D(0, 0, 0);
+
+		v.pos = Vector3(pos.x, pos.y, pos.z);
+		v.normal = Vector3(norm.x, norm.y, norm.z);
+		v.uv = Vector2(uv.x, uv.y);
+
+		box.UpdateMinMax(v.pos);
+		radius = Math::Max(radius, v.pos.LengthSq());
+
+		// --- ボーンウェイトの収集と正規化 ---
+		if (mesh->HasBones())
+		{
+			struct TmpWeight { int bone; float weight; };
+			std::vector<TmpWeight> tmp;
+			for (unsigned int j = 0; j < mesh->mNumBones; j++)
+			{
+				aiBone* bone = mesh->mBones[j];
+				for (unsigned int w = 0; w < bone->mNumWeights; w++)
+				{
+					if (bone->mWeights[w].mVertexId == i)
+						tmp.push_back({ (int)j, bone->mWeights[w].mWeight });
+				}
+			}
+			// 上位4つだけ残す
+			std::partial_sort(tmp.begin(), tmp.begin() + std::min<size_t>(4, tmp.size()), tmp.end(),
+				[](auto& a, auto& b) { return a.weight > b.weight; });
+
+			float total = 0.0f;
+			for (int k = 0; k < 4 && k < (int)tmp.size(); k++)
+				total += tmp[k].weight;
+
+			if (total > 0.0f)
+			{
+				for (int k = 0; k < 4 && k < (int)tmp.size(); k++)
+				{
+					v.boneIndex[k] = tmp[k].bone;
+					v.boneWeight[k] = tmp[k].weight / total; // 正規化
+				}
+			}
+		}
+		vertices.push_back(v);
+	}
+	*/
 	for (unsigned int i = 0; i < mesh->mNumVertices; i++)
 	{
 		aiVector3D pos = mesh->mVertices[i];
@@ -309,26 +369,33 @@ bool Mesh::LoadFromFBX(const string& fileName, Renderer* renderer, int index)
 		radius = Math::Max(radius, vertexPos.LengthSq());
 		box.UpdateMinMax(vertexPos);
 		// AABBの中心とサイズからOBBを作る（回転なし）
-		Vector3 center = (box.mMin + box.mMax) * 0.5f;
-		Vector3 extents = (box.mMax - box.mMin) * 0.5f;
-		Quaternion rotation = Quaternion::Identity; // 方向なし
+		//Vector3 center = (box.mMin + box.mMax) * 0.5f;
+		//Vector3 extents = (box.mMax - box.mMin) * 0.5f;
+		//Quaternion rotation = Quaternion::Identity; // 方向なし
 
-		obbBox = OBB(center, rotation, extents);
+		//obbBox = OBB(center, rotation, extents);
 
 		Vertex v;
-		v.f = pos.x; vertices.push_back(v);
+		v.f = pos.x; 
+		vertices.push_back(v);
 
-		v.f = pos.y; vertices.push_back(v);
+		v.f = pos.y; 
+		vertices.push_back(v);
 
-		v.f = pos.z; vertices.push_back(v);
+		v.f = pos.z; 
+		vertices.push_back(v);
 
-		v.f = norm.x; vertices.push_back(v);
+		v.f = norm.x; 
+		vertices.push_back(v);
 
-		v.f = norm.y; vertices.push_back(v);
+		v.f = norm.y; 
+		vertices.push_back(v);
 
-		v.f = norm.z; vertices.push_back(v);
+		v.f = norm.z; 
+		vertices.push_back(v);
 
 		//頂点にウェイト追加、簡易のため複数メッシュの場合など不足あり(修正済み)
+		/*
 		if (mesh->HasBones())
 		{
 			Vertex boneIndex = { 0 };
@@ -395,10 +462,152 @@ bool Mesh::LoadFromFBX(const string& fileName, Renderer* renderer, int index)
 			vertices.push_back(weight[2]);
 			vertices.push_back(weight[3]);
 		}
+		*/
+		/*
+		if (mesh->HasBones())
+		{
+			// 上位4つを集めるための一時配列
+			struct TmpWeight
+			{
+				int bone;
+				float weight;
+			};
+			std::vector<TmpWeight> tmp;
+			tmp.reserve(mesh->mNumBones);
 
-		v.f = uv.x; vertices.push_back(v);
-		v.f = uv.y; vertices.push_back(v);
+			// すべてのウェイトを収集
+			for (unsigned int j = 0; j < mesh->mNumBones; j++)
+			{
+				aiBone* bone = mesh->mBones[j];
+				for (unsigned int w = 0; w < bone->mNumWeights; w++)
+				{
+					if (bone->mWeights[w].mVertexId == i &&
+						bone->mWeights[w].mWeight > 0.0f)
+					{
+						tmp.push_back({ (int)j, bone->mWeights[w].mWeight });
+					}
+				}
+			}
+
+			// 重い頂点では max 4 個だけ使う（上位4つを選択）
+			std::partial_sort(tmp.begin(),
+				tmp.begin() + std::min<size_t>(4, tmp.size()),
+				tmp.end(),
+				[](const TmpWeight& a, const TmpWeight& b)
+				{
+					return a.weight > b.weight;
+				});
+
+			// 上位4つの合計を計算
+			float totalWeight = 0.0f;
+			int count = std::min<size_t>(4, tmp.size());
+			for (int k = 0; k < count; k++)
+			{
+				totalWeight += tmp[k].weight;
+			}
+
+			// union Vertex に格納
+			Vertex boneIndex = { 0 };
+			Vertex weight[4] = { 0,0,0,0 };
+
+			if (totalWeight > 0.0f)
+			{
+				float invTotal = 1.0f / totalWeight;
+				for (int k = 0; k < count; k++)
+				{
+					boneIndex.b[k] = static_cast<uint8_t>(tmp[k].bone);
+					weight[k].f = tmp[k].weight * invTotal;
+				}
+			}
+
+			// データをpush_back
+			vertices.push_back(boneIndex);
+			vertices.push_back(weight[0]);
+			vertices.push_back(weight[1]);
+			vertices.push_back(weight[2]);
+			vertices.push_back(weight[3]);
+		}
+		*/
+
+		// --- ボーンウェイト処理（VertexArray の期待順に合わせて必ず4スロット分 push する） ---
+		if (mesh->HasBones())
+		{
+			struct TmpWeight { int bone; float weight; };
+			std::vector<TmpWeight> tmp;
+			tmp.reserve(mesh->mNumBones);
+
+			// 全ウェイトを収集
+			for (unsigned int b = 0; b < mesh->mNumBones; ++b)
+			{
+				aiBone* bone = mesh->mBones[b];
+				for (unsigned int w = 0; w < bone->mNumWeights; ++w)
+				{
+					if (bone->mWeights[w].mVertexId == i && bone->mWeights[w].mWeight > 0.0f)
+					{
+						tmp.push_back({ (int)b, bone->mWeights[w].mWeight });
+					}
+				}
+			}
+
+			// 上位4つを選ぶ（存在しない分は無視）
+			int pick = std::min<size_t>(4, tmp.size());
+			if (!tmp.empty())
+			{
+				std::partial_sort(tmp.begin(), tmp.begin() + pick, tmp.end(),
+					[](const TmpWeight& a, const TmpWeight& b) { return a.weight > b.weight; });
+			}
+
+			// 上位4つの合計だけで正規化する
+			float totalTop = 0.0f;
+			for (int k = 0; k < pick; ++k) totalTop += tmp[k].weight;
+			float invTotal = (totalTop > 0.0f) ? (1.0f / totalTop) : 0.0f;
+
+			// 1) ボーンインデックス（uint8 x4）を一つの Vertex として push
+			Vertex boneIndex = { 0 };
+			for (int k = 0; k < 4; ++k)
+			{
+				if (k < pick)
+					boneIndex.b[k] = static_cast<uint8_t>(tmp[k].bone); // cast 明示
+				else
+					boneIndex.b[k] = 0;
+			}
+			vertices.push_back(boneIndex);
+
+			// 2) ボーンウェイト（float x4）をそれぞれ Vertex として push（順序は上位順）
+			for (int k = 0; k < 4; ++k)
+			{
+				Vertex wv;
+				wv.f = (k < pick) ? (tmp[k].weight * invTotal) : 0.0f; // 上位4つだけで正規化
+				vertices.push_back(wv);
+			}
+		}
+		/*
+		else
+		{
+			// スキン無しならダミー (インデックス0, ウェイト0)
+			Vertex boneIndex = { 0 };
+			vertices.push_back(boneIndex);
+			for (int k = 0; k < 4; ++k)
+			{
+				Vertex wv; wv.f = 0.0f;
+				vertices.push_back(wv);
+			}
+		}
+		*/
+
+		v.f = uv.x; 
+		vertices.push_back(v);
+		v.f = uv.y; 
+		vertices.push_back(v);
 	}
+	
+
+	// 頂点ループが終わったあと
+	Vector3 center = (box.mMin + box.mMax) * 0.5f;
+	Vector3 extents = (box.mMax - box.mMin) * 0.5f;
+	Quaternion rotation = Quaternion::Identity;
+	OBB obbBox(center, rotation, extents);
+
 	// **インデックスデータの変換**
 	for (unsigned int i = 0; i < mesh->mNumFaces; i++)
 	{
