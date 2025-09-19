@@ -6,161 +6,194 @@ ProjectPanel::ProjectPanel(Renderer* renderer)
 	, mRenameBuffer("")
 	, mRenameTarget("")
 	, mDeleteQueue()
+    , mCurrentFolder("Assets")
 {
 }
 
 void ProjectPanel::Draw(float width, float height)
 {
-	// ウインドウ位置とサイズを固定
-	ImGui::SetNextWindowPos(ImVec2(width * 0.65f, 30));
-	ImGui::SetNextWindowSize(ImVec2(width * 0.15f, (float)height - 25));
-	//  新しいウィンドウの作成
-	ImGui::Begin("Project", nullptr, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse);
-	{
-		// ルートディレクトリを指定
-        fs::path root = "Assets";
-        // Assets フォルダをルートノードに表示
-        if (ImGui::TreeNode(root.filename().string().c_str()))
-        {
-            ShowDirectoryRecursive(root);
-            ImGui::TreePop();
-        }
-	}
-	ImGui::End();
+    ImGui::SetNextWindowPos(ImVec2(width * 0.65f, 30));
+    ImGui::SetNextWindowSize(ImVec2(width * 0.15f, (float)height - 25));
+    ImGui::Begin("Project", nullptr, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse);
 
-    // ==== フレーム終了時に削除を実行 ====
-    DeleteFile();
+    ImGui::Columns(2); // 2カラムに分割
+
+    // 左カラム = フォルダツリー
+    if (ImGui::TreeNode("Assets"))
+    {
+        DrawFolderTree("Assets");
+        ImGui::TreePop();
+    }
+    ImGui::NextColumn();
+
+    // 右カラム = 選択中フォルダの中身
+    DrawFileView();
+
+    ImGui::Columns(1); // カラム終了
+
+    ImGui::End();
+
+    ProcessPendingOperations(); // 削除やリネームを処理
 }
 
-void ProjectPanel::ShowDirectoryRecursive(const fs::path& path)
+void ProjectPanel::DrawFolderTree(const fs::path& path)
 {
-	// 指定されたパスがディレクトリでない場合は終了
-    // Assetsフォルダ内のファイルを1つずつ処理
     for (auto& entry : fs::directory_iterator(path))
     {
-        const std::string name = entry.path().filename().string();
-		// フォルダ表示
-        if (entry.is_directory())
+        if (!entry.is_directory()) continue; // フォルダだけ表示
+
+        const fs::path entryPath = entry.path();
+        const std::string name = entryPath.filename().string();
+        
+        if (mRenaming && entryPath == mRenameTarget)
         {
-            bool open = ImGui::TreeNodeEx(name.c_str(), ImGuiTreeNodeFlags_OpenOnArrow);
+            // === フォルダ名リネームモード ===
+            ImGui::PushID(entryPath.string().c_str());
 
-            // フォルダを右クリックした時のメニュー
-            RightClickMenu(entry.path());
-
-            // --- フォルダをドラッグ元にする ---
-            if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_None))
-            {
-                std::string pathStr = entry.path().string();
-                ImGui::SetDragDropPayload("FILE_DRAG", pathStr.c_str(), pathStr.size() + 1);
-                ImGui::Text("Moving folder: %s", name.c_str());
-                ImGui::EndDragDropSource();
-            }
-
-            // --- フォルダをドロップ先にする ---
-            if (ImGui::BeginDragDropTarget())
-            {
-                if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("FILE_DRAG"))
-                {
-                    const char* srcPath = (const char*)payload->Data;
-                    fs::path src(srcPath);
-                    fs::path dst = entry.path() / src.filename();
-                    try
-                    {
-                        fs::rename(src, dst);
-                        printf("Moved folder: %s -> %s\n", src.string().c_str(), dst.string().c_str());
-                    }
-                    catch (const std::exception& e)
-                    {
-                        printf("Move failed: %s\n", e.what());
-                    }
-                }
-                ImGui::EndDragDropTarget();
-            }
-            
-			// フォルダ内のファイル、フォルダを再帰的に調べる
-            if (open)
-            {
-                ShowDirectoryRecursive(entry.path());
-                ImGui::TreePop();
-            }
-        }
-		// ファイル表示
-        else
-        {
-            // ファイル表示
-            if (ImGui::Selectable(entry.path().filename().string().c_str()))
-            {
-                g_SelectedFile = entry.path().string();
-            }
-
-            // ドラッグ開始処理
-            if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_None))
-            {
-                std::string pathStr = entry.path().string();
-                ImGui::SetDragDropPayload("FILE_DRAG", pathStr.c_str(), pathStr.size() + 1);
-                ImGui::Text("Moving %s", name.c_str()); // ドラッグ中に表示される文字
-                ImGui::EndDragDropSource();
-            }
-
-            // ファイル右クリックメニュー
-			RightClickMenu(entry.path());
-        }
-
-        if (mRenaming && entry.path() == mRenameTarget)
-        {
-            ImGui::PushID(entry.path().string().c_str());
-
-            // 入力バッファ確保（最大255文字程度）
             char buffer[256];
+#if defined(_MSC_VER)
             strncpy_s(buffer, mRenameBuffer.c_str(), sizeof(buffer));
+#else
+            std::strncpy(buffer, mRenameBuffer.c_str(), sizeof(buffer));
+#endif
             buffer[sizeof(buffer) - 1] = '\0';
 
-            if (ImGui::InputText("##rename", buffer, sizeof(buffer),
-                ImGuiInputTextFlags_EnterReturnsTrue))
+            if (ImGui::InputText("##rename", buffer, sizeof(buffer), ImGuiInputTextFlags_EnterReturnsTrue))
             {
-                mRenameBuffer = buffer;
+                RenameRequest req;
+                req.oldPath = entryPath;
+                req.newStem = std::string(buffer); // フォルダは stem の代わりに新しい名前をそのまま使う
+                mRenameQueue.push_back(req);
+                mRenaming = false;
+            }
 
-                // 新しいフルパス = 親ディレクトリ + 入力名 + 元の拡張子
-                fs::path newPath = entry.path().parent_path() / (mRenameBuffer + entry.path().extension().string());
-
-                if (!fs::exists(newPath)) // 衝突チェック
-                {
-                    try
-                    {
-                        fs::rename(entry.path(), newPath);
-                        printf("Renamed: %s -> %s\n", entry.path().string().c_str(), newPath.string().c_str());
-                    }
-                    catch (const std::exception& e)
-                    {
-                        printf("Rename failed: %s\n", e.what());
-                    }
-                }
-                else
-                {
-                    printf("Rename failed: %s already exists\n", newPath.string().c_str());
-                }
+            // Esc キャンセル
+            if (ImGui::IsItemDeactivated() && !ImGui::IsItemDeactivatedAfterEdit())
+            {
                 mRenaming = false;
             }
 
             ImGui::PopID();
         }
-        /*
         else
         {
-            ImGui::TextUnformatted(entry.path().filename().string().c_str());
+            // === 通常のフォルダ表示 ===
+            bool open = ImGui::TreeNodeEx(name.c_str(), ImGuiTreeNodeFlags_OpenOnArrow);
+
+            // 左クリックで選択中フォルダを更新
+            if (ImGui::IsItemClicked(ImGuiMouseButton_Left))
+            {
+                mCurrentFolder = entryPath;
+            }
+
+            // 右クリックメニュー（Rename 選択で mRenaming が true になる）
+            RightClickMenu(entryPath);
+
+            if (open)
+            {
+                DrawFolderTree(entryPath);
+                ImGui::TreePop();
+            }
+
+
+			DragDropTarget(entryPath);
+            
         }
-        */
+    }
+}
+
+void ProjectPanel::DrawFileView()
+{
+    if (!fs::exists(mCurrentFolder)) return;
+
+    for (auto& entry : fs::directory_iterator(mCurrentFolder))
+    {
+        const fs::path entryPath = entry.path();
+        const std::string name = entryPath.filename().string();
+
+        // --- リネーム対象なら InputText に切り替え ---
+        if (mRenaming && entryPath == mRenameTarget)
+        {
+            ImGui::PushID(entryPath.string().c_str());
+
+            char buffer[256];
+#if defined(_MSC_VER)
+            strncpy_s(buffer, mRenameBuffer.c_str(), sizeof(buffer));
+#else
+            std::strncpy(buffer, mRenameBuffer.c_str(), sizeof(buffer));
+#endif
+            buffer[sizeof(buffer) - 1] = '\0';
+
+            if (ImGui::InputText("##rename", buffer, sizeof(buffer), ImGuiInputTextFlags_EnterReturnsTrue))
+            {
+                RenameRequest req;
+                req.oldPath = entryPath;
+
+                if (entry.is_directory())
+                {
+                    // フォルダはそのまま
+                    req.newStem = std::string(buffer);
+                }
+                else
+                {
+                    // ファイルは拡張子を維持
+                    req.newStem = std::string(buffer);
+                }
+
+                mRenameQueue.push_back(req);
+                mRenaming = false;
+            }
+
+            // Esc キャンセル
+            if (ImGui::IsItemDeactivated() && !ImGui::IsItemDeactivatedAfterEdit())
+            {
+                mRenaming = false;
+            }
+
+            ImGui::PopID();
+        }
+        else
+        {
+            // --- 通常の表示 ---
+            if (ImGui::Selectable(name.c_str()))
+            {
+                if (entry.is_directory())
+                {
+                    // フォルダクリックで開く
+                    mCurrentFolder = entryPath;
+                }
+                else
+                {
+                    // ファイル選択
+                    g_SelectedFile = entryPath.string();
+                }
+            }
+
+            // コンテキストメニュー
+			RightClickMenu(entryPath);
+
+
+            // ドラッグ開始処理（Selectable の近くに置く）
+            if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_None))
+            {
+                std::string pathStr = entryPath.string();
+                ImGui::SetDragDropPayload("FILE_DRAG", pathStr.c_str(), pathStr.size() + 1);
+                ImGui::Text("Moving %s", name.c_str());
+                ImGui::EndDragDropSource();
+            }
+        }
     }
 }
 
 bool ProjectPanel::RightClickMenu(const fs::path& path)
 {
-    // ファイル右クリックメニュー
+    // コンテキストメニューは直前に描画したアイテム（TreeNode か Selectable）に紐づく
     if (ImGui::BeginPopupContextItem())
     {
         if (ImGui::MenuItem("Open in External Editor"))
         {
-            std::string command = "start \"\" \"" + path.string() + "\""; // Windows専用
+            // Windows の例（将来は SDL_OpenURL 等に置き換える）
+            std::string command = "start \"\" \"" + path.string() + "\"";
             system(command.c_str());
         }
 
@@ -168,54 +201,124 @@ bool ProjectPanel::RightClickMenu(const fs::path& path)
         {
             if (ImGui::MenuItem("New Folder"))
             {
-                fs::create_directory(path / "NewFolder");
+                // 簡易的に NewFolder を作る (衝突は考慮していない)
+                try { fs::create_directory(path / "NewFolder"); }
+                catch (const std::exception& e) { Debug::Log("Create folder failed: %s\n", e.what()); }
             }
             if (ImGui::MenuItem("Delete Folder"))
             {
-                mDeleteQueue.push_back(path); // ここでは削除しない
+                // 即削除はしない。遅延キューに追加する
+                mDeleteQueue.push_back(path);
             }
         }
         else
         {
             if (ImGui::MenuItem("Delete File"))
             {
-                mDeleteQueue.push_back(path); // ここでは削除しない
+                mDeleteQueue.push_back(path);
             }
         }
 
+        // Rename（フォルダ・ファイルどちらでも可）
         if (ImGui::MenuItem("Rename"))
         {
             mRenameTarget = path;
-            mRenameBuffer = path.stem().string(); // 拡張子を除いた名前だけ編集対象に
+            // ファイルなら拡張子を除いた stem を編集バッファに、フォルダは full name
+            if (fs::is_directory(path))
+            {
+                mRenameBuffer = path.filename().string();
+            }
+            else
+            {
+                mRenameBuffer = path.stem().string();
+            }
             mRenaming = true;
         }
 
         ImGui::EndPopup();
     }
-	return false;
+
+    return false;
 }
 
-void ProjectPanel::DeleteFile()
+void ProjectPanel::DragDropTarget(const fs::path& path)
 {
-    for (auto& p : mDeleteQueue)
+    const std::string name = path.filename().string();
+
+    // ドロップ先にする
+    if (ImGui::BeginDragDropTarget())
+    {
+        if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("FILE_DRAG"))
+        {
+            const char* srcPathC = (const char*)payload->Data;
+            fs::path src(srcPathC);
+            fs::path dst = path / src.filename();
+
+            // 自分自身や子孫への移動は禁止
+            if (src != path && !src.string().starts_with(path.string()))
+            {
+                try
+                {
+                    fs::rename(src, dst);
+                    Debug::Log("Moved: %s -> %s\n", src.string().c_str(), dst.string().c_str());
+                }
+                catch (const std::exception& e)
+                {
+                    Debug::Log("Move failed: %s\n", e.what());
+                }
+            }
+        }
+        ImGui::EndDragDropTarget();
+    }
+}
+
+void ProjectPanel::ProcessPendingOperations()
+{
+    // まずリネームを行う（リネーム後の名前衝突チェックを行う）
+    for (const auto& req : mRenameQueue)
     {
         try
         {
-            if (fs::is_directory(p))
+            if (!fs::exists(req.oldPath)) continue; // 既に消えていたらスキップ
+            fs::path newPath = req.oldPath.parent_path() / (req.newStem + req.oldPath.extension().string());
+            if (fs::exists(newPath))
             {
-                fs::remove_all(p);
-                printf("Deleted folder: %s\n", p.string().c_str());
+                Debug::Log("Rename failed: %s already exists\n", newPath.string().c_str());
             }
             else
             {
-                fs::remove(p);
-                printf("Deleted file: %s\n", p.string().c_str());
+                fs::rename(req.oldPath, newPath);
+                Debug::Log("Renamed: %s -> %s\n", req.oldPath.string().c_str(), newPath.string().c_str());
             }
         }
         catch (const std::exception& e)
         {
-            printf("Delete failed: %s\n", e.what());
+            Debug::Log("Rename failed: %s\n", e.what());
         }
     }
-    mDeleteQueue.clear(); // キューを空にする
+    mRenameQueue.clear();
+
+    // 次に削除処理
+    for (const auto& p : mDeleteQueue)
+    {
+        try
+        {
+            if (!fs::exists(p)) continue;
+            if (fs::is_directory(p))
+            {
+                fs::remove_all(p);
+                Debug::Log("Deleted folder: %s\n", p.string().c_str());
+            }
+            else
+            {
+                fs::remove(p);
+                Debug::Log("Deleted file: %s\n", p.string().c_str());
+            }
+        }
+        catch (const std::exception& e)
+        {
+            Debug::Log("Delete failed: %s\n", e.what());
+        }
+    }
+    mDeleteQueue.clear();
 }

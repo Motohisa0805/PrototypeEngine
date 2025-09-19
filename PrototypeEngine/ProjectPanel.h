@@ -11,6 +11,12 @@ static std::string g_SelectedFile;
 //本格的な描画処理は未実装
 class ProjectPanel : public GUIPanel
 {
+public:
+	struct RenameRequest 
+	{
+		fs::path oldPath;
+		std::string newStem; // 拡張子は oldPath.extension() を使って再結合する
+	};
 private:
 	vector<fs::path> mDeleteQueue; // 削除予約リスト
 
@@ -18,17 +24,26 @@ private:
 
 	string mRenameBuffer;
 	
-	bool mRenaming = false;
+	bool mRenaming;
+
+	// 追加:
+	vector<RenameRequest> mRenameQueue;
+
+	fs::path mCurrentFolder;
 public:
 	ProjectPanel(class Renderer* renderer);
 
 	void		Draw(float width, float height);
+
 	// 指定されたディレクトリを再帰的に表示
-	void		ShowDirectoryRecursive(const fs::path& path);
+	void		DrawFolderTree(const fs::path& path);
+	void		DrawFileView();
 
 	bool		RightClickMenu(const fs::path& path);
 
-	void		DeleteFile();
+	void		DragDropTarget(const fs::path& path);
+
+	void		ProcessPendingOperations();
 
 	const char* GetName()override { return "Project"; }
 };
