@@ -26,6 +26,12 @@ private:
 	
 	bool mRenaming;
 
+	bool mDragDroping;
+
+	bool mShowOverwritePopup = false;
+	fs::path mPendingSrc;
+	fs::path mPendingDst;
+
 	// ’Ç‰Á:
 	vector<RenameRequest> mRenameQueue;
 
@@ -39,9 +45,15 @@ public:
 	void		DrawFolderTree(const fs::path& path);
 	void		DrawFileView();
 
+	bool        AssetsFolderPrivateMenu();
+
 	bool		RightClickMenu(const fs::path& path);
 
-	void		DragDropTarget(const fs::path& path);
+	void		DragDropFunction(const fs::path& path);
+
+	void		DrawOverwritePopup();
+
+	void		RenameFunction(const fs::directory_entry entry);
 
 	void		ProcessPendingOperations();
 
