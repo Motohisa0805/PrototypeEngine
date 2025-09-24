@@ -2,7 +2,7 @@
 <Project>
   <ProjectOutputs>
     <ProjectOutput>
-      <FullPath>C:\C++Files\PrototypeEngine\PrototypeEngine.exe</FullPath>
+      <FullPath>C:\C++Files\PrototypeEngine\bin\PrototypeEngine.exe</FullPath>
     </ProjectOutput>
   </ProjectOutputs>
   <ContentFiles />
