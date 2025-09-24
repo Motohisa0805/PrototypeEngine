@@ -1,16 +1,21 @@
-﻿  ProjectPanel.cpp
+﻿  Main.cpp
 C:\C++Files\PrototypeEngine\PrototypeEngine\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
-  (ソース ファイル 'ProjectPanel.cpp' をコンパイルしています)
+  (ソース ファイル 'Main.cpp' をコンパイルしています)
       C:\C++Files\PrototypeEngine\PrototypeEngine\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
       'SDL_VERSION' は以前にコマンド ラインで宣言されています
+  
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.26100.0\um\winnt.h(24543,9): warning C4005: 'KEY_EXECUTE': マクロが再定義されました。
+  (ソース ファイル 'Main.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\SDL_Scancode.h(143,9):
+      'KEY_EXECUTE' の以前の定義を確認してください
   
   SOIL.lib(SOIL.obj) : MSIL .netmodule または /GL を伴ってコンパイルされたモジュールが見つかりました。/LTCG を使用して再開始してください。リンカーのパフォーマンスを向上させるためには、コマンドラインに /LTCG を追加してください。
 LINK : warning LNK4075: /INCREMENTAL は /LTCG の指定によって無視されます。
 LINK : warning LNK4098: defaultlib 'MSVCRT' は他のライブラリの使用と競合しています。/NODEFAULTLIB:library を使用してください。
   コード生成しています。
   コード生成が終了しました。
-SOIL.lib(SOIL.obj) : warning LNK4099: PDB 'SOIL.pdb' が 'SOIL.lib(SOIL.obj)' で、または 'C:\C++Files\PrototypeEngine\SOIL.pdb' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
-SOIL.lib(image_helper.obj) : warning LNK4099: PDB 'SOIL.pdb' が 'SOIL.lib(image_helper.obj)' で、または 'C:\C++Files\PrototypeEngine\SOIL.pdb' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
-SOIL.lib(stb_image_aug.obj) : warning LNK4099: PDB 'SOIL.pdb' が 'SOIL.lib(stb_image_aug.obj)' で、または 'C:\C++Files\PrototypeEngine\SOIL.pdb' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
-SOIL.lib(image_DXT.obj) : warning LNK4099: PDB 'SOIL.pdb' が 'SOIL.lib(image_DXT.obj)' で、または 'C:\C++Files\PrototypeEngine\SOIL.pdb' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
-  PrototypeEngine.vcxproj -> C:\C++Files\PrototypeEngine\PrototypeEngine.exe
+SOIL.lib(SOIL.obj) : warning LNK4099: PDB 'SOIL.pdb' が 'SOIL.lib(SOIL.obj)' で、または 'C:\C++Files\PrototypeEngine\bin\SOIL.pdb' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+SOIL.lib(image_helper.obj) : warning LNK4099: PDB 'SOIL.pdb' が 'SOIL.lib(image_helper.obj)' で、または 'C:\C++Files\PrototypeEngine\bin\SOIL.pdb' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+SOIL.lib(stb_image_aug.obj) : warning LNK4099: PDB 'SOIL.pdb' が 'SOIL.lib(stb_image_aug.obj)' で、または 'C:\C++Files\PrototypeEngine\bin\SOIL.pdb' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+SOIL.lib(image_DXT.obj) : warning LNK4099: PDB 'SOIL.pdb' が 'SOIL.lib(image_DXT.obj)' で、または 'C:\C++Files\PrototypeEngine\bin\SOIL.pdb' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+  PrototypeEngine.vcxproj -> C:\C++Files\PrototypeEngine\bin\PrototypeEngine.exe

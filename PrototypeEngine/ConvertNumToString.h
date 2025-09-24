@@ -43,5 +43,12 @@ namespace StringConverter
 		}
 		return s;
 	}
+	//w’è‚µ‚½”ÍˆÍ‚Ì•¶š—ñ‚ğ’Šo‚·‚éŠÖ”
+	inline string StringExtracter(const string& str, size_t begin, size_t end)
+	{
+		string result;
+		result = str.substr(begin, end);
+		return result;
+	}
 };
 
