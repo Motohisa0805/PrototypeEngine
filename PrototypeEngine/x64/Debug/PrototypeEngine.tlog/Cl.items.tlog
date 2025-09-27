@@ -27,6 +27,7 @@ C:\C++Files\PrototypeEngine\PrototypeEngine\DebugScene02.cpp;C:\C++Files\Prototy
 C:\C++Files\PrototypeEngine\PrototypeEngine\DialogBox.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\DialogBox.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\DirectionalLightActor.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\DirectionalLightActor.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\DirectionalLightComponent.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\DirectionalLightComponent.obj
+C:\C++Files\PrototypeEngine\PrototypeEngine\EditorMain.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\EditorMain.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\EngineWindow.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\EngineWindow.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\FollowCamera.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\FollowCamera.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\FollowObjectMovement.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\FollowObjectMovement.obj
@@ -37,9 +38,11 @@ C:\C++Files\PrototypeEngine\PrototypeEngine\FPSCanvas.cpp;C:\C++Files\PrototypeE
 C:\C++Files\PrototypeEngine\PrototypeEngine\FreeCamera.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\FreeCamera.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\FreeCameraActor.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\FreeCameraActor.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\GameApp.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\GameApp.obj
+C:\C++Files\PrototypeEngine\PrototypeEngine\GameMain.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\GameMain.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\GameViewPanel.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\GameViewPanel.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\GameWinMain.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\GameWinMain.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\GBuffer.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\GBuffer.obj
+C:\C++Files\PrototypeEngine\PrototypeEngine\GUIMainMenu.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\GUIMainMenu.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\GUIPanel.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\GUIPanel.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\GUIWinMain.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\GUIWinMain.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\GunActor.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\GunActor.obj
@@ -53,7 +56,6 @@ C:\C++Files\PrototypeEngine\PrototypeEngine\ImGui\imgui_impl_sdl3.cpp;C:\C++File
 C:\C++Files\PrototypeEngine\PrototypeEngine\ImGui\imgui_tables.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\imgui_tables.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\ImGui\imgui_widgets.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\imgui_widgets.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\InputSystem.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\InputSystem.obj
-C:\C++Files\PrototypeEngine\PrototypeEngine\Main.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\Main.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\Math.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\Math.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\Mesh.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\Mesh.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\MeshActor.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\MeshActor.obj

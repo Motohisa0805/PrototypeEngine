@@ -37,8 +37,14 @@ ToolbarPanel::~ToolbarPanel()
 	}
 }
 
-void ToolbarPanel::Initialize()
+void ToolbarPanel::Initialize(float width, float height, ImTextureRef ref)
 {
+	mWidthPos = 0.0f;
+	mHeightPos = 25.0f; // メニューバーの下から開始
+	mWidthSize = width;
+	mHeightSize = 25.0f;
+
+	// ツールバーは画面上部に固定
 	mPlayButtonTexture = new Texture();
 	if (!mPlayButtonTexture->Load("Assets/Editor/PlayButton.png"))
 	{
@@ -61,70 +67,72 @@ void ToolbarPanel::Initialize()
 	}
 }
 
-void ToolbarPanel::Draw(float width, float height)
+void ToolbarPanel::ResetWindowPos(float width, float height)
 {
-	// 上部バーの高さ
-	int toolbarHeight = 25;
+}
+
+void ToolbarPanel::Draw(float width, float height, ImTextureRef ref)
+{
 
 	// ウインドウ位置とサイズを固定
-	ImGui::SetNextWindowPos(ImVec2(0, 0));
-	ImGui::SetNextWindowSize(ImVec2((float)width, (float)toolbarHeight));
+	ImGui::SetNextWindowPos(ImVec2(mWidthPos, mHeightPos));
+	ImGui::SetNextWindowSize(ImVec2(mWidthSize, mHeightSize));
 
-	ImGui::Begin(GetName(),
+	if (ImGui::Begin(GetName(),
 		nullptr,
 		ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize |
-		ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoScrollbar);
-
-	ImGui::SetCursorPosX(width * 0.5f - 30); // 中央寄せ調整（60はボタン群の半幅）
-
-	//再生/停止ボタン
-	if (!GUIWinMain::IsPlaying())
+		ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoScrollbar))
 	{
-		if (ImGui::ImageButton("PlayButton", (ImTextureID)(intptr_t)mPlayButtonTexture->GetTextureID(), ImVec2(15, 15)))
+		ImGui::SetCursorPosX(width * 0.5f - 30); // 中央寄せ調整（60はボタン群の半幅）
+
+		//再生/停止ボタン
+		if (!GUIWinMain::IsPlaying())
 		{
-			GUIWinMain::SetIsPlaying(true);
-			GUIWinMain::SetIsPaused(false);
-			// スタートボタンが押された
-			GUIWinMain::SetIsStarting(true);
+			if (ImGui::ImageButton("PlayButton", (ImTextureID)(intptr_t)mPlayButtonTexture->GetTextureID(), ImVec2(15, 15)))
+			{
+				GUIWinMain::SetIsPlaying(true);
+				GUIWinMain::SetIsPaused(false);
+				// スタートボタンが押された
+				GUIWinMain::SetIsStarting(true);
+			}
+		}
+		else
+		{
+			if (ImGui::ImageButton("PlayButton", (ImTextureID)(intptr_t)mStopButtonTexture->GetTextureID(), ImVec2(15, 15)))
+			{
+				GUIWinMain::SetIsPlaying(false);
+				GUIWinMain::SetIsPaused(false);
+				// 停止ボタンが押された
+				GUIWinMain::SetIsPushEnd(true);
+			}
+		}
+
+		// 同じ行に Pause
+		ImGui::SameLine();
+		if (ImGui::ImageButton("PauseButton", (ImTextureID)(intptr_t)mPauseButtonTexture->GetTextureID(), ImVec2(15, 15)))
+		{
+			if (GUIWinMain::IsPlaying())
+			{
+				GUIWinMain::SetIsPaused(!GUIWinMain::IsPaused());
+			}
+		}
+
+		if (GUIWinMain::IsFrameByFrame())
+		{
+			GUIWinMain::SetIsPaused(true);
+			GUIWinMain::SetIsFrameByFrame(false);
+		}
+
+		// 同じ行に FrameByFrame
+		ImGui::SameLine();
+		if (ImGui::ImageButton("FrameByFrameButton", (ImTextureID)(intptr_t)mFrameByFrameButtonTexture->GetTextureID(), ImVec2(15, 15)))
+		{
+			if (GUIWinMain::IsPlaying() && GUIWinMain::IsPaused())
+			{
+				GUIWinMain::SetIsFrameByFrame(true);
+				GUIWinMain::SetIsPaused(false);
+			}
 		}
 	}
-	else
-	{
-		if (ImGui::ImageButton("PlayButton", (ImTextureID)(intptr_t)mStopButtonTexture->GetTextureID(), ImVec2(15, 15)))
-		{
-			GUIWinMain::SetIsPlaying(false);
-			GUIWinMain::SetIsPaused(false);
-			// 停止ボタンが押された
-			GUIWinMain::SetIsPushEnd(true);
-		}
-	}
-
-	// 同じ行に Pause
-	ImGui::SameLine();
-	if (ImGui::ImageButton("PauseButton", (ImTextureID)(intptr_t)mPauseButtonTexture->GetTextureID(), ImVec2(15, 15)))
-	{
-		if (GUIWinMain::IsPlaying())
-		{
-			GUIWinMain::SetIsPaused(!GUIWinMain::IsPaused());
-		}
-	}
-
-	if (GUIWinMain::IsFrameByFrame())
-	{
-		GUIWinMain::SetIsPaused(true);
-		GUIWinMain::SetIsFrameByFrame(false);
-	}
-
-	// 同じ行に FrameByFrame
-	ImGui::SameLine();
-	if (ImGui::ImageButton("FrameByFrameButton", (ImTextureID)(intptr_t)mFrameByFrameButtonTexture->GetTextureID(), ImVec2(15, 15)))
-	{
-		if (GUIWinMain::IsPlaying() && GUIWinMain::IsPaused())
-		{
-			GUIWinMain::SetIsFrameByFrame(true);
-			GUIWinMain::SetIsPaused(false);
-		}
-	}
-
 	ImGui::End();
 }

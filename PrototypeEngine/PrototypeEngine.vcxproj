@@ -74,6 +74,10 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(SolutionDir)bin\</OutDir>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>true</LinkIncremental>
+    <OutDir>$(SolutionDir)bin\</OutDir>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -107,12 +111,12 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;SDL_VERSION=SDL3-3.2.8;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>Default</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>$(ProjectDir)SDL3-3.2.8\include;$(ProjectDir)SDL3_image-3.2.4\include;$(ProjectDir)FMOD Studio API Windows\api\lowlevel\inc;$(ProjectDir)FMOD Studio API Windows\api\studio\inc;$(ProjectDir)SDL3_ttf-3.1.0\include;$(ProjectDir)rapidjson-master\rapidjson-master\include;$(ProjectDir)ImGui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)ExternalLibrary\SDL3-3.2.8\include;$(ProjectDir)ExternalLibrary\SDL3_image-3.2.4\include;$(ProjectDir)ExternalLibrary\FMOD Studio API Windows\api\lowlevel\inc;$(ProjectDir)ExternalLibrary\FMOD Studio API Windows\api\studio\inc;$(ProjectDir)ExternalLibrary\SDL3_ttf-3.1.0\include;$(ProjectDir)ExternalLibrary\rapidjson-master\rapidjson-master\include;$(ProjectDir)ImGui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(ProjectDir)SDL3-3.2.8\lib\x64;$(ProjectDir)SDL3_image-3.2.4\lib\x64;$(ProjectDir)FMOD Studio API Windows\api\studio\lib;$(ProjectDir)FMOD Studio API Windows\api\lowlevel\lib;$(ProjectDir)SDL3_ttf-3.1.0\lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(ProjectDir)ExternalLibrary\SDL3-3.2.8\lib\x64;$(ProjectDir)ExternalLibrary\SDL3_image-3.2.4\lib\x64;$(ProjectDir)ExternalLibrary\FMOD Studio API Windows\api\studio\lib;$(ProjectDir)ExternalLibrary\FMOD Studio API Windows\api\lowlevel\lib;$(ProjectDir)ExternalLibrary\SDL3_ttf-3.1.0\lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>SDL3.lib;SDL3_image.lib;fmod_vc.lib;fmod64_vc.lib;fmodL_vc.lib;fmodL64_vc.lib;fmodstudio_vc.lib;fmodstudio64_vc.lib;fmodstudioL_vc.lib;fmodstudioL64_vc.lib;SDL3_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -122,12 +126,18 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_RELEASE;_CONSOLE;SDL_VERSION=SDL3-3.2.8;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(ProjectDir)ExternalLibrary\SDL3-3.2.8\include;$(ProjectDir)ExternalLibrary\SDL3_image-3.2.4\include;$(ProjectDir)ExternalLibrary\FMOD Studio API Windows\api\lowlevel\inc;$(ProjectDir)ExternalLibrary\FMOD Studio API Windows\api\studio\inc;$(ProjectDir)ExternalLibrary\SDL3_ttf-3.1.0\include;$(ProjectDir)ExternalLibrary\rapidjson-master\rapidjson-master\include;$(ProjectDir)ImGui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <SupportJustMyCode>true</SupportJustMyCode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(ProjectDir)ExternalLibrary\SDL3-3.2.8\lib\x64;$(ProjectDir)ExternalLibrary\SDL3_image-3.2.4\lib\x64;$(ProjectDir)ExternalLibrary\FMOD Studio API Windows\api\studio\lib;$(ProjectDir)ExternalLibrary\FMOD Studio API Windows\api\lowlevel\lib;$(ProjectDir)ExternalLibrary\SDL3_ttf-3.1.0\lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>SDL3.lib;SDL3_image.lib;fmod_vc.lib;fmod64_vc.lib;fmodL_vc.lib;fmodL64_vc.lib;fmodstudio_vc.lib;fmodstudio64_vc.lib;fmodstudioL_vc.lib;fmodstudioL64_vc.lib;SDL3_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -183,6 +193,7 @@
     <ClCompile Include="DialogBox.cpp" />
     <ClCompile Include="DirectionalLightActor.cpp" />
     <ClCompile Include="DirectionalLightComponent.cpp" />
+    <ClCompile Include="EditorMain.cpp" />
     <ClCompile Include="EngineWindow.cpp" />
     <ClCompile Include="FollowCamera.cpp" />
     <ClCompile Include="FollowObjectMovement.cpp" />
@@ -193,9 +204,11 @@
     <ClCompile Include="FreeCamera.cpp" />
     <ClCompile Include="FreeCameraActor.cpp" />
     <ClCompile Include="GameApp.cpp" />
+    <ClCompile Include="GameMain.cpp" />
     <ClCompile Include="GameViewPanel.cpp" />
     <ClCompile Include="GameWinMain.cpp" />
     <ClCompile Include="GBuffer.cpp" />
+    <ClCompile Include="GUIMainMenu.cpp" />
     <ClCompile Include="GUIPanel.cpp" />
     <ClCompile Include="GUIWinMain.cpp" />
     <ClCompile Include="GunActor.cpp" />
@@ -209,7 +222,6 @@
     <ClCompile Include="ImGui\imgui_tables.cpp" />
     <ClCompile Include="ImGui\imgui_widgets.cpp" />
     <ClCompile Include="InputSystem.cpp" />
-    <ClCompile Include="Main.cpp" />
     <ClCompile Include="Math.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="MeshActor.cpp" />
@@ -308,6 +320,7 @@
     <ClInclude Include="GameViewPanel.h" />
     <ClInclude Include="GameWinMain.h" />
     <ClInclude Include="GBuffer.h" />
+    <ClInclude Include="GUIMainMenu.h" />
     <ClInclude Include="GUIPanel.h" />
     <ClInclude Include="GUIWinMain.h" />
     <ClInclude Include="GunActor.h" />

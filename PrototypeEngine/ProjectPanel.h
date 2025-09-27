@@ -39,7 +39,9 @@ private:
 public:
 	ProjectPanel(class Renderer* renderer);
 
-	void		Draw(float width, float height);
+	void		Initialize(float width, float height, ImTextureRef ref = nullptr)override;
+
+	void		Draw(float width, float height, ImTextureRef ref = nullptr)override;
 
 	// 指定されたディレクトリを再帰的に表示
 	void		DrawFolderTree(const fs::path& path);

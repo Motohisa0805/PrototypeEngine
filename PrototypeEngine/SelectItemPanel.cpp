@@ -5,13 +5,21 @@ SelectItemPanel::SelectItemPanel(Renderer* renderer)
 {
 }
 
-void SelectItemPanel::Draw(float width, float height)
+void SelectItemPanel::Initialize(float width, float height, ImTextureRef ref)
+{	
+	mWidthPos = width * 0.8f;
+	mHeightPos = 55.0f;
+	mWidthSize = width * 0.2f;
+	mHeightSize = height - 55.0f;
+}
+
+void SelectItemPanel::Draw(float width, float height, ImTextureRef ref)
 {
 	// ウインドウ位置とサイズを固定
-	ImGui::SetNextWindowPos(ImVec2(width * 0.8f, 30));
-	ImGui::SetNextWindowSize(ImVec2((width * 0.2f), (float)height - 25));
+	ImGui::SetNextWindowPos(ImVec2(mWidthPos, mHeightPos), ImGuiCond_Once);
+	ImGui::SetNextWindowSize(ImVec2(mWidthSize, mHeightSize));
 	//  新しいウィンドウの作成
-	ImGui::Begin("SelectItem", nullptr, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse);
+	if(ImGui::Begin("SelectItem", nullptr, ImGuiWindowFlags_NoCollapse))
 	{
 
 	}

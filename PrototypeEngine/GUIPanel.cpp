@@ -6,10 +6,18 @@ GUIPanel::GUIPanel(Renderer* renderer)
 {
 }
 
+void GUIPanel::Initialize(float width, float height, ImTextureRef ref)
+{
+}
+
 bool GUIPanel::MouseHoveredDisble()
 {
 	isMouseHovered = false;
 	return true;
+}
+
+void GUIPanel::ResetWindowPos(float width, float height)
+{
 }
 
 bool GUIPanel::WindowHoveredConfirmation()
@@ -22,4 +30,9 @@ bool GUIPanel::WindowHoveredConfirmation()
 		return true;
 	}
 	return false;
+}
+
+void GUIPanel::Draw(float width, float height, ImTextureRef ref)
+{
+
 }

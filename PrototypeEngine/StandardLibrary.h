@@ -27,6 +27,5 @@
 #include <thread>
 #include <optional>
 //Rapidjsonの外部インクルード
-//#include <rapidjson/document.h>
 #include <rapidjson/document.h>
 #include <rapidjson/istreamwrapper.h>

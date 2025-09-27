@@ -9,6 +9,8 @@ private:
 public:
 	GameViewPanel(class Renderer* renderer);
 
+	void		Initialize(float width, float height, ImTextureRef ref = nullptr)override;
+
 	void		Draw(float width,float height,ImTextureRef ref);
 
 	const char* GetName()override { return "Game"; }

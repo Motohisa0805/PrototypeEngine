@@ -13,8 +13,9 @@ private:
 public:
 	ToolbarPanel(class Renderer* renderer);
 	~ToolbarPanel();
-	void Initialize();
-	void Draw(float width, float height);
+	void Initialize(float width, float height, ImTextureRef ref = nullptr)override;
+	void ResetWindowPos(float width, float height)override;
+	void Draw(float width, float height,ImTextureRef ref = nullptr)override;
 	const char* GetName()override { return "Toolbar"; }
 };
 

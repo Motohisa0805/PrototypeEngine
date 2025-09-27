@@ -5,13 +5,21 @@ HierarchyPanel::HierarchyPanel(Renderer* renderer)
 {
 }
 
-void HierarchyPanel::Draw(float width, float height)
+void HierarchyPanel::Initialize(float width, float height, ImTextureRef ref)
+{
+	mWidthPos = width * 0.5f;
+	mHeightPos = 55.0f;
+	mWidthSize = width * 0.15f;
+	mHeightSize = height - 55.0f;
+}
+
+void HierarchyPanel::Draw(float width, float height, ImTextureRef ref)
 {
 	// ウインドウ位置とサイズを固定
-	ImGui::SetNextWindowPos(ImVec2((width * 0.5f), 30));
-	ImGui::SetNextWindowSize(ImVec2(width * 0.15f, (float)height - 25));
+	ImGui::SetNextWindowPos(ImVec2(mWidthPos, mHeightPos), ImGuiCond_Once);
+	ImGui::SetNextWindowSize(ImVec2(mWidthSize, mHeightSize));
 	//  新しいウィンドウの作成
-	ImGui::Begin("Hierarchy", nullptr, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse);
+	if(ImGui::Begin("Hierarchy", nullptr, ImGuiWindowFlags_NoCollapse))
 	{
 
 	}

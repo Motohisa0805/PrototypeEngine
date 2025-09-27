@@ -7,12 +7,20 @@ GameViewPanel::GameViewPanel(Renderer* renderer)
 {
 }
 
+void GameViewPanel::Initialize(float width, float height, ImTextureRef ref)
+{
+	mWidthPos = 0.0f;
+	mHeightPos = height * 0.5f;
+	mWidthSize = width * 0.5f;
+	mHeightSize = height * 0.5f;
+}
+
 void GameViewPanel::Draw(float width, float height, ImTextureRef ref)
 {
 	// ウインドウ位置とサイズを固定
-	ImGui::SetNextWindowPos(ImVec2(0.0f, (float)height * 0.5f));
-	ImGui::SetNextWindowSize(ImVec2((float)width * 0.5f, (float)height * 0.5f));
-	ImGui::Begin(GetName(), nullptr, ImGuiWindowFlags_NoCollapse);
+	ImGui::SetNextWindowPos(ImVec2(mWidthPos, mHeightPos), ImGuiCond_Once);
+	ImGui::SetNextWindowSize(ImVec2(mWidthSize, mHeightSize));
+	if(ImGui::Begin(GetName(), nullptr, ImGuiWindowFlags_NoCollapse))
 	{
 		//入力処理
 		MouseHoveredDisble();
@@ -42,7 +50,7 @@ void GameViewPanel::Draw(float width, float height, ImTextureRef ref)
 		//描画処理
 		// ウィンドウサイズに合わせて描画
 		ImGui::Image(
-			ref,
+			(ImTextureID)(intptr_t)mRenderer->GetGameSceneViewEditor()->GetSceneColorTex(),
 			winSize,
 			ImVec2(0, 1),  // uv0 (上下反転に注意)
 			ImVec2(1, 0)   // uv1
