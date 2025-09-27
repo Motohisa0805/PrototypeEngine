@@ -4,6 +4,7 @@
 #include "ShadowMap.h"
 #include "GBuffer.h"
 
+#include "GUIMainMenu.h"
 #include "ToolbarPanel.h"
 #include "GameViewPanel.h"
 #include "SceneViewPanel.h"
@@ -28,6 +29,10 @@ Vector2 GUIWinMain::mGameWinSize = Vector2::Zero;
 
 Vector2 GUIWinMain::mSceneWinSize = Vector2::Zero;
 
+vector<GUIPanel*> GUIWinMain::mGUIPanel;
+
+GUIMainMenu* GUIWinMain::mMainMenu = nullptr;
+
 ToolbarPanel* GUIWinMain::mToolbarPanel = nullptr;
 
 GameViewPanel* GUIWinMain::mGameViewPanel = nullptr;
@@ -47,8 +52,12 @@ bool GUIWinMain::InitializeImGui(SDL_Window* window, SDL_GLContext glContext)
 	ImGui_ImplSDL3_InitForOpenGL(window, glContext);
 	ImGui_ImplOpenGL3_Init("#version 330");
 
+	int windowWidth = WindowRenderProperty::GetWidth();
+	int windowHeight = WindowRenderProperty::GetHeight();
+
+	mMainMenu = new GUIMainMenu(mRenderer);
+
 	mToolbarPanel = new ToolbarPanel(mRenderer);
-	mToolbarPanel->Initialize();
 
 	mGameViewPanel = new GameViewPanel(mRenderer);
 
@@ -59,6 +68,19 @@ bool GUIWinMain::InitializeImGui(SDL_Window* window, SDL_GLContext glContext)
 	mProjectPanel = new ProjectPanel(mRenderer);
 
 	mSelectItemPanel = new SelectItemPanel(mRenderer);
+
+	mGUIPanel.push_back(mMainMenu);
+	mGUIPanel.push_back(mToolbarPanel);
+	mGUIPanel.push_back(mGameViewPanel);
+	mGUIPanel.push_back(mSceneViewPanel);
+	mGUIPanel.push_back(mHierarchyPanel);
+	mGUIPanel.push_back(mProjectPanel);
+	mGUIPanel.push_back(mSelectItemPanel);
+
+	for (int i = 0; i < mGUIPanel.size(); i++)
+	{
+		mGUIPanel[i]->Initialize(windowWidth, windowHeight);
+	}
 
 	return true;
 }
@@ -79,6 +101,16 @@ void GUIWinMain::RenderImGui()
 	// 画面サイズ（SDLで取得したウィンドウ幅/高さ）
 	int windowWidth = WindowRenderProperty::GetWidth();
 	int windowHeight = WindowRenderProperty::GetHeight();
+
+	for (int i = 0; i < mGUIPanel.size(); i++)
+	{
+		mGUIPanel[i]->Draw(windowWidth, windowHeight);
+	}
+
+	/*
+	{
+		mMainMenu->Draw(windowWidth, windowHeight);
+	}
 	//再生/一時停止/停止ボタンの状態を管理
 	{
 		mToolbarPanel->Draw(windowWidth, windowHeight);
@@ -109,6 +141,7 @@ void GUIWinMain::RenderImGui()
 	{
 		mSelectItemPanel->Draw(windowWidth, windowHeight);
 	}
+	*/
 
 
 
@@ -122,6 +155,12 @@ void GUIWinMain::ShutdownImGui()
 	ImGui_ImplSDL3_Shutdown();
 	ImGui::DestroyContext();
 
+
+	if (mMainMenu)
+	{
+		delete mMainMenu;
+		mMainMenu = nullptr;
+	}
 	if (mToolbarPanel)
 	{
 		delete mToolbarPanel;
@@ -152,4 +191,6 @@ void GUIWinMain::ShutdownImGui()
 		delete mSelectItemPanel;
 		mSelectItemPanel = nullptr;
 	}
+
+	mGUIPanel.clear();
 }

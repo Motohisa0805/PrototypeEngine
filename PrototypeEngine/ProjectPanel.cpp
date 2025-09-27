@@ -11,34 +11,50 @@ ProjectPanel::ProjectPanel(Renderer* renderer)
 {
 }
 
-void ProjectPanel::Draw(float width, float height)
+void ProjectPanel::Initialize(float width, float height, ImTextureRef ref)
 {
-    ImGui::SetNextWindowPos(ImVec2(width * 0.65f, 30));
-    ImGui::SetNextWindowSize(ImVec2(width * 0.15f, (float)height - 25));
-    ImGui::Begin("Project", nullptr, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse);
-
-    ImGui::Columns(2); // 2カラムに分割
-
-    // 左カラム = フォルダツリー
-    if (ImGui::TreeNode("Assets"))
+    mWidthPos = width * 0.65f;
+    mHeightPos = 55.0f;
+    mWidthSize = width * 0.15f;
+    mHeightSize = height - 55.0f;
+    /*
+    // Assets フォルダがなければ作成
+    if (!fs::exists("Assets"))
     {
-        // 左クリックで選択中フォルダを更新
-        if (ImGui::IsItemClicked(ImGuiMouseButton_Left))
+        fs::create_directory("Assets");
+	}
+    */
+}
+
+void ProjectPanel::Draw(float width, float height, ImTextureRef ref)
+{
+    ImGui::SetNextWindowPos(ImVec2(mWidthPos, mHeightPos), ImGuiCond_Once);
+    ImGui::SetNextWindowSize(ImVec2(mWidthSize, mHeightSize));
+    if (ImGui::Begin("Project", nullptr, ImGuiWindowFlags_NoCollapse))
+    {
+        ImGui::Columns(2); // 2カラムに分割
+
+        // 左カラム = フォルダツリー
+        if (ImGui::TreeNode("Assets"))
         {
-            mCurrentFolder = "Assets";
+            // 左クリックで選択中フォルダを更新
+            if (ImGui::IsItemClicked(ImGuiMouseButton_Left))
+            {
+                mCurrentFolder = "Assets";
+            }
+
+            AssetsFolderPrivateMenu();
+            DrawFolderTree("Assets");
+            ImGui::TreePop();
         }
-
-        AssetsFolderPrivateMenu();
-        DrawFolderTree("Assets");
-        ImGui::TreePop();
-    }
-    ImGui::NextColumn();
+        ImGui::NextColumn();
     
-    // 右カラム = 選択中フォルダの中身
-    DrawFileView();
+        // 右カラム = 選択中フォルダの中身
+        DrawFileView();
 
-    // カラム終了
-    ImGui::Columns(1); 
+        // カラム終了
+        ImGui::Columns(1); 
+    }
     ImGui::End();
 
     DrawOverwritePopup();
