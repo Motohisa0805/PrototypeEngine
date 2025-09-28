@@ -18,8 +18,17 @@ void GameViewPanel::Initialize(float width, float height, ImTextureRef ref)
 void GameViewPanel::Draw(float width, float height, ImTextureRef ref)
 {
 	// ウインドウ位置とサイズを固定
-	ImGui::SetNextWindowPos(ImVec2(mWidthPos, mHeightPos), ImGuiCond_Once);
-	ImGui::SetNextWindowSize(ImVec2(mWidthSize, mHeightSize));
+	if (isResetLayout)
+	{
+		ImGui::SetNextWindowPos(ImVec2(mWidthPos, mHeightPos));
+		ImGui::SetNextWindowSize(ImVec2(mWidthSize, mHeightSize));
+		isResetLayout = false;
+	}
+	else
+	{
+		ImGui::SetNextWindowPos(ImVec2(mWidthPos, mHeightPos), ImGuiCond_Once);
+		ImGui::SetNextWindowSize(ImVec2(mWidthSize, mHeightSize), ImGuiCond_Once);
+	}
 	if(ImGui::Begin(GetName(), nullptr, ImGuiWindowFlags_NoCollapse))
 	{
 		//入力処理
@@ -33,10 +42,11 @@ void GameViewPanel::Draw(float width, float height, ImTextureRef ref)
 				InputContextManager::SetContext(InputContext::Game);
 			}
 		}
+		GUIPanelMenu();
 
 		//更新処理
+		ImVec2 winSize = GetAspectRatio();
 		ImVec2 winPos = ImGui::GetCursorScreenPos();
-		ImVec2 winSize = ImGui::GetContentRegionAvail();
 
 		// GameView のサイズが変わったら FBO をリサイズ
 		if (mRenderer->GetGameSceneViewEditor()->NeedsResize(Vector2((int)winSize.x, (int)winSize.y)))

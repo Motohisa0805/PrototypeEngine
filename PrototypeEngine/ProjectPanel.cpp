@@ -28,10 +28,20 @@ void ProjectPanel::Initialize(float width, float height, ImTextureRef ref)
 
 void ProjectPanel::Draw(float width, float height, ImTextureRef ref)
 {
-    ImGui::SetNextWindowPos(ImVec2(mWidthPos, mHeightPos), ImGuiCond_Once);
-    ImGui::SetNextWindowSize(ImVec2(mWidthSize, mHeightSize));
+    if (isResetLayout)
+    {
+        ImGui::SetNextWindowPos(ImVec2(mWidthPos, mHeightPos));
+        ImGui::SetNextWindowSize(ImVec2(mWidthSize, mHeightSize));
+		isResetLayout = false;
+    }
+    else
+    {
+        ImGui::SetNextWindowPos(ImVec2(mWidthPos, mHeightPos), ImGuiCond_Once);
+        ImGui::SetNextWindowSize(ImVec2(mWidthSize, mHeightSize), ImGuiCond_Once);
+    }
     if (ImGui::Begin("Project", nullptr, ImGuiWindowFlags_NoCollapse))
     {
+        GUIPanelMenu();
         ImGui::Columns(2); // 2カラムに分割
 
         // 左カラム = フォルダツリー

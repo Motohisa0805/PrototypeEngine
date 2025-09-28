@@ -11,8 +11,8 @@ void SceneViewPanel::Initialize(float width, float height, ImTextureRef ref)
 {
 	mWidthPos = 0.0f;
 	mHeightPos = 55.0f;
-	mWidthSize = width * 0.5f;
-	mHeightSize = height * 0.5f;
+	mWidthSize = (width * 0.5f) - mWidthPos;
+	mHeightSize = (height * 0.5f) - mHeightPos;
 }
 
 bool SceneViewPanel::MouseHoveredDisble()
@@ -26,11 +26,20 @@ bool SceneViewPanel::MouseHoveredDisble()
 
 void SceneViewPanel::Draw(float width, float height, ImTextureRef ref)
 {
-	// ウインドウ位置とサイズを固定
-	ImGui::SetNextWindowPos(ImVec2(mWidthPos, mHeightPos), ImGuiCond_Once);
 	ImVec2 winsize = ImVec2(mWidthSize, mHeightSize);
-	ImGui::SetNextWindowSize(winsize);
-	if(ImGui::Begin(GetName(), nullptr))
+	// ウインドウ位置とサイズを固定
+	if (isResetLayout)
+	{
+		ImGui::SetNextWindowPos(ImVec2(mWidthPos, mHeightPos));
+		ImGui::SetNextWindowSize(winsize);
+		isResetLayout = false;
+	}
+	else
+	{
+		ImGui::SetNextWindowPos(ImVec2(mWidthPos, mHeightPos), ImGuiCond_Once);
+		ImGui::SetNextWindowSize(winsize, ImGuiCond_Once);
+	}
+	if(ImGui::Begin(GetName(), nullptr, ImGuiWindowFlags_NoCollapse))
 	{
 		// SceneView のサイズが変わったら FBO をリサイズ
 		if (mRenderer->GetSceneViewEditor()->NeedsResize(Vector2((int)winsize.x, (int)winsize.y)))
@@ -43,8 +52,9 @@ void SceneViewPanel::Draw(float width, float height, ImTextureRef ref)
 		MouseHoveredDisble();
 		//マウスがこのウィンドウにあるかどうか判定
 		WindowHoveredConfirmation();
+		GUIPanelMenu();
 
-		ImVec2 size = ImGui::GetContentRegionAvail();
+		ImVec2 size = GetAspectRatio();
 		// SceneView のテクスチャを貼る
 		ImGui::Image(mRenderer->GetSceneViewEditor()->GetSceneColorTex(),
 					 size,
