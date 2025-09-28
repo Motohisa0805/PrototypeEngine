@@ -15,6 +15,8 @@ protected:
 	float				mHeightPos;
 	float				mWidthSize;
 	float				mHeightSize;
+	//GUIのレイアウトを初期位置に戻すフラグ
+	bool				isResetLayout;
 public:
 	GUIPanel(Renderer* renderer);
 
@@ -28,7 +30,16 @@ public:
 
 	virtual void		Draw(float width, float height, ImTextureRef ref = nullptr);
 
+	virtual void        GUIPanelMenu();
+
 	bool				IsMouseHovered() const { return isMouseHovered; }
 	virtual const char* GetName() { return "BasePanel"; }
+
+	float				GetWindowSizeWidth();
+	float				GetWindowSizeHeight();
+	//画面サイズを元にアスペクト比を計算
+	ImVec2				GetAspectRatio();
+
+	void				EnableResetLayout() { isResetLayout = true; }
 };
 

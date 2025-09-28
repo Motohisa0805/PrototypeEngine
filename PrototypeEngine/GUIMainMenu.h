@@ -10,6 +10,8 @@ public:
 	~GUIMainMenu();
 	void Initialize(float width, float height, ImTextureRef ref = nullptr)override;
 	void Draw(float width, float height, ImTextureRef ref = nullptr)override;
+	void FileMenuDraw();
+	void ViewMenuDraw();
 	const char* GetName()override { return "MainMenu"; }
 };
 

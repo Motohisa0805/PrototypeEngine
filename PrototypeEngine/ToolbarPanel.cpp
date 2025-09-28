@@ -75,14 +75,15 @@ void ToolbarPanel::Draw(float width, float height, ImTextureRef ref)
 {
 
 	// ウインドウ位置とサイズを固定
-	ImGui::SetNextWindowPos(ImVec2(mWidthPos, mHeightPos));
-	ImGui::SetNextWindowSize(ImVec2(mWidthSize, mHeightSize));
+	ImGui::SetNextWindowPos(ImVec2(mWidthPos, mHeightPos), ImGuiCond_Once);
+	ImGui::SetNextWindowSize(ImVec2(mWidthSize, mHeightSize), ImGuiCond_Once);
 
 	if (ImGui::Begin(GetName(),
 		nullptr,
 		ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize |
 		ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoScrollbar))
 	{
+		GUIPanelMenu();
 		ImGui::SetCursorPosX(width * 0.5f - 30); // 中央寄せ調整（60はボタン群の半幅）
 
 		//再生/停止ボタン
