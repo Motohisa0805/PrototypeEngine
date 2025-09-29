@@ -17,13 +17,6 @@ void ProjectPanel::Initialize(float width, float height, ImTextureRef ref)
     mHeightPos = 55.0f;
     mWidthSize = width * 0.15f;
     mHeightSize = height - 55.0f;
-    /*
-    // Assets フォルダがなければ作成
-    if (!fs::exists("Assets"))
-    {
-        fs::create_directory("Assets");
-	}
-    */
 }
 
 void ProjectPanel::Draw(float width, float height, ImTextureRef ref)
@@ -77,6 +70,24 @@ void ProjectPanel::Draw(float width, float height, ImTextureRef ref)
     }
 }
 
+bool ProjectPanel::AssetsFolderPrivateMenu()
+{
+    if (ImGui::BeginPopupContextItem())
+    {
+        if (ImGui::MenuItem("New Folder"))
+        {
+            fs::create_directory("Assets/NewFolder");
+        }
+        if (ImGui::MenuItem("New TextFile"))
+        {
+            std::ofstream("Assets/NewFile.txt");
+        }
+        // ここに「Import New Asset」なども追加できる
+        ImGui::EndPopup();
+    }
+    return true;
+}
+
 void ProjectPanel::DrawFolderTree(const fs::path& path)
 {
     for (auto& entry : fs::directory_iterator(path))
@@ -92,19 +103,27 @@ void ProjectPanel::DrawFolderTree(const fs::path& path)
         }
         else
         {
-            // === 通常のフォルダ表示 ===
-            bool open = ImGui::TreeNodeEx(name.c_str(), ImGuiTreeNodeFlags_OpenOnArrow);
+            // ツリーノードの表示
+            // ImGuiTreeNodeFlags_Selected: mSelectedPathと一致する場合にハイライト表示させる
+            ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_OpenOnArrow;
+            if (path == mSelectedPath)
+            {
+                flags |= ImGuiTreeNodeFlags_Selected;
+            }
+
+            bool open = ImGui::TreeNodeEx(name.c_str(), flags); // 修正: flagsを使用
 
             // 左クリックで選択中フォルダを更新
             if (ImGui::IsItemClicked(ImGuiMouseButton_Left))
             {
                 mCurrentFolder = entryPath;
+                mSelectedPath = entryPath; // 選択パスを更新
             }
 
             // 通常のフォルダ用メニュー（削除・リネーム可）
             // 右クリックメニュー（Rename 選択で mRenaming が true になる）
             RightClickMenu(entryPath);
-
+            ShortcutKeyInputFunction(entryPath);
             if (open)
             {
                 DrawFolderTree(entryPath);
@@ -148,55 +167,64 @@ void ProjectPanel::DrawFileView()
 
     for (auto& entry : fs::directory_iterator(mCurrentFolder))
     {
-        const fs::path entryPath = entry.path();
-        const std::string name = entryPath.filename().string();
-
-        // --- リネーム対象なら InputText に切り替え ---
-        if (mRenaming && entryPath == mRenameTarget)
-        {
-            RenameFunction(entry);
-        }
-        else
-        {
-            // --- 通常の表示 ---
-            if (ImGui::Selectable(name.c_str()))
-            {
-                if (entry.is_directory())
-                {
-                    // フォルダクリックで開く
-                    mCurrentFolder = entryPath;
-                }
-                else
-                {
-                    // ファイル選択
-                    g_SelectedFile = entryPath.string();
-                }
-            }
-
-            // コンテキストメニュー
-			RightClickMenu(entryPath);
-
-			DragDropFunction(entryPath);
-        }
+        DrawFileSystemEntry(entry);
     }
 }
 
-bool ProjectPanel::AssetsFolderPrivateMenu()
+void ProjectPanel::DrawFileSystemEntry(const fs::directory_entry& entry)
 {
-    if (ImGui::BeginPopupContextItem())
+    const fs::path entryPath = entry.path();
+    const std::string name = entryPath.filename().string();
+
+    // リネーム処理
+    if (mRenaming && entryPath == mRenameTarget)
     {
-        if (ImGui::MenuItem("New Folder"))
-        {
-            fs::create_directory("Assets/NewFolder");
-        }
-        if (ImGui::MenuItem("New TextFile"))
-        {
-            std::ofstream("Assets/NewFile.txt");
-        }
-        // ここに「Import New Asset」なども追加できる
-        ImGui::EndPopup();
+        RenameFunction(entry);
+        return; // リネーム中は以降の処理を行わない
     }
-    return true;
+
+    // -- - 通常の表示-- -
+    ImGuiSelectableFlags selectableFlags = ImGuiSelectableFlags_None;
+    if (entryPath == mSelectedPath)
+    {
+        selectableFlags |= ImGuiSelectableFlags_Highlight; // ハイライト表示
+    }
+
+    // フォルダ・ファイル選択 (単一クリックでの選択と移動)
+    // この処理で、フォルダでもファイルでも mSelectedPath は更新される
+    if (ImGui::Selectable(name.c_str(), false, selectableFlags))
+    {
+        mSelectedPath = entryPath;
+
+        // シングルクリックでフォルダ移動させたくない場合はこのブロックを削除
+        if (!entry.is_directory())
+        {
+            // ファイル選択
+            mCurrentFile = entryPath.string();
+        }
+    }
+
+    // ダブルクリック処理
+    if (ImGui::IsItemHovered() && ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left))
+    {
+        if (entry.is_directory())
+        {
+            // フォルダの場合のみ移動を実行
+            mCurrentFolder = entryPath;
+
+            // ダブルクリックで移動した場合、選択状態も更新する
+            mSelectedPath = entryPath;
+        }
+        else
+        {
+            // ファイルの場合（外部エディタで開くなどの処理をここに追加）
+        }
+    }
+
+    // コンテキストメニュー、ショートカット、ドラッグ＆ドロップ
+    RightClickMenu(entryPath);
+    ShortcutKeyInputFunction(entryPath); // ※引数からpathを渡すように変更
+    DragDropFunction(entryPath);
 }
 
 bool ProjectPanel::RightClickMenu(const fs::path& path)
@@ -216,8 +244,21 @@ bool ProjectPanel::RightClickMenu(const fs::path& path)
             if (ImGui::MenuItem("New Folder"))
             {
                 // 簡易的に NewFolder を作る (衝突は考慮していない)
-                try { fs::create_directory(path / "NewFolder"); }
-                catch (const std::exception& e) { Debug::Log("Create folder failed: %s\n", e.what()); }
+                try
+                {
+                    // 簡易的なユニーク名生成の例
+                    std::string uniqueName = "NewFolder";
+                    int counter = 1;
+                    while (fs::exists(path / uniqueName)) {
+                        uniqueName = "NewFolder (" + std::to_string(counter++) + ")";
+                    }
+                    fs::create_directory(path / uniqueName);
+
+                }
+                catch (const std::exception& e) 
+                {
+                    Debug::Log("Create folder failed: %s\n", e.what()); 
+                }
             }
             if (ImGui::MenuItem("Delete Folder"))
             {
@@ -253,6 +294,31 @@ bool ProjectPanel::RightClickMenu(const fs::path& path)
     }
 
     return false;
+}
+
+void ProjectPanel::ShortcutKeyInputFunction(const fs::path& path)
+{
+    //削除キー
+    if (!mSelectedPath.empty() && ImGui::IsKeyPressed(ImGuiKey_Delete))
+    {
+        mDeleteQueue.push_back(mSelectedPath); //mSelectedPath を使用
+    }
+    //名前変更キー
+    if (!mSelectedPath.empty() && ImGui::IsKeyPressed(ImGuiKey_F2))
+    {
+        mRenameTarget = mSelectedPath; //mSelectedPath をターゲットに
+
+        // ファイルなら拡張子を除いた stem を編集バッファに、フォルダは full name
+        if (fs::is_directory(mSelectedPath))
+        {
+            mRenameBuffer = mSelectedPath.filename().string();
+        }
+        else
+        {
+            mRenameBuffer = mSelectedPath.stem().string();
+        }
+        mRenaming = true;
+    }
 }
 
 void ProjectPanel::DragDropFunction(const fs::path& path)
@@ -320,42 +386,6 @@ void ProjectPanel::DragDropFunction(const fs::path& path)
     }
 }
 
-void ProjectPanel::DrawOverwritePopup()
-{
-    if (ImGui::BeginPopupModal("Overwrite?", nullptr, ImGuiWindowFlags_AlwaysAutoResize))
-    {
-        ImGui::Text("File already exists:\n%s\n\nOverwrite?", mPendingDst.string().c_str());
-
-        if (ImGui::Button("Yes", ImVec2(120, 0)))
-        {
-            try
-            {
-                fs::remove(mPendingDst);            // 既存を消す
-                fs::rename(mPendingSrc, mPendingDst); // 移動
-                Debug::Log("Overwritten: %s -> %s\n", mPendingSrc.string().c_str(), mPendingDst.string().c_str());
-            }
-            catch (const std::exception& e)
-            {
-                Debug::Log("Overwrite failed: %s\n", e.what());
-            }
-            mDragDroping = false;
-            mShowOverwritePopup = false;
-            ImGui::CloseCurrentPopup();
-        }
-
-        ImGui::SameLine();
-
-        if (ImGui::Button("No", ImVec2(120, 0)))
-        {
-            mDragDroping = false;
-            mShowOverwritePopup = false;
-            ImGui::CloseCurrentPopup();
-        }
-
-        ImGui::EndPopup();
-    }
-}
-
 void ProjectPanel::RenameFunction(const fs::directory_entry entry)
 {
     ImGui::PushID(entry.path().string().c_str());
@@ -395,6 +425,42 @@ void ProjectPanel::RenameFunction(const fs::directory_entry entry)
     }
 
     ImGui::PopID();
+}
+
+void ProjectPanel::DrawOverwritePopup()
+{
+    if (ImGui::BeginPopupModal("Overwrite?", nullptr, ImGuiWindowFlags_AlwaysAutoResize))
+    {
+        ImGui::Text("File already exists:\n%s\n\nOverwrite?", mPendingDst.string().c_str());
+
+        if (ImGui::Button("Yes", ImVec2(120, 0)))
+        {
+            try
+            {
+                fs::remove(mPendingDst);            // 既存を消す
+                fs::rename(mPendingSrc, mPendingDst); // 移動
+                Debug::Log("Overwritten: %s -> %s\n", mPendingSrc.string().c_str(), mPendingDst.string().c_str());
+            }
+            catch (const std::exception& e)
+            {
+                Debug::Log("Overwrite failed: %s\n", e.what());
+            }
+            mDragDroping = false;
+            mShowOverwritePopup = false;
+            ImGui::CloseCurrentPopup();
+        }
+
+        ImGui::SameLine();
+
+        if (ImGui::Button("No", ImVec2(120, 0)))
+        {
+            mDragDroping = false;
+            mShowOverwritePopup = false;
+            ImGui::CloseCurrentPopup();
+        }
+
+        ImGui::EndPopup();
+    }
 }
 
 void ProjectPanel::ProcessPendingOperations()
