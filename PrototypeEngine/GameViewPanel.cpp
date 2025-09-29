@@ -29,7 +29,12 @@ void GameViewPanel::Draw(float width, float height, ImTextureRef ref)
 		ImGui::SetNextWindowPos(ImVec2(mWidthPos, mHeightPos), ImGuiCond_Once);
 		ImGui::SetNextWindowSize(ImVec2(mWidthSize, mHeightSize), ImGuiCond_Once);
 	}
-	if(ImGui::Begin(GetName(), nullptr, ImGuiWindowFlags_NoCollapse))
+	ImGuiBackendFlags flag = ImGuiWindowFlags_NoCollapse;
+	if (InputContextManager::IsGameInputActive())
+	{
+		flag |= ImGuiWindowFlags_NoMove;
+	}
+	if(ImGui::Begin(GetName(), nullptr, flag))
 	{
 		//ì¸óÕèàóù
 		MouseHoveredDisble();
