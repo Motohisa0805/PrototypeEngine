@@ -1,4 +1,22 @@
-﻿  GUIWinMain.cpp
+﻿  EngineWindow.cpp
+C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
+  (ソース ファイル 'EngineWindow.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
+      'SDL_VERSION' は以前にコマンド ラインで宣言されています
+  
+  GUIMainMenu.cpp
+C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
+  (ソース ファイル 'GUIMainMenu.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
+      'SDL_VERSION' は以前にコマンド ラインで宣言されています
+  
+  GUIPanel.cpp
+C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
+  (ソース ファイル 'GUIPanel.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
+      'SDL_VERSION' は以前にコマンド ラインで宣言されています
+  
+  GUIWinMain.cpp
 C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
   (ソース ファイル 'GUIWinMain.cpp' をコンパイルしています)
       C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
@@ -12,9 +30,49 @@ C:\C++Files\PrototypeEngine\PrototypeEngine\GUIWinMain.cpp(102,18): warning C424
 C:\C++Files\PrototypeEngine\PrototypeEngine\GUIWinMain.cpp(103,19): warning C4244: '初期化中': 'float' から 'int' への変換です。データが失われる可能性があります。
 C:\C++Files\PrototypeEngine\PrototypeEngine\GUIWinMain.cpp(107,35): warning C4244: '引数': 'int' から 'float' への変換です。データが失われる可能性があります。
 C:\C++Files\PrototypeEngine\PrototypeEngine\GUIWinMain.cpp(107,22): warning C4244: '引数': 'int' から 'float' への変換です。データが失われる可能性があります。
+  GameViewPanel.cpp
+C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
+  (ソース ファイル 'GameViewPanel.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
+      'SDL_VERSION' は以前にコマンド ラインで宣言されています
+  
+C:\C++Files\PrototypeEngine\PrototypeEngine\GameViewPanel.cpp(57,92): warning C4244: '引数': 'int' から 'float' への変換です。データが失われる可能性があります。
+C:\C++Files\PrototypeEngine\PrototypeEngine\GameViewPanel.cpp(57,76): warning C4244: '引数': 'int' から 'float' への変換です。データが失われる可能性があります。
+  HierarchyPanel.cpp
+C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
+  (ソース ファイル 'HierarchyPanel.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
+      'SDL_VERSION' は以前にコマンド ラインで宣言されています
+  
   ProjectPanel.cpp
 C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
   (ソース ファイル 'ProjectPanel.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
+      'SDL_VERSION' は以前にコマンド ラインで宣言されています
+  
+  SceneEditorCamera.cpp
+C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
+  (ソース ファイル 'SceneEditorCamera.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
+      'SDL_VERSION' は以前にコマンド ラインで宣言されています
+  
+  SceneViewPanel.cpp
+C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
+  (ソース ファイル 'SceneViewPanel.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
+      'SDL_VERSION' は以前にコマンド ラインで宣言されています
+  
+C:\C++Files\PrototypeEngine\PrototypeEngine\SceneViewPanel.cpp(45,88): warning C4244: '引数': 'int' から 'float' への変換です。データが失われる可能性があります。
+C:\C++Files\PrototypeEngine\PrototypeEngine\SceneViewPanel.cpp(45,72): warning C4244: '引数': 'int' から 'float' への変換です。データが失われる可能性があります。
+  SelectItemPanel.cpp
+C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
+  (ソース ファイル 'SelectItemPanel.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
+      'SDL_VERSION' は以前にコマンド ラインで宣言されています
+  
+  ToolbarPanel.cpp
+C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
+  (ソース ファイル 'ToolbarPanel.cpp' をコンパイルしています)
       C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
       'SDL_VERSION' は以前にコマンド ラインで宣言されています
   

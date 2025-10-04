@@ -8,12 +8,11 @@ class HierarchyPanel : public GUIPanel
 {
 private:
 public:
+	const char* GetName()override { return "Hierarchy"; }
 	HierarchyPanel(class Renderer* renderer);
 
 	void		Initialize(float width, float height, ImTextureRef ref = nullptr)override;
 
 	void		Draw(float width, float height, ImTextureRef ref = nullptr)override;
-
-	const char* GetName()override { return "Hierarchy"; }
 };
 
