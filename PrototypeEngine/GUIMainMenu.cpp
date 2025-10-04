@@ -64,7 +64,6 @@ void GUIMainMenu::ViewMenuDraw()
 				GUIWinMain::GetGUIPanels()[i]->EnableResetLayout();
 			}
 		}
-
 		ImGui::EndMenu();
 	}
 }

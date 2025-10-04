@@ -26,17 +26,19 @@ private:
 	bool					mDragDroping;
 
 	bool					mShowOverwritePopup = false;
+	// 保留中の操作
 	fs::path				mPendingSrc;
 	fs::path				mPendingDst;
-
 	// 追加:
 	vector<RenameRequest>	mRenameQueue;
-
 	fs::path				mCurrentFolder;
 	fs::path				mCurrentFile;
 	// ユーザーが左クリックでハイライトしたファイル/フォルダ
 	fs::path				mSelectedPath;  
 public:
+	//選択中のファイルパスを取得
+	const char* GetName()override { return "Project"; }
+	//コンストラクタ
 	ProjectPanel(class Renderer* renderer);
 	//GUIの初期化
 	void		Initialize(float width, float height, ImTextureRef ref = nullptr)override;
@@ -61,7 +63,5 @@ public:
 	void		DrawOverwritePopup();
 	//保留中の削除、リネーム、ドラッグ＆ドロップの処理
 	void		ProcessPendingOperations();
-	//選択中のファイルパスを取得s
-	const char* GetName()override { return "Project"; }
 };
 

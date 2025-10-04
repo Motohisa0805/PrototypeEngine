@@ -8,12 +8,12 @@ class SelectItemPanel : public GUIPanel
 {
 private:
 public:
+	const char* GetName()override { return "SelectItem"; }
+
 	SelectItemPanel(class Renderer* renderer);
 
 	void		Initialize(float width, float height, ImTextureRef ref = nullptr)override;
 
 	void Draw(float width, float height, ImTextureRef ref = nullptr)override;
-
-	const char* GetName()override { return "SelectItem"; }
 };
 

@@ -18,6 +18,7 @@ protected:
 	//GUIのレイアウトを初期位置に戻すフラグ
 	bool				isResetLayout;
 public:
+	virtual const char* GetName() { return "BasePanel"; }
 	GUIPanel(Renderer* renderer);
 
 	virtual void		Initialize(float width, float height, ImTextureRef ref = nullptr);
@@ -33,7 +34,6 @@ public:
 	virtual void        GUIPanelMenu();
 
 	bool				IsMouseHovered() const { return isMouseHovered; }
-	virtual const char* GetName() { return "BasePanel"; }
 
 	float				GetWindowSizeWidth();
 	float				GetWindowSizeHeight();
