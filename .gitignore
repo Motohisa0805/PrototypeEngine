@@ -24,8 +24,6 @@
 # Compiled Static libraries
 
 # Executables
-*.exe
-*.out
 *.app
 
 # debug information files
