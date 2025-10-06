@@ -22,3 +22,18 @@ void Component::FixedUpdate(float deltaTime)
 void Component::Update(float deltaTime)
 {
 }
+
+void Component::Serialize(json& j) const
+{
+	j["updateOrder"] = mUpdateOrder;
+}
+
+void Component::Deserialize(const json& j)
+{
+	mUpdateOrder = j.at("updateOrder").get<int>();
+}
+
+Component* Component::CreateComponent(const std::string& type, ActorObject* owner)
+{
+	return nullptr;
+}

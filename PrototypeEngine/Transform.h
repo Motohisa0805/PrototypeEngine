@@ -159,5 +159,11 @@ public:
 
 	//子オブジェクトの座標更新
 	virtual void						SetActive() { mRecomputeWorldTransform = true; }
+
+
+	// JSONに変換するメソッド
+	virtual void Serialize(json& j) const;
+	// JSONから復元するメソッド
+	virtual void Deserialize(const json& j);
 };
 

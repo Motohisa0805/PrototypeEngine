@@ -29,3 +29,6 @@
 //Rapidjsonの外部インクルード
 #include <rapidjson/document.h>
 #include <rapidjson/istreamwrapper.h>
+//nlohmann jsonの外部インクルード
+#include <nlohmann/json.hpp>
+#include <nlohmann/json_fwd.hpp>

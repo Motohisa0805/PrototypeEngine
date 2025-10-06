@@ -199,3 +199,28 @@ void Transform::RemoveParentActor()
 {
 	mParentActor = nullptr;
 }
+
+void Transform::Serialize(json& j) const
+{
+	j["Type"] = "Transform";
+	j["Position"] = { mPosition.x, mPosition.y, mPosition.z };
+	j["Rotation"] = { mRotation.w, mRotation.x, mRotation.y, mRotation.z };
+	j["Scale"] = { mScale.x, mScale.y, mScale.z };
+	// 親子関係もシリアライズする場合はここに追加
+	//if (mParentActor) { j["Parent"] = mParentActor->GetName(); }
+}
+
+void Transform::Deserialize(const json& j)
+{
+	mPosition.x = j["Position"][0];
+	mPosition.y = j["Position"][1];
+	mPosition.z = j["Position"][2];
+	mRotation.w = j["Rotation"][0];
+	mRotation.x = j["Rotation"][1];
+	mRotation.y = j["Rotation"][2];
+	mRotation.z = j["Rotation"][3];
+	mScale.x = j["Scale"][0];
+	mScale.y = j["Scale"][1];
+	mScale.z = j["Scale"][2];
+	mRecomputeWorldTransform = true;
+}
