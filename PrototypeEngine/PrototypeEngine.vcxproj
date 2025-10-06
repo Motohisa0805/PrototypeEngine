@@ -111,7 +111,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;SDL_VERSION=SDL3-3.2.8;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>Default</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>$(ProjectDir)ExternalLibrary\SDL3-3.2.8\include;$(ProjectDir)ExternalLibrary\SDL3_image-3.2.4\include;$(ProjectDir)ExternalLibrary\FMOD Studio API Windows\api\lowlevel\inc;$(ProjectDir)ExternalLibrary\FMOD Studio API Windows\api\studio\inc;$(ProjectDir)ExternalLibrary\SDL3_ttf-3.1.0\include;$(ProjectDir)ExternalLibrary\rapidjson-master\rapidjson-master\include;$(ProjectDir)ImGui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)ExternalLibrary\SDL3-3.2.8\include;$(ProjectDir)ExternalLibrary\SDL3_image-3.2.4\include;$(ProjectDir)ExternalLibrary\FMOD Studio API Windows\api\lowlevel\inc;$(ProjectDir)ExternalLibrary\FMOD Studio API Windows\api\studio\inc;$(ProjectDir)ExternalLibrary\SDL3_ttf-3.1.0\include;$(ProjectDir)ExternalLibrary\rapidjson-master\rapidjson-master\include;$(ProjectDir)ImGui;$(ProjectDir)json-develop\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

@@ -22,3 +22,6 @@ typedef std::stringbuf stringbuf;
 //vectorの簡易記述命令
 template <typename T>
 using vector = std::vector<T>;
+
+//nlohmann jsonの簡易記述命令
+using json = nlohmann::json;

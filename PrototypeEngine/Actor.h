@@ -33,6 +33,7 @@ public:
 		EDead
 	};
 protected:
+	string						mName;
 	// Actor's state
 	State						mState;
 
@@ -91,6 +92,13 @@ public:
 	virtual void				OnCollisionStay(ActorObject* target){}
 	//当たり終わった時に呼び出される関数
 	virtual void				OnCollisionExit(ActorObject* target){}
+
+
+
+	// JSONに変換するメソッド
+	void Serialize(json& j) const override;
+	// JSONから復元するメソッド
+	void Deserialize(const json& j)override;
 };
 
 template<typename T>

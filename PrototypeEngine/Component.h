@@ -1,5 +1,6 @@
 #pragma once
 #include <cstdint>
+#include "Typedefs.h"
 
 /*
 * ===エンジン内部処理/Engine internal processing===
@@ -25,6 +26,13 @@ public:
 
 	class ActorObject*	GetOwner() { return mOwner; }
 	int					GetUpdateOrder() const { return mUpdateOrder; }
+
+	// JSONに変換するメソッド
+	virtual void Serialize(json& j) const;
+	// JSONから復元するメソッド
+	virtual void Deserialize(const json& j);
+
+	virtual Component* CreateComponent(const string& type, ActorObject* owner);
 protected:
 	// コンポーネント元のオブジェクト
 	class ActorObject*	mOwner;
