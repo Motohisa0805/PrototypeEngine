@@ -9,6 +9,7 @@ Rigidbody::Rigidbody(ActorObject* owner, int updateOrder)
     , mBounciness(0.1f)
     , mSolverIterationCount(4)
 {
+    mName = "Rigidbody";
 	mUseGravity = true;
 }
 

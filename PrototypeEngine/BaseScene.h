@@ -13,6 +13,8 @@ class Font;
 class Skeleton;
 class DirectionalLightActor;
 class BaseCamera;
+class DirectionalLightComponent; //仮追加
+class FreeCamera;               // 仮追加
 class Text;
 //シーンの基底クラス
 //オブジェクトの更新などをまとめて行う部分になります。
@@ -20,7 +22,6 @@ class Text;
 class BaseScene
 {
 protected:
-
 	AudioSystem*									mAudioSystem;
 
 	PhysWorld*										mPhysWorld;
@@ -29,33 +30,43 @@ protected:
 
 	// All the actors in the game
 	vector<ActorObject*>							mActors;
+	
+	// Any pending actors
+	vector<ActorObject*>							mPendingActors;
+	
 	vector<Canvas*>									mCanvasStack;
+	
 	vector<Image*>									mImageStack;
+	
 	vector<Image*>									mDebugImageStack;
+
 	// Map for fonts
 	std::unordered_map<string, Font*>				mFonts;
 	// Map of loaded skeletons
 	std::unordered_map<string, Skeleton*>			mSkeletons;
-	// Any pending actors
-	vector<ActorObject*>							mPendingActors;
-
-
-	ActorObject*									mPlayer;
-
-	DirectionalLightActor*							mDirectionalLightActor;
-
 
 	std::unordered_map<string, BaseCamera*>			mCameras;
+	
+	//Actorに割り当てるユニークなID/カウント
+	int												mNextActorID;
+	
+	//ActorObjectがコンストラクタで呼び出すための関数
+	friend class ActorObject;
+
+	ActorObject*									mPlayer;
 
 	// 50Hz、Unityと同じ
 	const float										mFixed_Delta_Time = 0.02f;
 
 	float											mFixedTimeAccumulator;
-
 	//***デバッグ機能***
 	//フレームレート表示テキスト
 	Text*											mFrameRateText;
+
+	//シーンの名前
+	string											mName;
 public:
+
 	//コンストラクタ
 													BaseScene();
 	//初期化
@@ -71,7 +82,7 @@ public:
 
 	void											LoadSkyBoxTexture(string file);
 
-	vector<ActorObject*>&							GetActors() { return mActors; }
+	const vector<ActorObject*>&						GetActors()const { return mActors; }
 	//オブジェクト追加
 	void											AddActor(ActorObject* actor);
 	//オブジェクト削除
@@ -105,8 +116,6 @@ public:
 	// Game-specific
 	//PlayerオブジェクトのGetter
 	ActorObject*									GetPlayer() { return mPlayer; }
-	//環境光の設定
-	DirectionalLightActor*							GetDirectionalLightActor() { return mDirectionalLightActor; }
 
 	//Cameraの追加
 	void											AddCamera(BaseCamera* camera);
@@ -114,7 +123,19 @@ public:
 	void											RemoveCamera(BaseCamera* camera);
 	//Cameraの取得
 	BaseCamera*										GetCamera(const string& name = "Camera0");
+
 	std::unordered_map<string, BaseCamera*> 		GetCameras() { return mCameras; }
+
+	//シーン内のアクティブな方向性ライトコンポーネントを取得
+	DirectionalLightComponent*						GetActiveDirectionalLightComponent();
+
+	//シーン内のメインカメラコンポーネントを取得
+	BaseScene*										GetMainCameraComponent();
+
+	//シーン名のGetter
+	string											GetName() { return mName; }
+	//シーン名のSetter
+	virtual void									SetName(const string& name) { mName = name; }
 };
 
 template<typename T>
@@ -136,6 +157,16 @@ inline vector<ActorObject*> BaseScene::SelectAllActorComponent()
 
 	return result;
 }
+
+// ActorObjectリストを保持するEditorSceneクラスを仮定
+class EditorScene : public BaseScene
+{
+public:
+
+	void EditorInitilaize();
+	// ... BaseScene の仮想関数を実装 
+	void SetName(const string& name)override;
+};
 
 #define Release_Function  0
 #define Debug_Function  1

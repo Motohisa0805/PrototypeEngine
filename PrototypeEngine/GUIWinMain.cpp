@@ -10,7 +10,7 @@
 #include "SceneViewPanel.h"
 #include "HierarchyPanel.h"
 #include "ProjectPanel.h"
-#include "SelectItemPanel.h"
+#include "InspectorPanel.h"
 
 bool GUIWinMain::isPaused = false;
 
@@ -43,7 +43,7 @@ HierarchyPanel* GUIWinMain::mHierarchyPanel = nullptr;
 
 ProjectPanel* GUIWinMain::mProjectPanel = nullptr;
 
-SelectItemPanel* GUIWinMain::mSelectItemPanel = nullptr;
+InspectorPanel* GUIWinMain::mInspectorPanel = nullptr;
 
 bool GUIWinMain::InitializeImGui(SDL_Window* window, SDL_GLContext glContext)
 {
@@ -67,7 +67,7 @@ bool GUIWinMain::InitializeImGui(SDL_Window* window, SDL_GLContext glContext)
 
 	mProjectPanel = new ProjectPanel(mRenderer);
 
-	mSelectItemPanel = new SelectItemPanel(mRenderer);
+	mInspectorPanel = new InspectorPanel(mRenderer);
 
 	mGUIPanel.push_back(mMainMenu);
 	mGUIPanel.push_back(mToolbarPanel);
@@ -75,7 +75,7 @@ bool GUIWinMain::InitializeImGui(SDL_Window* window, SDL_GLContext glContext)
 	mGUIPanel.push_back(mSceneViewPanel);
 	mGUIPanel.push_back(mHierarchyPanel);
 	mGUIPanel.push_back(mProjectPanel);
-	mGUIPanel.push_back(mSelectItemPanel);
+	mGUIPanel.push_back(mInspectorPanel);
 
 	for (int i = 0; i < mGUIPanel.size(); i++)
 	{
@@ -95,6 +95,14 @@ void GUIWinMain::UpdateImGuiState()
 	ImGui::ShowDemoWindow();
 }
 
+void GUIWinMain::ResetPointer()
+{
+	for (int i = 0; i < mGUIPanel.size(); i++)
+	{
+		mGUIPanel[i]->ClearPointer();
+	}
+}
+
 void GUIWinMain::RenderImGui()
 {
 	// ここでImGuiの描画を行う
@@ -106,45 +114,6 @@ void GUIWinMain::RenderImGui()
 	{
 		mGUIPanel[i]->Draw(windowWidth, windowHeight);
 	}
-
-	/*
-	{
-		mMainMenu->Draw(windowWidth, windowHeight);
-	}
-	//再生/一時停止/停止ボタンの状態を管理
-	{
-		mToolbarPanel->Draw(windowWidth, windowHeight);
-	}
-	//X = 0の位置にウインドウを配置
-	//Xサイズ windowWidth * 0.5f
-	{
-		mSceneViewPanel->Draw((float)windowWidth, (float)windowHeight, (ImTextureID)(intptr_t)mRenderer->GetSceneViewEditor()->GetSceneColorTex());
-	}
-	{
-		mGameViewPanel->Draw((float)windowWidth, (float)windowHeight, (ImTextureID)(intptr_t)mRenderer->GetGameSceneViewEditor()->GetSceneColorTex());
-	}
-	//X = windowWidth * 0.5fの位置にウインドウを配置
-	//Xサイズ windowWidth * 0.15f
-	//Hierarchyウィンドウの描画
-	{
-		mHierarchyPanel->Draw(windowWidth,windowHeight);
-	}
-	//X = windowWidth * 0.65fの位置にウインドウを配置
-	//Xサイズ windowWidth * 0.15f
-	//Projectウィンドウの描画
-	{
-		mProjectPanel->Draw(windowWidth, windowHeight);
-	}
-	//X = windowWidth * 0.8fの位置にウインドウを配置
-	//Xサイズ windowWidth * 0.2f
-	//SelectItemウィンドウの描画
-	{
-		mSelectItemPanel->Draw(windowWidth, windowHeight);
-	}
-	*/
-
-
-
 	ImGui::Render();
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 }
@@ -186,10 +155,10 @@ void GUIWinMain::ShutdownImGui()
 		delete mProjectPanel;
 		mProjectPanel = nullptr;
 	}
-	if (mSelectItemPanel)
+	if (mInspectorPanel)
 	{
-		delete mSelectItemPanel;
-		mSelectItemPanel = nullptr;
+		delete mInspectorPanel;
+		mInspectorPanel = nullptr;
 	}
 
 	mGUIPanel.clear();

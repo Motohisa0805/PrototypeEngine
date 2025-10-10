@@ -3,6 +3,7 @@
 CubeActor::CubeActor()
 	:ActorObject()
 {
+	mName = "CubeActor";
 	MeshRenderer* mc = new MeshRenderer(this);
 	vector<class Mesh*> mesh = EngineWindow::GetRenderer()->GetMeshs("Cube.fbx");
 	mc->SetMeshs(mesh);

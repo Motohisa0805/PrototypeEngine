@@ -33,6 +33,8 @@ public:
 
 	virtual void        GUIPanelMenu();
 
+	virtual void		ClearPointer();
+
 	bool				IsMouseHovered() const { return isMouseHovered; }
 
 	float				GetWindowSizeWidth();

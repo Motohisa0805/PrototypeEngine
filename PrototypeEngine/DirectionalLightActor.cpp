@@ -4,7 +4,9 @@ DirectionalLightActor::DirectionalLightActor()
 	: ActorObject()
 	, mDirectionalLightComp(nullptr)
 {
-	mDirectionalLightComp = new DirectionalLightComponent(this);
+	mName = "DirectionalLightActor";
+
+	//mDirectionalLightComp = new DirectionalLightComponent(this);
 	Quaternion rot = Quaternion::CreateFromAxisAngle(Vector3::UnitZ, -45.0f); // 90度：X→Yに向く → Y成分 = 1（昼！）
 	SetLocalRotation(rot);
 }

@@ -61,6 +61,11 @@ void GameWinMain::GameRunLoop()
 	mGameApp->Update();
 }
 
+void GameWinMain::LoadGame_Engine()
+{
+	mGameApp->LoadUpdate();
+}
+
 void GameWinMain::Shutdown()
 {
 	mGameApp->Release();

@@ -3,6 +3,8 @@
 ParticleTestActor::ParticleTestActor()
 	:ActorObject()
 {
+	mName = "ParticleTestActor";
+
 	mParticleSystem = new ParticleSystem(this);
 	mParticleSystem->LoadTexture("Particle.png");
 	mParticleSystem->SetLoop(true);

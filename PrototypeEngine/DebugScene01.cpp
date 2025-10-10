@@ -7,6 +7,7 @@ DebugScene01::DebugScene01()
 	, mGameCanvas00(nullptr)
 	, mPauseMenu(nullptr)
 {
+	mName = "DebugScene01";
 }
 
 bool DebugScene01::Initialize()
@@ -25,7 +26,7 @@ bool DebugScene01::Initialize()
 	// BGM一時停止
 	mMusicEvent.Pause();
 
-	InputSystem::SetGameMouseMode(InputSystem::RelativeMouse);
+	//InputSystem::SetGameMouseMode(InputSystem::RelativeMouse);
 
 	// デバッグ用のステージ追加
 	mStages = new Stages00();

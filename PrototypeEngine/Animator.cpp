@@ -11,6 +11,7 @@ Animator::Animator(ActorObject* owner)
 	, mBlendElapsed(0.1f)
 	, mBlending(false)
 {
+	mName = "Animator";
 }
 
 Animator::~Animator()

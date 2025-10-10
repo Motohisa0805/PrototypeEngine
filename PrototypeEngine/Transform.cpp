@@ -1,4 +1,5 @@
 #include "Transform.h"
+#include "Actor.h" // 追加: ActorObjectの完全な型情報が必要
 
 Transform::Transform()
 	: mPosition(Vector3::Zero)
@@ -124,12 +125,9 @@ const Transform* Transform::GetChildActor(Transform* actor)
 void Transform::AddComponent(Component* component)
 {
 	// Find the insertion point in the sorted vector
-// (The first element with a order higher than me)
 	int myOrder = component->GetUpdateOrder();
 	auto iter = mComponents.begin();
-	for (;
-		iter != mComponents.end();
-		++iter)
+	for (; iter != mComponents.end(); ++iter)
 	{
 		if (myOrder < (*iter)->GetUpdateOrder())
 		{
@@ -137,8 +135,13 @@ void Transform::AddComponent(Component* component)
 		}
 	}
 
-	// Inserts element before position of iterator
 	mComponents.insert(iter, component);
+	// ActorObject::OnComponentAdded を呼び出す
+	// dynamic_castの型が完全型であることを保証
+	if (ActorObject* actor = dynamic_cast<ActorObject*>(this))
+	{
+		actor->OnComponentAdded(component);
+	}
 }
 
 void Transform::RemoveComponent(Component* component)
@@ -215,12 +218,15 @@ void Transform::Deserialize(const json& j)
 	mPosition.x = j["Position"][0];
 	mPosition.y = j["Position"][1];
 	mPosition.z = j["Position"][2];
+
 	mRotation.w = j["Rotation"][0];
 	mRotation.x = j["Rotation"][1];
 	mRotation.y = j["Rotation"][2];
 	mRotation.z = j["Rotation"][3];
+	
 	mScale.x = j["Scale"][0];
 	mScale.y = j["Scale"][1];
 	mScale.z = j["Scale"][2];
+	
 	mRecomputeWorldTransform = true;
 }

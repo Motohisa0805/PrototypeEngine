@@ -6,6 +6,7 @@ SkeletalMeshRenderer::SkeletalMeshRenderer(ActorObject* owner)
 	, mSkeleton(nullptr)
 	, mAnimator(nullptr)
 {
+	mName = "SkeletalMeshRenderer";
 }
 
 SkeletalMeshRenderer::~SkeletalMeshRenderer()
@@ -123,4 +124,47 @@ void SkeletalMeshRenderer::SetAnimator(Animator* animator)
 		return;
 	}
 	mAnimator = animator;
+}
+
+void SkeletalMeshRenderer::Serialize(json& j) const
+{
+	// 1. ベースクラス (MeshRenderer) のシリアライズを呼び出す
+	//    -> これにより、mMeshFilePath やその他の基本プロパティが書き込まれる
+	MeshRenderer::Serialize(j);
+
+	// 2. コンポーネントの型を「SkeletalMeshRenderer」で上書き
+	//    -> ActorObject::Deserialize()のファクトリー処理で、この型を使って
+	//       SkeletalMeshRendererのインスタンスが生成されるようにする
+	//j["Type"] = "SkeletalMeshRenderer";
+
+	// 3. (必要に応じて) スケルタルメッシュ固有のプロパティを追記
+	//    mAnimatorは通常、Actorの別コンポーネントとしてシリアライズされるため、ここでは省略
+}
+
+void SkeletalMeshRenderer::Deserialize(const json& j)
+{
+	// 1. ベースクラスのデシリアライズを呼び出す (MeshRenderer::Deserialize)
+	//    -> JSONから mMeshFilePath を読み込み、EngineWindow::GetRenderer()->GetMeshs() を呼び出して
+	//       mMeshs (メッシュ) のロードと設定を完了させる。
+	MeshRenderer::Deserialize(j);
+
+	// 2. ベースクラスで読み込まれたファイルパス (mMeshFilePath) を使ってスケルトンをロードする
+	std::string fileName = GetMeshFilePath(); // GetMeshFilePath() が mMeshFilePath を返す前提
+
+	// SkeletalMeshRenderer::LoadSkeletonMesh のスケルトンロード部分のロジック
+	Skeleton* sk = mOwner->GetGame()->GetSkeleton(fileName);
+	mSkeleton = sk;
+
+	if (mSkeleton != nullptr)
+	{
+		mSkeleton->SetParentActor(mOwner); // Actorにスケルトンを設定
+	}
+
+	mIsSkeletal = true; // スケルトンを持っていることを明示
+
+	// 3. アニメーターのリンク（Animatorが別コンポーネントの場合）
+	//    ActorObjectにアタッチされているAnimatorコンポーネントを取得し、mAnimatorに設定します。
+	//    (注: Animatorクラスがある前提)
+	//    Animator* animator = mOwner->GetComponent<Animator>(); 
+	//    SetAnimator(animator);
 }

@@ -3,6 +3,7 @@
 SplineActor::SplineActor()
 	:ActorObject()
 {
+	mName = "SplineActor";
 
 	mCameraComp = new SplineCamera(this);
 

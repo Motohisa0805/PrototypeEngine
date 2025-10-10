@@ -7,6 +7,7 @@ BoxCollider::BoxCollider(ActorObject* owner, int updateOrder)
 	, mObjectOBB(Vector3::Zero, Quaternion::Identity, Vector3::Zero)
 	, mShouldRotate(true)
 {
+	mName = "BoxCollider";
 	// 単位ボックスを基準とした OBB
 	mObjectOBB.mCenter = owner->GetPosition();
 	mObjectOBB.mRotation = owner->GetRotation();

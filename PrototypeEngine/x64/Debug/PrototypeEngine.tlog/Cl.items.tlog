@@ -19,6 +19,7 @@ C:\C++Files\PrototypeEngine\PrototypeEngine\CapsuleCollider.cpp;C:\C++Files\Prot
 C:\C++Files\PrototypeEngine\PrototypeEngine\Collider.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\Collider.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\Collision.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\Collision.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\Component.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\Component.obj
+C:\C++Files\PrototypeEngine\PrototypeEngine\ComponentFactory.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\ComponentFactory.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\ConvertNumToString.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\ConvertNumToString.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\CubeActor.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\CubeActor.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\DebugGrid.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\DebugGrid.obj
@@ -28,6 +29,7 @@ C:\C++Files\PrototypeEngine\PrototypeEngine\DialogBox.cpp;C:\C++Files\PrototypeE
 C:\C++Files\PrototypeEngine\PrototypeEngine\DirectionalLightActor.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\DirectionalLightActor.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\DirectionalLightComponent.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\DirectionalLightComponent.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\EditorMain.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\EditorMain.obj
+C:\C++Files\PrototypeEngine\PrototypeEngine\EditorSettingsManager.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\EditorSettingsManager.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\EngineWindow.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\EngineWindow.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\FollowCamera.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\FollowCamera.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\FollowObjectMovement.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\FollowObjectMovement.obj
@@ -75,9 +77,10 @@ C:\C++Files\PrototypeEngine\PrototypeEngine\Renderer.cpp;C:\C++Files\PrototypeEn
 C:\C++Files\PrototypeEngine\PrototypeEngine\Rigidbody.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\Rigidbody.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\SceneEditorCamera.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\SceneEditorCamera.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\SceneManager.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\SceneManager.obj
+C:\C++Files\PrototypeEngine\PrototypeEngine\SceneSerializer.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\SceneSerializer.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\SceneViewEditor.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\SceneViewEditor.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\SceneViewPanel.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\SceneViewPanel.obj
-C:\C++Files\PrototypeEngine\PrototypeEngine\SelectItemPanel.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\SelectItemPanel.obj
+C:\C++Files\PrototypeEngine\PrototypeEngine\InspectorPanel.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\InspectorPanel.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\Shader.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\Shader.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\ShadowMap.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\ShadowMap.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\SkeletalMeshRenderer.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\SkeletalMeshRenderer.obj

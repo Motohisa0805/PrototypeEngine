@@ -9,6 +9,7 @@ FPSCamera::FPSCamera(ActorObject* owner)
 	, mHorizontalMouseSpeed(500.0f)
 	, mVertexMouseSpeed(500.0f)
 {
+	mName = "FPSCamera";
 }
 
 void FPSCamera::Update(float deltaTime)

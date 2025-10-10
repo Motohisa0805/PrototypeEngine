@@ -4,6 +4,8 @@
 OrbitActor::OrbitActor()
 	:ActorObject()
 {
+	mName = "OrbitActor";
+
 	mMeshComp = new MeshRenderer(this);
 	mMeshComp->SetMesh(EngineWindow::GetRenderer()->GetMesh("RacingCar.gpmesh"));
 	SetLocalPosition(Vector3(0.0f, 0.0f, -100.0f));

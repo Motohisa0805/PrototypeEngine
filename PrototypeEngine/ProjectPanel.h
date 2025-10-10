@@ -1,8 +1,7 @@
 #pragma once
 #include "GUIWinMain.h"
 #include "GUIPanel.h"
-
-namespace fs = std::filesystem;
+#include "SceneSerializer.h"
 
 //プロジェクトのファイルパスを描画するクラス
 //本格的な描画処理は未実装

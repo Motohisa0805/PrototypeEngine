@@ -3,6 +3,8 @@
 TPSPlayer::TPSPlayer()
 	:ActorObject()
 {
+	mName = "TPSPlayer";
+
 	mActorTag = ActorTag::Player;
 
 	mSkeletonMeshActor = new SkeletonMeshActor();

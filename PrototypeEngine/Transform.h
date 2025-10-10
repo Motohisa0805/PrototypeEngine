@@ -72,9 +72,34 @@ public:
 	// Getters/setters
 	virtual const Vector3&				GetPosition() const { return mPosition; }
 
+	virtual void						SetPosition(const Vector3& pos)
+	{
+		mPosition = pos;
+		mRecomputeWorldTransform = true;
+	}
+
 	virtual const Quaternion&			GetRotation() const { return mRotation; }
 
+	virtual void						SetRotation(const Quaternion& rotation)
+	{
+		mRotation = rotation;
+		mRecomputeWorldTransform = true;
+	}
+
 	virtual const Vector3&				GetScale() const { return mScale; }
+
+	// 1 Ver
+	virtual void						SetScale(Vector3 scale)
+	{
+		mScale = scale;
+		mRecomputeWorldTransform = true;
+	}
+	// 2 Ver
+	virtual void						SetScale(float scale)
+	{
+		mScale = Vector3(scale, scale, scale);
+		mRecomputeWorldTransform = true;
+	}
 
 	// PositionのGetters/setters
 	virtual const Vector3&				GetLocalPosition() const { return mLocalPosition; }
@@ -155,15 +180,15 @@ public:
 
 	virtual void						RemoveParentActor();
 
-	vector<Component*>					GetComponents() { return mComponents; }
+	const vector<Component*>&			GetComponents()const { return mComponents; }
 
 	//子オブジェクトの座標更新
 	virtual void						SetActive() { mRecomputeWorldTransform = true; }
 
 
 	// JSONに変換するメソッド
-	virtual void Serialize(json& j) const;
+	virtual void						Serialize(json& j) const;
 	// JSONから復元するメソッド
-	virtual void Deserialize(const json& j);
+	virtual void						Deserialize(const json& j);
 };
 

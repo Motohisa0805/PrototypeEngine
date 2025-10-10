@@ -7,6 +7,7 @@ MeshActor::MeshActor()
 	, mSphereCollider(nullptr)
 	, mCapsuleCollider(nullptr)
 {
+	mName = "MeshActor";
 }
 
 MeshActor::~MeshActor()
@@ -18,6 +19,7 @@ void MeshActor::Load(string filePath)
 	mMeshRenderer = new MeshRenderer(this);
 	vector<class Mesh*> mesh = EngineWindow::GetRenderer()->GetMeshs(filePath);
 	mMeshRenderer->SetMeshs(mesh);
+	mMeshRenderer->SetMeshFilePath(filePath);
 }
 
 void MeshActor::SetColliderMode(bool active)

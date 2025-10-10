@@ -1,28 +1,37 @@
 #include "SceneManager.h"
 #include "BaseScene.h"
-
-#include "TitleScene.h"
-#include "DebugScene01.h"
-#include "DebugScene02.h"
-
-std::unordered_map<int,BaseScene*> SceneManager::mScenes;
+#include "SceneSerializer.h"
+#include "EditorSettingsManager.h"
 
 BaseScene* SceneManager::mNowScene = nullptr;
-
-BaseScene* SceneManager::mNextScene = nullptr;
 
 bool SceneManager::loading = false;
 
 int SceneManager::mNowSceneIndex = 0;
 
+// ロード予約されたファイルパスを保持する変数
+std::string SceneManager::mNextSceneFilePath = "";
+
+string SceneManager::mDefaultSceneFilePath = "Assets/Scenes/TestScene01.json";
+
 bool SceneManager::InitializeScenes()
 {
-	//シーンをリストに追加
-	AddSceneList(new TitleScene());
-	AddSceneList(new DebugScene01());
-	AddSceneList(new DebugScene02());
-	//ベースに最初のシーンを設定
-	mNowScene = mScenes[0];
+	//1.起動シーンのパスを取得
+	string startupScenePath = EditorSettingsManager::GetInstance().GetLastOpenedScene();
+
+	//2.シーンオブジェクトの作成とロード
+	if (!startupScenePath.empty())
+	{
+		//パスが有効なら、そのファイルからロードを試みる
+		mNowScene = SceneSerializer::LoadScene(startupScenePath);
+
+	}
+
+	//ベースに最初の動的シーンを設定(空のEditorSceneを作成)
+	if (mNowScene == nullptr)
+	{
+		mNowScene = new EditorScene();
+	}
 	//シーンの初期化
 	if (!mNowScene->Initialize())
 	{
@@ -33,51 +42,46 @@ bool SceneManager::InitializeScenes()
 	return true;
 }
 
-void SceneManager::LoadScene(int index)
+void SceneManager::LoadSceneFromFile(const string& filePath)
 {
-	if (mNowScene == mScenes[index]) { return; }
-	mNextScene = mScenes[index];
-	mNowSceneIndex = index;
-	loading = true;
-}
-
-void SceneManager::AddSceneList(class BaseScene* scene)
-{
-	auto iter = mScenes.find(mScenes.size());
-	if (iter != mScenes.end())
-	{
-		return;
-	}
-	else
-	{
-		mScenes.emplace(mScenes.size(), scene);
-	}
+	// 既存のシーンリストに追加するのではなく、一時的にファイルパスを保持し、
+	// ChangeScene() のタイミングで処理を実行します。
+	mNextSceneFilePath = filePath;
+	loading = true; // ChangeScene()が呼び出されるようにフラグを立てる
 }
 
 void SceneManager::ReleaseAllScenes()
 {
-	for (auto& pair : mScenes)
-	{
-		delete pair.second;
-	}
-	mScenes.clear();
+
+	mNowScene->UnloadData();
+	delete mNowScene;
 	mNowScene = nullptr;
 }
 
 void SceneManager::ChangeScene()
 {
-	if (mNextScene)
+	//ファイルのパスがセットされている場合
+	if (!mNextSceneFilePath.empty())
 	{
 		if (mNowScene)
 		{
 			EngineWindow::GetRenderer()->UnloadData();
 			mNowScene->UnloadData();
+
+			//最重要：古いシーンのメモリ解放
+			delete mNowScene;
+			mNowScene = nullptr;
 		}
-		GameStateClass::SetGameState(GameState::GamePlay);
-		mNowScene = mNextScene;
-		mNextScene = nullptr;
+
+		mNowScene = SceneSerializer::LoadScene(mNextSceneFilePath);
 		mNowScene->Initialize();
 		EngineWindow::GetRenderer()->SetBaseScene(mNowScene);
+		//...(後続の処理)...
 	}
 	loading = false;
+}
+
+void SceneManager::SetCurrentEditorSceneFilePath(const string& path)
+{
+	mDefaultSceneFilePath = path;
 }

@@ -41,4 +41,7 @@ public:
 	void							SetAnimator(Animator* animator);
 
 	Skeleton*						GetSkeleton() { return mSkeleton; }
+
+	void							Serialize(json& j) const override;
+	void							Deserialize(const json& j)override;
 };

@@ -5,6 +5,8 @@ SkeletonMeshActor::SkeletonMeshActor()
 	, mSkeletonMesh(nullptr)
 	, mAnimator(nullptr)
 {
+	mName = "SkeletonMeshActor";
+
 	mSkeletonMesh = new SkeletalMeshRenderer(this);
 	mAnimator = new Animator(this);
 

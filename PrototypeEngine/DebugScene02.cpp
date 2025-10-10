@@ -6,6 +6,7 @@ DebugScene02::DebugScene02()
 	, mTPSCanvas(nullptr)
 	, mStages01(nullptr)
 {
+	mName = "DebugScene02";
 }
 
 bool DebugScene02::Initialize()

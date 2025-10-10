@@ -17,6 +17,7 @@ ParticleSystem::ParticleSystem(ActorObject* owner)
 	, mDefaultColor(Vector4(1.0f, 1.0f, 1.0f, 1.0f)) // デフォルトの色（白）
 	, mParticleTexture(nullptr) // 初期化時はテクスチャなし
 {
+	mName = "ParticleSystem";
 	EngineWindow::GetRenderer()->AddParticleComp(this);
 
 	mParticleAllLifeTime = mParticleLifeTime;

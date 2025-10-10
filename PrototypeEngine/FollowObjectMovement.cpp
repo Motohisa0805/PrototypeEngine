@@ -8,6 +8,7 @@ FollowObjectMovement::FollowObjectMovement(ActorObject* owner, int updateOrder)
 	, mVelocity(Vector3::Zero)
 	, mInputDirection(Vector3::Zero)
 {
+	mName = "FollowObjectMovement";
 	mGravity = true;
 }
 

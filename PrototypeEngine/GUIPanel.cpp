@@ -59,6 +59,10 @@ void GUIPanel::GUIPanelMenu()
 	}
 }
 
+void GUIPanel::ClearPointer()
+{
+}
+
 float GUIPanel::GetWindowSizeWidth()
 {
 	float width = WindowRenderProperty::GetWidth();

@@ -25,3 +25,5 @@ using vector = std::vector<T>;
 
 //nlohmann json‚ÌŠÈˆÕ‹Lq–½—ß
 using json = nlohmann::json;
+
+namespace fs = std::filesystem;

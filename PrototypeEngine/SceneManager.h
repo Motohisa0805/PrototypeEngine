@@ -1,6 +1,6 @@
 #pragma once
 #include "StandardLibrary.h"
-
+#include "SceneSerializer.h"
 /*
 * ===エンジン内部処理/Engine internal processing===
 */
@@ -12,23 +12,22 @@ class BaseScene;
 class SceneManager
 {
 private:
-	//ロード対象のシーンリスト
-	static std::unordered_map<int, BaseScene*>			mScenes;
+
 	//現在のシーン
 	static BaseScene*									mNowScene;
-	static BaseScene*									mNextScene;
 	//ロードフラグ
 	static bool											loading;
 	//現在のシーンの数値
 	static int											mNowSceneIndex;
+	static string										mNextSceneFilePath;
 public:
 	//シーンの初期化処理
 	static bool											InitializeScenes();
 
 	//シーンのロード処理
-	static void											LoadScene(int index);
-	//シーンリストに追加
-	static void											AddSceneList(BaseScene* scene);
+	static void											LoadSceneFromFile(const string& filePath);
+	// 現在編集中/実行中のシーンが、ファイルからロードされたものかを示すフラグ（任意）
+	static bool											mIsFileLoadedScene;
 	//シーンの削除
 	static void											ReleaseAllScenes();
 	//現在のシーンの取得
@@ -40,5 +39,9 @@ public:
 	static void											DisabledLoading() { loading = false; }
 	//現在のシーンの数値のGetter
 	static int											GetNowSceneIndex() { return mNowSceneIndex; }
+	//エンジン起動時にロードすべきシーンファイルのパス
+	static string										mDefaultSceneFilePath;
+	//現在エディタで開いているシーンのファイルパスを設定する関数
+	static void											SetCurrentEditorSceneFilePath(const string& path);
 };
 

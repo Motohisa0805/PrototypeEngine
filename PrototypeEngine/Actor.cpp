@@ -1,14 +1,18 @@
 #include "Actor.h"
 
+#include "MeshRenderer.h"
+#include "BoxCollider.h"
+
 ActorObject::ActorObject()
 	: Transform()
-	, mName("empty")
+	, mGame(SceneManager::GetNowScene())
+	, mName("Actor")
 	, mState(EActive)
 	, mActorTag(ActorTag::None)
-	, mGame(SceneManager::GetNowScene())
 	, mCollider(nullptr)
 	, mRigidbody(nullptr)
 {
+	mName = "Actor" + std::to_string(mGame->mNextActorID++);
 	mGame->AddActor(this);
 }
 
@@ -17,9 +21,9 @@ ActorObject::~ActorObject()
 	mGame->RemoveActor(this);
 	// Need to delete components
 	// Because ~Component calls RemoveComponent, need a different style loop
-	while (!mComponents.empty())
+	for (int i = 0; i < mComponents.size(); i++)
 	{
-		delete mComponents.back();
+		delete mComponents[i];
 	}
 	mComponents.clear();
 }
@@ -89,6 +93,7 @@ void ActorObject::ActorInput(const struct InputState& keyState)
 
 void ActorObject::Serialize(json& j) const
 {
+	Transform::Serialize(j);
 	j["Name"] = mName;
 	j["State"] = mState;
 	j["Tag"] = mActorTag;
@@ -97,6 +102,7 @@ void ActorObject::Serialize(json& j) const
 	nlohmann::json componentsArray = nlohmann::json::array();
 	for (const auto& component : mComponents)
 	{
+		//コンポーネント単体用のjson
 		nlohmann::json componentData;
 		component->Serialize(componentData); // 各コンポーネントのシリアライズメソッドを呼び出す
 		componentsArray.push_back(componentData);
@@ -106,6 +112,7 @@ void ActorObject::Serialize(json& j) const
 
 void ActorObject::Deserialize(const json& j)
 {
+	Transform::Deserialize(j);
 	// 名前を読み込む
 	mName = j.at("Name").get<std::string>();
 
@@ -121,12 +128,10 @@ void ActorObject::Deserialize(const json& j)
 		for (const auto& componentData : j.at("Components"))
 		{
 			// コンポーネントの型を特定
-			std::string type = componentData.at("Type").get<std::string>();
+			string type = componentData.at("Type").get<string>();
 
 			// ファクトリーを使ってコンポーネントを生成
-			Component* newComponent = new Component(this);
-
-			newComponent = newComponent->CreateComponent(type, this);
+			Component* newComponent = ComponentFactory::CreateComponent(type, this);
 
 			if (newComponent)
 			{
@@ -134,6 +139,41 @@ void ActorObject::Deserialize(const json& j)
 				newComponent->Deserialize(componentData);
 				// ActorObjectにコンポーネントをアタッチ
 				AddComponent(newComponent);
+			}
+		}
+	}
+}
+
+void ActorObject::OnComponentAdded(Component* newComp)
+{
+	//MeshRendererが追加された場合
+	if (MeshRenderer* meshRenderer = dynamic_cast<MeshRenderer*>(newComp))
+	{
+		//既にBoxColliderがアタッチされているかチェック
+		if (BoxCollider* collider = GetComponent<BoxCollider>())
+		{
+			// BoxColliderのサイズをメッシュに合わせて初期設定する
+			// MeshRendererが複数のメッシュを持つ場合は最初のメッシュを使う
+			if (!meshRenderer->GetMeshs().empty())
+			{
+				//BoxColliderにメッシュ境界情報を受け取るSetterが必要
+
+				collider->SetObjectBox(meshRenderer->GetMeshs()[0]->GetBoxs()[0]);
+				collider->SetObjectOBB(meshRenderer->GetMeshs()[0]->GetOBBBoxs()[0]);
+			}
+		}
+	}
+	//BoxColliderが追加された場合
+	else if (BoxCollider* collider = dynamic_cast<BoxCollider*>(newComp))
+	{
+		//既にMeshRendererがアタッチされているかチェック
+		if (MeshRenderer* meshRendeerer = GetComponent<MeshRenderer>())
+		{
+			//MeshRendererが既にいるので、コライダーのサイズを初期設定する
+			if (!meshRenderer->GetMeshs().empty())
+			{
+				collider->SetObjectBox(meshRenderer->GetMeshs()[0]->GetBoxs()[0]);
+				collider->SetObjectOBB(meshRenderer->GetMeshs()[0]->GetOBBBoxs()[0]);
 			}
 		}
 	}

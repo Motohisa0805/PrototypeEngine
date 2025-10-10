@@ -10,6 +10,14 @@
 // Unityのコンポーネントに近いクラス
 class Component
 {
+protected:
+	// コンポーネント元のオブジェクト
+	class ActorObject*	mOwner;
+	class BaseScene*	mGame;
+	// コンポーネントの順序を更新する
+	int					mUpdateOrder;
+
+	string				mName;
 public:
 	// コンストラクタ
 	// （更新順序が低いほど、コンポーネントが早く更新される）
@@ -27,17 +35,12 @@ public:
 	class ActorObject*	GetOwner() { return mOwner; }
 	int					GetUpdateOrder() const { return mUpdateOrder; }
 
+	string				GetName()const { return mName; }
+
 	// JSONに変換するメソッド
-	virtual void Serialize(json& j) const;
+	virtual void		Serialize(json& j) const;
 	// JSONから復元するメソッド
-	virtual void Deserialize(const json& j);
+	virtual void		Deserialize(const json& j);
 
-	virtual Component* CreateComponent(const string& type, ActorObject* owner);
-protected:
-	// コンポーネント元のオブジェクト
-	class ActorObject*	mOwner;
-	// コンポーネントの順序を更新する
-	int					mUpdateOrder;
-
-	class BaseScene*	mGame;
+	virtual void		DrawGUI(){}
 };

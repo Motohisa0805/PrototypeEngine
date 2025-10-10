@@ -6,6 +6,7 @@
 TargetComponent::TargetComponent(ActorObject* owner)
 	: Component(owner)
 {
+	mName = "TargetComponent";
 }
 
 TargetComponent::~TargetComponent()

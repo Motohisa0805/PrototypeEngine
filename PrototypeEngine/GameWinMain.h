@@ -41,6 +41,7 @@ public:
 	//ƒQ[ƒ€ˆ—
 	void				RunLoop();
 	void				GameRunLoop();
+	void				LoadGame_Engine();
 	//ƒQ[ƒ€I—¹ˆ—
 	void				Shutdown();
 };

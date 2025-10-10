@@ -6,6 +6,7 @@ CapsuleCollider::CapsuleCollider(ActorObject* owner, int updateOrder)
 	, mWorldCapsule(Vector3::Zero, Vector3::Zero, 0.0f)
 	, mShouldRotate(true)
 {
+    mName = "CapsuleCollider";
 }
 
 CapsuleCollider::~CapsuleCollider()
