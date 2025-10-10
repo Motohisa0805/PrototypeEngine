@@ -22,6 +22,7 @@ Stages00::Stages00()
 	, mPortal(nullptr)
 	, mParticleTestActor(nullptr)
 {
+	mName = "Stages00";
 }
 
 void Stages00::Initialize()

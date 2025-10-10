@@ -5,6 +5,7 @@
 #include "Transform.h"
 #include "VertexArray.h"
 #include "Shader.h"
+#include "ComponentFactory.h"
 
 /*
 * ===エンジン内部処理/Engine internal processing===
@@ -93,12 +94,17 @@ public:
 	//当たり終わった時に呼び出される関数
 	virtual void				OnCollisionExit(ActorObject* target){}
 
+	string						GetName() const { return mName; }
+
+	void 						SetName(const string& name) { mName = name; }
 
 
 	// JSONに変換するメソッド
-	void Serialize(json& j) const override;
+	void						Serialize(json& j) const override;
 	// JSONから復元するメソッド
-	void Deserialize(const json& j)override;
+	void						Deserialize(const json& j)override;
+	//コンポーネントが追加された後に呼ばれる通知関数
+	virtual void				OnComponentAdded(Component* newComp);
 };
 
 template<typename T>

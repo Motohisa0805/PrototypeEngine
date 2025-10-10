@@ -3,6 +3,7 @@
 SphereActor::SphereActor()
 	:ActorObject()
 {
+	mName = "SphereActor";
 	MeshRenderer* mc = new MeshRenderer(this);
 	vector<class Mesh*> mesh = EngineWindow::GetRenderer()->GetMeshs("Sphere.fbx");
 	mc->SetMeshs(mesh);

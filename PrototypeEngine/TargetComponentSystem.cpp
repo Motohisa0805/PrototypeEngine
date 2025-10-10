@@ -4,7 +4,7 @@ TargetComponentSystem::TargetComponentSystem()
 	:ActorObject()
 	, mTargetRange(20.0f)
 {
-
+	mName = "TargetComponentSystem";
 }
 
 void TargetComponentSystem::UpdateActor(float deltaTime)

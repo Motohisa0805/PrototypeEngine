@@ -1,5 +1,10 @@
 #include "BoneActor.h"
 
+BoneActor::BoneActor()
+	: ActorObject()
+{
+}
+
 void BoneActor::ComputeWorldTransform(const Matrix4* parentMatrix)
 {
 	//更新フラグがtrueなら

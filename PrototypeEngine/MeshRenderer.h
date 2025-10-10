@@ -18,6 +18,7 @@ protected:
 	size_t						mTextureIndex;
 	bool						mVisible;
 	bool						mIsSkeletal;
+	string 						mFilePath;
 public:
 								MeshRenderer(ActorObject* owner, bool isSkeletal = false);
 								~MeshRenderer();
@@ -60,4 +61,13 @@ public:
 			}
 		}
 	}
+
+	void						Serialize(json& j) const override;
+	void						Deserialize(const json& j)override;
+
+	void						DrawGUI()override;
+
+	// ファイルパスを設定するSetterを追加
+	void						SetMeshFilePath(const std::string& path) { mFilePath = path; }
+	const std::string&			GetMeshFilePath() const { return mFilePath; }
 };

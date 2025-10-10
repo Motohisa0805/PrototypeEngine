@@ -6,6 +6,8 @@ PortalActor::PortalActor()
 	, mBoxCollider(nullptr)
 	, mMeshAlpha(0.5f)
 {
+	mName = "PortalActor";
+
 	mMeshActor = new MeshActor();
 	mMeshActor->Load("Portal.fbx");
 	mMeshActor->GetMeshRenderer()->SetMaterialAlpha(mMeshAlpha);
@@ -55,7 +57,7 @@ void PortalActor::OnCollisionEnter(ActorObject* other)
 	GameDialogBox* dialogBox = new GameDialogBox(u8"別シーンに移動しますか？",
 		[this]() {
 			int s = SceneManager::GetNowSceneIndex() == 1 ? 2 : 1;
-			SceneManager::LoadScene(s);
+			/*SceneManager::LoadScene(s)*/;
 		},
 		[this]() {
 			// キャンセル時の処理

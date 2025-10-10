@@ -50,5 +50,29 @@ namespace StringConverter
 		result = str.substr(begin, end);
 		return result;
 	}
+
+	inline string ExtensionFileName(const string& path_str)
+	{
+		fs::path p(path_str);
+		return p.filename().string();
+	}
+
+	inline string ExtractFileName_Fs(const string& path_str)
+	{
+		fs::path p(path_str);
+
+		//拡張子を含んだファイル名全体(例：○○〇.json)を取得
+		string filename_with_ext = p.filename().string();
+
+		//拡張子部分を取得
+		string extension = p.extension().string();
+
+		//拡張子のないファイル名を計算
+		if (!extension.empty() && filename_with_ext.size() >= extension.size())
+		{
+			return filename_with_ext.substr(0, filename_with_ext.length() - extension.length());
+		}
+		return filename_with_ext;
+	}
 };
 

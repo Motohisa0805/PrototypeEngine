@@ -3,6 +3,8 @@
 GunActor::GunActor()
 	:ActorObject()
 {
+	mName = "GunActor";
+
 	mGunMesh = new MeshActor();
 	mGunMesh->Load("TestGun.fbx");
 	mGunMesh->SetLocalScale(Vector3(0.2f, 0.2f, 0.2f));

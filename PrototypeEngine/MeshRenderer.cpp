@@ -6,7 +6,9 @@ MeshRenderer::MeshRenderer(ActorObject* owner, bool isSkeletal)
 	, mTextureIndex(0)
 	, mVisible(true)
 	, mIsSkeletal(isSkeletal)
+	, mFilePath("")
 {
+	mName = "MeshRenderer";
 	EngineWindow::GetRenderer()->AddMeshComp(this);
 }
 
@@ -85,4 +87,79 @@ void MeshRenderer::DrawForShadowMap(Shader* shader)
 			glDrawElements(GL_TRIANGLES, va->GetNumIndices(), GL_UNSIGNED_INT, nullptr);
 		}
 	}
+}
+
+void MeshRenderer::Serialize(json& j) const
+{
+	Component::Serialize(j);
+	// ロード元のファイルパスをそのままJSONに書き込む
+	j["FilePath"] = mFilePath;
+
+	// メッシュレンダラー固有の他のプロパティも追加
+	j["Visible"] = mVisible;
+	j["IsSkeletal"] = mIsSkeletal;
+}
+
+void MeshRenderer::Deserialize(const json& j)
+{
+	Component::Deserialize(j);
+	//モデルパスがあるなら
+	if (j.contains("FilePath"))
+	{
+		// 1. JSONからファイルパスを取得する
+		std::string filePath = j.at("FilePath").get<std::string>();
+
+		// 2. メンバ変数にファイルパスを設定
+		mFilePath = filePath;
+
+		// 3. ファイルパスを使って、Rendererからメッシュをロードし、設定する
+		//    元のコードにあった処理をここで実行します
+		vector<class Mesh*> mesh = EngineWindow::GetRenderer()->GetMeshs(mFilePath);
+		SetMeshs(mesh);
+	}
+
+	// 4. その他のプロパティも読み込む
+	mVisible = j.at("Visible").get<bool>();
+	mIsSkeletal = j.at("IsSkeletal").get<bool>();
+}
+
+void MeshRenderer::DrawGUI()
+{
+	//MeshRendererのプロパティ
+	ImGui::Text("Mesh Renderer Properties");
+
+	//1.ファイルパスの取得
+	string currentPath = mFilePath;
+	static char pathBuffer[256];
+	strncpy_s(pathBuffer, currentPath.c_str(), sizeof(pathBuffer));
+	pathBuffer[sizeof(pathBuffer) - 1] = '\0';
+
+	//2.ファイルパスの入力フィールド
+	ImGui::InputText("Mesh File Path", pathBuffer, sizeof(pathBuffer), ImGuiInputTextFlags_ReadOnly);
+
+	//3.ファイルロードボタン(ここでファイル選択UIを開くか、ProjectPanelからのDrag&Dropを想定)
+	//Drag&Drop想定
+	if (ImGui::BeginDragDropTarget())
+	{
+		if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM"))
+		{
+			//ペイロードがファイルパスであると仮定
+			const char* dropPath = (const char*)payload->Data;
+			string path = StringConverter::ExtensionFileName(dropPath);
+			//ファイルパスを使いロード処理を呼び出す
+			vector<class Mesh*> mesh = EngineWindow::GetRenderer()->GetMeshs(path);
+			SetMeshs(mesh);
+		}
+		ImGui::EndDragDropTarget();
+	}
+	/*
+	// ボタンクリックでファイル選択ダイアログを開く実装
+	if (ImGui::Button("Load Mesh from File"))
+	{
+		// 外部のファイル選択ダイアログ (例: nativefiledialog) を開き、
+		// 選択されたファイルパスを meshRenderer->Load(...) に渡す。
+	}
+	*/
+
+	ImGui::Separator();
 }

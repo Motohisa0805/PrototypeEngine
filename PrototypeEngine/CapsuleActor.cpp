@@ -3,6 +3,7 @@
 CapsuleActor::CapsuleActor()
 	:ActorObject()
 {
+	mName = "CapsuleActor";
 	MeshRenderer* mc = new MeshRenderer(this);
 	vector<class Mesh*> mesh = EngineWindow::GetRenderer()->GetMeshs("Capsule.fbx");
 	mc->SetMeshs(mesh);

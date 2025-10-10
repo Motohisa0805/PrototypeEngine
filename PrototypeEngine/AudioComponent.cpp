@@ -6,6 +6,7 @@
 AudioComponent::AudioComponent(ActorObject* owner, int updateOrder)
 	:Component(owner, updateOrder)
 {
+	mName = "AudioComponent";
 }
 
 AudioComponent::~AudioComponent()

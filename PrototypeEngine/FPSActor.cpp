@@ -4,6 +4,8 @@
 FPSActor::FPSActor()
 	:ActorObject()
 {
+	mName = "FPSActor";
+
 	mActorTag = ActorTag::Player;
 
 	mBasicInput = new BasicInputAction(this);

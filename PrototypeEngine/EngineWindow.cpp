@@ -2,6 +2,7 @@
 #include "BaseScene.h"
 #include "SceneEditorCamera.h"
 #include "GameViewPanel.h"
+#include "ComponentFactory.h"
 
 EngineState EngineWindow::mEngineState = EngineState::Run;
 
@@ -36,6 +37,8 @@ bool EngineWindow::EngineInitialize()
 		mRenderer = nullptr;
 		return false;
 	}
+
+	RegisterAllComponents();
 
 	// SDL_ttfの初期化
 	if (!TTF_Init())
@@ -132,6 +135,7 @@ void EngineWindow::EngineRunLoop()
 				//開始した瞬間なら
 				if (GUIWinMain::IsStarting())
 				{
+					GUIWinMain::ResetPointer();
 					//Rendererのものもアンロード
 					mRenderer->UnloadData();
 					//現在のシーンのオブジェクト、画像などをアンロード
@@ -147,19 +151,23 @@ void EngineWindow::EngineRunLoop()
 				mGameWindow->GameRunLoop();
 			}
 		}
-		//終了ボタンが押されたら
-		if( GUIWinMain::IsPushEnd() )
+		else
 		{
+			mGameWindow->LoadGame_Engine();
+		}
+		//終了ボタンが押されたら
+		if(GUIWinMain::IsPushEnd())
+		{
+			GUIWinMain::ResetPointer();
 			//現在のシーンのオブジェクト、画像などをアンロード
 			SceneManager::GetNowScene()->UnloadData();
 			//Rendererのものもアンロード
 			mRenderer->UnloadData();
 			GameStateClass::SetGameState(GameState::GameEnd);
-			SceneManager::ReleaseAllScenes();
-			SceneManager::InitializeScenes();
+			//新しいシーンの初期化
+			SceneManager::GetNowScene()->Initialize();
 		    //仮で一回更新を行う
 			mGameWindow->GameRunLoop();
-
 			GUIWinMain::SetIsPushEnd(false);
 		}
 

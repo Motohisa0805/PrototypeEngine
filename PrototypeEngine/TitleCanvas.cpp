@@ -14,7 +14,7 @@ TitleCanvas::TitleCanvas()
 	mTitleLogo->SetPosition(Vector2(0,200));
 
 	CreateButton(u8"ŠJn", Vector2(0.0f, 0.0f), [this]() {
-		SceneManager::LoadScene(1);
+		/*SceneManager::LoadScene(1);*/
 		});
 
 	CreateButton(u8"I—¹", Vector2(0.0f, -80.0f), [this]() {

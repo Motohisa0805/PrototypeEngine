@@ -4,6 +4,7 @@ DirectionalLightComponent::DirectionalLightComponent(ActorObject* owner)
 	: Component(owner)
 	, mDirectionalLight()
 {
+    mName = "DirectionalLightComponent";
     mDirectionalLight.mDirection = Vector3(0.0f, -0.707f, -0.707f);
     mDirectionalLight.mDiffuseColor = Vector3(0.78f, 0.88f, 1.0f);
     mDirectionalLight.mSpecColor = Vector3(0.8f, 0.8f, 0.8f);

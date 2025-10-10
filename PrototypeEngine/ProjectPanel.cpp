@@ -1,4 +1,5 @@
 #include "ProjectPanel.h"
+#include "EditorSettingsManager.h"
 
 ProjectPanel::ProjectPanel(Renderer* renderer)
 	:GUIPanel(renderer)
@@ -217,7 +218,18 @@ void ProjectPanel::DrawFileSystemEntry(const fs::directory_entry& entry)
         }
         else
         {
-            // ファイルの場合（外部エディタで開くなどの処理をここに追加）
+            // ファイルの場合
+            if (entryPath.extension().string() == ".json")
+            {
+                // シーンファイルのロード処理を呼び出す
+                // 実行中のシーンと切り替えるため、SceneManagerに処理を依頼します
+                SceneManager::LoadSceneFromFile(entryPath.string());
+                EditorSettingsManager::GetInstance().SetLastOpenedScene(entryPath.string());
+            }
+            else
+            {
+                // その他のファイルの場合（外部エディタで開くなど）
+            }
         }
     }
 
@@ -260,6 +272,39 @@ bool ProjectPanel::RightClickMenu(const fs::path& path)
                     Debug::Log("Create folder failed: %s\n", e.what()); 
                 }
             }
+
+            //シーン作成
+            if (ImGui::MenuItem("New Scene"))
+            {
+                std::string uniqueName = "NewScene.json"; // 拡張子付きで初期化
+                fs::path targetFolder = path; // 現在右クリックしているパス（フォルダ）
+
+                // 既に存在するファイル名かチェックし、ユニークな名前に変更する
+                int counter = 1;
+                while (fs::exists(targetFolder / uniqueName)) {
+                    // NewScene(1).json, NewScene(2).json のように生成
+                    uniqueName = "NewScene (" + std::to_string(counter++) + ").json";
+                }
+
+                fs::path newScenePath = targetFolder / uniqueName;
+
+                SceneSerializer::SaveEmptyScene(newScenePath);
+
+                // 3. SceneSerializerを使って空のシーンデータをファイルに書き出す
+                // SceneSerializer::SaveEmptyScene()内でファイル書き込み処理を行う
+                if (SceneSerializer::SaveEmptyScene(newScenePath))
+                {
+                    // 成功ログ
+                    // Debug::Log("Created new scene: %s\n", newScenePath.string().c_str());
+                }
+                else
+                {
+                    // 失敗ログ
+                    // Debug::Log("Failed to create scene file: %s\n", newScenePath.string().c_str());
+                }
+            }
+
+
             if (ImGui::MenuItem("Delete Folder"))
             {
                 // 即削除はしない。遅延キューに追加する
@@ -325,13 +370,14 @@ void ProjectPanel::DragDropFunction(const fs::path& path)
 {
     if (!mDragDroping)
     {
+        const std::string& filePath = path.string();
         // ドラッグ開始処理（Selectable の近くに置く）
         if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_None))
         {
             mDragDroping = true;
-            std::string pathStr = path.string();
-            ImGui::SetDragDropPayload("FILE_DRAG", pathStr.c_str(), pathStr.size() + 1);
-            ImGui::Text("Moving %s", path.filename().string().c_str());
+            ImGui::SetDragDropPayload("CONTENT_BROWSER_ITEM", filePath.c_str(), filePath.size() + 1);
+            // ドラッグ中の表示
+            ImGui::Text("%s", path.filename().string().c_str());
             ImGui::EndDragDropSource();
         }
     }
@@ -339,7 +385,7 @@ void ProjectPanel::DragDropFunction(const fs::path& path)
     {
         if (ImGui::BeginDragDropTarget())
         {
-            if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("FILE_DRAG"))
+            if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM"))
             {
                 const char* srcPathC = (const char*)payload->Data;
                 fs::path src(srcPathC);

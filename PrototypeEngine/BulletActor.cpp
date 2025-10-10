@@ -5,6 +5,8 @@ BulletActor::BulletActor(Vector3 powerDir, Vector3 position)
 	, mPowerDirection(powerDir)
 	, mPower(20000.0f)
 {
+	mName = "BulletActor";
+
 	mBullet = new MeshActor();
 	mBullet->Load("Sphere.fbx");
 	AddChildActor(mBullet);

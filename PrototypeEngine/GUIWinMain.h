@@ -23,7 +23,7 @@ class HierarchyPanel;
 //プロジェクト選択用のパネル
 class ProjectPanel;
 //アイテム選択用のパネル
-class SelectItemPanel;
+class InspectorPanel;
 
 class GUIWinMain
 {
@@ -65,7 +65,7 @@ private:
 	//プロジェクト選択用のパネル
 	static ProjectPanel*			mProjectPanel;
 	//アイテム選択用のパネル
-	static SelectItemPanel*			mSelectItemPanel;
+	static InspectorPanel*			mInspectorPanel;
 
 public:
 	GUIWinMain() = default;
@@ -74,6 +74,8 @@ public:
 	static bool				 InitializeImGui(SDL_Window* window, SDL_GLContext glContext);
 	// Update ImGui state	 
 	static void				 UpdateImGuiState();
+	//GUIパネルのゲームシーン内のポインターをリセット
+	static void				 ResetPointer();
 	// Render ImGui			 
 	static void				 RenderImGui();
 	// Shutdown ImGui		 
@@ -108,6 +110,6 @@ public:
 	static GameViewPanel*	 GetGameViewPanel() { return mGameViewPanel; }
 	static HierarchyPanel*	 GetHierarchyPanel() { return mHierarchyPanel; }
 	static ProjectPanel*	 GetProjectPanel() { return mProjectPanel; }
-	static SelectItemPanel*  GetSelectItemPanel() { return mSelectItemPanel; }
+	static InspectorPanel*  GetSelectItemPanel() { return mInspectorPanel; }
 };
 

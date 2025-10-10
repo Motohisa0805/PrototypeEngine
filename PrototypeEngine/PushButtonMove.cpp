@@ -4,6 +4,7 @@ PushButtonMove::PushButtonMove(ActorObject* owner, int updateOrder)
 	:Component(owner, updateOrder)
 	, mForwardSpeed(0.0f)
 {
+	mName = "PushButtonMove";
 	mSpeed = 0.5f;
 }
 

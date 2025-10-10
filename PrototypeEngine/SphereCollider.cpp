@@ -6,6 +6,7 @@ SphereCollider::SphereCollider(ActorObject* owner, int updateOrder)
 	, mWorldSphere(Vector3::Zero, 0)
 	, mShouldRotate(true)
 {
+	mName = "SphereCollider";
 }
 
 SphereCollider::~SphereCollider()

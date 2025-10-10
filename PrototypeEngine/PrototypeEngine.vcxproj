@@ -185,6 +185,7 @@
     <ClCompile Include="Collider.cpp" />
     <ClCompile Include="Collision.cpp" />
     <ClCompile Include="Component.cpp" />
+    <ClCompile Include="ComponentFactory.cpp" />
     <ClCompile Include="ConvertNumToString.cpp" />
     <ClCompile Include="CubeActor.cpp" />
     <ClCompile Include="DebugGrid.cpp" />
@@ -194,6 +195,7 @@
     <ClCompile Include="DirectionalLightActor.cpp" />
     <ClCompile Include="DirectionalLightComponent.cpp" />
     <ClCompile Include="EditorMain.cpp" />
+    <ClCompile Include="EditorSettingsManager.cpp" />
     <ClCompile Include="EngineWindow.cpp" />
     <ClCompile Include="FollowCamera.cpp" />
     <ClCompile Include="FollowObjectMovement.cpp" />
@@ -241,9 +243,10 @@
     <ClCompile Include="Rigidbody.cpp" />
     <ClCompile Include="SceneEditorCamera.cpp" />
     <ClCompile Include="SceneManager.cpp" />
+    <ClCompile Include="SceneSerializer.cpp" />
     <ClCompile Include="SceneViewEditor.cpp" />
     <ClCompile Include="SceneViewPanel.cpp" />
-    <ClCompile Include="SelectItemPanel.cpp" />
+    <ClCompile Include="InspectorPanel.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="ShadowMap.cpp" />
     <ClCompile Include="SkeletalMeshRenderer.cpp" />
@@ -295,6 +298,7 @@
     <ClInclude Include="Collider.h" />
     <ClInclude Include="Collision.h" />
     <ClInclude Include="Component.h" />
+    <ClInclude Include="ComponentFactory.h" />
     <ClInclude Include="ConvertNumToString.h" />
     <ClInclude Include="CubeActor.h" />
     <ClInclude Include="DebugGrid.h" />
@@ -305,6 +309,7 @@
     <ClInclude Include="DialogBox.h" />
     <ClInclude Include="DirectionalLightActor.h" />
     <ClInclude Include="DirectionalLightComponent.h" />
+    <ClInclude Include="EditorSettingsManager.h" />
     <ClInclude Include="EngineWindow.h" />
     <ClInclude Include="FilePath.h" />
     <ClInclude Include="FollowCamera.h" />
@@ -356,12 +361,13 @@
     <ClInclude Include="Rigidbody.h" />
     <ClInclude Include="SceneEditorCamera.h" />
     <ClInclude Include="SceneManager.h" />
+    <ClInclude Include="SceneSerializer.h" />
     <ClInclude Include="SceneViewEditor.h" />
     <ClInclude Include="SceneViewPanel.h" />
     <ClInclude Include="SDL3.h" />
     <ClInclude Include="SDL_Scancode.h" />
     <ClInclude Include="SDOpenLib.h" />
-    <ClInclude Include="SelectItemPanel.h" />
+    <ClInclude Include="InspectorPanel.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="ShadowMap.h" />
     <ClInclude Include="SkeletalMeshRenderer.h" />

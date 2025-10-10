@@ -5,6 +5,7 @@ TitleScene::TitleScene()
 	, mFreeCameraActor(nullptr)
 	, mTitleCanvas(nullptr)
 {
+	mName = "TitleScene";
 }
 
 TitleScene::~TitleScene()

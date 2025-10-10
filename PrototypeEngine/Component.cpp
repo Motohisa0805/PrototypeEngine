@@ -5,7 +5,9 @@ Component::Component(ActorObject* owner, int updateOrder)
 	:mOwner(owner)
 	, mUpdateOrder(updateOrder)
 	, mGame(owner->GetGame())
+	, mName("Component")
 {
+	mOwner->SetActive();
 	// Actorのコンポーネントベクトルに追加する
 	mOwner->AddComponent(this);
 }
@@ -25,15 +27,12 @@ void Component::Update(float deltaTime)
 
 void Component::Serialize(json& j) const
 {
-	j["updateOrder"] = mUpdateOrder;
+	j["Type"] = mName;
+	j["UpdateOrder"] = mUpdateOrder;
 }
 
 void Component::Deserialize(const json& j)
 {
-	mUpdateOrder = j.at("updateOrder").get<int>();
-}
-
-Component* Component::CreateComponent(const std::string& type, ActorObject* owner)
-{
-	return nullptr;
+	mName = j.at("Type").get<string>();
+	mUpdateOrder = j.at("UpdateOrder").get<int>();
 }

@@ -3,6 +3,7 @@
 Stages01::Stages01()
 	: ActorObject()
 {
+	mName = "Stages01";
 }
 
 void Stages01::Initialize()

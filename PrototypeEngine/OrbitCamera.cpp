@@ -7,6 +7,7 @@ OrbitCamera::OrbitCamera(ActorObject* owner)
 	, mPitchSpeed(0.0f)
 	, mYawSpeed(0.0f)
 {
+	mName = "OrbitCamera";
 }
 
 void OrbitCamera::Update(float deltaTime)

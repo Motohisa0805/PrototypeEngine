@@ -4,6 +4,7 @@ FreeCamera::FreeCamera(ActorObject* owner)
 	:BaseCamera(owner)
 	, mUp(Vector3::UnitY)
 {
+	mName = "FreeCamera";
 }
 
 void FreeCamera::Initiailze()

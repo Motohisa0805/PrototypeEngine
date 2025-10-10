@@ -3,6 +3,7 @@
 PlaneActor::PlaneActor()
 	:ActorObject()
 {
+	mName = "PlaneActor";
 	mActorTag = ActorTag::Ground;
 	mMeshComp = new MeshRenderer(this);
 	mMeshComp->SetMeshs(EngineWindow::GetRenderer()->GetMeshs("Plane.fbx"));

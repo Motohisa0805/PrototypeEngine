@@ -9,6 +9,7 @@ FollowCamera::FollowCamera(ActorObject* owner)
 	, mHorizontalMouseSpeed(200.0f)
 	, mVertexMouseSpeed(200.0f)
 {
+	mName = "FollowCamera";
 	mFixed = false;
 }
 
