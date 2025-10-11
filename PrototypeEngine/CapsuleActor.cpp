@@ -6,7 +6,7 @@ CapsuleActor::CapsuleActor()
 	mName = "CapsuleActor";
 	MeshRenderer* mc = new MeshRenderer(this);
 	vector<class Mesh*> mesh = EngineWindow::GetRenderer()->GetMeshs("Capsule.fbx");
-	mc->SetMeshs(mesh);
+	mc->AddMeshs(mesh);
 
 	// Add collision Sphere
 	mCapsule = new CapsuleCollider(this);

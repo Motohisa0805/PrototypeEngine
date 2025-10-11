@@ -68,7 +68,7 @@ void SceneEditorCamera::Update()
 		mLocalPosition = pos;
 	}
 	
-	ComputeWorldTransform(NULL);
+	ComputeWorldTransform();
 }
 
 void SceneEditorCamera::ProcessInput(const struct InputState& keyState)

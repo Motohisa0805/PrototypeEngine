@@ -49,6 +49,7 @@ protected:
 public:
 	//コンストラクタ
 								ActorObject();
+								ActorObject(BaseScene* scene);
 	//デストラクタ
 	virtual						~ActorObject();
 	// ゲームから一定数で呼び出される更新関数（オーバーライド不可）

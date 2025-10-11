@@ -14,38 +14,34 @@ class Matrix4;
 class Transform
 {
 protected:
-	// World Transform
-	Matrix4								mWorldTransform;
-	//Model Transform
-	Matrix4								mModelTransform;
-
-	//ワールド座標、回転、スケーリング
-	Vector3								mPosition;
-
-	Quaternion							mRotation;
-
-	Vector3								mScale;
 
 	//ローカル座標、回転、スケーリング
 	Vector3								mLocalPosition;
-
 	Vector3								mPositionOffset;
-
 	Quaternion							mLocalRotation;
+	Vector3								mLocalScale;
+
+	//計算結果をキャッシュ
+	//これらはmWorldTransformから分解された値であり、直接編集してらだめ
+	Vector3								mPosition;
+	Quaternion							mRotation;
+	Vector3								mScale;
+
+	Matrix4								mLocalTransform;
+	Matrix4								mWorldTransform;
+
+	bool								mIsDirty;
+
+	//親オブジェクト
+	Transform*							mParentActor;
+	//子オブジェクトの配列
+	vector<Transform*>					mChildActor;
 
 	//X、Y、Z軸の回転量
 	float								mRotationAmountX;
 	float								mRotationAmountY;
 	float								mRotationAmountZ;
 
-	Vector3								mLocalScale;
-
-	bool								mRecomputeWorldTransform;
-
-	//親オブジェクト
-	Transform*							mParentActor;
-	//子オブジェクトの配列
-	vector<Transform*>					mChildActor;
 
 	vector<Component*>					mComponents;
 public:
@@ -57,7 +53,7 @@ public:
 
 	virtual void						SetWorldTransform(Matrix4 mat) { mWorldTransform = mat; }
 
-	virtual const Matrix4&				GetLocalTransform() const { return mModelTransform; }
+	virtual const Matrix4&				GetLocalTransform() const { return mLocalTransform; }
 
 	virtual Vector3						GetForward() const { return Vector3::Transform(Vector3::UnitZ, mLocalRotation); }
 
@@ -70,55 +66,38 @@ public:
 	virtual void						LookAt(const Vector3& targetPosition);
 
 	// Getters/setters
-	virtual const Vector3&				GetPosition() const { return mPosition; }
-
-	virtual void						SetPosition(const Vector3& pos)
+	virtual const Vector3&				GetPosition() 
 	{
-		mPosition = pos;
-		mRecomputeWorldTransform = true;
+		ComputeWorldTransform(); // 必要なら更新
+		return mPosition;
 	}
-
-	virtual const Quaternion&			GetRotation() const { return mRotation; }
-
-	virtual void						SetRotation(const Quaternion& rotation)
+	virtual void						SetPosition(const Vector3& pos);
+	virtual const Quaternion&			GetRotation() 
 	{
-		mRotation = rotation;
-		mRecomputeWorldTransform = true;
+		ComputeWorldTransform(); // 必要なら更新
+		return mRotation;
 	}
-
-	virtual const Vector3&				GetScale() const { return mScale; }
-
+	virtual void						SetRotation(const Quaternion& rotation);
+	virtual const Vector3&				GetScale()  
+	{
+		ComputeWorldTransform(); // 必要なら更新
+		return mScale;
+	}
 	// 1 Ver
-	virtual void						SetScale(Vector3 scale)
-	{
-		mScale = scale;
-		mRecomputeWorldTransform = true;
-	}
+	virtual void						SetScale(Vector3 scale);
 	// 2 Ver
 	virtual void						SetScale(float scale)
 	{
 		mScale = Vector3(scale, scale, scale);
-		mRecomputeWorldTransform = true;
+		SetDirty();
 	}
 
 	// PositionのGetters/setters
 	virtual const Vector3&				GetLocalPosition() const { return mLocalPosition; }
-
 	virtual void						SetLocalPosition(const Vector3& pos)
 	{
 		mLocalPosition = pos;
-		mRecomputeWorldTransform = true;
-	}
-	//Positionを加算で足す関数
-	virtual void						AddLocalPosition(const Vector3& pos)
-	{
-		mLocalPosition += pos;
-		mRecomputeWorldTransform = true;
-	}
-	//mPositionOffsetに加算する関数
-	virtual void						AddPositionOffset(const Vector3& pos)
-	{
-		mPositionOffset += pos;
+		SetDirty();
 	}
 	// ScaleのGetters/setters
 	virtual Vector3						GetLocalScale() const { return mLocalScale; }
@@ -126,13 +105,13 @@ public:
 	virtual void						SetLocalScale(Vector3 scale)
 	{
 		mLocalScale = scale;
-		mRecomputeWorldTransform = true;
+		SetDirty();
 	}
 	// 2 Ver
 	virtual void						SetLocalScale(float scale)
 	{
 		mLocalScale = Vector3(scale, scale, scale);
-		mRecomputeWorldTransform = true;
+		SetDirty();
 	}
 	// RotationのGetters/setters
 	virtual const Quaternion&			GetLocalRotation() const { return mLocalRotation; }
@@ -140,24 +119,20 @@ public:
 	virtual void						SetLocalRotation(const Quaternion& rotation)
 	{
 		mLocalRotation = rotation;
-		mRecomputeWorldTransform = true;
+		SetDirty();
 	}
+
 
 	//軸別の回転量のGetters/setters
 	virtual float						GetRotationAmountX() { return mRotationAmountX; }
-
 	virtual float						GetRotationAmountY() { return mRotationAmountY; }
-
 	virtual float						GetRotationAmountZ() { return mRotationAmountZ; }
-
 	virtual void						SetRotationAmountX(float rot) { mRotationAmountX = rot; }
-
 	virtual void						SetRotationAmountY(float rot) { mRotationAmountY = rot; }
-
 	virtual void						SetRotationAmountZ(float rot) { mRotationAmountZ = rot; }
 
 	//ワールド座標の更新		
-	virtual void						ComputeWorldTransform(const Matrix4* parentMatrix);
+	virtual void						ComputeWorldTransform();
 
 	virtual void						LocalBonePositionUpdateActor(Matrix4 boneMatrix, const Matrix4& parentActor);
 
@@ -166,10 +141,6 @@ public:
 
 	virtual const Transform*			GetChildActor(Transform* actor);
 
-	// Add/remove components
-	virtual void						AddComponent(Component* component);
-
-	virtual void						RemoveComponent(Component* component);
 	//子オブジェクトを追加
 	virtual void						AddChildActor(Transform* actor);
 
@@ -180,10 +151,13 @@ public:
 
 	virtual void						RemoveParentActor();
 
+	// Add/remove components
+	virtual void						AddComponent(Component* component);
+	virtual void						RemoveComponent(Component* component);
 	const vector<Component*>&			GetComponents()const { return mComponents; }
 
 	//子オブジェクトの座標更新
-	virtual void						SetActive() { mRecomputeWorldTransform = true; }
+	virtual void						SetDirty();
 
 
 	// JSONに変換するメソッド

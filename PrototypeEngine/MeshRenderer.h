@@ -30,10 +30,16 @@ public:
 	{
 		mMeshs.push_back(mesh);
 	}
-
-	virtual void				SetMeshs(const vector<Mesh*>& mesh)
+	//既にセットされているメッシュにプラスで追加する形で設定
+	virtual void				AddMeshs(const vector<Mesh*>& mesh)
 	{
 		mMeshs.insert(mMeshs.end(), mesh.begin(), mesh.end());
+	}
+	//読み込んだ複数のメッシュを設定
+	virtual void				SetMeshs(const vector<Mesh*>& mesh)
+	{
+		mMeshs.clear();
+		mMeshs = mesh;
 	}
 
 	void						SetTextureIndex(size_t index) { mTextureIndex = index; }

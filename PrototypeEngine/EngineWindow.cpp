@@ -137,14 +137,14 @@ void EngineWindow::EngineRunLoop()
 				{
 					GUIWinMain::ResetPointer();
 					//Rendererのものもアンロード
-					mRenderer->UnloadData();
+					//mRenderer->UnloadData();
 					//現在のシーンのオブジェクト、画像などをアンロード
-					SceneManager::GetNowScene()->UnloadData();
+					//SceneManager::GetNowScene()->UnloadData();
 					GameStateClass::SetGameState(GameState::GamePlay);
 					//新しいシーンの初期化
-					SceneManager::GetNowScene()->Initialize();
+					//SceneManager::GetNowScene()->Initialize();
 					//Rendererのシーンも変更
-					mRenderer->SetBaseScene(SceneManager::GetNowScene());
+					//mRenderer->SetBaseScene(SceneManager::GetNowScene());
 
 					GUIWinMain::SetIsStarting(false);
 				}
@@ -158,21 +158,12 @@ void EngineWindow::EngineRunLoop()
 		//終了ボタンが押されたら
 		if(GUIWinMain::IsPushEnd())
 		{
-			GUIWinMain::ResetPointer();
-			//現在のシーンのオブジェクト、画像などをアンロード
-			SceneManager::GetNowScene()->UnloadData();
-			//Rendererのものもアンロード
-			mRenderer->UnloadData();
-			GameStateClass::SetGameState(GameState::GameEnd);
-			//新しいシーンの初期化
-			SceneManager::GetNowScene()->Initialize();
+			SceneManager::PlayEndInitilaizeScene();
 		    //仮で一回更新を行う
 			mGameWindow->GameRunLoop();
 			GUIWinMain::SetIsPushEnd(false);
 		}
-
 		EngineRender();
-
 	}
 }
 

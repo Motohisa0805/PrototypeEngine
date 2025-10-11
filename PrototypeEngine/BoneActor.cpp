@@ -5,39 +5,39 @@ BoneActor::BoneActor()
 {
 }
 
-void BoneActor::ComputeWorldTransform(const Matrix4* parentMatrix)
+void BoneActor::ComputeWorldTransform()
 {
 	//更新フラグがtrueなら
-	if (mRecomputeWorldTransform)
+	if (mIsDirty)
 	{
-		mRecomputeWorldTransform = false;
+		mIsDirty = false;
 
-		mModelTransform = Matrix4::CreateScale(mLocalScale);
-		mModelTransform *= Matrix4::CreateFromQuaternion(mLocalRotation);
-		mModelTransform *= Matrix4::CreateTranslation(mLocalPosition);
+		mLocalTransform = Matrix4::CreateScale(mLocalScale);
+		mLocalTransform *= Matrix4::CreateFromQuaternion(mLocalRotation);
+		mLocalTransform *= Matrix4::CreateTranslation(mLocalPosition);
 
 		//親がいたら
-		if (parentMatrix) 
+		if (mParentActor) 
 		{
-			mWorldTransform = mModelTransform * (*parentMatrix);
+			mWorldTransform = mLocalTransform * mParentActor->GetWorldTransform();
 		}
 		//いなかったら
 		else 
 		{
 			//ボーンのマトリックスにモデル自身のマトリックスを乗算
-			mWorldTransform = mModelTransform * parentActor->GetLocalTransform();
-		}
-		//子オブジェクトの座標計算
-		for (auto child : mChildActor)
-		{
-			child->SetActive();
-			child->ComputeWorldTransform(&mWorldTransform);
+			mWorldTransform = mLocalTransform * parentActor->GetLocalTransform();
 		}
 
 		// Inform components world transform updated
 		for (auto comp : mComponents)
 		{
 			comp->OnUpdateWorldTransform();
+		}
+
+		//子オブジェクトの座標計算
+		for (auto child : mChildActor)
+		{
+			child->SetDirty();
 		}
 	}
 }

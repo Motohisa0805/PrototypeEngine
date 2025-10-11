@@ -32,7 +32,9 @@ public:
 	static void											ReleaseAllScenes();
 	//現在のシーンの取得
 	static BaseScene*									GetNowScene() { return mNowScene; }
+	static void											SetNowScene(BaseScene* scene) { mNowScene = scene; }
 	static void											ChangeScene();
+	static void											PlayEndInitilaizeScene();
 	//ロードフラグの取得
 	static bool											IsLoading() { return loading; }
 	//ロードフラグを解除

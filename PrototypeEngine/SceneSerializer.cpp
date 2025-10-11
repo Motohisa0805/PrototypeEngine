@@ -103,7 +103,7 @@ BaseScene* SceneSerializer::LoadScene(const string& filePath)
     for (const auto& actorData : actorsJson)
     {
         //ActorObjectの新しいインスタンスを作成
-		ActorObject* newActor = new ActorObject(/* scene: newScene */);
+		ActorObject* newActor = new ActorObject(newScene);
 
         //Deserializeメソッドを呼び出して、JSONデータからActorObjectを初期化
         //この中でActorObject::Deserialize()とComponent::Deserialize()が連鎖して呼び出されます

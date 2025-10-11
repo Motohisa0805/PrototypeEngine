@@ -1,4 +1,7 @@
 #include "GUIMainMenu.h"
+#include "EditorSettingsManager.h"
+#include "SceneSerializer.h"
+#include "SceneManager.h"
 
 GUIMainMenu::GUIMainMenu(Renderer* renderer)
 	:GUIPanel(renderer)
@@ -45,6 +48,12 @@ void GUIMainMenu::FileMenuDraw()
 		{
 			// Build Gameがクリックされた時の処理
 			Debug::Log("Build Game clicked!");
+		}
+
+		if (ImGui::MenuItem("Save"))
+		{
+			string startupScenePath = EditorSettingsManager::GetInstance().GetLastOpenedScene();
+			SceneSerializer::SaveScene(startupScenePath, SceneManager::GetNowScene());
 		}
 
 		// "File" メニューの終了

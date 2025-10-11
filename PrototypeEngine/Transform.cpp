@@ -12,9 +12,9 @@ Transform::Transform()
 	, mRotationAmountZ(0)
 	, mScale(Vector3(1.0f, 1.0f, 1.0f))
 	, mLocalScale(Vector3(1.0f, 1.0f, 1.0f))
-	, mRecomputeWorldTransform(true)
+	, mIsDirty(true)
 	, mWorldTransform()
-	, mModelTransform()
+	, mLocalTransform()
 	, mParentActor(nullptr)
 	, mChildActor()
 	, mComponents()
@@ -58,28 +58,93 @@ void Transform::LookAt(const Vector3& targetPosition)
 	Quaternion rot = Quaternion::LookRotation(forward, up);
 	SetLocalRotation(rot);
 
-	mRecomputeWorldTransform = true;
+	mIsDirty = true;
 }
 
-void Transform::ComputeWorldTransform(const Matrix4* parentMatrix)
+void Transform::SetPosition(const Vector3& pos)
+{
+	//ワールド座標からローカル座標を逆計算してmLocalPositionを更新
+	if (mParentActor)
+	{
+		Matrix4 parentWorldInverse = mParentActor->GetWorldTransform();
+		parentWorldInverse.Invert();
+		mLocalPosition = Vector3::Transform(pos, parentWorldInverse);
+	}
+	else
+	{
+		mLocalPosition = pos;
+	}
+	SetDirty();
+}
+
+void Transform::SetRotation(const Quaternion& rotation)
+{
+	if (mParentActor)
+	{
+		// 親がいる場合：
+		// ワールド回転から親のワールド回転の影響を取り除き、ローカル回転を算出する
+		// L = P^-1 * W  (L: ローカル, P: 親のワールド, W: 設定したいワールド)
+		Quaternion inverse = mParentActor->GetRotation();
+		Quaternion parentWorldInverse = inverse.Inverse(); // クォータニオンの逆回転を計算
+		mLocalRotation = Quaternion::Concatenate(rotation, parentWorldInverse);
+	}
+	else
+	{
+		// 親がいない場合、ワールド回転 == ローカル回転
+		mLocalRotation = rotation;
+	}
+	SetDirty(); // 更新フラグを立てる
+}
+
+void Transform::SetScale(Vector3 scale)
+{
+	if (mParentActor)
+	{
+		// 親がいる場合：
+		// ワールドスケールを親のワールドスケールの影響で割り、ローカルスケールを算出
+		// 親が回転していると、この計算は厳密には正しくないが、実用上多くの場合これで機能
+		Vector3 parentScale = mParentActor->GetScale();
+		//ゼロ除算を避ける
+		if(!Math::NearZero(parentScale.x) && !Math::NearZero(parentScale.y) && !Math::NearZero(parentScale.z))
+		{
+			mLocalScale = scale / parentScale; // Vector3の成分ごとの除算
+		}
+		else
+		{
+			// 親のスケールがゼロの場合のフォールバック
+			mLocalScale = Vector3(1.0f, 1.0f, 1.0f);
+		}
+	}
+	else
+	{
+		//親がいない場合
+		mLocalScale = scale;
+	}
+	SetDirty();
+}
+
+void Transform::ComputeWorldTransform()
 {
 	//更新フラグがtrueなら
-	if (mRecomputeWorldTransform)
+	if (mIsDirty)
 	{
-		mRecomputeWorldTransform = false;
+		mIsDirty = false;
 
-		mModelTransform = Matrix4::CreateScale(mLocalScale);
-		mModelTransform *= Matrix4::CreateFromQuaternion(mLocalRotation);
-		mModelTransform *= Matrix4::CreateTranslation(mLocalPosition);
+		mLocalTransform = Matrix4::CreateScale(mLocalScale);
+		mLocalTransform *= Matrix4::CreateFromQuaternion(mLocalRotation);
+		mLocalTransform *= Matrix4::CreateTranslation(mLocalPosition);
 
 
 		//親がいたら
-		if (parentMatrix) {
-			mWorldTransform = mModelTransform * (*parentMatrix);
+		if (mParentActor)
+		{
+			mParentActor->ComputeWorldTransform();
+			mWorldTransform = mLocalTransform * mParentActor->GetWorldTransform();
 		}
 		//いなかったら
-		else {
-			mWorldTransform = mModelTransform;
+		else 
+		{
+			mWorldTransform = mLocalTransform;
 		}
 		mPosition = mWorldTransform.GetTranslation();
 		mRotation = mWorldTransform.GetRotation();
@@ -95,8 +160,7 @@ void Transform::ComputeWorldTransform(const Matrix4* parentMatrix)
 	//子オブジェクトの座標計算
 	for (auto child : mChildActor)
 	{
-		child->SetActive();
-		child->ComputeWorldTransform(&mWorldTransform);
+		child->SetDirty();
 	}
 }
 
@@ -153,6 +217,18 @@ void Transform::RemoveComponent(Component* component)
 	}
 }
 
+void Transform::SetDirty()
+{
+	if (!mIsDirty)
+	{
+		mIsDirty = true;
+		for (auto child : mChildActor)
+		{
+			child->SetDirty();//再帰的にフラグを立てる
+		}
+	}
+}
+
 void Transform::AddChildActor(Transform* actor)
 {
 	for (Transform* a : mChildActor)
@@ -160,13 +236,13 @@ void Transform::AddChildActor(Transform* actor)
 		if (a == actor) { return; }
 	}
 	// 親になるアクターの行列を再計算
-	ComputeWorldTransform(mParentActor != nullptr ? &mParentActor->GetWorldTransform() : nullptr);
+	ComputeWorldTransform(/*mParentActor != nullptr ? &mParentActor->GetWorldTransform() : nullptr*/);
 	Matrix4 parentInvert = mWorldTransform;
 	parentInvert.Invert();
 
 	// 子になるアクターの行列を再計算
 	auto parentActor = actor->GetParentActor();
-	actor->ComputeWorldTransform(parentActor != nullptr ? &parentActor->GetWorldTransform() : nullptr);
+	actor->ComputeWorldTransform(/*parentActor != nullptr ? &parentActor->GetWorldTransform() : nullptr*/);
 	Matrix4 child = actor->GetWorldTransform();
 
 	//親になるアクターの逆行列を掛けて子のアクターの親基準のローカル情報を計算して設定
@@ -180,7 +256,7 @@ void Transform::AddChildActor(Transform* actor)
 	mChildActor.push_back(actor);
 
 	//親子関係構築後の再計算
-	mRecomputeWorldTransform = true;
+	mIsDirty = true;
 }
 
 void Transform::RemoveChildActor(Transform* child)
@@ -206,27 +282,26 @@ void Transform::RemoveParentActor()
 void Transform::Serialize(json& j) const
 {
 	j["Type"] = "Transform";
-	j["Position"] = { mPosition.x, mPosition.y, mPosition.z };
-	j["Rotation"] = { mRotation.w, mRotation.x, mRotation.y, mRotation.z };
-	j["Scale"] = { mScale.x, mScale.y, mScale.z };
-	// 親子関係もシリアライズする場合はここに追加
-	//if (mParentActor) { j["Parent"] = mParentActor->GetName(); }
+	// ローカルの値を保存する
+	j["LocalPosition"] = { mLocalPosition.x, mLocalPosition.y, mLocalPosition.z };
+	j["LocalRotation"] = { mLocalRotation.w, mLocalRotation.x, mLocalRotation.y, mLocalRotation.z };
+	j["LocalScale"] = { mLocalScale.x, mLocalScale.y, mLocalScale.z };
 }
 
 void Transform::Deserialize(const json& j)
 {
-	mPosition.x = j["Position"][0];
-	mPosition.y = j["Position"][1];
-	mPosition.z = j["Position"][2];
+	mLocalPosition.x = j["LocalPosition"][0];
+	mLocalPosition.y = j["LocalPosition"][1];
+	mLocalPosition.z = j["LocalPosition"][2];
 
-	mRotation.w = j["Rotation"][0];
-	mRotation.x = j["Rotation"][1];
-	mRotation.y = j["Rotation"][2];
-	mRotation.z = j["Rotation"][3];
+	mLocalRotation.w = j["LocalRotation"][0];
+	mLocalRotation.x = j["LocalRotation"][1];
+	mLocalRotation.y = j["LocalRotation"][2];
+	mLocalRotation.z = j["LocalRotation"][3];
 	
-	mScale.x = j["Scale"][0];
-	mScale.y = j["Scale"][1];
-	mScale.z = j["Scale"][2];
+	mLocalScale.x = j["LocalScale"][0];
+	mLocalScale.y = j["LocalScale"][1];
+	mLocalScale.z = j["LocalScale"][2];
 	
-	mRecomputeWorldTransform = true;
+	mIsDirty = true;
 }

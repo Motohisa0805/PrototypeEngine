@@ -16,6 +16,17 @@ ActorObject::ActorObject()
 	mGame->AddActor(this);
 }
 
+ActorObject::ActorObject(BaseScene* scene)
+	: Transform()
+	, mGame(scene)
+	, mName("Actor")
+	, mState(EActive)
+	, mActorTag(ActorTag::None)
+	, mCollider(nullptr)
+	, mRigidbody(nullptr)
+{
+}
+
 ActorObject::~ActorObject()
 {
 	mGame->RemoveActor(this);
@@ -34,7 +45,7 @@ void ActorObject::FixedUpdate(float deltaTime)
 	{
 		FixedUpdateComponents(deltaTime);
 		FixedUpdateActor(deltaTime);
-		ComputeWorldTransform(NULL);
+		ComputeWorldTransform();
 	}
 }
 
@@ -57,7 +68,7 @@ void ActorObject::Update(float deltaTime)
 		//ComputeLocalTransform();
 		UpdateComponents(deltaTime);
 		UpdateActor(deltaTime);
-		ComputeWorldTransform(NULL);
+		ComputeWorldTransform();
 	}
 }
 
