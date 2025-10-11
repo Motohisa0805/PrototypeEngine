@@ -24,7 +24,6 @@ bool SceneManager::InitializeScenes()
 	{
 		//パスが有効なら、そのファイルからロードを試みる
 		mNowScene = SceneSerializer::LoadScene(startupScenePath);
-
 	}
 
 	//ベースに最初の動的シーンを設定(空のEditorSceneを作成)
@@ -65,9 +64,9 @@ void SceneManager::ChangeScene()
 	{
 		if (mNowScene)
 		{
+			GUIWinMain::ResetPointer();
 			EngineWindow::GetRenderer()->UnloadData();
 			mNowScene->UnloadData();
-
 			//最重要：古いシーンのメモリ解放
 			delete mNowScene;
 			mNowScene = nullptr;
@@ -79,6 +78,23 @@ void SceneManager::ChangeScene()
 		//...(後続の処理)...
 	}
 	loading = false;
+}
+
+void SceneManager::PlayEndInitilaizeScene()
+{
+	if (mNowScene)
+	{
+		GUIWinMain::ResetPointer();
+		EngineWindow::GetRenderer()->UnloadData();
+		mNowScene->UnloadData();
+		//最重要：古いシーンのメモリ解放
+		delete mNowScene;
+		mNowScene = nullptr;
+	}
+
+	mNowScene = SceneSerializer::LoadScene(EditorSettingsManager::GetInstance().GetLastOpenedScene());
+	mNowScene->Initialize();
+	EngineWindow::GetRenderer()->SetBaseScene(mNowScene);
 }
 
 void SceneManager::SetCurrentEditorSceneFilePath(const string& path)

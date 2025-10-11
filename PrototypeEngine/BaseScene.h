@@ -22,17 +22,21 @@ class Text;
 class BaseScene
 {
 protected:
+	//ActorObjectがコンストラクタで呼び出すための関数
+	friend class ActorObject;
+	// Track if we're updating actors right now
+	bool											mUpdatingActors;
+
 	AudioSystem*									mAudioSystem;
 
 	PhysWorld*										mPhysWorld;
-	// Track if we're updating actors right now
-	bool											mUpdatingActors;
+
+	// Any pending actors
+	vector<ActorObject*>							mPendingActors;
 
 	// All the actors in the game
 	vector<ActorObject*>							mActors;
 	
-	// Any pending actors
-	vector<ActorObject*>							mPendingActors;
 	
 	vector<Canvas*>									mCanvasStack;
 	
@@ -50,8 +54,6 @@ protected:
 	//Actorに割り当てるユニークなID/カウント
 	int												mNextActorID;
 	
-	//ActorObjectがコンストラクタで呼び出すための関数
-	friend class ActorObject;
 
 	ActorObject*									mPlayer;
 
@@ -87,6 +89,8 @@ public:
 	void											AddActor(ActorObject* actor);
 	//オブジェクト削除
 	void											RemoveActor(ActorObject* actor);
+	//更新待ちのオブジェクトをメインリストに移動する関数
+	void											ProcessPendingActors();
 
 	template<typename T>
 	vector<ActorObject*>							SelectAllActorComponent();

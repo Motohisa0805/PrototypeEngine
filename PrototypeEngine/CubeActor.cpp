@@ -6,7 +6,7 @@ CubeActor::CubeActor()
 	mName = "CubeActor";
 	MeshRenderer* mc = new MeshRenderer(this);
 	vector<class Mesh*> mesh = EngineWindow::GetRenderer()->GetMeshs("Cube.fbx");
-	mc->SetMeshs(mesh);
+	mc->AddMeshs(mesh);
 
 
 	BoxCollider* box = new BoxCollider(this);

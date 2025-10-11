@@ -19,7 +19,7 @@ private:
 	ActorObject*	parentActor;
 public:
 	BoneActor();
-	void			ComputeWorldTransform(const Matrix4* parentMatrix)override;
+	void			ComputeWorldTransform()override;
 
 	void			SetBoneName(string name) { boneName = name; mName = name; }
 

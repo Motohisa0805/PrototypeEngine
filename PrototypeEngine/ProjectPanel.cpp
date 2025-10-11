@@ -288,8 +288,6 @@ bool ProjectPanel::RightClickMenu(const fs::path& path)
 
                 fs::path newScenePath = targetFolder / uniqueName;
 
-                SceneSerializer::SaveEmptyScene(newScenePath);
-
                 // 3. SceneSerializerを使って空のシーンデータをファイルに書き出す
                 // SceneSerializer::SaveEmptyScene()内でファイル書き込み処理を行う
                 if (SceneSerializer::SaveEmptyScene(newScenePath))

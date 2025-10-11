@@ -7,9 +7,9 @@ Component::Component(ActorObject* owner, int updateOrder)
 	, mGame(owner->GetGame())
 	, mName("Component")
 {
-	mOwner->SetActive();
+	mOwner->SetDirty();
 	// Actorのコンポーネントベクトルに追加する
-	mOwner->AddComponent(this);
+	//mOwner->AddComponent(this);
 }
 
 Component::~Component()

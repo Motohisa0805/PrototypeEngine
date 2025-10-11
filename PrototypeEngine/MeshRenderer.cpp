@@ -115,7 +115,7 @@ void MeshRenderer::Deserialize(const json& j)
 		// 3. ファイルパスを使って、Rendererからメッシュをロードし、設定する
 		//    元のコードにあった処理をここで実行します
 		vector<class Mesh*> mesh = EngineWindow::GetRenderer()->GetMeshs(mFilePath);
-		SetMeshs(mesh);
+		AddMeshs(mesh);
 	}
 
 	// 4. その他のプロパティも読み込む
@@ -149,6 +149,7 @@ void MeshRenderer::DrawGUI()
 			//ファイルパスを使いロード処理を呼び出す
 			vector<class Mesh*> mesh = EngineWindow::GetRenderer()->GetMeshs(path);
 			SetMeshs(mesh);
+			mFilePath = path;
 		}
 		ImGui::EndDragDropTarget();
 	}

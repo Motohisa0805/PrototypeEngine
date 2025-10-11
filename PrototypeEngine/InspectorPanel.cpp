@@ -56,7 +56,7 @@ void InspectorPanel::Draw(float width, float height, ImTextureRef ref)
 			// ここでは簡易的に、Actor::mName を公開メンバーとして扱う
 
 			//Actor名の編集(一時バッファを使うの安全だけど、ここでは簡略化)
-			char nameBuffer[256];
+			char nameBuffer[128];
 			strncpy_s(nameBuffer, selectedActor->GetName().c_str(), sizeof(nameBuffer) - 1);
 			nameBuffer[sizeof(nameBuffer) - 1] = '\0'; // 念のためヌル終端
 
@@ -192,6 +192,7 @@ void InspectorPanel::Draw(float width, float height, ImTextureRef ref)
 						Component* newComp = ComponentFactory::CreateComponent(compName, selectedActor);
 						if (newComp)
 						{
+							selectedActor->AddComponent(newComp);
 							// メッシュとコライダーの依存性が解決したら処理
 							selectedActor->OnComponentAdded(newComp); // ← ActorObject側で実装する
 						}

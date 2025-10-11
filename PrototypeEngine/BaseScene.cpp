@@ -5,8 +5,7 @@
 #include "BaseCamera.h"          // BaseCamera の IsMain を使うために必要
 
 BaseScene::BaseScene()
-	: mName("BaseScene")
-	, mAudioSystem(nullptr)
+	: mAudioSystem(nullptr)
 	, mPhysWorld(nullptr)
 	, mUpdatingActors(false)
 	, mFixed_Delta_Time(0.02f)
@@ -14,6 +13,7 @@ BaseScene::BaseScene()
 	, mCameras()
 	, mFixedTimeAccumulator(0.0f)
 	, mFrameRateText(nullptr)
+	, mName("BaseScene")
 {
 }
 
@@ -71,6 +71,7 @@ bool BaseScene::Initialize()
 		//FreeCameraコンポーネントをアタッチ
 		FreeCamera* freeCamComp = new FreeCamera(cameraActor);
 		freeCamComp->SetIsMain(true);//メインカメラに設定
+		cameraActor->AddComponent(freeCamComp);
 	}
 	//LightActorがないなら
 	if (!dirLight)
@@ -83,7 +84,7 @@ bool BaseScene::Initialize()
 		lightActor->SetLocalRotation(rot);
 
 		// DirectionalLightComponent をアタッチ
-		new DirectionalLightComponent(lightActor);
+		lightActor->AddComponent(new DirectionalLightComponent(lightActor));
 	}
 	//-----------------------------------------------------
 
@@ -167,7 +168,7 @@ bool BaseScene::Update()
 	// 保留中のアクターをmActorsに移動します
 	for (int i = 0; i < mPendingActors.size(); i++)
 	{
-		mPendingActors[i]->ComputeWorldTransform(NULL);
+		mPendingActors[i]->ComputeWorldTransform();
 		mActors.emplace_back(mPendingActors[i]);
 	}
 
@@ -256,8 +257,16 @@ bool BaseScene::Update()
 
 void BaseScene::AddActor(ActorObject* actor)
 {
-	// If we're updating actors, need to add to pending
-	mPendingActors.emplace_back(actor);
+	if (mUpdatingActors)
+	{
+		// If we're updating actors, need to add to pending
+		mPendingActors.emplace_back(actor);
+	}
+	else
+	{
+		// 更新中でない場合はメインリストに直接追加（エディタ操作は通常こちら）
+		mActors.push_back(actor);
+	}
 }
 
 void BaseScene::RemoveActor(ActorObject* actor)
@@ -279,6 +288,18 @@ void BaseScene::RemoveActor(ActorObject* actor)
 		std::iter_swap(iter, mActors.end() - 1);
 		mActors.pop_back();
 	}
+}
+
+void BaseScene::ProcessPendingActors()
+{
+	// 保留中のアクターをmActorsに移動します
+	for (int i = 0; i < mPendingActors.size(); i++)
+	{
+		mPendingActors[i]->ComputeWorldTransform();
+		mActors.emplace_back(mPendingActors[i]);
+	}
+
+	mPendingActors.clear();
 }
 
 Font* BaseScene::GetFont(const string& fileName)

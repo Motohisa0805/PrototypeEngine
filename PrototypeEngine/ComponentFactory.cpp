@@ -15,6 +15,11 @@
 #include "PushButtonMove.h"
 #include "TargetComponent.h"
 
+#include "BaseCamera.h"
+#include "FreeCamera.h"
+#include "FollowCamera.h"
+#include "FPSCamera.h"
+
 std::map<string, ComponentCreator> ComponentFactory::sCreators;
 
 void ComponentFactory::RegisterComponent(const string& type, ComponentCreator creator)
@@ -77,5 +82,13 @@ void RegisterAllComponents()
 	ComponentFactory::RegisterComponent("PushButtonMove",[](ActorObject* owner) -> Component* { return new PushButtonMove(owner); });
 	
 	ComponentFactory::RegisterComponent("TargetComponent",[](ActorObject* owner) -> Component* { return new TargetComponent(owner); });
+	
+	ComponentFactory::RegisterComponent("BaseCamera",[](ActorObject* owner) -> Component* { return new BaseCamera(owner); });
+	
+	ComponentFactory::RegisterComponent("FreeCamera",[](ActorObject* owner) -> Component* { return new FreeCamera(owner); });
+	
+	ComponentFactory::RegisterComponent("FollowCamera",[](ActorObject* owner) -> Component* { return new FollowCamera(owner); });
+	
+	ComponentFactory::RegisterComponent("FPSCamera",[](ActorObject* owner) -> Component* { return new FPSCamera(owner); });
 	// ...他のコンポーネントも同様に追加
 }

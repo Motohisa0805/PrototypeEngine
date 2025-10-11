@@ -18,7 +18,7 @@ void MeshActor::Load(string filePath)
 {
 	mMeshRenderer = new MeshRenderer(this);
 	vector<class Mesh*> mesh = EngineWindow::GetRenderer()->GetMeshs(filePath);
-	mMeshRenderer->SetMeshs(mesh);
+	mMeshRenderer->AddMeshs(mesh);
 	mMeshRenderer->SetMeshFilePath(filePath);
 }
 
