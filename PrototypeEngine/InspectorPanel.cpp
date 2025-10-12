@@ -80,34 +80,22 @@ void InspectorPanel::Draw(float width, float height, ImTextureRef ref)
 					selectedActor->SetPosition(pos);
 				}
 
-				//Rotation(Quaternion)の編集
-				float rotX = selectedActor->GetRotationAmountX();
-				float rotY = selectedActor->GetRotationAmountY();
-				float rotZ = selectedActor->GetRotationAmountZ();
+				Vector3 eulerRad = selectedActor->GetRotation().ToEulerAngles();
 
-				float rotationEuler[3] = { rotX,rotY,rotZ };
-
+				Vector3 rot;
+				rot.x = Math::ToDegrees(eulerRad.x);
+				rot.y = Math::ToDegrees(eulerRad.y);
+				rot.z = Math::ToDegrees(eulerRad.z);
 				//度数法で表示・編集
-				if (ImGui::DragFloat3("Rotation(deg)", rotationEuler, 1.0f))
+				if (ImGui::DragFloat3("Rotation(deg)", &rot.x, 1.0f))
 				{
-					// ユーザーがGUIで値を変更した場合、rotationEuler[0]、[1]、[2]が更新されている
-
-					// 更新された値を変数に戻し、ラジアンに変換してActorに設定
-					rotX = rotationEuler[0];
-					rotY = rotationEuler[1];
-					rotZ = rotationEuler[2];
 
 					// ラジアンに変換して保存
-					Quaternion qx = Quaternion::CreateFromAxisAngle(Vector3::UnitX, Math::ToRadians(rotX));
-					Quaternion qy = Quaternion::CreateFromAxisAngle(Vector3::UnitY, Math::ToRadians(rotY));
-					Quaternion qz = Quaternion::CreateFromAxisAngle(Vector3::UnitZ, Math::ToRadians(rotZ));
-					Quaternion newRotation = qz * qy * qx; // ZYX順で回転を適用
+					Quaternion qx = Quaternion::CreateFromAxisAngle(Vector3::UnitX, rot.x);
+					Quaternion qy = Quaternion::CreateFromAxisAngle(Vector3::UnitY, rot.y);
+					Quaternion qz = Quaternion::CreateFromAxisAngle(Vector3::UnitZ, rot.z);
+					Quaternion newRotation = qy * qx * qz; // ZYX順で回転を適用
 					selectedActor->SetRotation(newRotation);
-
-					// 回転量を更新
-					selectedActor->SetRotationAmountX(rotX);
-					selectedActor->SetRotationAmountY(rotY);
-					selectedActor->SetRotationAmountZ(rotZ);
 				}
 
 				//Scale(Vector3)の編集

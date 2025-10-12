@@ -293,12 +293,12 @@ bool ProjectPanel::RightClickMenu(const fs::path& path)
                 if (SceneSerializer::SaveEmptyScene(newScenePath))
                 {
                     // ê¨å˜ÉçÉO
-                    // Debug::Log("Created new scene: %s\n", newScenePath.string().c_str());
+                    Debug::Log("Created new scene: %s\n", newScenePath.string().c_str());
                 }
                 else
                 {
                     // é∏îsÉçÉO
-                    // Debug::Log("Failed to create scene file: %s\n", newScenePath.string().c_str());
+                    Debug::Log("Failed to create scene file: %s\n", newScenePath.string().c_str());
                 }
             }
 

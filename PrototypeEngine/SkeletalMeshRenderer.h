@@ -33,6 +33,7 @@ public:
 	// Setters
 	void							SetSkeleton(Skeleton* sk, ActorObject* actor) 
 	{
+		mSkeleton = nullptr;
 		mSkeleton = sk; 
 		mSkeleton->SetParentActor(actor);
 	}
@@ -44,4 +45,6 @@ public:
 
 	void							Serialize(json& j) const override;
 	void							Deserialize(const json& j)override;
+
+	void							DrawGUI()override;
 };

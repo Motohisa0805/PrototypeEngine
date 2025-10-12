@@ -14,6 +14,7 @@ BaseScene::BaseScene()
 	, mFixedTimeAccumulator(0.0f)
 	, mFrameRateText(nullptr)
 	, mName("BaseScene")
+	, mNextActorID(0)
 {
 }
 

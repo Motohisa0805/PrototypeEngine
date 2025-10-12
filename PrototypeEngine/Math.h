@@ -17,12 +17,12 @@ namespace Math
 
 	inline float ToRadians(float degrees)
 	{
-		return degrees * Pi / 180.0f;
+		return degrees * (Pi / 180.0f);
 	}
 
 	inline float ToDegrees(float radians)
 	{
-		return radians * 180.0f / Pi;
+		return radians * (180.0f / Pi);
 	}
 
 	inline bool NearZero(float val, float epsilon = 0.001f)
@@ -69,6 +69,11 @@ namespace Math
 	{
 		return sinf(angle);
 	}
+
+	inline float Asin(float f) 
+	{
+		return std::asin(f); 
+	} 
 
 	inline float Tan(float angle)
 	{
@@ -797,6 +802,8 @@ public:
 	float Length() const;
 
 	void Normalize();
+
+	Vector3 ToEulerAngles()const;
 
 	// 提供された四元数を正規化
 	static Quaternion Normalize(const Quaternion& q);

@@ -118,11 +118,7 @@ void SkeletalMeshRenderer::LoadSkeletonMesh(const string& fileName, ActorObject*
 
 void SkeletalMeshRenderer::SetAnimator(Animator* animator)
 {
-	if (animator == nullptr)
-	{
-		Debug::ErrorLog("The project is ending because there are no Animator.");
-		return;
-	}
+	mAnimator = nullptr;
 	mAnimator = animator;
 }
 
@@ -167,4 +163,46 @@ void SkeletalMeshRenderer::Deserialize(const json& j)
 	//    (注: Animatorクラスがある前提)
 	//    Animator* animator = mOwner->GetComponent<Animator>(); 
 	//    SetAnimator(animator);
+}
+
+void SkeletalMeshRenderer::DrawGUI()
+{
+	//MeshRendererのプロパティ
+	ImGui::Text("SkeletalMeshRenderer");
+
+	//1.ファイルパスの取得
+	string currentPath = mFilePath;
+	static char pathBuffer[256];
+	strncpy_s(pathBuffer, currentPath.c_str(), sizeof(pathBuffer));
+	pathBuffer[sizeof(pathBuffer) - 1] = '\0';
+
+	//2.ファイルパスの入力フィールド
+	ImGui::InputText("Mesh File Path", pathBuffer, sizeof(pathBuffer), ImGuiInputTextFlags_ReadOnly);
+
+	//3.ファイルロードボタン(ここでファイル選択UIを開くか、ProjectPanelからのDrag&Dropを想定)
+	//Drag&Drop想定
+	if (ImGui::BeginDragDropTarget())
+	{
+		if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM"))
+		{
+			//ペイロードがファイルパスであると仮定
+			const char* dropPath = (const char*)payload->Data;
+			string path = StringConverter::ExtensionFileName(dropPath);
+			//ファイルパスを使いロード処理を呼び出す
+			vector<class Mesh*> mesh = EngineWindow::GetRenderer()->GetMeshs(path);
+			SetMeshs(mesh);
+			mFilePath = path;
+		}
+		ImGui::EndDragDropTarget();
+	}
+	/*
+	// ボタンクリックでファイル選択ダイアログを開く実装
+	if (ImGui::Button("Load Mesh from File"))
+	{
+		// 外部のファイル選択ダイアログ (例: nativefiledialog) を開き、
+		// 選択されたファイルパスを meshRenderer->Load(...) に渡す。
+	}
+	*/
+
+	ImGui::Separator();
 }

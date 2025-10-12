@@ -1,4 +1,84 @@
 {
-  "Actors": [],
+  "Actors": [
+    {
+      "Components": [
+        {
+          "Type": "FreeCamera",
+          "UpdateOrder": 200
+        }
+      ],
+      "LocalPosition": [
+        0.0,
+        2.0,
+        -5.0
+      ],
+      "LocalRotation": [
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "LocalScale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "Name": "MainCamera",
+      "State": 0,
+      "Tag": 0,
+      "Type": "Transform"
+    },
+    {
+      "Components": [
+        {
+          "Type": "DirectionalLightComponent",
+          "UpdateOrder": 100
+        }
+      ],
+      "LocalPosition": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "LocalRotation": [
+        0.9238795042037964,
+        -0.0,
+        -0.0,
+        -0.3826834559440613
+      ],
+      "LocalScale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "Name": "Directional Light",
+      "State": 0,
+      "Tag": 0,
+      "Type": "Transform"
+    },
+    {
+      "Components": [],
+      "LocalPosition": [
+        0.0,
+        0.699999988079071,
+        5.300000190734863
+      ],
+      "LocalRotation": [
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "LocalScale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "Name": "Actor2",
+      "State": 0,
+      "Tag": 0,
+      "Type": "Transform"
+    }
+  ],
   "SceneName": "NewScene"
 }
