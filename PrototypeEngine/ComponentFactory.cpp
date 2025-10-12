@@ -74,7 +74,7 @@ void RegisterAllComponents()
 	ComponentFactory::RegisterComponent("AudioComponent",[](ActorObject* owner) -> Component* { return new AudioComponent(owner); });
 	
 	ComponentFactory::RegisterComponent("Animator",[](ActorObject* owner) -> Component* { return new Animator(owner); });
-	// ゲーム部分で追加したコンポーネントもここに追加する
+
 	ComponentFactory::RegisterComponent("BasicInputAction",[](ActorObject* owner) -> Component* { return new BasicInputAction(owner); });
 	
 	ComponentFactory::RegisterComponent("FollowObjectMovement",[](ActorObject* owner) -> Component* { return new FollowObjectMovement(owner); });

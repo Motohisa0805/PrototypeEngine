@@ -216,6 +216,47 @@ void Quaternion::Normalize()
 	w /= length;
 }
 
+Vector3 Quaternion::ToEulerAngles() const
+{
+	Vector3 angles;
+
+	// X (ピッチ)成分
+	// sin(pitch)の計算。Z-X-Y順におけるピッチ角 (X軸) の項
+	float sinp = 2.0f * (x * w - z * y);
+
+	// ジンバルロックのチェック (ピッチが +/-90度の場合)
+	if (fabs(sinp) >= 1.0f)
+	{
+		// ジンバルロック状態
+		angles.x = std::copysign(Math::Pi / 2.0f, sinp);
+
+		// Z (ヨー)成分 (Z軸周りの回転)
+		angles.z = 2.0f * Math::Atan2(z, w);
+
+		// Y (ロール)成分 (Y軸周りの回転)
+		angles.y = 0.0f; // Y軸は固定される
+	}
+	else
+	{
+		// X (ピッチ) を計算
+		angles.x = Math::Asin(sinp); // ★Math::Asin または std::asin を使用
+
+		// Y (ロール)成分
+		// atan2( sin(roll)*cos(pitch), cos(roll)*cos(pitch) )
+		angles.y = Math::Atan2(2.0f * (y * w + x * z), 1.0f - 2.0f * (y * y + x * x));
+
+		// Z (ヨー)成分
+		// atan2( sin(yaw)*cos(pitch), cos(yaw)*cos(pitch) )
+		angles.z = Math::Atan2(2.0f * (z * w + x * y), 1.0f - 2.0f * (z * z + x * x));
+	}
+
+	// 抽出された角度はラジアンなので、度数に変換してGUIに渡す必要がある
+	// 呼び出し側で Math::ToDegrees を使うか、ここで変換してください
+	// (通常、この関数はラジアンで返す方が望ましいです)
+
+	return angles;
+}
+
 Quaternion Quaternion::Normalize(const Quaternion& q)
 {
 	Quaternion retVal = q;
@@ -326,7 +367,7 @@ Vector3 Quaternion::RotateVector(const Vector3 scale, const Quaternion& parent)
 	// 回転後のベクトルを返す
 	return Vector3(qv.x, qv.y, qv.z);
 }
-
+//回転させる軸、角度を代入(ラジアンは関数内で変換)
 Quaternion Quaternion::CreateFromAxisAngle(const Vector3& axis, float angleDegrees)
 {
 	// 角度をラジアンに変換

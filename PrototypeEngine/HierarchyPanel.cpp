@@ -43,7 +43,7 @@ void HierarchyPanel::Draw(float width, float height, ImTextureRef ref)
 		GUIPanelMenu();
 
 		// ----------------------------------------------------------------
-		// 1. 現在のシーンのアクター一覧を表示する（仮実装）
+		// 1. 現在のシーンのアクター一覧を表示する
 		// ----------------------------------------------------------------
 		BaseScene* currentScene = SceneManager::GetNowScene();
 		if (currentScene)
