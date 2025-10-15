@@ -30,6 +30,7 @@ C:\C++Files\PrototypeEngine\PrototypeEngine\DirectionalLightActor.cpp;C:\C++File
 C:\C++Files\PrototypeEngine\PrototypeEngine\DirectionalLightComponent.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\DirectionalLightComponent.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\EditorMain.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\EditorMain.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\EditorSettingsManager.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\EditorSettingsManager.obj
+C:\C++Files\PrototypeEngine\PrototypeEngine\EditorTextureManager.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\EditorTextureManager.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\EngineWindow.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\EngineWindow.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\FollowCamera.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\FollowCamera.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\FollowObjectMovement.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\FollowObjectMovement.obj

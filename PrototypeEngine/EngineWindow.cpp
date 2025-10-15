@@ -64,6 +64,7 @@ bool EngineWindow::EngineInitialize()
 	mGameWindow->GameRunLoop();
 
 	mSceneEditorCamera = new SceneEditorCamera();
+	GameStateClass::mDebugFrag = true;
 	return true;
 }
 
@@ -78,6 +79,7 @@ void EngineWindow::EngineProcessInput()
 	{
 		// ImGui用のイベント処理
 		ImGui_ImplSDL3_ProcessEvent(&event);
+		InputSystem::ProcessEvent(event);
 		switch (event.type)
 		{
 			//実行が終了するとtrue
@@ -89,13 +91,22 @@ void EngineWindow::EngineProcessInput()
 			break;
 		}
 	}
-	//TODO : ESCキーを押してゲーム入力を解除
+	//-------------------------------------------------------
+	// ゲームエンジン内の入力処理
+	//-------------------------------------------------------
+	//ESCキーを押してゲーム入力を解除
 	if (state.Keyboard.GetKeyDown(KEY_ESCAPE)||!GUIWinMain::GetGameViewPanel()->IsMouseHovered())
 	{
 		if (InputContextManager::IsGameInputActive())
 		{
 			InputContextManager::SetContext(InputContext::Engine);
 		}
+	}
+
+	// Debugビルドの場合の処理
+	if (state.Keyboard.GetKeyDown(SDL_SCANCODE_F1))
+	{
+		GameStateClass::mDebugFrag = !GameStateClass::mDebugFrag;
 	}
 	//シーンビューのエディターカメラ入力
 	mSceneEditorCamera->ProcessInput(state);
@@ -154,6 +165,7 @@ void EngineWindow::EngineRunLoop()
 		else
 		{
 			mGameWindow->LoadGame_Engine();
+			SceneManager::GetNowScene()->EditorUpdate();
 		}
 		//終了ボタンが押されたら
 		if(GUIWinMain::IsPushEnd())

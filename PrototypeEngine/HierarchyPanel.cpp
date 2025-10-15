@@ -1,6 +1,6 @@
-#include "HierarchyPanel.h"
-#include "SceneManager.h" // SceneManager::GetNowScene() ‚ğg‚¤‚½‚ß‚É•K—v
-#include "Actor.h"        // new ActorObject() ‚ğg‚¤‚½‚ß‚É•K—v
+ï»¿#include "HierarchyPanel.h"
+#include "SceneManager.h" // SceneManager::GetNowScene() ã‚’ä½¿ã†ãŸã‚ã«å¿…è¦
+#include "Actor.h"        // new ActorObject() ã‚’ä½¿ã†ãŸã‚ã«å¿…è¦
 
 HierarchyPanel::HierarchyPanel(Renderer* renderer)
 	:GUIPanel(renderer)
@@ -37,72 +37,177 @@ void HierarchyPanel::Draw(float width, float height, ImTextureRef ref)
         ImGui::SetNextWindowPos(ImVec2(mWidthPos, mHeightPos), ImGuiCond_Once);
         ImGui::SetNextWindowSize(ImVec2(mWidthSize, mHeightSize), ImGuiCond_Once);
     }
-	//  V‚µ‚¢ƒEƒBƒ“ƒhƒE‚Ìì¬
+	//  æ–°ã—ã„ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã®ä½œæˆ
 	if(ImGui::Begin("Hierarchy", nullptr, ImGuiWindowFlags_NoCollapse))
 	{
 		GUIPanelMenu();
 
 		// ----------------------------------------------------------------
-		// 1. Œ»İ‚ÌƒV[ƒ“‚ÌƒAƒNƒ^[ˆê——‚ğ•\¦‚·‚é
+		// 1. ç¾åœ¨ã®ã‚·ãƒ¼ãƒ³ã®ã‚¢ã‚¯ã‚¿ãƒ¼ä¸€è¦§ã‚’è¡¨ç¤ºã™ã‚‹
 		// ----------------------------------------------------------------
 		BaseScene* currentScene = SceneManager::GetNowScene();
 		if (currentScene)
 		{
 			string name = currentScene->GetName();
-			//‰¼ƒV[ƒ“–¼‚ğ•\¦
+			//ä»®ã‚·ãƒ¼ãƒ³åã‚’è¡¨ç¤º
 			ImGui::TextColored(ImVec4(0.5f, 0.5f, 1.0f, 1.0f), "Scene:%s", currentScene->GetName().c_str());
 			ImGui::Separator();
-			// Scene‚©‚çƒAƒNƒ^[ƒŠƒXƒg‚ğæ“¾‚·‚éŠÖ”‚ğŒÄ‚Ño‚·
-			// BaseScene::GetActors() ‚ª•K—v
+			// Sceneã‹ã‚‰ã‚¢ã‚¯ã‚¿ãƒ¼ãƒªã‚¹ãƒˆã‚’å–å¾—ã™ã‚‹é–¢æ•°ã‚’å‘¼ã³å‡ºã™
+			// BaseScene::GetActors() ãŒå¿…è¦
 			const vector<ActorObject*>& actors = currentScene->GetActors();
 
-			//ŠeƒAƒNƒ^[‚ğƒ‹[ƒv‚µ‚Ä•\¦
+			//å„è¦ªç„¡ã—ã‚¢ã‚¯ã‚¿ãƒ¼ã‚’ãƒ«ãƒ¼ãƒ—ã—ã¦è¡¨ç¤º
 			for (auto& actor : actors)
 			{
-				//ImGui::Selectable()‚ğg‚Á‚ÄƒAƒNƒ^[–¼‚ğ•\¦
-				//‘I‘ğó‘Ô‚ÍmSelectedActor‚Æ”äŠr‚µ‚Äİ’è
-				bool isSelected = (mSelectedActor == actor);
-				ImGui::PushID(actor);//“¯‚¶–¼‘O‚ÌƒAƒNƒ^[‚ª‚¢‚Ä‚àƒ†ƒj[ƒNID‚É‚È‚é‚æ‚¤‚É‚·‚é
-				if (ImGui::Selectable(actor->GetName().c_str(), isSelected))
+				//è¦ªãŒã„ãªã„ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã ã‘æç”»
+				if (actor->GetParentActor() == nullptr)
 				{
-					//2.ƒNƒŠƒbƒN‚³‚ê‚½‚ç‘I‘ğ’†‚ÌƒAƒNƒ^[‚ğXV
-					mSelectedActor = actor;
+					DrawActorNode(actor);
 				}
-				ImGui::PopID();
 			}
 
 		}
 		// ----------------------------------------------------------------
-		// 3. ƒpƒlƒ‹‚Ì‹ó‚«ƒXƒy[ƒX‚ğ‰EƒNƒŠƒbƒN‚µ‚½‚Æ‚«‚Ìƒƒjƒ…[
+		// 2. ãƒ‘ãƒãƒ«ã®ç©ºãã‚¹ãƒšãƒ¼ã‚¹ã‚’å³ã‚¯ãƒªãƒƒã‚¯ã—ãŸã¨ãã®ãƒ¡ãƒ‹ãƒ¥ãƒ¼
 		// ----------------------------------------------------------------
-		//ImGui::BeginPopupContextWindow() ‚ÍAŒ»İ‚ÌƒEƒBƒ“ƒhƒE‚ªƒtƒH[ƒJƒX‚³‚ê‚Ä‚¢‚éó‘Ô‚Å
-        // ‰EƒNƒŠƒbƒN‚³‚ê‚½ê‡‚Éƒ|ƒbƒvƒAƒbƒvƒƒjƒ…[‚ğŠJn‚µ‚Ü‚·B
+		//ImGui::BeginPopupContextWindow() ã¯ã€ç¾åœ¨ã®ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ãŒãƒ•ã‚©ãƒ¼ã‚«ã‚¹ã•ã‚Œã¦ã„ã‚‹çŠ¶æ…‹ã§
+        // å³ã‚¯ãƒªãƒƒã‚¯ã•ã‚ŒãŸå ´åˆã«ãƒãƒƒãƒ—ã‚¢ãƒƒãƒ—ãƒ¡ãƒ‹ãƒ¥ãƒ¼ã‚’é–‹å§‹ã—ã¾ã™ã€‚
 		if (ImGui::BeginPopupContextWindow("HierarchyContext", ImGuiMouseButton_Right))
 		{
 			if (ImGui::MenuItem("Create Empty Actor"))
 			{
-				//3.ActorObject‚Ì¶¬‚ÆƒV[ƒ“‚Ö‚Ì’Ç‰Á
+				//3.ActorObjectã®ç”Ÿæˆã¨ã‚·ãƒ¼ãƒ³ã¸ã®è¿½åŠ 
 
-				// ActorObject::ActorObject() ƒRƒ“ƒXƒgƒ‰ƒNƒ^“à‚ÅˆÈ‰º‚Ìˆ—‚ªs‚í‚ê‚Ä‚¢‚é‘O’ñ‚Å‚·B
-				// 1. SceneManager::GetNowScene() ‚ğæ“¾‚µ mGame ‚Éİ’è
-				// 2. mGame->AddActor(this); ‚ğŒÄ‚Ño‚µAŒ»İ‚ÌƒV[ƒ“‚Ì Actor ƒŠƒXƒg‚É’Ç‰Á
+				// ActorObject::ActorObject() ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿å†…ã§ä»¥ä¸‹ã®å‡¦ç†ãŒè¡Œã‚ã‚Œã¦ã„ã‚‹å‰æã§ã™ã€‚
+				// 1. SceneManager::GetNowScene() ã‚’å–å¾—ã— mGame ã«è¨­å®š
+				// 2. mGame->AddActor(this); ã‚’å‘¼ã³å‡ºã—ã€ç¾åœ¨ã®ã‚·ãƒ¼ãƒ³ã® Actor ãƒªã‚¹ãƒˆã«è¿½åŠ 
 				ActorObject* newActor = new ActorObject();
-				mSelectedActor = newActor; // V‚µ‚­ì‚Á‚½ƒAƒNƒ^[‚ğ©“®‚Å‘I‘ğ
-
-				// (ƒƒOo—Í)
-				// Debug::Log("Created new Actor: %s\n", newActor->GetName().c_str());
+				mSelectedActor = newActor; // æ–°ã—ãä½œã£ãŸã‚¢ã‚¯ã‚¿ãƒ¼ã‚’è‡ªå‹•ã§é¸æŠ
 			}
-
-			//(ƒIƒvƒVƒ‡ƒ“)
-			if (ImGui::MenuItem("Create Mesh Actor"))
+			if (mSelectedActor)
 			{
-				//TODO: ƒƒbƒVƒ…ƒAƒNƒ^[ì¬ˆ—
-			}
+				if (ImGui::MenuItem("Release Parent Object"))
+				{
+					mSelectedActor->SetParent(nullptr);
+				}
 
+				if (ImGui::MenuItem("Delete Actor"))
+				{
+					SceneManager::GetNowScene()->DeleteActor(mSelectedActor);
+					mSelectedActor = nullptr;
+				}
+			}
+			if (ImGui::MenuItem("GUI Initialization of position"))
+			{
+				isResetLayout = true;
+			}
 			ImGui::EndPopup();
 		}
 	}
 	ImGui::End();
+}
+
+void HierarchyPanel::DrawActorNode(ActorObject* actor)
+{
+	if (!actor || actor->GetState() == ActorObject::EDead)
+	{
+		return;
+	}
+
+	//ãƒãƒ¼ãƒ‰ãƒ•ãƒ©ã‚°ã®è¨­å®š
+	ImGuiBackendFlags node_flags = ImGuiTreeNodeFlags_AllowOverlap;
+	bool isSelected = (mSelectedActor == actor);
+	if (isSelected)
+	{
+		node_flags |= ImGuiTreeNodeFlags_Selected;
+	}
+
+	//å­ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’å–å¾—
+	const vector<Transform*>& children = actor->GetChildActorList();
+
+	//å­ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãŒãªã‘ã‚Œã°æœ«ç«¯ãƒãƒ¼ãƒ‰ã¨ã—ã¦æ‰±ã†
+	if (children.empty())
+	{
+		node_flags |= ImGuiTreeNodeFlags_Leaf | ImGuiTreeNodeFlags_NoTreePushOnOpen;
+	}
+
+	//PushIDã§ãƒ¦ãƒ‹ãƒ¼ã‚¯IDã‚’è¨­å®š
+	ImGui::PushID(actor);
+
+	//ImGui::TreeNodeExã‚’ä½¿ç”¨
+	bool open = ImGui::TreeNodeEx(actor->GetName().c_str(), node_flags);
+
+	//ãƒãƒ¼ãƒ‰ãŒã‚¯ãƒªãƒƒã‚¯ã•ã‚ŒãŸã‚‰é¸æŠã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’æ›´æ–°
+	if (ImGui::IsItemClicked())
+	{
+		mSelectedActor = actor;
+	}
+
+	//1.ãƒ‰ãƒ©ãƒƒã‚°å…ƒ(Drag Source)ã®è¨­å®š
+	if (ImGui::BeginDragDropSource())
+	{
+		//ãƒšã‚¤ãƒ­ãƒ¼ãƒ‰ã¨ã—ã¦ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ãƒã‚¤ãƒ³ã‚¿ãƒ¼ã‚’æ ¼ç´
+		ImGui::SetDragDropPayload("ACTOR_NODE_PTR", &actor, sizeof(ActorObject*));
+		//ãƒ‰ãƒ©ãƒƒã‚°ä¸­ã«è¡¨ç¤ºã•ã‚Œã‚‹ãƒ†ã‚­ã‚¹ãƒˆ
+		ImGui::Text("%s", actor->GetName().c_str());
+		ImGui::EndDragDropSource();
+	}
+
+	//2a.ãƒ‰ãƒ­ãƒƒãƒ—å…ˆ(Drop Target)ã®è¨­å®š(å­ã¨ã—ã¦è¿½åŠ )
+	if (ImGui::BeginDragDropTarget())
+	{
+		//ãƒ‰ãƒ©ãƒƒã‚°ãƒšã‚¤ãƒ­ãƒ¼ãƒ‰ã‚’å—ã‘å–ã‚‹
+		if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("ACTOR_NODE_PTR"))
+		{
+			//ãƒã‚¤ãƒ³ã‚¿ã®ã‚µã‚¤ã‚ºãŒæ­£ã—ã„ã“ã¨ã‚’ç¢ºèª
+			if (payload->DataSize == sizeof(ActorObject*))
+			{
+				//ãƒ‰ãƒ©ãƒƒã‚°ã•ã‚Œã¦ããŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ãƒã‚¤ãƒ³ã‚¿ãƒ¼ã‚’å–å¾—
+				ActorObject* draggedActor = *(ActorObject**)payload->Data;
+
+				//ãƒ‰ãƒ­ãƒƒãƒ—å…ˆã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãŒã€ãƒ‰ãƒ©ãƒƒã‚°å…ƒã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆè‡ªèº«ã¾ãŸã¯ãã®å­å­«ã§ãªã„ã“ã¨ã‚’ç¢ºèª
+				bool isCircular = false;
+				Transform* parentCheck = actor;
+				while (parentCheck != nullptr)
+				{
+					if (parentCheck == draggedActor)
+					{
+						isCircular = true;
+						break;
+					}
+					parentCheck = parentCheck->GetParentActor();
+				}
+
+				if (!isCircular && draggedActor != actor)
+				{
+					// SetParentã‚’å‘¼ã³å‡ºã™ã ã‘ã§ã€è¦ªå­é–¢ä¿‚ã®ä»˜ã‘æ›¿ãˆãŒå®Œçµã™ã‚‹
+					draggedActor->SetParent(actor);
+
+					mSelectedActor = draggedActor;
+				}
+			}
+		}
+		ImGui::EndDragDropTarget();
+	}
+	//ãƒãƒ¼ãƒ‰ãŒé–‹ã‹ã‚ŒãŸå ´åˆã€å­ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’å†å¸°çš„ã«æç”»
+	if (open)
+	{
+		for (Transform* childTransform : children)
+		{
+			if (ActorObject* childActor = dynamic_cast<ActorObject*>(childTransform))
+			{
+				DrawActorNode(childActor);
+			}
+		}
+
+		//å­è¦ç´ ã®æç”»ãŒçµ‚äº†ã—ãŸã‚‰
+		if (!(node_flags & ImGuiTreeNodeFlags_NoTreePushOnOpen))
+		{
+			ImGui::TreePop();
+		}
+	}
+
+	ImGui::PopID();
 }
 
 void HierarchyPanel::ClearPointer()

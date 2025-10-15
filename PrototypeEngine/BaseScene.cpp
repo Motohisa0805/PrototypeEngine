@@ -15,6 +15,7 @@ BaseScene::BaseScene()
 	, mFrameRateText(nullptr)
 	, mName("BaseScene")
 	, mNextActorID(0)
+	, mIsComputeWorldTransform(false)
 {
 }
 
@@ -68,7 +69,7 @@ bool BaseScene::Initialize()
 		cameraActor->SetPosition(Vector3(0.0f, 2.0f, -5.0f));
 		cameraActor->SetRotation(Quaternion(Vector3::UnitY, 0.0f));
 
-		//TODO : ここはカメラコンポーネントを改造して変更予定
+		//ここはカメラコンポーネントを改造して変更予定
 		//FreeCameraコンポーネントをアタッチ
 		FreeCamera* freeCamComp = new FreeCamera(cameraActor);
 		freeCamComp->SetIsMain(true);//メインカメラに設定
@@ -112,16 +113,6 @@ bool BaseScene::InputUpdate(const InputState& state)
 			}
 		}
 	}
-
-#ifdef _DEBUG
-	// Debugビルドの場合の処理
-	if (state.Keyboard.GetKeyDown(SDL_SCANCODE_F1))
-	{
-		GameStateClass::mDebugFrag = !GameStateClass::mDebugFrag;
-	}
-#else
-	// Releaseビルドの場合の処理
-#endif
 
 
 	return true;
@@ -256,6 +247,101 @@ bool BaseScene::Update()
 	return true;
 }
 
+bool BaseScene::EditorUpdate()
+{
+	//オブジェクトの座標が更新された時だけ
+	if (!mIsComputeWorldTransform)
+	{
+		return false;
+	}
+	//特定のシーンに読み込まれたオブジェクトやコンポーネントを
+	// まとめて処理する部分
+	// Update all actors
+	mUpdatingActors = true;
+	for (int i = 0; i < mActors.size(); i++)
+	{
+		if (mActors[i]->GetState() == ActorObject::EActive)
+		{
+			mActors[i]->EditorComputeWorldTransform();
+		}
+	}
+
+	mUpdatingActors = false;
+
+	// 保留中のアクターをmActorsに移動します
+	for (int i = 0; i < mPendingActors.size(); i++)
+	{
+		mPendingActors[i]->EditorComputeWorldTransform();
+		mActors.emplace_back(mPendingActors[i]);
+	}
+
+	mPendingActors.clear();
+
+	// Add any dead actors to a temp vector
+	vector<ActorObject*> deadActors;
+	for (int i = 0; i < mActors.size(); i++)
+	{
+		if (mActors[i]->GetState() == ActorObject::EDead)
+		{
+			deadActors.emplace_back(mActors[i]);
+		}
+	}
+
+
+	// Delete dead actors (which removes them from mActors)
+	for (auto actor : deadActors)
+	{
+		delete actor;
+	}
+
+	// Update UI screens
+	for (int i = 0; i < mCanvasStack.size(); i++)
+	{
+		if (mCanvasStack[i]->GetState() == Canvas::EActive)
+		{
+			mCanvasStack[i]->Update(Time::gDeltaTime);
+		}
+	}
+
+	for (int i = 0; i < mImageStack.size(); i++)
+	{
+		if (mImageStack[i]->GetState() == Image::EActive)
+		{
+			mImageStack[i]->Update(Time::gDeltaTime);
+		}
+	}
+
+	// Delete any UIScreens that are closed
+	auto iter = mCanvasStack.begin();
+	while (iter != mCanvasStack.end())
+	{
+		if ((*iter)->GetState() == Canvas::EDestroy)
+		{
+			delete* iter;
+			iter = mCanvasStack.erase(iter);
+		}
+		else
+		{
+			++iter;
+		}
+	}
+	auto image = mImageStack.begin();
+	while (image != mImageStack.end())
+	{
+		if ((*image)->GetState() == Image::EDestroy)
+		{
+			delete* image;
+			image = mImageStack.erase(image);
+		}
+		else
+		{
+			++image;
+		}
+	}
+	mIsComputeWorldTransform = false;
+	return true;
+}
+
 void BaseScene::AddActor(ActorObject* actor)
 {
 	if (mUpdatingActors)
@@ -289,6 +375,11 @@ void BaseScene::RemoveActor(ActorObject* actor)
 		std::iter_swap(iter, mActors.end() - 1);
 		mActors.pop_back();
 	}
+}
+
+void BaseScene::DeleteActor(ActorObject* actor)
+{
+	actor->SetState(ActorObject::EDead);
 }
 
 void BaseScene::ProcessPendingActors()

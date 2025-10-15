@@ -1,15 +1,32 @@
 #include "Transform.h"
 #include "Actor.h" // 追加: ActorObjectの完全な型情報が必要
 
+void Transform::AddChild(Transform* child)
+{
+	//重複チェック
+	auto iter = std::find(mChildActor.begin(), mChildActor.end(), child);
+	if (iter == mChildActor.end())
+	{
+		mChildActor.push_back(child);
+	}
+}
+
+void Transform::RemoveChild(Transform* child)
+{
+	//重複チェック
+	auto iter = std::find(mChildActor.begin(), mChildActor.end(), child);
+	if (iter != mChildActor.end())
+	{
+		mChildActor.erase(iter);
+	}
+}
+
 Transform::Transform()
 	: mPosition(Vector3::Zero)
 	, mLocalPosition(Vector3::Zero)
 	, mPositionOffset(Vector3::Zero)
 	, mRotation(Quaternion::Identity)
 	, mLocalRotation(Quaternion::Identity)
-	, mRotationAmountX(0)
-	, mRotationAmountY(0)
-	, mRotationAmountZ(0)
 	, mScale(Vector3(1.0f, 1.0f, 1.0f))
 	, mLocalScale(Vector3(1.0f, 1.0f, 1.0f))
 	, mIsDirty(true)
@@ -64,116 +81,63 @@ void Transform::LookAt(const Vector3& targetPosition)
 void Transform::SetPosition(const Vector3& pos)
 {
 	//ワールド座標からローカル座標を逆計算してmLocalPositionを更新
-	if (mParentActor)
-	{
-		Matrix4 parentWorldInverse = mParentActor->GetWorldTransform();
-		parentWorldInverse.Invert();
-		mLocalPosition = Vector3::Transform(pos, parentWorldInverse);
-	}
-	else
-	{
-		mLocalPosition = pos;
-	}
+	mLocalPosition = pos;
 	SetDirty();
+	ComputeWorldTransform();
 }
 
 void Transform::SetRotation(const Quaternion& rotation)
 {
-	if (mParentActor)
-	{
-		// 親がいる場合：
-		// ワールド回転から親のワールド回転の影響を取り除き、ローカル回転を算出する
-		// L = P^-1 * W  (L: ローカル, P: 親のワールド, W: 設定したいワールド)
-		Quaternion inverse = mParentActor->GetRotation();
-		Quaternion parentWorldInverse = inverse.Inverse(); // クォータニオンの逆回転を計算
-		mLocalRotation = Quaternion::Concatenate(rotation, parentWorldInverse);
-	}
-	else
-	{
-		// 親がいない場合、ワールド回転 == ローカル回転
-		mLocalRotation = rotation;
-	}
+	mLocalRotation = rotation;
 	SetDirty(); // 更新フラグを立てる
+	ComputeWorldTransform();
 }
 
 void Transform::SetScale(Vector3 scale)
 {
-	if (mParentActor)
-	{
-		// 親がいる場合：
-		// ワールドスケールを親のワールドスケールの影響で割り、ローカルスケールを算出
-		// 親が回転していると、この計算は厳密には正しくないが、実用上多くの場合これで機能
-		Vector3 parentScale = mParentActor->GetScale();
-		//ゼロ除算を避ける
-		if(!Math::NearZero(parentScale.x) && !Math::NearZero(parentScale.y) && !Math::NearZero(parentScale.z))
-		{
-			mLocalScale = scale / parentScale; // Vector3の成分ごとの除算
-		}
-		else
-		{
-			// 親のスケールがゼロの場合のフォールバック
-			mLocalScale = Vector3(1.0f, 1.0f, 1.0f);
-		}
-	}
-	else
-	{
-		//親がいない場合
-		mLocalScale = scale;
-	}
+	mLocalScale = scale;
 	SetDirty();
+	ComputeWorldTransform();
 }
 
 void Transform::ComputeWorldTransform()
 {
-	//更新フラグがtrueなら
-	if (mIsDirty)
+	//更新フラグがfalseなら
+	if (!mIsDirty)
 	{
-		mIsDirty = false;
-
-		mLocalTransform = Matrix4::CreateScale(mLocalScale);
-		mLocalTransform *= Matrix4::CreateFromQuaternion(mLocalRotation);
-		mLocalTransform *= Matrix4::CreateTranslation(mLocalPosition);
-
-
-		//親がいたら
-		if (mParentActor)
-		{
-			mParentActor->ComputeWorldTransform();
-			mWorldTransform = mLocalTransform * mParentActor->GetWorldTransform();
-		}
-		//いなかったら
-		else 
-		{
-			mWorldTransform = mLocalTransform;
-		}
-		mPosition = mWorldTransform.GetTranslation();
-		mRotation = mWorldTransform.GetRotation();
-		mScale = mWorldTransform.GetScale();
-
-		// Inform components world transform updated
-		for (auto comp : mComponents)
-		{
-			comp->OnUpdateWorldTransform();
-		}
+		return;
 	}
-	//一時的な修正
-	//子オブジェクトの座標計算
-	for (auto child : mChildActor)
+
+
+	//ローカル座標計算
+	mLocalTransform = Matrix4::CreateScale(mLocalScale);
+	mLocalTransform *= Matrix4::CreateFromQuaternion(mLocalRotation);
+	mLocalTransform *= Matrix4::CreateTranslation(mLocalPosition);
+
+
+	//親がいたら、親のワールド行列を掛ける
+	if (mParentActor)
 	{
-		child->SetDirty();
+		// 親のワールドトランスフォームが最新であることを保証する必要がある
+		mParentActor->ComputeWorldTransform();
+		mWorldTransform = mLocalTransform * mParentActor->GetWorldTransform();
 	}
-}
+	//いなかったら
+	else
+	{
+		mWorldTransform = mLocalTransform;
+	}
+	mPosition = mWorldTransform.GetTranslation();
+	mRotation = mWorldTransform.GetRotation();
+	mScale = mWorldTransform.GetScale();
 
-void Transform::LocalBonePositionUpdateActor(Matrix4 boneMatrix, const Matrix4& parentActor)
-{
-	Vector3 position = parentActor.GetTranslation() + boneMatrix.GetTranslation();
-	position += mPositionOffset;
-	SetLocalPosition(position);
-	Quaternion r = Quaternion(boneMatrix.GetRotation());
-	r = Quaternion::Concatenate(r, Quaternion(Vector3::UnitX, mRotationAmountX));
-	r = Quaternion::Concatenate(r, Quaternion(Vector3::UnitY, mRotationAmountY));
-	r = Quaternion::Concatenate(r, Quaternion(Vector3::UnitZ, mRotationAmountZ));
-	SetLocalRotation(r);
+	mIsDirty = false;
+
+	// Inform components world transform updated
+	for (auto comp : mComponents)
+	{
+		comp->OnUpdateWorldTransform();
+	}
 }
 
 const Transform* Transform::GetChildActor(Transform* actor)
@@ -219,53 +183,39 @@ void Transform::RemoveComponent(Component* component)
 
 void Transform::SetDirty()
 {
-	if (!mIsDirty)
+	if (mIsDirty)
 	{
-		mIsDirty = true;
-		for (auto child : mChildActor)
-		{
-			child->SetDirty();//再帰的にフラグを立てる
-		}
+		return;
 	}
+
+	//1.自分自身を更新可能にする
+	mIsDirty = true;
+
+	for (auto child : mChildActor)
+	{
+		child->SetDirty();//再帰的にフラグを立てる
+	}
+	SceneManager::GetNowScene()->mIsComputeWorldTransform = true;
 }
 
-void Transform::AddChildActor(Transform* actor)
+void Transform::ActiveDirty()
 {
-	for (Transform* a : mChildActor)
-	{
-		if (a == actor) { return; }
-	}
-	// 親になるアクターの行列を再計算
-	ComputeWorldTransform(/*mParentActor != nullptr ? &mParentActor->GetWorldTransform() : nullptr*/);
-	Matrix4 parentInvert = mWorldTransform;
-	parentInvert.Invert();
-
-	// 子になるアクターの行列を再計算
-	auto parentActor = actor->GetParentActor();
-	actor->ComputeWorldTransform(/*parentActor != nullptr ? &parentActor->GetWorldTransform() : nullptr*/);
-	Matrix4 child = actor->GetWorldTransform();
-
-	//親になるアクターの逆行列を掛けて子のアクターの親基準のローカル情報を計算して設定
-	Matrix4 childLocal = child * parentInvert;
-	actor->SetLocalPosition(childLocal.GetTranslation());
-	actor->SetLocalRotation(childLocal.GetRotation());
-	actor->SetLocalScale(childLocal.GetScale());
-
-
-	actor->AddParentActor(this);
-	mChildActor.push_back(actor);
-
-	//親子関係構築後の再計算
 	mIsDirty = true;
+}
+
+void Transform::AddChildActor(Transform* childactor)
+{
+	if (childactor)
+	{
+		childactor->SetParent(this);
+	}
 }
 
 void Transform::RemoveChildActor(Transform* child)
 {
-	auto iter = std::find(mChildActor.begin(), mChildActor.end(), child);
-	if (iter != mChildActor.end())
+	if (child && child->GetParentActor() == this)
 	{
-		child->AddParentActor(nullptr);
-		mChildActor.erase(iter);
+		child->SetParent(nullptr);
 	}
 }
 
@@ -274,9 +224,68 @@ void Transform::AddParentActor(Transform* parent)
 	mParentActor = parent;
 }
 
+void Transform::SetParent(Transform* newParent)
+{
+	// 1. 変更不要なケースは早期リターン
+	// 同じ親を再設定しようとしている
+	if (mParentActor == newParent)
+	{
+		return;
+	}
+	// 自分自身を親にしようとしている
+	if (this == newParent)
+	{
+		return;
+	}
+
+	// 2. 関係性を変更する前に、現在のワールドトランスフォームを保持しておく
+	//構築直前に座標を変更していた場合の処理
+	ComputeWorldTransform(); // 最新の状態を計算
+	Matrix4 worldMatrix = GetWorldTransform();
+
+	// 3. 現在の親がいる場合は、その親の子リストから自分を削除する
+	if (mParentActor)
+	{
+		mParentActor->RemoveChild(this);
+	}
+
+	// 4. 新しい親子関係を構築する
+	mParentActor = newParent;
+	if (mParentActor)
+	{
+		mParentActor->AddChild(this);
+	}
+
+	// 5. ワールドトランスフォームを維持するように、新しいローカル値を計算する
+	if (mParentActor)
+	{
+		// 新しい親を基準にしたローカル座標を逆算する
+		// NewLocal = CurrentWorld * ParentWorld^-1
+		mParentActor->ComputeWorldTransform(); // 親の行列を最新に
+		Matrix4 parentWorldInverse = mParentActor->GetWorldTransform();
+		parentWorldInverse.Invert();
+
+		Matrix4 newLocalMatrix = worldMatrix * parentWorldInverse;
+		Matrix4 rotationMatrix = newLocalMatrix.RemoveScale();
+		SetLocalPosition(newLocalMatrix.GetTranslation());
+		SetLocalRotation(rotationMatrix.GetRotation());
+		SetLocalScale(newLocalMatrix.GetScale());
+	}
+	else // 親を解除し、ルートオブジェクトになる場合
+	{
+		// ワールド座標がそのままローカル座標になる
+		SetLocalPosition(worldMatrix.GetTranslation());
+		SetLocalRotation(worldMatrix.GetRotation());
+		SetLocalScale(worldMatrix.GetScale());
+	}
+
+	// 6. 変更があったことを示すダーティフラグを立てる
+	SetDirty();
+}
+
 void Transform::RemoveParentActor()
 {
-	mParentActor = nullptr;
+	SetParent(nullptr);
 }
 
 void Transform::Serialize(json& j) const

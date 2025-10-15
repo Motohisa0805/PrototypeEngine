@@ -32,7 +32,7 @@ void CurrentDirectorySetting()
 }
 
 
-//TODO : プロジェクトを実行している場所
+//FOCUS : プロジェクトを実行している場所
 //構成マネージャーがDebugなら
 #ifdef _DEBUG
 int main(int argc, char* argv[])

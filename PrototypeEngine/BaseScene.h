@@ -65,6 +65,7 @@ protected:
 	//フレームレート表示テキスト
 	Text*											mFrameRateText;
 
+
 	//シーンの名前
 	string											mName;
 public:
@@ -79,6 +80,7 @@ public:
 	virtual bool									FixedUpdate();
 	//更新
 	virtual bool									Update();
+	virtual bool									EditorUpdate();
 	//解放
 	void											UnloadData();
 
@@ -89,6 +91,7 @@ public:
 	void											AddActor(ActorObject* actor);
 	//オブジェクト削除
 	void											RemoveActor(ActorObject* actor);
+	void											DeleteActor(ActorObject* actor);
 	//更新待ちのオブジェクトをメインリストに移動する関数
 	void											ProcessPendingActors();
 
@@ -140,6 +143,8 @@ public:
 	string											GetName() { return mName; }
 	//シーン名のSetter
 	virtual void									SetName(const string& name) { mName = name; }
+
+	bool										    mIsComputeWorldTransform;
 };
 
 template<typename T>

@@ -9,7 +9,7 @@
 //Vector2、Vector3、Matrix関係の計算処理を行っているnamespace
 namespace Math
 {
-	const float Pi = 3.1415926535f;
+	const float Pi = 3.14159274f;
 	const float TwoPi = Pi * 2.0f;
 	const float PiOver2 = Pi / 2.0f;
 	const float Infinity = std::numeric_limits<float>::infinity();
@@ -911,6 +911,7 @@ public:
 	}
 };
 // 4x4 Matrix
+//FOCUS : 行列は行優先で作成
 class Matrix4
 {
 public:
@@ -1131,12 +1132,36 @@ public:
 	// 列優先の行列を返す
 	inline Matrix4 RemoveScale()const
 	{
-		Vector3 scale = this->GetScale(); // 自作メソッドで各軸のスケールを取得
-		Matrix4 noScale = *this;
-		noScale.mat[0][0] /= scale.x;
-		noScale.mat[1][1] /= scale.y;
-		noScale.mat[2][2] /= scale.z;
-		return noScale;
+		// 各軸を抽出
+		Vector3 xAxis = Vector3(mat[0][0], mat[0][1], mat[0][2]);
+		Vector3 yAxis = Vector3(mat[1][0], mat[1][1], mat[1][2]);
+		Vector3 zAxis = Vector3(mat[2][0], mat[2][1], mat[2][2]);
+
+		// 長さを取得（スケール）
+		float scaleX = xAxis.Length();
+		float scaleY = yAxis.Length();
+		float scaleZ = zAxis.Length();
+
+		// 正規化された軸で新しい行列を作成
+		Matrix4 retVal = *this;
+
+		// スケールを考慮して軸成分を正規化
+		// (xAxis / scaleX)
+		retVal.mat[0][0] /= scaleX;
+		retVal.mat[0][1] /= scaleX;
+		retVal.mat[0][2] /= scaleX;
+
+		// (yAxis / scaleY)
+		retVal.mat[1][0] /= scaleY;
+		retVal.mat[1][1] /= scaleY;
+		retVal.mat[1][2] /= scaleY;
+
+		// (zAxis / scaleZ)
+		retVal.mat[2][0] /= scaleZ;
+		retVal.mat[2][1] /= scaleZ;
+		retVal.mat[2][2] /= scaleZ;
+
+		return retVal;
 	}
 
 	// x、y、zのスケールを持つスケール行列を作成

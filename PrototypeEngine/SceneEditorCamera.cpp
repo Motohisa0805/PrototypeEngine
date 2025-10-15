@@ -2,48 +2,50 @@
 #include "SceneViewPanel.h"
 
 SceneEditorCamera::SceneEditorCamera()
-	: mAngularSpeed(0.0f)
+	: mIsViewDirty(false)
+	, mYawSpeed(0.0f)
 	, mPitchSpeed(0.0f)
 	, mMaxPitch(Math::Pi / 3.0f)
 	, mPitch(0.0f)
-	, mHorizontalMouseSpeed(500.0f)
-	, mVertexMouseSpeed(500.0f)
-	, mLastMouseX(0.0f)
-	, mLastMouseY(0.0f)
+	, mMouseSensitivityX(500.0f)
+	, mMouseSensitivityY(500.0f)
 	, mForwardSpeed(0.0f)
 	, mStrafeSpeed(0.0f)
+	, mMaxSpeed(16.0f)
+	, mMinSpeed(2.0f)
+	, mSpeed(8.0f)
 {
-	//カメラの位置を変更
 }
 
 void SceneEditorCamera::Update()
 {
+	if (!mIsViewDirty) { return; }
 	// SceneViewパネルにマウスが乗っていない場合、何もしない
 	if (!GUIWinMain::GetSceneViewPanel()->IsMouseHovered()) { return; }
 	//視点回転
-	if (!Math::NearZero(mAngularSpeed))
+	if (!Math::NearZero(mYawSpeed))
 	{
 		Quaternion rot = mLocalRotation;
-		mAngular = mAngularSpeed * Time::gUnscaledDeltaTime;
+		float angular = mYawSpeed * Time::gUnscaledDeltaTime;
 		// Create quaternion for incremental rotation
 		// (Rotate about up axis)
-		Quaternion inc(Vector3::UnitY, mAngular);
+		Quaternion inc(Vector3::UnitY, angular);
 		// Concatenate old and new quaternion
 		rot = Quaternion::Concatenate(rot, inc);
-		mLocalRotation = rot;
+		SetLocalRotation(rot);
 	}
 
-	// カメラの位置はオーナーの位置です。
-	Vector3 cameraPos = mLocalPosition;
+	// カメラの位置はオーナーの位置
+	Vector3 cameraPos = mPosition;
 
-	// ピッチ速度に基づいてピッチを更新する。
+	// ピッチ速度に基づいてピッチを更新
 	mPitch += mPitchSpeed * Time::gUnscaledDeltaTime;
-	// クランプピッチを[-max, +max]に制限する。
+	// クランプピッチを[-max, +max]に制限
 	mPitch = Math::Clamp(mPitch, -mMaxPitch, mMaxPitch);
-	// オーナーの右ベクトルを軸とするピッチ回転を表す四元数を作成します。
+	// オーナーの右ベクトルを軸とするピッチ回転を表す四元数を作成
 	Quaternion q(GetRight(), mPitch);
 
-	// 所有者をピッチクォータニオンで前方に回転させる。
+	// 所有者をピッチクォータニオンで前方に回転
 	Vector3 viewForward = Vector3::Transform(
 		GetForward(), q);
 	// 視線の前方100ユニットのターゲット位置。
@@ -51,7 +53,7 @@ void SceneEditorCamera::Update()
 	// ピッチクォータニオンを回転。
 	Vector3 up = Vector3::Transform(Vector3::UnitY, q);
 
-	// マトリックスを作成し、ビューとして設定します。
+	// マトリックスを作成し、ビューとして設定
 	Matrix4 view = Matrix4::CreateLookAt(cameraPos, target, up);
 	WindowRenderProperty::SetViewEye(cameraPos);
 	WindowRenderProperty::SetViewTarget(target);
@@ -65,17 +67,18 @@ void SceneEditorCamera::Update()
 		Vector3 pos = mLocalPosition;
 		pos += viewForward * mForwardSpeed * Time::gUnscaledDeltaTime;
 		pos += GetRight() * mStrafeSpeed * Time::gUnscaledDeltaTime;
-		mLocalPosition = pos;
+		SetLocalPosition(pos);
+		ComputeWorldTransform();
 	}
 	
-	ComputeWorldTransform();
 }
 
 void SceneEditorCamera::ProcessInput(const struct InputState& keyState)
 {
 	//マウス入力
-	mAngularSpeed = 0;
+	mYawSpeed = 0;
 	mPitchSpeed = 0;
+	mIsViewDirty = false;
 	// SceneViewパネルにマウスが乗っていない場合、何もしない
 	if (!GUIWinMain::GetSceneViewPanel()->IsMouseHovered()) { return; }
 	// 右クリックが押された瞬間、相対モードに切り替え
@@ -86,30 +89,31 @@ void SceneEditorCamera::ProcessInput(const struct InputState& keyState)
 	// 右クリックが押されていない場合、何もしない
 	if(keyState.Mouse.GetButton(SDL_BUTTON_RIGHT))
 	{
+		mIsViewDirty = true;
 		//SDLでマウスの移動数値を取得
 		float x, y;
 		SDL_GetRelativeMouseState(&x, &y);
 		//マウスでの最大移動数値を設定
 
 		// 最大速度での回転/秒
-		const float maxAngularSpeed = Math::Pi * 50;
+		const float maxAngularSpeed = Math::Pi * MAX_YAW_SPEED;
 		float angularSpeed = 0.0f;
 		if (x != 0)
 		{
 			// [-1.0, 1.0]に変換する
-			angularSpeed = static_cast<float>(x) / mHorizontalMouseSpeed;
+			angularSpeed = static_cast<float>(x) / mMouseSensitivityX;
 			// 回転/秒で掛ける
 			angularSpeed *= maxAngularSpeed;
 		}
-		mAngularSpeed = angularSpeed;
+		mYawSpeed = angularSpeed;
 
 		// 音高を計算する
-		const float maxPitchSpeed = Math::Pi * 50;
+		const float maxPitchSpeed = Math::Pi * MAX_YAW_SPEED;
 		float pitchSpeed = 0.0f;
 		if (y != 0)
 		{
 			// [-1.0, 1.0]に変換する
-			pitchSpeed = static_cast<float>(y) / mVertexMouseSpeed;
+			pitchSpeed = static_cast<float>(y) / mMouseSensitivityY;
 			pitchSpeed *= maxPitchSpeed;
 		}
 		mPitchSpeed = pitchSpeed;
@@ -119,25 +123,37 @@ void SceneEditorCamera::ProcessInput(const struct InputState& keyState)
 		InputSystem::AbsoluteMouseMode();
 	}
 
+	Vector2 wheel = keyState.Mouse.GetScrollWheel();
+
+	mSpeed += wheel.y;
+	if (mSpeed >= mMaxSpeed)
+	{
+		mSpeed = mMaxSpeed;
+	}
+	else if (mSpeed <= mMinSpeed)
+	{
+		mSpeed = mMinSpeed;
+	}
+
 	// キーボード入力
 	float forwardSpeed = 0.0f;
 	float strafeSpeed = 0.0f;
 	// wasd movement
 	if (keyState.Keyboard.GetKey(SDL_SCANCODE_W))
 	{
-		forwardSpeed += 8.0f;
+		forwardSpeed += mSpeed;
 	}
 	if (keyState.Keyboard.GetKey(SDL_SCANCODE_S))
 	{
-		forwardSpeed -= 8.0f;
+		forwardSpeed -= mSpeed;
 	}
 	if (keyState.Keyboard.GetKey(SDL_SCANCODE_A))
 	{
-		strafeSpeed -= 8.0f;
+		strafeSpeed -= mSpeed;
 	}
 	if (keyState.Keyboard.GetKey(SDL_SCANCODE_D))
 	{
-		strafeSpeed += 8.0f;
+		strafeSpeed += mSpeed;
 	}
 	mForwardSpeed = forwardSpeed;
 	mStrafeSpeed = strafeSpeed;

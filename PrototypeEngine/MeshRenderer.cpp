@@ -3,10 +3,10 @@
 
 MeshRenderer::MeshRenderer(ActorObject* owner, bool isSkeletal)
 	:Component(owner)
-	, mTextureIndex(0)
 	, mVisible(true)
 	, mIsSkeletal(isSkeletal)
 	, mFilePath("")
+	, mAlpha(1.0f)
 {
 	mName = "MeshRenderer";
 	EngineWindow::GetRenderer()->AddMeshComp(this);
@@ -89,6 +89,23 @@ void MeshRenderer::DrawForShadowMap(Shader* shader)
 	}
 }
 
+void MeshRenderer::SetMaterialAlpha(float alpha)
+{
+	float a = Math::Clamp(alpha, 0.0f, 1.0f);
+	if (!mMeshs.empty())
+	{
+		for (auto& mesh : mMeshs)
+		{
+			vector<MaterialInfo> info = mesh->GetMaterialInfo();
+			for (int i = 0; i < info.size(); ++i)
+			{
+				info[i].Color = Vector4(info[i].Color.x, info[i].Color.y, info[i].Color.z, a);
+			}
+			mesh->SetMaterialInfo(info);
+		}
+	}
+}
+
 void MeshRenderer::Serialize(json& j) const
 {
 	Component::Serialize(j);
@@ -98,6 +115,7 @@ void MeshRenderer::Serialize(json& j) const
 	// メッシュレンダラー固有の他のプロパティも追加
 	j["Visible"] = mVisible;
 	j["IsSkeletal"] = mIsSkeletal;
+	j["Alpha"] = mAlpha;
 }
 
 void MeshRenderer::Deserialize(const json& j)
@@ -119,8 +137,19 @@ void MeshRenderer::Deserialize(const json& j)
 	}
 
 	// 4. その他のプロパティも読み込む
-	mVisible = j.at("Visible").get<bool>();
-	mIsSkeletal = j.at("IsSkeletal").get<bool>();
+	if (j.contains("Visible"))
+	{
+		mVisible = j.at("Visible").get<bool>();
+	}
+	if (j.contains("IsSkeletal"))
+	{
+		mIsSkeletal = j.at("IsSkeletal").get<bool>();
+	}
+	if (j.contains("Alpha"))
+	{
+		mAlpha = j.at("Alpha").get<float>();
+		SetMaterialAlpha(mAlpha);
+	}
 }
 
 void MeshRenderer::DrawGUI()
@@ -133,7 +162,8 @@ void MeshRenderer::DrawGUI()
 	static char pathBuffer[256];
 	strncpy_s(pathBuffer, currentPath.c_str(), sizeof(pathBuffer));
 	pathBuffer[sizeof(pathBuffer) - 1] = '\0';
-
+	ImGui::NewLine();
+	ImGui::Text("FilePath DragDropTarget");
 	//2.ファイルパスの入力フィールド
 	ImGui::InputText("Mesh File Path", pathBuffer, sizeof(pathBuffer), ImGuiInputTextFlags_ReadOnly);
 
@@ -149,18 +179,25 @@ void MeshRenderer::DrawGUI()
 			//ファイルパスを使いロード処理を呼び出す
 			vector<class Mesh*> mesh = EngineWindow::GetRenderer()->GetMeshs(path);
 			SetMeshs(mesh);
+			mAlpha = mesh[0]->GetMaterialInfo()[0].Color.w;
 			mFilePath = path;
 		}
 		ImGui::EndDragDropTarget();
 	}
-	/*
-	// ボタンクリックでファイル選択ダイアログを開く実装
-	if (ImGui::Button("Load Mesh from File"))
+	ImGui::NewLine();
+
+	if (!mMeshs.empty())
 	{
-		// 外部のファイル選択ダイアログ (例: nativefiledialog) を開き、
-		// 選択されたファイルパスを meshRenderer->Load(...) に渡す。
+		ImGui::Text("Alpha Setting");
+		ImGui::SliderFloat("Alpha", &mAlpha, 0.0f, 1.0f,"%.2f");
+		ImGui::SetNextItemWidth(50);
+		ImGui::DragFloat("Alpha Input", &mAlpha, 1.0f, 0.0f, 1.0f, "%.2f");
+
+		if (mAlpha != mMeshs[0]->GetMaterialInfo()[0].Color.w)
+		{
+			SetMaterialAlpha(mAlpha);
+		}
 	}
-	*/
 
 	ImGui::Separator();
 }

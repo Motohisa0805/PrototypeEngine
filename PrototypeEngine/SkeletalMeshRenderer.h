@@ -31,12 +31,7 @@ public:
 	void							LoadSkeletonMesh(const string& fileName,ActorObject* actor);
 	
 	// Setters
-	void							SetSkeleton(Skeleton* sk, ActorObject* actor) 
-	{
-		mSkeleton = nullptr;
-		mSkeleton = sk; 
-		mSkeleton->SetParentActor(actor);
-	}
+	void							SetSkeleton(Skeleton* sk, ActorObject* actor);
 
 
 	void							SetAnimator(Animator* animator);

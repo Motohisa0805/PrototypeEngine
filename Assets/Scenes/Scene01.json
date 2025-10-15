@@ -9,7 +9,7 @@
       ],
       "LocalPosition": [
         0.0,
-        2.0,
+        1.0,
         -5.0
       ],
       "LocalRotation": [
@@ -59,6 +59,7 @@
     {
       "Components": [
         {
+          "Alpha": 1.0,
           "FilePath": "DebugStage.fbx",
           "IsSkeletal": false,
           "Type": "MeshRenderer",
@@ -90,6 +91,7 @@
     {
       "Components": [
         {
+          "Alpha": 1.0,
           "FilePath": "DebugStage.fbx",
           "IsSkeletal": false,
           "Type": "MeshRenderer",
@@ -121,7 +123,8 @@
     {
       "Components": [
         {
-          "FilePath": "TestGun.fbx",
+          "Alpha": 1.0,
+          "FilePath": "Cube.fbx",
           "IsSkeletal": false,
           "Type": "MeshRenderer",
           "UpdateOrder": 100,
@@ -131,7 +134,71 @@
       "LocalPosition": [
         0.0,
         0.0,
-        5.5
+        5.0
+      ],
+      "LocalRotation": [
+        0.9762960076332092,
+        0.0,
+        0.2164396196603775,
+        0.0
+      ],
+      "LocalScale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "Name": "Cube2",
+      "State": 0,
+      "Tag": 0,
+      "Type": "Transform"
+    },
+    {
+      "Components": [
+        {
+          "Alpha": 1.0,
+          "FilePath": "Cube.fbx",
+          "IsSkeletal": false,
+          "Type": "MeshRenderer",
+          "UpdateOrder": 100,
+          "Visible": true
+        }
+      ],
+      "LocalPosition": [
+        2.0,
+        0.0,
+        5.0
+      ],
+      "LocalRotation": [
+        0.9238795042037964,
+        0.0,
+        0.3826834559440613,
+        0.0
+      ],
+      "LocalScale": [
+        0.5,
+        0.5,
+        0.5
+      ],
+      "Name": "Cube",
+      "State": 0,
+      "Tag": 0,
+      "Type": "Transform"
+    },
+    {
+      "Components": [
+        {
+          "Alpha": 1.0,
+          "FilePath": "Sphere.fbx",
+          "IsSkeletal": false,
+          "Type": "MeshRenderer",
+          "UpdateOrder": 100,
+          "Visible": true
+        }
+      ],
+      "LocalPosition": [
+        -2.0,
+        0.0,
+        5.0
       ],
       "LocalRotation": [
         1.0,
@@ -140,11 +207,43 @@
         0.0
       ],
       "LocalScale": [
-        0.5,
-        0.5,
-        0.4999999701976776
+        1.0,
+        1.0,
+        1.0
       ],
-      "Name": "Gun",
+      "Name": "Sphere",
+      "State": 0,
+      "Tag": 0,
+      "Type": "Transform"
+    },
+    {
+      "Components": [
+        {
+          "Alpha": 0.6499999761581421,
+          "FilePath": "Portal.fbx",
+          "IsSkeletal": false,
+          "Type": "MeshRenderer",
+          "UpdateOrder": 100,
+          "Visible": true
+        }
+      ],
+      "LocalPosition": [
+        4.0,
+        1.0,
+        5.0
+      ],
+      "LocalRotation": [
+        0.008743965066969395,
+        0.0,
+        -0.999961793422699,
+        0.0
+      ],
+      "LocalScale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "Name": "Portal",
       "State": 0,
       "Tag": 0,
       "Type": "Transform"

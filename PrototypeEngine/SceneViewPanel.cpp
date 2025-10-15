@@ -17,10 +17,7 @@ void SceneViewPanel::Initialize(float width, float height, ImTextureRef ref)
 
 bool SceneViewPanel::MouseHoveredDisble()
 {
-	if (!InputSystem::GetState().Mouse.GetButton(SDL_BUTTON_RIGHT))
-	{
-		isMouseHovered = false;
-	}
+	isMouseHovered = false;
 	return true;
 }
 
@@ -52,7 +49,6 @@ void SceneViewPanel::Draw(float width, float height, ImTextureRef ref)
 		MouseHoveredDisble();
 		//マウスがこのウィンドウにあるかどうか判定
 		WindowHoveredConfirmation();
-		GUIPanelMenu();
 
 		ImVec2 size = GetAspectRatio();
 		// SceneView のテクスチャを貼る

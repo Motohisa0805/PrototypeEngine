@@ -149,6 +149,7 @@ void Stages00::Initialize()
 
 void Stages00::UpdateActor(float deltaTime)
 {
+	/*
 	//ŠÈˆÕ“I‚ÈYŽ²‰ñ“]ˆ—
 	float rotationAmountY = mHealthObject->GetRotationAmountY();
 	rotationAmountY += 5 * Time::gDeltaTime;
@@ -162,4 +163,5 @@ void Stages00::UpdateActor(float deltaTime)
 	mDamageTrap->SetRotationAmountY(rotationAmountY);
 	r = Quaternion(Vector3::UnitY, rotationAmountY);
 	mDamageTrap->SetLocalRotation(r);
+	*/
 }

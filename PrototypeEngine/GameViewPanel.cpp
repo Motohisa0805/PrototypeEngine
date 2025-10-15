@@ -47,7 +47,6 @@ void GameViewPanel::Draw(float width, float height, ImTextureRef ref)
 				InputContextManager::SetContext(InputContext::Game);
 			}
 		}
-		GUIPanelMenu();
 
 		//XVˆ—
 		ImVec2 winSize = GetAspectRatio();

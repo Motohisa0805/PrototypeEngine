@@ -37,7 +37,7 @@ bool GameWinMain::Initialize()
 void GameWinMain::InputUpdate()
 {
 	//“ü—Íˆ—
-	mGameApp->ProcessInput2();
+	mGameApp->ProcessInput();
 }
 
 void GameWinMain::RunLoop()

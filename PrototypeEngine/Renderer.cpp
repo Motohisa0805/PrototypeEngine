@@ -21,6 +21,8 @@
 #include "SceneViewEditor.h"
 #include "SceneEditorCamera.h"
 
+#include "HierarchyPanel.h"
+
 Renderer::Renderer()
 	: mNowScene(nullptr)
 	, mSpriteShader(nullptr)
@@ -493,22 +495,23 @@ void Renderer::EditorDraw3DScene(unsigned int framebuffer, const Matrix4& view, 
 	//デバッグ描画
 	if (GameStateClass::mDebugFrag)
 	{
+		//オブジェクトの矢印描画
 		mArrowShader->SetActive();
 		mArrowShader->SetMatrixUniform("uViewProj", view * proj);
-		for (auto actor : mNowScene->GetActors())
+		ActorObject* actor = GUIWinMain::GetHierarchyPanel()->GetSelectedActor();
+		if (actor != nullptr && actor->GetState() == ActorObject::EActive)
 		{
-			if (actor->GetState() == ActorObject::EActive)
-			{
-				// アクターのデバッグ描画
-				mArrowShader->SetMatrixUniform("uModel", actor->GetWorldTransform());
-
-				mAxisVAO->SetActive(); // 6頂点（3軸 × 2点）
-				glLineWidth(3.0f); // 線の太さを3ピクセルに設定
-				glDrawArrays(GL_LINES, 0, 6);
-			}
+			// オブジェクトのデバッグ描画
+			mArrowShader->SetMatrixUniform("uModel", actor->GetWorldTransform());
+			// 6頂点（3軸 × 2点）
+			mAxisVAO->SetActive();
+			// 線の太さを3ピクセルに設定
+			glLineWidth(3.0f);
+			glDrawArrays(GL_LINES, 0, 6);
 		}
+
+		mDebugGrid->Draw(mGridShader, view * proj);
 	}
-	mDebugGrid->Draw(mGridShader, view * proj);
 
 	glDepthMask(GL_TRUE);  // 書き込みを戻す
 }

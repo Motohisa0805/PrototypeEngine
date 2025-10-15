@@ -19,6 +19,11 @@ typedef std::u8string u8string;
 typedef std::stringstream stringstream;
 
 typedef std::stringbuf stringbuf;
+
+typedef std::ofstream ofstream;
+
+typedef std::exception exception;
+
 //vectorの簡易記述命令
 template <typename T>
 using vector = std::vector<T>;
@@ -26,4 +31,5 @@ using vector = std::vector<T>;
 //nlohmann jsonの簡易記述命令
 using json = nlohmann::json;
 
-namespace fs = std::filesystem;
+namespace filesystem = std::filesystem;
+

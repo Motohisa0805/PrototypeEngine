@@ -5,10 +5,6 @@
 class ToolbarPanel : public GUIPanel
 {
 private:
-	Texture* mPlayButtonTexture;
-	Texture* mPauseButtonTexture;
-	Texture* mStopButtonTexture;
-	Texture* mFrameByFrameButtonTexture;
 public:
 	const char* GetName()override { return "Toolbar"; }
 

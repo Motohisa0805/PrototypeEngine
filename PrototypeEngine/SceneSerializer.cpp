@@ -4,7 +4,7 @@
 #include "FreeCamera.h"
 #include "DirectionalLightComponent.h"
 
-bool SceneSerializer::SaveScene(const fs::path& filePath, BaseScene* scene)
+bool SceneSerializer::SaveScene(const filesystem::path& filePath, BaseScene* scene)
 {
     json sceneJson;
     sceneJson["SceneName"] = filePath.stem().string();
@@ -40,7 +40,7 @@ bool SceneSerializer::SaveScene(const fs::path& filePath, BaseScene* scene)
     //return false;
 }
 
-bool SceneSerializer::SaveEmptyScene(const fs::path& filePath)
+bool SceneSerializer::SaveEmptyScene(const filesystem::path& filePath)
 {
     //JSONオブジェクトの作成
     json sceneJson;
@@ -112,54 +112,5 @@ BaseScene* SceneSerializer::LoadScene(const string& filePath)
         //シーンにActorを追加
 		newScene->AddActor(newActor);
     }
-
-    /*
-    //ここでシーン内のオブジェクトは全て生成されている。
-    //もし読み込んだシーンにカメラ、環境光がないなら生成
-    FreeCamera* mainCam = nullptr;
-    DirectionalLightComponent* dirLight = nullptr;
-    //シーンにあるか調べる
-    for (auto* actor : newScene->GetActors())
-    {
-        if (!mainCam)
-        {
-            mainCam = actor->GetComponent<FreeCamera>();
-        }
-        if (!dirLight)
-        {
-            dirLight = actor->GetComponent<DirectionalLightComponent>();
-        }
-        //2つともあったらfor文を抜ける
-        if (mainCam && dirLight)break;
-    }
-
-    if (!mainCam)
-    {
-        ActorObject* cameraActor = new ActorObject();
-        cameraActor->SetName("MainCamera");
-        //初期位置と回転を設定
-        cameraActor->SetPosition(Vector3(0.0f, 2.0f, -5.0f));
-        cameraActor->SetRotation(Quaternion(Vector3::UnitY, 0.0f));
-        
-        //TODO : ここはカメラコンポーネントを改造して変更予定
-        //FreeCameraコンポーネントをアタッチ
-        FreeCamera* freeCamComp = new FreeCamera(cameraActor);
-        freeCamComp->SetIsMain(true);//メインカメラに設定
-    }
-
-    //LightActorがないなら
-    if (!dirLight)
-    {
-        ActorObject* lightActor = new ActorObject();
-        lightActor->SetName("Directional Light");
-        // 太陽光のデフォルト回転 (例: X軸で-45度回転、Y軸で45度回転)
-        // 90度：X→Yに向く → Y成分 = 1（昼！）
-        Quaternion rot = Quaternion::CreateFromAxisAngle(Vector3::UnitZ, -45.0f); 
-        lightActor->SetLocalRotation(rot);
-
-        // DirectionalLightComponent をアタッチ
-        new DirectionalLightComponent(lightActor);
-    }
-    */
     return newScene;
 }

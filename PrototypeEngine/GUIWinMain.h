@@ -1,6 +1,8 @@
 #pragma once
 #include "SDL3.h"
 
+#include "EditorTextureManager.h"
+
 #include "imgui.h"
 #include "imgui_impl_sdl3.h"
 #include "imgui_impl_opengl3.h"
@@ -8,7 +10,7 @@
 //前方宣言
 //描画クラス
 class Renderer;
-
+//GUIパネルのベースクラス
 class GUIPanel;
 //メインメニュー
 class GUIMainMenu;
@@ -30,7 +32,6 @@ class GUIWinMain
 private:
 	//描画クラス
 	static Renderer*				mRenderer;
-
 	//***状態管理***
 	//再生中かどうか
 	static bool						isPlaying;
@@ -110,6 +111,6 @@ public:
 	static GameViewPanel*	 GetGameViewPanel() { return mGameViewPanel; }
 	static HierarchyPanel*	 GetHierarchyPanel() { return mHierarchyPanel; }
 	static ProjectPanel*	 GetProjectPanel() { return mProjectPanel; }
-	static InspectorPanel*  GetSelectItemPanel() { return mInspectorPanel; }
+	static InspectorPanel*   GetSelectItemPanel() { return mInspectorPanel; }
 };
 

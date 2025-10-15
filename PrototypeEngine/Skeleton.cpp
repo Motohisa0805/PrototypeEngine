@@ -4,7 +4,7 @@
 Skeleton::~Skeleton()
 {
 }
-
+//ファイル形式で読み込み関数を変更
 bool Skeleton::Load(const string& fileName)
 {
 	// ファイルの拡張子を取得
@@ -18,7 +18,7 @@ bool Skeleton::Load(const string& fileName)
 
 	return false;
 }
-
+//バイナリ限定の読み込み
 bool Skeleton::LoadFromSkeletonBin(const string& fileName)
 {
 	string name = StringConverter::RemoveString(fileName, File_P::ModelPath);
@@ -198,6 +198,7 @@ void Skeleton::SetParentBones(aiNode* node, int parentIndex)
 	{
 		int boneIndex = mBoneNameToIndex[nodeName];
 		mBones[boneIndex].mParent = parentIndex;
+		mBoneActors[boneIndex]->SetParentIndex(parentIndex);
 		nextIndex = boneIndex;
 
 		//バインドポーズをローカル情報に変換
@@ -275,7 +276,7 @@ void Skeleton::SetParentActor(ActorObject* parent)
 {
 	for (unsigned int i = 0; i < mBoneActors.size(); i++)
 	{
-		mBoneActors[i]->SetParentActor(parent);
+		mBoneActors[i]->AddParentActor(parent);
 	}
 }
 

@@ -9,7 +9,7 @@ class ActorObject;
 
 using ComponentCreator = std::function<Component* (ActorObject*)>;
 
-
+//FOCUS : コンポーネントの動的生成を行っているファイル
 class ComponentFactory
 {
 private:

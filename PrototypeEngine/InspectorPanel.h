@@ -7,7 +7,6 @@
 class InspectorPanel : public GUIPanel
 {
 private:
-	float m_inspectorRotation[3];
 public:
 	const char* GetName()override { return "SelectItem"; }
 
