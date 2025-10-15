@@ -18,7 +18,6 @@ public:
 	bool						Initialize();
 	//入力処理
 	bool						ProcessInput();
-	bool						ProcessInput2();
 	//シーンのロード処理
 	bool						LoadUpdate();
 	//更新処理

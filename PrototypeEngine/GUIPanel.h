@@ -1,4 +1,5 @@
 #pragma once
+#include "EditorTextureManager.h"
 #include "Texture.h"
 #include "Renderer.h"
 

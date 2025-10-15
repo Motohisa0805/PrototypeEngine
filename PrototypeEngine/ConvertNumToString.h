@@ -53,13 +53,13 @@ namespace StringConverter
 
 	inline string ExtensionFileName(const string& path_str)
 	{
-		fs::path p(path_str);
+		filesystem::path p(path_str);
 		return p.filename().string();
 	}
 
 	inline string ExtractFileName_Fs(const string& path_str)
 	{
-		fs::path p(path_str);
+		filesystem::path p(path_str);
 
 		//拡張子を含んだファイル名全体(例：○○〇.json)を取得
 		string filename_with_ext = p.filename().string();

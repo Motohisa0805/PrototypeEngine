@@ -26,11 +26,13 @@ TargetActor::TargetActor()
 
 void TargetActor::RotateTarget()
 {
+	/*
 	float y = GetRotationAmountY();
 	y += 0.1f;
 	Quaternion q = Quaternion(Vector3::UnitY, y);
 	SetLocalRotation(q);
 	SetRotationAmountY(y);
+	*/
 }
 
 void TargetActor::UpdateActor(float deltaTime)

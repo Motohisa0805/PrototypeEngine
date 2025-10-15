@@ -72,6 +72,14 @@ void ActorObject::Update(float deltaTime)
 	}
 }
 
+void ActorObject::EditorComputeWorldTransform()
+{
+	if (mState == EActive)
+	{
+		ComputeWorldTransform();
+	}
+}
+
 void ActorObject::UpdateComponents(float deltaTime)
 {
 	for (auto comp : mComponents)

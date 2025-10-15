@@ -21,32 +21,6 @@ bool GameApp::Initialize()
 bool GameApp::ProcessInput()
 {
 	const InputState& state = InputSystem::GetState();
-	InputSystem::Update();
-
-	//入力操作
-	SDL_Event event;
-	while (SDL_PollEvent(&event))
-	{
-		// ImGui用のイベント処理
-		ImGui_ImplSDL3_ProcessEvent(&event);
-		switch (event.type)
-		{
-			//実行が終了するとtrue
-		case SDL_EVENT_QUIT:
-			GameStateClass::SetGameState(GameState::GameEnd);
-			break;
-		}
-	}
-
-	//入力更新
-	SceneManager::GetNowScene()->InputUpdate(state);
-	InputSystem::PrepareForUpdate();
-	return true;
-}
-
-bool GameApp::ProcessInput2()
-{
-	const InputState& state = InputSystem::GetState();
 	//入力更新
 	SceneManager::GetNowScene()->InputUpdate(state);
 	return true;
@@ -58,7 +32,6 @@ bool GameApp::LoadUpdate()
 	if (SceneManager::IsLoading())
 	{
 		SceneManager::ChangeScene();
-		Update();
 	}
 	return true;
 }

@@ -39,12 +39,14 @@ void PortalActor::RelativeMouseMode(bool relative)
 
 void PortalActor::UpdateActor(float deltaTime)
 {
+	/*
 	//YŽ²‚É‰ñ“]‚ð‰Á‚¦‚é
 	float y = GetRotationAmountY();
 	y += 5.0f * deltaTime;
 	Quaternion q = Quaternion(Vector3::UnitY, y);
 	SetLocalRotation(q);
 	SetRotationAmountY(y);
+	*/
 }
 
 void PortalActor::OnCollisionEnter(ActorObject* other)

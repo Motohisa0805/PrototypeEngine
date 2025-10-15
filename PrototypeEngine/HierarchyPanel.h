@@ -18,6 +18,8 @@ public:
 
 	void		Draw(float width, float height, ImTextureRef ref = nullptr)override;
 
+	void		DrawActorNode(ActorObject* actor);
+
 	void		ClearPointer()override;
 
 	//ŠO•”‚©‚ç‘I‘ð’†‚ÌActor‚ðŽæ“¾

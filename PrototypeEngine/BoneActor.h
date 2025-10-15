@@ -15,8 +15,8 @@ private:
 	int				boneIndex;
 
 	Matrix4			mBoneMatrix;
-
-	ActorObject*	parentActor;
+	//親のボーンの数値
+	int				mParentIndex;
 public:
 	BoneActor();
 	void			ComputeWorldTransform()override;
@@ -27,6 +27,8 @@ public:
 
 	void			SetBoneMatrix(Matrix4 mat) { mBoneMatrix = mat; }
 
-	void			SetParentActor(ActorObject* actor) { parentActor = actor; }
+	const int		GetParentIndex()const  { return mParentIndex; }
+
+	void			SetParentIndex(int index) { mParentIndex = index; }
 };
 

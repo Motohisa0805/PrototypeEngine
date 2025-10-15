@@ -19,13 +19,14 @@ void BoneActor::ComputeWorldTransform()
 		//親がいたら
 		if (mParentActor) 
 		{
+			mParentActor->ComputeWorldTransform();
 			mWorldTransform = mLocalTransform * mParentActor->GetWorldTransform();
 		}
 		//いなかったら
 		else 
 		{
 			//ボーンのマトリックスにモデル自身のマトリックスを乗算
-			mWorldTransform = mLocalTransform * parentActor->GetLocalTransform();
+			mWorldTransform = mLocalTransform;
 		}
 
 		// Inform components world transform updated

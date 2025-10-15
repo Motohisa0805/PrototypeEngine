@@ -37,13 +37,12 @@ protected:
 	//子オブジェクトの配列
 	vector<Transform*>					mChildActor;
 
-	//X、Y、Z軸の回転量
-	float								mRotationAmountX;
-	float								mRotationAmountY;
-	float								mRotationAmountZ;
-
 
 	vector<Component*>					mComponents;
+
+	// これらのヘルパー関数は private にして SetParent からのみ呼び出すようにすると設計が綺麗になります
+	void								AddChild(Transform* child);
+	void								RemoveChild(Transform* child);
 public:
 										Transform();
 
@@ -122,24 +121,15 @@ public:
 		SetDirty();
 	}
 
-
-	//軸別の回転量のGetters/setters
-	virtual float						GetRotationAmountX() { return mRotationAmountX; }
-	virtual float						GetRotationAmountY() { return mRotationAmountY; }
-	virtual float						GetRotationAmountZ() { return mRotationAmountZ; }
-	virtual void						SetRotationAmountX(float rot) { mRotationAmountX = rot; }
-	virtual void						SetRotationAmountY(float rot) { mRotationAmountY = rot; }
-	virtual void						SetRotationAmountZ(float rot) { mRotationAmountZ = rot; }
-
 	//ワールド座標の更新		
 	virtual void						ComputeWorldTransform();
-
-	virtual void						LocalBonePositionUpdateActor(Matrix4 boneMatrix, const Matrix4& parentActor);
 
 	//***子オブジェクト関係の処理***
 	virtual Transform*					GetParentActor() { return mParentActor; }
 
 	virtual const Transform*			GetChildActor(Transform* actor);
+
+	const vector<Transform*>			GetChildActorList()const { return mChildActor; }
 
 	//子オブジェクトを追加
 	virtual void						AddChildActor(Transform* actor);
@@ -148,6 +138,7 @@ public:
 
 
 	virtual void						AddParentActor(Transform* parent);
+	virtual void						SetParent(Transform* newParent);
 
 	virtual void						RemoveParentActor();
 
@@ -158,11 +149,15 @@ public:
 
 	//子オブジェクトの座標更新
 	virtual void						SetDirty();
+	virtual void						ActiveDirty();
 
 
 	// JSONに変換するメソッド
 	virtual void						Serialize(json& j) const;
 	// JSONから復元するメソッド
 	virtual void						Deserialize(const json& j);
+
+
+
 };
 

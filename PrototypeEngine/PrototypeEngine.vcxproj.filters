@@ -28,9 +28,6 @@
     <Filter Include="SourceCodes\C_Components">
       <UniqueIdentifier>{467e75fa-b246-4d5a-9c65-57965719625d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="SourceCodes\A_Mains">
-      <UniqueIdentifier>{1b15110d-5174-4eab-9243-8e819c3036d8}</UniqueIdentifier>
-    </Filter>
     <Filter Include="SourceCodes\D_UIs">
       <UniqueIdentifier>{cec41da6-f2de-4cc1-a16c-e315e240a4f2}</UniqueIdentifier>
     </Filter>
@@ -39,9 +36,6 @@
     </Filter>
     <Filter Include="SourceCodes\F_Editor">
       <UniqueIdentifier>{9c5ab43d-4b22-459c-8704-3737fba58014}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="SourceCodes\F_Editor\Defines">
-      <UniqueIdentifier>{3a45d6e9-c690-41ef-a5b1-5615e7022bd1}</UniqueIdentifier>
     </Filter>
     <Filter Include="SourceCodes\F_Editor\Libs">
       <UniqueIdentifier>{b2f1ded3-dd9b-450d-9c0c-df9743aee9ad}</UniqueIdentifier>
@@ -109,21 +103,6 @@
     <Filter Include="SourceCodes\F_Editor\Renderers">
       <UniqueIdentifier>{d505f4ea-2e94-4231-aefb-3714b7f7b9fe}</UniqueIdentifier>
     </Filter>
-    <Filter Include="SourceCodes\G_GUI">
-      <UniqueIdentifier>{e45438c9-7504-4a6c-9785-c706183d4edd}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="SourceCodes\G_GUI\ImGui">
-      <UniqueIdentifier>{56aa8154-9617-45c4-b802-8cf79871b20c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="SourceCodes\G_GUI\Images">
-      <UniqueIdentifier>{e78ca66d-3935-41ea-89da-da6038a4ada1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="SourceCodes\G_GUI\Panels">
-      <UniqueIdentifier>{b11a48d9-2d8c-4dca-846d-47c2a0248981}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="SourceCodes\G_GUI\EditorCameras">
-      <UniqueIdentifier>{640f1662-933f-45d5-aaf2-8794fc6f98f0}</UniqueIdentifier>
-    </Filter>
     <Filter Include="SourceCodes\A_Game">
       <UniqueIdentifier>{a4b83392-8759-44af-8f1e-adc8a79610a2}</UniqueIdentifier>
     </Filter>
@@ -138,6 +117,24 @@
     </Filter>
     <Filter Include="SourceCodes\F_Editor\Collisions\Colliders">
       <UniqueIdentifier>{e7ef0b20-18fa-4c0c-9a6f-59f3a981024a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceCodes\F_Editor\GUIViews">
+      <UniqueIdentifier>{e45438c9-7504-4a6c-9785-c706183d4edd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceCodes\F_Editor\GUIViews\Panels">
+      <UniqueIdentifier>{b11a48d9-2d8c-4dca-846d-47c2a0248981}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceCodes\F_Editor\GUIViews\EditorCameras">
+      <UniqueIdentifier>{640f1662-933f-45d5-aaf2-8794fc6f98f0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceCodes\G_OutsideLibrary">
+      <UniqueIdentifier>{2af7f795-ac0f-43c2-a3c2-87729f652388}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceCodes\G_OutsideLibrary\ImGui">
+      <UniqueIdentifier>{56aa8154-9617-45c4-b802-8cf79871b20c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceCodes\F_Editor\Defines">
+      <UniqueIdentifier>{3a45d6e9-c690-41ef-a5b1-5615e7022bd1}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -204,12 +201,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="AudioBankProperty.cpp">
-      <Filter>SourceCodes\A_Mains</Filter>
-    </ClCompile>
-    <ClCompile Include="WindowRenderProperty.cpp">
-      <Filter>SourceCodes\A_Mains</Filter>
-    </ClCompile>
     <ClCompile Include="BulletActor.cpp">
       <Filter>SourceCodes\B_GameObjects\3Ds</Filter>
     </ClCompile>
@@ -445,49 +436,49 @@
       <Filter>SourceCodes\F_Editor\Utilitys</Filter>
     </ClCompile>
     <ClCompile Include="ImGui\imgui.cpp">
-      <Filter>SourceCodes\G_GUI\ImGui</Filter>
+      <Filter>SourceCodes\G_OutsideLibrary\ImGui</Filter>
     </ClCompile>
     <ClCompile Include="ImGui\imgui_demo.cpp">
-      <Filter>SourceCodes\G_GUI\ImGui</Filter>
+      <Filter>SourceCodes\G_OutsideLibrary\ImGui</Filter>
     </ClCompile>
     <ClCompile Include="ImGui\imgui_draw.cpp">
-      <Filter>SourceCodes\G_GUI\ImGui</Filter>
+      <Filter>SourceCodes\G_OutsideLibrary\ImGui</Filter>
     </ClCompile>
     <ClCompile Include="ImGui\imgui_impl_opengl3.cpp">
-      <Filter>SourceCodes\G_GUI\ImGui</Filter>
+      <Filter>SourceCodes\G_OutsideLibrary\ImGui</Filter>
     </ClCompile>
     <ClCompile Include="ImGui\imgui_impl_sdl3.cpp">
-      <Filter>SourceCodes\G_GUI\ImGui</Filter>
+      <Filter>SourceCodes\G_OutsideLibrary\ImGui</Filter>
     </ClCompile>
     <ClCompile Include="ImGui\imgui_tables.cpp">
-      <Filter>SourceCodes\G_GUI\ImGui</Filter>
+      <Filter>SourceCodes\G_OutsideLibrary\ImGui</Filter>
     </ClCompile>
     <ClCompile Include="ImGui\imgui_widgets.cpp">
-      <Filter>SourceCodes\G_GUI\ImGui</Filter>
+      <Filter>SourceCodes\G_OutsideLibrary\ImGui</Filter>
     </ClCompile>
     <ClCompile Include="ToolbarPanel.cpp">
-      <Filter>SourceCodes\G_GUI\Panels</Filter>
+      <Filter>SourceCodes\F_Editor\GUIViews\Panels</Filter>
     </ClCompile>
     <ClCompile Include="InspectorPanel.cpp">
-      <Filter>SourceCodes\G_GUI\Panels</Filter>
+      <Filter>SourceCodes\F_Editor\GUIViews\Panels</Filter>
     </ClCompile>
     <ClCompile Include="SceneViewPanel.cpp">
-      <Filter>SourceCodes\G_GUI\Panels</Filter>
+      <Filter>SourceCodes\F_Editor\GUIViews\Panels</Filter>
     </ClCompile>
     <ClCompile Include="ProjectPanel.cpp">
-      <Filter>SourceCodes\G_GUI\Panels</Filter>
+      <Filter>SourceCodes\F_Editor\GUIViews\Panels</Filter>
     </ClCompile>
     <ClCompile Include="HierarchyPanel.cpp">
-      <Filter>SourceCodes\G_GUI\Panels</Filter>
+      <Filter>SourceCodes\F_Editor\GUIViews\Panels</Filter>
     </ClCompile>
     <ClCompile Include="GUIPanel.cpp">
-      <Filter>SourceCodes\G_GUI\Panels</Filter>
+      <Filter>SourceCodes\F_Editor\GUIViews\Panels</Filter>
     </ClCompile>
     <ClCompile Include="GameViewPanel.cpp">
-      <Filter>SourceCodes\G_GUI\Panels</Filter>
+      <Filter>SourceCodes\F_Editor\GUIViews\Panels</Filter>
     </ClCompile>
     <ClCompile Include="SceneEditorCamera.cpp">
-      <Filter>SourceCodes\G_GUI\EditorCameras</Filter>
+      <Filter>SourceCodes\F_Editor\GUIViews\EditorCameras</Filter>
     </ClCompile>
     <ClCompile Include="EditorMain.cpp">
       <Filter>SourceCodes\A_Editor\A_Mains</Filter>
@@ -507,11 +498,8 @@
     <ClCompile Include="GUIWinMain.cpp">
       <Filter>SourceCodes\A_Editor\A_Mains</Filter>
     </ClCompile>
-    <ClCompile Include="SceneViewEditor.cpp">
-      <Filter>SourceCodes\A_Mains</Filter>
-    </ClCompile>
     <ClCompile Include="GUIMainMenu.cpp">
-      <Filter>SourceCodes\G_GUI\Panels</Filter>
+      <Filter>SourceCodes\F_Editor\GUIViews\Panels</Filter>
     </ClCompile>
     <ClCompile Include="BoxCollider.cpp">
       <Filter>SourceCodes\F_Editor\Collisions\Colliders</Filter>
@@ -534,11 +522,20 @@
     <ClCompile Include="EditorSettingsManager.cpp">
       <Filter>SourceCodes\A_Editor</Filter>
     </ClCompile>
+    <ClCompile Include="EditorTextureManager.cpp">
+      <Filter>SourceCodes\F_Editor\GUIViews</Filter>
+    </ClCompile>
+    <ClCompile Include="WindowRenderProperty.cpp">
+      <Filter>SourceCodes\F_Editor\Defines</Filter>
+    </ClCompile>
+    <ClCompile Include="AudioBankProperty.cpp">
+      <Filter>SourceCodes\F_Editor\Audios</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneViewEditor.cpp">
+      <Filter>SourceCodes\F_Editor\Renderers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="WindowRenderProperty.h">
-      <Filter>SourceCodes\A_Mains</Filter>
-    </ClInclude>
     <ClInclude Include="BulletActor.h">
       <Filter>SourceCodes\B_GameObjects\3Ds</Filter>
     </ClInclude>
@@ -810,58 +807,55 @@
       <Filter>SourceCodes\F_Editor\Utilitys</Filter>
     </ClInclude>
     <ClInclude Include="ImGui\imconfig.h">
-      <Filter>SourceCodes\G_GUI\ImGui</Filter>
+      <Filter>SourceCodes\G_OutsideLibrary\ImGui</Filter>
     </ClInclude>
     <ClInclude Include="ImGui\imgui.h">
-      <Filter>SourceCodes\G_GUI\ImGui</Filter>
+      <Filter>SourceCodes\G_OutsideLibrary\ImGui</Filter>
     </ClInclude>
     <ClInclude Include="ImGui\imgui_impl_opengl3.h">
-      <Filter>SourceCodes\G_GUI\ImGui</Filter>
+      <Filter>SourceCodes\G_OutsideLibrary\ImGui</Filter>
     </ClInclude>
     <ClInclude Include="ImGui\imgui_impl_opengl3_loader.h">
-      <Filter>SourceCodes\G_GUI\ImGui</Filter>
+      <Filter>SourceCodes\G_OutsideLibrary\ImGui</Filter>
     </ClInclude>
     <ClInclude Include="ImGui\imgui_impl_sdl3.h">
-      <Filter>SourceCodes\G_GUI\ImGui</Filter>
+      <Filter>SourceCodes\G_OutsideLibrary\ImGui</Filter>
     </ClInclude>
     <ClInclude Include="ImGui\imgui_internal.h">
-      <Filter>SourceCodes\G_GUI\ImGui</Filter>
+      <Filter>SourceCodes\G_OutsideLibrary\ImGui</Filter>
     </ClInclude>
     <ClInclude Include="ImGui\imstb_rectpack.h">
-      <Filter>SourceCodes\G_GUI\ImGui</Filter>
+      <Filter>SourceCodes\G_OutsideLibrary\ImGui</Filter>
     </ClInclude>
     <ClInclude Include="ImGui\imstb_textedit.h">
-      <Filter>SourceCodes\G_GUI\ImGui</Filter>
+      <Filter>SourceCodes\G_OutsideLibrary\ImGui</Filter>
     </ClInclude>
     <ClInclude Include="ImGui\imstb_truetype.h">
-      <Filter>SourceCodes\G_GUI\ImGui</Filter>
-    </ClInclude>
-    <ClInclude Include="AudioBankProperty.h">
-      <Filter>SourceCodes\A_Mains</Filter>
+      <Filter>SourceCodes\G_OutsideLibrary\ImGui</Filter>
     </ClInclude>
     <ClInclude Include="ToolbarPanel.h">
-      <Filter>SourceCodes\G_GUI\Panels</Filter>
+      <Filter>SourceCodes\F_Editor\GUIViews\Panels</Filter>
     </ClInclude>
     <ClInclude Include="GameViewPanel.h">
-      <Filter>SourceCodes\G_GUI\Panels</Filter>
+      <Filter>SourceCodes\F_Editor\GUIViews\Panels</Filter>
     </ClInclude>
     <ClInclude Include="GUIPanel.h">
-      <Filter>SourceCodes\G_GUI\Panels</Filter>
+      <Filter>SourceCodes\F_Editor\GUIViews\Panels</Filter>
     </ClInclude>
     <ClInclude Include="HierarchyPanel.h">
-      <Filter>SourceCodes\G_GUI\Panels</Filter>
+      <Filter>SourceCodes\F_Editor\GUIViews\Panels</Filter>
     </ClInclude>
     <ClInclude Include="ProjectPanel.h">
-      <Filter>SourceCodes\G_GUI\Panels</Filter>
+      <Filter>SourceCodes\F_Editor\GUIViews\Panels</Filter>
     </ClInclude>
     <ClInclude Include="SceneViewPanel.h">
-      <Filter>SourceCodes\G_GUI\Panels</Filter>
+      <Filter>SourceCodes\F_Editor\GUIViews\Panels</Filter>
     </ClInclude>
     <ClInclude Include="InspectorPanel.h">
-      <Filter>SourceCodes\G_GUI\Panels</Filter>
+      <Filter>SourceCodes\F_Editor\GUIViews\Panels</Filter>
     </ClInclude>
     <ClInclude Include="SceneEditorCamera.h">
-      <Filter>SourceCodes\G_GUI\EditorCameras</Filter>
+      <Filter>SourceCodes\F_Editor\GUIViews\EditorCameras</Filter>
     </ClInclude>
     <ClInclude Include="GameApp.h">
       <Filter>SourceCodes\A_Game\A_Mains</Filter>
@@ -875,11 +869,8 @@
     <ClInclude Include="GUIWinMain.h">
       <Filter>SourceCodes\A_Editor\A_Mains</Filter>
     </ClInclude>
-    <ClInclude Include="SceneViewEditor.h">
-      <Filter>SourceCodes\A_Mains</Filter>
-    </ClInclude>
     <ClInclude Include="GUIMainMenu.h">
-      <Filter>SourceCodes\G_GUI\Panels</Filter>
+      <Filter>SourceCodes\F_Editor\GUIViews\Panels</Filter>
     </ClInclude>
     <ClInclude Include="BoxCollider.h">
       <Filter>SourceCodes\F_Editor\Collisions\Colliders</Filter>
@@ -901,6 +892,18 @@
     </ClInclude>
     <ClInclude Include="EditorSettingsManager.h">
       <Filter>SourceCodes\A_Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="EditorTextureManager.h">
+      <Filter>SourceCodes\F_Editor\GUIViews</Filter>
+    </ClInclude>
+    <ClInclude Include="WindowRenderProperty.h">
+      <Filter>SourceCodes\F_Editor\Defines</Filter>
+    </ClInclude>
+    <ClInclude Include="AudioBankProperty.h">
+      <Filter>SourceCodes\F_Editor\Audios</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneViewEditor.h">
+      <Filter>SourceCodes\F_Editor\Renderers</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -9,16 +9,22 @@
 
 //前方宣言
 class Mesh;
-//メッシュの描画を行うクラス
+//メッシュの描画を行うコンポーネントクラス
 //読み込んだメッシュをセットして使用する
+//GUI上の処理、描画、読み込み処理
 class MeshRenderer : public Component
 {
 protected:
+	//メッシュ配列
 	vector<Mesh*>				mMeshs;
-	size_t						mTextureIndex;
+	//表示か非表示か
 	bool						mVisible;
+	//スケルタルフラグ
 	bool						mIsSkeletal;
+	//メッシュファイルパス
 	string 						mFilePath;
+	//メッシュのアルファ値
+	float						mAlpha;
 public:
 								MeshRenderer(ActorObject* owner, bool isSkeletal = false);
 								~MeshRenderer();
@@ -42,38 +48,21 @@ public:
 		mMeshs = mesh;
 	}
 
-	void						SetTextureIndex(size_t index) { mTextureIndex = index; }
+	vector<Mesh*>				GetMeshs() const { return mMeshs; }
 
 	void						SetVisible(bool visible) { mVisible = visible; }
 	bool						GetVisible() const { return mVisible; }
 
 	bool						GetIsSkeletal() const { return mIsSkeletal; }
+	// ファイルパスを設定するSetterを追加
+	void						SetMeshFilePath(const std::string& path) { mFilePath = path; }
+	const std::string&			GetMeshFilePath() const { return mFilePath; }
 
-	vector<Mesh*>				GetMeshs() const { return mMeshs; }
-
-    void SetMaterialAlpha(float alpha)
-	{
-		float a = Math::Clamp(alpha, 0.0f, 1.0f);
-		if (!mMeshs.empty())
-		{
-			for (auto& mesh : mMeshs)
-			{
-				vector<MaterialInfo> info = mesh->GetMaterialInfo();
-				for(int i = 0; i < info.size(); ++i)
-				{
-					info[i].Color = Vector4(info[i].Color.x, info[i].Color.y, info[i].Color.z,a);
-				}
-				mesh->SetMaterialInfo(info);
-			}
-		}
-	}
+	void						SetMaterialAlpha(float alpha);
 
 	void						Serialize(json& j) const override;
 	void						Deserialize(const json& j)override;
 
 	void						DrawGUI()override;
 
-	// ファイルパスを設定するSetterを追加
-	void						SetMeshFilePath(const std::string& path) { mFilePath = path; }
-	const std::string&			GetMeshFilePath() const { return mFilePath; }
 };

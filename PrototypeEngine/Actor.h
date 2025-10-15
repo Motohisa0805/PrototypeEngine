@@ -60,6 +60,7 @@ public:
 	virtual void				FixedUpdateActor(float deltaTime);
 	// ゲームから呼び出される更新関数（オーバーライド不可）
 	void						Update(float deltaTime);
+	void						EditorComputeWorldTransform();
 	// Actorに接続されたすべてのコンポーネントを更新します（オーバーライド不可）
 	void						UpdateComponents(float deltaTime);
 	// 任意のActor固有の更新コード（上書き可能）

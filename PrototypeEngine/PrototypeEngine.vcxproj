@@ -196,6 +196,7 @@
     <ClCompile Include="DirectionalLightComponent.cpp" />
     <ClCompile Include="EditorMain.cpp" />
     <ClCompile Include="EditorSettingsManager.cpp" />
+    <ClCompile Include="EditorTextureManager.cpp" />
     <ClCompile Include="EngineWindow.cpp" />
     <ClCompile Include="FollowCamera.cpp" />
     <ClCompile Include="FollowObjectMovement.cpp" />
@@ -310,6 +311,7 @@
     <ClInclude Include="DirectionalLightActor.h" />
     <ClInclude Include="DirectionalLightComponent.h" />
     <ClInclude Include="EditorSettingsManager.h" />
+    <ClInclude Include="EditorTextureManager.h" />
     <ClInclude Include="EngineWindow.h" />
     <ClInclude Include="FilePath.h" />
     <ClInclude Include="FollowCamera.h" />

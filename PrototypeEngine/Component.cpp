@@ -8,8 +8,6 @@ Component::Component(ActorObject* owner, int updateOrder)
 	, mName("Component")
 {
 	mOwner->SetDirty();
-	// Actorのコンポーネントベクトルに追加する
-	//mOwner->AddComponent(this);
 }
 
 Component::~Component()

@@ -1,7 +1,7 @@
 #include "EditorSettingsManager.h"
 #include "DebugManager.h"
 
-const fs::path EditorSettingsManager::SETTEINGS_FILE_PATH = "Library/EditorSettings.json";
+const filesystem::path EditorSettingsManager::SETTEINGS_FILE_PATH = "Library/EditorSettings.json";
 
 EditorSettingsManager& EditorSettingsManager::GetInstance()
 {
@@ -12,13 +12,13 @@ EditorSettingsManager& EditorSettingsManager::GetInstance()
 void EditorSettingsManager::LoadSettings()
 {
 	//Libraryフォルダが存在しなければ作成
-	if (!fs::exists("Library"))
+	if (!filesystem::exists("Library"))
 	{
-		fs::create_directories("Library");
+		filesystem::create_directories("Library");
 	}
 
 	//設定ファイルが存在する場合のみ読み込む
-	if(fs::exists(SETTEINGS_FILE_PATH))
+	if(filesystem::exists(SETTEINGS_FILE_PATH))
 	{
 		try
 		{

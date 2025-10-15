@@ -24,5 +24,10 @@ public:
 	void	Update(float deltaTime) override;
 
 	void    SetCameraPosition(const Vector3& eye, const Vector3& target);
+
+	void	DrawGUI()override;
+
+
+	void	MoveCameraView();
 };
 

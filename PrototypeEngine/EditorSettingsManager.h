@@ -6,7 +6,7 @@
 class EditorSettingsManager
 {
 private:
-	static const fs::path			SETTEINGS_FILE_PATH;
+	static const filesystem::path			SETTEINGS_FILE_PATH;
 
 	//現在のプロジェクト設定を保持するJSONオブジェクト
 	json							mSettings;

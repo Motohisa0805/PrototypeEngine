@@ -82,6 +82,8 @@ bool GUIWinMain::InitializeImGui(SDL_Window* window, SDL_GLContext glContext)
 		mGUIPanel[i]->Initialize(windowWidth, windowHeight);
 	}
 
+	EditorTextureManager::GetInstance().AllLoad();
+
 	return true;
 }
 
@@ -162,4 +164,7 @@ void GUIWinMain::ShutdownImGui()
 	}
 
 	mGUIPanel.clear();
+
+
+	EditorTextureManager::GetInstance().AllRelease();
 }

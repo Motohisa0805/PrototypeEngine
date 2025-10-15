@@ -1,9 +1,648 @@
-﻿  InspectorPanel.cpp
+﻿  Actor.cpp
+C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
+  (ソース ファイル 'Actor.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
+      'SDL_VERSION' は以前にコマンド ラインで宣言されています
+  
+  Animation.cpp
+C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
+  (ソース ファイル 'Animation.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
+      'SDL_VERSION' は以前にコマンド ラインで宣言されています
+  
+C:\C++Files\PrototypeEngine\PrototypeEngine\Animation.cpp(289,23): warning C4244: '初期化中': 'double' から 'float' への変換です。データが失われる可能性があります。
+C:\C++Files\PrototypeEngine\PrototypeEngine\Animation.cpp(341,37): warning C4244: '引数': 'size_t' から 'float' への変換です。データが失われる可能性があります。
+C:\C++Files\PrototypeEngine\PrototypeEngine\Animation.cpp(360,34): warning C4244: '引数': 'size_t' から 'float' への変換です。データが失われる可能性があります。
+C:\C++Files\PrototypeEngine\PrototypeEngine\Animation.cpp(367,35): warning C4244: '引数': 'size_t' から 'float' への変換です。データが失われる可能性があります。
+C:\C++Files\PrototypeEngine\PrototypeEngine\Animation.cpp(506,18): warning C4244: '初期化中': 'double' から 'float' への変換です。データが失われる可能性があります。
+C:\C++Files\PrototypeEngine\PrototypeEngine\Animation.cpp(538,18): warning C4244: '初期化中': 'double' から 'float' への変換です。データが失われる可能性があります。
+C:\C++Files\PrototypeEngine\PrototypeEngine\Animation.cpp(587,18): warning C4244: '初期化中': 'double' から 'float' への変換です。データが失われる可能性があります。
+  Animator.cpp
+C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
+  (ソース ファイル 'Animator.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
+      'SDL_VERSION' は以前にコマンド ラインで宣言されています
+  
+  AudioBankProperty.cpp
+  AudioComponent.cpp
+C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
+  (ソース ファイル 'AudioComponent.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
+      'SDL_VERSION' は以前にコマンド ラインで宣言されています
+  
+  AudioSystem.cpp
+C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
+  (ソース ファイル 'AudioSystem.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
+      'SDL_VERSION' は以前にコマンド ラインで宣言されています
+  
+  BaseCamera.cpp
+C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
+  (ソース ファイル 'BaseCamera.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
+      'SDL_VERSION' は以前にコマンド ラインで宣言されています
+  
+  BaseScene.cpp
+C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
+  (ソース ファイル 'BaseScene.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
+      'SDL_VERSION' は以前にコマンド ラインで宣言されています
+  
+C:\C++Files\PrototypeEngine\PrototypeEngine\BaseScene.cpp(507,12): warning C4267: '初期化中': 'size_t' から 'int' に変換しました。データが失われているかもしれません。
+  BasicInputAction.cpp
+C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
+  (ソース ファイル 'BasicInputAction.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
+      'SDL_VERSION' は以前にコマンド ラインで宣言されています
+  
+  BoneActor.cpp
+C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
+  (ソース ファイル 'BoneActor.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
+      'SDL_VERSION' は以前にコマンド ラインで宣言されています
+  
+  BoneTransform.cpp
+C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
+  (ソース ファイル 'BoneTransform.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
+      'SDL_VERSION' は以前にコマンド ラインで宣言されています
+  
+  BoxCollider.cpp
+C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
+  (ソース ファイル 'BoxCollider.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
+      'SDL_VERSION' は以前にコマンド ラインで宣言されています
+  
+  BulletActor.cpp
+C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
+  (ソース ファイル 'BulletActor.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
+      'SDL_VERSION' は以前にコマンド ラインで宣言されています
+  
+  Button.cpp
+C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
+  (ソース ファイル 'Button.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
+      'SDL_VERSION' は以前にコマンド ラインで宣言されています
+  
+  Canvas.cpp
+C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
+  (ソース ファイル 'Canvas.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
+      'SDL_VERSION' は以前にコマンド ラインで宣言されています
+  
+  CapsuleActor.cpp
+C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
+  (ソース ファイル 'CapsuleActor.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
+      'SDL_VERSION' は以前にコマンド ラインで宣言されています
+  
+  CapsuleCollider.cpp
+C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
+  (ソース ファイル 'CapsuleCollider.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
+      'SDL_VERSION' は以前にコマンド ラインで宣言されています
+  
+  Collider.cpp
+C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
+  (ソース ファイル 'Collider.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
+      'SDL_VERSION' は以前にコマンド ラインで宣言されています
+  
+  Collision.cpp
+  Component.cpp
+C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
+  (ソース ファイル 'Component.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
+      'SDL_VERSION' は以前にコマンド ラインで宣言されています
+  
+  コードを生成中...
+C:\C++Files\PrototypeEngine\PrototypeEngine\CapsuleCollider.h(28,1): warning C4172: ローカル変数またはテンポラリ  のアドレスを返します
+C:\C++Files\PrototypeEngine\PrototypeEngine\BoxCollider.h(40,1): warning C4172: ローカル変数またはテンポラリ  のアドレスを返します
+C:\C++Files\PrototypeEngine\PrototypeEngine\BoxCollider.h(38,1): warning C4172: ローカル変数またはテンポラリ  のアドレスを返します
+C:\C++Files\PrototypeEngine\PrototypeEngine\Animation.cpp(486,1): warning C4715: 'Animation::FindTranslation': 値を返さないコントロール パスがあります。
+C:\C++Files\PrototypeEngine\PrototypeEngine\Animation.cpp(565,1): warning C4715: 'Animation::FindRotation': 値を返さないコントロール パスがあります。
+C:\C++Files\PrototypeEngine\PrototypeEngine\Animation.cpp(610,1): warning C4715: 'Animation::FindScaling': 値を返さないコントロール パスがあります。
+  コンパイル中...
+  ComponentFactory.cpp
+C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
+  (ソース ファイル 'ComponentFactory.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
+      'SDL_VERSION' は以前にコマンド ラインで宣言されています
+  
+  CubeActor.cpp
+C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
+  (ソース ファイル 'CubeActor.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
+      'SDL_VERSION' は以前にコマンド ラインで宣言されています
+  
+  DebugGrid.cpp
+C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
+  (ソース ファイル 'DebugGrid.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
+      'SDL_VERSION' は以前にコマンド ラインで宣言されています
+  
+  DebugScene01.cpp
+C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
+  (ソース ファイル 'DebugScene01.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
+      'SDL_VERSION' は以前にコマンド ラインで宣言されています
+  
+  DebugScene02.cpp
+C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
+  (ソース ファイル 'DebugScene02.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
+      'SDL_VERSION' は以前にコマンド ラインで宣言されています
+  
+  DialogBox.cpp
+C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
+  (ソース ファイル 'DialogBox.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
+      'SDL_VERSION' は以前にコマンド ラインで宣言されています
+  
+  DirectionalLightActor.cpp
+C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
+  (ソース ファイル 'DirectionalLightActor.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
+      'SDL_VERSION' は以前にコマンド ラインで宣言されています
+  
+  EditorMain.cpp
+C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
+  (ソース ファイル 'EditorMain.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
+      'SDL_VERSION' は以前にコマンド ラインで宣言されています
+  
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.26100.0\um\winnt.h(24543,9): warning C4005: 'KEY_EXECUTE': マクロが再定義されました。
+  (ソース ファイル 'EditorMain.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\SDL_Scancode.h(143,9):
+      'KEY_EXECUTE' の以前の定義を確認してください
+  
+  EditorSettingsManager.cpp
+  EditorTextureManager.cpp
+C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
+  (ソース ファイル 'EditorTextureManager.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
+      'SDL_VERSION' は以前にコマンド ラインで宣言されています
+  
+  EngineWindow.cpp
+C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
+  (ソース ファイル 'EngineWindow.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
+      'SDL_VERSION' は以前にコマンド ラインで宣言されています
+  
+  FPSActor.cpp
+C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
+  (ソース ファイル 'FPSActor.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
+      'SDL_VERSION' は以前にコマンド ラインで宣言されています
+  
+  FPSCamera.cpp
+C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
+  (ソース ファイル 'FPSCamera.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
+      'SDL_VERSION' は以前にコマンド ラインで宣言されています
+  
+  FPSCanvas.cpp
+C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
+  (ソース ファイル 'FPSCanvas.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
+      'SDL_VERSION' は以前にコマンド ラインで宣言されています
+  
+  FollowCamera.cpp
+C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
+  (ソース ファイル 'FollowCamera.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
+      'SDL_VERSION' は以前にコマンド ラインで宣言されています
+  
+  FollowObjectMovement.cpp
+C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
+  (ソース ファイル 'FollowObjectMovement.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
+      'SDL_VERSION' は以前にコマンド ラインで宣言されています
+  
+  Font.cpp
+C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
+  (ソース ファイル 'Font.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
+      'SDL_VERSION' は以前にコマンド ラインで宣言されています
+  
+C:\C++Files\PrototypeEngine\PrototypeEngine\Font.cpp(30,51): warning C4244: '引数': '_Ty' から 'float' への変換です。データが失われる可能性があります。
+C:\C++Files\PrototypeEngine\PrototypeEngine\Font.cpp(30,51): warning C4244:         with
+C:\C++Files\PrototypeEngine\PrototypeEngine\Font.cpp(30,51): warning C4244:         [
+C:\C++Files\PrototypeEngine\PrototypeEngine\Font.cpp(30,51): warning C4244:             _Ty=int
+C:\C++Files\PrototypeEngine\PrototypeEngine\Font.cpp(30,51): warning C4244:         ]
+  FreeCamera.cpp
+C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
+  (ソース ファイル 'FreeCamera.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
+      'SDL_VERSION' は以前にコマンド ラインで宣言されています
+  
+  FreeCameraActor.cpp
+C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
+  (ソース ファイル 'FreeCameraActor.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
+      'SDL_VERSION' は以前にコマンド ラインで宣言されています
+  
+  GBuffer.cpp
+C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
+  (ソース ファイル 'GBuffer.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
+      'SDL_VERSION' は以前にコマンド ラインで宣言されています
+  
+  コードを生成中...
+  コンパイル中...
+  GUIMainMenu.cpp
+C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
+  (ソース ファイル 'GUIMainMenu.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
+      'SDL_VERSION' は以前にコマンド ラインで宣言されています
+  
+  GUIPanel.cpp
+C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
+  (ソース ファイル 'GUIPanel.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
+      'SDL_VERSION' は以前にコマンド ラインで宣言されています
+  
+  GUIWinMain.cpp
+C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
+  (ソース ファイル 'GUIWinMain.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
+      'SDL_VERSION' は以前にコマンド ラインで宣言されています
+  
+C:\C++Files\PrototypeEngine\PrototypeEngine\GUIWinMain.cpp(55,18): warning C4244: '初期化中': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\C++Files\PrototypeEngine\PrototypeEngine\GUIWinMain.cpp(56,19): warning C4244: '初期化中': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\C++Files\PrototypeEngine\PrototypeEngine\GUIWinMain.cpp(82,41): warning C4244: '引数': 'int' から 'float' への変換です。データが失われる可能性があります。
+C:\C++Files\PrototypeEngine\PrototypeEngine\GUIWinMain.cpp(82,28): warning C4244: '引数': 'int' から 'float' への変換です。データが失われる可能性があります。
+C:\C++Files\PrototypeEngine\PrototypeEngine\GUIWinMain.cpp(112,18): warning C4244: '初期化中': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\C++Files\PrototypeEngine\PrototypeEngine\GUIWinMain.cpp(113,19): warning C4244: '初期化中': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\C++Files\PrototypeEngine\PrototypeEngine\GUIWinMain.cpp(117,35): warning C4244: '引数': 'int' から 'float' への変換です。データが失われる可能性があります。
+C:\C++Files\PrototypeEngine\PrototypeEngine\GUIWinMain.cpp(117,22): warning C4244: '引数': 'int' から 'float' への変換です。データが失われる可能性があります。
+  GameApp.cpp
+C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
+  (ソース ファイル 'GameApp.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
+      'SDL_VERSION' は以前にコマンド ラインで宣言されています
+  
+  GameMain.cpp
+C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
+  (ソース ファイル 'GameMain.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
+      'SDL_VERSION' は以前にコマンド ラインで宣言されています
+  
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.26100.0\um\winnt.h(24543,9): warning C4005: 'KEY_EXECUTE': マクロが再定義されました。
+  (ソース ファイル 'GameMain.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\SDL_Scancode.h(143,9):
+      'KEY_EXECUTE' の以前の定義を確認してください
+  
+  GameViewPanel.cpp
+C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
+  (ソース ファイル 'GameViewPanel.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
+      'SDL_VERSION' は以前にコマンド ラインで宣言されています
+  
+C:\C++Files\PrototypeEngine\PrototypeEngine\GameViewPanel.cpp(56,92): warning C4244: '引数': 'int' から 'float' への変換です。データが失われる可能性があります。
+C:\C++Files\PrototypeEngine\PrototypeEngine\GameViewPanel.cpp(56,76): warning C4244: '引数': 'int' から 'float' への変換です。データが失われる可能性があります。
+  GameWinMain.cpp
+C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
+  (ソース ファイル 'GameWinMain.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
+      'SDL_VERSION' は以前にコマンド ラインで宣言されています
+  
+  GunActor.cpp
+C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
+  (ソース ファイル 'GunActor.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
+      'SDL_VERSION' は以前にコマンド ラインで宣言されています
+  
+  HierarchyPanel.cpp
+C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
+  (ソース ファイル 'HierarchyPanel.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
+      'SDL_VERSION' は以前にコマンド ラインで宣言されています
+  
+  Image.cpp
+C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
+  (ソース ファイル 'Image.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
+      'SDL_VERSION' は以前にコマンド ラインで宣言されています
+  
+C:\C++Files\PrototypeEngine\PrototypeEngine\Image.cpp(34,56): warning C4244: '=': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\C++Files\PrototypeEngine\PrototypeEngine\Image.cpp(35,57): warning C4244: '=': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\C++Files\PrototypeEngine\PrototypeEngine\Image.cpp(43,56): warning C4244: '=': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\C++Files\PrototypeEngine\PrototypeEngine\Image.cpp(44,57): warning C4244: '=': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\C++Files\PrototypeEngine\PrototypeEngine\Image.cpp(141,11): warning C4244: '初期化中': 'int' から 'float' への変換です。データが失われる可能性があります。
+C:\C++Files\PrototypeEngine\PrototypeEngine\Image.cpp(142,11): warning C4244: '初期化中': 'int' から 'float' への変換です。データが失われる可能性があります。
+C:\C++Files\PrototypeEngine\PrototypeEngine\Image.cpp(143,11): warning C4244: '初期化中': 'int' から 'float' への変換です。データが失われる可能性があります。
+C:\C++Files\PrototypeEngine\PrototypeEngine\Image.cpp(144,11): warning C4244: '初期化中': 'int' から 'float' への変換です。データが失われる可能性があります。
+  InputSystem.cpp
+C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
+  (ソース ファイル 'InputSystem.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
+      'SDL_VERSION' は以前にコマンド ラインで宣言されています
+  
+C:\C++Files\PrototypeEngine\PrototypeEngine\InputSystem.cpp(246,6): warning C4244: '=': 'int' から 'float' への変換です。データが失われる可能性があります。
+C:\C++Files\PrototypeEngine\PrototypeEngine\InputSystem.cpp(248,45): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\C++Files\PrototypeEngine\PrototypeEngine\InputSystem.cpp(248,42): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\C++Files\PrototypeEngine\PrototypeEngine\InputSystem.cpp(252,6): warning C4244: '=': 'int' から 'float' への変換です。データが失われる可能性があります。
+C:\C++Files\PrototypeEngine\PrototypeEngine\InputSystem.cpp(254,46): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\C++Files\PrototypeEngine\PrototypeEngine\InputSystem.cpp(254,43): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
+  InspectorPanel.cpp
 C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
   (ソース ファイル 'InspectorPanel.cpp' をコンパイルしています)
       C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
       'SDL_VERSION' は以前にコマンド ラインで宣言されています
   
+  Math.cpp
+  Mesh.cpp
+C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
+  (ソース ファイル 'Mesh.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
+      'SDL_VERSION' は以前にコマンド ラインで宣言されています
+  
+C:\C++Files\PrototypeEngine\PrototypeEngine\Mesh.cpp(164,22): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+C:\C++Files\PrototypeEngine\PrototypeEngine\Mesh.cpp(553,13): warning C4267: '初期化中': 'size_t' から 'int' に変換しました。データが失われているかもしれません。
+C:\C++Files\PrototypeEngine\PrototypeEngine\Mesh.cpp(638,22): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+  MeshActor.cpp
+C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
+  (ソース ファイル 'MeshActor.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
+      'SDL_VERSION' は以前にコマンド ラインで宣言されています
+  
+  MeshRenderer.cpp
+C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
+  (ソース ファイル 'MeshRenderer.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
+      'SDL_VERSION' は以前にコマンド ラインで宣言されています
+  
+  OrbitActor.cpp
+C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
+  (ソース ファイル 'OrbitActor.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
+      'SDL_VERSION' は以前にコマンド ラインで宣言されています
+  
+  OrbitCamera.cpp
+C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
+  (ソース ファイル 'OrbitCamera.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
+      'SDL_VERSION' は以前にコマンド ラインで宣言されています
+  
+  ParticleSystem.cpp
+C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
+  (ソース ファイル 'ParticleSystem.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
+      'SDL_VERSION' は以前にコマンド ラインで宣言されています
+  
+  ParticleTestActor.cpp
+C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
+  (ソース ファイル 'ParticleTestActor.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
+      'SDL_VERSION' は以前にコマンド ラインで宣言されています
+  
+  コードを生成中...
+  コンパイル中...
+  PauseMenu.cpp
+C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
+  (ソース ファイル 'PauseMenu.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
+      'SDL_VERSION' は以前にコマンド ラインで宣言されています
+  
+  PhysWorld.cpp
+C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
+  (ソース ファイル 'PhysWorld.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
+      'SDL_VERSION' は以前にコマンド ラインで宣言されています
+  
+  PlaneActor.cpp
+C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
+  (ソース ファイル 'PlaneActor.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
+      'SDL_VERSION' は以前にコマンド ラインで宣言されています
+  
+  PortalActor.cpp
+C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
+  (ソース ファイル 'PortalActor.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
+      'SDL_VERSION' は以前にコマンド ラインで宣言されています
+  
+  ProjectPanel.cpp
+C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
+  (ソース ファイル 'ProjectPanel.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
+      'SDL_VERSION' は以前にコマンド ラインで宣言されています
+  
+  PushButtonMove.cpp
+C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
+  (ソース ファイル 'PushButtonMove.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
+      'SDL_VERSION' は以前にコマンド ラインで宣言されています
+  
+  Random.cpp
+  Renderer.cpp
+C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
+  (ソース ファイル 'Renderer.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
+      'SDL_VERSION' は以前にコマンド ラインで宣言されています
+  
+C:\C++Files\PrototypeEngine\PrototypeEngine\Renderer.cpp(436,74): warning C4244: '引数': 'float' から 'GLsizei' への変換です。データが失われる可能性があります。
+C:\C++Files\PrototypeEngine\PrototypeEngine\Renderer.cpp(436,38): warning C4244: '引数': 'float' から 'GLsizei' への変換です。データが失われる可能性があります。
+  Rigidbody.cpp
+C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
+  (ソース ファイル 'Rigidbody.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
+      'SDL_VERSION' は以前にコマンド ラインで宣言されています
+  
+  SceneEditorCamera.cpp
+C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
+  (ソース ファイル 'SceneEditorCamera.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
+      'SDL_VERSION' は以前にコマンド ラインで宣言されています
+  
+  SceneManager.cpp
+C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
+  (ソース ファイル 'SceneManager.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
+      'SDL_VERSION' は以前にコマンド ラインで宣言されています
+  
+  SceneSerializer.cpp
+C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
+  (ソース ファイル 'SceneSerializer.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
+      'SDL_VERSION' は以前にコマンド ラインで宣言されています
+  
+C:\C++Files\PrototypeEngine\PrototypeEngine\SceneSerializer.cpp(70,34): warning C4101: 'e': ローカル変数は 1 度も使われていません。
+C:\C++Files\PrototypeEngine\PrototypeEngine\SceneSerializer.cpp(92,34): warning C4101: 'e': ローカル変数は 1 度も使われていません。
+  SceneViewEditor.cpp
+  SceneViewPanel.cpp
+C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
+  (ソース ファイル 'SceneViewPanel.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
+      'SDL_VERSION' は以前にコマンド ラインで宣言されています
+  
+C:\C++Files\PrototypeEngine\PrototypeEngine\SceneViewPanel.cpp(42,88): warning C4244: '引数': 'int' から 'float' への変換です。データが失われる可能性があります。
+C:\C++Files\PrototypeEngine\PrototypeEngine\SceneViewPanel.cpp(42,72): warning C4244: '引数': 'int' から 'float' への変換です。データが失われる可能性があります。
+  Shader.cpp
+C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
+  (ソース ファイル 'Shader.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
+      'SDL_VERSION' は以前にコマンド ラインで宣言されています
+  
+  ShadowMap.cpp
+C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
+  (ソース ファイル 'ShadowMap.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
+      'SDL_VERSION' は以前にコマンド ラインで宣言されています
+  
+  SkeletalMeshRenderer.cpp
+C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
+  (ソース ファイル 'SkeletalMeshRenderer.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
+      'SDL_VERSION' は以前にコマンド ラインで宣言されています
+  
+  Skeleton.cpp
+C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
+  (ソース ファイル 'Skeleton.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
+      'SDL_VERSION' は以前にコマンド ラインで宣言されています
+  
+  SkeletonMeshActor.cpp
+C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
+  (ソース ファイル 'SkeletonMeshActor.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
+      'SDL_VERSION' は以前にコマンド ラインで宣言されています
+  
+  SkyBoxRenderer.cpp
+C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
+  (ソース ファイル 'SkyBoxRenderer.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
+      'SDL_VERSION' は以前にコマンド ラインで宣言されています
+  
+  コードを生成中...
+  コンパイル中...
+  SoundEventClip.cpp
+C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
+  (ソース ファイル 'SoundEventClip.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
+      'SDL_VERSION' は以前にコマンド ラインで宣言されています
+  
+  SphereActor.cpp
+C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
+  (ソース ファイル 'SphereActor.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
+      'SDL_VERSION' は以前にコマンド ラインで宣言されています
+  
+  SphereCollider.cpp
+C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
+  (ソース ファイル 'SphereCollider.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
+      'SDL_VERSION' は以前にコマンド ラインで宣言されています
+  
+  SplineActor.cpp
+C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
+  (ソース ファイル 'SplineActor.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
+      'SDL_VERSION' は以前にコマンド ラインで宣言されています
+  
+  SplineCamera.cpp
+C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
+  (ソース ファイル 'SplineCamera.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
+      'SDL_VERSION' は以前にコマンド ラインで宣言されています
+  
+  Stages00.cpp
+C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
+  (ソース ファイル 'Stages00.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
+      'SDL_VERSION' は以前にコマンド ラインで宣言されています
+  
+  Stages01.cpp
+C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
+  (ソース ファイル 'Stages01.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
+      'SDL_VERSION' は以前にコマンド ラインで宣言されています
+  
+  TPSCanvas.cpp
+C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
+  (ソース ファイル 'TPSCanvas.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
+      'SDL_VERSION' は以前にコマンド ラインで宣言されています
+  
+  TPSPlayer.cpp
+C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
+  (ソース ファイル 'TPSPlayer.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
+      'SDL_VERSION' は以前にコマンド ラインで宣言されています
+  
+  TargetActor.cpp
+C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
+  (ソース ファイル 'TargetActor.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
+      'SDL_VERSION' は以前にコマンド ラインで宣言されています
+  
+  TargetComponent.cpp
+C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
+  (ソース ファイル 'TargetComponent.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
+      'SDL_VERSION' は以前にコマンド ラインで宣言されています
+  
+  TargetComponentSystem.cpp
+C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
+  (ソース ファイル 'TargetComponentSystem.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
+      'SDL_VERSION' は以前にコマンド ラインで宣言されています
+  
+  Text.cpp
+C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
+  (ソース ファイル 'Text.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
+      'SDL_VERSION' は以前にコマンド ラインで宣言されています
+  
+C:\C++Files\PrototypeEngine\PrototypeEngine\Text.cpp(33,56): warning C4244: '=': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\C++Files\PrototypeEngine\PrototypeEngine\Text.cpp(34,57): warning C4244: '=': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\C++Files\PrototypeEngine\PrototypeEngine\Text.cpp(51,56): warning C4244: '=': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\C++Files\PrototypeEngine\PrototypeEngine\Text.cpp(52,57): warning C4244: '=': 'float' から 'int' への変換です。データが失われる可能性があります。
+  Texture.cpp
+C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
+  (ソース ファイル 'Texture.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
+      'SDL_VERSION' は以前にコマンド ラインで宣言されています
+  
+  Time.cpp
+C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
+  (ソース ファイル 'Time.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
+      'SDL_VERSION' は以前にコマンド ラインで宣言されています
+  
+C:\C++Files\PrototypeEngine\PrototypeEngine\Time.cpp(15,26): warning C4244: '初期化中': 'float' から 'Uint64' への変換です。データが失われる可能性があります。
+  TitleCanvas.cpp
+C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
+  (ソース ファイル 'TitleCanvas.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
+      'SDL_VERSION' は以前にコマンド ラインで宣言されています
+  
+  TitleScene.cpp
+C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
+  (ソース ファイル 'TitleScene.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
+      'SDL_VERSION' は以前にコマンド ラインで宣言されています
+  
+  ToolbarPanel.cpp
+C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
+  (ソース ファイル 'ToolbarPanel.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
+      'SDL_VERSION' は以前にコマンド ラインで宣言されています
+  
+  Transform.cpp
+C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
+  (ソース ファイル 'Transform.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
+      'SDL_VERSION' は以前にコマンド ラインで宣言されています
+  
+  VertexArray.cpp
+  コードを生成中...
+C:\C++Files\PrototypeEngine\PrototypeEngine\SphereCollider.h(29,1): warning C4172: ローカル変数またはテンポラリ  のアドレスを返します
+  コンパイル中...
+  WindowRenderProperty.cpp
+  コードを生成中...
   SOIL.lib(SOIL.obj) : MSIL .netmodule または /GL を伴ってコンパイルされたモジュールが見つかりました。/LTCG を使用して再開始してください。リンカーのパフォーマンスを向上させるためには、コマンドラインに /LTCG を追加してください。
 LINK : warning LNK4075: /INCREMENTAL は /LTCG の指定によって無視されます。
 LINK : warning LNK4098: defaultlib 'MSVCRT' は他のライブラリの使用と競合しています。/NODEFAULTLIB:library を使用してください。

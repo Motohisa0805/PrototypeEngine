@@ -73,15 +73,15 @@ void InspectorPanel::Draw(float width, float height, ImTextureRef ref)
 			if (ImGui::CollapsingHeader("Transform", ImGuiTreeNodeFlags_DefaultOpen))
 			{
 				//Position(Vector3)の編集
-				Vector3 pos = selectedActor->GetPosition();
+				Vector3 pos = selectedActor->GetLocalPosition();
 				if (ImGui::DragFloat3("Position", &pos.x, 0.1f))//0.1fはドラッグの感度
 				{
-					//TODO:ローカル関数なので注意
-					selectedActor->SetPosition(pos);
+					//ローカル関数なので注意
+					selectedActor->SetLocalPosition(pos);
 				}
-
-				Vector3 eulerRad = selectedActor->GetRotation().ToEulerAngles();
-
+				//回転だけローカルで取得
+				//ローカルならスケール値を含まないため
+				Vector3 eulerRad = selectedActor->GetLocalRotation().ToEulerAngles();
 				Vector3 rot;
 				rot.x = Math::ToDegrees(eulerRad.x);
 				rot.y = Math::ToDegrees(eulerRad.y);
@@ -95,15 +95,15 @@ void InspectorPanel::Draw(float width, float height, ImTextureRef ref)
 					Quaternion qy = Quaternion::CreateFromAxisAngle(Vector3::UnitY, rot.y);
 					Quaternion qz = Quaternion::CreateFromAxisAngle(Vector3::UnitZ, rot.z);
 					Quaternion newRotation = qy * qx * qz; // ZYX順で回転を適用
-					selectedActor->SetRotation(newRotation);
+					selectedActor->SetLocalRotation(newRotation);
 				}
 
 				//Scale(Vector3)の編集
-				Vector3 scale = selectedActor->GetScale();
+				Vector3 scale = selectedActor->GetLocalScale();
 				if (ImGui::DragFloat3("Scale", &scale.x, 0.1f))//0.1fはドラッグの感度
 				{
-					//TODO:ローカル関数なので注意
-					selectedActor->SetScale(scale);
+					//ローカル関数なので注意
+					selectedActor->SetLocalScale(scale);
 				}
 			}
 
@@ -120,7 +120,7 @@ void InspectorPanel::Draw(float width, float height, ImTextureRef ref)
 				// 各コンポーネントのプロパティ編集UI
 				if (ImGui::CollapsingHeader(comp->GetName().c_str(), ImGuiTreeNodeFlags_DefaultOpen))
 				{
-					//TODO : ここに各コンポーネント固有のプロパティ編集ロジックを実装
+					//ここに各コンポーネント固有のプロパティ編集ロジックを実装
 
 					ImGui::Text("[Type: %s]", comp->GetName().c_str());
 					ImGui::SameLine();
