@@ -78,7 +78,6 @@ void HierarchyPanel::Draw(float width, float height, ImTextureRef ref)
 			{
 				//3.ActorObjectの生成とシーンへの追加
 
-				// ActorObject::ActorObject() コンストラクタ内で以下の処理が行われている前提です。
 				// 1. SceneManager::GetNowScene() を取得し mGame に設定
 				// 2. mGame->AddActor(this); を呼び出し、現在のシーンの Actor リストに追加
 				ActorObject* newActor = new ActorObject();
