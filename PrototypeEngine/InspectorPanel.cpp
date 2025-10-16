@@ -172,8 +172,6 @@ void InspectorPanel::Draw(float width, float height, ImTextureRef ref)
 				for (const string& compName : componentNames)
 				{
 					//既にActorにアタッチされているコンポーネントは表示しない(Transformは除く)
-					// if (selectedActor->GetComponent(compName)) continue; // GetComponent<T>()の文字列版が必要
-
 					if (ImGui::MenuItem(compName.c_str()))
 					{
 						//ファクトリーを使ってコンポーネントを生成
