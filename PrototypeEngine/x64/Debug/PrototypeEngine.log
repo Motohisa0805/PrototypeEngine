@@ -1,5 +1,4 @@
-﻿  SampleScript.cpp
-  SOIL.lib(SOIL.obj) : MSIL .netmodule または /GL を伴ってコンパイルされたモジュールが見つかりました。/LTCG を使用して再開始してください。リンカーのパフォーマンスを向上させるためには、コマンドラインに /LTCG を追加してください。
+﻿  SOIL.lib(SOIL.obj) : MSIL .netmodule または /GL を伴ってコンパイルされたモジュールが見つかりました。/LTCG を使用して再開始してください。リンカーのパフォーマンスを向上させるためには、コマンドラインに /LTCG を追加してください。
 LINK : warning LNK4075: /INCREMENTAL は /LTCG の指定によって無視されます。
 LINK : warning LNK4098: defaultlib 'MSVCRT' は他のライブラリの使用と競合しています。/NODEFAULTLIB:library を使用してください。
   コード生成しています。
