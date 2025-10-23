@@ -36,7 +36,7 @@ void ToolbarPanel::Draw(float width, float height, ImTextureRef ref)
 		ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize |
 		ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoScrollbar))
 	{
-		GUIPanelMenu();
+		BaseGUIPanelPopupMenu();
 		ImGui::SetCursorPosX(width * 0.5f - 30); // 中央寄せ調整（60はボタン群の半幅）
 
 		//再生/停止ボタン

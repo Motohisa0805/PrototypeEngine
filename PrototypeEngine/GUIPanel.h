@@ -23,6 +23,8 @@ public:
 	GUIPanel(Renderer* renderer);
 
 	virtual void		Initialize(float width, float height, ImTextureRef ref = nullptr);
+	//GUIパネルのレイアウトを初期化
+	virtual void		ResetLayoutFunction();
 
 	virtual bool		MouseHoveredDisble();
 
@@ -32,7 +34,7 @@ public:
 
 	virtual void		Draw(float width, float height, ImTextureRef ref = nullptr);
 
-	virtual void        GUIPanelMenu();
+	virtual void        BaseGUIPanelPopupMenu();
 
 	virtual void		ClearPointer();
 

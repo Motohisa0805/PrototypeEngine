@@ -20,6 +20,7 @@ private:
 	filesystem::path				mPathToRename;
 
 	string							mRenameInputBuffer;
+	vector<string>					mRenameInputBuffers;
 	
 	bool							mRenaming;
 
@@ -46,7 +47,7 @@ public:
 	bool        AssetsFolderPrivateMenu();
 	// 指定されたディレクトリを再帰的に表示
 	void		DrawFolderTree(const filesystem::path& path);
-	void		DrawFileView();
+	void		DrawPickUpFolderView();
 	// 1つのファイル/フォルダを描画
 	void		DrawFileSystemEntry(const filesystem::directory_entry& entry);
 	// 右クリックメニュー

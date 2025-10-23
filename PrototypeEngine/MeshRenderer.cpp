@@ -152,7 +152,7 @@ void MeshRenderer::Deserialize(const json& j)
 	}
 }
 
-void MeshRenderer::DrawGUI()
+void MeshRenderer::DrawCustomGUI(const std::vector<PropertyInfo>& properties)
 {
 	//MeshRendererのプロパティ
 	ImGui::Text("Mesh Renderer Properties");
@@ -185,7 +185,6 @@ void MeshRenderer::DrawGUI()
 		ImGui::EndDragDropTarget();
 	}
 	ImGui::NewLine();
-
 	if (!mMeshs.empty())
 	{
 		ImGui::Text("Alpha Setting");

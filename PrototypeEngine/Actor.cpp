@@ -84,6 +84,16 @@ void ActorObject::UpdateComponents(float deltaTime)
 {
 	for (auto comp : mComponents)
 	{
+		//1.ScriptComponentであるか確認
+		if (ScriptComponent* scriptComp = dynamic_cast<ScriptComponent*>(comp))
+		{
+			//2.Start()が呼ばれたか確認
+			if (!scriptComp->HasStarted())
+			{
+				scriptComp->Start();
+				scriptComp->SetStarted(false);
+			}
+		}
 		comp->Update(deltaTime);
 	}
 }

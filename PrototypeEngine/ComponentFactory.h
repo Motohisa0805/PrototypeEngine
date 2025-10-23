@@ -45,3 +45,10 @@ struct  ComponentRegistrar
 #define REGISTER_COMPONET(Class,Name) static ComponentRegistrar<Class> reg_##Class(Name);
 
 extern void RegisterAllComponents();
+
+//新しいユーザー定義スクリプト用マクロを定義。
+//クラス名(ClassName)を文字列化(#ClassName)して自動登録
+#define REGISTER_SCRIPT_COMPONENT(ClassName) \
+	namespace { \
+		static ComponentRegistrar<ClassName> reg_script_##ClassName(#ClassName); \
+    }

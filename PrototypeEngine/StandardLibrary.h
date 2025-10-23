@@ -32,3 +32,5 @@
 //nlohmann jsonの外部インクルード
 #include <nlohmann/json.hpp>
 #include <nlohmann/json_fwd.hpp>
+//tinyxml2の外部インクルード
+#include "tinyxml2.h"

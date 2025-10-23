@@ -11,6 +11,22 @@ void GUIPanel::Initialize(float width, float height, ImTextureRef ref)
 {
 }
 
+void GUIPanel::ResetLayoutFunction()
+{
+	// ウインドウ位置とサイズを固定
+	if (isResetLayout)
+	{
+		ImGui::SetNextWindowPos(ImVec2(mWidthPos, mHeightPos));
+		ImGui::SetNextWindowSize(ImVec2(mWidthSize, mHeightSize));
+		isResetLayout = false;
+	}
+	else
+	{
+		ImGui::SetNextWindowPos(ImVec2(mWidthPos, mHeightPos), ImGuiCond_Once);
+		ImGui::SetNextWindowSize(ImVec2(mWidthSize, mHeightSize), ImGuiCond_Once);
+	}
+}
+
 bool GUIPanel::MouseHoveredDisble()
 {
 	isMouseHovered = false;
@@ -38,7 +54,7 @@ void GUIPanel::Draw(float width, float height, ImTextureRef ref)
 
 }
 
-void GUIPanel::GUIPanelMenu()
+void GUIPanel::BaseGUIPanelPopupMenu()
 {
 	// 2. 直前のアイテムに対するコンテキストメニューの定義
 	if (ImGui::BeginPopupContextWindow())

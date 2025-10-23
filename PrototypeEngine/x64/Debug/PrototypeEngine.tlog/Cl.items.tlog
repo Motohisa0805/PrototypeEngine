@@ -31,7 +31,9 @@ C:\C++Files\PrototypeEngine\PrototypeEngine\DirectionalLightComponent.cpp;C:\C++
 C:\C++Files\PrototypeEngine\PrototypeEngine\EditorMain.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\EditorMain.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\EditorSettingsManager.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\EditorSettingsManager.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\EditorTextureManager.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\EditorTextureManager.obj
+C:\C++Files\PrototypeEngine\PrototypeEngine\EditorUtils.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\EditorUtils.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\EngineWindow.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\EngineWindow.obj
+C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\tinyxml2-master\tinyxml2.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\tinyxml2.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\FollowCamera.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\FollowCamera.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\FollowObjectMovement.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\FollowObjectMovement.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\Font.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\Font.obj
@@ -82,6 +84,7 @@ C:\C++Files\PrototypeEngine\PrototypeEngine\SceneSerializer.cpp;C:\C++Files\Prot
 C:\C++Files\PrototypeEngine\PrototypeEngine\SceneViewEditor.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\SceneViewEditor.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\SceneViewPanel.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\SceneViewPanel.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\InspectorPanel.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\InspectorPanel.obj
+C:\C++Files\PrototypeEngine\PrototypeEngine\ScriptComponent.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\ScriptComponent.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\Shader.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\Shader.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\ShadowMap.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\ShadowMap.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\SkeletalMeshRenderer.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\SkeletalMeshRenderer.obj
@@ -109,3 +112,5 @@ C:\C++Files\PrototypeEngine\PrototypeEngine\TPSPlayer.cpp;C:\C++Files\PrototypeE
 C:\C++Files\PrototypeEngine\PrototypeEngine\Transform.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\Transform.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\VertexArray.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\VertexArray.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\WindowRenderProperty.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\WindowRenderProperty.obj
+C:\C++Files\PrototypeEngine\Assets\Scripts\SScript.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\SScript.obj
+C:\C++Files\PrototypeEngine\Assets\Scripts\SampleScript.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\SampleScript.obj

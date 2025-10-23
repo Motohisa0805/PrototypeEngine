@@ -17,18 +17,7 @@ void GameViewPanel::Initialize(float width, float height, ImTextureRef ref)
 
 void GameViewPanel::Draw(float width, float height, ImTextureRef ref)
 {
-	// ウインドウ位置とサイズを固定
-	if (isResetLayout)
-	{
-		ImGui::SetNextWindowPos(ImVec2(mWidthPos, mHeightPos));
-		ImGui::SetNextWindowSize(ImVec2(mWidthSize, mHeightSize));
-		isResetLayout = false;
-	}
-	else
-	{
-		ImGui::SetNextWindowPos(ImVec2(mWidthPos, mHeightPos), ImGuiCond_Once);
-		ImGui::SetNextWindowSize(ImVec2(mWidthSize, mHeightSize), ImGuiCond_Once);
-	}
+	ResetLayoutFunction();
 	ImGuiBackendFlags flag = ImGuiWindowFlags_NoCollapse;
 	if (InputContextManager::IsGameInputActive())
 	{

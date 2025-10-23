@@ -1,5 +1,6 @@
 #include "ProjectPanel.h"
 #include "EditorSettingsManager.h"
+#include "EditorUtils.h"
 
 ProjectPanel::ProjectPanel(Renderer* renderer)
 	:GUIPanel(renderer)
@@ -21,22 +22,20 @@ void ProjectPanel::Initialize(float width, float height, ImTextureRef ref)
 
 void ProjectPanel::Draw(float width, float height, ImTextureRef ref)
 {
+    float panel1_SizeWidth = mWidthSize / 2.0f;
+    // ウインドウ位置とサイズを固定
     if (isResetLayout)
     {
         ImGui::SetNextWindowPos(ImVec2(mWidthPos, mHeightPos));
-        ImGui::SetNextWindowSize(ImVec2(mWidthSize, mHeightSize));
-		isResetLayout = false;
+        ImGui::SetNextWindowSize(ImVec2(panel1_SizeWidth, mHeightSize));
     }
     else
     {
         ImGui::SetNextWindowPos(ImVec2(mWidthPos, mHeightPos), ImGuiCond_Once);
-        ImGui::SetNextWindowSize(ImVec2(mWidthSize, mHeightSize), ImGuiCond_Once);
+        ImGui::SetNextWindowSize(ImVec2(panel1_SizeWidth, mHeightSize), ImGuiCond_Once);
     }
-    if (ImGui::Begin("Project", nullptr, ImGuiWindowFlags_NoCollapse))
+    if (ImGui::Begin("FolderTree", nullptr, ImGuiWindowFlags_NoCollapse))
     {
-        GUIPanelMenu();
-        ImGui::Columns(2); // 2カラムに分割
-
         // 左カラム = フォルダツリー
         if (ImGui::TreeNode("Assets"))
         {
@@ -45,17 +44,29 @@ void ProjectPanel::Draw(float width, float height, ImTextureRef ref)
             {
                 mCurrentFolder = "Assets";
             }
-            AssetsFolderPrivateMenu();
+            RightClickMenu("Assets");
+            //フォルダツリー表示
             DrawFolderTree("Assets");
             ImGui::TreePop();
         }
-        ImGui::NextColumn();
-    
-        // 右カラム = 選択中フォルダの中身
-        DrawFileView();
-
-        // カラム終了
-        ImGui::Columns(1); 
+    }
+    ImGui::End();
+    // ウインドウ位置とサイズを固定
+    if (isResetLayout)
+    {
+        ImGui::SetNextWindowPos(ImVec2(mWidthPos + panel1_SizeWidth, mHeightPos));
+        ImGui::SetNextWindowSize(ImVec2(mWidthSize, mHeightSize));
+        isResetLayout = false;
+    }
+    else
+    {
+        ImGui::SetNextWindowPos(ImVec2(mWidthPos + panel1_SizeWidth, mHeightPos), ImGuiCond_Once);
+        ImGui::SetNextWindowSize(ImVec2(panel1_SizeWidth, mHeightSize), ImGuiCond_Once);
+    }
+    if (ImGui::Begin(mCurrentFolder.string().c_str(), nullptr, ImGuiWindowFlags_NoCollapse))
+    {
+        //選択中フォルダの中身表示
+        DrawPickUpFolderView();
     }
     ImGui::End();
 
@@ -129,7 +140,7 @@ void ProjectPanel::DrawFolderTree(const filesystem::path& path)
     }
 }
 
-void ProjectPanel::DrawFileView()
+void ProjectPanel::DrawPickUpFolderView()
 {
     if (!filesystem::exists(mCurrentFolder)) return;
 
@@ -162,6 +173,86 @@ void ProjectPanel::DrawFileView()
     for (auto& entry : filesystem::directory_iterator(mCurrentFolder))
     {
         DrawFileSystemEntry(entry);
+    }
+
+    if (ImGui::BeginPopupContextWindow())
+    {
+        filesystem::path targetPath = mCurrentFolder;
+        //フォルダ
+        if (ImGui::MenuItem("New Folder"))
+        {
+            // 簡易的に NewFolder を作る (衝突は考慮していない)
+            try
+            {
+                // 簡易的なユニーク名生成の例
+                std::string uniqueName = "NewFolder";
+                int counter = 1;
+                while (filesystem::exists(targetPath / uniqueName)) {
+                    uniqueName = "NewFolder (" + std::to_string(counter++) + ")";
+                }
+                filesystem::create_directory(targetPath / uniqueName);
+
+            }
+            catch (const exception& e)
+            {
+                Debug::Log("Create folder failed: %s\n", e.what());
+            }
+        }
+        //シーン作成
+        if (ImGui::MenuItem("New Scene"))
+        {
+            string uniqueName = "NewScene.json"; // 拡張子付きで初期化
+            filesystem::path targetFolder = targetPath; // 現在右クリックしているパス（フォルダ）
+
+            // 既に存在するファイル名かチェックし、ユニークな名前に変更する
+            int counter = 1;
+            while (filesystem::exists(targetFolder / uniqueName)) {
+                // NewScene(1).json, NewScene(2).json のように生成
+                uniqueName = "NewScene (" + std::to_string(counter++) + ").json";
+            }
+
+            filesystem::path newScenePath = targetFolder / uniqueName;
+
+            // 3. SceneSerializerを使って空のシーンデータをファイルに書き出す
+            // SceneSerializer::SaveEmptyScene()内でファイル書き込み処理を行う
+            if (SceneSerializer::SaveEmptyScene(newScenePath))
+            {
+                // 成功ログ
+                Debug::Log("Created new scene: %s\n", newScenePath.string().c_str());
+            }
+            else
+            {
+                // 失敗ログ
+                Debug::Log("Failed to create scene file: %s\n", newScenePath.string().c_str());
+            }
+        }
+        //Script作成
+        if (ImGui::MenuItem("New Script (C++)"))
+        {
+
+            string uniqueName = "NewScript";
+            //現在右クリックしているフォルダ
+            filesystem::path targetFolder = targetPath;
+
+            //既に存在するファイル名かチェックし、ユニークな名前に変更する
+            int counter = 1;
+            while (filesystem::exists(targetFolder / (uniqueName + ".h")))
+            {
+                uniqueName = "NewScript" + std::to_string(counter++);
+            }
+
+            //ヘルパー関数を呼び出してファイルを生成(.hと.cpp)
+            if (EditorUtils::GetInstance().CreateScriptFile(targetFolder, uniqueName))
+            {
+                //成功した場合、Unityのように即座にリネーム状態に移行する
+                mSelectedPath = targetFolder / (uniqueName + ".h");
+                mPathToRename = targetFolder / (uniqueName + ".h");
+                mRenameInputBuffer = uniqueName;//拡張子なしの名前をバッファに
+                mRenaming = true;
+                Debug::Log("Created new script: %s\n", uniqueName.c_str());
+            }
+        }
+        ImGui::EndPopup();
     }
 }
 
@@ -243,8 +334,28 @@ bool ProjectPanel::RightClickMenu(const filesystem::path& path)
             system(command.c_str());
         }
 
+        // Rename（フォルダ・ファイルどちらでも可）
+        if (ImGui::MenuItem("Rename"))
+        {
+            mPathToRename = path;
+            // ファイルなら拡張子を除いた stem を編集バッファに、フォルダは full name
+            if (filesystem::is_directory(path))
+            {
+                mRenameInputBuffer = path.filename().string();
+            }
+            else
+            {
+                mRenameInputBuffer = path.stem().string();
+            }
+            mRenaming = true;
+        }
+        //区切り
+        ImGui::Separator();
+
+
         if (filesystem::is_directory(path))
         {
+            //フォルダ
             if (ImGui::MenuItem("New Folder"))
             {
                 // 簡易的に NewFolder を作る (衝突は考慮していない)
@@ -264,7 +375,6 @@ bool ProjectPanel::RightClickMenu(const filesystem::path& path)
                     Debug::Log("Create folder failed: %s\n", e.what()); 
                 }
             }
-
             //シーン作成
             if (ImGui::MenuItem("New Scene"))
             {
@@ -293,12 +403,40 @@ bool ProjectPanel::RightClickMenu(const filesystem::path& path)
                     Debug::Log("Failed to create scene file: %s\n", newScenePath.string().c_str());
                 }
             }
-
-
-            if (ImGui::MenuItem("Delete Folder"))
+            //Script作成
+            if (ImGui::MenuItem("New Script (C++)"))
             {
-                // 即削除はしない。遅延キューに追加する
-                mDeleteQueue.push_back(path);
+
+                string uniqueName = "NewScript";
+                //現在右クリックしているフォルダ
+                filesystem::path targetFolder = path;
+
+                //既に存在するファイル名かチェックし、ユニークな名前に変更する
+                int counter = 1;
+                while (filesystem::exists(targetFolder / (uniqueName + ".h"))) 
+                {
+                    uniqueName = "NewScript" + std::to_string(counter++);
+                }
+
+                //ヘルパー関数を呼び出してファイルを生成(.hと.cpp)
+                if (EditorUtils::GetInstance().CreateScriptFile(targetFolder, uniqueName))
+                {
+                    //成功した場合、Unityのように即座にリネーム状態に移行する
+                    mSelectedPath = targetFolder / (uniqueName + ".h");
+                    mPathToRename = targetFolder / (uniqueName + ".h");
+                    mRenameInputBuffer = uniqueName;//拡張子なしの名前をバッファに
+                    mRenaming = true;
+                    Debug::Log("Created new script: %s\n", uniqueName.c_str());
+                }
+            }
+            if (path.string() != "Assets")
+            {
+                //フォルダの削除
+                if (ImGui::MenuItem("Delete Folder"))
+                {
+                    // 即削除はしない。遅延キューに追加する
+                    mDeleteQueue.push_back(path);
+                }
             }
         }
         else
@@ -309,25 +447,9 @@ bool ProjectPanel::RightClickMenu(const filesystem::path& path)
             }
         }
 
-        // Rename（フォルダ・ファイルどちらでも可）
-        if (ImGui::MenuItem("Rename"))
-        {
-            mPathToRename = path;
-            // ファイルなら拡張子を除いた stem を編集バッファに、フォルダは full name
-            if (filesystem::is_directory(path))
-            {
-                mRenameInputBuffer = path.filename().string();
-            }
-            else
-            {
-                mRenameInputBuffer = path.stem().string();
-            }
-            mRenaming = true;
-        }
-
         ImGui::EndPopup();
+        return true;
     }
-
     return false;
 }
 
@@ -419,6 +541,7 @@ void ProjectPanel::RenameFunction(const filesystem::directory_entry entry)
     ImGui::PushID(entry.path().string().c_str());
 
     char buffer[256];
+    //ここで入力を行っている
 #if defined(_MSC_VER)
     strncpy_s(buffer, mRenameInputBuffer.c_str(), sizeof(buffer));
 #else
@@ -496,16 +619,68 @@ void ProjectPanel::ProcessPendingOperations()
     {
         try
         {
-            if (!filesystem::exists(req.oldPath)) continue; // 既に消えていたらスキップ
-            filesystem::path newPath = req.oldPath.parent_path() / (req.newStem + req.oldPath.extension().string());
-            if (filesystem::exists(newPath))
+            if (!filesystem::exists(req.oldPath))continue;
+            
+            //名前前のクラス名と名前変更後のクラス名を特定
+            string oldClassName = req.oldPath.stem().string();//例："NewScript"
+            string newClassName = req.newStem;                //例："OrignalScript"  
+
+            //C++のスクリプトファイルペアかどうかを判定
+            bool isScriptFile = (req.oldPath.extension() == ".h" || req.oldPath.extension() == ".cpp");
+
+            if (isScriptFile && oldClassName != newClassName)
             {
-                Debug::Log("Rename failed: %s already exists\n", newPath.string().c_str());
+                // ----------------------------------------------------
+                // 拡張: ファイルシステム上で、対応する .h と .cpp の両方をリネームする
+                // ----------------------------------------------------
+
+                //変更前のパスを計算
+                filesystem::path oldHPath = req.oldPath.parent_path() / (oldClassName + ".h");
+                filesystem::path oldCppPath = req.oldPath.parent_path() / (oldClassName + ".cpp");
+
+                //変更後のパスを計算
+                filesystem::path newHPath = req.oldPath.parent_path() / (newClassName + ".h");
+                filesystem::path newCppPath = req.oldPath.parent_path() / (newClassName + ".cpp");
+
+                //1..hファイルのリネーム
+                if (filesystem::exists(oldHPath))
+                {
+                    filesystem::rename(oldHPath, newHPath);
+                    //2..hファイルの内容を書き換え
+                    EditorUtils::GetInstance().ReplaceInFile(newHPath, oldClassName, newClassName);
+                }
+
+                //3..cppファイルのリネーム
+                if (filesystem::exists(oldCppPath))
+                {
+                    filesystem::rename(oldCppPath, newCppPath);
+                    //2..cppファイルの内容を書き換え
+                    EditorUtils::GetInstance().ReplaceInFile(newCppPath, oldClassName, newClassName);
+                }
+                // 4. vcxProjのスクリプトエントリーを更新
+                if (EditorUtils::GetInstance().RemoveScriptFileToVcxProj(oldClassName))
+                {
+                    Debug::Log("Successfully removed old vcxproj entry: %s.cpp\n", oldClassName.c_str());
+                }
+                if (EditorUtils::GetInstance().AddScriptFileToVcxProj(newClassName))
+                {
+                    Debug::Log("Successfully added %s.cpp to %s.\n",newClassName.c_str(),VCXPROJ_PATH.string().c_str());
+                }
+                else
+                {
+                    Debug::Log("Failed to add %s.cpp to vcxproj.Maunal addition required.\n",newClassName.c_str(),newClassName.c_str());
+                }
             }
             else
             {
-                filesystem::rename(req.oldPath, newPath);
-                Debug::Log("Renamed: %s -> %s\n", req.oldPath.string().c_str(), newPath.string().c_str());
+                // スクリプトファイルでない、または名前が変わっていない場合は、元のロジックに従い、
+                // req.oldPath のファイルのみをリネームキューの定義通りに処理する
+                filesystem::path newPath = req.oldPath.parent_path() / (req.newStem + req.oldPath.extension().string());
+                if (!filesystem::exists(newPath))
+                {
+                    filesystem::rename(req.oldPath, newPath);
+                    Debug::Log("Renamed: %s -> %s\\n", req.oldPath.string().c_str(), newPath.string().c_str());
+                }
             }
         }
         catch (const exception& e)
@@ -521,12 +696,28 @@ void ProjectPanel::ProcessPendingOperations()
         try
         {
             if (!filesystem::exists(p)) continue;
+            // 1. スクリプトファイルの削除 (vcpjrojから削除)
+            if (p.extension() == ".h" || p.extension() == ".cpp")
+            {
+                // スクリプト名（拡張子なし）を取得
+                std::string scriptClassName = p.stem().string();
+
+                // .h, .cpp のどちらか一つがキューに入っていれば、
+                // EditorUtils側で両方のパスを計算し、vcxprojから両方削除する。
+                // （ファイルシステムの削除はEditorUtilsではなく、このループで実行）
+                // ただし、もし .h と .cpp が両方キューに入っている場合、二重にvcxproj処理が走るが、
+                // tinyxml2::DeleteChild は要素が見つからなければ何もしないので安全。
+                EditorUtils::GetInstance().RemoveScriptFileToVcxProj(scriptClassName);
+            }
+
+            // 2. ファイルシステムからの削除
             if (filesystem::is_directory(p))
             {
+                // フォルダの場合、配下のすべてのファイルを削除
                 filesystem::remove_all(p);
                 Debug::Log("Deleted folder: %s\n", p.string().c_str());
             }
-            else
+            else // ファイルの場合
             {
                 filesystem::remove(p);
                 Debug::Log("Deleted file: %s\n", p.string().c_str());
