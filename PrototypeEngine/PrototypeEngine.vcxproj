@@ -277,8 +277,6 @@
         <ClCompile Include="Transform.cpp"/>
         <ClCompile Include="VertexArray.cpp"/>
         <ClCompile Include="WindowRenderProperty.cpp"/>
-        <ClCompile Include="..\Assets\Scripts\SScript.cpp"/>
-        <ClCompile Include="..\Assets\Scripts\SampleScript.cpp"/>
     </ItemGroup>
     <ItemGroup>
         <ClInclude Include="Actor.h"/>
@@ -407,8 +405,6 @@
         <ClInclude Include="Typedefs.h"/>
         <ClInclude Include="VertexArray.h"/>
         <ClInclude Include="WindowRenderProperty.h"/>
-        <ClInclude Include="..\Assets\Scripts\SScript.h"/>
-        <ClInclude Include="..\Assets\Scripts\SampleScript.h"/>
     </ItemGroup>
     <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets"/>
     <ImportGroup Label="ExtensionTargets">
