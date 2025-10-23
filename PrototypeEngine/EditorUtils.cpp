@@ -9,54 +9,15 @@ EditorUtils::EditorUtils()
 bool EditorUtils::CreateScriptFile(const std::filesystem::path& folderPath, const std::string& scriptName)
 {
     //テンプレートの内容
-    //TODO : まだテンプレート内容は出力してない
     //現在は仮でコード内で記述
     //1.ヘッダーファイル(.h)テンプレート
-    string headerTemplate = R"(#pragma once
-#include "PrototypeEngine/ScriptComponent.h"
-// #include "Actor.h" など、必要に応じてインクルード
+    filesystem::path hPath = "Library/HeaderTemplate.txt";
+    string headerTemplate = StringConverter::Read_entire_file_binary(hPath.string());
+    StringConverter::Convert_crlf_to_lf(headerTemplate);
 
-class [CLASS_NAME] : public ScriptComponent
-{
-public:
-    // コンストラクタ
-    [CLASS_NAME](class ActorObject* owner);
-
-    // ライフサイクル関数のオーバーライド
-    void Start() override;
-    void Update(float deltaTime) override;
-};
-)";
-
-
-    //2.ソースファイル(.cpp)テンプレート
-    string cppTemplate = R"(#include "[CLASS_NAME].h"
-#include <iostream>
-
-[CLASS_NAME]::[CLASS_NAME](ActorObject* owner)
-    : ScriptComponent(owner) // 基底クラスのコンストラクタを呼び出す
-{
-    mName = "[CLASS_NAME]"; // Inspectorでの表示名を設定
-}
-
-void [CLASS_NAME]::Start()
-{
-    // 初期化ロジックをここに記述
-    std::cout << mName << "::Start() called!" << std::endl;
-}
-
-void [CLASS_NAME]::Update(float deltaTime)
-{
-    // 毎フレームの更新ロジックをここに記述
-}
-
-
-// ----------------------------------------------------------------
-// 自動登録の実行
-// ----------------------------------------------------------------
-REGISTER_SCRIPT_COMPONENT([CLASS_NAME]); // クラス名を渡すだけで自動登録される
-)";
-
+    filesystem::path cppPath = "Library/CppTemplate.txt";
+    string cppTemplate = StringConverter::Read_entire_file_binary(cppPath.string());
+    StringConverter::Convert_crlf_to_lf(cppTemplate);
 
     //クラス名置換処理
     auto replaceClassName = [](string& content, const string& name) {

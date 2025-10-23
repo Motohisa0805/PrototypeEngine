@@ -74,5 +74,39 @@ namespace StringConverter
 		}
 		return filename_with_ext;
 	}
+
+	inline string Read_entire_file_binary(const std::string& path)
+	{
+		std::ifstream ifs(path, std::ios::binary);
+
+		if (!ifs.is_open()) {
+			return "";
+		}
+
+		// std::istreambuf_iterator を使って文字列を構築
+		// バイナリモードなので、ファイル内の全てのバイトがそのまま読み込まれる
+		return std::string((std::istreambuf_iterator<char>(ifs)),
+			std::istreambuf_iterator<char>());
+	}
+	//----------------------------------------
+	//文字列内の"\r\n"を"\n"に変換
+	//----------------------------------------
+	inline void Convert_crlf_to_lf(string& str)
+	{
+		const string target = "\r\n";
+		const string replacement = "\n";
+
+		//検索開始位置
+		size_t pos = 0;
+
+		//文字列で"\r\n"を繰り返し探す
+		while ((pos = str.find(target,pos)) != string::npos)
+		{
+			//見つかった位置で置き換えを実行
+			str.replace(pos, target.length(), replacement);
+			//置き換え後の文字列の長さだけ検索開始位置を先に進める
+			pos += replacement.length();
+		}
+	}
 };
 

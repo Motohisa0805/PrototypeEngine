@@ -1,26 +1,26 @@
-#include "[CLASS_NAME].h"
+#include "TestScript.h"
 #include <iostream>
 
-[CLASS_NAME]::[CLASS_NAME](ActorObject* owner)
+TestScript::TestScript(ActorObject* owner)
     : ScriptComponent(owner)
 {
     //Set the display name in the Inspector
-    mName = "[CLASS_NAME]"; 
+    mName = "TestScript"; 
 }
 
 //Write the initialization logic here
-void [CLASS_NAME]::Start()
+void TestScript::Start()
 {
     std::cout << mName << "::Start() called!" << std::endl;
 }
 
 //Write the update logic for each frame here
-void [CLASS_NAME]::Update(float deltaTime)
+void TestScript::Update(float deltaTime)
 {
-
+    int i = 0;
 }
 
 // ----------------------------------------------------------------
 // Execute automatic registration
 // ----------------------------------------------------------------
-REGISTER_SCRIPT_COMPONENT([CLASS_NAME]);
+REGISTER_SCRIPT_COMPONENT(TestScript);

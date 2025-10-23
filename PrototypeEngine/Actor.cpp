@@ -32,9 +32,9 @@ ActorObject::~ActorObject()
 	mGame->RemoveActor(this);
 	// Need to delete components
 	// Because ~Component calls RemoveComponent, need a different style loop
-	for (int i = 0; i < mComponents.size(); i++)
+	for (auto& comp : mComponents)
 	{
-		delete mComponents[i];
+		delete comp;
 	}
 	mComponents.clear();
 }
@@ -91,7 +91,7 @@ void ActorObject::UpdateComponents(float deltaTime)
 			if (!scriptComp->HasStarted())
 			{
 				scriptComp->Start();
-				scriptComp->SetStarted(false);
+				scriptComp->SetStarted(true);
 			}
 		}
 		comp->Update(deltaTime);

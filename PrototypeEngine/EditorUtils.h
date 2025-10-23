@@ -1,6 +1,7 @@
 #pragma once
 #include "Typedefs.h"
 #include "DebugManager.h"
+#include "ConvertNumToString.h"
 
 class EditorUtils
 {

@@ -1,11 +1,11 @@
 #pragma once
 #include "PrototypeEngine/ScriptComponent.h"
 
-class [CLASS_NAME] : public ScriptComponent
+class TestScript : public ScriptComponent
 {
 public:
     // Constructor
-    [CLASS_NAME](class ActorObject* owner);
+    TestScript(class ActorObject* owner);
 
     // Overriding Lifecycle Functions
     void Start() override;
