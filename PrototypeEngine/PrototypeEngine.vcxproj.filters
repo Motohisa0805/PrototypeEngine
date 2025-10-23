@@ -136,6 +136,9 @@
     <Filter Include="SourceCodes\F_Editor\Defines">
       <UniqueIdentifier>{3a45d6e9-c690-41ef-a5b1-5615e7022bd1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="SourceCodes\G_OutsideLibrary\tinyxml2">
+      <UniqueIdentifier>{5b8889e2-b877-4c2b-915d-e3e0189aec73}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Shaders\Arrow.frag">
@@ -535,17 +538,14 @@
     <ClCompile Include="SceneViewEditor.cpp">
       <Filter>SourceCodes\F_Editor\Renderers</Filter>
     </ClCompile>
-    <ClCompile Include="ScriptComponent.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="ExternalLibrary\tinyxml2-master\tinyxml2.cpp">
+      <Filter>SourceCodes\G_OutsideLibrary\tinyxml2</Filter>
     </ClCompile>
     <ClCompile Include="EditorUtils.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>SourceCodes\F_Editor\GUIViews</Filter>
     </ClCompile>
-    <ClCompile Include="ExternalLibrary\tinyxml2-master\tinyxml2.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Assets\Scripts\SScript.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="ScriptComponent.cpp">
+      <Filter>SourceCodes\F_Editor\Components</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -918,17 +918,14 @@
     <ClInclude Include="SceneViewEditor.h">
       <Filter>SourceCodes\F_Editor\Renderers</Filter>
     </ClInclude>
-    <ClInclude Include="ScriptComponent.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="ExternalLibrary\tinyxml2-master\tinyxml2.h">
+      <Filter>SourceCodes\G_OutsideLibrary\tinyxml2</Filter>
     </ClInclude>
     <ClInclude Include="EditorUtils.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>SourceCodes\F_Editor\GUIViews</Filter>
     </ClInclude>
-    <ClInclude Include="ExternalLibrary\tinyxml2-master\tinyxml2.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Assets\Scripts\SScript.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="ScriptComponent.h">
+      <Filter>SourceCodes\F_Editor\Components</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
