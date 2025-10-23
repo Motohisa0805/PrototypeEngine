@@ -24,7 +24,7 @@ void FreeCamera::SetCameraPosition(const Vector3& eye, const Vector3& target)
 	SetViewMatrix(view);
 }
 
-void FreeCamera::DrawGUI()
+void FreeCamera::DrawCustomGUI(const std::vector<PropertyInfo>& properties)
 {
 	MoveCameraView();
 

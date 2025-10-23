@@ -23,19 +23,8 @@ bool SceneViewPanel::MouseHoveredDisble()
 
 void SceneViewPanel::Draw(float width, float height, ImTextureRef ref)
 {
+	ResetLayoutFunction();
 	ImVec2 winsize = ImVec2(mWidthSize, mHeightSize);
-	// ウインドウ位置とサイズを固定
-	if (isResetLayout)
-	{
-		ImGui::SetNextWindowPos(ImVec2(mWidthPos, mHeightPos));
-		ImGui::SetNextWindowSize(winsize);
-		isResetLayout = false;
-	}
-	else
-	{
-		ImGui::SetNextWindowPos(ImVec2(mWidthPos, mHeightPos), ImGuiCond_Once);
-		ImGui::SetNextWindowSize(winsize, ImGuiCond_Once);
-	}
 	if(ImGui::Begin(GetName(), nullptr, ImGuiWindowFlags_NoCollapse))
 	{
 		// SceneView のサイズが変わったら FBO をリサイズ

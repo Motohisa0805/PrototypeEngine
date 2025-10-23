@@ -222,7 +222,7 @@ void SkeletalMeshRenderer::Deserialize(const json& j)
 	//    SetAnimator(animator);
 }
 
-void SkeletalMeshRenderer::DrawGUI()
+void SkeletalMeshRenderer::DrawCustomGUI(const std::vector<PropertyInfo>& properties)
 {
 	//MeshRendererのプロパティ
 	ImGui::Text("SkeletalMeshRenderer");

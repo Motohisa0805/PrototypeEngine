@@ -15,19 +15,21 @@ class Mesh;
 class MeshRenderer : public Component
 {
 protected:
-	//メッシュ配列
-	vector<Mesh*>				mMeshs;
 	//表示か非表示か
 	bool						mVisible;
-	//スケルタルフラグ
-	bool						mIsSkeletal;
 	//メッシュファイルパス
 	string 						mFilePath;
 	//メッシュのアルファ値
 	float						mAlpha;
+protected:
+	//メッシュ配列
+	vector<Mesh*>				mMeshs;
+	//スケルタルフラグ
+	bool						mIsSkeletal;
+
 public:
 								MeshRenderer(ActorObject* owner, bool isSkeletal = false);
-								~MeshRenderer();
+								~MeshRenderer();							
 	// このメッシュコンポーネントを描画
 	virtual void				Draw(Shader* shader);
 	virtual void				DrawForShadowMap(Shader* shader);
@@ -58,11 +60,11 @@ public:
 	void						SetMeshFilePath(const std::string& path) { mFilePath = path; }
 	const std::string&			GetMeshFilePath() const { return mFilePath; }
 
+	float						GetAlpha() { return mAlpha; }
 	void						SetMaterialAlpha(float alpha);
 
 	void						Serialize(json& j) const override;
 	void						Deserialize(const json& j)override;
 
-	void						DrawGUI()override;
-
+	void						DrawCustomGUI(const std::vector<PropertyInfo>& properties)override;
 };

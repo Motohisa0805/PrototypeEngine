@@ -25,7 +25,7 @@ public:
 
 	void    SetCameraPosition(const Vector3& eye, const Vector3& target);
 
-	void	DrawGUI()override;
+	void	DrawCustomGUI(const std::vector<PropertyInfo>& properties)override;
 
 
 	void	MoveCameraView();

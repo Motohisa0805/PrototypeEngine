@@ -288,6 +288,11 @@ public:
 		return reinterpret_cast<const float*>(&x);
 	}
 
+	float* GetAsFloatPtr()
+	{
+		return reinterpret_cast<float*>(&x);
+	}
+
 	// すべての三つのコンポーネントを1行に設定
 	void Set(float inX, float inY, float inZ)
 	{

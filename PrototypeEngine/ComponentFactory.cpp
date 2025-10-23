@@ -20,6 +20,8 @@
 #include "FollowCamera.h"
 #include "FPSCamera.h"
 
+#include "ScriptComponent.h"
+
 std::map<string, ComponentCreator> ComponentFactory::sCreators;
 
 void ComponentFactory::RegisterComponent(const string& type, ComponentCreator creator)

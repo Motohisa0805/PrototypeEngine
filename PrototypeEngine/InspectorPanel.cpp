@@ -26,23 +26,11 @@ void InspectorPanel::Initialize(float width, float height, ImTextureRef ref)
 
 void InspectorPanel::Draw(float width, float height, ImTextureRef ref)
 {
-	if (isResetLayout)
-	{
-		// ウインドウ位置とサイズを固定
-		ImGui::SetNextWindowPos(ImVec2(mWidthPos, mHeightPos));
-		ImGui::SetNextWindowSize(ImVec2(mWidthSize, mHeightSize));
-		isResetLayout = false;
-	}
-	else
-	{
-		// ウインドウ位置とサイズを固定
-		ImGui::SetNextWindowPos(ImVec2(mWidthPos, mHeightPos), ImGuiCond_Once);
-		ImGui::SetNextWindowSize(ImVec2(mWidthSize, mHeightSize), ImGuiCond_Once);
-	}
+	ResetLayoutFunction();
 	//  新しいウィンドウの作成
-	if(ImGui::Begin("SelectItem", nullptr, ImGuiWindowFlags_NoCollapse))
+	if(ImGui::Begin("Inspector", nullptr, ImGuiWindowFlags_NoCollapse))
 	{
-		GUIPanelMenu();
+		BaseGUIPanelPopupMenu();
 
 		//1.選択中のActorを取得
 		ActorObject* selectedActor = GUIWinMain::GetHierarchyPanel()->GetSelectedActor();
@@ -72,39 +60,7 @@ void InspectorPanel::Draw(float width, float height, ImTextureRef ref)
 			// ----------------------------------------------------------------
 			if (ImGui::CollapsingHeader("Transform", ImGuiTreeNodeFlags_DefaultOpen))
 			{
-				//Position(Vector3)の編集
-				Vector3 pos = selectedActor->GetLocalPosition();
-				if (ImGui::DragFloat3("Position", &pos.x, 0.1f))//0.1fはドラッグの感度
-				{
-					//ローカル関数なので注意
-					selectedActor->SetLocalPosition(pos);
-				}
-				//回転だけローカルで取得
-				//ローカルならスケール値を含まないため
-				Vector3 eulerRad = selectedActor->GetLocalRotation().ToEulerAngles();
-				Vector3 rot;
-				rot.x = Math::ToDegrees(eulerRad.x);
-				rot.y = Math::ToDegrees(eulerRad.y);
-				rot.z = Math::ToDegrees(eulerRad.z);
-				//度数法で表示・編集
-				if (ImGui::DragFloat3("Rotation(deg)", &rot.x, 1.0f))
-				{
-
-					// ラジアンに変換して保存
-					Quaternion qx = Quaternion::CreateFromAxisAngle(Vector3::UnitX, rot.x);
-					Quaternion qy = Quaternion::CreateFromAxisAngle(Vector3::UnitY, rot.y);
-					Quaternion qz = Quaternion::CreateFromAxisAngle(Vector3::UnitZ, rot.z);
-					Quaternion newRotation = qy * qx * qz; // ZYX順で回転を適用
-					selectedActor->SetLocalRotation(newRotation);
-				}
-
-				//Scale(Vector3)の編集
-				Vector3 scale = selectedActor->GetLocalScale();
-				if (ImGui::DragFloat3("Scale", &scale.x, 0.1f))//0.1fはドラッグの感度
-				{
-					//ローカル関数なので注意
-					selectedActor->SetLocalScale(scale);
-				}
+				DrawTransformProperties(selectedActor);
 			}
 
 			//----------------------------------------------------------------
@@ -125,7 +81,10 @@ void InspectorPanel::Draw(float width, float height, ImTextureRef ref)
 					ImGui::Text("[Type: %s]", comp->GetName().c_str());
 					ImGui::SameLine();
 
-					comp->DrawGUI();
+					// --------------------------------------------------
+					// 【重要】リフレクション情報に基づいてプロパティを描画
+					// --------------------------------------------------
+					comp->DrawCustomGUI(comp->GetProperties());
 
 					//----------------------------------------------------------------
 					// コンポーネント削除ボタン
@@ -194,4 +153,93 @@ void InspectorPanel::Draw(float width, float height, ImTextureRef ref)
 		}
 	}
 	ImGui::End();
+}
+
+void InspectorPanel::DrawTransformProperties(Transform* transform)
+{
+	//Position(Vector3)の編集
+	Vector3 pos = transform->GetLocalPosition();
+	if (ImGui::DragFloat3("Position", &pos.x, 0.1f))//0.1fはドラッグの感度
+	{
+		//ローカル関数なので注意
+		transform->SetLocalPosition(pos);
+	}
+	//回転だけローカルで取得
+	//ローカルならスケール値を含まないため
+	Vector3 eulerRad = transform->GetLocalRotation().ToEulerAngles();
+	Vector3 rot;
+	rot.x = Math::ToDegrees(eulerRad.x);
+	rot.y = Math::ToDegrees(eulerRad.y);
+	rot.z = Math::ToDegrees(eulerRad.z);
+	//度数法で表示・編集
+	if (ImGui::DragFloat3("Rotation(deg)", &rot.x, 1.0f))
+	{
+
+		// ラジアンに変換して保存
+		Quaternion qx = Quaternion::CreateFromAxisAngle(Vector3::UnitX, rot.x);
+		Quaternion qy = Quaternion::CreateFromAxisAngle(Vector3::UnitY, rot.y);
+		Quaternion qz = Quaternion::CreateFromAxisAngle(Vector3::UnitZ, rot.z);
+		Quaternion newRotation = qy * qx * qz; // ZYX順で回転を適用
+		transform->SetLocalRotation(newRotation);
+	}
+
+	//Scale(Vector3)の編集
+	Vector3 scale = transform->GetLocalScale();
+	if (ImGui::DragFloat3("Scale", &scale.x, 0.1f))//0.1fはドラッグの感度
+	{
+		//ローカル関数なので注意
+		transform->SetLocalScale(scale);
+	}
+}
+
+void InspectorPanel::DrawComponentProperties(Component* comp, const PropertyInfo& prop)
+{
+	//Componentインスタンスの先頭アドレス + オフセット = メンバ変数の値を編集する
+	char* dataPtr = reinterpret_cast<char*>(comp) + prop.sOffset;
+
+	//型ごとに適切なImGuiウィジェットを選択
+	switch (prop.sType)
+	{
+	case EPropertyType::E_PT_FLOAT:
+		ImGui::DragFloat("##float", reinterpret_cast<float*>(dataPtr), 0.1f);
+		break;
+	case EPropertyType::E_PT_INT:
+		ImGui::DragInt("##int", reinterpret_cast<int*>(dataPtr));
+		break;
+	case EPropertyType::E_PT_BOOL:
+		ImGui::Checkbox("##bool", reinterpret_cast<bool*>(dataPtr));
+		break;
+	case EPropertyType::E_PT_VECTOR3:
+	{
+		// Vector3はfloat[3]として扱う
+		Vector3* vec = reinterpret_cast<Vector3*>(dataPtr);
+		ImGui::DragFloat3("##vec3",vec->GetAsFloatPtr(), 0.1f);
+	}
+		break;
+	case EPropertyType::E_PT_COLOR3:
+	{
+		// Color3もfloat[3]として扱う
+		Vector3* color = reinterpret_cast<Vector3*>(dataPtr);
+		ImGui::ColorEdit3("##color3", color->GetAsFloatPtr());
+	}
+		break;
+	case EPropertyType::E_PT_STRING:
+	{
+		//stringの編集(バッファサイズに注意)
+		string* str = reinterpret_cast<string*>(dataPtr);
+		//ImGuiはchar*バッファを要求するため、一時バッファを用意
+		char buffer[256];
+		strncpy_s(buffer, str->c_str(), sizeof(buffer) - 1);
+		buffer[sizeof(buffer) - 1] = 0;
+		if (ImGui::InputText("##string", buffer, sizeof(buffer)))
+		{
+			*str = buffer;
+		}
+	}
+		break;
+	default:
+		ImGui::TextDisabled("Unsupported Type");
+		break;
+	}
+	ImGui::PopID();
 }

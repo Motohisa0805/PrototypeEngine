@@ -6,7 +6,7 @@
 #include "VertexArray.h"
 #include "Shader.h"
 #include "ComponentFactory.h"
-
+#include "ScriptComponent.h"
 /*
 * ===ƒGƒ“ƒWƒ““à•”ˆ—/Engine internal processing===
 */

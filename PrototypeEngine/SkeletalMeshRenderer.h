@@ -41,5 +41,5 @@ public:
 	void							Serialize(json& j) const override;
 	void							Deserialize(const json& j)override;
 
-	void							DrawGUI()override;
+	void							DrawCustomGUI(const std::vector<PropertyInfo>& properties)override;
 };

@@ -1,0 +1,15 @@
+#pragma once
+#include "ScriptComponent.h" // Step 1で作成した基底クラス
+// #include "Actor.h" など、必要に応じてインクルード
+
+class [CLASS_NAME] : public ScriptComponent
+{
+public:
+    // コンストラクタ
+    [CLASS_NAME](class ActorObject* owner);
+
+    // ライフサイクル関数のオーバーライド
+    void Start() override;
+    void Update(float deltaTime) override;
+    void FixedUpdate(float deltaTime) override;
+};

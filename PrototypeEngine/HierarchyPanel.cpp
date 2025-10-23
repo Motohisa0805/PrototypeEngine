@@ -26,21 +26,11 @@ void HierarchyPanel::Initialize(float width, float height, ImTextureRef ref)
 
 void HierarchyPanel::Draw(float width, float height, ImTextureRef ref)
 {
-    if (isResetLayout)
-    {
-        ImGui::SetNextWindowPos(ImVec2(mWidthPos, mHeightPos));
-        ImGui::SetNextWindowSize(ImVec2(mWidthSize, mHeightSize));
-		isResetLayout = false;
-    }
-    else
-    {
-        ImGui::SetNextWindowPos(ImVec2(mWidthPos, mHeightPos), ImGuiCond_Once);
-        ImGui::SetNextWindowSize(ImVec2(mWidthSize, mHeightSize), ImGuiCond_Once);
-    }
+	ResetLayoutFunction();
 	//  新しいウィンドウの作成
 	if(ImGui::Begin("Hierarchy", nullptr, ImGuiWindowFlags_NoCollapse))
 	{
-		GUIPanelMenu();
+		BaseGUIPanelPopupMenu();
 
 		// ----------------------------------------------------------------
 		// 1. 現在のシーンのアクター一覧を表示する

@@ -1,0 +1,29 @@
+#include "[CLASS_NAME].h"
+#include <iostream>
+
+[CLASS_NAME]::[CLASS_NAME](ActorObject* owner)
+    : ScriptComponent(owner) // 基底クラスのコンストラクタを呼び出す
+{
+    mName = "[CLASS_NAME]"; // Inspectorでの表示名を設定
+}
+
+void [CLASS_NAME]::Start()
+{
+    // 初期化ロジックをここに記述
+    std::cout << mName << "::Start() called!" << std::endl;
+}
+
+void [CLASS_NAME]::Update(float deltaTime)
+{
+    // 毎フレームの更新ロジックをここに記述
+}
+
+void [CLASS_NAME]::FixedUpdate(float deltaTime)
+{
+    // 毎フレームの更新ロジックをここに記述
+}
+
+// ----------------------------------------------------------------
+// ★ 自動登録の実行
+// ----------------------------------------------------------------
+REGISTER_SCRIPT_COMPONENT([CLASS_NAME]); // クラス名を渡すだけで自動登録される
