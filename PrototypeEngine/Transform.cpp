@@ -1,5 +1,6 @@
 #include "Transform.h"
 #include "Actor.h" // ’Ç‰Á: ActorObject‚ÌŠ®‘S‚ÈŒ^î•ñ‚ª•K—v
+#include "SceneManager.h"
 
 void Transform::AddChild(Transform* child)
 {

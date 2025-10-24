@@ -1,6 +1,7 @@
 #include "ProjectPanel.h"
 #include "EditorSettingsManager.h"
 #include "EditorUtils.h"
+#include "SceneManager.h"
 
 ProjectPanel::ProjectPanel(Renderer* renderer)
 	:GUIPanel(renderer)
@@ -658,11 +659,11 @@ void ProjectPanel::ProcessPendingOperations()
                     EditorUtils::GetInstance().ReplaceInFile(newCppPath, oldClassName, newClassName);
                 }
                 // 4. vcxProjのスクリプトエントリーを更新
-                if (EditorUtils::GetInstance().RemoveScriptFileToVcxProj(oldClassName))
+                if (EditorUtils::GetInstance().RemoveScriptFileToVcxProj(oldHPath, oldClassName))
                 {
                     Debug::Log("Successfully removed old vcxproj entry: %s.cpp\n", oldClassName.c_str());
                 }
-                if (EditorUtils::GetInstance().AddScriptFileToVcxProj(newClassName))
+                if (EditorUtils::GetInstance().AddScriptFileToVcxProj(newHPath, newClassName))
                 {
                     Debug::Log("Successfully added %s.cpp to %s.\n",newClassName.c_str(),VCXPROJ_PATH.string().c_str());
                 }
@@ -707,7 +708,7 @@ void ProjectPanel::ProcessPendingOperations()
                 // （ファイルシステムの削除はEditorUtilsではなく、このループで実行）
                 // ただし、もし .h と .cpp が両方キューに入っている場合、二重にvcxproj処理が走るが、
                 // tinyxml2::DeleteChild は要素が見つからなければ何もしないので安全。
-                EditorUtils::GetInstance().RemoveScriptFileToVcxProj(scriptClassName);
+                EditorUtils::GetInstance().RemoveScriptFileToVcxProj(p, scriptClassName);
             }
 
             // 2. ファイルシステムからの削除

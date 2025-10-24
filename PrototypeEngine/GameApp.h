@@ -1,6 +1,5 @@
 #pragma once
-#include "SDL3.h"
-#include "Renderer.h"
+
 
 //‘O•ûéŒ¾
 class GameWinMain;

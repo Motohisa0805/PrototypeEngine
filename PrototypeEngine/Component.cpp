@@ -1,5 +1,8 @@
 #include "Component.h"
 #include "Actor.h"
+#include "imgui.h"
+#include "imgui_impl_sdl3.h"
+#include "imgui_impl_opengl3.h"
 
 Component::Component(ActorObject* owner, int updateOrder)
 	:mOwner(owner)

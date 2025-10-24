@@ -2,6 +2,9 @@
 #include "BaseScene.h"
 #include "SceneSerializer.h"
 #include "EditorSettingsManager.h"
+#include "EngineWindow.h"
+#include "Renderer.h"
+#include "GUIWinMain.h"
 
 BaseScene* SceneManager::mNowScene = nullptr;
 

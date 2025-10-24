@@ -1,6 +1,7 @@
 #pragma once
 #include "GameWinMain.h"
-
+#include "Typedefs.h"
+#include "InputSystem.h"
 /*
 * ===エンジン内部処理/Engine internal processing===
 */
@@ -16,6 +17,9 @@ class BaseCamera;
 class DirectionalLightComponent; //仮追加
 class FreeCamera;               // 仮追加
 class Text;
+
+class AudioSystem;
+class PhysWorld;
 //シーンの基底クラス
 //オブジェクトの更新などをまとめて行う部分になります。
 // シーンごとに継承して使用します。

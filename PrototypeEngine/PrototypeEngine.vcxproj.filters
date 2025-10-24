@@ -705,7 +705,7 @@
     <ClInclude Include="SkeletalMeshRenderer.h">
       <Filter>SourceCodes\F_Editor\Components</Filter>
     </ClInclude>
-    <ClInclude Include="Debug_memory.h">
+    <ClInclude Include="DebugMemoryManager.h">
       <Filter>SourceCodes\F_Editor\Debugs</Filter>
     </ClInclude>
     <ClInclude Include="DebugGrid.h">
@@ -926,6 +926,9 @@
     </ClInclude>
     <ClInclude Include="ScriptComponent.h">
       <Filter>SourceCodes\F_Editor\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="PrototypeEngine.h">
+      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

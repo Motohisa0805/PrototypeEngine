@@ -8,17 +8,6 @@ namespace
 		float f;
 		uint8_t b[4];
 	};
-	/*
-
-	struct Vertex
-	{
-		Vector3 pos;
-		Vector3 normal;
-		Vector2 uv;
-		uint8_t boneIndex[4] = { 0,0,0,0 };
-		float boneWeight[4] = { 0,0,0,0 };
-	};
-	*/
 }
 
 Mesh::Mesh()

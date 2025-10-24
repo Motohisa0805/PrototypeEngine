@@ -1,6 +1,7 @@
 #include "Canvas.h"
-
-
+#include "SceneManager.h"
+#include "WindowRenderProperty.h"
+#include "GUIWinMain.h"
 Canvas::Canvas()
 	:mGame(SceneManager::GetNowScene())
 	, mTitle(nullptr)

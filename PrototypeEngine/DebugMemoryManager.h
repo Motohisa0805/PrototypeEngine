@@ -6,7 +6,7 @@
 #include <stdlib.h>
 
 /*
-* Debug memory management macros
+* プロジェクトのメモリ関係の処理をまとめている
 */
 
 //メモリリークチェックを有効にする

@@ -1,6 +1,5 @@
 #pragma once
-#include "SDOpenLib.h"
-#include "GUIWinMain.h"
+#include "GameApp.h"
 
 enum GameState
 {

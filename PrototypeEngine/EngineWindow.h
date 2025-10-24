@@ -1,12 +1,6 @@
 #pragma once
 #include "Typedefs.h"
-#include "Assimp.h"
-#include "SDOpenLib.h"
-#include "StandardLibrary.h"
-
 #include "GameWinMain.h"
-#include "GUIWinMain.h"
-#include "SceneManager.h"
 
 enum EngineState
 {

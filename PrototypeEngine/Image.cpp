@@ -1,5 +1,5 @@
 ﻿#include "Image.h"
-
+#include "SceneManager.h"
 
 Image::Image(int function)
 	:mGame(SceneManager::GetNowScene())

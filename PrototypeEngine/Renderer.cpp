@@ -18,6 +18,8 @@
 #include "DirectionalLightComponent.h"
 #include "SkyBoxRenderer.h"
 
+#include "AudioSystem.h"
+
 #include "SceneViewEditor.h"
 #include "SceneEditorCamera.h"
 

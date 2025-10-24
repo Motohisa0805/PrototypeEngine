@@ -1,9 +1,7 @@
 ﻿#include "GUIWinMain.h"
+#include "EditorTextureManager.h"
 #include "Renderer.h"
-#include "SceneViewEditor.h"
-#include "ShadowMap.h"
-#include "GBuffer.h"
-
+#include "WindowRenderProperty.h"
 #include "GUIMainMenu.h"
 #include "ToolbarPanel.h"
 #include "GameViewPanel.h"

@@ -30,16 +30,19 @@ namespace StringConverter
 	//指定した文字列を排除する関数
 	inline string RemoveString(const std::string& string, const std::string& removeString)
 	{
-		std::string s;
-		//stringからPath部分だけ取り除く
-		// removeStringが先頭にあるかチェック
-		if (string.find(removeString) == 0) {
-			// Model::ModelPathの長さ分だけ取り除いた文字列を取得
-			s = string.substr(removeString.length());
+		//削除対象が空なら何もしない
+		if (removeString.empty())
+		{
+			return string;
 		}
-		else {
-			//SDL_Log("removeString not found at beginning");
-			return "";
+
+		std::string s = string;
+		size_t pos = string::npos;
+
+		//removeStringが見つからなくなるまで繰り返す
+		while ((pos = s.find(removeString)) != string::npos)
+		{
+			s.erase(pos, removeString.length());
 		}
 		return s;
 	}

@@ -1,4 +1,5 @@
 #include "TitleCanvas.h"
+#include "WindowRenderProperty.h"
 
 TitleCanvas::TitleCanvas()
 	:Canvas()

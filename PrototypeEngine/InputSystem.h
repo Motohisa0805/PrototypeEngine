@@ -2,7 +2,7 @@
 #include "DebugManager.h"
 #include "SDL_Scancode.h"
 #include "Math.h"
-#include "GUIWinMain.h"
+
 /*
 * ===ƒGƒ“ƒWƒ““à•”ˆ—/Engine internal processing===
 */

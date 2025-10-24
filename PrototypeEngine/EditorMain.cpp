@@ -1,8 +1,8 @@
 #include "EngineWindow.h"
-#include "SDL3.h"
 #include <windows.h>
+
 #define DISABLE_DEBUG_NEW // 一時的に無効にして
-#include "Debug_memory.h"
+#include "DebugMemoryManager.h"
 #undef DISABLE_DEBUG_NEW   // すぐに解除
 
 void CurrentDirectorySetting()
@@ -31,15 +31,12 @@ void CurrentDirectorySetting()
 	}
 }
 
-
 //FOCUS : プロジェクトを実行している場所
 //構成マネージャーがDebugなら
 #ifdef _DEBUG
 int main(int argc, char* argv[])
 {
 	CurrentDirectorySetting();
-
-
 	// メモリリーク検出を有効にする
 	EnableMemoryLeakCheck();
 	// エンジンの初期化
@@ -59,8 +56,6 @@ int main(int argc, char* argv[])
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
 	CurrentDirectorySetting();
-
-
 	// メモリリーク検出を有効にする
 	//EnableMemoryLeakCheck();
 	// エンジンの初期化

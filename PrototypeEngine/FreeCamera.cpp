@@ -1,4 +1,5 @@
 #include "FreeCamera.h"
+#include "WindowRenderProperty.h"
 
 FreeCamera::FreeCamera(ActorObject* owner)
 	:BaseCamera(owner)

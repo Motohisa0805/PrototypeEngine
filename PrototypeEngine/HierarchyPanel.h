@@ -2,6 +2,7 @@
 #include "GUIWinMain.h"
 #include "GUIPanel.h"
 
+class ActorObject;
 //ゲームのシーン内のオブジェクトを描画する予定のクラス
 //本格的な描画処理は未実装
 class HierarchyPanel : public GUIPanel

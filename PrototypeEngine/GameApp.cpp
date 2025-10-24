@@ -1,8 +1,6 @@
 #include "GameApp.h"
-
-#include "TitleScene.h"
-#include "DebugScene01.h"
-#include "DebugScene02.h"
+#include "SceneManager.h"
+#include "BaseScene.h"
 
 
 GameApp::GameApp(GameWinMain* main) 
