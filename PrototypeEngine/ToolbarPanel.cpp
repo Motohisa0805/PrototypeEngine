@@ -1,4 +1,5 @@
 #include "ToolbarPanel.h"
+#include "GUIWinMain.h"
 
 ToolbarPanel::ToolbarPanel(Renderer* renderer)
 	:GUIPanel(renderer)

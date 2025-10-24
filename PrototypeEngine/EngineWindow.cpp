@@ -1,8 +1,9 @@
 #include "EngineWindow.h"
-#include "BaseScene.h"
 #include "SceneEditorCamera.h"
+#include "GUIWinMain.h"
 #include "GameViewPanel.h"
-#include "ComponentFactory.h"
+#include "SceneManager.h"
+#include "WindowRenderProperty.h"
 
 EngineState EngineWindow::mEngineState = EngineState::Run;
 

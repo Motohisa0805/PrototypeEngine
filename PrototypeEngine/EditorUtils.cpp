@@ -103,7 +103,7 @@ bool EditorUtils::ReplaceInFile(const filesystem::path& filePath, const string& 
     return true;
 }
 
-bool EditorUtils::AddScriptFileToVcxProj(const string& scriptClassName)
+bool EditorUtils::AddScriptFileToVcxProj(const filesystem::path& path, const string& scriptClassName)
 {
     tinyxml2::XMLDocument doc;
 
@@ -115,9 +115,11 @@ bool EditorUtils::AddScriptFileToVcxProj(const string& scriptClassName)
         return false;
     }
 
+    string rootPath = StringConverter::RemoveString(path.string(), path.filename().string());
+
     // .cpp と .h のパスを構築
-    string cppPath = "..\\" + SCRIPTS_ROOT_PATH + scriptClassName + ".cpp";
-    string hPath = "..\\" + SCRIPTS_ROOT_PATH + scriptClassName + ".h";
+    string cppPath = "..\\" + rootPath + scriptClassName + ".cpp";
+    string hPath = "..\\" + rootPath + scriptClassName + ".h";
     std::replace(cppPath.begin(), cppPath.end(), '/', '\\');
     std::replace(hPath.begin(), hPath.end(), '/', '\\');
 
@@ -179,15 +181,17 @@ bool EditorUtils::AddScriptFileToVcxProj(const string& scriptClassName)
     return true;
 }
 
-bool EditorUtils::RemoveScriptFileToVcxProj(const string& scriptClassName)
+bool EditorUtils::RemoveScriptFileToVcxProj(const filesystem::path& path, const string& scriptClassName)
 {
     tinyxml2::XMLDocument doc;
 
     if (doc.LoadFile(VCXPROJ_PATH.string().c_str()) != tinyxml2::XMLError::XML_SUCCESS)return false;
 
+    string rootPath = StringConverter::RemoveString(path.string(), path.filename().string());
+
     // 削除対象のパスを構築
-    string cppPathToRemove = "..\\" + SCRIPTS_ROOT_PATH + scriptClassName + ".cpp";
-    string hPathToRemove = "..\\" + SCRIPTS_ROOT_PATH + scriptClassName + ".h";
+    string cppPathToRemove = "..\\" + rootPath + scriptClassName + ".cpp";
+    string hPathToRemove = "..\\" + rootPath + scriptClassName + ".h";
     std::replace(cppPathToRemove.begin(), cppPathToRemove.end(), '/', '\\');
     std::replace(hPathToRemove.begin(), hPathToRemove.end(), '/', '\\');
 

@@ -1,6 +1,7 @@
 #include "GameViewPanel.h"
 #include "SceneViewEditor.h"
 #include "GBuffer.h"
+#include "InputSystem.h"
 
 GameViewPanel::GameViewPanel(Renderer* renderer)
 	:GUIPanel(renderer)

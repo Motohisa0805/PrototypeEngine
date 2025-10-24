@@ -2,6 +2,8 @@
 #include "EditorSettingsManager.h"
 #include "SceneSerializer.h"
 #include "SceneManager.h"
+#include "DebugManager.h"
+#include "GUIWinMain.h"
 
 GUIMainMenu::GUIMainMenu(Renderer* renderer)
 	:GUIPanel(renderer)

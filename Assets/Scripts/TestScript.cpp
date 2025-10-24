@@ -17,7 +17,7 @@ void TestScript::Start()
 //Write the update logic for each frame here
 void TestScript::Update(float deltaTime)
 {
-    int i = 0;
+
 }
 
 // ----------------------------------------------------------------

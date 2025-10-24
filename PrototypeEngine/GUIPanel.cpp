@@ -1,5 +1,5 @@
 #include "GUIPanel.h"
-
+#include "WindowRenderProperty.h"
 GUIPanel::GUIPanel(Renderer* renderer)
 	: mRenderer(renderer)
 	, isMouseHovered(false)

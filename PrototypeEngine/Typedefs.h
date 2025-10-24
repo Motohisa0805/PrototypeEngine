@@ -35,6 +35,3 @@ namespace filesystem = std::filesystem;
 
 //実行ファイルから .vcxprojファイルへの相対パス
 const filesystem::path VCXPROJ_PATH = "PrototypeEngine/PrototypeEngine.vcxproj";
-//.vcxprojからスクリプトファイルまでの相対パス(例：Assets/Scripts/)
-//.vcxprojに記述されるパスと同じ形式にしてください
-const string SCRIPTS_ROOT_PATH = "Assets/Scripts/";

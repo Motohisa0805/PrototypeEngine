@@ -1,12 +1,8 @@
 #pragma once
-#include "SDL3.h"
-
-#include "EditorTextureManager.h"
-
 #include "imgui.h"
 #include "imgui_impl_sdl3.h"
 #include "imgui_impl_opengl3.h"
-
+#include "GUIPanel.h"
 //‘O•ûéŒ¾
 //•`‰æƒNƒ‰ƒX
 class Renderer;

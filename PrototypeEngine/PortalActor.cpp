@@ -1,4 +1,5 @@
 #include "PortalActor.h"
+#include "SceneManager.h"
 
 PortalActor::PortalActor()
 	: ActorObject()

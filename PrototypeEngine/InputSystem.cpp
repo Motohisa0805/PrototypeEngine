@@ -1,7 +1,6 @@
 #include "InputSystem.h"
-#include <SDL3/SDL.h>
-#include <cstring>
 #include "EngineWindow.h"
+#include "Renderer.h"
 
 InputState InputSystem::mState;
 

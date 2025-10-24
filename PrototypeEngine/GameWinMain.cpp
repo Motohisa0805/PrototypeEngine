@@ -1,4 +1,6 @@
 #include "GameWinMain.h"
+#include "DebugManager.h"
+#include "Time.h"
 
 // ここで定義（初期値を指定してもOK）
 GameState GameStateClass::mGameState = GameState::GamePlay;

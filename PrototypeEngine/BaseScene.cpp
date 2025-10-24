@@ -3,6 +3,8 @@
 #include "DirectionalLightComponent.h" // DirectionalLightComponent の型を使うために必要
 #include "FreeCamera.h"
 #include "BaseCamera.h"          // BaseCamera の IsMain を使うために必要
+#include "AudioSystem.h"
+#include "PhysWorld.h"
 
 BaseScene::BaseScene()
 	: mAudioSystem(nullptr)
