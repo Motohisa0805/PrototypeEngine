@@ -2,6 +2,8 @@
 #include "EditorSettingsManager.h"
 #include "EditorUtils.h"
 #include "SceneManager.h"
+#include "SceneSerializer.h"
+#include "DebugManager.h"
 
 ProjectPanel::ProjectPanel(Renderer* renderer)
 	:GUIPanel(renderer)

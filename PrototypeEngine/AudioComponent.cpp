@@ -1,6 +1,5 @@
 #include "AudioComponent.h"
 #include "Actor.h"
-#include "BaseScene.h"
 #include "AudioSystem.h"
 
 AudioComponent::AudioComponent(ActorObject* owner, int updateOrder)

@@ -1,5 +1,8 @@
 #include "FPSCanvas.h"
 #include "PauseMenu.h"
+#include "Text.h"
+#include "EngineWindow.h"
+#include "Renderer.h"
 
 FPSCanvas::FPSCanvas()
 	:Canvas()

@@ -1,4 +1,6 @@
 #include "DebugGrid.h"
+#include "Shader.h"
+#include "VertexArray.h"
 
 DebugGrid::DebugGrid(float gridSize, int gridCount)
 	: mGridVAO(nullptr)

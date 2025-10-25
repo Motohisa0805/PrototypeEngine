@@ -2,6 +2,8 @@
 #include "Component.h"
 #include "Actor.h"
 
+//エンジンでは派生クラスとして拡張性がなくなるの廃止予定
+
 //基本的なWASDの移動に対応した機能
 class BasicInputAction : public Component
 {

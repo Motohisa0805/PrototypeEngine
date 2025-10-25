@@ -1,6 +1,8 @@
 #include "SceneEditorCamera.h"
 #include "SceneViewPanel.h"
 #include "WindowRenderProperty.h"
+
+
 SceneEditorCamera::SceneEditorCamera()
 	: mIsViewDirty(false)
 	, mYawSpeed(0.0f)

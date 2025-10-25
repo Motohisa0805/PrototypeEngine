@@ -1,4 +1,5 @@
 #include "CapsuleCollider.h"
+#include "Actor.h"
 
 CapsuleCollider::CapsuleCollider(ActorObject* owner, int updateOrder)
 	: Collider(owner,updateOrder)

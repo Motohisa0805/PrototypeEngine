@@ -1,11 +1,11 @@
 #pragma once
 #include "Actor.h"
-#include "MeshRenderer.h"
-#include "FreeCamera.h"
 
 /*
 * ===エンジン内部処理/Engine internal processing===
 */
+//前方宣言
+class FreeCamera;
 
 // フリーカメラを使用するためのアクター
 // Unityのようにデフォルトで作成可能オブジェクト

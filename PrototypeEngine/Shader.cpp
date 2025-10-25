@@ -1,5 +1,5 @@
 #include "Shader.h"
-
+#include "FilePath.h"
 
 Shader::Shader()
 	: mShaderProgram(0)

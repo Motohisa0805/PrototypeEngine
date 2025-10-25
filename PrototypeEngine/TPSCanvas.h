@@ -1,8 +1,7 @@
 #pragma once
 #include "Canvas.h"
-#include "PhysWorld.h"
-#include "TargetComponent.h"
-#include "Actor.h"
+
+//ƒGƒ“ƒWƒ“‚Å‚Í”h¶ƒNƒ‰ƒX‚Æ‚µ‚ÄŠg’£«‚ª‚È‚­‚È‚é‚Ì”p~—\’è
 
 class TPSCanvas : public Canvas
 {
@@ -47,4 +46,3 @@ public:
 
 	Image*									GetHelthBar() { return mHelthBar; }
 };
-

@@ -1,4 +1,11 @@
 #include "Button.h"
+#include "GameWinMain.h"
+#include "Font.h"
+#include "Text.h"
+#include "Texture.h"
+#include "CallBackManager.h"
+#include "BaseScene.h"
+
 Button::Button(const string& name, Font* font,
 	std::function<void()> onClick,
 	const Vector2& pos, const Vector2& dims)

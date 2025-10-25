@@ -1,9 +1,6 @@
 #pragma once
 #include "Math.h"
 #include "Texture.h"
-#include "Shader.h"
-#include "GameWinMain.h"
-#include "BaseScene.h"
 
 /*
 * ===ƒGƒ“ƒWƒ““à•”ˆ—/Engine internal processing===
@@ -11,7 +8,6 @@
 
 //‘O•ûéŒ¾
 class BaseScene;
-class Texture;
 class Shader;
 
 

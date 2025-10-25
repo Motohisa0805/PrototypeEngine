@@ -1,5 +1,8 @@
 #include "TitleCanvas.h"
 #include "WindowRenderProperty.h"
+#include "Text.h"
+#include "DialogBox.h"
+#include "BaseScene.h"
 
 TitleCanvas::TitleCanvas()
 	:Canvas()

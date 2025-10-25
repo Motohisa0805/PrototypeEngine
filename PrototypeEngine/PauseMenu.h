@@ -1,8 +1,9 @@
 #pragma once
 #include "Canvas.h"
-#include "DialogBox.h"
-#include <SDL3/SDL.h>
 
+//エンジンでは派生クラスとして拡張性がなくなるの廃止予定
+
+class GameDialogBox;
 //書籍元のファイル
 //ポーズUIのクラス
 class PauseMenu : public Canvas

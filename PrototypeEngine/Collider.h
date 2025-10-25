@@ -1,13 +1,12 @@
 #pragma once
 #include "Component.h"
 #include "Collision.h"
-#include "Actor.h"
-#include "BaseScene.h"
-#include "PhysWorld.h"
 
 /*
 * ===エンジン内部処理/Engine internal processing===
 */
+
+class ActorObject;
 
 //コライダーの基底クラス
 //コライダーに必要な情報を持っています。

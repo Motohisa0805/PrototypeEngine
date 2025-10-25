@@ -1,4 +1,8 @@
 #include "BaseScene.h"
+
+#include "EngineWindow.h"
+#include "Renderer.h"
+
 #include "GameFunctions.h"
 #include "DirectionalLightComponent.h" // DirectionalLightComponent ‚ÌŒ^‚ðŽg‚¤‚½‚ß‚É•K—v
 #include "FreeCamera.h"

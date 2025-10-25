@@ -1,8 +1,12 @@
 #pragma once
 #include "BaseScene.h"
-#include "FreeCameraActor.h"
-#include "TitleCanvas.h"
-#include "MeshActor.h"
+
+
+//エンジンでは派生クラスとして拡張性がなくなるの廃止予定
+
+class FreeCameraActor;
+class MeshActor;
+class TitleCanvas;
 
 //タイトルシーンのクラス
 class TitleScene : public BaseScene

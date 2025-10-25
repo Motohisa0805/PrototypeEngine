@@ -1,4 +1,7 @@
 #include "Animator.h"
+#include "FilePath.h"
+#include "Skeleton.h"
+#include "BoneActor.h"
 
 Animator::Animator(ActorObject* owner)
 	: Component(owner)

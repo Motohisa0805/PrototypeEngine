@@ -1,4 +1,9 @@
 #include "CubeActor.h"
+#include "EngineWindow.h"
+#include "Renderer.h"
+#include "MeshRenderer.h"
+#include "BoxCollider.h"
+#include "Mesh.h"
 
 CubeActor::CubeActor()
 	:ActorObject()

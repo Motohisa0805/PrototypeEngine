@@ -3,6 +3,11 @@
 #include "imgui_impl_sdl3.h"
 #include "imgui_impl_opengl3.h"
 
+#include "EngineWindow.h"
+#include "Renderer.h"
+#include "VertexArray.h"
+#include "Texture.h"
+
 MeshRenderer::MeshRenderer(ActorObject* owner, bool isSkeletal)
 	:Component(owner)
 	, mVisible(true)

@@ -1,5 +1,5 @@
 #include "SphereCollider.h"
-
+#include "Actor.h"
 SphereCollider::SphereCollider(ActorObject* owner, int updateOrder)
 	:Collider(owner, updateOrder)
 	, mObjectSphere(Vector3::Zero, 0)

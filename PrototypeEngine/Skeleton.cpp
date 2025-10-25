@@ -1,5 +1,7 @@
 #include "Skeleton.h"
-
+#include "ConvertNumToString.h"
+#include "FilePath.h"
+#include "BoneActor.h"
 
 Skeleton::~Skeleton()
 {
@@ -26,7 +28,7 @@ bool Skeleton::LoadFromSkeletonBin(const string& fileName)
 	std::ifstream in(File_P::BinaryFilePath + name + File_P::BinarySkelPath, std::ios::binary);
 	if (!in)
 	{
-		SDL_Log("Failed to open Skeleton bin: %s", fileName.c_str());
+		Debug::ErrorLog("Failed to open Skeleton bin: %s", fileName.c_str());
 		return false;
 	}
 
@@ -35,7 +37,7 @@ bool Skeleton::LoadFromSkeletonBin(const string& fileName)
 
 	if (boneCount > SkeletonLayout::MAX_SKELETON_BONES)
 	{
-		SDL_Log("Skeleton bin exceeds max bones");
+		Debug::ErrorLog("Skeleton bin exceeds max bones");
 		return false;
 	}
 
@@ -92,7 +94,7 @@ bool Skeleton::LoadFromFBX(const string& fileName)
 	//モデルがあるか確認
 	if (!scene || !scene->HasMeshes()) {
 		//ないならエラーメッセージ
-		SDL_Log("Failed to load FBX: %s", importer.GetErrorString());
+		Debug::ErrorLog("Failed to load FBX: %s", importer.GetErrorString());
 		return false;
 	}
 	//ボーンの初期化
@@ -164,7 +166,7 @@ bool Skeleton::LoadFromFBX(const string& fileName)
 	std::ofstream out(File_P::BinaryFilePath + result + File_P::BinarySkelPath, std::ios::binary);
 	if (!out)
 	{
-		SDL_Log("Failed to open skelbin for writing.");
+		Debug::ErrorLog("Failed to open skelbin for writing.");
 		return false;
 	}
 

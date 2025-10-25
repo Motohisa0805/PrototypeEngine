@@ -1,5 +1,6 @@
 #include "Font.h"
 #include "SceneManager.h"
+#include "BaseScene.h"
 
 Font::Font()
 	:mGame(SceneManager::GetNowScene())

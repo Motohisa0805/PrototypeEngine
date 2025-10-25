@@ -1,14 +1,13 @@
 #pragma once
+#include "Component.h"
 #include "StandardLibrary.h"
 #include "Math.h"
 #include "Collision.h"
-#include "Component.h"
-#include "Actor.h"
-#include "BaseScene.h"
-#include "PhysWorld.h"
 /*
 * ===エンジン内部処理/Engine internal processing===
 */
+
+class ActorObject;
 
 //オブジェクトにコンポーネントして使うRigidbody
 // UnityのRigidbodyに近いクラス
@@ -36,7 +35,7 @@ private:
 	// Rigidbody.h
 	bool		mIsGrounded = false;
 public:
-				Rigidbody(class ActorObject* owner, int updateOrder = 100);
+				Rigidbody(ActorObject* owner, int updateOrder = 100);
 	//FixedUpdateで呼び出す
 	void		FixedUpdate(float deltaTime)override;
 

@@ -1,7 +1,5 @@
 #pragma once
 #include "Typedefs.h"
-#include "Math.h"
-#include "StandardLibrary.h"
 
 
 //AudioSystemに使うbankのパスを管理するクラス

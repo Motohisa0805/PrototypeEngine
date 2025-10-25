@@ -1,5 +1,7 @@
 #include "EditorTextureManager.h"
 #include "DebugManager.h"
+#include "Texture.h"
+#include "Renderer.h"
 
 EditorTextureManager::EditorTextureManager()
 {

@@ -1,4 +1,9 @@
 #include "CapsuleActor.h"
+#include "EngineWindow.h"
+#include "Renderer.h"
+#include "MeshRenderer.h"
+#include "CapsuleCollider.h"
+#include "Mesh.h"
 
 CapsuleActor::CapsuleActor()
 	:ActorObject()

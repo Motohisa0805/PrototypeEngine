@@ -1,4 +1,5 @@
 #include "FollowObjectMovement.h"
+#include "Rigidbody.h"
 
 FollowObjectMovement::FollowObjectMovement(ActorObject* owner, int updateOrder)
 	:Component(owner, updateOrder)

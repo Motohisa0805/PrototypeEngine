@@ -1,10 +1,14 @@
 #pragma once
 #include "BaseScene.h"
 #include "SoundEventClip.h"
-#include "TPSCanvas.h"
-#include "Stages01.h"
+
+
+//エンジンでは派生クラスとして拡張性がなくなるの廃止予定
 
 class TPSPlayer;
+class SoundEventClip;
+class TPSCanvas;
+class Stages01;
 //TPS視点のゲームシーン
 //ゲームの処理をここでまとめて行います。
 // UnityのSceneのようなもの。

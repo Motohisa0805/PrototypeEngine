@@ -1,5 +1,6 @@
 #include "FPSActor.h"
 #include "FPSCanvas.h"
+#include "Rigidbody.h"
 
 FPSActor::FPSActor()
 	:ActorObject()

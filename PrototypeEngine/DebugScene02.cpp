@@ -1,5 +1,7 @@
 #include "DebugScene02.h"
 #include "GameFunctions.h"
+#include "TPSCanvas.h"
+#include "Stages01.h"
 
 DebugScene02::DebugScene02()
 	: mTPSPlayer(nullptr)

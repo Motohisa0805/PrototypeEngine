@@ -1,12 +1,11 @@
 #pragma once
 #include "Actor.h"
-#include "MeshRenderer.h"
-#include "SphereCollider.h"
-#include "Mesh.h"
 
 /*
 * ===エンジン内部処理/Engine internal processing===
 */
+//前方宣言
+class SphereCollider;
 
 //球型のオブジェクト
 //Unityのようにデフォルトで作成可能オブジェクト

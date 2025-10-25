@@ -1,8 +1,8 @@
 #pragma once
-#include "Texture.h"
-#include "Renderer.h"
+
 //前方宣言
 class Renderer;
+class Texture;
 //エンジンで使用するGUI画像を読み込み、保存、解放するクラス
 class EditorTextureManager
 {

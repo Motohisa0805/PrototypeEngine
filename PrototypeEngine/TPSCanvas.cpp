@@ -1,5 +1,9 @@
 #include "TPSCanvas.h"
 #include "PauseMenu.h"
+#include "EngineWindow.h"
+#include "Renderer.h"
+#include "Text.h"
+#include "BaseScene.h"
 
 TPSCanvas::TPSCanvas()
 	: Canvas()

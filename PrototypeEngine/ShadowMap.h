@@ -1,6 +1,6 @@
 #pragma once
-#include "Texture.h"
-#include "WindowRenderProperty.h"
+#include <GL/glew.h>
+#include "Math.h"
 
 //シャドウマッピングのためのクラス
 // フレームバッファオブジェクト(FBO)と深度テクスチャを管理

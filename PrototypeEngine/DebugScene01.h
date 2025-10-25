@@ -1,11 +1,14 @@
 #pragma once
 #include "BaseScene.h"
-#include "FPSCanvas.h"
-#include "Stages00.h"
+#include "SoundEventClip.h"
+
+//エンジンでは派生クラスとして拡張性がなくなるの廃止予定
 
 //前方宣言	
 class FPSActor;
 class PauseMenu;
+class Stages00;
+class FPSCanvas;
 
 //通常のモデルなどを生成しているゲームシーン
 //FPS視点のゲームシーン

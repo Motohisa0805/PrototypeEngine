@@ -2,6 +2,7 @@
 #include "Component.h"
 #include "Shader.h"
 #include "Actor.h"
+#include "Renderer.h"
 
 //ŠÂ‹«Œõ‚Ì‹@”\
 class DirectionalLightComponent : public Component

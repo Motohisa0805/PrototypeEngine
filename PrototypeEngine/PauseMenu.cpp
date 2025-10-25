@@ -1,5 +1,7 @@
 #include "PauseMenu.h"
-
+#include "Text.h"
+#include "DialogBox.h"
+#include "BaseScene.h"
 
 PauseMenu::PauseMenu()
 	:Canvas()

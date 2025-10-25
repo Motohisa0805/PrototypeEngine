@@ -1,13 +1,11 @@
 #pragma once
 #include "Actor.h"
-#include "MeshRenderer.h"
-#include "BoxCollider.h"
-#include "PushButtonMove.h"
-#include "Mesh.h"
 
 /*
 * ===エンジン内部処理/Engine internal processing===
 */
+
+class BoxCollider;
 
 //箱型のオブジェクト
 //Unityのようにデフォルトで作成可能オブジェクト

@@ -1,5 +1,6 @@
 #include "OrbitActor.h"
-
+#include "EngineWindow.h"
+#include "Renderer.h"
 
 OrbitActor::OrbitActor()
 	:ActorObject()

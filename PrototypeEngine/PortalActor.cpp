@@ -1,5 +1,7 @@
 #include "PortalActor.h"
 #include "SceneManager.h"
+#include "EngineWindow.h"
+#include "Renderer.h"
 
 PortalActor::PortalActor()
 	: ActorObject()

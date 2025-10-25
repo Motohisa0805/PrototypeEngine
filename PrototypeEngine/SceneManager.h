@@ -1,6 +1,6 @@
 #pragma once
-#include "StandardLibrary.h"
-#include "SceneSerializer.h"
+#include "Typedefs.h"
+
 /*
 * ===ƒGƒ“ƒWƒ““à•”ˆ—/Engine internal processing===
 */

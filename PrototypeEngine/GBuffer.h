@@ -1,5 +1,7 @@
 #pragma once
-#include "Texture.h"
+#include "Math.h"
+#include "Typedefs.h"
+#include <GL/glew.h>
 
 /*
 * ===ƒGƒ“ƒWƒ““à•”ˆ—/Engine internal processing===

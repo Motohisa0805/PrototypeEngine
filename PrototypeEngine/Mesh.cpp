@@ -1,5 +1,9 @@
 #include "Mesh.h"
 #include "Shader.h"
+#include "Renderer.h"
+#include "Texture.h"
+#include "VertexArray.h"
+#include "FilePath.h"
 
 namespace
 {

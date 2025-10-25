@@ -1,4 +1,5 @@
 ﻿#include "ShadowMap.h"
+#include "WindowRenderProperty.h"
 
 ShadowMap::ShadowMap()
     : mFBO(0)

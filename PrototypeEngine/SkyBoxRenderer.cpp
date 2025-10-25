@@ -1,4 +1,8 @@
 #include "SkyBoxRenderer.h"
+#include "VertexArray.h"
+#include "Texture.h"
+#include "Shader.h"
+#include "GameWinMain.h"
 
 SkyBoxRenderer::SkyBoxRenderer()
     : mTexture(nullptr)

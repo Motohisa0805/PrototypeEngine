@@ -1,5 +1,6 @@
 #include "Animation.h"
 #include "Skeleton.h"
+#include "FilePath.h"
 
 Animation::Animation(Skeleton* skeleton)
 	:mSkeleton(skeleton)

@@ -1,7 +1,11 @@
 #include "Actor.h"
+#include "Collider.h"
+#include "Rigidbody.h"
 #include "SceneManager.h"
 #include "MeshRenderer.h"
 #include "BoxCollider.h"
+#include "ComponentFactory.h"
+#include "ScriptComponent.h"
 
 ActorObject::ActorObject()
 	: Transform()

@@ -4,6 +4,7 @@
 #include "GameViewPanel.h"
 #include "SceneManager.h"
 #include "WindowRenderProperty.h"
+#include "ComponentFactory.h"
 
 EngineState EngineWindow::mEngineState = EngineState::Run;
 

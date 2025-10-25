@@ -1,5 +1,6 @@
 ﻿#include "FollowCamera.h"
 #include "WindowRenderProperty.h"
+#include "Time.h"
 
 FollowCamera::FollowCamera(ActorObject* owner)
 	:BaseCamera(owner)
