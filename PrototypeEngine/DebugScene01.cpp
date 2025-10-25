@@ -1,5 +1,7 @@
 #include "DebugScene01.h"
 #include "GameFunctions.h"
+#include "FPSCanvas.h"
+#include "Stages00.h"
 
 DebugScene01::DebugScene01()
 	: mFPSActor(nullptr)

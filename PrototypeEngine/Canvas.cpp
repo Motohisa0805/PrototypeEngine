@@ -2,6 +2,16 @@
 #include "SceneManager.h"
 #include "WindowRenderProperty.h"
 #include "GUIWinMain.h"
+#include "Texture.h"
+#include "Shader.h"
+#include "GameWinMain.h"
+#include "Font.h"
+#include "Image.h"
+#include "Text.h"
+#include "Button.h"
+#include "BaseScene.h"
+
+
 Canvas::Canvas()
 	:mGame(SceneManager::GetNowScene())
 	, mTitle(nullptr)

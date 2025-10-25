@@ -1,6 +1,10 @@
 #pragma once
 #include "Canvas.h"
-#include "DialogBox.h"
+
+//ƒGƒ“ƒWƒ“‚Å‚Í”h¶ƒNƒ‰ƒX‚Æ‚µ‚ÄŠg’£«‚ª‚È‚­‚È‚é‚Ì”p~—\’è
+
+//‘O•ûéŒ¾
+class GameDialogBox;
 
 class TitleCanvas : public Canvas
 {

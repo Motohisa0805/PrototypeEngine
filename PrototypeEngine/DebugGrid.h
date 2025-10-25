@@ -1,7 +1,8 @@
 #pragma once
-#include "StandardLibrary.h"
-#include "Shader.h"
-#include "VertexArray.h"
+#include "Typedefs.h"
+#include "Math.h"
+class VertexArray;
+class Shader;
 
 //グリッドを描画するクラス
 class DebugGrid

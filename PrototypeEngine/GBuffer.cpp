@@ -1,4 +1,5 @@
 #include "GBuffer.h"
+#include "Texture.h"
 
 GBuffer::GBuffer()
 	:mBufferID(0)

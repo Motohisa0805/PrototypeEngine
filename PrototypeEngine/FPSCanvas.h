@@ -5,6 +5,8 @@
 #include "Actor.h"
 #include "TargetComponentSystem.h"
 
+//エンジンでは派生クラスとして拡張性がなくなるの廃止予定
+
 //ゲーム上のUIをまとめて処理するクラス
 class FPSCanvas : public Canvas
 {

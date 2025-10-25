@@ -1,18 +1,15 @@
 #pragma once
 #include "Math.h"
-#include "Texture.h"
-#include "Shader.h"
-#include "GameWinMain.h"
-#include "Font.h"
-#include "Image.h"
-#include "Text.h"
-
-#include "Button.h"
+#include "Typedefs.h"
 /*
 * ===エンジン内部処理/Engine internal processing===
 */
-
+class Texture;
 class Shader;
+class Font;
+class Image;
+class Text;
+class Button;
 
 //ポーズ、ダイアログなどのUIの基底クラス
 // UnityのCanvasに近いクラス

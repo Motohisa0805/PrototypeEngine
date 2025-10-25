@@ -1,10 +1,11 @@
 #pragma once
 #include "BaseCamera.h"
-#include "Actor.h"
 
 /*
 * ===エンジン内部処理/Engine internal processing===
 */
+
+class ActorObject;
 
 //書籍部分のファイル
 struct Spline

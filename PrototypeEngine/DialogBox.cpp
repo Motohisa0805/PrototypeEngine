@@ -1,4 +1,6 @@
 #include "DialogBox.h"
+#include "Text.h"
+#include "BaseScene.h"
 
 GameDialogBox::GameDialogBox(const string& text,
 	std::function<void()> onOK)

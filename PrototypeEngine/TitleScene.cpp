@@ -1,4 +1,9 @@
 #include "TitleScene.h"
+#include "BaseCamera.h"
+#include "FreeCameraActor.h"
+#include "FreeCamera.h"
+#include "TitleCanvas.h"
+#include "MeshActor.h"
 
 TitleScene::TitleScene()
 	: mDebugStage(nullptr)

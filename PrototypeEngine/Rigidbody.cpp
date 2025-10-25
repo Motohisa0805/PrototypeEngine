@@ -1,4 +1,7 @@
 #include "Rigidbody.h"
+#include "Actor.h"
+#include "BaseScene.h"
+#include "PhysWorld.h"
 
 Rigidbody::Rigidbody(ActorObject* owner, int updateOrder)
 	: Component(owner)

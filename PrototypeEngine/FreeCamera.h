@@ -1,10 +1,11 @@
 #pragma once
 #include "BaseCamera.h"
-#include "Actor.h"
 
 /*
 * ===エンジン内部処理/Engine internal processing===
 */
+
+class ActorObject;
 
 //指定した方向を映すカメラ
 //FreeCameraは、ユーザーが自由にカメラの位置と向きを制御できるカメラです。

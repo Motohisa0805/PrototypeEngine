@@ -1,6 +1,6 @@
 #include "InspectorPanel.h"
 #include "HierarchyPanel.h"//GetSelectedActor()を使うために必要
-
+#include "ComponentFactory.h"
 #include "Actor.h"
 #include "Math.h"//Vector3,Quaternionを使うために必要
 

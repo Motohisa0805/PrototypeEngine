@@ -1,11 +1,6 @@
 #pragma once
-#include "Math.h"
-#include "Texture.h"
-#include "Shader.h"
-#include "GameWinMain.h"
-#include "Font.h"
 #include "Image.h"
-#include "Text.h"
+#include "Math.h"
 #include "CallBackManager.h"
 /*
 * ===エンジン内部処理/Engine internal processing===
@@ -13,7 +8,7 @@
 
 //前方宣言
 class Text;
-
+class Texture;
 class Font;
 
 //書籍元を改造したファイル

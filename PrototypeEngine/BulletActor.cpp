@@ -1,4 +1,5 @@
 #include "BulletActor.h"
+#include "Rigidbody.h"
 
 BulletActor::BulletActor(Vector3 powerDir, Vector3 position)
 	:ActorObject()

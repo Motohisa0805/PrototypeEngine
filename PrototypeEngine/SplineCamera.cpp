@@ -1,4 +1,5 @@
 #include "SplineCamera.h"
+#include "Actor.h"
 
 Vector3 Spline::Compute(size_t startIdx, float t) const
 {

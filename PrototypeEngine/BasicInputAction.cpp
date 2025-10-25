@@ -1,5 +1,5 @@
 #include "BasicInputAction.h"
-
+#include "Rigidbody.h"
 BasicInputAction::BasicInputAction(ActorObject* owner, int updateOrder)
 	:Component(owner, updateOrder)
 	, mForwardSpeed(0.0f)

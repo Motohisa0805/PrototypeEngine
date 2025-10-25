@@ -3,6 +3,8 @@
 #include "Actor.h"
 #include "BaseCamera.h"
 
+//エンジンでは派生クラスとして拡張性がなくなるの廃止予定
+
 //三人称用のオブジェクトの移動処理
 class FollowObjectMovement : public Component
 {

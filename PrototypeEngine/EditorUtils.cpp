@@ -1,5 +1,6 @@
 #include "EditorUtils.h"
-
+#include "DebugManager.h"
+#include "ConvertNumToString.h"
 
 EditorUtils::EditorUtils()
 {

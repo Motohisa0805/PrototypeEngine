@@ -1,5 +1,7 @@
 #include "Collider.h"
-
+#include "Actor.h"
+#include "BaseScene.h"
+#include "PhysWorld.h"
 
 Collider::Collider(ActorObject* owner, int updateOrder)
 	:Component(owner,updateOrder)

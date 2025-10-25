@@ -1,7 +1,6 @@
 ﻿#pragma once
 #include <cstdint>
 #include "Typedefs.h"
-#include "ComponentFactory.h"
 /*
 * ===エンジン内部処理/Engine internal processing===
 */

@@ -2,10 +2,6 @@
 #include "SDL3.h"
 #include "Assimp.h"
 #include "Collision.h"
-#include "Renderer.h"
-#include "Texture.h"
-#include "VertexArray.h"
-#include "FilePath.h"
 
 /*
 * ===ƒGƒ“ƒWƒ““à•”ˆ—/Engine internal processing===

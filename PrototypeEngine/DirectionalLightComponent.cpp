@@ -1,4 +1,6 @@
 ﻿#include "DirectionalLightComponent.h"
+#include "EngineWindow.h"
+#include "Renderer.h"
 
 DirectionalLightComponent::DirectionalLightComponent(ActorObject* owner)
 	: Component(owner)

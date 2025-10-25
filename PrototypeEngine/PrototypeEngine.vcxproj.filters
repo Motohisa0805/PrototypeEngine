@@ -928,7 +928,7 @@
       <Filter>SourceCodes\F_Editor\Components</Filter>
     </ClInclude>
     <ClInclude Include="PrototypeEngine.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>SourceCodes\F_Editor\Libs</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

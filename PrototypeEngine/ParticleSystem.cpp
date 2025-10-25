@@ -1,4 +1,6 @@
 #include "ParticleSystem.h"
+#include "EngineWindow.h"
+#include "Renderer.h"
 
 ParticleSystem::ParticleSystem(ActorObject* owner)
 	: Component(owner)

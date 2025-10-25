@@ -1,5 +1,10 @@
 ﻿#include "Image.h"
 #include "SceneManager.h"
+#include "EngineWindow.h"
+#include "Renderer.h"
+#include "Texture.h"
+#include "Shader.h"
+#include "BaseScene.h"
 
 Image::Image(int function)
 	:mGame(SceneManager::GetNowScene())

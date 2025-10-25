@@ -1,7 +1,7 @@
 #pragma once
 #include "Actor.h"
-#include "DirectionalLightComponent.h"
 
+class DirectionalLightComponent;
 //環境光のオブジェクト
 //Unityと同じように回転量で明るさが変わる
 class DirectionalLightActor : public ActorObject

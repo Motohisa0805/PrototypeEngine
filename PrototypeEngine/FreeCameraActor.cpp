@@ -1,4 +1,5 @@
 #include "FreeCameraActor.h"
+#include "FreeCamera.h"
 
 FreeCameraActor::FreeCameraActor()
 	:ActorObject()

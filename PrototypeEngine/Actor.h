@@ -1,12 +1,6 @@
 #pragma once
 #include "BaseScene.h"
-#include "Collider.h"
-#include "Rigidbody.h"
 #include "Transform.h"
-#include "VertexArray.h"
-#include "Shader.h"
-#include "ComponentFactory.h"
-#include "ScriptComponent.h"
 /*
 * ===エンジン内部処理/Engine internal processing===
 */
@@ -22,6 +16,7 @@ enum ActorTag
 
 //前方宣言
 class Rigidbody;
+class Collider;
 //全3Dモデルの基底クラス
 class ActorObject : public Transform
 {

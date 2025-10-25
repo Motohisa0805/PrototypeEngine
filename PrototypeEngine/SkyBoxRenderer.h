@@ -1,14 +1,12 @@
 #pragma once
 #include "Math.h"
-#include "Texture.h"
-#include "Shader.h"
-#include "GameWinMain.h"
-#include "BaseScene.h"
+#include "Typedefs.h"
 
 #define SKYBOXVERTEX_COUNT 36
 
 class Texture;
 class VertexArray;
+class Shader;
 
 //スカイボックスを描画するクラス
 // Cubemapを使って立方体のメッシュを描画する

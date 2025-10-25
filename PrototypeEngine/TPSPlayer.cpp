@@ -1,4 +1,6 @@
 #include "TPSPlayer.h"
+#include "Rigidbody.h"
+#include "PhysWorld.h"
 
 TPSPlayer::TPSPlayer()
 	:ActorObject()

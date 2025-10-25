@@ -17,13 +17,12 @@
 #include "DebugGrid.h"
 #include "DirectionalLightComponent.h"
 #include "SkyBoxRenderer.h"
-
 #include "AudioSystem.h"
-
 #include "SceneViewEditor.h"
 #include "SceneEditorCamera.h"
-
 #include "HierarchyPanel.h"
+#include "GameWinMain.h"
+#include "EngineWindow.h"
 
 Renderer::Renderer()
 	: mNowScene(nullptr)

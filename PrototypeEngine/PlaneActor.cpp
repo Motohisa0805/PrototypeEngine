@@ -1,4 +1,9 @@
 #include "PlaneActor.h"
+#include "EngineWindow.h"
+#include "Renderer.h"
+#include "MeshRenderer.h"
+#include "BoxCollider.h"
+#include "Mesh.h"
 
 PlaneActor::PlaneActor()
 	:ActorObject()

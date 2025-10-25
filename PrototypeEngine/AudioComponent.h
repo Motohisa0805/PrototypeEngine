@@ -1,8 +1,7 @@
 #pragma once
 #include "Component.h"
 #include "SoundEventClip.h"
-#include <vector>
-#include <string>
+#include "Typedefs.h"
 
 /*
 * ===ƒGƒ“ƒWƒ““à•”ˆ—/Engine internal processing===

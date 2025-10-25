@@ -1,4 +1,6 @@
 #include "MeshActor.h"
+#include "EngineWindow.h"
+#include "Renderer.h"
 
 MeshActor::MeshActor()
 	: ActorObject()

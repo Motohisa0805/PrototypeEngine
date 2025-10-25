@@ -1,5 +1,6 @@
 #include "FPSCamera.h"
 #include "WindowRenderProperty.h"
+#include "Actor.h"
 
 FPSCamera::FPSCamera(ActorObject* owner)
 	:BaseCamera(owner)

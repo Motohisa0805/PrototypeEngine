@@ -1,4 +1,6 @@
 #include "GunActor.h"
+#include "EngineWindow.h"
+#include "Renderer.h"
 
 GunActor::GunActor()
 	:ActorObject()

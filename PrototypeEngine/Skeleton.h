@@ -1,16 +1,13 @@
 #pragma once
 #include "BoneTransform.h"
-#include "BoneActor.h"
+#include "Typedefs.h"
 #include "Assimp.h"
 #include "MatrixPalette.h"
-#include <GL/glew.h>
-#include "Actor.h"
+
 
 /*
 * ===エンジン内部処理/Engine internal processing===
 */
-
-//書籍元を改造したファイル
 
 //スケルトンのバイナリデータ構造体
 struct SkeletonBinBone
@@ -28,6 +25,10 @@ struct SkeletonBinBone
 	// バインドポーズのスケール（オプション）
 	Vector3		scale;            
 };
+
+class BoneTransform;
+class BoneActor;
+
 //スケルタルメッシュの骨格を管理するクラス
 class Skeleton
 {

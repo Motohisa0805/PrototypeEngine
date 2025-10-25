@@ -1,8 +1,6 @@
 #pragma once
-
 #include "Math.h"
 #include "Texture.h"
-#include "BaseScene.h"
 
 /*
 * ===ƒGƒ“ƒWƒ““à•”ˆ—/Engine internal processing===

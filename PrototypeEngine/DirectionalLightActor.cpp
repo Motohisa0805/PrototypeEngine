@@ -1,4 +1,5 @@
 #include "DirectionalLightActor.h"
+#include "DirectionalLightComponent.h"
 
 DirectionalLightActor::DirectionalLightActor()
 	: ActorObject()
