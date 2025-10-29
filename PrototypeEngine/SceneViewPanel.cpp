@@ -13,6 +13,7 @@ void SceneViewPanel::Initialize(float width, float height, ImTextureRef ref)
 	mHeightPos = 55.0f;
 	mWidthSize = (width * 0.5f) - mWidthPos;
 	mHeightSize = (height * 0.5f) - mHeightPos;
+	GUIPanel::Initialize(width, height, ref);
 }
 
 bool SceneViewPanel::MouseHoveredDisble()

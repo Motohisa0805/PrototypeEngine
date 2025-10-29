@@ -14,6 +14,7 @@ void GameViewPanel::Initialize(float width, float height, ImTextureRef ref)
 	mHeightPos = height * 0.5f;
 	mWidthSize = width * 0.5f;
 	mHeightSize = height * 0.5f;
+	GUIPanel::Initialize(width, height, ref);
 }
 
 void GameViewPanel::Draw(float width, float height, ImTextureRef ref)

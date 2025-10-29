@@ -17,7 +17,7 @@ void ToolbarPanel::Initialize(float width, float height, ImTextureRef ref)
 	mHeightPos = 25.0f; // メニューバーの下から開始
 	mWidthSize = width;
 	mHeightSize = 25.0f;
-
+	GUIPanel::Initialize(width, height, ref);
 	
 }
 

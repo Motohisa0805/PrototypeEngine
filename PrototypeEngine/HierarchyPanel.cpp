@@ -22,6 +22,7 @@ void HierarchyPanel::Initialize(float width, float height, ImTextureRef ref)
 	mHeightPos = 55.0f;
 	mWidthSize = width * 0.15f;
 	mHeightSize = height - 55.0f;
+	GUIPanel::Initialize(width, height, ref);
 }
 
 void HierarchyPanel::Draw(float width, float height, ImTextureRef ref)

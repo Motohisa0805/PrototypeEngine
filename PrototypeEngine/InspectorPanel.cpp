@@ -22,6 +22,7 @@ void InspectorPanel::Initialize(float width, float height, ImTextureRef ref)
 	mHeightPos = 55.0f;
 	mWidthSize = width * 0.2f;
 	mHeightSize = height - 55.0f;
+	GUIPanel::Initialize(width, height, ref);
 }
 
 void InspectorPanel::Draw(float width, float height, ImTextureRef ref)
@@ -72,7 +73,7 @@ void InspectorPanel::Draw(float width, float height, ImTextureRef ref)
 			Component* compToDelete = nullptr;
 			for (Component* comp : components)
 			{
-				
+				comp->InitializeDrawCustomGUI();
 				// 各コンポーネントのプロパティ編集UI
 				if (ImGui::CollapsingHeader(comp->GetName().c_str(), ImGuiTreeNodeFlags_DefaultOpen))
 				{
@@ -103,6 +104,7 @@ void InspectorPanel::Draw(float width, float height, ImTextureRef ref)
 					ImGui::PopID(); // IDスタックから comp のアドレスを削除
 
 				}
+				comp->EndDrawCustomGUI();
 			}
 			ImGui::Separator();
 

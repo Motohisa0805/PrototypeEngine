@@ -4,7 +4,7 @@
 
 EditorUtils::EditorUtils()
 {
-
+    mVcxppoj_Path = "GameScripts/GameScripts.vcxproj";
 }
 
 bool EditorUtils::CreateScriptFile(const std::filesystem::path& folderPath, const std::string& scriptName)
@@ -110,9 +110,9 @@ bool EditorUtils::AddScriptFileToVcxProj(const filesystem::path& path, const str
 
     //1.XMLファイルをロード
     //stringのパスをC文字列(const char*)に変換して渡す
-    if (doc.LoadFile(VCXPROJ_PATH.string().c_str()) != tinyxml2::XMLError::XML_SUCCESS)
+    if (doc.LoadFile(mVcxppoj_Path.string().c_str()) != tinyxml2::XMLError::XML_SUCCESS)
     {
-        Debug::Log("Error loading vcxproj file: %s\n", VCXPROJ_PATH.string().c_str());
+        Debug::Log("Error loading vcxproj file: %s\n", mVcxppoj_Path.string().c_str());
         return false;
     }
 
@@ -174,7 +174,7 @@ bool EditorUtils::AddScriptFileToVcxProj(const filesystem::path& path, const str
 
 
     // 3. 変更をファイルに保存
-    if (doc.SaveFile(VCXPROJ_PATH.string().c_str()) != tinyxml2::XML_SUCCESS)
+    if (doc.SaveFile(mVcxppoj_Path.string().c_str()) != tinyxml2::XML_SUCCESS)
     {
         return false;
     }
@@ -186,7 +186,7 @@ bool EditorUtils::RemoveScriptFileToVcxProj(const filesystem::path& path, const 
 {
     tinyxml2::XMLDocument doc;
 
-    if (doc.LoadFile(VCXPROJ_PATH.string().c_str()) != tinyxml2::XMLError::XML_SUCCESS)return false;
+    if (doc.LoadFile(mVcxppoj_Path.string().c_str()) != tinyxml2::XMLError::XML_SUCCESS)return false;
 
     string rootPath = StringConverter::RemoveString(path.string(), path.filename().string());
 
@@ -237,7 +237,7 @@ bool EditorUtils::RemoveScriptFileToVcxProj(const filesystem::path& path, const 
 
     if (changed) 
     {
-        doc.SaveFile(VCXPROJ_PATH.string().c_str());
+        doc.SaveFile(mVcxppoj_Path.string().c_str());
     }
     return true;
 }

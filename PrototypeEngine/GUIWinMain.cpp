@@ -50,6 +50,18 @@ bool GUIWinMain::InitializeImGui(SDL_Window* window, SDL_GLContext glContext)
 	ImGui_ImplSDL3_InitForOpenGL(window, glContext);
 	ImGui_ImplOpenGL3_Init("#version 330");
 
+	//GUI用のフォントを読み込む
+	//フォントパス(Libraryフォルダーにアクセス)
+	string fontpath = "Library/Noto_Sans_JP/static/NotoSansJP-Bold.ttf";
+	//ImGuiのフォントクラスを参照
+	ImGuiIO& io = ImGui::GetIO();
+	//新しいフォントを読み込み
+	ImFont* font = io.Fonts->AddFontFromFileTTF(fontpath.c_str(), 20.0f);
+	if (font)
+	{
+		io.FontDefault = font;
+	}
+
 	int windowWidth = WindowRenderProperty::GetWidth();
 	int windowHeight = WindowRenderProperty::GetHeight();
 
@@ -90,9 +102,6 @@ void GUIWinMain::UpdateImGuiState()
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplSDL3_NewFrame();
 	ImGui::NewFrame();
-
-	//  デモウィンドウの描画
-	ImGui::ShowDemoWindow();
 }
 
 void GUIWinMain::ResetPointer()

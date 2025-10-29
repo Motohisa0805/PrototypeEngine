@@ -5,7 +5,8 @@ class EditorUtils
 {
 private:
 	EditorUtils();
-
+	//実行ファイルから .vcxprojファイルへの相対パス
+	filesystem::path mVcxppoj_Path;
 public:
 	static EditorUtils& GetInstance()
 	{
@@ -16,6 +17,9 @@ public:
 	//コピーコンストラクタと代入演算子を削除
 	EditorUtils(const EditorUtils&) = delete;
 	EditorUtils& operator = (const EditorUtils&) = delete;
+
+
+	filesystem::path GetVcxppoj_Path() { return mVcxppoj_Path; }
 
 	//スクリプトファイルを生成
 	bool CreateScriptFile(const std::filesystem::path& folderPath, const std::string& scriptName);

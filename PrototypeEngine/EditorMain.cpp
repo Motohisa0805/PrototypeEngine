@@ -31,9 +31,27 @@ void CurrentDirectorySetting()
 	}
 }
 
+
+int RunPrototypeEngine()
+{
+	CurrentDirectorySetting();
+	// メモリリーク検出を有効にする
+	EnableMemoryLeakCheck();
+	// エンジンの初期化
+	EngineWindow engine;
+	bool success = engine.EngineInitialize();
+	if (success)
+	{
+		engine.EngineRunLoop();
+	}
+	engine.EngineShutdown();
+	return 0;
+}
+
 //FOCUS : プロジェクトを実行している場所
 //構成マネージャーがDebugなら
 #ifdef _DEBUG
+/*
 int main(int argc, char* argv[])
 {
 	CurrentDirectorySetting();
@@ -49,6 +67,7 @@ int main(int argc, char* argv[])
 	engine.EngineShutdown();
 	return 0;
 }
+*/
 // プロジェクトの実行場所がReleaseなら
 #elif defined(_RELEASE)
 #define SDL_MAIN_HANDLED

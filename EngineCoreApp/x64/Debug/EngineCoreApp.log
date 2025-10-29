@@ -1,0 +1,10 @@
+﻿  SOIL.lib(SOIL.obj) : MSIL .netmodule または /GL を伴ってコンパイルされたモジュールが見つかりました。/LTCG を使用して再開始してください。リンカーのパフォーマンスを向上させるためには、コマンドラインに /LTCG を追加してください。
+LINK : warning LNK4075: /INCREMENTAL は /LTCG の指定によって無視されます。
+MSVCRTD.lib(initializers.obj) : warning LNK4098: defaultlib 'msvcrt.lib' は他のライブラリの使用と競合しています。/NODEFAULTLIB:library を使用してください。
+  コード生成しています。
+  コード生成が終了しました。
+SOIL.lib(SOIL.obj) : warning LNK4099: PDB 'SOIL.pdb' が 'SOIL.lib(SOIL.obj)' で、または 'C:\C++Files\PrototypeEngine\bin\SOIL.pdb' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+SOIL.lib(image_helper.obj) : warning LNK4099: PDB 'SOIL.pdb' が 'SOIL.lib(image_helper.obj)' で、または 'C:\C++Files\PrototypeEngine\bin\SOIL.pdb' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+SOIL.lib(stb_image_aug.obj) : warning LNK4099: PDB 'SOIL.pdb' が 'SOIL.lib(stb_image_aug.obj)' で、または 'C:\C++Files\PrototypeEngine\bin\SOIL.pdb' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+SOIL.lib(image_DXT.obj) : warning LNK4099: PDB 'SOIL.pdb' が 'SOIL.lib(image_DXT.obj)' で、または 'C:\C++Files\PrototypeEngine\bin\SOIL.pdb' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+  EngineCoreApp.vcxproj -> C:\C++Files\PrototypeEngine\bin\PrototypeEngine.exe
