@@ -9,6 +9,9 @@ Component::Component(ActorObject* owner, int updateOrder)
 	, mUpdateOrder(updateOrder)
 	, mGame(owner->GetGame())
 	, mName("Component")
+	, mHeaderColor(0.20f, 0.20f, 0.20f, 1.00f)
+	, mHeaderHoveredColor(0.26f, 0.59f, 0.98f, 0.65f)
+	, mHeaderActiveColor(0.26f, 0.59f, 0.98f, 1.00f)
 {
 	mOwner->SetDirty();
 }
@@ -39,6 +42,13 @@ void Component::FixedUpdate(float deltaTime)
 
 void Component::Update(float deltaTime)
 {
+}
+
+void Component::InitializeDrawCustomGUI()
+{
+    ImGui::PushStyleColor(ImGuiCol_Header, ImVec4(mHeaderColor.x, mHeaderColor.y, mHeaderColor.z, mHeaderColor.w));//通常時
+	ImGui::PushStyleColor(ImGuiCol_HeaderHovered, ImVec4(mHeaderHoveredColor.x, mHeaderHoveredColor.y, mHeaderHoveredColor.z, mHeaderHoveredColor.w));	//ホバー時
+	ImGui::PushStyleColor(ImGuiCol_HeaderActive, ImVec4(mHeaderActiveColor.x, mHeaderActiveColor.y, mHeaderActiveColor.z, mHeaderActiveColor.w));	//展開時
 }
 
 void Component::DrawCustomGUI(const std::vector<PropertyInfo>& properties)
@@ -74,6 +84,11 @@ void Component::DrawCustomGUI(const std::vector<PropertyInfo>& properties)
 			break;
 		}
 	}
+}
+
+void Component::EndDrawCustomGUI()
+{
+	ImGui::PopStyleColor(3);
 }
 
 void Component::DrawFloatProperty(const PropertyInfo& prop)

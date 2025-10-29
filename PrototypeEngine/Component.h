@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include <cstdint>
+#include "Math.h"
 #include "Typedefs.h"
 /*
 * ===エンジン内部処理/Engine internal processing===
@@ -68,14 +69,16 @@ class Component
 {
 protected:
 	// コンポーネント元のオブジェクト
-	ActorObject* mOwner;
-	BaseScene* mGame;
+	ActorObject*		mOwner;
+	BaseScene*			mGame;
 	// コンポーネントの順序を更新する
 	int					mUpdateOrder;
 
 	string				mName;
 
-	float				mTest = 0;
+	Vector4				mHeaderColor;
+	Vector4				mHeaderHoveredColor;
+	Vector4				mHeaderActiveColor;
 public:
 	// コンストラクタ
 	// （更新順序が低いほど、コンポーネントが早く更新される）
@@ -100,8 +103,10 @@ public:
 	virtual void		ProcessInput(const struct InputState& keyState) {}
 	// 世界の変化によって呼び出される
 	virtual void		OnUpdateWorldTransform() {}
+	virtual void		InitializeDrawCustomGUI();
 	// GUI描画関数
 	virtual void		DrawCustomGUI(const std::vector<PropertyInfo>& properties);
+	virtual void		EndDrawCustomGUI();
 
 	//DrawCustomGUIないの動的アクセスに使用するポインタ取得マクロ
 	//baseポインタとオフセットを使って、メンバ変数へのポインタを計算する

@@ -9,6 +9,7 @@ GUIPanel::GUIPanel(Renderer* renderer)
 
 void GUIPanel::Initialize(float width, float height, ImTextureRef ref)
 {
+	SetPanelColorTheme();
 }
 
 void GUIPanel::ResetLayoutFunction()
@@ -25,6 +26,44 @@ void GUIPanel::ResetLayoutFunction()
 		ImGui::SetNextWindowPos(ImVec2(mWidthPos, mHeightPos), ImGuiCond_Once);
 		ImGui::SetNextWindowSize(ImVec2(mWidthSize, mHeightSize), ImGuiCond_Once);
 	}
+}
+
+void GUIPanel::SetPanelColorTheme()
+{
+	ImGuiStyle& style = ImGui::GetStyle();
+	ImVec4* colors = style.Colors;
+
+
+	//全体の背景と基本要素
+	colors[ImGuiCol_WindowBg] = ImVec4(0.19f, 0.19f, 0.19f, 1.00f);//パネル背景
+	colors[ImGuiCol_Text] = ImVec4(0.90f, 0.90f, 0.90f, 1.00f);//パネル背景
+	colors[ImGuiCol_Border] = ImVec4(0.10f, 0.10f, 0.10f, 1.00f);//パネル背景
+	colors[ImGuiCol_FrameBg] = ImVec4(0.20f, 0.20f, 0.20f, 1.00f);//パネル背景
+	colors[ImGuiCol_FrameBgHovered] = ImVec4(0.29f, 0.29f, 0.29f, 1.00f);//パネル背景
+	colors[ImGuiCol_FrameBgActive] = ImVec4(0.35f, 0.35f, 0.35f, 1.00f);//パネル背景
+
+	//タイトルバー
+	colors[ImGuiCol_TitleBg] = ImVec4(0.10f, 0.10f, 0.10f, 1.00f);//通常
+	colors[ImGuiCol_TitleBgActive] = ImVec4(0.13f, 0.13f, 0.13f, 1.00f);//アクティブ
+	colors[ImGuiCol_TitleBgCollapsed] = ImVec4(0.10f, 0.10f, 0.10f, 1.00f);//通常
+
+	//ボタン
+	colors[ImGuiCol_Button] = ImVec4(0.25f, 0.25f, 0.25f, 1.00f);
+	colors[ImGuiCol_ButtonHovered] = ImVec4(0.30f, 0.30f, 0.30f, 1.00f);
+	colors[ImGuiCol_ButtonActive] = ImVec4(0.40f, 0.40f, 0.40f, 1.00f);
+
+	//ハイライト
+	colors[ImGuiCol_Header] = ImVec4(0.20f, 0.20f, 0.20f, 1.00f); // 非選択時のヘッダー/ノード
+	colors[ImGuiCol_HeaderHovered] = ImVec4(0.26f, 0.59f, 0.98f, 0.65f); // ホバー時の青
+	colors[ImGuiCol_HeaderActive] = ImVec4(0.26f, 0.59f, 0.98f, 1.00f); // アクティブ時の青
+	colors[ImGuiCol_CheckMark] = ImVec4(0.26f, 0.59f, 0.98f, 1.00f); // チェックマーク
+
+	//その他の設定
+	style.WindowRounding = 0.0f;//ウィンドウの角の丸さ
+	style.FrameRounding = 0.0f;// フレームの角を丸くしない
+	style.GrabRounding = 5.0f;// スライダーのグラブを丸くしない
+	style.ScrollbarRounding = 0.0f;// スクロールバーを丸くしない
+	style.WindowTitleAlign = ImVec2(0.5f, 0.5f); // タイトルを中央寄せ（Unity風）
 }
 
 bool GUIPanel::MouseHoveredDisble()

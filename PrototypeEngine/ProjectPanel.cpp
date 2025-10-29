@@ -21,6 +21,7 @@ void ProjectPanel::Initialize(float width, float height, ImTextureRef ref)
     mHeightPos = 55.0f;
     mWidthSize = width * 0.15f;
     mHeightSize = height - 55.0f;
+    GUIPanel::Initialize(width, height, ref);
 }
 
 void ProjectPanel::Draw(float width, float height, ImTextureRef ref)
@@ -667,7 +668,7 @@ void ProjectPanel::ProcessPendingOperations()
                 }
                 if (EditorUtils::GetInstance().AddScriptFileToVcxProj(newHPath, newClassName))
                 {
-                    Debug::Log("Successfully added %s.cpp to %s.\n",newClassName.c_str(),VCXPROJ_PATH.string().c_str());
+                    Debug::Log("Successfully added %s.cpp to %s.\n",newClassName.c_str(), EditorUtils::GetInstance().GetVcxppoj_Path().string().c_str());
                 }
                 else
                 {

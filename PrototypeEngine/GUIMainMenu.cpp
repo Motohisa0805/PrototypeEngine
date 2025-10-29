@@ -20,6 +20,7 @@ void GUIMainMenu::Initialize(float width, float height, ImTextureRef ref)
 	mHeightPos = 0.0f;
 	mWidthSize = width;
 	mHeightSize = 25.0f;
+	GUIPanel::Initialize(width, height, ref);
 }
 
 void GUIMainMenu::Draw(float width, float height, ImTextureRef ref)

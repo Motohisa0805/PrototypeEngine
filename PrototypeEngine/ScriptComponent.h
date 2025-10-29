@@ -1,7 +1,9 @@
 #pragma once
 #include "Component.h"
+#include "ComponentFactory.h"
+#include "GameScripts/GameScripts_API.h"
 
-class ScriptComponent : public Component
+class GAMESCRIPTS_API ScriptComponent : public Component
 {
 private:
 	bool mHasStarted = false;

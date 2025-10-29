@@ -29,6 +29,8 @@ public:
 	//GUIパネルのレイアウトを初期化
 	virtual void		ResetLayoutFunction();
 
+	virtual void        SetPanelColorTheme();
+
 	virtual bool		MouseHoveredDisble();
 
 	virtual void		ResetWindowPos(float width, float height);

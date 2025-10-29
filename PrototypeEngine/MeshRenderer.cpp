@@ -16,6 +16,11 @@ MeshRenderer::MeshRenderer(ActorObject* owner, bool isSkeletal)
 	, mAlpha(1.0f)
 {
 	mName = "MeshRenderer";
+
+	mHeaderColor = Vector4(0.4f, 0.4f, 0.8f, 1.0f);
+	mHeaderHoveredColor = Vector4(0.3f, 0.3f, 0.6f, 1.0f);
+	mHeaderActiveColor = Vector4(0.4f, 0.4f, 0.8f, 1.0f);
+
 	EngineWindow::GetRenderer()->AddMeshComp(this);
 }
 

@@ -104,12 +104,14 @@
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <ConformanceMode>true</ConformanceMode>
+      <ConformanceMode>Default</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(SolutionDir)PrototypeEngine\ExternalLibrary\SDL3-3.2.8\lib\x64;$(SolutionDir)PrototypeEngine\ExternalLibrary\SDL3_image-3.2.4\lib\x64;$(SolutionDir)PrototypeEngine\ExternalLibrary\FMOD Studio API Windows\api\studio\lib;$(SolutionDir)PrototypeEngine\ExternalLibrary\FMOD Studio API Windows\api\lowlevel\lib;$(SolutionDir)PrototypeEngine\ExternalLibrary\SDL3_ttf-3.1.0\lib\x64;$(SolutionDir)bin\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>SDL3.lib;SDL3_image.lib;fmod_vc.lib;fmod64_vc.lib;fmodL_vc.lib;fmodL64_vc.lib;fmodstudio_vc.lib;fmodstudio64_vc.lib;fmodstudioL_vc.lib;fmodstudioL64_vc.lib;SDL3_ttf.lib;PrototypeEngine.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">

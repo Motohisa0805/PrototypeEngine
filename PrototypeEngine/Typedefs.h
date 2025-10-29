@@ -32,6 +32,3 @@ using vector = std::vector<T>;
 using json = nlohmann::json;
 
 namespace filesystem = std::filesystem;
-
-//実行ファイルから .vcxprojファイルへの相対パス
-const filesystem::path VCXPROJ_PATH = "PrototypeEngine/PrototypeEngine.vcxproj";
