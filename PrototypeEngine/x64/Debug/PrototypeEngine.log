@@ -4,13 +4,6 @@ C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\S
       C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
       'SDL_VERSION' は以前にコマンド ラインで宣言されています
   
-C:\C++Files\PrototypeEngine\PrototypeEngine\ScriptComponent.h(6,48): warning C4275: DLL インターフェイスではない class 'Component' が DLL インターフェイスのベースになる class 'ScriptComponent' として使われています。
-  (ソース ファイル 'Actor.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(68,7):
-      'Component' の宣言を確認してください
-      C:\C++Files\PrototypeEngine\PrototypeEngine\ScriptComponent.h(6,23):
-      'ScriptComponent' の宣言を確認してください
-  
   Animation.cpp
 C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
   (ソース ファイル 'Animation.cpp' をコンパイルしています)
@@ -80,11 +73,11 @@ C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\S
   Collision.cpp
   コードを生成中...
 C:\C++Files\PrototypeEngine\PrototypeEngine\CapsuleCollider.h(28,1): warning C4172: ローカル変数またはテンポラリ  のアドレスを返します
-C:\C++Files\PrototypeEngine\PrototypeEngine\BoxCollider.h(38,1): warning C4172: ローカル変数またはテンポラリ  のアドレスを返します
 C:\C++Files\PrototypeEngine\PrototypeEngine\BoxCollider.h(40,1): warning C4172: ローカル変数またはテンポラリ  のアドレスを返します
+C:\C++Files\PrototypeEngine\PrototypeEngine\BoxCollider.h(38,1): warning C4172: ローカル変数またはテンポラリ  のアドレスを返します
 C:\C++Files\PrototypeEngine\PrototypeEngine\Animation.cpp(487,1): warning C4715: 'Animation::FindTranslation': 値を返さないコントロール パスがあります。
-C:\C++Files\PrototypeEngine\PrototypeEngine\Animation.cpp(566,1): warning C4715: 'Animation::FindRotation': 値を返さないコントロール パスがあります。
 C:\C++Files\PrototypeEngine\PrototypeEngine\Animation.cpp(611,1): warning C4715: 'Animation::FindScaling': 値を返さないコントロール パスがあります。
+C:\C++Files\PrototypeEngine\PrototypeEngine\Animation.cpp(566,1): warning C4715: 'Animation::FindRotation': 値を返さないコントロール パスがあります。
   コンパイル中...
   Component.cpp
 C:\C++Files\PrototypeEngine\PrototypeEngine\Component.cpp(119,54): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
@@ -96,13 +89,6 @@ C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\S
   (ソース ファイル 'ComponentFactory.cpp' をコンパイルしています)
       C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
       'SDL_VERSION' は以前にコマンド ラインで宣言されています
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\ScriptComponent.h(6,48): warning C4275: DLL インターフェイスではない class 'Component' が DLL インターフェイスのベースになる class 'ScriptComponent' として使われています。
-  (ソース ファイル 'ComponentFactory.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(68,7):
-      'Component' の宣言を確認してください
-      C:\C++Files\PrototypeEngine\PrototypeEngine\ScriptComponent.h(6,23):
-      'ScriptComponent' の宣言を確認してください
   
   ConvertNumToString.cpp
   CubeActor.cpp
@@ -419,21 +405,6 @@ C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\S
       'SDL_VERSION' は以前にコマンド ラインで宣言されています
   
   ScriptComponent.cpp
-C:\C++Files\PrototypeEngine\PrototypeEngine\ScriptComponent.h(6,48): warning C4275: DLL インターフェイスではない class 'Component' が DLL インターフェイスのベースになる class 'ScriptComponent' として使われています。
-  (ソース ファイル 'ScriptComponent.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(68,7):
-      'Component' の宣言を確認してください
-      C:\C++Files\PrototypeEngine\PrototypeEngine\ScriptComponent.h(6,23):
-      'ScriptComponent' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\ScriptComponent.cpp(3,18): warning C4273: 'ScriptComponent::ScriptComponent': dll リンケージが一貫していません。
-      C:\C++Files\PrototypeEngine\PrototypeEngine\ScriptComponent.h(11,2):
-      'ScriptComponent::ScriptComponent' の以前の定義を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\ScriptComponent.cpp(10,19): warning C4273: 'ScriptComponent::~ScriptComponent': dll リンケージが一貫していません。
-      C:\C++Files\PrototypeEngine\PrototypeEngine\ScriptComponent.h(13,11):
-      'ScriptComponent::~ScriptComponent' の以前の定義を確認してください
-  
   Shader.cpp
 C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
   (ソース ファイル 'Shader.cpp' をコンパイルしています)
@@ -555,4 +526,13 @@ C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\S
   VertexArray.cpp
   WindowRenderProperty.cpp
   コードを生成中...
-  PrototypeEngine.vcxproj -> C:\C++Files\PrototypeEngine\bin\PrototypeEngine.lib
+  SOIL.lib(SOIL.obj) : MSIL .netmodule または /GL を伴ってコンパイルされたモジュールが見つかりました。/LTCG を使用して再開始してください。リンカーのパフォーマンスを向上させるためには、コマンドラインに /LTCG を追加してください。
+LINK : warning LNK4075: /INCREMENTAL は /LTCG の指定によって無視されます。
+LINK : warning LNK4098: defaultlib 'MSVCRT' は他のライブラリの使用と競合しています。/NODEFAULTLIB:library を使用してください。
+  コード生成しています。
+  コード生成が終了しました。
+SOIL.lib(SOIL.obj) : warning LNK4099: PDB 'SOIL.pdb' が 'SOIL.lib(SOIL.obj)' で、または 'C:\C++Files\PrototypeEngine\bin\SOIL.pdb' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+SOIL.lib(image_helper.obj) : warning LNK4099: PDB 'SOIL.pdb' が 'SOIL.lib(image_helper.obj)' で、または 'C:\C++Files\PrototypeEngine\bin\SOIL.pdb' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+SOIL.lib(stb_image_aug.obj) : warning LNK4099: PDB 'SOIL.pdb' が 'SOIL.lib(stb_image_aug.obj)' で、または 'C:\C++Files\PrototypeEngine\bin\SOIL.pdb' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+SOIL.lib(image_DXT.obj) : warning LNK4099: PDB 'SOIL.pdb' が 'SOIL.lib(image_DXT.obj)' で、または 'C:\C++Files\PrototypeEngine\bin\SOIL.pdb' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+  PrototypeEngine.vcxproj -> C:\C++Files\PrototypeEngine\bin\PrototypeEngine.exe

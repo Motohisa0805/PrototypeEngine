@@ -1,5 +1,5 @@
-c:\c++files\prototypeengine\bin\prototypeengine.pdb
-c:\c++files\prototypeengine\bin\prototypeengine.idb
+c:\c++files\prototypeengine\prototypeengine\x64\debug\vc143.pdb
+c:\c++files\prototypeengine\prototypeengine\x64\debug\vc143.idb
 c:\c++files\prototypeengine\prototypeengine\x64\debug\collision.obj
 c:\c++files\prototypeengine\prototypeengine\x64\debug\collider.obj
 c:\c++files\prototypeengine\prototypeengine\x64\debug\capsulecollider.obj
@@ -114,11 +114,15 @@ c:\c++files\prototypeengine\prototypeengine\x64\debug\text.obj
 c:\c++files\prototypeengine\prototypeengine\x64\debug\targetcomponentsystem.obj
 c:\c++files\prototypeengine\prototypeengine\x64\debug\targetcomponent.obj
 c:\c++files\prototypeengine\prototypeengine\x64\debug\targetactor.obj
+c:\c++files\prototypeengine\bin\prototypeengine.exe
+c:\c++files\prototypeengine\bin\prototypeengine.pdb
 c:\c++files\prototypeengine\bin\prototypeengine.lib
+c:\c++files\prototypeengine\bin\prototypeengine.exp
 c:\c++files\prototypeengine\prototypeengine\x64\debug\prototypeengine.tlog\cl.command.1.tlog
 c:\c++files\prototypeengine\prototypeengine\x64\debug\prototypeengine.tlog\cl.items.tlog
 c:\c++files\prototypeengine\prototypeengine\x64\debug\prototypeengine.tlog\cl.read.1.tlog
 c:\c++files\prototypeengine\prototypeengine\x64\debug\prototypeengine.tlog\cl.write.1.tlog
-c:\c++files\prototypeengine\prototypeengine\x64\debug\prototypeengine.tlog\lib-link.read.1.tlog
-c:\c++files\prototypeengine\prototypeengine\x64\debug\prototypeengine.tlog\lib-link.write.1.tlog
-c:\c++files\prototypeengine\prototypeengine\x64\debug\prototypeengine.tlog\lib.command.1.tlog
+c:\c++files\prototypeengine\prototypeengine\x64\debug\prototypeengine.tlog\link.command.1.tlog
+c:\c++files\prototypeengine\prototypeengine\x64\debug\prototypeengine.tlog\link.read.1.tlog
+c:\c++files\prototypeengine\prototypeengine\x64\debug\prototypeengine.tlog\link.secondary.1.tlog
+c:\c++files\prototypeengine\prototypeengine\x64\debug\prototypeengine.tlog\link.write.1.tlog

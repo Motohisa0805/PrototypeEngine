@@ -41,7 +41,7 @@
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
@@ -106,7 +106,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;SDL_VERSION=SDL3-3.2.8;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;SDL_VERSION=SDL3-3.2.8;PROTOTYPEENGINE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>Default</ConformanceMode>
       <AdditionalIncludeDirectories>$(ProjectDir)ExternalLibrary\SDL3-3.2.8\include;$(ProjectDir)ExternalLibrary\SDL3_image-3.2.4\include;$(ProjectDir)ExternalLibrary\FMOD Studio API Windows\api\lowlevel\inc;$(ProjectDir)ExternalLibrary\FMOD Studio API Windows\api\studio\inc;$(ProjectDir)ExternalLibrary\SDL3_ttf-3.1.0\include;$(ProjectDir)ExternalLibrary\rapidjson-master\rapidjson-master\include;$(ProjectDir)ImGui;$(ProjectDir)json-develop\include;$(ProjectDir)ExternalLibrary\tinyxml2-master;$(ProjectDir)..\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
@@ -362,6 +362,7 @@
     <ClInclude Include="PortalActor.h" />
     <ClInclude Include="ProjectPanel.h" />
     <ClInclude Include="PrototypeEngine.h" />
+    <ClInclude Include="PrototypeEngine_API.h" />
     <ClInclude Include="PushButtonMove.h" />
     <ClInclude Include="Random.h" />
     <ClInclude Include="Renderer.h" />

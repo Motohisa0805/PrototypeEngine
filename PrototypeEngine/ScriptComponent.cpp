@@ -10,3 +10,13 @@ ScriptComponent::ScriptComponent(ActorObject* owner)
 ScriptComponent::~ScriptComponent()
 {
 }
+
+bool ScriptComponent::HasStarted() const
+{
+	return mHasStarted;
+}
+
+void ScriptComponent::SetStarted(bool started)
+{
+	mHasStarted = started;
+}

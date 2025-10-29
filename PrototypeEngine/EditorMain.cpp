@@ -51,7 +51,6 @@ int RunPrototypeEngine()
 //FOCUS : プロジェクトを実行している場所
 //構成マネージャーがDebugなら
 #ifdef _DEBUG
-/*
 int main(int argc, char* argv[])
 {
 	CurrentDirectorySetting();
@@ -67,7 +66,6 @@ int main(int argc, char* argv[])
 	engine.EngineShutdown();
 	return 0;
 }
-*/
 // プロジェクトの実行場所がReleaseなら
 #elif defined(_RELEASE)
 #define SDL_MAIN_HANDLED
