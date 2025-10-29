@@ -3,7 +3,7 @@
 #include "ComponentFactory.h"
 #include "GameScripts/GameScripts_API.h"
 
-class GAMESCRIPTS_API ScriptComponent : public Component
+class ScriptComponent : public Component
 {
 private:
 	bool mHasStarted = false;
@@ -12,8 +12,8 @@ public:
 
 	virtual ~ScriptComponent();
 
-	bool HasStarted()const { return mHasStarted; }
-	void SetStarted(bool started) { mHasStarted = started; }
+	bool HasStarted()const;
+	void SetStarted(bool started);
 
 	// ----------------------------------------------------
 	// ライフサイクル関数 (ユーザーがオーバーライドする場所)

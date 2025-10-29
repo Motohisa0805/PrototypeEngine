@@ -930,5 +930,8 @@
     <ClInclude Include="PrototypeEngine.h">
       <Filter>SourceCodes\F_Editor\Libs</Filter>
     </ClInclude>
+    <ClInclude Include="PrototypeEngine_API.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
