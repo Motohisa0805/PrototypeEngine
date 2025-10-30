@@ -1,2 +1,2 @@
-﻿  TestScript.cpp
-C:\C++Files\PrototypeEngine\Assets\Scripts\TestScript.cpp(28,1): error C1010: プリコンパイル ヘッダーを検索中に不明な EOF が見つかりました。'#include "pch.h"' をソースに追加しましたか?
+﻿     ライブラリ C:\C++Files\PrototypeEngine\bin\GameScripts.lib とオブジェクト C:\C++Files\PrototypeEngine\bin\GameScripts.exp を作成中
+  GameScripts.vcxproj -> C:\C++Files\PrototypeEngine\bin\GameScripts.dll

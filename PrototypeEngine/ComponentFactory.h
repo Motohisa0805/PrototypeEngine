@@ -1,4 +1,5 @@
 #pragma once
+#include "PrototypeEngine_API.h"
 #include "Component.h"
 #include <string>
 #include <map>
@@ -10,7 +11,7 @@ class ActorObject;
 using ComponentCreator = std::function<Component* (ActorObject*)>;
 
 //FOCUS : コンポーネントの動的生成を行っているファイル
-class ComponentFactory
+class PROTOTYPEENGINE_API ComponentFactory
 {
 private:
 	//コンポーネント名と、それを生成する関数のマップ
