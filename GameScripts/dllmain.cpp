@@ -1,6 +1,5 @@
 ﻿// dllmain.cpp : DLL アプリケーションのエントリ ポイントを定義します。
 #include "pch.h"
-#include "GameScripts_API.h"
 
 
 BOOL APIENTRY DllMain( HMODULE hModule,

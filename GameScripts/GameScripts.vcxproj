@@ -111,7 +111,7 @@
             <ConformanceMode>Default</ConformanceMode>
             <PrecompiledHeader>Use</PrecompiledHeader>
             <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-            <AdditionalIncludeDirectories>$(SolutionDir)PrototypeEngine\..\;$(SolutionDir)PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include;$(SolutionDir)PrototypeEngine\ExternalLibrary\SDL3_image-3.2.4\include;$(SolutionDir)PrototypeEngine\ExternalLibrary\FMOD Studio API Windows\api\lowlevel\inc;$(SolutionDir)PrototypeEngine\ExternalLibrary\FMOD Studio API Windows\api\studio\inc;$(SolutionDir)PrototypeEngine\ExternalLibrary\SDL3_ttf-3.1.0\include;$(SolutionDir)PrototypeEngine\ExternalLibrary\rapidjson-master\rapidjson-master\include;$(SolutionDir)PrototypeEngine\ImGui;$(SolutionDir)PrototypeEngine\json-develop\include;$(SolutionDir)PrototypeEngine\ExternalLibrary\tinyxml2-master;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+            <AdditionalIncludeDirectories>$(SolutionDir)PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include;$(SolutionDir)PrototypeEngine\ExternalLibrary\SDL3_image-3.2.4\include;$(SolutionDir)PrototypeEngine\ExternalLibrary\FMOD Studio API Windows\api\lowlevel\inc;$(SolutionDir)PrototypeEngine\ExternalLibrary\FMOD Studio API Windows\api\studio\inc;$(SolutionDir)PrototypeEngine\ExternalLibrary\SDL3_ttf-3.1.0\include;$(SolutionDir)PrototypeEngine\ExternalLibrary\rapidjson-master\rapidjson-master\include;$(SolutionDir)PrototypeEngine\ImGui;$(SolutionDir)PrototypeEngine\json-develop\include;$(SolutionDir)PrototypeEngine\ExternalLibrary\tinyxml2-master;$(SolutionDir)PrototypeEngine\..\;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
             <LanguageStandard>stdcpp20</LanguageStandard>
         </ClCompile>
         <Link>
@@ -119,7 +119,7 @@
             <GenerateDebugInformation>true</GenerateDebugInformation>
             <EnableUAC>false</EnableUAC>
             <AdditionalLibraryDirectories>$(SolutionDir)bin;$(SolutionDir)PrototypeEngine\ExternalLibrary\SDL3-3.2.8\lib\x64;$(SolutionDir)PrototypeEngine\ExternalLibrary\SDL3_image-3.2.4\lib\x64;$(SolutionDir)PrototypeEngine\ExternalLibrary\FMOD Studio API Windows\api\studio\lib;$(SolutionDir)PrototypeEngine\ExternalLibrary\FMOD Studio API Windows\api\lowlevel\lib;$(SolutionDir)PrototypeEngine\ExternalLibrary\SDL3_ttf-3.1.0\lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-            <AdditionalDependencies>SDL3.lib;SDL3_image.lib;fmod64_vc.lib;fmodL64_vc.lib;fmodstudio64_vc.lib;fmodstudioL64_vc.lib;SDL3_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
+            <AdditionalDependencies>SDL3.lib;SDL3_image.lib;fmod64_vc.lib;fmodL64_vc.lib;fmodstudio64_vc.lib;fmodstudioL64_vc.lib;SDL3_ttf.lib;PrototypeEngine.lib;%(AdditionalDependencies)</AdditionalDependencies>
         </Link>
     </ItemDefinitionGroup>
     <ItemDefinitionGroup Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">
@@ -146,6 +146,7 @@
     </ItemGroup>
     <ItemGroup>
         <ClCompile Include="dllmain.cpp"/>
+        <ClCompile Include="GameScripts_API.cpp"/>
         <ClCompile Include="pch.cpp">
             <PrecompiledHeader Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;">Create</PrecompiledHeader>
             <PrecompiledHeader Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">Create</PrecompiledHeader>

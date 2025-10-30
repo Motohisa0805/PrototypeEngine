@@ -1,4 +1,5 @@
 ﻿#pragma once
+#include "PrototypeEngine_API.h"
 #include <cstdint>
 #include "Math.h"
 #include "Typedefs.h"
@@ -65,7 +66,7 @@ private:
 
 //コンポーネントの基底クラス
 // Unityのコンポーネントに近いクラス
-class Component
+class PROTOTYPEENGINE_API Component
 {
 protected:
 	// コンポーネント元のオブジェクト

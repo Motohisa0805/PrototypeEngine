@@ -1,35 +1,35 @@
 #pragma once
+#include "GameScripts/GameScripts_API.h"
 #include "Component.h"
 #include "ComponentFactory.h"
-#include "GameScripts/GameScripts_API.h"
 
 class ScriptComponent : public Component
 {
 private:
 	bool mHasStarted = false;
 public:
-	ScriptComponent(class ActorObject* owner);
+	GAMESCRIPTS_API ScriptComponent(class ActorObject* owner);
 
-	virtual ~ScriptComponent();
+	GAMESCRIPTS_API virtual ~ScriptComponent();
 
-	bool HasStarted()const;
-	void SetStarted(bool started);
+	GAMESCRIPTS_API bool HasStarted()const;
+	GAMESCRIPTS_API void SetStarted(bool started);
 
 	// ----------------------------------------------------
 	// ライフサイクル関数 (ユーザーがオーバーライドする場所)
 	// ----------------------------------------------------
 
 	//初期化処理:Startの前に呼ばれるものとして宣言
-	virtual void Awake(){}
+	GAMESCRIPTS_API virtual void Awake();
 
 	//初期化処理:最初のUpdate()が呼ばれる前に一度だけ呼ばれる
-	virtual void Start(){}
+	GAMESCRIPTS_API virtual void Start();
 
 	//毎フレームの更新処理
-	virtual void Update(float deltaTime)override{}
+	GAMESCRIPTS_API virtual void Update(float deltaTime)override;
 
 	//物理更新処理
-	virtual void FixedUpdate(float deltaTime)override{}
+	GAMESCRIPTS_API virtual void FixedUpdate(float deltaTime)override;
 
 };
 

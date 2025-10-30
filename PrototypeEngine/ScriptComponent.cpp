@@ -1,3 +1,4 @@
+#include "GameScripts/pch.h"
 #include "ScriptComponent.h"
 
 ScriptComponent::ScriptComponent(ActorObject* owner)
@@ -19,4 +20,20 @@ bool ScriptComponent::HasStarted() const
 void ScriptComponent::SetStarted(bool started)
 {
 	mHasStarted = started;
+}
+
+void ScriptComponent::Awake()
+{
+}
+
+void ScriptComponent::Start()
+{
+}
+
+void ScriptComponent::Update(float deltaTime)
+{
+}
+
+void ScriptComponent::FixedUpdate(float deltaTime)
+{
 }
