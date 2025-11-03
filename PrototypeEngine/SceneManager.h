@@ -7,6 +7,7 @@
 
 //前方宣言
 class BaseScene;
+class ActorObject;
 
 //シーンの管理、ロード処理を行うクラス
 class SceneManager
@@ -45,5 +46,7 @@ public:
 	static string										mDefaultSceneFilePath;
 	//現在エディタで開いているシーンのファイルパスを設定する関数
 	static void											SetCurrentEditorSceneFilePath(const string& path);
+	//現在のアクティブシーンのアクターリストを返す
+	static const	vector<ActorObject*>&				GetAllActorsInCurrentScene();
 };
 

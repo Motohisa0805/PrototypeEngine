@@ -1,4 +1,4 @@
-#include "GameScripts/pch.h"
+#include "InGameProject/pch.h"
 #include "ScriptComponent.h"
 
 ScriptComponent::ScriptComponent(ActorObject* owner)
@@ -24,16 +24,20 @@ void ScriptComponent::SetStarted(bool started)
 
 void ScriptComponent::Awake()
 {
+
 }
 
 void ScriptComponent::Start()
 {
+
 }
 
 void ScriptComponent::Update(float deltaTime)
 {
+
 }
 
 void ScriptComponent::FixedUpdate(float deltaTime)
 {
+
 }

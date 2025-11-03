@@ -85,6 +85,7 @@ C:\C++Files\PrototypeEngine\PrototypeEngine\SceneViewEditor.cpp;C:\C++Files\Prot
 C:\C++Files\PrototypeEngine\PrototypeEngine\SceneViewPanel.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\SceneViewPanel.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\InspectorPanel.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\InspectorPanel.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\ScriptComponent.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\ScriptComponent.obj
+C:\C++Files\PrototypeEngine\PrototypeEngine\ScriptHotReloadManager.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\ScriptHotReloadManager.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\Shader.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\Shader.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\ShadowMap.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\ShadowMap.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\SkeletalMeshRenderer.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\SkeletalMeshRenderer.obj

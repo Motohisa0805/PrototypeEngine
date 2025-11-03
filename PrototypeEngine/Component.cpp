@@ -139,11 +139,77 @@ void Component::DrawBoolProperty(const PropertyInfo& prop)
 void Component::Serialize(json& j) const
 {
 	j["Type"] = mName;
-	j["UpdateOrder"] = mUpdateOrder;
+
+	//リフレクション情報を持って全てのプロパティをシリアライズ
+	const auto& properties = this->GetProperties();
+	for(const auto& prop : properties)
+	{
+		//Componentオブジェクトの先頭ポインタとオフセットを使って
+		//メンバー変数の実態へのポインタを取得する
+		const char* memberPtr = reinterpret_cast<const char*>(this) + prop.sOffset;
+		// prop.sOffsetとthisポインタを使ってメンバ変数へのポインタを計算
+		switch (prop.sType)
+		{
+			case EPropertyType::E_PT_FLOAT:
+				// float型の値をポインタ経由で取得し、JSONに保存
+				j[prop.sName] = *reinterpret_cast<const float*>(memberPtr);
+				break;
+			case EPropertyType::E_PT_INT:
+				// float型の値をポインタ経由で取得し、JSONに保存
+				j[prop.sName] = *reinterpret_cast<const int*>(memberPtr);
+				break;
+			case EPropertyType::E_PT_BOOL:
+				// float型の値をポインタ経由で取得し、JSONに保存
+				j[prop.sName] = *reinterpret_cast<const bool*>(memberPtr);
+				break;
+			case EPropertyType::E_PT_STRING:
+				// string型の値をポインタ経由で取得し、JSONに保存
+				j[prop.sName] = *reinterpret_cast<const string*>(memberPtr);
+				break;
+			// ... 他の型も同様に処理 ...
+			default:
+				break;
+		}
+	}
 }
 
 void Component::Deserialize(const json& j)
 {
 	mName = j.at("Type").get<string>();
-	mUpdateOrder = j.at("UpdateOrder").get<int>();
+
+	// リフレクション情報を使って、すべてのプロパティをデシリアライズする
+	const auto& properties = this->GetProperties();
+	for (const auto& prop : properties)
+	{
+		// JSONにそのプロパティが存在するか確認
+		if (j.contains(prop.sName))
+		{
+			// Componentオブジェクトの先頭ポインタとオフセットを使って、
+			// メンバー変数の実体へのポインタを取得する (constではない)
+			char* memberPtr = reinterpret_cast<char*>(this) + prop.sOffset;
+
+			switch (prop.sType)
+			{
+			case EPropertyType::E_PT_FLOAT:
+				// JSONから値を読み出し、ポインタ経由でfloat型メンバー変数に書き込み
+				*reinterpret_cast<float*>(memberPtr) = j[prop.sName].get<float>();
+				break;
+			case EPropertyType::E_PT_INT:
+				// JSONから値を読み出し、ポインタ経由でint型メンバー変数に書き込み
+				*reinterpret_cast<int*>(memberPtr) = j[prop.sName].get<int>();
+				break;
+			case EPropertyType::E_PT_BOOL:
+				// JSONから値を読み出し、ポインタ経由でbool型メンバー変数に書き込み
+				*reinterpret_cast<bool*>(memberPtr) = j[prop.sName].get<bool>();
+				break;
+			case EPropertyType::E_PT_STRING:
+				// JSONから値を読み出し、ポインタ経由でstring型メンバー変数に書き込み
+				*reinterpret_cast<string*>(memberPtr) = j[prop.sName].get<string>();
+				break;
+				// ... 他の型も同様に処理 ...
+			default:
+				break;
+			}
+		}
+	}
 }

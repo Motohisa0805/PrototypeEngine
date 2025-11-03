@@ -104,3 +104,12 @@ void SceneManager::SetCurrentEditorSceneFilePath(const string& path)
 {
 	mDefaultSceneFilePath = path;
 }
+
+const vector<ActorObject*>& SceneManager::GetAllActorsInCurrentScene()
+{
+	if (mNowScene)
+	{
+		return mNowScene->GetActors();
+	}
+	return vector<ActorObject*>{};
+}

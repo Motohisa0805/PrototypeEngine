@@ -21,8 +21,8 @@
     <PropertyGroup Label="Globals">
         <VCProjectVersion>17.0</VCProjectVersion>
         <Keyword>Win32Proj</Keyword>
-        <ProjectGuid>{5e08298f-eaf8-4dea-8aaf-cb54e42604f1}</ProjectGuid>
-        <RootNamespace>GameScripts</RootNamespace>
+        <ProjectGuid>{ebbbd117-9c30-4f6d-8a96-d60ff091bd3c}</ProjectGuid>
+        <RootNamespace>InGameProject</RootNamespace>
         <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
     </PropertyGroup>
     <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props"/>
@@ -43,7 +43,7 @@
         <ConfigurationType>DynamicLibrary</ConfigurationType>
         <UseDebugLibraries>true</UseDebugLibraries>
         <PlatformToolset>v143</PlatformToolset>
-        <CharacterSet>MultiByte</CharacterSet>
+        <CharacterSet>Unicode</CharacterSet>
     </PropertyGroup>
     <PropertyGroup Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;" Label="Configuration">
         <ConfigurationType>DynamicLibrary</ConfigurationType>
@@ -75,7 +75,7 @@
         <ClCompile>
             <WarningLevel>Level3</WarningLevel>
             <SDLCheck>true</SDLCheck>
-            <PreprocessorDefinitions>WIN32;_DEBUG;GAMESCRIPTS_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+            <PreprocessorDefinitions>WIN32;_DEBUG;INGAMEPROJECT_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
             <ConformanceMode>true</ConformanceMode>
             <PrecompiledHeader>Use</PrecompiledHeader>
             <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
@@ -92,7 +92,7 @@
             <FunctionLevelLinking>true</FunctionLevelLinking>
             <IntrinsicFunctions>true</IntrinsicFunctions>
             <SDLCheck>true</SDLCheck>
-            <PreprocessorDefinitions>WIN32;NDEBUG;GAMESCRIPTS_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+            <PreprocessorDefinitions>WIN32;NDEBUG;INGAMEPROJECT_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
             <ConformanceMode>true</ConformanceMode>
             <PrecompiledHeader>Use</PrecompiledHeader>
             <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
@@ -108,11 +108,11 @@
             <WarningLevel>Level3</WarningLevel>
             <SDLCheck>true</SDLCheck>
             <PreprocessorDefinitions>_DEBUG;GAMESCRIPTS_EXPORTS;_CONSOLE;SDL_VERSION=SDL3-3.2.8;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-            <ConformanceMode>Default</ConformanceMode>
+            <ConformanceMode>true</ConformanceMode>
             <PrecompiledHeader>Use</PrecompiledHeader>
             <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-            <AdditionalIncludeDirectories>$(SolutionDir)PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include;$(SolutionDir)PrototypeEngine\ExternalLibrary\SDL3_image-3.2.4\include;$(SolutionDir)PrototypeEngine\ExternalLibrary\FMOD Studio API Windows\api\lowlevel\inc;$(SolutionDir)PrototypeEngine\ExternalLibrary\FMOD Studio API Windows\api\studio\inc;$(SolutionDir)PrototypeEngine\ExternalLibrary\SDL3_ttf-3.1.0\include;$(SolutionDir)PrototypeEngine\ExternalLibrary\rapidjson-master\rapidjson-master\include;$(SolutionDir)PrototypeEngine\ImGui;$(SolutionDir)PrototypeEngine\json-develop\include;$(SolutionDir)PrototypeEngine\ExternalLibrary\tinyxml2-master;$(SolutionDir)PrototypeEngine\..\;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
             <LanguageStandard>stdcpp20</LanguageStandard>
+            <AdditionalIncludeDirectories>$(SolutionDir)PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include;$(SolutionDir)PrototypeEngine\ExternalLibrary\SDL3_image-3.2.4\include;$(SolutionDir)PrototypeEngine\ExternalLibrary\FMOD Studio API Windows\api\lowlevel\inc;$(SolutionDir)PrototypeEngine\ExternalLibrary\FMOD Studio API Windows\api\studio\inc;$(SolutionDir)PrototypeEngine\ExternalLibrary\SDL3_ttf-3.1.0\include;$(SolutionDir)PrototypeEngine\ExternalLibrary\rapidjson-master\rapidjson-master\include;$(SolutionDir)PrototypeEngine\ImGui;$(SolutionDir)PrototypeEngine\json-develop\include;$(SolutionDir)PrototypeEngine\ExternalLibrary\tinyxml2-master;$(SolutionDir)PrototypeEngine\..\;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
         </ClCompile>
         <Link>
             <SubSystem>Console</SubSystem>
@@ -128,7 +128,7 @@
             <FunctionLevelLinking>true</FunctionLevelLinking>
             <IntrinsicFunctions>true</IntrinsicFunctions>
             <SDLCheck>true</SDLCheck>
-            <PreprocessorDefinitions>NDEBUG;GAMESCRIPTS_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+            <PreprocessorDefinitions>NDEBUG;INGAMEPROJECT_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
             <ConformanceMode>true</ConformanceMode>
             <PrecompiledHeader>Use</PrecompiledHeader>
             <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
@@ -141,12 +141,12 @@
     </ItemDefinitionGroup>
     <ItemGroup>
         <ClInclude Include="framework.h"/>
-        <ClInclude Include="GameScripts_API.h"/>
+        <ClInclude Include="InGameProject_API.h"/>
         <ClInclude Include="pch.h"/>
     </ItemGroup>
     <ItemGroup>
         <ClCompile Include="dllmain.cpp"/>
-        <ClCompile Include="GameScripts_API.cpp"/>
+        <ClCompile Include="InGameProject_API.cpp"/>
         <ClCompile Include="pch.cpp">
             <PrecompiledHeader Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;">Create</PrecompiledHeader>
             <PrecompiledHeader Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">Create</PrecompiledHeader>

@@ -12,6 +12,7 @@ enum EngineState
 class Renderer;
 class GameWinMain;
 class SceneEditorCamera;
+class ScriptHotReloadManager;
 
 class EngineWindow
 {
@@ -26,6 +27,8 @@ private:
 
 	static SceneEditorCamera*	mSceneEditorCamera;
 
+
+	std::unique_ptr<ScriptHotReloadManager> mHotReloadManager;
 public:
 					EngineWindow();
 					~EngineWindow();
@@ -37,7 +40,6 @@ public:
 	void			EngineRunLoop();
 	void			EngineRender();
 
-	void			EngineUnloadData();
 	void			EngineShutdown();
 
 	static Renderer*			GetRenderer() { return mRenderer; }

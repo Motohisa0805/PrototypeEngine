@@ -139,6 +139,9 @@
     <Filter Include="SourceCodes\G_OutsideLibrary\tinyxml2">
       <UniqueIdentifier>{5b8889e2-b877-4c2b-915d-e3e0189aec73}</UniqueIdentifier>
     </Filter>
+    <Filter Include="SourceCodes\F_Editor\ScriptManager">
+      <UniqueIdentifier>{ab59c046-62e5-4873-9890-610d70a750fd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Shaders\Arrow.frag">
@@ -547,6 +550,9 @@
     <ClCompile Include="ScriptComponent.cpp">
       <Filter>SourceCodes\F_Editor\Components</Filter>
     </ClCompile>
+    <ClCompile Include="ScriptHotReloadManager.cpp">
+      <Filter>SourceCodes\F_Editor\ScriptManager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BulletActor.h">
@@ -932,6 +938,9 @@
     </ClInclude>
     <ClInclude Include="PrototypeEngine_API.h">
       <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="ScriptHotReloadManager.h">
+      <Filter>SourceCodes\F_Editor\ScriptManager</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

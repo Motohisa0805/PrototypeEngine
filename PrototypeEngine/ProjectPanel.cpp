@@ -5,6 +5,8 @@
 #include "SceneSerializer.h"
 #include "DebugManager.h"
 
+filesystem::path ProjectPanel::mScriptFilePath = "";
+
 ProjectPanel::ProjectPanel(Renderer* renderer)
 	:GUIPanel(renderer)
 	, mRenaming(false)
@@ -233,27 +235,26 @@ void ProjectPanel::DrawPickUpFolderView()
         //Script作成
         if (ImGui::MenuItem("New Script (C++)"))
         {
+            // ダミーファイル名 (Hot Reload Managerに無視される拡張子を使用)
+            string dummyStem = "PendingNewScript";
+            string dummyExtension = ".tmp_new";
+            filesystem::path dummyPath = mCurrentFolder / (dummyStem + dummyExtension);
 
-            string uniqueName = "NewScript";
-            //現在右クリックしているフォルダ
-            filesystem::path targetFolder = targetPath;
-
-            //既に存在するファイル名かチェックし、ユニークな名前に変更する
-            int counter = 1;
-            while (filesystem::exists(targetFolder / (uniqueName + ".h")))
+            // 1. ダミーファイルを作成
+            std::ofstream dummyFile(dummyPath);
+            if (dummyFile.is_open())
             {
-                uniqueName = "NewScript" + std::to_string(counter++);
-            }
+                dummyFile.close();
 
-            //ヘルパー関数を呼び出してファイルを生成(.hと.cpp)
-            if (EditorUtils::GetInstance().CreateScriptFile(targetFolder, uniqueName))
-            {
-                //成功した場合、Unityのように即座にリネーム状態に移行する
-                mSelectedPath = targetFolder / (uniqueName + ".h");
-                mPathToRename = targetFolder / (uniqueName + ".h");
-                mRenameInputBuffer = uniqueName;//拡張子なしの名前をバッファに
+                // 2. リネームモードに入る
+                mPathToRename = dummyPath;
+                mRenameInputBuffer = "NewScript"; // ユーザーに表示する初期名
                 mRenaming = true;
-                Debug::Log("Created new script: %s\n", uniqueName.c_str());
+                mSelectedPath = dummyPath; // 選択状態にしておく (UIハイライトのため)
+            }
+            else
+            {
+                Debug::ErrorLog("Failed to create dummy file for new script.");
             }
         }
         ImGui::EndPopup();
@@ -410,28 +411,14 @@ bool ProjectPanel::RightClickMenu(const filesystem::path& path)
             //Script作成
             if (ImGui::MenuItem("New Script (C++)"))
             {
+                // 1. 一時的な名前でリネームモードを開始する
+                // （この"PendingNewScript"はファイル名ではなく、UI上の状態を示すID）
+                filesystem::path tempPath = path / "PendingNewScript.h";
 
-                string uniqueName = "NewScript";
-                //現在右クリックしているフォルダ
-                filesystem::path targetFolder = path;
-
-                //既に存在するファイル名かチェックし、ユニークな名前に変更する
-                int counter = 1;
-                while (filesystem::exists(targetFolder / (uniqueName + ".h"))) 
-                {
-                    uniqueName = "NewScript" + std::to_string(counter++);
-                }
-
-                //ヘルパー関数を呼び出してファイルを生成(.hと.cpp)
-                if (EditorUtils::GetInstance().CreateScriptFile(targetFolder, uniqueName))
-                {
-                    //成功した場合、Unityのように即座にリネーム状態に移行する
-                    mSelectedPath = targetFolder / (uniqueName + ".h");
-                    mPathToRename = targetFolder / (uniqueName + ".h");
-                    mRenameInputBuffer = uniqueName;//拡張子なしの名前をバッファに
-                    mRenaming = true;
-                    Debug::Log("Created new script: %s\n", uniqueName.c_str());
-                }
+                mSelectedPath = tempPath;
+                mPathToRename = tempPath;
+                mRenameInputBuffer = "NewScript"; // デフォルトの入力文字列
+                mRenaming = true;
             }
             if (path.string() != "Assets")
             {
@@ -631,8 +618,25 @@ void ProjectPanel::ProcessPendingOperations()
 
             //C++のスクリプトファイルペアかどうかを判定
             bool isScriptFile = (req.oldPath.extension() == ".h" || req.oldPath.extension() == ".cpp");
+            if (req.oldPath.extension().string() == ".tmp_new")
+            {
+                // 1. ダミーファイルを削除
+                if (filesystem::exists(req.oldPath))
+                {
+                    filesystem::remove(req.oldPath);
+                    Debug::Log("Deleted dummy file: %s\n", req.oldPath.string().c_str());
+                }
 
-            if (isScriptFile && oldClassName != newClassName)
+                // 2. 確定した名前 (req.newStem) でスクリプトファイルを作成
+                if (EditorUtils::GetInstance().CreateScriptFile(req.oldPath.parent_path(), req.newStem))
+                {
+                    mScriptFilePath = req.oldPath;
+                    Debug::Log("Created new script: %s\n", req.newStem.c_str());
+                }
+            }
+            // 既存のリネームの場合
+            // (oldPathが実在し、スクリプトファイルで、名前が変更されている)
+            else if (filesystem::exists(req.oldPath) && isScriptFile && oldClassName != newClassName)
             {
                 // ----------------------------------------------------
                 // 拡張: ファイルシステム上で、対応する .h と .cpp の両方をリネームする
@@ -654,6 +658,7 @@ void ProjectPanel::ProcessPendingOperations()
                     EditorUtils::GetInstance().ReplaceInFile(newHPath, oldClassName, newClassName);
                 }
 
+                //  .cppのロジックのコメントアウトを解除
                 //3..cppファイルのリネーム
                 if (filesystem::exists(oldCppPath))
                 {
@@ -661,21 +666,9 @@ void ProjectPanel::ProcessPendingOperations()
                     //2..cppファイルの内容を書き換え
                     EditorUtils::GetInstance().ReplaceInFile(newCppPath, oldClassName, newClassName);
                 }
-                // 4. vcxProjのスクリプトエントリーを更新
-                if (EditorUtils::GetInstance().RemoveScriptFileToVcxProj(oldHPath, oldClassName))
-                {
-                    Debug::Log("Successfully removed old vcxproj entry: %s.cpp\n", oldClassName.c_str());
-                }
-                if (EditorUtils::GetInstance().AddScriptFileToVcxProj(newHPath, newClassName))
-                {
-                    Debug::Log("Successfully added %s.cpp to %s.\n",newClassName.c_str(), EditorUtils::GetInstance().GetVcxppoj_Path().string().c_str());
-                }
-                else
-                {
-                    Debug::Log("Failed to add %s.cpp to vcxproj.Maunal addition required.\n",newClassName.c_str(),newClassName.c_str());
-                }
             }
-            else
+            //スクリプト以外 のリネーム
+            else if (filesystem::exists(req.oldPath) && !isScriptFile)
             {
                 // スクリプトファイルでない、または名前が変わっていない場合は、元のロジックに従い、
                 // req.oldPath のファイルのみをリネームキューの定義通りに処理する
@@ -700,19 +693,6 @@ void ProjectPanel::ProcessPendingOperations()
         try
         {
             if (!filesystem::exists(p)) continue;
-            // 1. スクリプトファイルの削除 (vcpjrojから削除)
-            if (p.extension() == ".h" || p.extension() == ".cpp")
-            {
-                // スクリプト名（拡張子なし）を取得
-                std::string scriptClassName = p.stem().string();
-
-                // .h, .cpp のどちらか一つがキューに入っていれば、
-                // EditorUtils側で両方のパスを計算し、vcxprojから両方削除する。
-                // （ファイルシステムの削除はEditorUtilsではなく、このループで実行）
-                // ただし、もし .h と .cpp が両方キューに入っている場合、二重にvcxproj処理が走るが、
-                // tinyxml2::DeleteChild は要素が見つからなければ何もしないので安全。
-                EditorUtils::GetInstance().RemoveScriptFileToVcxProj(p, scriptClassName);
-            }
 
             // 2. ファイルシステムからの削除
             if (filesystem::is_directory(p))
@@ -723,6 +703,7 @@ void ProjectPanel::ProcessPendingOperations()
             }
             else // ファイルの場合
             {
+                mScriptFilePath = p;
                 filesystem::remove(p);
                 Debug::Log("Deleted file: %s\n", p.string().c_str());
             }
@@ -733,4 +714,11 @@ void ProjectPanel::ProcessPendingOperations()
         }
     }
     mDeleteQueue.clear();
+}
+
+const filesystem::path& ProjectPanel::GetScriptFilePath()
+{
+	filesystem::path scriptPath = mScriptFilePath;
+    //mScriptFilePath = "";
+    return mScriptFilePath;
 }

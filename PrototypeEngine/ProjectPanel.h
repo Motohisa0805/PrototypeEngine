@@ -32,7 +32,9 @@ private:
 	filesystem::path				mCurrentFolder;
 	filesystem::path				mCurrentFile;
 	// ユーザーが左クリックでハイライトしたファイル/フォルダ
-	filesystem::path				mSelectedPath;  
+	filesystem::path				mSelectedPath;
+
+	static filesystem::path			mScriptFilePath;  
 public:
 	//選択中のファイルパスを取得
 	const char* GetName()override { return "Project"; }
@@ -61,5 +63,7 @@ public:
 	void		DrawOverwritePopup();
 	//保留中の削除、リネーム、ドラッグ＆ドロップの処理
 	void		ProcessPendingOperations();
+
+	static const filesystem::path& GetScriptFilePath();
 };
 

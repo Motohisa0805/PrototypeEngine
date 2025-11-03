@@ -24,6 +24,7 @@ public:
 
 	//登録されているコンポーネントの一覧を取得
 	static std::vector<string>	GetRegisteredComponentNames();
+	static void					UnregisterAllComponents();
 };
 
 // --------------------------------------------------
