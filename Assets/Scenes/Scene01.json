@@ -3,8 +3,7 @@
     {
       "Components": [
         {
-          "Type": "FreeCamera",
-          "UpdateOrder": 200
+          "Type": "FreeCamera"
         }
       ],
       "LocalPosition": [
@@ -31,8 +30,7 @@
     {
       "Components": [
         {
-          "Type": "DirectionalLightComponent",
-          "UpdateOrder": 100
+          "Type": "DirectionalLightComponent"
         }
       ],
       "LocalPosition": [
@@ -63,7 +61,6 @@
           "FilePath": "DebugStage.fbx",
           "IsSkeletal": false,
           "Type": "MeshRenderer",
-          "UpdateOrder": 100,
           "Visible": true
         }
       ],
@@ -95,7 +92,6 @@
           "FilePath": "DebugStage.fbx",
           "IsSkeletal": false,
           "Type": "MeshRenderer",
-          "UpdateOrder": 100,
           "Visible": true
         }
       ],
@@ -127,7 +123,6 @@
           "FilePath": "Cube.fbx",
           "IsSkeletal": false,
           "Type": "MeshRenderer",
-          "UpdateOrder": 100,
           "Visible": true
         }
       ],
@@ -159,7 +154,6 @@
           "FilePath": "Cube.fbx",
           "IsSkeletal": false,
           "Type": "MeshRenderer",
-          "UpdateOrder": 100,
           "Visible": true
         }
       ],
@@ -191,7 +185,6 @@
           "FilePath": "Sphere.fbx",
           "IsSkeletal": false,
           "Type": "MeshRenderer",
-          "UpdateOrder": 100,
           "Visible": true
         }
       ],
@@ -223,7 +216,6 @@
           "FilePath": "Portal.fbx",
           "IsSkeletal": false,
           "Type": "MeshRenderer",
-          "UpdateOrder": 100,
           "Visible": true
         }
       ],

@@ -32,7 +32,10 @@ struct PropertyInfo
 	string			sSetterName;
 };
 
-//リフレクションマクロ
+// --------------------------------------------------
+// GUI描画簡略化マクロ (派生クラスの DrawCustomGUI() 内で使用)
+// --------------------------------------------------
+//【リフレクションマクロ】
 //ヘッダーファイルで使うマクロ
 #define REFLECT_CLASS_BEGIN(Class, BaseClass) \
 public: \
@@ -60,9 +63,8 @@ private:
 // REFLECT_BASE_BEGINは使わずに、REFLECT_CLASS_BEGINを使用
 #define REFLECT_BASE_BEGIN(Class) REFLECT_CLASS_BEGIN(Class, Component)
 
-// --------------------------------------------------
-// GUI描画簡略化マクロ (派生クラスの DrawCustomGUI() 内で使用)
-// --------------------------------------------------
+
+
 
 //コンポーネントの基底クラス
 // Unityのコンポーネントに近いクラス

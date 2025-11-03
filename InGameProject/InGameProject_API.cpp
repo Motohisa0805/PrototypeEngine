@@ -1,14 +1,26 @@
 #include "pch.h"
+#include "InGameProject_API.h"
 #include <utility>
 #include <limits.h>
-#include "GameScripts_API.h"
-
-
+#include "PrototypeEngine/ComponentFactory.h"
 
 // DLL internal state variables:
 static unsigned long long previous_;  // Previous value, if any
 static unsigned long long current_;   // Current sequence value
 static unsigned index_;               // Current seq. position
+
+GAMESCRIPTS_API Component* CreateScriptComponent(const char* className, ActorObject* owner)
+{
+    return ComponentFactory::CreateComponent(className, owner);
+}
+
+GAMESCRIPTS_API void UnregisterScriptComponents()
+{
+    // DLL内のすべてのスクリプトクラス登録をComponentFactoryから解除する
+    // ComponentFactory内にUnregisterAllFromDll(HMODULE hDll)のような関数を用意する必要があります
+    // 簡単化のため、ここではComponentRegistrarの仕組みを利用します
+    ComponentFactory::UnregisterAllComponents();
+}
 
 // Initialize a Fibonacci relation sequence
 // such that F(0) = a, F(1) = b.

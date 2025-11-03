@@ -4,7 +4,7 @@
 
 EditorUtils::EditorUtils()
 {
-    mVcxppoj_Path = "GameScripts/GameScripts.vcxproj";
+    mVcxppoj_Path = "InGameProject/InGameProject.vcxproj";
 }
 
 bool EditorUtils::CreateScriptFile(const std::filesystem::path& folderPath, const std::string& scriptName)
@@ -104,6 +104,23 @@ bool EditorUtils::ReplaceInFile(const filesystem::path& filePath, const string& 
     return true;
 }
 
+bool EditorUtils::DoesEntryExist(tinyxml2::XMLElement* itemGroup, const char* tagName, const char* includePath)
+{
+    if (!itemGroup)return false;
+
+    for (tinyxml2::XMLElement* element = itemGroup->FirstChildElement(tagName);
+        element != nullptr;
+        element = element->NextSiblingElement(tagName))
+    {
+        const char* attr = element->Attribute("Includ");
+        if (attr && (string(attr) == includePath))
+        {
+            return true;//存在した
+        }
+    }
+    return false;//存在した
+}
+
 bool EditorUtils::AddScriptFileToVcxProj(const filesystem::path& path, const string& scriptClassName)
 {
     tinyxml2::XMLDocument doc;
@@ -153,24 +170,30 @@ bool EditorUtils::AddScriptFileToVcxProj(const filesystem::path& path, const str
     // <ClCompile> タグを含む ItemGroup を検索/作成
     tinyxml2::XMLElement* compileItemGroup = FindOrCreateItemGroup("ClCompile");
 
-    TIXMLASSERT(compileItemGroup != nullptr);
+    if (!compileItemGroup) return false; // FindOrCreateItemGroupがnullptrを返した場合の安全策
 
-    tinyxml2::XMLElement* newClCompile = doc.NewElement("ClCompile");
-    newClCompile->SetAttribute("Include", cppPath.c_str());
-
-    compileItemGroup->InsertEndChild(newClCompile);
+    // ★ 修正：既存チェックを追加
+    if (!DoesEntryExist(compileItemGroup, "ClCompile", cppPath.c_str()))
+    {
+        tinyxml2::XMLElement* newClCompile = doc.NewElement("ClCompile");
+        newClCompile->SetAttribute("Include", cppPath.c_str());
+        compileItemGroup->InsertEndChild(newClCompile);
+    }
 
     // ----------------------------------------------------------------
     // 2. <ClInclude> に .h ファイルを追加 (IDE表示用)
     // ----------------------------------------------------------------
     // <ClInclude> タグを含む ItemGroup を検索/作成
     tinyxml2::XMLElement* headerItemGroup = FindOrCreateItemGroup("ClInclude");
+    if (!headerItemGroup) return false;
 
-    TIXMLASSERT(headerItemGroup != nullptr);
-
-    tinyxml2::XMLElement* newClInclude = doc.NewElement("ClInclude");
-    newClInclude->SetAttribute("Include", hPath.c_str());
-    headerItemGroup->InsertEndChild(newClInclude);
+    // ★ 修正：既存チェックを追加
+    if (!DoesEntryExist(headerItemGroup, "ClInclude", hPath.c_str()))
+    {
+        tinyxml2::XMLElement* newClInclude = doc.NewElement("ClInclude");
+        newClInclude->SetAttribute("Include", hPath.c_str());
+        headerItemGroup->InsertEndChild(newClInclude);
+    }
 
 
     // 3. 変更をファイルに保存

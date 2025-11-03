@@ -2,7 +2,7 @@
 <Project>
   <ProjectOutputs>
     <ProjectOutput>
-      <FullPath>C:\C++Files\PrototypeEngine\bin\GameScripts.dll</FullPath>
+      <FullPath>C:\C++Files\PrototypeEngine\bin\InGameProject.dll</FullPath>
     </ProjectOutput>
   </ProjectOutputs>
   <ContentFiles />

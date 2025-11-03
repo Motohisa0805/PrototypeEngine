@@ -115,7 +115,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(ProjectDir)ExternalLibrary\SDL3-3.2.8\lib\x64;$(ProjectDir)ExternalLibrary\SDL3_image-3.2.4\lib\x64;$(ProjectDir)ExternalLibrary\FMOD Studio API Windows\api\studio\lib;$(ProjectDir)ExternalLibrary\FMOD Studio API Windows\api\lowlevel\lib;$(ProjectDir)ExternalLibrary\SDL3_ttf-3.1.0\lib\x64;$(SolutionDir)bin;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>SDL3.lib;SDL3_image.lib;fmod_vc.lib;fmod64_vc.lib;fmodL_vc.lib;fmodL64_vc.lib;fmodstudio_vc.lib;fmodstudio64_vc.lib;fmodstudioL_vc.lib;fmodstudioL64_vc.lib;SDL3_ttf.lib;GameScripts.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL3.lib;SDL3_image.lib;fmod_vc.lib;fmod64_vc.lib;fmodL_vc.lib;fmodL64_vc.lib;fmodstudio_vc.lib;fmodstudio64_vc.lib;fmodstudioL_vc.lib;fmodstudioL64_vc.lib;SDL3_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -250,6 +250,7 @@
     <ClCompile Include="SceneViewPanel.cpp" />
     <ClCompile Include="InspectorPanel.cpp" />
     <ClCompile Include="ScriptComponent.cpp" />
+    <ClCompile Include="ScriptHotReloadManager.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="ShadowMap.cpp" />
     <ClCompile Include="SkeletalMeshRenderer.cpp" />
@@ -373,6 +374,7 @@
     <ClInclude Include="SceneViewEditor.h" />
     <ClInclude Include="SceneViewPanel.h" />
     <ClInclude Include="ScriptComponent.h" />
+    <ClInclude Include="ScriptHotReloadManager.h" />
     <ClInclude Include="SDL3.h" />
     <ClInclude Include="SDL_Scancode.h" />
     <ClInclude Include="SDOpenLib.h" />

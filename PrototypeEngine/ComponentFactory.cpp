@@ -49,6 +49,11 @@ std::vector<string> ComponentFactory::GetRegisteredComponentNames()
 	return names;
 }
 
+void ComponentFactory::UnregisterAllComponents()
+{
+	sCreators.clear();
+}
+
 // --------------------------------------------------
 //  コンポーネントの登録
 // --------------------------------------------------

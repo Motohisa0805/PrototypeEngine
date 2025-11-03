@@ -1,5 +1,5 @@
 #pragma once
-#include "GameScripts/GameScripts_API.h"
+#include "InGameProject/InGameProject_API.h"
 #include "Component.h"
 #include "ComponentFactory.h"
 

@@ -5,6 +5,7 @@
 #include "SceneManager.h"
 #include "WindowRenderProperty.h"
 #include "ComponentFactory.h"
+#include "ScriptHotReloadManager.h"
 
 EngineState EngineWindow::mEngineState = EngineState::Run;
 
@@ -67,6 +68,11 @@ bool EngineWindow::EngineInitialize()
 
 	mSceneEditorCamera = new SceneEditorCamera();
 	GameStateClass::mDebugFrag = true;
+
+	mHotReloadManager = std::make_unique<ScriptHotReloadManager>();
+	//スクリプトDLLをロードする
+	mHotReloadManager.get()->Initialize();
+
 	return true;
 }
 
@@ -130,6 +136,10 @@ void EngineWindow::EngineRunLoop()
 {
 	while (EngineWindow::mEngineState != EngineState::End)
 	{
+		//スクリプトDLLの変更を監視し、リロードが必要なら実行
+		mHotReloadManager.get()->CheckForChanges();
+
+
 		//デルタタイム更新
 		Time::UpdateDeltaTime();
 		//入力処理
@@ -149,16 +159,7 @@ void EngineWindow::EngineRunLoop()
 				if (GUIWinMain::IsStarting())
 				{
 					GUIWinMain::ResetPointer();
-					//Rendererのものもアンロード
-					//mRenderer->UnloadData();
-					//現在のシーンのオブジェクト、画像などをアンロード
-					//SceneManager::GetNowScene()->UnloadData();
 					GameStateClass::SetGameState(GameState::GamePlay);
-					//新しいシーンの初期化
-					//SceneManager::GetNowScene()->Initialize();
-					//Rendererのシーンも変更
-					//mRenderer->SetBaseScene(SceneManager::GetNowScene());
-
 					GUIWinMain::SetIsStarting(false);
 				}
 				mGameWindow->GameRunLoop();
@@ -191,20 +192,13 @@ void EngineWindow::EngineRender()
 	mRenderer->EndDraw();
 }
 
-void EngineWindow::EngineUnloadData()
-{
-
-	if(mGameWindow)
-	{
-		mGameWindow->Shutdown();
-		delete mGameWindow;
-		mGameWindow = nullptr;
-	}
-	SceneManager::ReleaseAllScenes();
-}
-
 void EngineWindow::EngineShutdown()
 {
+	if (mHotReloadManager)
+	{
+		mHotReloadManager.get()->UnloadScripts();
+		mHotReloadManager.reset();
+	}
 	if (mGameWindow)
 	{
 		mGameWindow->Shutdown();
