@@ -35,4 +35,8 @@ public:
 
 	ColliderType	GetType() override { return ColliderType::CapsuleType; }
 
+	void			Serialize(json& j) const override;
+	void			Deserialize(const json& j)override;
+
+	void			DrawCustomGUI(const std::vector<PropertyInfo>& properties)override;
 };

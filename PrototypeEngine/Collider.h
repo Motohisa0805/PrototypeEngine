@@ -52,5 +52,9 @@ public:
 
 	float					GetContactOffset() { return mContactOffset; }
 
+	void					Serialize(json& j) const override;
+	void					Deserialize(const json& j)override;
+
+	void					DrawCustomGUI(const std::vector<PropertyInfo>& properties)override;
 };
 

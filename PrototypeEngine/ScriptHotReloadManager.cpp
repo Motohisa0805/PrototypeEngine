@@ -260,7 +260,6 @@ bool ScriptHotReloadManager::CheckForChanges()
 		}
 	}
 
-	/*
 	// B) 追加・変更処理
 	for (const auto& path : assetsAddedOrModified)
 	{
@@ -272,12 +271,13 @@ bool ScriptHotReloadManager::CheckForChanges()
 			needsRebuild = true;
 		}
 	}
+	/*
 	if (needsRebuild)
 	{
 		return ExecuteMsbuildAndReload();
 	}
 
-	// 既存の .dll の変更監視 (これは残しても良い)
+	// 既存の .dll の変更監視
 	FILETIME currentWriteTime = GetDllLastWriteTime(mSourceDllPath);
 	if (CompareFileTime(&currentWriteTime, &mLastLoadTime) > 0)
 	{

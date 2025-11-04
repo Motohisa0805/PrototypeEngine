@@ -42,4 +42,9 @@ public:
 	void			SetShouldRotate(bool value) { mShouldRotate = value; }
 	//コライダーのタグ
 	ColliderType	GetType() override { return ColliderType::BoxType; }
+
+	void			Serialize(json& j) const override;
+	void			Deserialize(const json& j)override;
+
+	void			DrawCustomGUI(const std::vector<PropertyInfo>& properties)override;
 };

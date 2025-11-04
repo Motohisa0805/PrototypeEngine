@@ -36,7 +36,7 @@ ActorObject::~ActorObject()
 	mGame->RemoveActor(this);
 	// Need to delete components
 	// Because ~Component calls RemoveComponent, need a different style loop
-	for (auto& comp : mComponents)
+	for (auto comp : mComponents)
 	{
 		delete comp;
 	}
@@ -179,8 +179,9 @@ void ActorObject::Deserialize(const json& j)
 
 void ActorObject::OnComponentAdded(Component* newComp)
 {
+	MeshRenderer* meshRenderer = nullptr;
 	//MeshRendererが追加された場合
-	if (MeshRenderer* meshRenderer = dynamic_cast<MeshRenderer*>(newComp))
+	if (meshRenderer = dynamic_cast<MeshRenderer*>(newComp))
 	{
 		//既にBoxColliderがアタッチされているかチェック
 		if (BoxCollider* collider = GetComponent<BoxCollider>())
@@ -200,7 +201,8 @@ void ActorObject::OnComponentAdded(Component* newComp)
 	else if (BoxCollider* collider = dynamic_cast<BoxCollider*>(newComp))
 	{
 		//既にMeshRendererがアタッチされているかチェック
-		if (MeshRenderer* meshRendeerer = GetComponent<MeshRenderer>())
+		meshRenderer = GetComponent<MeshRenderer>();
+		if (meshRenderer != nullptr)
 		{
 			//MeshRendererが既にいるので、コライダーのサイズを初期設定する
 			if (!meshRenderer->GetMeshs().empty())
