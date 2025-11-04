@@ -1,6 +1,10 @@
 #include "CapsuleCollider.h"
 #include "Actor.h"
 
+#include "imgui.h"
+#include "imgui_impl_sdl3.h"
+#include "imgui_impl_opengl3.h"
+
 CapsuleCollider::CapsuleCollider(ActorObject* owner, int updateOrder)
 	: Collider(owner,updateOrder)
 	, mObjectCapsule(Vector3::Zero,Vector3::Zero,0.0f)
@@ -8,6 +12,10 @@ CapsuleCollider::CapsuleCollider(ActorObject* owner, int updateOrder)
 	, mShouldRotate(true)
 {
     mName = "CapsuleCollider";
+
+    mHeaderColor = Vector4(0.4f, 0.8f, 0.4f, 1.0f);
+    mHeaderHoveredColor = Vector4(0.3f, 0.6f, 0.3f, 1.0f);
+    mHeaderActiveColor = Vector4(0.4f, 0.8f, 0.4f, 1.0f);
 }
 
 CapsuleCollider::~CapsuleCollider()
@@ -55,4 +63,22 @@ AABB CapsuleCollider::GetWorldAABBFromOBB() const
 
     Vector3 rVec(r, r, r);
     return AABB(min - rVec, max + rVec);
+}
+
+void CapsuleCollider::Serialize(json& j) const
+{
+	Collider::Serialize(j);
+}
+
+void CapsuleCollider::Deserialize(const json& j)
+{
+	Collider::Deserialize(j);
+}
+
+void CapsuleCollider::DrawCustomGUI(const std::vector<PropertyInfo>& properties)
+{
+    ImGui::Text("CapsuleCollider Properties");
+	Collider::DrawCustomGUI(properties);
+
+    ImGui::Separator();
 }

@@ -3,6 +3,10 @@
 #include "BaseScene.h"
 #include "PhysWorld.h"
 
+#include "imgui.h"
+#include "imgui_impl_sdl3.h"
+#include "imgui_impl_opengl3.h"
+
 Rigidbody::Rigidbody(ActorObject* owner, int updateOrder)
 	: Component(owner)
 	, mUseGravity(false)
@@ -10,10 +14,15 @@ Rigidbody::Rigidbody(ActorObject* owner, int updateOrder)
 	, mMass(1.0f)
     , mFriction(0.3f)
     , mBounciness(0.1f)
-    , mSolverIterationCount(4)
+	, mVelocity(Vector3::Zero)
+	, mForces(Vector3::Zero)
 {
     mName = "Rigidbody";
 	mUseGravity = true;
+
+    mHeaderColor = Vector4(0.4f, 0.8f, 0.4f, 1.0f);
+    mHeaderHoveredColor = Vector4(0.3f, 0.6f, 0.3f, 1.0f);
+    mHeaderActiveColor = Vector4(0.4f, 0.8f, 0.4f, 1.0f);
 }
 
 void Rigidbody::FixedUpdate(float deltaTime)
@@ -97,4 +106,63 @@ void Rigidbody::ApplyPushCorrection(const Vector3& correction, float dt)
 void Rigidbody::AddForce(Vector3 force)
 {
     mForces += force;
+}
+
+void Rigidbody::Serialize(json& j) const
+{
+	Component::Serialize(j);
+
+	j["UseGravity"] = mUseGravity;
+	j["GravityScale"] = mGravityScale;
+	j["Mass"] = mMass;
+	j["Friction"] = mFriction;
+	j["Bounciness"] = mBounciness;
+}
+
+void Rigidbody::Deserialize(const json& j)
+{
+	Component::Deserialize(j);
+
+    if (j.contains("UseGravity"))
+    {
+        mUseGravity = j.at("UseGravity").get<bool>();
+	}
+    if (j.contains("GravityScale"))
+    {
+        mGravityScale = j.at("GravityScale").get<float>();
+    }
+    if (j.contains("Mass"))
+    {
+        mMass = j.at("Mass").get<float>();
+    }
+    if (j.contains("Friction"))
+    {
+        mFriction = j.at("Friction").get<float>();
+    }
+    if (j.contains("Bounciness"))
+    {
+        mBounciness = j.at("Bounciness").get<float>();
+	}
+}
+
+void Rigidbody::DrawCustomGUI(const std::vector<PropertyInfo>& properties)
+{
+    ImGui::Text("Rigidbody Properties");
+    ImGui::NewLine();
+    ImGui::Checkbox("Use Gravity",&mUseGravity);
+    ImGui::NewLine();
+    ImGui::SetNextItemWidth(50);
+    ImGui::DragFloat("Mass", &mMass);
+    ImGui::NewLine();
+    ImGui::SetNextItemWidth(50);
+    ImGui::DragFloat("GravityScale", &mGravityScale);
+    ImGui::NewLine();
+    ImGui::SetNextItemWidth(50);
+    ImGui::DragFloat("Friction", &mFriction);
+    ImGui::NewLine();
+    ImGui::SetNextItemWidth(50);
+    ImGui::DragFloat("Bounciness", &mBounciness);
+    ImGui::NewLine();
+
+    ImGui::Separator();
 }

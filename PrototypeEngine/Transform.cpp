@@ -175,11 +175,13 @@ void Transform::AddComponent(Component* component)
 
 void Transform::RemoveComponent(Component* component)
 {
+	/*
 	auto iter = std::find(mComponents.begin(), mComponents.end(), component);
 	if (iter != mComponents.end())
 	{
 		mComponents.erase(iter);
 	}
+	*/
 }
 
 void Transform::SetDirty()

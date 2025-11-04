@@ -62,7 +62,7 @@ void ComponentFactory::UnregisterAllComponents()
 // 現状GUIで使用できるコンポーネントだけ処理
 void RegisterAllComponents()
 {
-	//ComponentFactory::RegisterComponent("Rigidbody",[](ActorObject* owner) -> Component* { return new Rigidbody(owner); });
+	ComponentFactory::RegisterComponent("Rigidbody",[](ActorObject* owner) -> Component* { return new Rigidbody(owner); });
 	
 	ComponentFactory::RegisterComponent("MeshRenderer",[](ActorObject* owner) -> Component* { return new MeshRenderer(owner, false); });
 	
@@ -72,11 +72,11 @@ void RegisterAllComponents()
 	
 	ComponentFactory::RegisterComponent("DirectionalLightComponent",[](ActorObject* owner) -> Component* { return new DirectionalLightComponent(owner); });
 	
-	//ComponentFactory::RegisterComponent("BoxCollider",[](ActorObject* owner) -> Component* { return new BoxCollider(owner); });
+	ComponentFactory::RegisterComponent("BoxCollider",[](ActorObject* owner) -> Component* { return new BoxCollider(owner); });
 	
-	//ComponentFactory::RegisterComponent("CapsuleCollider",[](ActorObject* owner) -> Component* { return new CapsuleCollider(owner); });
+	ComponentFactory::RegisterComponent("CapsuleCollider",[](ActorObject* owner) -> Component* { return new CapsuleCollider(owner); });
 	
-	//ComponentFactory::RegisterComponent("SphereCollider",[](ActorObject* owner) -> Component* { return new SphereCollider(owner); });
+	ComponentFactory::RegisterComponent("SphereCollider",[](ActorObject* owner) -> Component* { return new SphereCollider(owner); });
 	
 	//ComponentFactory::RegisterComponent("AudioComponent",[](ActorObject* owner) -> Component* { return new AudioComponent(owner); });
 	

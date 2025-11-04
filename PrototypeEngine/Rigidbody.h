@@ -30,8 +30,6 @@ private:
 
 	// 0Å`1ÅFîΩî≠åWêî
 	float		mBounciness;   
-
-	int			mSolverIterationCount;
 	// Rigidbody.h
 	bool		mIsGrounded = false;
 public:
@@ -63,9 +61,11 @@ public:
 	float		GetBounciness() const { return mBounciness; }
 	void		SetBounciness(float b) { mBounciness = b; }
 
-	int			GetSolverIterationCount() const { return mSolverIterationCount; }
-	void		SetSolverIterationCount(int count) { mSolverIterationCount = count; }
-
 	void		SetGrounded(bool grounded) { mIsGrounded = grounded; }
 	bool		IsGrounded() const { return mIsGrounded; }
+
+	void						Serialize(json& j) const override;
+	void						Deserialize(const json& j)override;
+
+	void						DrawCustomGUI(const std::vector<PropertyInfo>& properties)override;
 };

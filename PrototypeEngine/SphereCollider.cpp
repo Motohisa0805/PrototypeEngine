@@ -1,5 +1,10 @@
 #include "SphereCollider.h"
 #include "Actor.h"
+
+#include "imgui.h"
+#include "imgui_impl_sdl3.h"
+#include "imgui_impl_opengl3.h"
+
 SphereCollider::SphereCollider(ActorObject* owner, int updateOrder)
 	:Collider(owner, updateOrder)
 	, mObjectSphere(Vector3::Zero, 0)
@@ -37,4 +42,22 @@ AABB SphereCollider::GetWorldAABBFromOBB() const
 		mWorldSphere.mCenter - rVec,
 		mWorldSphere.mCenter + rVec
 	);
+}
+
+void SphereCollider::Serialize(json& j) const
+{
+	Collider::Serialize(j);
+}
+
+void SphereCollider::Deserialize(const json& j)
+{
+	Collider::Deserialize(j);
+}
+
+void SphereCollider::DrawCustomGUI(const std::vector<PropertyInfo>& properties)
+{
+	ImGui::Text("SphereCollider Properties");
+	Collider::DrawCustomGUI(properties);
+
+	ImGui::Separator();
 }

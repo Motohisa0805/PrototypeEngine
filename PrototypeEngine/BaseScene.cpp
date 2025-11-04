@@ -283,6 +283,7 @@ bool BaseScene::EditorUpdate()
 
 	mPendingActors.clear();
 
+	//TODO : ƒGƒ‰[Œ´ˆö‚Ì‰Â”\«‚ ‚è
 	// Add any dead actors to a temp vector
 	vector<ActorObject*> deadActors;
 	for (int i = 0; i < mActors.size(); i++)
@@ -292,8 +293,6 @@ bool BaseScene::EditorUpdate()
 			deadActors.emplace_back(mActors[i]);
 		}
 	}
-
-
 	// Delete dead actors (which removes them from mActors)
 	for (auto actor : deadActors)
 	{

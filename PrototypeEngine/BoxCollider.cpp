@@ -1,6 +1,10 @@
 #include "BoxCollider.h"
 #include "Actor.h"
 
+#include "imgui.h"
+#include "imgui_impl_sdl3.h"
+#include "imgui_impl_opengl3.h"
+
 BoxCollider::BoxCollider(ActorObject* owner, int updateOrder)
 	:Collider(owner, updateOrder)
 	, mObjectBox(Vector3::Zero, Vector3::Zero)
@@ -12,6 +16,11 @@ BoxCollider::BoxCollider(ActorObject* owner, int updateOrder)
 	mObjectOBB.mCenter = owner->GetPosition();
 	mObjectOBB.mRotation = owner->GetRotation();
 	mObjectOBB.mExtents = Vector3(0.5f, 0.5f, 0.5f); // 1x1x1ボックスの半分
+
+
+	mHeaderColor = Vector4(0.4f, 0.8f, 0.4f, 1.0f);
+	mHeaderHoveredColor = Vector4(0.3f, 0.6f, 0.3f, 1.0f);
+	mHeaderActiveColor = Vector4(0.4f, 0.8f, 0.4f, 1.0f);
 }
 
 BoxCollider::~BoxCollider()
@@ -59,4 +68,30 @@ AABB BoxCollider::GetWorldAABBFromOBB() const
 
 	Vector3 r = Vector3::Abs(x) + Vector3::Abs(y) + Vector3::Abs(z);
 	return AABB(obb.mCenter - r, obb.mCenter + r);
+}
+
+void BoxCollider::Serialize(json& j) const
+{
+	Collider::Serialize(j);
+	j["mObjectOBB.mOffset"] = { mObjectOBB.mOffset.x, mObjectOBB.mOffset.y, mObjectOBB.mOffset.z };
+}
+
+void BoxCollider::Deserialize(const json& j)
+{
+	Collider::Deserialize(j);
+	auto offsetArray = j.at("mObjectOBB.mOffset");
+	mObjectOBB.mOffset.x = offsetArray.at(0).get<float>();
+	mObjectOBB.mOffset.y = offsetArray.at(1).get<float>();
+	mObjectOBB.mOffset.z = offsetArray.at(2).get<float>();
+}
+
+void BoxCollider::DrawCustomGUI(const std::vector<PropertyInfo>& properties)
+{
+	ImGui::Text("BoxCollider Properties");
+	Collider::DrawCustomGUI(properties);
+
+	ImGui::DragFloat3("Offset", &mObjectOBB.mOffset.x);
+	ImGui::NewLine();
+
+	ImGui::Separator();
 }
