@@ -166,15 +166,18 @@ void MeshRenderer::Deserialize(const json& j)
 
 void MeshRenderer::DrawCustomGUI(const std::vector<PropertyInfo>& properties)
 {
+	ImGui::PushID(this);
+
 	//MeshRendererのプロパティ
 	ImGui::Text("Mesh Renderer Properties");
+
+	ImGui::NewLine();
 
 	//1.ファイルパスの取得
 	string currentPath = mFilePath;
 	static char pathBuffer[256];
 	strncpy_s(pathBuffer, currentPath.c_str(), sizeof(pathBuffer));
 	pathBuffer[sizeof(pathBuffer) - 1] = '\0';
-	ImGui::NewLine();
 	ImGui::Text("FilePath DragDropTarget");
 	//2.ファイルパスの入力フィールド
 	ImGui::InputText("Mesh File Path", pathBuffer, sizeof(pathBuffer), ImGuiInputTextFlags_ReadOnly);
@@ -196,6 +199,7 @@ void MeshRenderer::DrawCustomGUI(const std::vector<PropertyInfo>& properties)
 		}
 		ImGui::EndDragDropTarget();
 	}
+
 	ImGui::NewLine();
 	if (!mMeshs.empty())
 	{
@@ -211,4 +215,6 @@ void MeshRenderer::DrawCustomGUI(const std::vector<PropertyInfo>& properties)
 	}
 
 	ImGui::Separator();
+
+	ImGui::PopID();
 }

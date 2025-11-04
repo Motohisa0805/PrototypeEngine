@@ -2,6 +2,10 @@
 #include "Actor.h"
 #include "AudioSystem.h"
 
+#include "imgui.h"
+#include "imgui_impl_sdl3.h"
+#include "imgui_impl_opengl3.h"
+
 AudioComponent::AudioComponent(ActorObject* owner, int updateOrder)
 	:Component(owner, updateOrder)
 {
@@ -90,4 +94,21 @@ void AudioComponent::StopAllEvents()
 	// イベントをクリア
 	mEvents2D.clear();
 	mEvents3D.clear();
+}
+
+void AudioComponent::Serialize(json& j) const
+{
+	Component::Serialize(j);
+}
+
+void AudioComponent::Deserialize(const json& j)
+{
+	Component::Deserialize(j);
+}
+
+void AudioComponent::DrawCustomGUI(const std::vector<PropertyInfo>& properties)
+{
+	ImGui::Text("AudioComponentProperties");
+
+
 }

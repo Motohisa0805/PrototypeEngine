@@ -66,9 +66,9 @@ void RegisterAllComponents()
 	
 	ComponentFactory::RegisterComponent("MeshRenderer",[](ActorObject* owner) -> Component* { return new MeshRenderer(owner, false); });
 	
-	ComponentFactory::RegisterComponent("SkeletalMeshRenderer",[](ActorObject* owner) -> Component* { return new SkeletalMeshRenderer(owner); });
+	//ComponentFactory::RegisterComponent("SkeletalMeshRenderer",[](ActorObject* owner) -> Component* { return new SkeletalMeshRenderer(owner); });
 	
-	//ComponentFactory::RegisterComponent("ParticleSystem",[](ActorObject* owner) -> Component* { return new ParticleSystem(owner); });
+	ComponentFactory::RegisterComponent("ParticleSystem",[](ActorObject* owner) -> Component* { return new ParticleSystem(owner); });
 	
 	ComponentFactory::RegisterComponent("DirectionalLightComponent",[](ActorObject* owner) -> Component* { return new DirectionalLightComponent(owner); });
 	

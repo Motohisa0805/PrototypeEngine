@@ -71,11 +71,13 @@ void InspectorPanel::Draw(float width, float height, ImTextureRef ref)
 
 			// 削除対象のコンポーネントを保持するポインタ
 			Component* compToDelete = nullptr;
+			//コンポーネントラベルにユニークIDを追加するためのインデックス
+			int index = 0;
 			for (Component* comp : components)
 			{
 				comp->InitializeDrawCustomGUI();
 				// 各コンポーネントのプロパティ編集UI
-				if (ImGui::CollapsingHeader(comp->GetName().c_str(), ImGuiTreeNodeFlags_DefaultOpen))
+				if (ImGui::CollapsingHeader(comp->GetName().c_str() + index, ImGuiTreeNodeFlags_DefaultOpen))
 				{
 					//ここに各コンポーネント固有のプロパティ編集ロジックを実装
 
@@ -105,6 +107,7 @@ void InspectorPanel::Draw(float width, float height, ImTextureRef ref)
 
 				}
 				comp->EndDrawCustomGUI();
+				index++;
 			}
 			ImGui::Separator();
 

@@ -2,6 +2,10 @@
 #include "EngineWindow.h"
 #include "Renderer.h"
 
+#include "imgui.h"
+#include "imgui_impl_sdl3.h"
+#include "imgui_impl_opengl3.h"
+
 ParticleSystem::ParticleSystem(ActorObject* owner)
 	: Component(owner)
 	, mVisible(true)
@@ -26,6 +30,10 @@ ParticleSystem::ParticleSystem(ActorObject* owner)
 
 	//¶¬Žž‚É‰Šú‰æ‘œ‚ð“Ç‚Ýž‚Þ
 	mParticleTexture = EngineWindow::GetRenderer()->GetTexture("Assets/Particle/Default.png");
+
+	mHeaderColor = Vector4(0.8f, 0.4f, 0.8f, 1.0f);
+	mHeaderHoveredColor = Vector4(0.6f, 0.3f, 0.6f, 1.0f);
+	mHeaderActiveColor = Vector4(0.8f, 0.4f, 0.8f, 1.0f);
 }
 
 ParticleSystem::~ParticleSystem()
@@ -200,4 +208,115 @@ void ParticleSystem::Draw(Shader* shader)
 			glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 		}
 	}
+}
+
+void ParticleSystem::Serialize(json& j) const
+{
+	Component::Serialize(j);
+	j["IsAlphaFade"] = mIsAlphaFade;
+	j["IsLoop"] = mIsLoop;
+	j["IsDestroyed"] = mIsDestroyed;
+	j["MaxParticleCount"] = mMaxParticleCount;
+	j["ParticleLifeTime"] = mParticleLifeTime;
+	j["ParticleMinSize"] = mParticleMinSize;
+	j["ParticleMaxSize"] = mParticleMaxSize;
+	j["EmitInterval"] = mEmitInterval;
+}
+
+void ParticleSystem::Deserialize(const json& j)
+{
+	Component::Deserialize(j);
+	if (j.contains("IsAlphaFade"))
+	{
+		mIsAlphaFade = j["IsAlphaFade"].get<bool>();
+	}
+	if (j.contains("IsLoop"))
+	{
+		mIsLoop = j["IsLoop"].get<bool>();
+	}
+	if (j.contains("IsDestroyed"))
+	{
+		mIsDestroyed = j["IsDestroyed"].get<bool>();
+	}
+	if (j.contains("MaxParticleCount"))
+	{
+		mMaxParticleCount = j["MaxParticleCount"].get<int>();
+	}
+	if (j.contains("ParticleLifeTime"))
+	{
+		mParticleLifeTime = j["ParticleLifeTime"].get<float>();
+	}
+	if (j.contains("ParticleMinSize"))
+	{
+		mParticleMinSize = j["ParticleMinSize"].get<float>();
+	}
+	if (j.contains("ParticleMaxSize"))
+	{
+		mParticleMaxSize = j["ParticleMaxSize"].get<float>();
+	}
+	if (j.contains("EmitInterval"))
+	{
+		mEmitInterval = j["EmitInterval"].get<float>();
+	}
+}
+
+void ParticleSystem::DrawCustomGUI(const std::vector<PropertyInfo>& properties)
+{
+	ImGui::PushID(this);
+
+	ImGui::Text("ParticleSystemProperties");
+	
+	ImGui::NewLine();
+	
+	ImGui::Text("AlphaFade");
+	ImGui::SameLine();
+	ImGui::Checkbox("##alphaFade", &mIsAlphaFade);
+
+	ImGui::NewLine();
+
+	ImGui::Text("Loop");
+	ImGui::SameLine();
+	ImGui::Checkbox("##loop", &mIsLoop);
+	
+	ImGui::NewLine();
+	
+	ImGui::Text("Destroyed");
+	ImGui::SameLine();
+	ImGui::Checkbox("##destroyed", &mIsDestroyed);
+	
+	ImGui::NewLine();
+	
+	ImGui::Text("MaxParticleCount");
+	ImGui::SameLine();
+	ImGui::InputInt("##maxParticleCount", &mMaxParticleCount);
+	
+	ImGui::NewLine();
+	
+	ImGui::Text("ParticleLifeTime");
+	ImGui::SameLine();
+	ImGui::InputFloat("##particleLifeTime", &mParticleLifeTime);
+	
+	ImGui::NewLine();
+	
+	ImGui::Text("ParticleMinSize");
+	ImGui::SameLine();
+	ImGui::InputFloat("##particleMinSize", &mParticleMinSize);
+	
+	ImGui::NewLine();
+	
+	ImGui::Text("ParticleMaxSize");
+	ImGui::SameLine();
+	ImGui::InputFloat("##particleMaxSize", &mParticleMaxSize);
+	
+	ImGui::NewLine();
+	
+	ImGui::Text("EmitInterval");
+	ImGui::SameLine();
+	ImGui::InputFloat("##emitInterval", &mEmitInterval);
+	
+	ImGui::NewLine();
+
+	ImGui::Separator();
+
+	ImGui::PopID();
 }

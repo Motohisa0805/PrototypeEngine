@@ -38,7 +38,7 @@ void GUIPanel::SetPanelColorTheme()
 	colors[ImGuiCol_WindowBg] = ImVec4(0.19f, 0.19f, 0.19f, 1.00f);//ƒpƒlƒ‹”wŒi
 	colors[ImGuiCol_Text] = ImVec4(0.90f, 0.90f, 0.90f, 1.00f);//ƒpƒlƒ‹”wŒi
 	colors[ImGuiCol_Border] = ImVec4(0.10f, 0.10f, 0.10f, 1.00f);//ƒpƒlƒ‹”wŒi
-	colors[ImGuiCol_FrameBg] = ImVec4(0.20f, 0.20f, 0.20f, 1.00f);//ƒpƒlƒ‹”wŒi
+	colors[ImGuiCol_FrameBg] = ImVec4(0.15f, 0.15f, 0.15f, 1.00f);//ƒpƒlƒ‹”wŒi
 	colors[ImGuiCol_FrameBgHovered] = ImVec4(0.29f, 0.29f, 0.29f, 1.00f);//ƒpƒlƒ‹”wŒi
 	colors[ImGuiCol_FrameBgActive] = ImVec4(0.35f, 0.35f, 0.35f, 1.00f);//ƒpƒlƒ‹”wŒi
 

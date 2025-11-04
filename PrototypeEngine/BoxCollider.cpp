@@ -79,19 +79,58 @@ void BoxCollider::Serialize(json& j) const
 void BoxCollider::Deserialize(const json& j)
 {
 	Collider::Deserialize(j);
-	auto offsetArray = j.at("mObjectOBB.mOffset");
-	mObjectOBB.mOffset.x = offsetArray.at(0).get<float>();
-	mObjectOBB.mOffset.y = offsetArray.at(1).get<float>();
-	mObjectOBB.mOffset.z = offsetArray.at(2).get<float>();
+	if (j.contains("mObjectOBB.mOffset")) // contains() の方が意図が明確
+	{
+		const auto& offsetArray = j.at("mObjectOBB.mOffset");
+
+		// 1. 配列であるか、かつ 2. 要素数が3つ以上であるかをチェック
+		if (offsetArray.is_array() && offsetArray.size() >= 3)
+		{
+			try
+			{
+				// 各要素が数値であるかを確認しつつ代入
+				if (offsetArray.at(0).is_number() && offsetArray.at(1).is_number() && offsetArray.at(2).is_number())
+				{
+					mObjectOBB.mOffset.x = offsetArray.at(0).get<float>();
+					mObjectOBB.mOffset.y = offsetArray.at(1).get<float>();
+					mObjectOBB.mOffset.z = offsetArray.at(2).get<float>();
+				}
+				else
+				{
+					// エラー処理: 要素が数値ではなかった場合
+					std::cerr << "Error: mOffset array elements are not numbers." << std::endl;
+				}
+			}
+			catch (const json::type_error& e)
+			{
+				// get<float>() で変換に失敗した場合など
+				std::cerr << "Error: JSON type error during float conversion: " << e.what() << std::endl;
+			}
+		}
+		else
+		{
+			// エラー処理: 配列でない、または要素数が不足している場合
+			std::cerr << "Error: mObjectOBB.mOffset is not a valid array of size 3." << std::endl;
+		}
+	}
 }
 
 void BoxCollider::DrawCustomGUI(const std::vector<PropertyInfo>& properties)
 {
+	ImGui::PushID(this);
+
 	ImGui::Text("BoxCollider Properties");
 	Collider::DrawCustomGUI(properties);
+	
+	ImGui::NewLine();
 
-	ImGui::DragFloat3("Offset", &mObjectOBB.mOffset.x);
+	ImGui::Text("Offset");
+	ImGui::SameLine();
+	ImGui::DragFloat3("##offset", &mObjectOBB.mOffset.x);
+
 	ImGui::NewLine();
 
 	ImGui::Separator();
+
+	ImGui::PopID();
 }
