@@ -12,6 +12,10 @@ SphereCollider::SphereCollider(ActorObject* owner, int updateOrder)
 	, mShouldRotate(true)
 {
 	mName = "SphereCollider";
+
+	mHeaderColor = Vector4(0.4f, 0.8f, 0.4f, 1.0f);
+	mHeaderHoveredColor = Vector4(0.3f, 0.6f, 0.3f, 1.0f);
+	mHeaderActiveColor = Vector4(0.4f, 0.8f, 0.4f, 1.0f);
 }
 
 SphereCollider::~SphereCollider()
@@ -56,8 +60,12 @@ void SphereCollider::Deserialize(const json& j)
 
 void SphereCollider::DrawCustomGUI(const std::vector<PropertyInfo>& properties)
 {
+	ImGui::PushID(this);
+
 	ImGui::Text("SphereCollider Properties");
 	Collider::DrawCustomGUI(properties);
 
 	ImGui::Separator();
+
+	ImGui::PushID(this);
 }

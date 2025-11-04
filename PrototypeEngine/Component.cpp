@@ -18,7 +18,7 @@ Component::Component(ActorObject* owner, int updateOrder)
 
 Component::~Component()
 {
-	mOwner->RemoveComponent(this);
+	//mOwner->RemoveComponent(this);
 }
 
 const vector<PropertyInfo>& Component::GetPropertiesStatic()

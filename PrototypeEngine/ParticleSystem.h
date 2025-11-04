@@ -108,6 +108,11 @@ public:
 
 	ParticleStruct*				GetInactiveParticleOrCreateNew();
 
-	void SetEmitInterval(float interval);
+	void						SetEmitInterval(float interval);
+
+	void						Serialize(json& j) const override;
+	void						Deserialize(const json& j)override;
+
+	void						DrawCustomGUI(const std::vector<PropertyInfo>& properties)override;
 };
 

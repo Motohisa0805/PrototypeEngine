@@ -77,8 +77,12 @@ void CapsuleCollider::Deserialize(const json& j)
 
 void CapsuleCollider::DrawCustomGUI(const std::vector<PropertyInfo>& properties)
 {
+    ImGui::PushID(this);
+
     ImGui::Text("CapsuleCollider Properties");
 	Collider::DrawCustomGUI(properties);
 
     ImGui::Separator();
+
+    ImGui::PushID(this);
 }

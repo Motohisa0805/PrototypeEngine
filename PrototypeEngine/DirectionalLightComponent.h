@@ -14,5 +14,10 @@ public:
 	~DirectionalLightComponent();
 	void OnUpdateWorldTransform()override;
 
-	DirectionalLightData GetDirectionalLight() const { return mDirectionalLight; }  
+	DirectionalLightData GetDirectionalLight() const { return mDirectionalLight; } 
+
+	void			Serialize(json& j) const override;
+	void			Deserialize(const json& j)override;
+
+	void			DrawCustomGUI(const std::vector<PropertyInfo>& properties)override;
 };

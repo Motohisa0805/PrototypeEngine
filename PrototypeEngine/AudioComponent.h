@@ -11,6 +11,9 @@
 //3D、2Dのオーディオ処理を行う
 class AudioComponent : public Component
 {
+private:
+	vector<SoundEventClip>	mEvents2D;
+	vector<SoundEventClip>	mEvents3D;
 public:
 						AudioComponent(ActorObject* owner, int updateOrder = 200);
 						~AudioComponent();
@@ -20,7 +23,9 @@ public:
 
 	SoundEventClip		LoadAudio(const string& name);
 	void				StopAllEvents();
-private:
-	vector<SoundEventClip>	mEvents2D;
-	vector<SoundEventClip>	mEvents3D;
+
+	void				Serialize(json& j) const override;
+	void				Deserialize(const json& j)override;
+
+	void				DrawCustomGUI(const std::vector<PropertyInfo>& properties)override;
 };
