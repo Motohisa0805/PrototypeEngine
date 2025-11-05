@@ -50,6 +50,11 @@ private:
 	const string	mSourceDllPath;
 	// ロード中のDLL名
 	string			mActiveDllPath;
+
+	const string	mSourcePDBPath;
+	// ロード中のDLL名
+	string			mActivePDBPath;
+
 	// 次のロードでファイル名を変更するためのインデックス
 	int				mDllIndex;
 	DllHandle		mCurrentDll;
