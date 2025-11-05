@@ -7,6 +7,8 @@
 ScriptHotReloadManager::ScriptHotReloadManager()
 	: mSourceDllPath("bin/InGameProject.dll")
 	, mActiveDllPath("bin/InGameProject_Active.dll")
+	, mSourcePDBPath("bin/InGameProject.pdb")
+	, mActivePDBPath("bin/InGameProject_Active.pdb")
 	, mDllIndex(0)
 	, mLastLoadTime{ 0 }
 	, mScriptsDirectory("Assets/")
@@ -15,6 +17,8 @@ ScriptHotReloadManager::ScriptHotReloadManager()
 
 ScriptHotReloadManager::~ScriptHotReloadManager()
 {
+	remove(mActiveDllPath.c_str());
+	remove(mActivePDBPath.c_str());
 }
 
 bool ScriptHotReloadManager::Initialize()
@@ -33,17 +37,23 @@ bool ScriptHotReloadManager::Initialize()
 
 	mActiveDllPath = initialDllPath;
 
-	//初回ロードDLLロード
-	if (!LoadScripts())
+	// 2. PDBの初回コピー
+	const string& sourcePDBPath = mSourcePDBPath;
+	// 初回ロードに使うコピー先のファイルパス (DLLと一致させる)
+	string initialPDBPath = "bin/InGameProject_Active.pdb";
+
+	if (!CopyFileA(sourcePDBPath.c_str(), initialPDBPath.c_str(), FALSE))
 	{
-		Debug::ErrorLog("Failed to load initial InGameProject DLL.");
-		// ロード失敗
+		Debug::ErrorLog("File Copy PDB File"); // PDB File
 		return false;
 	}
+	mActivePDBPath = initialPDBPath;
+
+
+
 
 	// 【重要】初回ロード時刻をセットし、以降の変更監視を可能にする
 	mLastLoadTime = GetDllLastWriteTime(mSourceDllPath);
-
 	return true;
 }
 
@@ -117,7 +127,7 @@ bool ScriptHotReloadManager::ReloadInGameProject()
 	// 3. 【新しいDLLのコンパイル】
 	// ----------------------------------------------------
 	mDllIndex = (mDllIndex % 2) + 1; // 1または2を交互に使用
-	string newDllPath = "bin/InGameProject_Active_" + std::to_string(mDllIndex) + ".dll";
+	string newDllPath = "bin/InGameProject_Active.dll";
 	
 	//開発者がビルドしたDLLを新しい名前にコピー
 	if (CopyFileA(mSourceDllPath.c_str(), newDllPath.c_str(), FALSE))
@@ -129,6 +139,21 @@ bool ScriptHotReloadManager::ReloadInGameProject()
 		Debug::ErrorLog("File Copy Dll File");
 		return false;
 	}
+
+	// B) PDBのコピー
+	// DLLと同じインデックス（1 or 2）を持つPDBパスを作成
+	string newPDBPath = "bin/InGameProject_Active.pdb";
+
+	// オリジナル(mSourcePDBPath)を新しいPDB(newPDBPath)にコピー
+	if (!CopyFileA(mSourcePDBPath.c_str(), newPDBPath.c_str(), FALSE))
+	{
+		Debug::ErrorLog("File Copy PDB File Failed");
+		return false;
+	}
+
+	// mActivePDBPathを更新 (デバッガがこのパスを参照できるように)
+	mActivePDBPath = newPDBPath;
+
 
 
 
@@ -182,6 +207,7 @@ void ScriptHotReloadManager::UnloadScripts()
 	{
 		// 2.DLLのアンロード: DLLをメモリから解放
 		FreeLibrary(mCurrentDll.hDll);
+		remove(mActivePDBPath.c_str());
 	}
 	mCurrentDll = { };
 }
@@ -271,7 +297,6 @@ bool ScriptHotReloadManager::CheckForChanges()
 			needsRebuild = true;
 		}
 	}
-	/*
 	if (needsRebuild)
 	{
 		return ExecuteMsbuildAndReload();
@@ -283,6 +308,7 @@ bool ScriptHotReloadManager::CheckForChanges()
 	{
 		return ExecuteMsbuildAndReload();
 	}
+	/*
 	*/
 
 	return false;
@@ -290,8 +316,14 @@ bool ScriptHotReloadManager::CheckForChanges()
 
 bool ScriptHotReloadManager::ExecuteMsbuildAndReload()
 {
-	string targetPath = "InGameProject/InGameProject.vcxproj";
-	string msBuildCommand = "msbuild " + targetPath + " /p:Configuration=Debug /p:Platform=x64";
+	// 1. msbuild.exe へのフルパスを定義
+	//    お使いの環境（Community, Professionalなど）やインストール先Cドライブに合わせてください。
+	string msBuildPath = "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\MSBuild\\Current\\Bin\\MSBuild.exe\"";
+
+	string targetPath = "InGameProject.sln";
+
+	// 2. コマンド文字列をフルパスで組み立てる
+	string msBuildCommand = msBuildPath + " " + targetPath + " /p:Configuration=Debug /p:Platform=x64";
 
 	int buildResult = ExecuteAndWaitForProcess(msBuildCommand);
 

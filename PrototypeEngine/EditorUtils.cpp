@@ -112,7 +112,7 @@ bool EditorUtils::DoesEntryExist(tinyxml2::XMLElement* itemGroup, const char* ta
         element != nullptr;
         element = element->NextSiblingElement(tagName))
     {
-        const char* attr = element->Attribute("Includ");
+        const char* attr = element->Attribute("Include");
         if (attr && (string(attr) == includePath))
         {
             return true;//存在した
@@ -172,7 +172,7 @@ bool EditorUtils::AddScriptFileToVcxProj(const filesystem::path& path, const str
 
     if (!compileItemGroup) return false; // FindOrCreateItemGroupがnullptrを返した場合の安全策
 
-    // ★ 修正：既存チェックを追加
+    // 修正：既存チェックを追加
     if (!DoesEntryExist(compileItemGroup, "ClCompile", cppPath.c_str()))
     {
         tinyxml2::XMLElement* newClCompile = doc.NewElement("ClCompile");
@@ -187,7 +187,7 @@ bool EditorUtils::AddScriptFileToVcxProj(const filesystem::path& path, const str
     tinyxml2::XMLElement* headerItemGroup = FindOrCreateItemGroup("ClInclude");
     if (!headerItemGroup) return false;
 
-    // ★ 修正：既存チェックを追加
+    //  修正：既存チェックを追加
     if (!DoesEntryExist(headerItemGroup, "ClInclude", hPath.c_str()))
     {
         tinyxml2::XMLElement* newClInclude = doc.NewElement("ClInclude");
