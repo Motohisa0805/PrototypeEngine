@@ -76,6 +76,12 @@ void HierarchyPanel::Draw(float width, float height, ImTextureRef ref)
 			}
 			if (mSelectedActor)
 			{
+				if (ImGui::MenuItem("Rename"))
+				{
+					mRenameInputBuffer = mSelectedActor->GetName();
+					mRenaming = true;
+				}
+
 				if (ImGui::MenuItem("Release Parent Object"))
 				{
 					mSelectedActor->SetParent(nullptr);
@@ -95,6 +101,8 @@ void HierarchyPanel::Draw(float width, float height, ImTextureRef ref)
 		}
 	}
 	ImGui::End();
+
+	ProcessPendingOperations();
 }
 
 void HierarchyPanel::DrawActorNode(ActorObject* actor)
@@ -123,77 +131,106 @@ void HierarchyPanel::DrawActorNode(ActorObject* actor)
 
 	//PushIDでユニークIDを設定
 	ImGui::PushID(actor);
-
-	//ImGui::TreeNodeExを使用
-	bool open = ImGui::TreeNodeEx(actor->GetName().c_str(), node_flags);
-
-	//ノードがクリックされたら選択オブジェクトを更新
-	if (ImGui::IsItemClicked())
+	//リネーム中の場合、InputTextを表示
+	if (mSelectedActor == actor &&mRenaming)
 	{
-		mSelectedActor = actor;
-	}
+		char buffer[256];
+		//ここで入力を行っている
+#if defined(_MSC_VER)
+		strncpy_s(buffer, mRenameInputBuffer.c_str(), sizeof(buffer));
+#else
+		std::strncpy(buffer, mRenameBuffer.c_str(), sizeof(buffer));
+#endif
+		buffer[sizeof(buffer) - 1] = '\0';
 
-	//1.ドラッグ元(Drag Source)の設定
-	if (ImGui::BeginDragDropSource())
-	{
-		//ペイロードとしてオブジェクトのポインターを格納
-		ImGui::SetDragDropPayload("ACTOR_NODE_PTR", &actor, sizeof(ActorObject*));
-		//ドラッグ中に表示されるテキスト
-		ImGui::Text("%s", actor->GetName().c_str());
-		ImGui::EndDragDropSource();
-	}
-
-	//2a.ドロップ先(Drop Target)の設定(子として追加)
-	if (ImGui::BeginDragDropTarget())
-	{
-		//ドラッグペイロードを受け取る
-		if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("ACTOR_NODE_PTR"))
+		if (ImGui::InputText("##rename", buffer, sizeof(buffer), ImGuiInputTextFlags_EnterReturnsTrue))
 		{
-			//ポインタのサイズが正しいことを確認
-			if (payload->DataSize == sizeof(ActorObject*))
-			{
-				//ドラッグされてきたオブジェクトのポインターを取得
-				ActorObject* draggedActor = *(ActorObject**)payload->Data;
+			RenameRequest req;
+			req.newStem = string(buffer);
+			mRenameQueue.push_back(req);
+			mRenaming = false;
+		}
 
-				//ドロップ先オブジェクトが、ドラッグ元オブジェクト自身またはその子孫でないことを確認
-				bool isCircular = false;
-				Transform* parentCheck = actor;
-				while (parentCheck != nullptr)
+		// Esc キャンセル
+		if (ImGui::IsItemDeactivated() && !ImGui::IsItemDeactivatedAfterEdit())
+		{
+			mRenaming = false;
+		}
+	}
+	//リネーム中でなければ通常のノード表示
+	else
+	{
+		//ImGui::TreeNodeExを使用
+		bool open = ImGui::TreeNodeEx(actor->GetName().c_str(), node_flags);
+
+		//ノードがクリックされたら選択オブジェクトを更新
+		if (ImGui::IsItemClicked())
+		{
+			mSelectedActor = actor;
+		}
+
+		//1.ドラッグ元(Drag Source)の設定
+		if (ImGui::BeginDragDropSource())
+		{
+			//ペイロードとしてオブジェクトのポインターを格納
+			ImGui::SetDragDropPayload("ACTOR_NODE_PTR", &actor, sizeof(ActorObject*));
+			//ドラッグ中に表示されるテキスト
+			ImGui::Text("%s", actor->GetName().c_str());
+			ImGui::EndDragDropSource();
+		}
+
+		//2a.ドロップ先(Drop Target)の設定(子として追加)
+		if (ImGui::BeginDragDropTarget())
+		{
+			//ドラッグペイロードを受け取る
+			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("ACTOR_NODE_PTR"))
+			{
+				//ポインタのサイズが正しいことを確認
+				if (payload->DataSize == sizeof(ActorObject*))
 				{
-					if (parentCheck == draggedActor)
+					//ドラッグされてきたオブジェクトのポインターを取得
+					ActorObject* draggedActor = *(ActorObject**)payload->Data;
+
+					//ドロップ先オブジェクトが、ドラッグ元オブジェクト自身またはその子孫でないことを確認
+					bool isCircular = false;
+					Transform* parentCheck = actor;
+					while (parentCheck != nullptr)
 					{
-						isCircular = true;
-						break;
+						if (parentCheck == draggedActor)
+						{
+							isCircular = true;
+							break;
+						}
+						parentCheck = parentCheck->GetParentActor();
 					}
-					parentCheck = parentCheck->GetParentActor();
-				}
 
-				if (!isCircular && draggedActor != actor)
-				{
-					// SetParentを呼び出すだけで、親子関係の付け替えが完結する
-					draggedActor->SetParent(actor);
+					if (!isCircular && draggedActor != actor)
+					{
+						// SetParentを呼び出すだけで、親子関係の付け替えが完結する
+						draggedActor->SetParent(actor);
 
-					mSelectedActor = draggedActor;
+						mSelectedActor = draggedActor;
+					}
 				}
 			}
+			ImGui::EndDragDropTarget();
 		}
-		ImGui::EndDragDropTarget();
-	}
-	//ノードが開かれた場合、子オブジェクトを再帰的に描画
-	if (open)
-	{
-		for (Transform* childTransform : children)
+		//ノードが開かれた場合、子オブジェクトを再帰的に描画
+		if (open)
 		{
-			if (ActorObject* childActor = dynamic_cast<ActorObject*>(childTransform))
+			for (Transform* childTransform : children)
 			{
-				DrawActorNode(childActor);
+				if (ActorObject* childActor = dynamic_cast<ActorObject*>(childTransform))
+				{
+					DrawActorNode(childActor);
+				}
 			}
-		}
 
-		//子要素の描画が終了したら
-		if (!(node_flags & ImGuiTreeNodeFlags_NoTreePushOnOpen))
-		{
-			ImGui::TreePop();
+			//子要素の描画が終了したら
+			if (!(node_flags & ImGuiTreeNodeFlags_NoTreePushOnOpen))
+			{
+				ImGui::TreePop();
+			}
 		}
 	}
 
@@ -203,4 +240,50 @@ void HierarchyPanel::DrawActorNode(ActorObject* actor)
 void HierarchyPanel::ClearPointer()
 {
 	mSelectedActor = nullptr;
+}
+
+void HierarchyPanel::ProcessPendingOperations()
+{
+	// まずリネームを行う（リネーム後の名前衝突チェックを行う）
+	for (const auto& req : mRenameQueue)
+	{
+		try
+		{
+			mSelectedActor->SetName(req.newStem);
+		}
+		catch (const exception& e)
+		{
+			Debug::Log("Rename failed: %s\n", e.what());
+		}
+	}
+	mRenameQueue.clear();
+	/*
+	// 次に削除処理
+	for (const auto& p : mDeleteQueue)
+	{
+		try
+		{
+			if (!filesystem::exists(p)) continue;
+
+			// 2. ファイルシステムからの削除
+			if (filesystem::is_directory(p))
+			{
+				// フォルダの場合、配下のすべてのファイルを削除
+				filesystem::remove_all(p);
+				Debug::Log("Deleted folder: %s\n", p.string().c_str());
+			}
+			else // ファイルの場合
+			{
+				mScriptFilePath = p;
+				filesystem::remove(p);
+				Debug::Log("Deleted file: %s\n", p.string().c_str());
+			}
+		}
+		catch (const exception& e)
+		{
+			Debug::Log("Delete failed: %s\n", e.what());
+		}
+	}
+	mDeleteQueue.clear();
+	*/
 }

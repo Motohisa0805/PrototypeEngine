@@ -427,6 +427,7 @@ bool ProjectPanel::RightClickMenu(const filesystem::path& path)
                 {
                     // 即削除はしない。遅延キューに追加する
                     mDeleteQueue.push_back(path);
+                    ProcessScriptDelete(path);
                 }
             }
         }
@@ -450,6 +451,7 @@ void ProjectPanel::ShortcutKeyInputFunction(const filesystem::path& path)
     if (!mSelectedPath.empty() && ImGui::IsKeyPressed(ImGuiKey_Delete))
     {
         mDeleteQueue.push_back(mSelectedPath); //mSelectedPath を使用
+		ProcessScriptDelete(mSelectedPath);
     }
     //名前変更キー
     if (!mSelectedPath.empty() && ImGui::IsKeyPressed(ImGuiKey_F2))
@@ -714,6 +716,27 @@ void ProjectPanel::ProcessPendingOperations()
         }
     }
     mDeleteQueue.clear();
+}
+
+void ProjectPanel::ProcessScriptDelete(const filesystem::path& path)
+{
+	filesystem::path scriptPath = path;
+    if(scriptPath.extension() == ".h")
+    {
+		filesystem::path cppPath = scriptPath.parent_path() / (scriptPath.stem().string() + ".cpp");
+        if (filesystem::exists(cppPath))
+        {
+			mDeleteQueue.push_back(cppPath);
+		}
+	}
+    else if (scriptPath.extension() == ".cpp")
+    {
+        filesystem::path hPath = scriptPath.parent_path() / (scriptPath.stem().string() + ".h");
+        if (filesystem::exists(hPath))
+        {
+            mDeleteQueue.push_back(hPath);
+        }
+    }
 }
 
 const filesystem::path& ProjectPanel::GetScriptFilePath()

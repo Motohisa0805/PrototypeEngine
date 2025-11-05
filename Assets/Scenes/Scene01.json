@@ -30,6 +30,26 @@
     {
       "Components": [
         {
+          "AmbientColor": [
+            0.699999988079071,
+            0.699999988079071,
+            0.6000000238418579
+          ],
+          "DiffuseColor": [
+            1.0,
+            0.949999988079071,
+            0.800000011920929
+          ],
+          "Direction": [
+            0.7071067094802856,
+            -0.7071068286895752,
+            0.0
+          ],
+          "SpecularColor": [
+            1.0,
+            1.0,
+            1.0
+          ],
           "Type": "DirectionalLightComponent"
         }
       ],
@@ -155,14 +175,6 @@
           "IsSkeletal": false,
           "Type": "MeshRenderer",
           "Visible": true
-        },
-        {
-          "Bounciness": 0.10000000149011612,
-          "Friction": 0.30000001192092896,
-          "GravityScale": 2.0,
-          "Mass": 1.0,
-          "Type": "Rigidbody",
-          "UseGravity": true
         }
       ],
       "LocalPosition": [

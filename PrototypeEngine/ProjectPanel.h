@@ -6,20 +6,12 @@
 //本格的な描画処理は未実装
 class ProjectPanel : public GUIPanel
 {
-public:
-	struct RenameRequest 
-	{
-		filesystem::path	oldPath;
-		// 拡張子は oldPath.extension() を使って再結合する
-		string				newStem; 
-	};
 private:
 	vector<filesystem::path>		mDeleteQueue; // 削除予約リスト
 
 	filesystem::path				mPathToRename;
 
 	string							mRenameInputBuffer;
-	vector<string>					mRenameInputBuffers;
 	
 	bool							mRenaming;
 
@@ -27,7 +19,7 @@ private:
 	// 保留中の操作
 	filesystem::path				mPendingSrc;
 	filesystem::path				mPendingDst;
-	// 追加:
+
 	vector<RenameRequest>			mRenameQueue;
 	filesystem::path				mCurrentFolder;
 	filesystem::path				mCurrentFile;
@@ -63,6 +55,9 @@ public:
 	void		DrawOverwritePopup();
 	//保留中の削除、リネーム、ドラッグ＆ドロップの処理
 	void		ProcessPendingOperations();
+
+	//スクリプトを削除する時の専用の関数
+	void 		ProcessScriptDelete(const filesystem::path& path);
 
 	static const filesystem::path& GetScriptFilePath();
 };
