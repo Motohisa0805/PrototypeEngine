@@ -153,7 +153,7 @@ bool ScriptHotReloadManager::ReloadInGameProject()
 
 	// mActivePDBPathを更新 (デバッガがこのパスを参照できるように)
 	mActivePDBPath = newPDBPath;
-
+	remove(mSourcePDBPath.c_str());
 
 
 
@@ -308,8 +308,6 @@ bool ScriptHotReloadManager::CheckForChanges()
 	{
 		return ExecuteMsbuildAndReload();
 	}
-	/*
-	*/
 
 	return false;
 }
@@ -317,7 +315,6 @@ bool ScriptHotReloadManager::CheckForChanges()
 bool ScriptHotReloadManager::ExecuteMsbuildAndReload()
 {
 	// 1. msbuild.exe へのフルパスを定義
-	//    お使いの環境（Community, Professionalなど）やインストール先Cドライブに合わせてください。
 	string msBuildPath = "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\MSBuild\\Current\\Bin\\MSBuild.exe\"";
 
 	string targetPath = "InGameProject.sln";

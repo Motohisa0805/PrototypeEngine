@@ -9,7 +9,12 @@ class HierarchyPanel : public GUIPanel
 {
 private:
 	//選択中のアクターを保持するポインター
-	ActorObject* mSelectedActor;
+	ActorObject*			mSelectedActor;
+
+	string					mRenameInputBuffer;
+	vector<RenameRequest>	mRenameQueue;
+
+	bool					mRenaming;
 public:
 	const char* GetName()override { return "Hierarchy"; }
 	HierarchyPanel(class Renderer* renderer);
@@ -22,6 +27,9 @@ public:
 	void		DrawActorNode(ActorObject* actor);
 
 	void		ClearPointer()override;
+
+	//保留中の削除、リネーム、ドラッグ＆ドロップの処理
+	void		ProcessPendingOperations();
 
 	//外部から選択中のActorを取得
 	ActorObject* GetSelectedActor() const { return mSelectedActor; }

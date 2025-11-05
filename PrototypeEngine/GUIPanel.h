@@ -13,6 +13,13 @@ class Renderer;
 class GUIPanel
 {
 protected:
+	struct RenameRequest
+	{
+		filesystem::path	oldPath;
+		// Šg’£q‚Í oldPath.extension() ‚ğg‚Á‚ÄÄŒ‹‡‚·‚é
+		string				newStem;
+	};
+
 	Renderer*			mRenderer;
 	bool				isMouseHovered;
 	float				mWidthPos;
