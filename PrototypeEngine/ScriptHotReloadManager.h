@@ -37,6 +37,18 @@ struct SavedScriptsData
 	json Data;			//Component::Serializeで得られたプロパティ値
 };
 
+struct PipeCloser
+{
+	void operator()(FILE* pipe)const
+	{
+		if (pipe)
+		{
+			_pclose(pipe);
+		}
+	}
+};
+using UniquePipe = std::unique_ptr<FILE, PipeCloser>;
+
 class ScriptHotReloadManager
 {
 private:
@@ -64,6 +76,9 @@ private:
 	FILETIME mLastLoadTime;
 
 	FILETIME GetDllLastWriteTime(const string& filePath);
+
+	string FindMsBuildPath();
+
 	int ExecuteAndWaitForProcess(const string& command);
 
 	std::atomic<bool> mProjectUpdateNeeded;//.vcxproj更新フラグ
@@ -86,9 +101,6 @@ public:
 	bool ReloadInGameProject();
 	//DLLをアンロードする関数
 	void UnloadScripts();
-
-	//void StartFileWatcher();
-	//void StopFileWatcher();
 
 	bool CheckForChanges();
 
