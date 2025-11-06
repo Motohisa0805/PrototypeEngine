@@ -314,8 +314,21 @@ bool ScriptHotReloadManager::CheckForChanges()
 
 bool ScriptHotReloadManager::ExecuteMsbuildAndReload()
 {
-	// 1. msbuild.exe へのフルパスを定義
-	string msBuildPath = "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\MSBuild\\Current\\Bin\\MSBuild.exe\"";
+
+	string msBuildPath;
+	try {
+		// 1. msbuild.exe へのフルパスを動的に取得
+		msBuildPath = FindMsBuildPath();
+	}
+	catch (const std::exception& e) {
+		
+		// MSBuild が見つからなかった
+		Debug::ErrorLog("Failed to find MSBuild.exe: ", e.what());
+		return false;
+	}
+
+	// もしvswhere.exeがなかったら下記のMSBuild.exeまでのフルパスを指定してビルドしてください
+	//msBuildPath = "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\MSBuild\\Current\\Bin\\MSBuild.exe\"";
 
 	string targetPath = "InGameProject.sln";
 
@@ -366,6 +379,45 @@ FILETIME ScriptHotReloadManager::GetDllLastWriteTime(const string& filePath)
 
 	CloseHandle(hFile);
 	return lastWriteTime;
+}
+
+string ScriptHotReloadManager::FindMsBuildPath()
+{
+	// 1. vswhere.exe を実行するコマンド
+	//    (vswhere.exe 自体のパスは固定で問題ない場合が多い)
+	const char* vswhereCmd =
+		"\"C:\\Program Files (x86)\\Microsoft Visual Studio\\Installer\\vswhere.exe\""
+		" -latest -requires Microsoft.Component.MSBuild -find MSBuild\\**\\Bin\\MSBuild.exe -nologo";
+
+	std::array<char, 1024> buffer;
+	string result;
+
+	//2.コマンドを実行し、標準出力をパイプで開く
+	UniquePipe pipe(_popen(vswhereCmd, "r"));
+	if (!pipe)
+	{
+		throw std::runtime_error("Failed to run vswhere.exe. Is Visual Studio Installer installed?");
+	}
+
+	//3.パイプから結果を一行
+	if (fgets(buffer.data(), buffer.size(), pipe.get()) != nullptr)
+	{
+		result = buffer.data();
+	}
+	else
+	{
+		throw std::runtime_error("vswhere.exe did not return a path. Is Visual Studio (with MSBuild) installed?");
+	}
+
+	// 4. 取得したパス末尾の改行コードを削除
+	result.erase(result.find_last_not_of(" \n\r\t") + 1);
+
+	if (result.empty()) {
+		throw std::runtime_error("MSBuild.exe not found via vswhere.exe.");
+	}
+
+	// 5. パスにスペースが含まれるため引用符で囲む
+	return "\"" + result + "\"";
 }
 
 int ScriptHotReloadManager::ExecuteAndWaitForProcess(const string& command)
