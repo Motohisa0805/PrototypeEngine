@@ -381,19 +381,38 @@ FILETIME ScriptHotReloadManager::GetDllLastWriteTime(const string& filePath)
 	return lastWriteTime;
 }
 
+string ScriptHotReloadManager::GetVsWherePath()
+{
+	char pf_x86[MAX_PATH];
+	DWORD len = GetEnvironmentVariableA("ProgramFiles(x86)", pf_x86, MAX_PATH);
+
+	string pathBase;
+
+	if (len == 0 || len >= MAX_PATH)
+	{
+		// 環境変数が取得できなかった場合（32bit OS や特殊な環境など）
+		// デフォルトのパスにフォールバックする
+		pathBase = "C:\\Program Files (x86)";
+	}
+	else
+	{
+		pathBase = pf_x86;
+	}
+
+	return "\"" + pathBase + "\\Microsoft Visual Studio\\Installer\\vswhere.exe\"";
+}
+
 string ScriptHotReloadManager::FindMsBuildPath()
 {
-	// 1. vswhere.exe を実行するコマンド
-	//    (vswhere.exe 自体のパスは固定で問題ない場合が多い)
-	const char* vswhereCmd =
-		"\"C:\\Program Files (x86)\\Microsoft Visual Studio\\Installer\\vswhere.exe\""
+	// 1. vswhere.exe を実行するコマンドを動的に取得
+	const std::string vswhereCmd = GetVsWherePath() +
 		" -latest -requires Microsoft.Component.MSBuild -find MSBuild\\**\\Bin\\MSBuild.exe -nologo";
 
 	std::array<char, 1024> buffer;
 	string result;
 
 	//2.コマンドを実行し、標準出力をパイプで開く
-	UniquePipe pipe(_popen(vswhereCmd, "r"));
+	UniquePipe pipe(_popen(vswhereCmd.c_str(), "r"));
 	if (!pipe)
 	{
 		throw std::runtime_error("Failed to run vswhere.exe. Is Visual Studio Installer installed?");
