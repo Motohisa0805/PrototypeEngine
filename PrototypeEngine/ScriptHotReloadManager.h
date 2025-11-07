@@ -77,6 +77,8 @@ private:
 
 	FILETIME GetDllLastWriteTime(const string& filePath);
 
+	string GetVsWherePath();
+
 	string FindMsBuildPath();
 
 	int ExecuteAndWaitForProcess(const string& command);
