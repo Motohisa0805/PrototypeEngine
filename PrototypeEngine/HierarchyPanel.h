@@ -25,9 +25,10 @@ public:
 	void		Draw(float width, float height, ImTextureRef ref = nullptr)override;
 
 	void		DrawActorNode(ActorObject* actor);
+	// 右クリックメニュー
+	bool		RightClickMenu();
 
 	void		ClearPointer()override;
-
 	//保留中の削除、リネーム、ドラッグ＆ドロップの処理
 	void		ProcessPendingOperations();
 

@@ -165,3 +165,14 @@ ImVec2 GUIPanel::GetAspectRatio()
 
 	return ImVec2(W_d,H_d);
 }
+
+void GUIPanel::SetPopupColorTheme()
+{
+	ImGui::PushStyleColor(ImGuiCol_PopupBg, ImVec4(1.0f, 1.0f, 1.0f, 1.0f));
+	ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.0f, 0.0f, 0.0f, 1.0f));
+}
+
+void GUIPanel::ResetPopupColorTheme()
+{
+	ImGui::PopStyleColor(2);
+}

@@ -58,5 +58,9 @@ public:
 	ImVec2				GetAspectRatio();
 
 	void				EnableResetLayout() { isResetLayout = true; }
+
+	//ポップアップ用のカラー設定
+	virtual void 				SetPopupColorTheme();
+	virtual void 				ResetPopupColorTheme();
 };
 

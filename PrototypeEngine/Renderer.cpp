@@ -74,7 +74,7 @@ bool Renderer::Initialize(float screenWidth, float screenHeight)
 	// OpenGLにハードウェアアクセラレーションを使用
 	SDL_GL_SetAttribute(SDL_GL_ACCELERATED_VISUAL, 1);
 	//SDL_Windowを作成する
-	mWindow = SDL_CreateWindow("PrototypeEngine",static_cast<int>(WindowRenderProperty::GetWidth()), static_cast<int>(WindowRenderProperty::GetHeight()), SDL_WINDOW_OPENGL);
+	mWindow = SDL_CreateWindow("PrototypeEngine - Windows - Ver0.01 <OpenGL 2.2.0,SDL3>",static_cast<int>(WindowRenderProperty::GetWidth()), static_cast<int>(WindowRenderProperty::GetHeight()), SDL_WINDOW_OPENGL);
 	//エラーチェック
 	if (!mWindow)
 	{

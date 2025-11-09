@@ -1,6 +1,7 @@
 #include "GameWinMain.h"
 #include <windows.h>
 
+/*
 //GameópÇÃé¿çsä÷êî
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 {
@@ -13,3 +14,4 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	game.Shutdown();
     return 0;
 }
+*/

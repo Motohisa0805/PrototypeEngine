@@ -31,7 +31,6 @@ void HierarchyPanel::Draw(float width, float height, ImTextureRef ref)
 	//  新しいウィンドウの作成
 	if(ImGui::Begin("Hierarchy", nullptr, ImGuiWindowFlags_NoCollapse))
 	{
-		BaseGUIPanelPopupMenu();
 
 		// ----------------------------------------------------------------
 		// 1. 現在のシーンのアクター一覧を表示する
@@ -59,46 +58,9 @@ void HierarchyPanel::Draw(float width, float height, ImTextureRef ref)
 
 		}
 		// ----------------------------------------------------------------
-		// 2. パネルの空きスペースを右クリックしたときのメニュー
+		// 2. パネルを右クリックしたときのメニュー
 		// ----------------------------------------------------------------
-		//ImGui::BeginPopupContextWindow() は、現在のウィンドウがフォーカスされている状態で
-        // 右クリックされた場合にポップアップメニューを開始します。
-		if (ImGui::BeginPopupContextWindow("HierarchyContext", ImGuiMouseButton_Right))
-		{
-			if (ImGui::MenuItem("Create Empty Actor"))
-			{
-				//3.ActorObjectの生成とシーンへの追加
-
-				// 1. SceneManager::GetNowScene() を取得し mGame に設定
-				// 2. mGame->AddActor(this); を呼び出し、現在のシーンの Actor リストに追加
-				ActorObject* newActor = new ActorObject();
-				mSelectedActor = newActor; // 新しく作ったアクターを自動で選択
-			}
-			if (mSelectedActor)
-			{
-				if (ImGui::MenuItem("Rename"))
-				{
-					mRenameInputBuffer = mSelectedActor->GetName();
-					mRenaming = true;
-				}
-
-				if (ImGui::MenuItem("Release Parent Object"))
-				{
-					mSelectedActor->SetParent(nullptr);
-				}
-
-				if (ImGui::MenuItem("Delete Actor"))
-				{
-					SceneManager::GetNowScene()->DeleteActor(mSelectedActor);
-					mSelectedActor = nullptr;
-				}
-			}
-			if (ImGui::MenuItem("GUI Initialization of position"))
-			{
-				isResetLayout = true;
-			}
-			ImGui::EndPopup();
-		}
+		RightClickMenu();
 	}
 	ImGui::End();
 
@@ -122,7 +84,6 @@ void HierarchyPanel::DrawActorNode(ActorObject* actor)
 
 	//子オブジェクトを取得
 	const vector<Transform*>& children = actor->GetChildActorList();
-
 	//子オブジェクトがなければ末端ノードとして扱う
 	if (children.empty())
 	{
@@ -164,7 +125,7 @@ void HierarchyPanel::DrawActorNode(ActorObject* actor)
 		bool open = ImGui::TreeNodeEx(actor->GetName().c_str(), node_flags);
 
 		//ノードがクリックされたら選択オブジェクトを更新
-		if (ImGui::IsItemClicked())
+		if (ImGui::IsItemClicked(0)|| ImGui::IsItemClicked(1))
 		{
 			mSelectedActor = actor;
 		}
@@ -235,6 +196,51 @@ void HierarchyPanel::DrawActorNode(ActorObject* actor)
 	}
 
 	ImGui::PopID();
+}
+
+bool HierarchyPanel::RightClickMenu()
+{
+	SetPopupColorTheme();
+	//ImGui::BeginPopupContextWindow() は、現在のウィンドウがフォーカスされている状態で
+	// 右クリックされた場合にポップアップメニューを開始します。
+	if (ImGui::BeginPopupContextWindow("HierarchyContext", ImGuiMouseButton_Right))
+	{
+		if (ImGui::MenuItem("Create Empty Actor"))
+		{
+			//3.ActorObjectの生成とシーンへの追加
+
+			// 1. SceneManager::GetNowScene() を取得し mGame に設定
+			// 2. mGame->AddActor(this); を呼び出し、現在のシーンの Actor リストに追加
+			ActorObject* newActor = new ActorObject();
+			mSelectedActor = newActor; // 新しく作ったアクターを自動で選択
+		}
+		if (mSelectedActor)
+		{
+			if (ImGui::MenuItem("Rename"))
+			{
+				mRenameInputBuffer = mSelectedActor->GetName();
+				mRenaming = true;
+			}
+
+			if (ImGui::MenuItem("Release Parent Object"))
+			{
+				mSelectedActor->SetParent(nullptr);
+			}
+
+			if (ImGui::MenuItem("Delete Actor"))
+			{
+				SceneManager::GetNowScene()->DeleteActor(mSelectedActor);
+				mSelectedActor = nullptr;
+			}
+		}
+		if (ImGui::MenuItem("GUI Initialization of position"))
+		{
+			isResetLayout = true;
+		}
+		ImGui::EndPopup();
+	}
+	ResetPopupColorTheme();
+	return true;
 }
 
 void HierarchyPanel::ClearPointer()

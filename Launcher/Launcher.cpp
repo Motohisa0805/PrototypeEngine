@@ -5,6 +5,7 @@
 #include <windows.h>
 #include <string>
 
+#ifdef _DEBUG
 int main()
 {
     // 自分の実行パスを取得
@@ -48,3 +49,41 @@ int main()
 
     return 0;
 }
+#elif defined(NDEBUG)
+int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
+{
+    // 自分の実行パスを取得
+    wchar_t buf[MAX_PATH];
+    GetModuleFileNameW(NULL, buf, MAX_PATH);
+    std::wstring exePath(buf);
+    // 自分があるディレクトリを抽出
+    size_t pos = exePath.find_last_of(L"\\/");
+    std::wstring baseDir = exePath.substr(0, pos);
+    // bin フォルダを組み立てる
+    std::wstring binPath = baseDir + L"\\bin";
+    std::wstring targetExe = binPath + L"\\PrototypeEngine.exe";
+    // DLL 検索パスに bin を追加
+    SetDllDirectoryW(binPath.c_str());
+    // 本体 exe を起動
+    STARTUPINFOW si = { sizeof(si) };
+    PROCESS_INFORMATION pi;
+    BOOL ok = CreateProcessW(
+        targetExe.c_str(),   // 実行ファイル
+        NULL,                // コマンドライン引数（必要ならここに書く）
+        NULL, NULL, FALSE,
+        0,
+        NULL,
+        binPath.c_str(),     // 作業ディレクトリを bin に設定
+        &si,
+        &pi
+    );
+    if (!ok) {
+        MessageBoxW(NULL, L"PrototypeEngine.exe を起動できませんでした", L"Launcher Error", MB_OK);
+        return 1;
+    }
+    // 親プロセスは終了してOK（待ちたければ WaitForSingleObject）
+    CloseHandle(pi.hProcess);
+    CloseHandle(pi.hThread);
+    return 0;
+}
+#endif

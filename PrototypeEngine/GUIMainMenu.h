@@ -15,7 +15,18 @@ public:
 	void Draw(float width, float height, ImTextureRef ref = nullptr)override;
 	//ファイルメニューの描画
 	void FileMenuDraw();
+	//エディターメニューの描画
+	void EditorMenuDraw();
+	//アセットメニューの描画
+	void AssetMenuDraw();
+	//ゲームオブジェクトメニューの描画
+	void GameObjectMenuDraw();
+	//コンポーネントメニューの描画
+	void ComponentMenuDraw();
 	//表示メニューの描画
-	void ViewMenuDraw();
+	void WindowMenuDraw();
+
+	void SetPopupColorTheme()override;
+	void ResetPopupColorTheme()override;
 };
 
