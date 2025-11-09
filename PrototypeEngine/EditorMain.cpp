@@ -5,6 +5,7 @@
 #include "DebugMemoryManager.h"
 #undef DISABLE_DEBUG_NEW   // すぐに解除
 
+#ifdef _DEBUG
 void CurrentDirectorySetting()
 {
 	// 実行ファイルのフルパスを取得（例: C:\Users\User\Project\bin\app.exe）
@@ -30,6 +31,34 @@ void CurrentDirectorySetting()
 		std::cout << "Could not find '\\bin' in the path." << std::endl;
 	}
 }
+#elif defined(_RELEASE)
+void CurrentDirectorySetting()
+{
+	// 実行ファイルのフルパスを取得（例: C:\Users\User\Project\bin\app.exe）
+	wchar_t buf[MAX_PATH];
+	GetModuleFileNameW(NULL, buf, MAX_PATH);
+	std::wstring exePath(buf);
+
+	// 実行ファイルがあるディレクトリを抽出（例: C:\Users\User\Project\bin）
+	size_t lastSlashPos = exePath.find_last_of(L"\\/");
+	std::wstring parentDir = exePath.substr(0, lastSlashPos);
+
+	// 削除したい文字列（\bin）を検索
+	size_t binPos = parentDir.rfind(L"\\bin");
+
+	// 文字列が見つかった場合
+	if (binPos != std::string::npos) {
+		// \binの部分をパスから削除（例: C:\Users\User\Project）
+		std::wstring projectRoot = parentDir.substr(0, binPos);
+		SetCurrentDirectory(projectRoot.c_str()); // カレントディレクトリをプロジェクトのルートに変更
+		std::wcout << L"Project Root: " << projectRoot << std::endl;
+	}
+	else {
+		std::wcout << L"Could not find '\\bin' in the path." << std::endl;
+	}
+}
+#endif
+
 
 //FOCUS : プロジェクトを実行している場所
 //構成マネージャーがDebugなら

@@ -42,21 +42,25 @@ void ProjectPanel::Draw(float width, float height, ImTextureRef ref)
     }
     if (ImGui::Begin("FolderTree", nullptr, ImGuiWindowFlags_NoCollapse))
     {
+        ImGui::SetNextItemOpen(true, ImGuiCond_Once);
         // 左カラム = フォルダツリー
         if (ImGui::TreeNode("Assets"))
         {
             // 左クリックで選択中フォルダを更新(Assetsフォルダ用)
-            if (ImGui::IsItemClicked(ImGuiMouseButton_Left))
+            if (ImGui::IsItemClicked(ImGuiMouseButton_Left) || ImGui::IsItemClicked(ImGuiMouseButton_Right))
             {
                 mCurrentFolder = "Assets";
+				mSelectedPath = "Assets"; // 選択パスを更新
             }
-            RightClickMenu("Assets");
+
             //フォルダツリー表示
             DrawFolderTree("Assets");
+            RightClickMenu("Assets");
             ImGui::TreePop();
         }
     }
     ImGui::End();
+
     // ウインドウ位置とサイズを固定
     if (isResetLayout)
     {
@@ -69,6 +73,7 @@ void ProjectPanel::Draw(float width, float height, ImTextureRef ref)
         ImGui::SetNextWindowPos(ImVec2(mWidthPos + panel1_SizeWidth, mHeightPos), ImGuiCond_Once);
         ImGui::SetNextWindowSize(ImVec2(panel1_SizeWidth, mHeightSize), ImGuiCond_Once);
     }
+	// 右カラム = 選択中フォルダの中身
     if (ImGui::Begin(mCurrentFolder.string().c_str(), nullptr, ImGuiWindowFlags_NoCollapse))
     {
         //選択中フォルダの中身表示
@@ -125,7 +130,7 @@ void ProjectPanel::DrawFolderTree(const filesystem::path& path)
             bool open = ImGui::TreeNodeEx(name.c_str(), flags); // 修正: flagsを使用
 
             // 左クリックで選択中フォルダを更新
-            if (ImGui::IsItemClicked(ImGuiMouseButton_Left))
+            if (ImGui::IsItemClicked(ImGuiMouseButton_Left)|| ImGui::IsItemClicked(ImGuiMouseButton_Right))
             {
                 mCurrentFolder = entry.path();
                 mSelectedPath = entry.path(); // 選択パスを更新
@@ -133,7 +138,7 @@ void ProjectPanel::DrawFolderTree(const filesystem::path& path)
 
             // 通常のフォルダ用メニュー（削除・リネーム可）
             // 右クリックメニュー（Rename 選択で mRenaming が true になる）
-            RightClickMenu(entry.path());
+            //RightClickMenu(entry.path());
             ShortcutKeyInputFunction(entry.path());
             if (open)
             {
@@ -145,7 +150,7 @@ void ProjectPanel::DrawFolderTree(const filesystem::path& path)
         }
     }
 }
-
+// 選択中フォルダの中身を表示(右カラム)
 void ProjectPanel::DrawPickUpFolderView()
 {
     if (!filesystem::exists(mCurrentFolder)) return;
@@ -180,7 +185,7 @@ void ProjectPanel::DrawPickUpFolderView()
     {
         DrawFileSystemEntry(entry);
     }
-
+	SetPopupColorTheme();
     if (ImGui::BeginPopupContextWindow())
     {
         filesystem::path targetPath = mCurrentFolder;
@@ -259,6 +264,7 @@ void ProjectPanel::DrawPickUpFolderView()
         }
         ImGui::EndPopup();
     }
+	ResetPopupColorTheme();
 }
 
 void ProjectPanel::DrawFileSystemEntry(const filesystem::directory_entry& entry)
@@ -329,28 +335,30 @@ void ProjectPanel::DrawFileSystemEntry(const filesystem::directory_entry& entry)
 
 bool ProjectPanel::RightClickMenu(const filesystem::path& path)
 {
+	if (mSelectedPath.empty()) return false;
+    SetPopupColorTheme();
     // コンテキストメニューは直前に描画したアイテム（TreeNode か Selectable）に紐づく
-    if (ImGui::BeginPopupContextItem())
+    if (ImGui::BeginPopupContextWindow("ProjectContext", ImGuiMouseButton_Right))
     {
         if (ImGui::MenuItem("Open in External Editor"))
         {
             // Windows の例（将来は SDL_OpenURL 等に置き換える）
-            string command = "start \"\" \"" + path.string() + "\"";
+            string command = "start \"\" \"" + mSelectedPath.string() + "\"";
             system(command.c_str());
         }
 
         // Rename（フォルダ・ファイルどちらでも可）
         if (ImGui::MenuItem("Rename"))
         {
-            mPathToRename = path;
+            mPathToRename = mSelectedPath;
             // ファイルなら拡張子を除いた stem を編集バッファに、フォルダは full name
-            if (filesystem::is_directory(path))
+            if (filesystem::is_directory(mSelectedPath))
             {
-                mRenameInputBuffer = path.filename().string();
+                mRenameInputBuffer = mSelectedPath.filename().string();
             }
             else
             {
-                mRenameInputBuffer = path.stem().string();
+                mRenameInputBuffer = mSelectedPath.stem().string();
             }
             mRenaming = true;
         }
@@ -358,7 +366,7 @@ bool ProjectPanel::RightClickMenu(const filesystem::path& path)
         ImGui::Separator();
 
 
-        if (filesystem::is_directory(path))
+        if (filesystem::is_directory(mSelectedPath))
         {
             //フォルダ
             if (ImGui::MenuItem("New Folder"))
@@ -369,10 +377,10 @@ bool ProjectPanel::RightClickMenu(const filesystem::path& path)
                     // 簡易的なユニーク名生成の例
                     std::string uniqueName = "NewFolder";
                     int counter = 1;
-                    while (filesystem::exists(path / uniqueName)) {
+                    while (filesystem::exists(mSelectedPath / uniqueName)) {
                         uniqueName = "NewFolder (" + std::to_string(counter++) + ")";
                     }
-                    filesystem::create_directory(path / uniqueName);
+                    filesystem::create_directory(mSelectedPath / uniqueName);
 
                 }
                 catch (const exception& e) 
@@ -384,7 +392,7 @@ bool ProjectPanel::RightClickMenu(const filesystem::path& path)
             if (ImGui::MenuItem("New Scene"))
             {
                 string uniqueName = "NewScene.json"; // 拡張子付きで初期化
-                filesystem::path targetFolder = path; // 現在右クリックしているパス（フォルダ）
+                filesystem::path targetFolder = mSelectedPath; // 現在右クリックしているパス（フォルダ）
 
                 // 既に存在するファイル名かチェックし、ユニークな名前に変更する
                 int counter = 1;
@@ -413,21 +421,21 @@ bool ProjectPanel::RightClickMenu(const filesystem::path& path)
             {
                 // 1. 一時的な名前でリネームモードを開始する
                 // （この"PendingNewScript"はファイル名ではなく、UI上の状態を示すID）
-                filesystem::path tempPath = path / "PendingNewScript.h";
+                filesystem::path tempPath = mSelectedPath / "PendingNewScript.h";
 
                 mSelectedPath = tempPath;
                 mPathToRename = tempPath;
                 mRenameInputBuffer = "NewScript"; // デフォルトの入力文字列
                 mRenaming = true;
             }
-            if (path.string() != "Assets")
+            if (mSelectedPath.string() != "Assets")
             {
                 //フォルダの削除
                 if (ImGui::MenuItem("Delete Folder"))
                 {
                     // 即削除はしない。遅延キューに追加する
-                    mDeleteQueue.push_back(path);
-                    ProcessScriptDelete(path);
+                    mDeleteQueue.push_back(mSelectedPath);
+                    ProcessScriptDelete(mSelectedPath);
                 }
             }
         }
@@ -435,14 +443,13 @@ bool ProjectPanel::RightClickMenu(const filesystem::path& path)
         {
             if (ImGui::MenuItem("Delete File"))
             {
-                mDeleteQueue.push_back(path);
+                mDeleteQueue.push_back(mSelectedPath);
             }
         }
-
         ImGui::EndPopup();
-        return true;
     }
-    return false;
+	ResetPopupColorTheme();
+    return true;
 }
 
 void ProjectPanel::ShortcutKeyInputFunction(const filesystem::path& path)

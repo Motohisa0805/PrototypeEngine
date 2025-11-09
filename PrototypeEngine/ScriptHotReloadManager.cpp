@@ -312,43 +312,6 @@ bool ScriptHotReloadManager::CheckForChanges()
 	return false;
 }
 
-bool ScriptHotReloadManager::ExecuteMsbuildAndReload()
-{
-
-	string msBuildPath;
-	try {
-		// 1. msbuild.exe へのフルパスを動的に取得
-		msBuildPath = FindMsBuildPath();
-	}
-	catch (const std::exception& e) {
-		
-		// MSBuild が見つからなかった
-		Debug::ErrorLog("Failed to find MSBuild.exe: ", e.what());
-		return false;
-	}
-
-	// もしvswhere.exeがなかったら下記のMSBuild.exeまでのフルパスを指定してビルドしてください
-	//msBuildPath = "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\MSBuild\\Current\\Bin\\MSBuild.exe\"";
-
-	string targetPath = "InGameProject.sln";
-
-	// 2. コマンド文字列をフルパスで組み立てる
-	string msBuildCommand = msBuildPath + " " + targetPath + " /p:Configuration=Debug /p:Platform=x64";
-
-	int buildResult = ExecuteAndWaitForProcess(msBuildCommand);
-
-	if (buildResult != 0)
-	{
-		// ビルド失敗（新しく追加したスクリプトにコンパイルエラーがないか確認）
-		Debug::ErrorLog("MSBuild failed. InGameProject.dll was NOT regenerated.");
-		// DLLが再生成されていないため、ロード処理をスキップする
-		return false;
-	}
-
-	// ビルド成功した場合のみ、DLLのロードと置き換え（ホットリロード）を実行
-	return ReloadInGameProject();
-}
-
 FILETIME ScriptHotReloadManager::GetDllLastWriteTime(const string& filePath)
 {
 	FILETIME lastWriteTime = { 0 };
@@ -371,7 +334,7 @@ FILETIME ScriptHotReloadManager::GetDllLastWriteTime(const string& filePath)
 	}
 
 	//最終書き込み時刻を取得
-	if(!GetFileTime(hFile, NULL, NULL, &lastWriteTime))
+	if (!GetFileTime(hFile, NULL, NULL, &lastWriteTime))
 	{
 		Debug::ErrorLog("Failed to get DLL file time.");
 	}
@@ -379,6 +342,51 @@ FILETIME ScriptHotReloadManager::GetDllLastWriteTime(const string& filePath)
 
 	CloseHandle(hFile);
 	return lastWriteTime;
+}
+
+int ScriptHotReloadManager::ExecuteAndWaitForProcess(const string& command)
+{
+	STARTUPINFOA si;
+	PROCESS_INFORMATION pi;
+	ZeroMemory(&si, sizeof(si));
+	si.cb = sizeof(si);
+	ZeroMemory(&pi, sizeof(pi));
+
+	//CreateProcessは書き換え可能な文字列が必要
+	vector<char> commandLine(command.begin(), command.end());
+	commandLine.push_back('\0');
+
+	//CreateProcessの呼び出しを追加
+	BOOL success = CreateProcessA(
+		NULL,             // モジュール名
+		&commandLine[0],  // コマンドライン
+		NULL,             // プロセスセキュリティ属性
+		NULL,             // スレッドセキュリティ属性
+		FALSE,            // ハンドルの継承
+		0,                // 作成フラグ
+		NULL,             // 環境ブロック
+		NULL,             // カレントディレクトリ
+		&si,              // STARTUPINFO
+		&pi               // PROCESS_INFORMATION
+	);
+
+	if (!success)
+	{
+		Debug::ErrorLog("Failed to execute process:", command);
+		return -1; // エラーコードを返す
+	}
+
+	//プロセスが終了するまで待機
+	WaitForSingleObject(pi.hProcess, INFINITE);
+
+	//終了コードの取得
+	DWORD exitCode;
+	GetExitCodeProcess(pi.hProcess, &exitCode);
+
+	//ハンドルを閉じる
+	CloseHandle(pi.hProcess);
+	CloseHandle(pi.hThread);
+	return (int)exitCode;
 }
 
 string ScriptHotReloadManager::GetVsWherePath()
@@ -439,47 +447,39 @@ string ScriptHotReloadManager::FindMsBuildPath()
 	return "\"" + result + "\"";
 }
 
-int ScriptHotReloadManager::ExecuteAndWaitForProcess(const string& command)
+bool ScriptHotReloadManager::ExecuteMsbuildAndReload()
 {
-	STARTUPINFOA si;
-	PROCESS_INFORMATION pi;
-	ZeroMemory(&si, sizeof(si));
-	si.cb = sizeof(si);
-	ZeroMemory(&pi, sizeof(pi));
 
-	//CreateProcessは書き換え可能な文字列が必要
-	vector<char> commandLine(command.begin(), command.end());
-	commandLine.push_back('\0');
-
-	//CreateProcessの呼び出しを追加
-	BOOL success = CreateProcessA(
-		NULL,             // モジュール名
-		&commandLine[0],  // コマンドライン
-		NULL,             // プロセスセキュリティ属性
-		NULL,             // スレッドセキュリティ属性
-		FALSE,            // ハンドルの継承
-		0,                // 作成フラグ
-		NULL,             // 環境ブロック
-		NULL,             // カレントディレクトリ
-		&si,              // STARTUPINFO
-		&pi               // PROCESS_INFORMATION
-	);
-
-	if (!success)
-	{
-		Debug::ErrorLog("Failed to execute process:", command);
-		return -1; // エラーコードを返す
+	string msBuildPath;
+	try {
+		// 1. msbuild.exe へのフルパスを動的に取得
+		msBuildPath = FindMsBuildPath();
+	}
+	catch (const std::exception& e) {
+		
+		// MSBuild が見つからなかった
+		Debug::ErrorLog("Failed to find MSBuild.exe: ", e.what());
+		return false;
 	}
 
-	//プロセスが終了するまで待機
-	WaitForSingleObject(pi.hProcess, INFINITE);
+	// もしvswhere.exeがなかったら下記のMSBuild.exeまでのフルパスを指定してビルドしてください
+	//msBuildPath = "\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\MSBuild\\Current\\Bin\\MSBuild.exe\"";
 
-	//終了コードの取得
-	DWORD exitCode;
-	GetExitCodeProcess(pi.hProcess, &exitCode);
+	string targetPath = "InGameProject.sln";
 
-	//ハンドルを閉じる
-	CloseHandle(pi.hProcess);
-	CloseHandle(pi.hThread);
-	return (int)exitCode;
+	// 2. コマンド文字列をフルパスで組み立てる
+	string msBuildCommand = msBuildPath + " " + targetPath + " /p:Configuration=Debug /p:Platform=x64";
+
+	int buildResult = ExecuteAndWaitForProcess(msBuildCommand);
+
+	if (buildResult != 0)
+	{
+		// ビルド失敗（新しく追加したスクリプトにコンパイルエラーがないか確認）
+		Debug::ErrorLog("MSBuild failed. InGameProject.dll was NOT regenerated.");
+		// DLLが再生成されていないため、ロード処理をスキップする
+		return false;
+	}
+
+	// ビルド成功した場合のみ、DLLのロードと置き換え（ホットリロード）を実行
+	return ReloadInGameProject();
 }

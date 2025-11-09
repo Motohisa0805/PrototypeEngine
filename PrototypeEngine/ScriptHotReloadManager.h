@@ -53,50 +53,43 @@ class ScriptHotReloadManager
 {
 private:
 
-	std::map<std::string, FILETIME> mKnownAssetTimestamps;
-	bool mFirstScanComplete = false;
-
-
-
+	std::map<std::string, FILETIME>						mKnownAssetTimestamps;
+	bool												mFirstScanComplete = false;
 	//ファイルロックされていない、ビルド出力先
-	const string	mSourceDllPath;
+	const string										mSourceDllPath;
 	// ロード中のDLL名
-	string			mActiveDllPath;
+	string												mActiveDllPath;
 
-	const string	mSourcePDBPath;
+	const string										mSourcePDBPath;
 	// ロード中のDLL名
-	string			mActivePDBPath;
-
+	string												mActivePDBPath;
 	// 次のロードでファイル名を変更するためのインデックス
-	int				mDllIndex;
-	DllHandle		mCurrentDll;
+	int													mDllIndex;
+	DllHandle											mCurrentDll;
 	// 現在ゲーム内に存在するすべてのアクターとコンポーネントを保持するリスト（ホットリロード時に利用）
-	std::map<ActorObject*, vector<SavedScriptsData>> mSavedState;
+	std::map<ActorObject*, vector<SavedScriptsData>>	mSavedState;
 
-	FILETIME mLastLoadTime;
+	FILETIME											mLastLoadTime;
 
-	FILETIME GetDllLastWriteTime(const string& filePath);
+	FILETIME											GetDllLastWriteTime(const string& filePath);
 
-	string GetVsWherePath();
-
-	string FindMsBuildPath();
-
-	int ExecuteAndWaitForProcess(const string& command);
-
-	std::atomic<bool> mProjectUpdateNeeded;//.vcxproj更新フラグ
-
+	int													ExecuteAndWaitForProcess(const string& command);
+	//.vcxproj更新フラグ
+	std::atomic<bool>									mProjectUpdateNeeded;
 	//スクリプトファイルが存在するフォルダーのパス
-	const string mScriptsDirectory;
+	const string										mScriptsDirectory;
 
+	string												GetVsWherePath();
+
+	string												FindMsBuildPath();
 	//自動ビルドとリロード
 	//DLLの変更がない場合でも、プロジェクトファイルが更新された場合にビルドを強制する関数
-	bool ExecuteMsbuildAndReload();
+	bool												ExecuteMsbuildAndReload();
 public:
 	ScriptHotReloadManager();
 	~ScriptHotReloadManager();
 
 	bool Initialize();
-
 	//DLLをロードする関数
 	bool LoadScripts();
 	//スクリプトコードを変更した際に呼び出す関数
