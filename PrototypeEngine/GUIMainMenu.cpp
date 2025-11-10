@@ -149,9 +149,10 @@ void GUIMainMenu::SetPopupColorTheme()
 {
 	GUIPanel::SetPopupColorTheme();
 	ImGui::PushStyleColor(ImGuiCol_MenuBarBg, ImVec4(1.0f, 1.0f, 1.0f, 1.0f));
+	ImGui::PushStyleColor(ImGuiCol_Header, ImVec4(0.9f, 0.9f, 0.9f, 0.9f));
 }
 
 void GUIMainMenu::ResetPopupColorTheme()
 {
-	ImGui::PopStyleColor(3);
+	ImGui::PopStyleColor(4);
 }

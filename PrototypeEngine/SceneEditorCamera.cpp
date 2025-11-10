@@ -119,22 +119,16 @@ void SceneEditorCamera::ProcessInput(const struct InputState& keyState)
 			pitchSpeed *= maxPitchSpeed;
 		}
 		mPitchSpeed = pitchSpeed;
+
+		// ホイール入力で移動速度を調整
+		Vector2 wheel = keyState.Mouse.GetScrollWheel();
+		mSpeed += wheel.y;
+		// スピードのクランプ
+		mSpeed = Math::Clamp(mSpeed, mMinSpeed, mMaxSpeed);
 	}
 	if (keyState.Mouse.GetButtonUp(SDL_BUTTON_RIGHT))
 	{
 		InputSystem::AbsoluteMouseMode();
-	}
-
-	Vector2 wheel = keyState.Mouse.GetScrollWheel();
-
-	mSpeed += wheel.y;
-	if (mSpeed >= mMaxSpeed)
-	{
-		mSpeed = mMaxSpeed;
-	}
-	else if (mSpeed <= mMinSpeed)
-	{
-		mSpeed = mMinSpeed;
 	}
 
 	// キーボード入力
