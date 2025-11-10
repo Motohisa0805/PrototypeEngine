@@ -511,7 +511,7 @@ void Renderer::EditorDraw3DScene(unsigned int framebuffer, const Matrix4& view, 
 			glDrawArrays(GL_LINES, 0, 6);
 		}
 
-		mDebugGrid->Draw(mGridShader, view * proj);
+		mDebugGrid->Draw(mGridShader, view * proj,EngineWindow::GetSceneEditorCamera()->GetPosition());
 	}
 
 	glDepthMask(GL_TRUE);  // 書き込みを戻す
