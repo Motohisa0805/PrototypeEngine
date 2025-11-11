@@ -1,6 +1,6 @@
 #pragma once
 #include "Assimp.h"
-#include "SOIL.h"
+#include "stb_image.h"
 #include <GL/glew.h>
 #include "SDL3.h"
 #include "FilePath.h"

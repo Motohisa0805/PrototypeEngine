@@ -17,12 +17,12 @@ bool Texture::Load(const string& fileName)
 {
 	int channels = 0;
 
-	unsigned char* image = SOIL_load_image(fileName.c_str(),
-		&mWidth, &mHeight, &channels, SOIL_LOAD_AUTO);
+	unsigned char* image = stbi_load(fileName.c_str(),
+		&mWidth, &mHeight, &channels, 4);
 
 	if (image == nullptr)
 	{
-		SDL_Log("SOIL failed to load image %s: %s", fileName.c_str(), SOIL_last_result());
+		SDL_Log("Failed to load image %s: %s", fileName.c_str(), stbi_failure_reason());
 		return false;
 	}
 
@@ -38,7 +38,7 @@ bool Texture::Load(const string& fileName)
 	glTexImage2D(GL_TEXTURE_2D, 0, format, mWidth, mHeight, 0, format,
 		GL_UNSIGNED_BYTE, image);
 
-	SOIL_free_image_data(image);
+	stbi_image_free(image);
 
 	// Generate mipmaps for texture
 	glGenerateMipmap(GL_TEXTURE_2D);
@@ -68,9 +68,9 @@ bool Texture::LoadFromAssimp(const aiTexture* embeddedTex)
 	}
 
 	int width, height, channels;
-	unsigned char* image = SOIL_load_image_from_memory(
+	unsigned char* image = stbi_load_from_memory(
 		reinterpret_cast<const unsigned char*>(embeddedTex->pcData),
-		embeddedTex->mWidth, &width, &height, &channels, SOIL_LOAD_AUTO);
+		embeddedTex->mWidth, &width, &height, &channels, 0);
 
 	if (!image) {
 		SDL_Log("Failed to load embedded texture.");
@@ -90,7 +90,7 @@ bool Texture::LoadFromAssimp(const aiTexture* embeddedTex)
 	glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, width, height, 0, format,
 		GL_UNSIGNED_BYTE, image);
 
-	SOIL_free_image_data(image);
+	stbi_image_free(image);
 
 	glGenerateMipmap(GL_TEXTURE_2D);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
@@ -102,10 +102,10 @@ bool Texture::LoadFromAssimp(const aiTexture* embeddedTex)
 bool Texture::LoadCubemapFromSingleImage(const std::string& fileName, int faceSize)
 {
 	int imgWidth, imgHeight, channels;
-	unsigned char* image = SOIL_load_image(fileName.c_str(), &imgWidth, &imgHeight, &channels, SOIL_LOAD_AUTO);
+	unsigned char* image = stbi_load(fileName.c_str(), &imgWidth, &imgHeight, &channels, 0);
 	if (!image)
 	{
-		SDL_Log("SOIL failed to load cubemap image %s: %s", fileName.c_str(), SOIL_last_result());
+		SDL_Log("stb_image failed to load cubemap image %s: %s", fileName.c_str(), stbi_failure_reason());
 		return false;
 	}
 
@@ -154,7 +154,7 @@ bool Texture::LoadCubemapFromSingleImage(const std::string& fileName, int faceSi
 		);
 	}
 
-	SOIL_free_image_data(image);
+	stbi_image_free(image);
 
 	// Cubemapパラメータ設定
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
@@ -170,17 +170,17 @@ bool Texture::LoadEquirectangularToCubemap(const std::string& fileName, int face
 {
 	// ソース画像を読み込む（SOIL を使用）
 	int srcW = 0, srcH = 0, channels = 0;
-	unsigned char* src = SOIL_load_image(fileName.c_str(), &srcW, &srcH, &channels, SOIL_LOAD_AUTO);
+	unsigned char* src = stbi_load(fileName.c_str(), &srcW, &srcH, &channels, 0);
 	if (!src)
 	{
-		SDL_Log("SOIL failed to load equirectangular image %s: %s", fileName.c_str(), SOIL_last_result());
+		SDL_Log("stb_image failed to load equirectangular image %s: %s", fileName.c_str(), stbi_failure_reason());
 		return false;
 	}
 
 	if (channels != 3 && channels != 4)
 	{
 		SDL_Log("Unsupported channel count %d in %s", channels, fileName.c_str());
-		SOIL_free_image_data(src);
+		stbi_image_free(src);
 		return false;
 	}
 
@@ -271,7 +271,7 @@ bool Texture::LoadEquirectangularToCubemap(const std::string& fileName, int face
 	}
 
 	// ソース解放
-	SOIL_free_image_data(src);
+	stbi_image_free(src);
 
 	// パラメータ設定
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);

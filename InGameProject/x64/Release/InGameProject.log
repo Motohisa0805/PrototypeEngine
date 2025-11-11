@@ -1,0 +1,90 @@
+﻿  pch.cpp
+  dllmain.cpp
+  InGameProject_API.cpp
+C:\C++Files\PrototypeEngine\PrototypeEngine\SDL_Scancode.h(143,9): warning C4005: 'KEY_EXECUTE': マクロが再定義されました。
+  (ソース ファイル '/InGameProject_API.cpp' をコンパイルしています)
+      C:\Program Files (x86)\Windows Kits\10\Include\10.0.26100.0\um\winnt.h(24548,9):
+      'KEY_EXECUTE' の以前の定義を確認してください
+  
+C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(80,12): warning C4251: 'Component::mName': 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
+  (ソース ファイル '/InGameProject_API.cpp' をコンパイルしています)
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(541,7):
+      'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' の宣言を確認してください
+  
+C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(82,13): warning C4251: 'Component::mHeaderColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
+  (ソース ファイル '/InGameProject_API.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
+      'Vector4' の宣言を確認してください
+  
+C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(83,13): warning C4251: 'Component::mHeaderHoveredColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
+  (ソース ファイル '/InGameProject_API.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
+      'Vector4' の宣言を確認してください
+  
+C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(84,13): warning C4251: 'Component::mHeaderActiveColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
+  (ソース ファイル '/InGameProject_API.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
+      'Vector4' の宣言を確認してください
+  
+C:\C++Files\PrototypeEngine\PrototypeEngine\ComponentFactory.h(18,44): warning C4251: 'ComponentFactory::sCreators': 'std::map<string,ComponentCreator,std::less<string>,std::allocator<std::pair<const string,ComponentCreator>>>' には、'ComponentFactory' のクライアントが使用する DLL インターフェイスが必要です
+  (ソース ファイル '/InGameProject_API.cpp' をコンパイルしています)
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\map(72,7):
+      'std::map<string,ComponentCreator,std::less<string>,std::allocator<std::pair<const string,ComponentCreator>>>' の宣言を確認してください
+  
+C:\C++Files\PrototypeEngine\InGameProject\InGameProject_API.cpp(12,28): error C2491: 'CreateScriptComponent': dllimport 関数 の定義は許されません。
+  (ソース ファイル '/InGameProject_API.cpp' をコンパイルしています)
+  
+C:\C++Files\PrototypeEngine\InGameProject\InGameProject_API.cpp(17,22): error C2491: 'UnregisterScriptComponents': dllimport 関数 の定義は許されません。
+  (ソース ファイル '/InGameProject_API.cpp' をコンパイルしています)
+  
+C:\C++Files\PrototypeEngine\InGameProject\InGameProject_API.cpp(28,6): warning C4273: 'fibonacci_init': dll リンケージが一貫していません。
+  (ソース ファイル '/InGameProject_API.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\InGameProject\InGameProject_API.h(22,33):
+      'fibonacci_init' の以前の定義を確認してください
+  
+C:\C++Files\PrototypeEngine\InGameProject\InGameProject_API.cpp(39,6): warning C4273: 'fibonacci_next': dll リンケージが一貫していません。
+  (ソース ファイル '/InGameProject_API.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\InGameProject\InGameProject_API.h(28,33):
+      'fibonacci_next' の以前の定義を確認してください
+  
+C:\C++Files\PrototypeEngine\InGameProject\InGameProject_API.cpp(60,20): warning C4273: 'fibonacci_current': dll リンケージが一貫していません。
+  (ソース ファイル '/InGameProject_API.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\InGameProject\InGameProject_API.h(31,47):
+      'fibonacci_current' の以前の定義を確認してください
+  
+C:\C++Files\PrototypeEngine\InGameProject\InGameProject_API.cpp(66,10): warning C4273: 'fibonacci_index': dll リンケージが一貫していません。
+  (ソース ファイル '/InGameProject_API.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\InGameProject\InGameProject_API.h(34,37):
+      'fibonacci_index' の以前の定義を確認してください
+  
+  TestScript.cpp
+C:\C++Files\PrototypeEngine\PrototypeEngine\SDL_Scancode.h(143,9): warning C4005: 'KEY_EXECUTE': マクロが再定義されました。
+  (ソース ファイル '/Assets/ScriptsFolder/TestScript.cpp' をコンパイルしています)
+      C:\Program Files (x86)\Windows Kits\10\Include\10.0.26100.0\um\winnt.h(24548,9):
+      'KEY_EXECUTE' の以前の定義を確認してください
+  
+C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(80,12): warning C4251: 'Component::mName': 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
+  (ソース ファイル '/Assets/ScriptsFolder/TestScript.cpp' をコンパイルしています)
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(541,7):
+      'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' の宣言を確認してください
+  
+C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(82,13): warning C4251: 'Component::mHeaderColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
+  (ソース ファイル '/Assets/ScriptsFolder/TestScript.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
+      'Vector4' の宣言を確認してください
+  
+C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(83,13): warning C4251: 'Component::mHeaderHoveredColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
+  (ソース ファイル '/Assets/ScriptsFolder/TestScript.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
+      'Vector4' の宣言を確認してください
+  
+C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(84,13): warning C4251: 'Component::mHeaderActiveColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
+  (ソース ファイル '/Assets/ScriptsFolder/TestScript.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
+      'Vector4' の宣言を確認してください
+  
+C:\C++Files\PrototypeEngine\PrototypeEngine\ComponentFactory.h(18,44): warning C4251: 'ComponentFactory::sCreators': 'std::map<string,ComponentCreator,std::less<string>,std::allocator<std::pair<const string,ComponentCreator>>>' には、'ComponentFactory' のクライアントが使用する DLL インターフェイスが必要です
+  (ソース ファイル '/Assets/ScriptsFolder/TestScript.cpp' をコンパイルしています)
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\map(72,7):
+      'std::map<string,ComponentCreator,std::less<string>,std::allocator<std::pair<const string,ComponentCreator>>>' の宣言を確認してください
+  
