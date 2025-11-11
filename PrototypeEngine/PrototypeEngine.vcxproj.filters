@@ -142,6 +142,9 @@
     <Filter Include="SourceCodes\F_Editor\ScriptManager">
       <UniqueIdentifier>{ab59c046-62e5-4873-9890-610d70a750fd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="SourceCodes\G_OutsideLibrary\stb">
+      <UniqueIdentifier>{96ff0061-94a7-432f-9124-6efbad3538f5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Shaders\Arrow.frag">
@@ -552,6 +555,9 @@
     </ClCompile>
     <ClCompile Include="ScriptHotReloadManager.cpp">
       <Filter>SourceCodes\F_Editor\ScriptManager</Filter>
+    </ClCompile>
+    <ClCompile Include="stb_impl.cpp">
+      <Filter>SourceCodes\G_OutsideLibrary\stb</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

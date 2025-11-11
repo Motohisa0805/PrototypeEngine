@@ -108,7 +108,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;SDL_VERSION=SDL3-3.2.8;PROTOTYPEENGINE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>Default</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)ExternalLibrary\SDL3-3.2.8\include;$(ProjectDir)ExternalLibrary\SDL3_image-3.2.4\include;$(ProjectDir)ExternalLibrary\FMOD Studio API Windows\api\lowlevel\inc;$(ProjectDir)ExternalLibrary\FMOD Studio API Windows\api\studio\inc;$(ProjectDir)ExternalLibrary\SDL3_ttf-3.1.0\include;$(ProjectDir)ExternalLibrary\rapidjson-master\rapidjson-master\include;$(ProjectDir)ImGui;$(ProjectDir)json-develop\include;$(ProjectDir)ExternalLibrary\tinyxml2-master;$(ProjectDir)..\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)ExternalLibrary\SDL3-3.2.8\include;$(ProjectDir)ExternalLibrary\SDL3_image-3.2.4\include;$(ProjectDir)ExternalLibrary\FMOD Studio API Windows\api\lowlevel\inc;$(ProjectDir)ExternalLibrary\FMOD Studio API Windows\api\studio\inc;$(ProjectDir)ExternalLibrary\SDL3_ttf-3.1.0\include;$(ProjectDir)ExternalLibrary\rapidjson-master\rapidjson-master\include;$(ProjectDir)ImGui;$(ProjectDir)json-develop\include;$(ProjectDir)ExternalLibrary\tinyxml2-master;$(ProjectDir)..\;$(ProjectDir)ExternalLibrary\stb-master;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
@@ -126,7 +126,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_RELEASE;_CONSOLE;SDL_VERSION=SDL3-3.2.8;PROTOTYPEENGINE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)ExternalLibrary\SDL3-3.2.8\include;$(ProjectDir)ExternalLibrary\SDL3_image-3.2.4\include;$(ProjectDir)ExternalLibrary\FMOD Studio API Windows\api\lowlevel\inc;$(ProjectDir)ExternalLibrary\FMOD Studio API Windows\api\studio\inc;$(ProjectDir)ExternalLibrary\SDL3_ttf-3.1.0\include;$(ProjectDir)ExternalLibrary\rapidjson-master\rapidjson-master\include;$(ProjectDir)ImGui;$(ProjectDir)json-develop\include;$(ProjectDir)ExternalLibrary\tinyxml2-master;$(ProjectDir)..\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)ExternalLibrary\SDL3-3.2.8\include;$(ProjectDir)ExternalLibrary\SDL3_image-3.2.4\include;$(ProjectDir)ExternalLibrary\FMOD Studio API Windows\api\lowlevel\inc;$(ProjectDir)ExternalLibrary\FMOD Studio API Windows\api\studio\inc;$(ProjectDir)ExternalLibrary\SDL3_ttf-3.1.0\include;$(ProjectDir)ExternalLibrary\rapidjson-master\rapidjson-master\include;$(ProjectDir)ImGui;$(ProjectDir)json-develop\include;$(ProjectDir)ExternalLibrary\tinyxml2-master;$(ProjectDir)..\;$(ProjectDir)ExternalLibrary\stb-master;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <SupportJustMyCode>true</SupportJustMyCode>
       <LanguageStandard>stdcpp20</LanguageStandard>
@@ -264,6 +264,7 @@
     <ClCompile Include="SplineCamera.cpp" />
     <ClCompile Include="Stages00.cpp" />
     <ClCompile Include="Stages01.cpp" />
+    <ClCompile Include="stb_impl.cpp" />
     <ClCompile Include="TargetActor.cpp" />
     <ClCompile Include="TargetComponent.cpp" />
     <ClCompile Include="TargetComponentSystem.cpp" />
@@ -413,7 +414,6 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
     <Import Project="..\packages\assimp-v143.5.4.3\build\native\assimp-v143.targets" Condition="Exists('..\packages\assimp-v143.5.4.3\build\native\assimp-v143.targets')" />
-    <Import Project="..\packages\SOIL-VC141.1.0.1\build\native\SOIL-VC141.targets" Condition="Exists('..\packages\SOIL-VC141.1.0.1\build\native\SOIL-VC141.targets')" />
   </ImportGroup>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
@@ -421,6 +421,5 @@
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\assimp-v143.5.4.3\build\native\assimp-v143.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\assimp-v143.5.4.3\build\native\assimp-v143.targets'))" />
     <Error Condition="!Exists('..\packages\GLEW-static.2.2.0\build\native\GLEW-static.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\GLEW-static.2.2.0\build\native\GLEW-static.props'))" />
-    <Error Condition="!Exists('..\packages\SOIL-VC141.1.0.1\build\native\SOIL-VC141.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\SOIL-VC141.1.0.1\build\native\SOIL-VC141.targets'))" />
   </Target>
 </Project>

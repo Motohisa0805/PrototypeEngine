@@ -502,8 +502,38 @@ void Renderer::EditorDraw3DScene(unsigned int framebuffer, const Matrix4& view, 
 		ActorObject* actor = GUIWinMain::GetHierarchyPanel()->GetSelectedActor();
 		if (actor != nullptr && actor->GetState() == ActorObject::EActive)
 		{
+			//1.カメラとオブジェクトの位置を取得
+			Vector3 cameraPos = EngineWindow::GetSceneEditorCamera()->GetLocalPosition();
+			Vector3 actorPos = actor->GetLocalPosition();
+
+			//2.カメラとオブジェクトの距離を計算
+			float distance = (actorPos - cameraPos).Length();
+
+			//3.画面サイズ固定のためのスケール定数を設定
+			// この値を調整することで、ギズモの見かけのサイズを変更できます。
+			const float GIZMO_SCREEN_SIZE_FACTOR = 0.15f; // 値が大きいほど画面上で大きく見える
+
+			//4. 距離に比例したワールドスケールを算出
+			// ギズモの長さを0.5mで定義しているため、それを基準に距離に応じてスケールを調整
+			float baseLength = 1.0f; // CreateAxisVertsで定義された各軸の長さ(1.0f)を基準とする
+			float scale = distance * GIZMO_SCREEN_SIZE_FACTOR;
+
+			//5. 最小スケールを設定 (オブジェクトがカメラに近すぎる場合のサイズ制御)
+			// オブジェクトにめり込むほど近づいても、ギズモが小さくなりすぎないようにする
+			if (scale < baseLength * 1.0f)
+			{
+				scale = baseLength * 1.0f;
+			}
+
+
+			// 6. 新しいモデル行列を作成
+			// Scale -> Rotation -> Translation の順で適用
+			Matrix4 gizmoModel = Matrix4::CreateScale(scale);
+			gizmoModel *= Matrix4::CreateFromQuaternion(actor->GetLocalRotation());
+			gizmoModel *= Matrix4::CreateTranslation(actorPos);
+
 			// オブジェクトのデバッグ描画
-			mArrowShader->SetMatrixUniform("uModel", actor->GetWorldTransform());
+			mArrowShader->SetMatrixUniform("uModel", gizmoModel);
 			// 6頂点（3軸 × 2点）
 			mAxisVAO->SetActive();
 			// 線の太さを3ピクセルに設定

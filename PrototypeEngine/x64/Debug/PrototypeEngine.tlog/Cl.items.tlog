@@ -99,6 +99,7 @@ C:\C++Files\PrototypeEngine\PrototypeEngine\SplineActor.cpp;C:\C++Files\Prototyp
 C:\C++Files\PrototypeEngine\PrototypeEngine\SplineCamera.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\SplineCamera.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\Stages00.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\Stages00.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\Stages01.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\Stages01.obj
+C:\C++Files\PrototypeEngine\PrototypeEngine\stb_impl.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\stb_impl.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\TargetActor.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\TargetActor.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\TargetComponent.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\TargetComponent.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\TargetComponentSystem.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\TargetComponentSystem.obj
