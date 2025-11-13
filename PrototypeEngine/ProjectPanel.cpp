@@ -121,7 +121,7 @@ void ProjectPanel::DrawFolderTree(const filesystem::path& path)
         {
             // ツリーノードの表示
             // ImGuiTreeNodeFlags_Selected: mSelectedPathと一致する場合にハイライト表示させる
-            ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_OpenOnArrow;
+            ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_SpanAvailWidth;
             if (path == mSelectedPath)
             {
                 flags |= ImGuiTreeNodeFlags_Selected;

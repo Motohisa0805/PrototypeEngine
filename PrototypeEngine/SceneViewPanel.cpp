@@ -1,6 +1,7 @@
 #include "SceneViewPanel.h"
 #include "SceneViewEditor.h"
 #include "GBuffer.h"
+#include "EngineWindow.h"
 
 SceneViewPanel::SceneViewPanel(Renderer* renderer)
 	:GUIPanel(renderer)
@@ -28,6 +29,12 @@ void SceneViewPanel::Draw(float width, float height, ImTextureRef ref)
 	ImVec2 winsize = ImVec2(mWidthSize, mHeightSize);
 	if(ImGui::Begin(GetName(), nullptr, ImGuiWindowFlags_NoCollapse))
 	{
+		//デバッグモード切り替えボタン
+		if (ImGui::Button("G", ImVec2(0.0f, 0.0f)))
+		{
+			GameStateClass::gDebugGridFrag = !GameStateClass::gDebugGridFrag;
+		}
+
 		// SceneView のサイズが変わったら FBO をリサイズ
 		if (mRenderer->GetSceneViewEditor()->NeedsResize(Vector2((int)winsize.x, (int)winsize.y)))
 		{

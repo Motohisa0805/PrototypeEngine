@@ -87,7 +87,7 @@ void FPSCanvas::Update(float deltaTime)
 	//各画像の座標更新
 
 	// Crosshair
-	if (GameStateClass::mGameState == TimeStop) { return; }
+	if (GameStateClass::gGameState == TimeStop) { return; }
 	if (mTargetEnemy)
 	{
 		mCrosshair->SetState(Image::EClosing);

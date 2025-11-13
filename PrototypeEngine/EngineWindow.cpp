@@ -67,7 +67,7 @@ bool EngineWindow::EngineInitialize()
 	mGameWindow->GameRunLoop();
 
 	mSceneEditorCamera = new SceneEditorCamera();
-	GameStateClass::mDebugFrag = true;
+	GameStateClass::gDebugGridFrag = true;
 
 	mHotReloadManager = std::make_unique<ScriptHotReloadManager>();
 	//スクリプトDLLをロードする
@@ -111,11 +111,6 @@ void EngineWindow::EngineProcessInput()
 		}
 	}
 
-	// Debugビルドの場合の処理
-	if (state.Keyboard.GetKeyDown(SDL_SCANCODE_F1))
-	{
-		GameStateClass::mDebugFrag = !GameStateClass::mDebugFrag;
-	}
 	//シーンビューのエディターカメラ入力
 	mSceneEditorCamera->ProcessInput(state);
 	//シーンの入力処理

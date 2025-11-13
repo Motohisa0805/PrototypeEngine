@@ -387,7 +387,7 @@ void Renderer::StartDraw()
 		}
 	}
 
-	if (GameStateClass::mDebugFrag)
+	if (GameStateClass::gDebugStatesFrag)
 	{
 		for (auto ui : mNowScene->GetDebugImageStack())
 		{
@@ -494,53 +494,53 @@ void Renderer::EditorDraw3DScene(unsigned int framebuffer, const Matrix4& view, 
 		}
 	}
 	//デバッグ描画
-	if (GameStateClass::mDebugFrag)
+	//オブジェクトの矢印描画
+	mArrowShader->SetActive();
+	mArrowShader->SetMatrixUniform("uViewProj", view * proj);
+	ActorObject* actor = GUIWinMain::GetHierarchyPanel()->GetSelectedActor();
+	if (actor != nullptr && actor->GetState() == ActorObject::EActive)
 	{
-		//オブジェクトの矢印描画
-		mArrowShader->SetActive();
-		mArrowShader->SetMatrixUniform("uViewProj", view * proj);
-		ActorObject* actor = GUIWinMain::GetHierarchyPanel()->GetSelectedActor();
-		if (actor != nullptr && actor->GetState() == ActorObject::EActive)
+		//1.カメラとオブジェクトの位置を取得
+		Vector3 cameraPos = EngineWindow::GetSceneEditorCamera()->GetLocalPosition();
+		Vector3 actorPos = actor->GetLocalPosition();
+
+		//2.カメラとオブジェクトの距離を計算
+		float distance = (actorPos - cameraPos).Length();
+
+		//3.画面サイズ固定のためのスケール定数を設定
+		// この値を調整することで、ギズモの見かけのサイズを変更できます。
+		const float GIZMO_SCREEN_SIZE_FACTOR = 0.15f; // 値が大きいほど画面上で大きく見える
+
+		//4. 距離に比例したワールドスケールを算出
+		// ギズモの長さを0.5mで定義しているため、それを基準に距離に応じてスケールを調整
+		float baseLength = 1.0f; // CreateAxisVertsで定義された各軸の長さ(1.0f)を基準とする
+		float scale = distance * GIZMO_SCREEN_SIZE_FACTOR;
+
+		//5. 最小スケールを設定 (オブジェクトがカメラに近すぎる場合のサイズ制御)
+		// オブジェクトにめり込むほど近づいても、ギズモが小さくなりすぎないようにする
+		if (scale < baseLength * 1.0f)
 		{
-			//1.カメラとオブジェクトの位置を取得
-			Vector3 cameraPos = EngineWindow::GetSceneEditorCamera()->GetLocalPosition();
-			Vector3 actorPos = actor->GetLocalPosition();
-
-			//2.カメラとオブジェクトの距離を計算
-			float distance = (actorPos - cameraPos).Length();
-
-			//3.画面サイズ固定のためのスケール定数を設定
-			// この値を調整することで、ギズモの見かけのサイズを変更できます。
-			const float GIZMO_SCREEN_SIZE_FACTOR = 0.15f; // 値が大きいほど画面上で大きく見える
-
-			//4. 距離に比例したワールドスケールを算出
-			// ギズモの長さを0.5mで定義しているため、それを基準に距離に応じてスケールを調整
-			float baseLength = 1.0f; // CreateAxisVertsで定義された各軸の長さ(1.0f)を基準とする
-			float scale = distance * GIZMO_SCREEN_SIZE_FACTOR;
-
-			//5. 最小スケールを設定 (オブジェクトがカメラに近すぎる場合のサイズ制御)
-			// オブジェクトにめり込むほど近づいても、ギズモが小さくなりすぎないようにする
-			if (scale < baseLength * 1.0f)
-			{
-				scale = baseLength * 1.0f;
-			}
-
-
-			// 6. 新しいモデル行列を作成
-			// Scale -> Rotation -> Translation の順で適用
-			Matrix4 gizmoModel = Matrix4::CreateScale(scale);
-			gizmoModel *= Matrix4::CreateFromQuaternion(actor->GetLocalRotation());
-			gizmoModel *= Matrix4::CreateTranslation(actorPos);
-
-			// オブジェクトのデバッグ描画
-			mArrowShader->SetMatrixUniform("uModel", gizmoModel);
-			// 6頂点（3軸 × 2点）
-			mAxisVAO->SetActive();
-			// 線の太さを3ピクセルに設定
-			glLineWidth(3.0f);
-			glDrawArrays(GL_LINES, 0, 6);
+			scale = baseLength * 1.0f;
 		}
 
+
+		// 6. 新しいモデル行列を作成
+		// Scale -> Rotation -> Translation の順で適用
+		Matrix4 gizmoModel = Matrix4::CreateScale(scale);
+		gizmoModel *= Matrix4::CreateFromQuaternion(actor->GetLocalRotation());
+		gizmoModel *= Matrix4::CreateTranslation(actorPos);
+
+		// オブジェクトのデバッグ描画
+		mArrowShader->SetMatrixUniform("uModel", gizmoModel);
+		// 6頂点（3軸 × 2点）
+		mAxisVAO->SetActive();
+		// 線の太さを3ピクセルに設定
+		glLineWidth(3.0f);
+		glDrawArrays(GL_LINES, 0, 6);
+	}
+	//デバッググリッド描画
+	if (GameStateClass::gDebugGridFrag)
+	{
 		mDebugGrid->Draw(mGridShader, view * proj,EngineWindow::GetSceneEditorCamera()->GetPosition());
 	}
 

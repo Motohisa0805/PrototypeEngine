@@ -66,7 +66,7 @@ Button::~Button()
 
 void Button::Update(float deltaTime)
 {
-	if (GameStateClass::mGameEventFrag && mDicideButton > 0)
+	if (GameStateClass::gGameEventFrag && mDicideButton > 0)
 	{
 		mDicideButton -= Time::gUnscaledDeltaTime;
 		if (mDicideButton < 0)
@@ -77,12 +77,12 @@ void Button::Update(float deltaTime)
 		}
 	}
 
-	if (GameStateClass::mGameEventFrag&&mClickCount > 0)
+	if (GameStateClass::gGameEventFrag&&mClickCount > 0)
 	{
 		mClickCount -= Time::gUnscaledDeltaTime;
 		if (mClickCount < 0)
 		{
-			GameStateClass::mGameEventFrag = false;
+			GameStateClass::gGameEventFrag = false;
 			if (mOnClick)
 			{
 				mOnClick();
@@ -107,10 +107,10 @@ bool Button::ContainsPoint(const Vector2& pt) const
 
 void Button::OnClick()
 {
-	if (GameStateClass::mGameEventFrag) { return; }
+	if (GameStateClass::gGameEventFrag) { return; }
 
 
-	GameStateClass::mGameEventFrag = true;
+	GameStateClass::gGameEventFrag = true;
 
 	Vector2 pos = mBaseButtonPosition;
 	pos.y -= 5.0f;

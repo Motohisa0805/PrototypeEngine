@@ -109,7 +109,7 @@ bool BaseScene::Initialize()
 bool BaseScene::InputUpdate(const InputState& state)
 {
 
-	if (GameStateClass::mGameState == GameState::GamePlay)
+	if (GameStateClass::gGameState == GameState::GamePlay)
 	{
 		for (auto actor : mActors)
 		{
@@ -209,7 +209,7 @@ bool BaseScene::Update()
 		}
 	}
 
-	if (GameStateClass::mDebugFrag)
+	if (GameStateClass::gDebugStatesFrag)
 	{
 		for (int i = 0; i < mDebugImageStack.size(); i++)
 		{
