@@ -7,9 +7,16 @@
 //GUIのエディターシーンのカメラの処理を行うクラス
 class SceneEditorCamera : public Transform
 {
+public:
+	enum EditCameraMode
+	{
+		Null,
+		MiddleOperation,
+		RightOperation
+	};
 private:
 
-	bool	mIsViewDirty;
+	EditCameraMode mMode;
 
 	Matrix4	mViewMatrix;
 
@@ -27,6 +34,8 @@ private:
 	float	mForwardSpeed;
 	//左右移動スピード
 	float	mStrafeSpeed;
+	//上下移動スピード
+	float   mUpSpeed;
 	//最大スピード
 	float   mMaxSpeed;
 	//最少スピード
@@ -42,6 +51,11 @@ public:
 
 	//一人称視点のカメラ処理を行いピッチ速度を取得する関数
 	void	ProcessInput(const struct InputState& keyState);
+
+	void    MiddleClickViewInput(const struct InputState& keyState);
+
+	void    RightClickViewInput(const struct InputState& keyState);
+
 	float	GetAngularSpeed() const { return mYawSpeed; }
 	float	GetPitch() const { return mPitch; }
 	float	GetPitchSpeed() const { return mPitchSpeed; }

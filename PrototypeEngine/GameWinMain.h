@@ -11,10 +11,11 @@ enum GameState
 class GameStateClass 
 {
 public:
-	static void			SetGameState(GameState state) { mGameState = state; }
-	static GameState	mGameState;
-	static bool			mGameEventFrag;
-	static bool			mDebugFrag;
+	static void			SetGameState(GameState state) { gGameState = state; }
+	static GameState	gGameState;
+	static bool			gGameEventFrag;
+	static bool			gDebugGridFrag;
+	static bool			gDebugStatesFrag;
 };
 
 class GameApp;

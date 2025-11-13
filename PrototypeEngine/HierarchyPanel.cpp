@@ -75,7 +75,8 @@ void HierarchyPanel::DrawActorNode(ActorObject* actor)
 	}
 
 	//ノードフラグの設定
-	ImGuiBackendFlags node_flags = ImGuiTreeNodeFlags_AllowOverlap;
+	//ImGuiTreeNodeFlags_SpanAvailWidth : 選択の幅をGUIパネルの幅と同じにする
+	ImGuiBackendFlags node_flags = ImGuiTreeNodeFlags_AllowOverlap | ImGuiTreeNodeFlags_SpanAvailWidth;
 	bool isSelected = (mSelectedActor == actor);
 	if (isSelected)
 	{

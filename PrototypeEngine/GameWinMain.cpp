@@ -3,11 +3,13 @@
 #include "Time.h"
 
 // ここで定義（初期値を指定してもOK）
-GameState GameStateClass::mGameState = GameState::GamePlay;
+GameState GameStateClass::gGameState = GameState::GamePlay;
 
-bool GameStateClass::mGameEventFrag = false;
+bool GameStateClass::gGameEventFrag = false;
 
-bool GameStateClass::mDebugFrag = false;
+bool GameStateClass::gDebugGridFrag = false;
+
+bool GameStateClass::gDebugStatesFrag = false;
 
 
 //Renderer* GameWinMain::mRenderer = nullptr;
@@ -44,7 +46,7 @@ void GameWinMain::InputUpdate()
 
 void GameWinMain::RunLoop()
 {
-	while (GameStateClass::mGameState != GameState::GameEnd)
+	while (GameStateClass::gGameState != GameState::GameEnd)
 	{
 		Time::UpdateDeltaTime();
 		//ロード処理

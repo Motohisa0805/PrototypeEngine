@@ -2,6 +2,7 @@
 #include "SceneViewEditor.h"
 #include "GBuffer.h"
 #include "InputSystem.h"
+#include "EngineWindow.h"
 
 GameViewPanel::GameViewPanel(Renderer* renderer)
 	:GUIPanel(renderer)
@@ -27,6 +28,12 @@ void GameViewPanel::Draw(float width, float height, ImTextureRef ref)
 	}
 	if(ImGui::Begin(GetName(), nullptr, flag))
 	{
+		//デバッグモード切り替えボタン
+		if (ImGui::Button("States", ImVec2(0.0f, 0.0f)))
+		{
+			GameStateClass::gDebugStatesFrag = !GameStateClass::gDebugStatesFrag;
+		}
+
 		//入力処理
 		MouseHoveredDisble();
 		// マウスがこのウィンドウにあるかどうか判定
