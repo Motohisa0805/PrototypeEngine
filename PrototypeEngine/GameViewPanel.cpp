@@ -42,7 +42,7 @@ void GameViewPanel::Draw(float width, float height, ImTextureRef ref)
 			if(InputContextManager::IsEngineInputActive())
 			{
 				// GameViewパネルにマウスが乗っているときの処理
-				InputContextManager::SetContext(InputContext::Game);
+				//InputContextManager::SetContext(InputContext::Game);
 			}
 		}
 
@@ -67,6 +67,45 @@ void GameViewPanel::Draw(float width, float height, ImTextureRef ref)
 			ImVec2(0, 1),  // uv0 (上下反転に注意)
 			ImVec2(1, 0)   // uv1
 		);
+		//"State"ボタンでトグルされるフラグがtrueの場合のみ描画
+		if (GameStateClass::gDebugStatesFrag)
+		{
+			const float padding = 10.0f;
+			//1.オーバーレイウィンドウの表示位置を計算
+			ImVec2 overlayPos = ImVec2(
+				winPos.x + winSize.x - padding,
+				winPos.y + padding
+			);
+
+			//2.描画するウインドウの位置と「アンカー」を設定
+			ImGui::SetNextWindowPos(overlayPos, ImGuiCond_Appearing, ImVec2(1.0f, 0.0f));
+
+			//3.ウインドウのスタイルを設定
+			ImGui::SetNextWindowBgAlpha(0.35f);// 半透明にする
+
+			//4.ウインドウのフラグを設定
+			ImGuiWindowFlags overlayFlags =
+				ImGuiWindowFlags_NoDecoration |
+				ImGuiWindowFlags_AlwaysAutoResize |
+				ImGuiWindowFlags_NoSavedSettings |
+				ImGuiWindowFlags_NoMove;
+			//5.オーバーレイウインドウの描画開始
+			if (ImGui::Begin("StatesOverlay", nullptr, overlayFlags))
+			{
+				ImGui::Text("Game Stats");//タイトル
+				ImGui::Separator();
+				float time = Time::GetFrameRate();
+				ImGui::Text("FPS: %.1f", time);
+				//仮
+				int drawCalls = 0; // mRenderer->GetStats().DrawCalls など
+				int vertices = 0;  // mRenderer->GetStats().Vertices など
+
+				ImGui::Text("Draw Calls: %d", drawCalls);
+				ImGui::Text("Vertices: %d", vertices);
+				ImGui::Text("Tris: %d", vertices / 3); // 仮
+			}
+			ImGui::End();
+		}
 	}
 	ImGui::End();
 }

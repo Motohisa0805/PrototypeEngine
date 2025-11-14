@@ -1,11 +1,9 @@
-﻿  GameWinMain.cpp
+﻿  GameViewPanel.cpp
 C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
-  (ソース ファイル 'GameWinMain.cpp' をコンパイルしています)
+  (ソース ファイル 'GameViewPanel.cpp' をコンパイルしています)
       C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
       'SDL_VERSION' は以前にコマンド ラインで宣言されています
   
-     ライブラリ C:\C++Files\PrototypeEngine\bin\PrototypeEngine.lib とオブジェクト C:\C++Files\PrototypeEngine\bin\PrototypeEngine.exp を作成中
-LINK : warning LNK4217: シンボル '?HasStarted@ScriptComponent@@QEBA_NXZ (public: bool __cdecl ScriptComponent::HasStarted(void)const )' ('ScriptComponent.obj' で定義) が 'Actor.obj' によって関数 '"public: void __cdecl ActorObject::UpdateComponents(float)" (?UpdateComponents@ActorObject@@QEAAXM@Z)' 内でインポートされています
-LINK : warning LNK4217: シンボル '?SetStarted@ScriptComponent@@QEAAX_N@Z (public: void __cdecl ScriptComponent::SetStarted(bool))' ('ScriptComponent.obj' で定義) が 'Actor.obj' によって関数 '"public: void __cdecl ActorObject::UpdateComponents(float)" (?UpdateComponents@ActorObject@@QEAAXM@Z)' 内でインポートされています
-LINK : warning LNK4286: シンボル '?SetStarted@ScriptComponent@@QEAAX_N@Z (public: void __cdecl ScriptComponent::SetStarted(bool))' ('ScriptComponent.obj' で定義) が 'ScriptHotReloadManager.obj' によってインポートされています
+C:\C++Files\PrototypeEngine\PrototypeEngine\GameViewPanel.cpp(54,92): warning C4244: '引数': 'int' から 'float' への変換です。データが失われる可能性があります。
+C:\C++Files\PrototypeEngine\PrototypeEngine\GameViewPanel.cpp(54,76): warning C4244: '引数': 'int' から 'float' への変換です。データが失われる可能性があります。
   PrototypeEngine.vcxproj -> C:\C++Files\PrototypeEngine\bin\PrototypeEngine.exe

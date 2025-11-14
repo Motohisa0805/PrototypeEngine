@@ -26,26 +26,20 @@ void SceneEditorCamera::Update()
 	{
 		// カメラの位置はオーナーの位置
 		Vector3 cameraPos = mPosition;
-
 		// オーナーの右ベクトルを軸とするピッチ回転を表す四元数を作成
 		Quaternion q(GetRight(), mPitch);
-
 		// 所有者をピッチクォータニオンで前方に回転
-		Vector3 viewForward = Vector3::Transform(
-			GetForward(), q);
+		Vector3 viewForward = Vector3::Transform(GetForward(), q);
 		// 視線の前方100ユニットのターゲット位置。
 		Vector3 target = cameraPos + viewForward * 100.0f;
 		// ピッチクォータニオンを回転。
 		Vector3 up = Vector3::Transform(Vector3::UnitY, q);
-
 		// マトリックスを作成し、ビューとして設定
 		Matrix4 view = Matrix4::CreateLookAt(cameraPos, target, up);
 		WindowRenderProperty::SetViewEye(cameraPos);
 		WindowRenderProperty::SetViewTarget(target);
 		WindowRenderProperty::SetViewUp(up);
 		mViewMatrix = view;
-
-		//X、Z移動処理
 		// 前後移動、左右移動
 		Vector3 pos = mLocalPosition;
 		pos += GetRight() * mStrafeSpeed * Time::gUnscaledDeltaTime;
@@ -69,32 +63,30 @@ void SceneEditorCamera::Update()
 			rot = Quaternion::Concatenate(rot, inc);
 			SetLocalRotation(rot);
 		}
-
-		// カメラの位置はオーナーの位置
-		Vector3 cameraPos = mPosition;
-
 		// ピッチ速度に基づいてピッチを更新
 		mPitch += mPitchSpeed * Time::gUnscaledDeltaTime;
 		// クランプピッチを[-max, +max]に制限
 		mPitch = Math::Clamp(mPitch, -mMaxPitch, mMaxPitch);
-		// オーナーの右ベクトルを軸とするピッチ回転を表す四元数を作成
-		Quaternion q(GetRight(), mPitch);
+	}
 
-		// 所有者をピッチクォータニオンで前方に回転
-		Vector3 viewForward = Vector3::Transform(
-			GetForward(), q);
-		// 視線の前方100ユニットのターゲット位置。
-		Vector3 target = cameraPos + viewForward * 100.0f;
-		// ピッチクォータニオンを回転。
-		Vector3 up = Vector3::Transform(Vector3::UnitY, q);
-
-		// マトリックスを作成し、ビューとして設定
-		Matrix4 view = Matrix4::CreateLookAt(cameraPos, target, up);
-		WindowRenderProperty::SetViewEye(cameraPos);
-		WindowRenderProperty::SetViewTarget(target);
-		WindowRenderProperty::SetViewUp(up);
-		mViewMatrix = view;
-
+	// カメラの位置はオーナーの位置
+	Vector3 cameraPos = mPosition;
+	// オーナーの右ベクトルを軸とするピッチ回転を表す四元数を作成
+	Quaternion q(GetRight(), mPitch);
+	// 所有者をピッチクォータニオンで前方に回転
+	Vector3 viewForward = Vector3::Transform(GetForward(), q);
+	// 視線の前方100ユニットのターゲット位置。
+	Vector3 target = cameraPos + viewForward * 100.0f;
+	// ピッチクォータニオンを回転。
+	Vector3 up = Vector3::Transform(Vector3::UnitY, q);
+	// マトリックスを作成し、ビューとして設定
+	Matrix4 view = Matrix4::CreateLookAt(cameraPos, target, up);
+	WindowRenderProperty::SetViewEye(cameraPos);
+	WindowRenderProperty::SetViewTarget(target);
+	WindowRenderProperty::SetViewUp(up);
+	mViewMatrix = view;
+	if (mMode != EditCameraMode::MiddleOperation)
+	{
 		//X、Z移動処理
 		// 前後移動、左右移動
 		if (!Math::NearZero(mForwardSpeed) || !Math::NearZero(mStrafeSpeed))
@@ -147,10 +139,37 @@ void SceneEditorCamera::ProcessInput(const struct InputState& keyState)
 	if(keyState.Mouse.GetButton(SDL_BUTTON_RIGHT))
 	{
 		RightClickViewInput(keyState);
+		if (keyState.Keyboard.GetKey(SDL_SCANCODE_W))
+		{
+			mForwardSpeed += mSpeed;
+		}
+		if (keyState.Keyboard.GetKey(SDL_SCANCODE_S))
+		{
+			mForwardSpeed -= mSpeed;
+		}
+		if (keyState.Keyboard.GetKey(SDL_SCANCODE_A))
+		{
+			mStrafeSpeed -= mSpeed;
+		}
+		if (keyState.Keyboard.GetKey(SDL_SCANCODE_D))
+		{
+			mStrafeSpeed += mSpeed;
+		}
 	}
 	if (keyState.Mouse.GetButtonUp(SDL_BUTTON_RIGHT))
 	{
 		InputSystem::AbsoluteMouseMode();
+	}
+
+	//ホイール入力を取得
+	Vector2 wheel = keyState.Mouse.GetScrollWheel();
+	//「右クリック中でない」かつ「ホイール入力がある」場合
+	if (!keyState.Mouse.GetButton(SDL_BUTTON_RIGHT) && wheel.y != 0)
+	{
+		//mSpeedを基準にズーム(前後移動)を行う
+		float zoomSensitivity = 2.0f;
+		//mForwardSpeedに値を設定
+		mForwardSpeed = wheel.y * mSpeed * zoomSensitivity;
 	}
 }
 
@@ -163,7 +182,7 @@ void SceneEditorCamera::MiddleClickViewInput(const InputState& keyState)
 	float x, y;
 	SDL_GetRelativeMouseState(&x, &y);
 
-	float sensitivity = 15.0f;
+	float sensitivity = 1.0f;
 
 	mStrafeSpeed = -x * sensitivity;
 	mUpSpeed = y * sensitivity;
@@ -206,28 +225,4 @@ void SceneEditorCamera::RightClickViewInput(const struct InputState& keyState)
 	mSpeed += wheel.y;
 	// スピードのクランプ
 	mSpeed = Math::Clamp(mSpeed, mMinSpeed, mMaxSpeed);
-
-
-	// キーボード入力
-	float forwardSpeed = 0.0f;
-	float strafeSpeed = 0.0f;
-	// wasd movement
-	if (keyState.Keyboard.GetKey(SDL_SCANCODE_W))
-	{
-		forwardSpeed += mSpeed;
-	}
-	if (keyState.Keyboard.GetKey(SDL_SCANCODE_S))
-	{
-		forwardSpeed -= mSpeed;
-	}
-	if (keyState.Keyboard.GetKey(SDL_SCANCODE_A))
-	{
-		strafeSpeed -= mSpeed;
-	}
-	if (keyState.Keyboard.GetKey(SDL_SCANCODE_D))
-	{
-		strafeSpeed += mSpeed;
-	}
-	mForwardSpeed = forwardSpeed;
-	mStrafeSpeed = strafeSpeed;
 }
