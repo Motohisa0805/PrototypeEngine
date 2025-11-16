@@ -34,9 +34,9 @@ public:
 		Vector3				mNormal;
 		float				mT;
 		// 衝突クラス
-		Collider*			mCollider;
+		Collider*			mCollider = nullptr;
 		// コンポーネントの所有Actor
-		ActorObject*		mActor;
+		ActorObject*		mActor = nullptr;
 	};
 
 	struct ContactPoint

@@ -335,6 +335,7 @@ void ProjectPanel::DrawFileSystemEntry(const filesystem::directory_entry& entry)
 
 bool ProjectPanel::RightClickMenu(const filesystem::path& path)
 {
+    if (!WindowHoveredConfirmation()) { return false; }
 	if (mSelectedPath.empty()) return false;
     SetPopupColorTheme();
     // コンテキストメニューは直前に描画したアイテム（TreeNode か Selectable）に紐づく
@@ -454,6 +455,7 @@ bool ProjectPanel::RightClickMenu(const filesystem::path& path)
 
 void ProjectPanel::ShortcutKeyInputFunction(const filesystem::path& path)
 {
+    if (!WindowHoveredConfirmation()) { return; }
     //削除キー
     if (!mSelectedPath.empty() && ImGui::IsKeyPressed(ImGuiKey_Delete))
     {

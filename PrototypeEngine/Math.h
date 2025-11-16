@@ -1,6 +1,6 @@
 ﻿#pragma once
 #include "StandardLibrary.h"
-
+#include "PrototypeEngine_API.h"
 /*
 * ===エンジン内部処理/Engine internal processing===
 */
@@ -119,7 +119,7 @@ namespace Math
 }
 
 // 2D Vector
-class Vector2
+class PROTOTYPEENGINE_API Vector2
 {
 public:
 	float x;
@@ -261,7 +261,7 @@ public:
 };
 
 // 3D Vector
-class Vector3
+class PROTOTYPEENGINE_API Vector3
 {
 public:
 	float x;
@@ -510,7 +510,7 @@ inline bool operator<(const Vector3& lhs, const Vector3& rhs)
 }
 
 // 4D Vector
-class Vector4
+class PROTOTYPEENGINE_API Vector4
 {
 public:
 	float x;
@@ -655,7 +655,7 @@ public:
 };
 
 // 3x3 Matrix
-class Matrix3
+class PROTOTYPEENGINE_API Matrix3
 {
 public:
 	float mat[3][3];
@@ -756,7 +756,7 @@ public:
 };
 
 // (Unit) Quaternion
-class Quaternion
+class PROTOTYPEENGINE_API Quaternion
 {
 public:
 	float x;
@@ -917,7 +917,7 @@ public:
 };
 // 4x4 Matrix
 //FOCUS : 行列は行優先で作成
-class Matrix4
+class PROTOTYPEENGINE_API Matrix4
 {
 public:
 	float mat[4][4];

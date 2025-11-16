@@ -38,8 +38,8 @@ public:
 	};
 	virtual ColliderType	GetType() = 0;
 
-	virtual const Sphere&	GetWorldSphere() const = 0;
-	virtual const Capsule&	GetWorldCapsule() const = 0;
+	virtual Sphere			GetWorldSphere() const = 0;
+	virtual Capsule			GetWorldCapsule() const = 0;
 	virtual AABB			GetWorldAABBFromOBB() const { return mWorldBox; }
 
 	virtual OBB				GetWorldOBB() const = 0;

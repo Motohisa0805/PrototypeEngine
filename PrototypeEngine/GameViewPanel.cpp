@@ -4,6 +4,9 @@
 #include "InputSystem.h"
 #include "EngineWindow.h"
 
+#include "SceneManager.h"
+#include "BaseScene.h"
+
 GameViewPanel::GameViewPanel(Renderer* renderer)
 	:GUIPanel(renderer)
 {
@@ -98,7 +101,8 @@ void GameViewPanel::Draw(float width, float height, ImTextureRef ref)
 				ImGui::Text("FPS: %.1f", time);
 				//‰¼
 				int drawCalls = 0; // mRenderer->GetStats().DrawCalls ‚È‚Ç
-				int vertices = 0;  // mRenderer->GetStats().Vertices ‚È‚Ç
+
+				int vertices = SceneManager::GetNowScene()->GetSceneAllVertices();  // mRenderer->GetStats().Vertices ‚È‚Ç
 
 				ImGui::Text("Draw Calls: %d", drawCalls);
 				ImGui::Text("Vertices: %d", vertices);
