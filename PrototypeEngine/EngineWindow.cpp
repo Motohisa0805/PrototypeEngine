@@ -14,6 +14,7 @@ Renderer* EngineWindow::mRenderer = nullptr;
 SceneEditorCamera* EngineWindow::mSceneEditorCamera = nullptr;
 
 EngineWindow::EngineWindow()
+	:mGameWindow(nullptr)
 {
 }
 

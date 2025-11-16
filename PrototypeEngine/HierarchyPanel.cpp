@@ -5,6 +5,7 @@
 HierarchyPanel::HierarchyPanel(Renderer* renderer)
 	:GUIPanel(renderer)
 	, mSelectedActor(nullptr)
+	, mRenaming(false)
 {
 }
 

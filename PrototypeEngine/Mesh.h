@@ -53,9 +53,9 @@ private:
 	vector<AABB>				mBoxs;
 	vector<OBB>					mOBBBoxs;
 	// Meshのテクスチャを取得
-	vector<Texture*>		mTextures;
+	vector<Texture*>			mTextures;
 	// MeshのVertexArrayの配列
-	vector<VertexArray*>  mVertexArrays;
+	vector<VertexArray*>		mVertexArrays;
 	// シェーダー名
 	string						mShaderName;
 	// 球の半径

@@ -148,7 +148,9 @@ public:
 	//シーン名のSetter
 	virtual void									SetName(const string& name) { mName = name; }
 
-	bool										    mIsComputeWorldTransform;
+	bool										    gIsComputeWorldTransform;
+	//シーン内のオブジェクトの頂点数を表示
+	int												GetSceneAllVertices();
 };
 
 template<typename T>

@@ -10,6 +10,8 @@
 #include "AudioSystem.h"
 #include "PhysWorld.h"
 
+#include "VertexArray.h"
+
 BaseScene::BaseScene()
 	: mAudioSystem(nullptr)
 	, mPhysWorld(nullptr)
@@ -21,7 +23,7 @@ BaseScene::BaseScene()
 	, mFrameRateText(nullptr)
 	, mName("BaseScene")
 	, mNextActorID(0)
-	, mIsComputeWorldTransform(false)
+	, gIsComputeWorldTransform(false)
 {
 }
 
@@ -256,7 +258,7 @@ bool BaseScene::Update()
 bool BaseScene::EditorUpdate()
 {
 	//オブジェクトの座標が更新された時だけ
-	if (!mIsComputeWorldTransform)
+	if (!gIsComputeWorldTransform)
 	{
 		return false;
 	}
@@ -343,7 +345,7 @@ bool BaseScene::EditorUpdate()
 			++image;
 		}
 	}
-	mIsComputeWorldTransform = false;
+	gIsComputeWorldTransform = false;
 	return true;
 }
 
@@ -555,6 +557,28 @@ BaseScene* BaseScene::GetMainCameraComponent()
 		}
 	}
 	return nullptr;
+}
+
+int BaseScene::GetSceneAllVertices()
+{
+	int vertices = 0;
+
+	for (auto* actor : mActors)
+	{
+		MeshRenderer* comp = actor->GetComponent<MeshRenderer>();
+		if (comp)
+		{
+			for (auto* mesh : comp->GetMeshs())
+			{
+				for (auto* vertArray : mesh->GetVertexArrays())
+				{
+					vertices += vertArray->GetNumVerts();
+				}
+			}
+		}
+	}
+
+	return vertices;
 }
 
 void BaseScene::UnloadData()

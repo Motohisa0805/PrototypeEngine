@@ -25,9 +25,9 @@ public:
 
 	OBB				GetWorldOBB() const override;
 
-	const Sphere&	GetWorldSphere() const override { return Sphere(Vector3::Zero, 0.0f); }
+	Sphere			GetWorldSphere() const override { return Sphere(Vector3::Zero, 0.0f); }
 
-	const Capsule&	GetWorldCapsule() const override { return mWorldCapsule; }
+	Capsule			GetWorldCapsule() const override { return mWorldCapsule; }
 
 	void			SetShouldRotate(bool value) { mShouldRotate = value; }
 
