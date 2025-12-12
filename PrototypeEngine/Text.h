@@ -1,7 +1,6 @@
 #pragma once
 #include "Image.h"
 #include "Font.h"
-
 /*
 * ===ƒGƒ“ƒWƒ““à•”ˆ—/Engine internal processing===
 */

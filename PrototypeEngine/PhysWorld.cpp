@@ -544,6 +544,14 @@ void PhysWorld::CollectContactPoints_Sphere_Capsule(const Sphere& a, const Capsu
 	}
 }
 
+void PhysWorld::ClearAllCollider()
+{
+	mCollider.clear();
+	mColliderXAxis.clear();
+	mColliderYAxis.clear();
+	mColliderZAxis.clear();
+}
+
 
 void PhysWorld::AddCollider(Collider* box)
 {

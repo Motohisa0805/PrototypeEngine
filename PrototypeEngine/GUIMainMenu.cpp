@@ -5,6 +5,7 @@
 #include "DebugManager.h"
 #include "GUIWinMain.h"
 #include "EngineWindow.h"
+#include "BaseScene.h"
 
 GUIMainMenu::GUIMainMenu(Renderer* renderer)
 	:GUIPanel(renderer)
@@ -63,6 +64,7 @@ void GUIMainMenu::FileMenuDraw()
 		{
 			string startupScenePath = EditorSettingsManager::GetInstance().GetLastOpenedScene();
 			SceneSerializer::SaveScene(startupScenePath, SceneManager::GetNowScene());
+			SceneManager::GetNowScene()->SetSaveFlag(false);
 		}
 
 		if (ImGui::MenuItem("Build Game(Incomplete)"))

@@ -50,30 +50,27 @@ bool EngineWindow::EngineInitialize()
 		Debug::ErrorLog("Failed to initialize SDL_ttf");
 		return false;
 	}
-
+	//エンジン内部の処理フレームの初期化
 	Time::InitializeDeltaTime();
-
+	//エンジン状態を実行中に設定
 	EngineWindow::mEngineState = EngineState::Run;
-
-	
-
+	//ゲームウィンドウの生成と初期化
 	mGameWindow = new GameWinMain();
 	mGameWindow->Initialize();
-	
 	//起動時に最初のシーンを初期化
 	SceneManager::InitializeScenes();
 	//  ImGuiの初期化処理
 	GUIWinMain::InitializeImGui(mRenderer->GetWindow(), mRenderer->GetContext());
 	//仮で一回更新を行う
 	mGameWindow->GameRunLoop();
-
+	//エディター用カメラの生成
 	mSceneEditorCamera = new SceneEditorCamera();
+	//デバッグ用グリッドを表示するフラグを立てる
 	GameStateClass::gDebugGridFrag = true;
-
+	//スクリプトのホットリロードマネージャーを生成
 	mHotReloadManager = std::make_unique<ScriptHotReloadManager>();
 	//スクリプトDLLをロードする
 	mHotReloadManager.get()->Initialize();
-
 	return true;
 }
 
@@ -164,12 +161,13 @@ void EngineWindow::EngineRunLoop()
 		else
 		{
 			mGameWindow->LoadGame_Engine();
-			SceneManager::GetNowScene()->EditorUpdate();
 		}
+		SceneManager::GetNowScene()->EditorUpdate(GUIWinMain::IsPlaying());
 		//終了ボタンが押されたら
 		if(GUIWinMain::IsPushEnd())
 		{
-			SceneManager::PlayEndInitilaizeScene();
+			//TODO : 実行終了時アンロードしているがここは作業記録の物を読み込む
+			SceneManager::GamePlayEndInitilaizeScene();
 		    //仮で一回更新を行う
 			mGameWindow->GameRunLoop();
 			GUIWinMain::SetIsPushEnd(false);

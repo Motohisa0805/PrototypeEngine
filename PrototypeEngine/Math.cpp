@@ -1,5 +1,8 @@
 #include "Math.h"
 
+
+
+// 定数の定義
 const Vector2 Vector2::Zero(0.0f, 0.0f);
 const Vector2 Vector2::UnitX(1.0f, 0.0f);
 const Vector2 Vector2::UnitY(0.0f, 1.0f);
@@ -38,7 +41,8 @@ const Quaternion Quaternion::Identity(0.0f, 0.0f, 0.0f, 1.0f);
 
 const Matrix4 Matrix4::Identity(m4Ident);
 
-Vector2 Vector2::Transform(const Vector2& vec, const Matrix3& mat, float w /*= 1.0f*/)
+//Vector2のメソッド
+Vector2 Vector2::Transform(const Vector2& vec, const Matrix3& mat, float w)
 {
 	Vector2 retVal;
 	retVal.x = vec.x * mat.mat[0][0] + vec.y * mat.mat[1][0] + w * mat.mat[2][0];
@@ -46,45 +50,8 @@ Vector2 Vector2::Transform(const Vector2& vec, const Matrix3& mat, float w /*= 1
 	//ignore w since we aren't returning a new value for it...
 	return retVal;
 }
-
-Vector3 Vector3::Cross(const Vector3& a, const Vector3& b)
-{
-	Vector3 temp;
-	temp.x = a.y * b.z - a.z * b.y;
-	temp.y = a.z * b.x - a.x * b.z;
-	temp.z = a.x * b.y - a.y * b.x;
-	return temp;
-}
-
-Vector3 Vector3::Cross(const Vector3& b) const
-{
-	Vector3 temp;
-	temp.x = y * b.z - z * b.y;
-	temp.y = z * b.x - x * b.z;
-	temp.z = x * b.y - y * b.x;
-	return temp;
-}
-
-Vector3 Vector3::Lerp(const Vector3& a, const Vector3& b, float f)
-{
-	return Vector3(a + f * (b - a));
-}
-
-Vector3 Vector3::LerpXYZ(const Vector3& a, const Vector3& b, float f)
-{
-	return Vector3(
-		Math::Lerp(a.x, b.x, f),
-		Math::Lerp(a.y, b.y, f),
-		Math::Lerp(a.z, b.z, f)
-	);
-}
-
-Vector3 Vector3::Reflect(const Vector3& v, const Vector3& n)
-{
-	return v - 2.0f * Vector3::Dot(v, n) * n;
-}
-
-Vector3 Vector3::Min(const Vector3& a, const Vector3& b)
+//Vector3のメソッド
+inline Vector3 Vector3::Min(const Vector3& a, const Vector3& b)
 {
 	return Vector3(
 		std::min(a.x, b.x),
@@ -93,7 +60,7 @@ Vector3 Vector3::Min(const Vector3& a, const Vector3& b)
 	);
 }
 
-Vector3 Vector3::Max(const Vector3& a, const Vector3& b)
+inline Vector3 Vector3::Max(const Vector3& a, const Vector3& b)
 {
 	return Vector3(
 		std::max(a.x, b.x),
@@ -102,7 +69,7 @@ Vector3 Vector3::Max(const Vector3& a, const Vector3& b)
 	);
 }
 
-Vector3 Vector3::Transform(const Vector3& vec, const Matrix4& mat, float w /*= 1.0f*/)
+Vector3 Vector3::Transform(const Vector3& vec, const class Matrix4& mat, float w)
 {
 	Vector3 retVal;
 	retVal.x = vec.x * mat.mat[0][0] + vec.y * mat.mat[1][0] +
@@ -115,8 +82,7 @@ Vector3 Vector3::Transform(const Vector3& vec, const Matrix4& mat, float w /*= 1
 	return retVal;
 }
 
-// This will transform the vector and renormalize the w component
-Vector3 Vector3::TransformWithPerspDiv(const Vector3& vec, const Matrix4& mat, float w /*= 1.0f*/)
+Vector3 Vector3::TransformWithPerspDiv(const Vector3& vec, const Matrix4& mat, float w)
 {
 	Vector3 retVal;
 	retVal.x = vec.x * mat.mat[0][0] + vec.y * mat.mat[1][0] +
@@ -135,7 +101,6 @@ Vector3 Vector3::TransformWithPerspDiv(const Vector3& vec, const Matrix4& mat, f
 	return retVal;
 }
 
-// Transform a Vector3 by a quaternion
 Vector3 Vector3::Transform(const Vector3& v, const Quaternion& q)
 {
 	// v + 2.0*cross(q.xyz, cross(q.xyz,v) + q.w*v);
@@ -144,78 +109,11 @@ Vector3 Vector3::Transform(const Vector3& v, const Quaternion& q)
 	retVal += 2.0f * Vector3::Cross(qv, Vector3::Cross(qv, v) + q.w * v);
 	return retVal;
 }
+//Vector4のメソッド
 
-Vector3 Vector3::Axis(int i)
-{
-	if (i == 0)
-		return Vector3::UnitX;
-	else if (i == 1)
-		return Vector3::UnitY;
-	else
-		return Vector3::UnitZ;
-	return Vector3::UnitZ;
-}
+//Matrix3のメソッド
 
-
-
-Vector4 Vector4::Normalize(const Vector4& vec)
-{
-	Vector4 temp = vec;
-	temp.Normalize();
-	return temp;
-}
-
-float Vector4::Dot(const Vector4& a, const Vector4& b)
-{
-	return (a.x * b.x + a.y * b.y + a.z * b.z + a.w * b.w);
-}
-
-Vector4 Vector4::Lerp(const Vector4& a, const Vector4& b, float f)
-{
-	return Vector4(a + f * (b - a));
-}
-
-Vector4 Vector4::Reflect(const Vector4& v, const Vector4& n)
-{
-	return v - 2.0f * Vector4::Dot(v, n) * n;
-}
-
-void Quaternion::Rotate(const Vector3& axis, float angle)
-{
-	float scalar = Math::Sin(angle / 2.0f);
-	x = axis.x * scalar;
-	y = axis.y * scalar;
-	z = axis.z * scalar;
-	w = Math::Cos(angle / 2.0f);
-}
-
-Vector3 Quaternion::Rotate(const Vector3& v) const
-{
-	// q * v * q^-1 を使う方法
-	Quaternion qv(v.x, v.y, v.z, 0.0f);
-	Quaternion result = (*this) * qv * Inverse();
-	return Vector3(result.x, result.y, result.z);
-}
-
-float Quaternion::LengthSq() const
-{
-	return (x * x + y * y + z * z + w * w);
-}
-
-float Quaternion::Length() const
-{
-	return Math::Sqrt(LengthSq());
-}
-
-void Quaternion::Normalize()
-{
-	float length = Length();
-	x /= length;
-	y /= length;
-	z /= length;
-	w /= length;
-}
-
+//Quaternionのメソッド
 Vector3 Quaternion::ToEulerAngles() const
 {
 	Vector3 angles;
@@ -255,29 +153,6 @@ Vector3 Quaternion::ToEulerAngles() const
 	// (通常、この関数はラジアンで返す方が望ましいです)
 
 	return angles;
-}
-
-Quaternion Quaternion::Normalize(const Quaternion& q)
-{
-	Quaternion retVal = q;
-	retVal.Normalize();
-	return retVal;
-}
-
-Quaternion Quaternion::Lerp(const Quaternion& a, const Quaternion& b, float f)
-{
-	Quaternion retVal;
-	retVal.x = Math::Lerp(a.x, b.x, f);
-	retVal.y = Math::Lerp(a.y, b.y, f);
-	retVal.z = Math::Lerp(a.z, b.z, f);
-	retVal.w = Math::Lerp(a.w, b.w, f);
-	retVal.Normalize();
-	return retVal;
-}
-
-float Quaternion::Dot(const Quaternion& a, const Quaternion& b)
-{
-	return a.x * b.x + a.y * b.y + a.z * b.z + a.w * b.w;
 }
 
 Quaternion Quaternion::AngleAxis(float angleDegrees, const Vector3& axis)
@@ -358,25 +233,6 @@ Quaternion Quaternion::Concatenate(const Quaternion& q, const Quaternion& p)
 	return retVal;
 }
 
-Vector3 Quaternion::RotateVector(const Vector3 scale, const Quaternion& parent)
-{
-	// ベクトルをクォータニオン形式に変換
-	Quaternion qv = Quaternion(0, scale.x, scale.y, scale.z);
-	// 回転を適用
-	qv = parent * qv * parent.Inverse();
-	// 回転後のベクトルを返す
-	return Vector3(qv.x, qv.y, qv.z);
-}
-//回転させる軸、角度を代入(ラジアンは関数内で変換)
-Quaternion Quaternion::CreateFromAxisAngle(const Vector3& axis, float angleDegrees)
-{
-	// 角度をラジアンに変換
-	float angleRadians = Math::ToRadians(angleDegrees);
-	// axisが正規化されていることを前提にしているが、念のためNormalizeしてもOK
-	Vector3 normAxis = Vector3::Normalize(axis);
-	return Quaternion(normAxis, angleRadians);
-}
-
 Quaternion Quaternion::LookRotation(const Vector3& forward, const Vector3& up)
 {
 	Vector3 f = forward.Normalized();
@@ -427,13 +283,13 @@ Quaternion Quaternion::LookRotation(const Vector3& forward, const Vector3& up)
 	return q.Normalized();
 }
 
-float Quaternion::Angle(const Quaternion& a, const Quaternion& b)
+inline float Quaternion::Angle(const Quaternion& a, const Quaternion& b)
 {
 	float dot = a.Dot(b);
 	return std::acos(std::min(std::abs(dot), 1.0f)) * 2.0f; // ラジアン角
 }
 
-Quaternion Quaternion::RotateTowards(const Quaternion& from, const Quaternion& to, float maxRadiansDelta)
+inline Quaternion Quaternion::RotateTowards(const Quaternion& from, const Quaternion& to, float maxRadiansDelta)
 {
 	float angle = Quaternion::Angle(from, to);
 	if (angle == 0.0f) return to;
@@ -442,6 +298,7 @@ Quaternion Quaternion::RotateTowards(const Quaternion& from, const Quaternion& t
 	return Quaternion::Slerp(from, to, t);
 }
 
+//Matrix4のメソッド
 void Matrix4::Invert()
 {
 	// Thanks slow math
@@ -557,83 +414,6 @@ void Matrix4::Invert()
 	}
 }
 
-Matrix4 Matrix4::CreateScale(float xScale, float yScale, float zScale)
-{
-	float temp[4][4] =
-	{
-		{ xScale, 0.0f, 0.0f, 0.0f },
-		{ 0.0f, yScale, 0.0f, 0.0f },
-		{ 0.0f, 0.0f, zScale, 0.0f },
-		{ 0.0f, 0.0f, 0.0f, 1.0f }
-	};
-	return Matrix4(temp);
-}
-
-Matrix4 Matrix4::CreateScale(const Vector3& scale)
-{
-	return CreateScale(scale.x, scale.y, scale.z);
-}
-
-Matrix4 Matrix4::CreateRotationX(float theta)
-{
-	float temp[4][4] =
-	{
-		{ 1.0f, 0.0f, 0.0f , 0.0f },
-		{ 0.0f, Math::Cos(theta), Math::Sin(theta), 0.0f },
-		{ 0.0f, -Math::Sin(theta), Math::Cos(theta), 0.0f },
-		{ 0.0f, 0.0f, 0.0f, 1.0f },
-	};
-	return Matrix4(temp);
-}
-
-Matrix4 Matrix4::CreateRotationY(float theta)
-{
-	float temp[4][4] =
-	{
-		{ Math::Cos(theta), 0.0f, -Math::Sin(theta), 0.0f },
-		{ 0.0f, 1.0f, 0.0f, 0.0f },
-		{ Math::Sin(theta), 0.0f, Math::Cos(theta), 0.0f },
-		{ 0.0f, 0.0f, 0.0f, 1.0f },
-	};
-	return Matrix4(temp);
-}
-
-Matrix4 Matrix4::CreateRotationZ(float theta)
-{
-	float temp[4][4] =
-	{
-		{ Math::Cos(theta), Math::Sin(theta), 0.0f, 0.0f },
-		{ -Math::Sin(theta), Math::Cos(theta), 0.0f, 0.0f },
-		{ 0.0f, 0.0f, 1.0f, 0.0f },
-		{ 0.0f, 0.0f, 0.0f, 1.0f },
-	};
-	return Matrix4(temp);
-}
-
-Matrix4 Matrix4::CreateFromQuaternion(const class Quaternion& q)
-{
-	float mat[4][4] =
-	{
-		{1.0f - 2.0f * q.y * q.y - 2.0f * q.z * q.z , 2.0f * q.x * q.y + 2.0f * q.w * q.z        , 2.0f * q.x * q.z - 2.0f * q.w * q.y        , 0.0f},
-		{2.0f * q.x * q.y - 2.0f * q.w * q.z        , 1.0f - 2.0f * q.x * q.x - 2.0f * q.z * q.z , 2.0f * q.y * q.z + 2.0f * q.w * q.x        , 0.0f},
-		{2.0f * q.x * q.z + 2.0f * q.w * q.y        , 2.0f * q.y * q.z - 2.0f * q.w * q.x        , 1.0f - 2.0f * q.x * q.x - 2.0f * q.y * q.y , 0.0f},
-		{0.0f                                       , 0.0f                                       , 0.0f                                       , 1.0f},
-	};
-	return Matrix4(mat);
-}
-
-Matrix4 Matrix4::CreateTranslation(const Vector3& trans)
-{
-	float temp[4][4] =
-	{
-		{ 1.0f, 0.0f, 0.0f, 0.0f },
-		{ 0.0f, 1.0f, 0.0f, 0.0f },
-		{ 0.0f, 0.0f, 1.0f, 0.0f },
-		{ trans.x, trans.y, trans.z, 1.0f }
-	};
-	return Matrix4(temp);
-}
-
 Matrix4 Matrix4::CreateLookAt(const Vector3& eye, const Vector3& target, const Vector3& up)
 {
 	Vector3 forward = Vector3::Normalize(target - eye);
@@ -650,44 +430,6 @@ Matrix4 Matrix4::CreateLookAt(const Vector3& eye, const Vector3& target, const V
 		{ right.y, newUp.y, forward.y, 0.0f },
 		{ right.z, newUp.z, forward.z, 0.0f },
 		{ trans.x, trans.y, trans.z, 1.0f }
-	};
-	return Matrix4(temp);
-}
-
-Matrix4 Matrix4::CreateOrtho(float width, float height, float near_SDL, float far_SDL)
-{
-	float temp[4][4] =
-	{
-		{ 2.0f / width, 0.0f, 0.0f, 0.0f },
-		{ 0.0f, 2.0f / height, 0.0f, 0.0f },
-		{ 0.0f, 0.0f, 1.0f / (far_SDL - near_SDL), 0.0f },
-		{ 0.0f, 0.0f, near_SDL / (near_SDL - far_SDL), 1.0f }
-	};
-	return Matrix4(temp);
-}
-
-Matrix4 Matrix4::CreatePerspectiveFOV(float fovY, float width, float height, float near_SDL, float far_SDL)
-{
-	float yScale = Math::Cot(fovY / 2.0f);
-	float xScale = yScale * height / width;
-	float temp[4][4] =
-	{
-		{ xScale, 0.0f, 0.0f, 0.0f },
-		{ 0.0f, yScale, 0.0f, 0.0f },
-		{ 0.0f, 0.0f, far_SDL / (far_SDL - near_SDL), 1.0f },
-		{ 0.0f, 0.0f, -near_SDL * far_SDL / (far_SDL - near_SDL), 0.0f }
-	};
-	return Matrix4(temp);
-}
-
-Matrix4 Matrix4::CreateSimpleViewProj(float width, float height)
-{
-	float temp[4][4] =
-	{
-		{ 2.0f / width, 0.0f, 0.0f, 0.0f },
-		{ 0.0f, 2.0f / height, 0.0f, 0.0f },
-		{ 0.0f, 0.0f, 1.0f, 0.0f },
-		{ 0.0f, 0.0f, 1.0f, 1.0f }
 	};
 	return Matrix4(temp);
 }
@@ -757,47 +499,4 @@ Matrix4 Matrix4::Billboard(const Vector3& pos, const float& size, const Vector3&
 	billboard.mat[3][1] = pos.y;
 	billboard.mat[3][2] = pos.z;
 	return billboard;
-}
-
-Matrix3 Matrix3::CreateScale(float xScale, float yScale)
-{
-	float temp[3][3] =
-	{
-		{ xScale, 0.0f, 0.0f },
-		{ 0.0f, yScale, 0.0f },
-		{ 0.0f, 0.0f, 1.0f },
-	};
-	return Matrix3(temp);
-}
-
-Matrix3 Matrix3::CreateScale(const Vector2& scaleVector)
-{
-	return CreateScale(scaleVector.x, scaleVector.y);
-}
-
-Matrix3 Matrix3::CreateScale(float scale)
-{
-	return CreateScale(scale, scale);
-}
-
-Matrix3 Matrix3::CreateRotation(float theta)
-{
-	float temp[3][3] =
-	{
-		{ Math::Cos(theta), Math::Sin(theta), 0.0f },
-		{ -Math::Sin(theta), Math::Cos(theta), 0.0f },
-		{ 0.0f, 0.0f, 1.0f },
-	};
-	return Matrix3(temp);
-}
-
-Matrix3 Matrix3::CreateTranslation(const Vector2& trans)
-{
-	float temp[3][3] =
-	{
-		{ 1.0f, 0.0f, 0.0f },
-		{ 0.0f, 1.0f, 0.0f },
-		{ trans.x, trans.y, 1.0f },
-	};
-	return Matrix3(temp);
 }

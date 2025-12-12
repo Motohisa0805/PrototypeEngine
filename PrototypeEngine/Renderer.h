@@ -41,6 +41,7 @@ class SceneViewEditor;
 class Renderer
 {
 private:
+	string												mWindowTitle;
 	// BaseScene
 	BaseScene*											mNowScene;
 	// テクスチャのマップが読み込み変数
@@ -132,6 +133,7 @@ public:
 	//シーン別に保存しているオブジェクトをアンロードする処理
 	void												UnloadData();
 	void												MeshOrderUpdate();
+	void												DrawWindowTitle();
 	//描画処理
 	void												StartDraw();
 	void												EndDraw();

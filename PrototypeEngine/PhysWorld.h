@@ -12,7 +12,6 @@ class Collider;
 class ActorObject;
 class BaseScene;
 
-//書籍部分を改造したファイル
 //すべてのオブジェクトの衝突判定を管理しているクラス
 //Unityの当たり判定の衝突判定部分みたいな機能
 class PhysWorld
@@ -62,7 +61,7 @@ private:
 
 	std::set<std::pair<Collider*, Collider*>>			mHitColliderZAxis;
 
-	vector<ActorObject*>							mDeadActors;
+	vector<ActorObject*>								mDeadActors;
 
 	std::set<std::pair<ActorObject*, ActorObject*>>		mPrevHitPairs;
 
@@ -102,6 +101,7 @@ public:
 	//Sphere vs Capsuleの押し出し処理
 	void												CollectContactPoints_Sphere_Capsule(const Sphere& a, const Capsule& b, std::vector<ContactPoint>& outContacts, float contactOffset);
 
+	void												ClearAllCollider();
 	// 世界からボックスコンポーネントを追加/削除する
 	void												AddCollider(Collider* box);
 	void												RemoveCollider(Collider* box);

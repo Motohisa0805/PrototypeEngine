@@ -27,8 +27,6 @@ GameWinMain::~GameWinMain()
 
 bool GameWinMain::Initialize()
 {
-	
-
 	mGameApp = new GameApp(this);
 	if (!mGameApp->Initialize())
 	{

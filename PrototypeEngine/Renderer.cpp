@@ -25,7 +25,8 @@
 #include "EngineWindow.h"
 
 Renderer::Renderer()
-	: mNowScene(nullptr)
+	: mWindowTitle("PrototypeEngine - Windows - Ver0.01 <OpenGL 2.2.0,SDL3>")
+	, mNowScene(nullptr)
 	, mSpriteShader(nullptr)
 	, mMeshShader(nullptr)
 	, mSkinnedShader(nullptr)
@@ -74,7 +75,7 @@ bool Renderer::Initialize(float screenWidth, float screenHeight)
 	// OpenGLにハードウェアアクセラレーションを使用
 	SDL_GL_SetAttribute(SDL_GL_ACCELERATED_VISUAL, 1);
 	//SDL_Windowを作成する
-	mWindow = SDL_CreateWindow("PrototypeEngine - Windows - Ver0.01 <OpenGL 2.2.0,SDL3>",static_cast<int>(WindowRenderProperty::GetWidth()), static_cast<int>(WindowRenderProperty::GetHeight()), SDL_WINDOW_OPENGL);
+	mWindow = SDL_CreateWindow(mWindowTitle.c_str(), static_cast<int>(WindowRenderProperty::GetWidth()), static_cast<int>(WindowRenderProperty::GetHeight()), SDL_WINDOW_OPENGL);
 	//エラーチェック
 	if (!mWindow)
 	{
@@ -305,8 +306,27 @@ void Renderer::MeshOrderUpdate()
 	mMeshComps.insert(mMeshComps.end(), transparentList.begin(), transparentList.end());
 }
 
+void Renderer::DrawWindowTitle()
+{
+	//ウィンドウの名前変更処理
+	if (mNowScene->IsNoSaveFlag())
+	{
+		const string title = mWindowTitle + "No Save";
+		if (SDL_GetWindowTitle(mWindow) != title)
+		{
+			SDL_SetWindowTitle(mWindow, title.c_str());
+		}
+	}
+	else
+	{
+		SDL_SetWindowTitle(mWindow, mWindowTitle.c_str());
+	}
+}
+
 void Renderer::StartDraw()
 {
+	//ウィンドウのタイトル描画
+	DrawWindowTitle();
 	//複数のカメラからメインカメラからmViewを設定
 	for(auto cam : mNowScene->GetCameras())
 	{
