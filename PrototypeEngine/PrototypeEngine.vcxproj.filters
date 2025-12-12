@@ -948,5 +948,8 @@
     <ClInclude Include="ScriptHotReloadManager.h">
       <Filter>SourceCodes\F_Editor\ScriptManager</Filter>
     </ClInclude>
+    <ClInclude Include="Color.h">
+      <Filter>SourceCodes\F_Editor\Utilitys</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

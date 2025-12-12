@@ -12,6 +12,9 @@
 
 #include "VertexArray.h"
 
+#include "SceneSerializer.h"
+#include "EditorSettingsManager.h"
+
 BaseScene::BaseScene()
 	: mAudioSystem(nullptr)
 	, mPhysWorld(nullptr)
@@ -23,7 +26,7 @@ BaseScene::BaseScene()
 	, mFrameRateText(nullptr)
 	, mName("BaseScene")
 	, mNextActorID(0)
-	, gIsComputeWorldTransform(false)
+	, mIsDirtyFlag(false)
 {
 }
 
@@ -255,10 +258,10 @@ bool BaseScene::Update()
 	return true;
 }
 
-bool BaseScene::EditorUpdate()
+bool BaseScene::EditorUpdate(bool isRun)
 {
 	//オブジェクトの座標が更新された時だけ
-	if (!gIsComputeWorldTransform)
+	if (!mIsDirtyFlag)
 	{
 		return false;
 	}
@@ -345,8 +348,21 @@ bool BaseScene::EditorUpdate()
 			++image;
 		}
 	}
-	gIsComputeWorldTransform = false;
+	//実行中じゃなければ
+	if (!isRun)
+	{
+		//編集での変更があればそれを記録する
+		string startupScenePath = EditorSettingsManager::GetInstance().GetLastOpenedScene();
+		SceneSerializer::WriteEditorData(startupScenePath,this);
+		mIsNoSaveFlag = true;
+	}
+	mIsDirtyFlag = false;
 	return true;
+}
+
+void BaseScene::ClearDirtyFlag()
+{
+	mIsDirtyFlag = false;
 }
 
 void BaseScene::AddActor(ActorObject* actor)

@@ -196,7 +196,7 @@ void Transform::SetDirty()
 	{
 		child->SetDirty();//再帰的にフラグを立てる
 	}
-	SceneManager::GetNowScene()->gIsComputeWorldTransform = true;
+	SceneManager::GetNowScene()->SetDirtyFlag(true);
 }
 
 void Transform::ActiveDirty()

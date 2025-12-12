@@ -317,8 +317,8 @@ void ProjectPanel::DrawFileSystemEntry(const filesystem::directory_entry& entry)
             {
                 // シーンファイルのロード処理を呼び出す
                 // 実行中のシーンと切り替えるため、SceneManagerに処理を依頼します
-                SceneManager::LoadSceneFromFile(entry.path().string());
-                EditorSettingsManager::GetInstance().SetLastOpenedScene(entry.path().string());
+                SceneManager::LoadSceneGUI(entry.path().string());
+                //EditorSettingsManager::GetInstance().SetLastOpenedScene(entry.path().string());
             }
             else
             {

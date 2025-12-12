@@ -72,6 +72,10 @@ protected:
 
 	//シーンの名前
 	string											mName;
+	//シーンが変更されたかどうかのフラグ
+	bool											mIsDirtyFlag;
+	//シーンが保存されたか
+	bool											mIsNoSaveFlag;
 public:
 
 	//コンストラクタ
@@ -84,7 +88,9 @@ public:
 	virtual bool									FixedUpdate();
 	//更新
 	virtual bool									Update();
-	virtual bool									EditorUpdate();
+	//エディタ用更新
+	virtual bool									EditorUpdate(bool isRun);
+	void											ClearDirtyFlag();
 	//解放
 	void											UnloadData();
 
@@ -148,7 +154,12 @@ public:
 	//シーン名のSetter
 	virtual void									SetName(const string& name) { mName = name; }
 
-	bool										    gIsComputeWorldTransform;
+	//シーンの変更フラグのGetter/Setter
+	bool										    IsDirtyFlag() { return mIsDirtyFlag; }
+	void										    SetDirtyFlag(bool isDirty) { mIsDirtyFlag = isDirty; }
+	//シーン保存フラグのGetter/Setter
+	bool											IsNoSaveFlag() { return mIsNoSaveFlag; }
+	void											SetSaveFlag(bool isSave) { mIsNoSaveFlag = isSave; }
 	//シーン内のオブジェクトの頂点数を表示
 	int												GetSceneAllVertices();
 };

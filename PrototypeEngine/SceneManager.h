@@ -25,21 +25,18 @@ public:
 	//シーンの初期化処理
 	static bool											InitializeScenes();
 
-	//シーンのロード処理
-	static void											LoadSceneFromFile(const string& filePath);
-	// 現在編集中/実行中のシーンが、ファイルからロードされたものかを示すフラグ（任意）
-	static bool											mIsFileLoadedScene;
+	//シーンのロード処理(GUI用)
+	static void											LoadSceneGUI(const string& filePath);
 	//シーンの削除
 	static void											ReleaseAllScenes();
 	//現在のシーンの取得
 	static BaseScene*									GetNowScene() { return mNowScene; }
 	static void											SetNowScene(BaseScene* scene) { mNowScene = scene; }
+	//ゲーム用の関数
 	static void											ChangeScene();
-	static void											PlayEndInitilaizeScene();
+	static void											GamePlayEndInitilaizeScene();
 	//ロードフラグの取得
 	static bool											IsLoading() { return loading; }
-	//ロードフラグを解除
-	static void											DisabledLoading() { loading = false; }
 	//現在のシーンの数値のGetter
 	static int											GetNowSceneIndex() { return mNowSceneIndex; }
 	//エンジン起動時にロードすべきシーンファイルのパス

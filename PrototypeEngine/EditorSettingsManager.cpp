@@ -33,17 +33,19 @@ void EditorSettingsManager::LoadSettings()
 	}
 }
 
-void EditorSettingsManager::SaveSettings()
+void EditorSettingsManager::SaveEditorSettings()
 {
 	try
 	{
 		std::ofstream ofs(SETTEINGS_FILE_PATH);
 		ofs << mSettings.dump(2); // インデント2で整形して保存
+		ofs.close();
 		Debug::Log("Editor settings saved to: %s\n", SETTEINGS_FILE_PATH.string().c_str());
 	}
 	catch (const std::exception& e)
 	{
 		Debug::Log("Failed to save editor settings: %s\n", e.what());
+		return;
 	}
 }
 

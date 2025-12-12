@@ -43,3 +43,8 @@ namespace AudioFile
 {
 	const string AudioFilePath = "Assets/Audios/";
 }
+
+namespace EditorFile
+{
+	const string EditorFile_Path = "Library";
+}

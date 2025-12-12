@@ -137,7 +137,7 @@ public:
 	{
 	}
 
-	const float* GetAsFloatPtr() const
+	inline const float* GetAsFloatPtr() const
 	{
 		return reinterpret_cast<const float*>(&x);
 	}
@@ -205,19 +205,19 @@ public:
 	}
 
 	// ベクトルの長さの二乗
-	float LengthSq() const
+	inline float LengthSq() const
 	{
 		return (x * x + y * y);
 	}
 
 	// ベクトルの長さ
-	float Length() const
+	inline float Length() const
 	{
 		return (Math::Sqrt(LengthSq()));
 	}
 
 	// ベクトルを正規化
-	void Normalize()
+	inline void Normalize()
 	{
 		float length = Length();
 		x /= length;
@@ -225,7 +225,7 @@ public:
 	}
 
 	// 渡されたベクトルを正規化
-	static Vector2 Normalize(const Vector2& vec)
+	inline static Vector2 Normalize(const Vector2& vec)
 	{
 		Vector2 temp = vec;
 		temp.Normalize();
@@ -233,19 +233,19 @@ public:
 	}
 
 	// 二つのベクトル間のドット積（a・b）
-	static float Dot(const Vector2& a, const Vector2& b)
+	inline static float Dot(const Vector2& a, const Vector2& b)
 	{
 		return (a.x * b.x + a.y * b.y);
 	}
 
 	// AからBへfによって線形補間
-	static Vector2 Lerp(const Vector2& a, const Vector2& b, float f)
+	inline static Vector2 Lerp(const Vector2& a, const Vector2& b, float f)
 	{
 		return Vector2(a + f * (b - a));
 	}
 
 	// N（正規化された）について反射
-	static Vector2 Reflect(const Vector2& v, const Vector2& n)
+	inline static Vector2 Reflect(const Vector2& v, const Vector2& n)
 	{
 		return v - 2.0f * Vector2::Dot(v, n) * n;
 	}
@@ -283,18 +283,18 @@ public:
 	}
 
 	// const float ポインタにキャスト
-	const float* GetAsFloatPtr() const
+	inline const float* GetAsFloatPtr() const
 	{
 		return reinterpret_cast<const float*>(&x);
 	}
 
-	float* GetAsFloatPtr()
+	inline float* GetAsFloatPtr()
 	{
 		return reinterpret_cast<float*>(&x);
 	}
 
 	// すべての三つのコンポーネントを1行に設定
-	void Set(float inX, float inY, float inZ)
+	inline void Set(float inX, float inY, float inZ)
 	{
 		x = inX;
 		y = inY;
@@ -404,25 +404,25 @@ public:
 		return *this;
 	}
 
-	static Vector3 Abs(Vector3 value)
+	inline static Vector3 Abs(Vector3 value)
 	{
 		return Vector3(fabs(value.x), fabs(value.y), fabs(value.z));
 	}
 
 	// ベクトルの長さの二乗
-	float LengthSq() const
+	inline float LengthSq() const
 	{
 		return (x * x + y * y + z * z);
 	}
 
 	// ベクトルの長さ
-	float Length() const
+	inline float Length() const
 	{
 		return (Math::Sqrt(LengthSq()));
 	}
 
 	// ベクトルの正規化
-	void Normalize()
+	inline void Normalize()
 	{
 		float length = Length();
 		if (length > 0.000001f) // もしくは std::numeric_limits<float>::epsilon() を使っても良い
@@ -440,7 +440,7 @@ public:
 
 
 	// 渡されたベクトルを正規化
-	static Vector3 Normalize(const Vector3& vec)
+	inline static Vector3 Normalize(const Vector3& vec)
 	{
 		Vector3 temp = vec;
 		temp.Normalize();
@@ -448,7 +448,7 @@ public:
 	}
 
 	// 渡されたベクトルを正規化
-	Vector3 Normalized() const
+	inline Vector3 Normalized() const
 	{
 		Vector3 temp = Vector3(x,y,z);
 		temp.Normalize();
@@ -456,39 +456,76 @@ public:
 	}
 
 	// 二つのベクトル間のドット積（a・b）
-	static float Dot(const Vector3& a, const Vector3& b)
+	inline static float Dot(const Vector3& a, const Vector3& b)
 	{
 		return (a.x * b.x + a.y * b.y + a.z * b.z);
 	}
 
 	// 二つのベクトルのクロス積（a × b）
-	static Vector3 Cross(const Vector3& a, const Vector3& b);
+	inline static Vector3 Cross(const Vector3& a, const Vector3& b)
+	{
+		Vector3 temp;
+		temp.x = a.y * b.z - a.z * b.y;
+		temp.y = a.z * b.x - a.x * b.z;
+		temp.z = a.x * b.y - a.y * b.x;
+		return temp;
+	}
 
 	// 二つのベクトルのクロス積（a × b）
-	Vector3 Cross(const Vector3& b) const;
+	inline Vector3 Cross(const Vector3& b) const
+	{
+		Vector3 temp;
+		temp.x = y * b.z - z * b.y;
+		temp.y = z * b.x - x * b.z;
+		temp.z = x * b.y - y * b.x;
+		return temp;
+	}
 
 	// AからBへfによって線形補間
-	static Vector3 Lerp(const Vector3& a, const Vector3& b, float f);
+	inline static Vector3 Lerp(const Vector3& a, const Vector3& b, float f)
+	{
+		return Vector3(a + f * (b - a));
+	}
 
-	static Vector3 LerpXYZ(const Vector3& a, const Vector3& b, float f);
+	inline static Vector3 LerpXYZ(const Vector3& a, const Vector3& b, float f)
+	{
+		return Vector3(
+			Math::Lerp(a.x, b.x, f),
+			Math::Lerp(a.y, b.y, f),
+			Math::Lerp(a.z, b.z, f)
+		);
+	}
 
 	// N（正規化された）について反射する
-	static Vector3 Reflect(const Vector3& v, const Vector3& n);
+	inline static Vector3 Reflect(const Vector3& v, const Vector3& n)
+	{
+		return v - 2.0f * Vector3::Dot(v, n) * n;
+	}
 
 	// 成分ごとのMin
-	static Vector3 Min(const Vector3& a, const Vector3& b);
+	inline static Vector3 Min(const Vector3& a, const Vector3& b);
 
 	// 成分ごとのMax
-	static Vector3 Max(const Vector3& a, const Vector3& b);
+	inline static Vector3 Max(const Vector3& a, const Vector3& b);
 
 	static Vector3 Transform(const Vector3& vec, const class Matrix4& mat, float w = 1.0f);
+
 	// ベクトルを変換、w成分が再正規化
 	static Vector3 TransformWithPerspDiv(const Vector3& vec, const class Matrix4& mat, float w = 1.0f);
 
 	// クォータニオンでベクトル3を変換
 	static Vector3 Transform(const Vector3& v, const class Quaternion& q);
 
-	static Vector3 Axis(int i);
+	inline static Vector3 Axis(int i)
+	{
+		if (i == 0)
+			return Vector3::UnitX;
+		else if (i == 1)
+			return Vector3::UnitY;
+		else
+			return Vector3::UnitZ;
+		return Vector3::UnitZ;
+	}
 
 	static const Vector3 Zero;
 	static const Vector3 UnitX;
@@ -535,13 +572,13 @@ public:
 	}
 
 	// const float ポインタにキャスト
-	const float* GetAsFloatPtr() const
+	inline const float* GetAsFloatPtr() const
 	{
 		return reinterpret_cast<const float*>(&x);
 	}
 
 	// すべての三つのコンポーネントを1行に設定
-	void Set(float inX, float inY, float inZ, float inW)
+	inline void Set(float inX, float inY, float inZ, float inW)
 	{
 		x = inX;
 		y = inY;
@@ -610,19 +647,19 @@ public:
 	}
 
 	// ベクトルの長さの二乗
-	float LengthSq() const
+	inline float LengthSq() const
 	{
 		return (x * x + y * y + z * z + w * w);
 	}
 
 	// ベクトルの長さ
-	float Length() const
+	inline float Length() const
 	{
 		return (Math::Sqrt(LengthSq()));
 	}
 
 	// ベクトルを正規化
-	void Normalize()
+	inline void Normalize()
 	{
 		float length = Length();
 		x /= length;
@@ -632,16 +669,30 @@ public:
 	}
 
 	// 渡されたベクトルを正規化
-	static Vector4 Normalize(const Vector4& vec);
+	inline static Vector4 Normalize(const Vector4& vec)
+	{
+		Vector4 temp = vec;
+		temp.Normalize();
+		return temp;
+	}
 
 	// 二つのベクトル間のドット積（a・b）
-	static float Dot(const Vector4& a, const Vector4& b);
+	inline static float Dot(const Vector4& a, const Vector4& b)
+	{
+		return (a.x * b.x + a.y * b.y + a.z * b.z + a.w * b.w);
+	}
 
 	// AからBへfによって線形補間
-	static Vector4 Lerp(const Vector4& a, const Vector4& b, float f);
+	inline static Vector4 Lerp(const Vector4& a, const Vector4& b, float f)
+	{
+		return Vector4(a + f * (b - a));
+	}
 
 	// N（正規化された）について反射
-	static Vector4 Reflect(const Vector4& v, const Vector4& n);
+	inline static Vector4 Reflect(const Vector4& v, const Vector4& n)
+	{
+		return v - 2.0f * Vector4::Dot(v, n) * n;
+	}
 
 	static const Vector4 Zero;
 	static const Vector4 UnitX;
@@ -671,7 +722,7 @@ public:
 	}
 
 	// const floatポインタにキャスト
-	const float* GetAsFloatPtr() const
+	inline const float* GetAsFloatPtr() const
 	{
 		return reinterpret_cast<const float*>(&mat[0][0]);
 	}
@@ -738,19 +789,52 @@ public:
 	}
 
 	// xおよびyスケールを持つスケール行列を作成
-	static Matrix3 CreateScale(float xScale, float yScale);
+	inline static Matrix3 CreateScale(float xScale, float yScale)
+	{
+		float temp[3][3] =
+		{
+			{ xScale, 0.0f, 0.0f },
+			{ 0.0f, yScale, 0.0f },
+			{ 0.0f, 0.0f, 1.0f },
+		};
+		return Matrix3(temp);
+	}
 
-	static Matrix3 CreateScale(const Vector2& scaleVector);
+	inline static Matrix3 CreateScale(const Vector2& scaleVector)
+	{
+		return CreateScale(scaleVector.x, scaleVector.y);
+	}
 
 	// 均一な因子でスケール行列を作成
-	static Matrix3 CreateScale(float scale);
+	inline static Matrix3 CreateScale(float scale)
+	{
+		return CreateScale(scale, scale);
+	}
 
 	// Z軸回りの回転行列を作成
 	// シータはラジアンで表されます
-	static Matrix3 CreateRotation(float theta);
+	inline static Matrix3 CreateRotation(float theta)
+	{
+		float temp[3][3] =
+		{
+			{ Math::Cos(theta), Math::Sin(theta), 0.0f },
+			{ -Math::Sin(theta), Math::Cos(theta), 0.0f },
+			{ 0.0f, 0.0f, 1.0f },
+		};
+		return Matrix3(temp);
+	}
 
 	// xy平面上に翻訳行列を作成
-	static Matrix3 CreateTranslation(const Vector2& trans);
+	inline static Matrix3 CreateTranslation(const Vector2& trans)
+	{
+		float temp[3][3] =
+		{
+			{ 1.0f, 0.0f, 0.0f },
+			{ 0.0f, 1.0f, 0.0f },
+			{ trans.x, trans.y, 1.0f },
+		};
+		return Matrix3(temp);
+	}
 
 	static const Matrix3 Identity;
 };
@@ -783,7 +867,7 @@ public:
 	}
 
 	// 内部コンポーネントを直接設定する
-	void Set(float inX, float inY, float inZ, float inW)
+	inline void Set(float inX, float inY, float inZ, float inW)
 	{
 		x = inX;
 		y = inY;
@@ -791,32 +875,75 @@ public:
 		w = inW;
 	}
 
-	void Conjugate()
+	inline void Conjugate()
 	{
 		x *= -1.0f;
 		y *= -1.0f;
 		z *= -1.0f;
 	}
 
-	void Rotate(const Vector3& axis, float angle);
+	inline void Rotate(const Vector3& axis, float angle)
+	{
+		float scalar = Math::Sin(angle / 2.0f);
+		x = axis.x * scalar;
+		y = axis.y * scalar;
+		z = axis.z * scalar;
+		w = Math::Cos(angle / 2.0f);
+	}
 
-	Vector3 Rotate(const Vector3& v) const;
+	inline Vector3 Rotate(const Vector3& v) const
+	{
+		// q * v * q^-1 を使う方法
+		Quaternion qv(v.x, v.y, v.z, 0.0f);
+		Quaternion result = (*this) * qv * Inverse();
+		return Vector3(result.x, result.y, result.z);
+	}
 
-	float LengthSq() const;
+	inline float LengthSq() const
+	{
+		return (x * x + y * y + z * z + w * w);
+	}
 
-	float Length() const;
+	inline float Length() const
+	{
+		return Math::Sqrt(LengthSq());
+	}
 
-	void Normalize();
+	inline void Normalize()
+	{
+		float length = Length();
+		x /= length;
+		y /= length;
+		z /= length;
+		w /= length;
+	}
 
 	Vector3 ToEulerAngles()const;
 
 	// 提供された四元数を正規化
-	static Quaternion Normalize(const Quaternion& q);
+	inline static Quaternion Normalize(const Quaternion& q)
+	{
+		Quaternion retVal = q;
+		retVal.Normalize();
+		return retVal;
+	}
 
 	// 線形補間
-	static Quaternion Lerp(const Quaternion& a, const Quaternion& b, float f);
+	inline static Quaternion Lerp(const Quaternion& a, const Quaternion& b, float f)
+	{
+		Quaternion retVal;
+		retVal.x = Math::Lerp(a.x, b.x, f);
+		retVal.y = Math::Lerp(a.y, b.y, f);
+		retVal.z = Math::Lerp(a.z, b.z, f);
+		retVal.w = Math::Lerp(a.w, b.w, f);
+		retVal.Normalize();
+		return retVal;
+	}
 
-	static float Dot(const Quaternion& a, const Quaternion& b);
+	inline static float Dot(const Quaternion& a, const Quaternion& b)
+	{
+		return a.x * b.x + a.y * b.y + a.z * b.z + a.w * b.w;
+	}
 
 	inline float Dot(const Quaternion& b) const
 	{
@@ -833,7 +960,7 @@ public:
 	static Quaternion Concatenate(const Quaternion& q, const Quaternion& p);
 
 	// 四元数の逆行列を計算するメソッド
-	inline Quaternion Inverse() const 
+	inline Quaternion Inverse() const
 	{
 		// ノルムの2乗
 		float normSquared = x * x + y * y + z * z + w * w;
@@ -848,7 +975,15 @@ public:
 		return Quaternion(-x / normSquared, -y / normSquared, -z / normSquared, w / normSquared);
 	}
 
-	static Vector3 RotateVector(const Vector3 scale, const Quaternion& parent);
+	inline static Vector3 RotateVector(const Vector3 scale, const Quaternion& parent)
+	{
+		// ベクトルをクォータニオン形式に変換
+		Quaternion qv = Quaternion(0, scale.x, scale.y, scale.z);
+		// 回転を適用
+		qv = parent * qv * parent.Inverse();
+		// 回転後のベクトルを返す
+		return Vector3(qv.x, qv.y, qv.z);
+	}
 
 	inline Vector3 RotateVector(const Vector3& v) const
 	{
@@ -860,7 +995,14 @@ public:
 
 
 	// 指定軸と角度で回転クォータニオンを作成して返す関数（角度は度数）
-	static Quaternion CreateFromAxisAngle(const Vector3& axis, float angleDegrees);
+	inline static Quaternion CreateFromAxisAngle(const Vector3& axis, float angleDegrees)
+	{
+		// 角度をラジアンに変換
+		float angleRadians = Math::ToRadians(angleDegrees);
+		// axisが正規化されていることを前提にしているが、念のためNormalizeしてもOK
+		Vector3 normAxis = Vector3::Normalize(axis);
+		return Quaternion(normAxis, angleRadians);
+	}
 
 	// 自身の回転に、指定軸と角度の回転を追加する（角度は度数）
 	inline void RotateByAxisAngle(const Vector3& axis, float angleDegrees)
@@ -882,9 +1024,9 @@ public:
 
 	static Quaternion LookRotation(const Vector3& forward, const Vector3& up = Vector3(0, 1, 0));
 
-	static float Angle(const Quaternion& a, const Quaternion& b);
+	inline static float Angle(const Quaternion& a, const Quaternion& b);
 
-	static Quaternion RotateTowards(const Quaternion& from, const Quaternion& to, float maxRadiansDelta);
+	inline static Quaternion RotateTowards(const Quaternion& from, const Quaternion& to, float maxRadiansDelta);
 
 	static const Quaternion Identity;
 
@@ -933,7 +1075,7 @@ public:
 	}
 
 	// const float ポインタにキャスト
-	const float* GetAsFloatPtr() const
+	inline const float* GetAsFloatPtr() const
 	{
 		return reinterpret_cast<const float*>(&mat[0][0]);
 	}
@@ -1171,10 +1313,23 @@ public:
 
 	// x、y、zのスケールを持つスケール行列を作成
 	//行優先の行列を作成
-	static Matrix4 CreateScale(float xScale, float yScale, float zScale);
+	inline static Matrix4 CreateScale(float xScale, float yScale, float zScale)
+	{
+		float temp[4][4] =
+		{
+			{ xScale, 0.0f, 0.0f, 0.0f },
+			{ 0.0f, yScale, 0.0f, 0.0f },
+			{ 0.0f, 0.0f, zScale, 0.0f },
+			{ 0.0f, 0.0f, 0.0f, 1.0f }
+		};
+		return Matrix4(temp);
+	}
 	// x、y、zのスケールを持つスケール行列を作成
 	//行優先の行列を作成
-	static Matrix4 CreateScale(const Vector3& scaleVector);
+	static Matrix4 CreateScale(const Vector3& scale)
+	{
+		return CreateScale(scale.x, scale.y, scale.z);
+	}
 	// 均一な因子でスケール行列を作成
 	//行優先の行列を作成
 	static Matrix4 CreateScale(float scale)
@@ -1183,32 +1338,114 @@ public:
 	}
 	// x軸回転
 	//列優先の行列を作成
-	static Matrix4 CreateRotationX(float theta);
+	inline static Matrix4 CreateRotationX(float theta)
+	{
+		float temp[4][4] =
+		{
+			{ 1.0f, 0.0f, 0.0f , 0.0f },
+			{ 0.0f, Math::Cos(theta), Math::Sin(theta), 0.0f },
+			{ 0.0f, -Math::Sin(theta), Math::Cos(theta), 0.0f },
+			{ 0.0f, 0.0f, 0.0f, 1.0f },
+		};
+		return Matrix4(temp);
+	}
 	// y軸回転
 	//列優先の行列を作成
-	static Matrix4 CreateRotationY(float theta);
+	inline static Matrix4 CreateRotationY(float theta)
+	{
+		float temp[4][4] =
+		{
+			{ Math::Cos(theta), 0.0f, -Math::Sin(theta), 0.0f },
+			{ 0.0f, 1.0f, 0.0f, 0.0f },
+			{ Math::Sin(theta), 0.0f, Math::Cos(theta), 0.0f },
+			{ 0.0f, 0.0f, 0.0f, 1.0f },
+		};
+		return Matrix4(temp);
+	}
 	// z軸回転
 	//列優先の行列を作成
-	static Matrix4 CreateRotationZ(float theta);
+	inline static Matrix4 CreateRotationZ(float theta)
+	{
+		float temp[4][4] =
+		{
+			{ Math::Cos(theta), Math::Sin(theta), 0.0f, 0.0f },
+			{ -Math::Sin(theta), Math::Cos(theta), 0.0f, 0.0f },
+			{ 0.0f, 0.0f, 1.0f, 0.0f },
+			{ 0.0f, 0.0f, 0.0f, 1.0f },
+		};
+		return Matrix4(temp);
+	}
 	// クォータニオンから回転行列を作成
 	//列優先の行列を作成
-	static Matrix4 CreateFromQuaternion(const class Quaternion& q);
+	inline static Matrix4 CreateFromQuaternion(const class Quaternion& q)
+	{
+		float mat[4][4] =
+		{
+			{1.0f - 2.0f * q.y * q.y - 2.0f * q.z * q.z , 2.0f * q.x * q.y + 2.0f * q.w * q.z        , 2.0f * q.x * q.z - 2.0f * q.w * q.y        , 0.0f},
+			{2.0f * q.x * q.y - 2.0f * q.w * q.z        , 1.0f - 2.0f * q.x * q.x - 2.0f * q.z * q.z , 2.0f * q.y * q.z + 2.0f * q.w * q.x        , 0.0f},
+			{2.0f * q.x * q.z + 2.0f * q.w * q.y        , 2.0f * q.y * q.z - 2.0f * q.w * q.x        , 1.0f - 2.0f * q.x * q.x - 2.0f * q.y * q.y , 0.0f},
+			{0.0f                                       , 0.0f                                       , 0.0f                                       , 1.0f},
+		};
+		return Matrix4(mat);
+	}
 	// Positionを取得(列優先)
-	static Matrix4 CreateTranslation(const Vector3& trans);
+	inline static Matrix4 CreateTranslation(const Vector3& trans)
+	{
+		float temp[4][4] =
+		{
+			{ 1.0f, 0.0f, 0.0f, 0.0f },
+			{ 0.0f, 1.0f, 0.0f, 0.0f },
+			{ 0.0f, 0.0f, 1.0f, 0.0f },
+			{ trans.x, trans.y, trans.z, 1.0f }
+		};
+		return Matrix4(temp);
+	}
 	//カメラがある位置（eye）から、特定のターゲット（target）を見るような視点変換行列を行う
 	//列優先の行列を作成
 	static Matrix4 CreateLookAt(const Vector3& eye, const Vector3& target, const Vector3& up);
 	//カメラがある位置（eye）から、特定のターゲット（target）を見るような視点変換行列を行う
 	//列優先の行列を作成
-	static Matrix4 CreateOrtho(float width, float height, float near_SDL, float far_SDL);
+	static Matrix4 CreateOrtho(float width, float height, float near_SDL, float far_SDL)
+	{
+		float temp[4][4] =
+		{
+			{ 2.0f / width, 0.0f, 0.0f, 0.0f },
+			{ 0.0f, 2.0f / height, 0.0f, 0.0f },
+			{ 0.0f, 0.0f, 1.0f / (far_SDL - near_SDL), 0.0f },
+			{ 0.0f, 0.0f, near_SDL / (near_SDL - far_SDL), 1.0f }
+		};
+		return Matrix4(temp);
+	}
 	//透視投影行列（Perspective Projection Matrix）を作成する関数
 	//3D空間のシーンを、カメラを通して「遠くの物は小さく見える」ようなパース（遠近感）付きの2D画面に投影する行列を構築
 	//列優先の行列を作成
-	static Matrix4 CreatePerspectiveFOV(float fovY, float width, float height, float near_SDL, float far_SDL);
+	inline static Matrix4 CreatePerspectiveFOV(float fovY, float width, float height, float near_SDL, float far_SDL)
+	{
+		float yScale = Math::Cot(fovY / 2.0f);
+		float xScale = yScale * height / width;
+		float temp[4][4] =
+		{
+			{ xScale, 0.0f, 0.0f, 0.0f },
+			{ 0.0f, yScale, 0.0f, 0.0f },
+			{ 0.0f, 0.0f, far_SDL / (far_SDL - near_SDL), 1.0f },
+			{ 0.0f, 0.0f, -near_SDL * far_SDL / (far_SDL - near_SDL), 0.0f }
+		};
+		return Matrix4(temp);
+	}
 	// シンプルビュー投影行列を作成する
 	// これは、カメラの位置を原点に、X軸とY軸をそれぞれ幅と高さでスケーリングするだけの行列
 	//列優先の行列を作成
-	static Matrix4 CreateSimpleViewProj(float width, float height);
+	inline static Matrix4 CreateSimpleViewProj(float width, float height)
+	{
+		float temp[4][4] =
+		{
+			{ 2.0f / width, 0.0f, 0.0f, 0.0f },
+			{ 0.0f, 2.0f / height, 0.0f, 0.0f },
+			{ 0.0f, 0.0f, 1.0f, 0.0f },
+			{ 0.0f, 0.0f, 1.0f, 1.0f }
+		};
+		return Matrix4(temp);
+	}
 	//現在未使用
 	static Quaternion FromMatrix(const Matrix4& mat);
 	//列優先の行列を作成
@@ -1216,7 +1453,6 @@ public:
 
 	static const Matrix4 Identity;
 };
-
 
 namespace Color
 {

@@ -12,11 +12,13 @@ private:
 	json							mSettings;
 	
 	EditorSettingsManager() { LoadSettings(); }
-	~EditorSettingsManager() { SaveSettings(); }
+	~EditorSettingsManager() { SaveEditorSettings(); }
 
-
+	//コンストラクタで実行するもの
 	void							LoadSettings();
-	void							SaveSettings();
+	//シーンを変更した時に保存する情報
+	//デストラクタで実行するもの
+	void							SaveEditorSettings();
 public:
 	static EditorSettingsManager&	GetInstance();
 
