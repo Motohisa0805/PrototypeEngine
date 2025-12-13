@@ -101,9 +101,6 @@ bool BaseScene::Initialize()
 	}
 	//-----------------------------------------------------
 
-	// Physics WorldÇçÏê¨
-	mPhysWorld = new PhysWorld(this);
-
 	Font* font = GetFont("NotoSansJP-Bold.ttf");
 
 	mFrameRateText = new Text(font, Vector2(500, 250),Debug_Function);
@@ -675,6 +672,12 @@ void BaseScene::UnloadData()
 		delete mAudioSystem;
 		mAudioSystem = nullptr;
 	}
+}
+
+EditorScene::EditorScene()
+{
+	// Physics WorldÇçÏê¨
+	mPhysWorld = new PhysWorld();
 }
 
 void EditorScene::EditorInitilaize()

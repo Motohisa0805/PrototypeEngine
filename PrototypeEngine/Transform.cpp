@@ -196,7 +196,11 @@ void Transform::SetDirty()
 	{
 		child->SetDirty();//再帰的にフラグを立てる
 	}
-	SceneManager::GetNowScene()->SetDirtyFlag(true);
+	//Sceneがあるなら
+	if (SceneManager::GetNowScene() != nullptr)
+	{
+		SceneManager::GetNowScene()->SetDirtyFlag(true);
+	}
 }
 
 void Transform::ActiveDirty()
