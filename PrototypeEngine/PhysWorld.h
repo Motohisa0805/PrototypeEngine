@@ -45,7 +45,6 @@ public:
 	};
 
 private:
-	class BaseScene*									mGame;
 
 	vector<Collider*>									mCollider;
 
@@ -69,7 +68,7 @@ private:
 
 public:
 
-														PhysWorld(BaseScene* game);
+														PhysWorld();
 
 	// 線分をボックスに対して判定します。
 	// ボックスに衝突する場合は真を返します。

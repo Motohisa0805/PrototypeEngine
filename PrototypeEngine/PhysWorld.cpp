@@ -7,8 +7,7 @@
 #include "Actor.h"
 #include <SDL3/SDL.h>
 
-PhysWorld::PhysWorld(BaseScene* game)
-	:mGame(game)
+PhysWorld::PhysWorld()
 {
 }
 

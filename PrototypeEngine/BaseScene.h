@@ -187,8 +187,10 @@ inline vector<ActorObject*> BaseScene::SelectAllActorComponent()
 // ActorObjectリストを保持するEditorSceneクラスを仮定
 class EditorScene : public BaseScene
 {
-public:
+private:
 
+public:
+	EditorScene();
 	void EditorInitilaize();
 	// ... BaseScene の仮想関数を実装 
 	void SetName(const string& name)override;
