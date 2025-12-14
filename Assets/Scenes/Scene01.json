@@ -82,6 +82,16 @@
           "IsSkeletal": false,
           "Type": "MeshRenderer",
           "Visible": true
+        },
+        {
+          "Type": "BoxCollider",
+          "mContactOffset": 0.0010000000474974513,
+          "mIsCollider": true,
+          "mObjectOBB.mOffset": [
+            0.0,
+            0.0,
+            0.0
+          ]
         }
       ],
       "LocalPosition": [
@@ -175,6 +185,24 @@
           "IsSkeletal": false,
           "Type": "MeshRenderer",
           "Visible": true
+        },
+        {
+          "Type": "BoxCollider",
+          "mContactOffset": 0.0010000000474974513,
+          "mIsCollider": true,
+          "mObjectOBB.mOffset": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "Bounciness": 0.10000000149011612,
+          "Friction": 0.30000001192092896,
+          "GravityScale": 2.0,
+          "Mass": 1.0,
+          "Type": "Rigidbody",
+          "UseGravity": true
         }
       ],
       "LocalPosition": [

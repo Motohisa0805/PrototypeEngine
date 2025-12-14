@@ -15,7 +15,7 @@ PlaneActor::PlaneActor()
 
 	AABB myBox(Vector3(-5.0f, -0.0f, -5.0f), Vector3(5.0f, 0.1f, 5.0f));
 	BoxCollider* box = new BoxCollider(this);
-	box->SetObjectBox(myBox);
+	box->SetObjectAABB(myBox);
 	mBoxs.push_back(box);
 	/*
 	for (unsigned int i = 0; i < mMeshComp->GetMeshs().size(); i++) {

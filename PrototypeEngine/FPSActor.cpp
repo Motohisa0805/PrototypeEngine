@@ -25,7 +25,7 @@ FPSActor::FPSActor()
 	mBoxCollider = new BoxCollider(this);
 	OBB myOBB(mPosition, mRotation, Vector3(1.0f,1.5f,1.0f));
 	mBoxCollider->SetObjectOBB(myOBB);
-	mBoxCollider->SetStaticObject(false);
+	//mBoxCollider->SetStaticObject(false);
 
 	mMaxHP = 100.0f;
 	mHP = mMaxHP;

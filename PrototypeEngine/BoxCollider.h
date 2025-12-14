@@ -12,7 +12,7 @@ class BoxCollider : public Collider
 {
 private:
 	//ローカル空間AABB
-	AABB			mObjectBox;
+	AABB			mObjectAABB;
 
 	// ローカル空間OBB
 	OBB				mObjectOBB;
@@ -24,7 +24,7 @@ public:
 
 	void			OnUpdateWorldTransform() override;
 
-	void			SetObjectBox(const AABB& model) { mObjectBox = model; }
+	void			SetObjectAABB(const AABB& model) { mObjectAABB = model; }
 
 	void			SetObjectOBB(const OBB& model) { mObjectOBB = model; }
 

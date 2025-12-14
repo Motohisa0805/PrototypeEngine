@@ -80,6 +80,8 @@ void ActorObject::EditorComputeWorldTransform()
 {
 	if (mState == EActive)
 	{
+		UpdateComponents(Time::gDeltaTime);
+		UpdateActor(Time::gDeltaTime);
 		ComputeWorldTransform();
 	}
 }
@@ -172,6 +174,7 @@ void ActorObject::Deserialize(const json& j)
 				newComponent->Deserialize(componentData);
 				// ActorObjectにコンポーネントをアタッチ
 				AddComponent(newComponent);
+				SetDirty();
 			}
 		}
 	}
@@ -192,7 +195,7 @@ void ActorObject::OnComponentAdded(Component* newComp)
 			{
 				//BoxColliderにメッシュ境界情報を受け取るSetterが必要
 
-				collider->SetObjectBox(meshRenderer->GetMeshs()[0]->GetBoxs()[0]);
+				collider->SetObjectAABB(meshRenderer->GetMeshs()[0]->GetBoxs()[0]);
 				collider->SetObjectOBB(meshRenderer->GetMeshs()[0]->GetOBBBoxs()[0]);
 			}
 		}
@@ -207,7 +210,7 @@ void ActorObject::OnComponentAdded(Component* newComp)
 			//MeshRendererが既にいるので、コライダーのサイズを初期設定する
 			if (!meshRenderer->GetMeshs().empty())
 			{
-				collider->SetObjectBox(meshRenderer->GetMeshs()[0]->GetBoxs()[0]);
+				collider->SetObjectAABB(meshRenderer->GetMeshs()[0]->GetBoxs()[0]);
 				collider->SetObjectOBB(meshRenderer->GetMeshs()[0]->GetOBBBoxs()[0]);
 			}
 		}

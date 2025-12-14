@@ -15,7 +15,7 @@ TargetActor::TargetActor()
 	AddChildActor(mMesh);
 	
 	BoxCollider* box = new BoxCollider(this);
-	box->SetObjectBox(mMesh->GetBoxAABB());
+	box->SetObjectAABB(mMesh->GetBoxAABB());
 	box->SetObjectOBB(mMesh->GetBoxOBB());
 	mBoxCollider = box;
 
