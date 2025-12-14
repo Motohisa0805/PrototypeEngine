@@ -145,6 +145,7 @@ void InspectorPanel::Draw(float width, float height, ImTextureRef ref)
 							selectedActor->AddComponent(newComp);
 							// メッシュとコライダーの依存性が解決したら処理
 							selectedActor->OnComponentAdded(newComp); // ← ActorObject側で実装する
+							selectedActor->SetDirty();
 						}
 						ImGui::CloseCurrentPopup();
 					}

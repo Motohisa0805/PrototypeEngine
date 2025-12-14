@@ -37,22 +37,6 @@ void BaseScene::LoadSkyBoxTexture(string file)
 
 bool BaseScene::Initialize()
 {
-	if (!InputSystem::Initialize())
-	{
-		SDL_Log("Failed to initialize input system");
-		return false;
-	}
-
-	// Audio Systemを作成
-	mAudioSystem = new AudioSystem(this);
-	if (!mAudioSystem->Initialize())
-	{
-		SDL_Log("Failed to initialize audio system");
-		mAudioSystem->Shutdown();
-		delete mAudioSystem;
-		mAudioSystem = nullptr;
-		return false;
-	}
 	//-----------------------------------------------------
 	//ここでシーン内のオブジェクトは全て生成されている。
     //もし読み込んだシーンにカメラ、環境光がないなら生成
@@ -102,8 +86,7 @@ bool BaseScene::Initialize()
 	//-----------------------------------------------------
 
 	Font* font = GetFont("NotoSansJP-Bold.ttf");
-
-	mFrameRateText = new Text(font, Vector2(500, 250),Debug_Function);
+	mFrameRateText = new Text(font, Vector2(500, 250), Debug_Function);
 	mFrameRateText->SetFontSize(22);
 	return true;
 }
@@ -676,6 +659,21 @@ void BaseScene::UnloadData()
 
 EditorScene::EditorScene()
 {
+	if (!InputSystem::Initialize())
+	{
+		SDL_Log("Failed to initialize input system");
+	}
+
+	// Audio Systemを作成
+	mAudioSystem = new AudioSystem(this);
+	if (!mAudioSystem->Initialize())
+	{
+		SDL_Log("Failed to initialize audio system");
+		mAudioSystem->Shutdown();
+		delete mAudioSystem;
+		mAudioSystem = nullptr;
+	}
+
 	// Physics Worldを作成
 	mPhysWorld = new PhysWorld();
 }

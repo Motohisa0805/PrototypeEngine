@@ -7,7 +7,7 @@
 
 BoxCollider::BoxCollider(ActorObject* owner, int updateOrder)
 	:Collider(owner, updateOrder)
-	, mObjectBox(Vector3::Zero, Vector3::Zero)
+	, mObjectAABB(Vector3::Zero, Vector3::Zero)
 	, mObjectOBB(Vector3::Zero, Quaternion::Identity, Vector3::Zero)
 	, mShouldRotate(true)
 {
@@ -43,19 +43,7 @@ void BoxCollider::OnUpdateWorldTransform()
 	mWorldOBB.mExtents = mObjectOBB.mExtents * scale;
 
 	//===AABBの更新===
-	// オブジェクトボックスにリセットする
-	mWorldBox = mObjectBox;
-	// Scale
-	mWorldBox.mMin *= mOwner->GetScale();
-	mWorldBox.mMax *= mOwner->GetScale();
-	// Rotate (if we want to)
-	if (mShouldRotate)
-	{
-		mWorldBox.Rotate(mOwner->GetRotation());
-	}
-	// Translate
-	mWorldBox.mMin += mOwner->GetPosition();
-	mWorldBox.mMax += mOwner->GetPosition();
+	mWorldAABB = GetWorldAABBFromOBB();
 }
 
 AABB BoxCollider::GetWorldAABBFromOBB() const
@@ -127,6 +115,9 @@ void BoxCollider::DrawCustomGUI(const std::vector<PropertyInfo>& properties)
 	ImGui::Text("Offset");
 	ImGui::SameLine();
 	ImGui::DragFloat3("##offset", &mObjectOBB.mOffset.x);
+	ImGui::Text("Extents");
+	ImGui::SameLine();
+	ImGui::DragFloat3("##extents", &mObjectOBB.mExtents.x);
 
 	ImGui::NewLine();
 

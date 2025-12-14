@@ -15,10 +15,10 @@ BulletActor::BulletActor(Vector3 powerDir, Vector3 position)
 	mBullet->SetLocalScale(Vector3(0.2f, 0.2f, 0.2f));
 
 	BoxCollider* box = new BoxCollider(this);
-	box->SetObjectBox(mBullet->GetBoxAABB());
+	box->SetObjectAABB(mBullet->GetBoxAABB());
 	box->SetObjectOBB(mBullet->GetBoxOBB());
 	box->SetCollider(false);
-	box->SetStaticObject(false);
+	//box->SetStaticObject(false);
 	mBoxCollider = box;
 
 	SetLocalPosition(position);

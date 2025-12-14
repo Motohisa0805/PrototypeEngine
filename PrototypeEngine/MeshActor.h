@@ -36,8 +36,6 @@ public:
 
 	void					SetColliderMode(bool active);
 
-	void					SetStaticMode(bool active);
-
 	void					AddBoxCollider();
 
 	void					AddSphereCollider();

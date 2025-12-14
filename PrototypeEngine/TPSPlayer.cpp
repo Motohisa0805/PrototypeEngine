@@ -40,7 +40,7 @@ TPSPlayer::TPSPlayer()
 	OBB obb(mPosition, mRotation, Vector3(0.5f, 0.5f, 0.5f));
 	obb.mOffset = Vector3(0.0f, 0.6f, 0.0f);
 	mBoxCollider->SetObjectOBB(obb);
-	mBoxCollider->SetStaticObject(false);
+	//mBoxCollider->SetStaticObject(false);
 
 	mPosition = Vector3::Zero;
 }

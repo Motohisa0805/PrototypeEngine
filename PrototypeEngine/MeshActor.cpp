@@ -42,28 +42,10 @@ void MeshActor::SetColliderMode(bool active)
 	}
 }
 
-void MeshActor::SetStaticMode(bool active)
-{
-	if (mBoxCollider)
-	{
-		mBoxCollider->SetStaticObject(active);
-	}
-
-	if (mSphereCollider)
-	{
-		mSphereCollider->SetStaticObject(active);
-	}
-
-	if (mCapsuleCollider)
-	{
-		mCapsuleCollider->SetStaticObject(active);
-	}
-}
-
 void MeshActor::AddBoxCollider()
 {
 	BoxCollider* box = new BoxCollider(this);
-	box->SetObjectBox(mMeshRenderer->GetMeshs()[0]->GetBoxs()[0]);
+	box->SetObjectAABB(mMeshRenderer->GetMeshs()[0]->GetBoxs()[0]);
 	box->SetObjectOBB(mMeshRenderer->GetMeshs()[0]->GetOBBBoxs()[0]);
 	mBoxCollider = box;
 }

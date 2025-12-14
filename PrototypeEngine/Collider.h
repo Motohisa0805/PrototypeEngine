@@ -17,13 +17,10 @@ protected:
 	// ワールド空間OBB
 	OBB						mWorldOBB;	
 
-	AABB					mWorldBox;
+	AABB					mWorldAABB;
 	//オブジェクト同士の当たり判定をするかしないか
 	//UnityのColliderかTriggerかを切り替えるフラグ
 	bool					mIsCollider = true;
-	//オブジェクトを動かさないか動かすかを決める
-	//Rigidbodyのような機能がないため追加
-	bool					mStaticObject = true;
 
 	float					mContactOffset;
 public:
@@ -40,15 +37,12 @@ public:
 
 	virtual Sphere			GetWorldSphere() const = 0;
 	virtual Capsule			GetWorldCapsule() const = 0;
-	virtual AABB			GetWorldAABBFromOBB() const { return mWorldBox; }
+	virtual AABB			GetWorldAABBFromOBB() const { return mWorldAABB; }
 
 	virtual OBB				GetWorldOBB() const = 0;
 
 	bool					IsCollider() { return mIsCollider; }
 	void					SetCollider(bool active) { mIsCollider = active; }
-
-	bool					IsStaticObject() { return mStaticObject; }
-	void					SetStaticObject(bool active) { mStaticObject = active; }
 
 	float					GetContactOffset() { return mContactOffset; }
 

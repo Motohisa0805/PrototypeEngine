@@ -47,19 +47,40 @@ std::vector<PhysWorld::CollisionInfo> PhysWorld::RayCastAll(const LineSegment& l
 	for (auto collider : mCollider)
 	{
 		float t = 0.0f;
-		Vector3 norm;
-		if (OnCollision(l, collider->GetWorldAABBFromOBB(), t, norm))
+		Vector3 norm = Vector3::Zero;
+		// OBBを持つBoxColliderに対しては、RayCast(LineSegment, OBB)で判定する
+		if (collider->GetType() == Collider::BoxType)
 		{
-			if (t >= 0.0f && t <= 1.0f)
+			OBB obb = collider->GetWorldOBB();
+			if (OnRayCastCollision(l, obb, t, norm))
 			{
-				CollisionInfo info;
-				info.mT = t;
-				info.mPoint = l.PointOnSegment(t);
-				info.mNormal = norm;
-				info.mCollider = collider;
-				info.mActor = collider->GetOwner();
-				results.push_back(info);
+				if (t >= 0.0f && t <= 1.0f)
+				{
+					CollisionInfo info;
+					info.mT = t;
+					info.mPoint = l.PointOnSegment(t);
+					info.mNormal = norm;
+					info.mCollider = collider;
+					info.mActor = collider->GetOwner();
+					results.push_back(info);
+				}
 			}
+			//TODO : のちのち他コライダーも追加
+			/*
+			if (OnCollision(l, collider->GetWorldAABBFromOBB(), t, norm))
+			{
+				if (t >= 0.0f && t <= 1.0f)
+				{
+					CollisionInfo info;
+					info.mT = t;
+					info.mPoint = l.PointOnSegment(t);
+					info.mNormal = norm;
+					info.mCollider = collider;
+					info.mActor = collider->GetOwner();
+					results.push_back(info);
+				}
+			}
+			*/
 		}
 	}
 
@@ -144,11 +165,11 @@ void PhysWorld::SweepAndPruneXYZ()
 				if (colliderA->IsCollider() && colliderB->IsCollider())
 				{
 					//当たり続けている時も判定
-					if (!colliderA->IsStaticObject() && colliderB->IsStaticObject())
+					if (colliderA->GetOwner()->GetComponent<Rigidbody>() && !colliderB->GetOwner()->GetComponent<Rigidbody>())
 					{
 						FixCollisions(colliderA, colliderB);
 					}
-					else if (colliderA->IsStaticObject() && !colliderB->IsStaticObject())
+					else if (!colliderA->GetOwner()->GetComponent<Rigidbody>() && colliderB->GetOwner()->GetComponent<Rigidbody>())
 					{
 						FixCollisions(colliderB, colliderA);
 					}
@@ -162,11 +183,11 @@ void PhysWorld::SweepAndPruneXYZ()
 				if (colliderA->IsCollider() && colliderB->IsCollider())
 				{
 					//当たり初めに判定
-					if (!colliderA->IsStaticObject() && colliderB->IsStaticObject())
+					if (colliderA->GetOwner()->GetComponent<Rigidbody>() && !colliderB->GetOwner()->GetComponent<Rigidbody>())
 					{
 						FixCollisions(colliderA, colliderB);
 					}
-					else if (colliderA->IsStaticObject() && !colliderB->IsStaticObject())
+					else if (!colliderA->GetOwner()->GetComponent<Rigidbody>() && colliderB->GetOwner()->GetComponent<Rigidbody>())
 					{
 						FixCollisions(colliderB, colliderA);
 					}
@@ -205,24 +226,29 @@ void PhysWorld::FixCollisions(class Collider* dynamicCollider, class Collider* s
 	}
 
 	// 総押し出しベクトル（複数法線合成）
-	Vector3 totalPush = Vector3::Zero;
+	Vector3 totalNormal = Vector3::Zero;
+	float maxPenetration = 0.0f; // 最大めり込み深さを追跡
 	for (auto& contact : contactPoints)
 	{
-		Vector3 push = contact.normal * (contact.penetration + contactOffset);
-		totalPush += push;
+		totalNormal += contact.normal; // 法線を単純に合成して方向を求める
+		if (contact.penetration > maxPenetration)
+		{
+			maxPenetration = contact.penetration; // 最も深いめり込みを記録
+		}
 	}
-
+	// 押し出し方向の正規化と、最大めり込み深さによる押し出し量の決定
+	Vector3 totalPush = Vector3::Zero;
 	// 押し出し方向の正規化（あまりに小さいときはスキップ）
-	if (totalPush.Length() > 0.0001f)
+	if (totalNormal.Length() > 0.0001f)
 	{
-		totalPush = totalPush.Normalized() * contactPoints[0].penetration;
+		totalPush = totalNormal.Normalized() * maxPenetration;
 	}
 
 	// 合成ベクトルを1つの方向に正規化（複合押し出し）
 	if (!Math::NearZero(totalPush.Length()))
 	{
 		auto actor = dynamicCollider->GetOwner();
-		auto rb = actor->GetRigidbody();
+		auto rb = actor->GetComponent<Rigidbody>();
 		actor->SetLocalPosition(actor->GetPosition() + totalPush);
 		actor->ComputeWorldTransform();
 
