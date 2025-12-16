@@ -75,6 +75,7 @@ struct OBB
 struct Capsule
 {
 				Capsule(const Vector3& start, const Vector3& end, float radius);
+				Capsule(const LineSegment& segment, float radius);
 	// 0 <= t <= 1 の間のセグメントに沿った点を取得する
 	Vector3		PointOnSegment(float t) const;
 	

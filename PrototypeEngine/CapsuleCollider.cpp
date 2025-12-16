@@ -7,8 +7,8 @@
 
 CapsuleCollider::CapsuleCollider(ActorObject* owner, int updateOrder)
 	: Collider(owner,updateOrder)
-	, mObjectCapsule(Vector3::Zero,Vector3::Zero,0.0f)
-	, mWorldCapsule(Vector3::Zero, Vector3::Zero, 0.0f)
+	, mObjectCapsule(Vector3::Zero,Vector3::Zero,0.5f)
+	, mWorldCapsule(Vector3::Zero, Vector3::Zero, 0.5f)
 	, mShouldRotate(true)
 {
     mName = "CapsuleCollider";
@@ -84,5 +84,5 @@ void CapsuleCollider::DrawCustomGUI(const std::vector<PropertyInfo>& properties)
 
     ImGui::Separator();
 
-    ImGui::PushID(this);
+    ImGui::PopID();
 }

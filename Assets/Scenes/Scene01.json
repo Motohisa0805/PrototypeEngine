@@ -123,16 +123,26 @@
           "IsSkeletal": false,
           "Type": "MeshRenderer",
           "Visible": true
+        },
+        {
+          "Type": "BoxCollider",
+          "mContactOffset": 0.0010000000474974513,
+          "mIsCollider": true,
+          "mObjectOBB.mOffset": [
+            0.0,
+            0.0,
+            0.0
+          ]
         }
       ],
       "LocalPosition": [
         0.0,
-        9.5,
-        10.5
+        5.699999809265137,
+        15.5
       ],
       "LocalRotation": [
-        0.7071067690849304,
-        0.7071067690849304,
+        0.9238795042037964,
+        -0.3826834559440613,
         0.0,
         0.0
       ],
@@ -154,6 +164,16 @@
           "IsSkeletal": false,
           "Type": "MeshRenderer",
           "Visible": true
+        },
+        {
+          "Type": "BoxCollider",
+          "mContactOffset": 0.0010000000474974513,
+          "mIsCollider": true,
+          "mObjectOBB.mOffset": [
+            0.0,
+            0.0,
+            0.0
+          ]
         }
       ],
       "LocalPosition": [
@@ -206,15 +226,15 @@
         }
       ],
       "LocalPosition": [
-        0.0,
-        1.2000000476837158,
-        7.3000006675720215
+        2.0,
+        8.5,
+        14.0
       ],
       "LocalRotation": [
-        0.9339955449104309,
-        -0.303473562002182,
-        0.17933450639247894,
-        0.058269307017326355
+        0.8446232080459595,
+        0.46193981170654297,
+        0.19134171307086945,
+        0.19134171307086945
       ],
       "LocalScale": [
         0.5000000596046448,
@@ -234,12 +254,25 @@
           "IsSkeletal": false,
           "Type": "MeshRenderer",
           "Visible": true
+        },
+        {
+          "Type": "SphereCollider",
+          "mContactOffset": 0.0010000000474974513,
+          "mIsCollider": true
+        },
+        {
+          "Bounciness": 0.10000000149011612,
+          "Friction": 0.30000001192092896,
+          "GravityScale": 2.0,
+          "Mass": 1.0,
+          "Type": "Rigidbody",
+          "UseGravity": true
         }
       ],
       "LocalPosition": [
-        -2.0,
         0.0,
-        5.0
+        8.5,
+        14.0
       ],
       "LocalRotation": [
         1.0,
@@ -284,6 +317,50 @@
         1.0
       ],
       "Name": "Portal",
+      "State": 0,
+      "Tag": 0,
+      "Type": "Transform"
+    },
+    {
+      "Components": [
+        {
+          "Alpha": 1.0,
+          "FilePath": "Capsule.fbx",
+          "IsSkeletal": false,
+          "Type": "MeshRenderer",
+          "Visible": true
+        },
+        {
+          "Bounciness": 0.10000000149011612,
+          "Friction": 0.30000001192092896,
+          "GravityScale": 2.0,
+          "Mass": 1.0,
+          "Type": "Rigidbody",
+          "UseGravity": true
+        },
+        {
+          "Type": "CapsuleCollider",
+          "mContactOffset": 0.0010000000474974513,
+          "mIsCollider": true
+        }
+      ],
+      "LocalPosition": [
+        -5.0,
+        5.0,
+        5.0
+      ],
+      "LocalRotation": [
+        0.9762960076332092,
+        0.2164396196603775,
+        0.0,
+        0.0
+      ],
+      "LocalScale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "Name": "Capsule",
       "State": 0,
       "Tag": 0,
       "Type": "Transform"

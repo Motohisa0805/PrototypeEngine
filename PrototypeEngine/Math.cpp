@@ -112,7 +112,64 @@ Vector3 Vector3::Transform(const Vector3& v, const Quaternion& q)
 //Vector4のメソッド
 
 //Matrix3のメソッド
+Vector3 Matrix3::Transform(const Vector3& vec) const
+{
+	return Vector3(
+		mat[0][0] * vec.x + mat[0][1] * vec.y + mat[0][2] * vec.z,
+		mat[1][0] * vec.x + mat[1][1] * vec.y + mat[1][2] * vec.z,
+		mat[2][0] * vec.x + mat[2][1] * vec.y + mat[2][2] * vec.z
+	);
+}
 
+// 逆行列 (Boxの慣性テンソルのために対称行列の逆行列を想定)
+// 簡略化のため、行列式 (Determinant) を計算し、それを使って逆行列を計算します。
+Matrix3 Matrix3::Inverse() const
+{
+	// 3x3行列式 det = 
+	// m[0][0]*(m[1][1]*m[2][2] - m[1][2]*m[2][1]) - 
+	// m[0][1]*(m[1][0]*m[2][2] - m[1][2]*m[2][0]) + 
+	// m[0][2]*(m[1][0]*m[2][1] - m[1][1]*m[2][0])
+	float det = mat[0][0] * (mat[1][1] * mat[2][2] - mat[1][2] * mat[2][1]) -
+		mat[0][1] * (mat[1][0] * mat[2][2] - mat[1][2] * mat[2][0]) +
+		mat[0][2] * (mat[1][0] * mat[2][1] - mat[1][1] * mat[2][0]);
+
+	// 行列式がゼロに近い場合は逆行列が存在しない (または非常に重い)
+	if (Math::NearZero(det))
+	{
+		return Matrix3::Identity; // 適切なエラー処理/ログが必要
+	}
+
+	float invDet = 1.0f / det;
+	Matrix3 result;
+
+	// 転置された余因子行列 * (1/det)
+	result.mat[0][0] = (mat[1][1] * mat[2][2] - mat[1][2] * mat[2][1]) * invDet;
+	result.mat[1][0] = (mat[1][2] * mat[2][0] - mat[1][0] * mat[2][2]) * invDet;
+	result.mat[2][0] = (mat[1][0] * mat[2][1] - mat[1][1] * mat[2][0]) * invDet;
+
+	result.mat[0][1] = (mat[0][2] * mat[2][1] - mat[0][1] * mat[2][2]) * invDet;
+	result.mat[1][1] = (mat[0][0] * mat[2][2] - mat[0][2] * mat[2][0]) * invDet;
+	result.mat[2][1] = (mat[0][1] * mat[2][0] - mat[0][0] * mat[2][1]) * invDet;
+
+	result.mat[0][2] = (mat[0][1] * mat[1][2] - mat[0][2] * mat[1][1]) * invDet;
+	result.mat[1][2] = (mat[0][2] * mat[1][0] - mat[0][0] * mat[1][2]) * invDet;
+	result.mat[2][2] = (mat[0][0] * mat[1][1] - mat[0][1] * mat[1][0]) * invDet;
+
+	return result;
+}
+
+Matrix3 Matrix3::Transpose() const
+{
+	Matrix3 result;
+	for (int i = 0; i < 3; i++)
+	{
+		for (int j = 0; j < 3; j++)
+		{
+			result.mat[i][j] = mat[j][i];
+		}
+	}
+	return result;
+}
 //Quaternionのメソッド
 Vector3 Quaternion::ToEulerAngles() const
 {

@@ -269,6 +269,12 @@ Capsule::Capsule(const Vector3& start, const Vector3& end, float radius)
 {
 }
 
+Capsule::Capsule(const LineSegment& segment, float radius)
+	:mSegment(segment)
+	, mRadius(radius)
+{
+}
+
 Vector3 Capsule::PointOnSegment(float t) const
 {
 	return mSegment.PointOnSegment(t);
