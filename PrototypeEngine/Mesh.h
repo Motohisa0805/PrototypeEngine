@@ -88,6 +88,8 @@ public:
 	// モデルのボックス型の座標を取得
 	const vector<AABB>			GetBoxs() const { return mBoxs; }
 	const vector<OBB>			GetOBBBoxs() const { return mOBBBoxs; }
+	Sphere						GetAABBFromSphere();
+	Capsule						GetAABBFromCapsule();
 	//マテリアル情報取得
 	vector<MaterialInfo>	GetMaterialInfo() { return mMaterialInfo; }
 	void  SetMaterialInfo(const vector<MaterialInfo>& info) 

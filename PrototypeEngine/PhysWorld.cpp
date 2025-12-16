@@ -96,7 +96,7 @@ std::vector<PhysWorld::CollisionInfo> PhysWorld::RayCastAll(const LineSegment& l
 
 void PhysWorld::SweepAndPruneXYZ()
 {
-	// まずX軸でソート
+	// X軸でソート
 	std::sort(mColliderXAxis.begin(), mColliderXAxis.end(),
 		[](Collider* a, Collider* b) {
 			return a->GetWorldAABBFromOBB().mMin.x < b->GetWorldAABBFromOBB().mMin.x;
@@ -116,8 +116,6 @@ void PhysWorld::SweepAndPruneXYZ()
 			Collider* colliderB = mColliderXAxis[j];
 			const AABB& aabbB = colliderB->GetWorldAABBFromOBB();
 			//const AABB& aabbB = colliderB->GetWorldBox();
-
-			const float contactOffset = 0.001f;
 
 			const float contactOffsetA = colliderA->GetContactOffset();
 			const float contactOffsetB = colliderB->GetContactOffset();
@@ -255,7 +253,10 @@ void PhysWorld::FixCollisions(class Collider* dynamicCollider, class Collider* s
 		// Rigidbodyに押し出し方向を通知（滑り/跳ね返り等に使用）
 		if (rb)
 		{
-			rb->ResolveCollision(totalPush);
+			for (auto& contact : contactPoints)
+			{
+				rb->ResolveCollision(totalPush, contact.position);
+			}
 		}
 	}
 }
@@ -364,14 +365,15 @@ void PhysWorld::CollectContactPoints_OBB_OBB(const OBB& a, const OBB& b, std::ve
 {
 	Vector3 normal;
 	float depth;
+	Vector3 contactPoint;
 
-	if (GetContactInfo_OBB(a, b, normal, depth))
+	if (GetContactInfo_OBB(a, b, normal, depth, contactPoint))
 	{
-		outContacts.emplace_back(ContactPoint{ normal, depth });
+		outContacts.emplace_back(ContactPoint{ normal, depth, contactPoint });
 	}
 }
 
-bool PhysWorld::GetContactInfo_OBB(const OBB& a, const OBB& b, Vector3& outNormal, float& outDepth)
+bool PhysWorld::GetContactInfo_OBB(const OBB& a, const OBB& b, Vector3& outNormal, float& outDepth,Vector3& contactPoint)
 {
 	Vector3 aAxes[3] = 
 	{
@@ -445,6 +447,8 @@ bool PhysWorld::GetContactInfo_OBB(const OBB& a, const OBB& b, Vector3& outNorma
 
 	outNormal = bestAxis;
 	outDepth = minOverlap;
+	contactPoint = a.mCenter - bestAxis * (minOverlap / 2.0f);
+	
 	return true;
 }
 
@@ -459,7 +463,12 @@ void PhysWorld::CollectContactPoints_Sphere_Sphere(const Sphere& a, const Sphere
 	if (penetration + contactOffset > 0.0f)
 	{
 		Vector3 normal = (dist > 0.0001f) ? diff / dist : Vector3::UnitX;
-		outContacts.emplace_back(ContactPoint{ normal, penetration });
+		// 接触点のワールド座標を計算
+			// Sphere A の中心から法線方向に Sphere A の半径分進んだ点 (法線は A から B に向かう)
+		Vector3 contactPoint = a.mCenter + normal * a.mRadius;
+
+		// ContactPoint に position を追加
+		outContacts.emplace_back(ContactPoint{ normal, penetration, contactPoint });
 	}
 }
 
@@ -482,8 +491,12 @@ void PhysWorld::CollectContactPoints_Capsule_Capsule(const Capsule& a, const Cap
 			normal.Normalize();
 		else
 			normal = Vector3::UnitX;
+		// ★ 接触点のワールド座標
+					// pA と pB の中間点（あるいは pA から a.mRadius 分進んだ点）
+		Vector3 contactPoint = pa + normal * a.mRadius;
 
-		outContacts.emplace_back(ContactPoint{ normal, penetration });
+		// ContactPoint に position を追加
+		outContacts.emplace_back(ContactPoint{ normal, penetration, contactPoint });
 	}
 }
 
@@ -499,11 +512,18 @@ void PhysWorld::CollectContactPoints_OBB_Sphere(const OBB& a, const Sphere& b, s
 		float dist = std::sqrt(distSq);
 		float penetration = radius - dist;
 
-		Vector3 normal = (dist > 0.0001f) ? diff / dist : Vector3::UnitX;
+		// 押し出し応答が必要なのは、めり込みが発生している場合のみ
+		if (penetration > 0.0001f) // 真にめり込んでいるかチェック
+		{
+			Vector3 normal = diff / dist;
 
-		// normal を押し出される Sphere に外向きに揃える
-		normal *= -1.0f;
-		outContacts.emplace_back(ContactPoint{ normal, penetration });
+			// 接触点のワールド座標を計算
+			// Sphereの中心から法線方向にSphereの半径分戻った点を接触点とする
+			Vector3 contactPoint = b.mCenter - normal * radius;
+
+			// 接触点を追加
+			outContacts.emplace_back(ContactPoint{ normal, penetration, contactPoint });
+		}
 	}
 }
 
@@ -540,9 +560,12 @@ void PhysWorld::CollectContactPoints_OBB_Capsule(const OBB& a, const Capsule& b,
 		else
 			normal = Vector3::UnitX;
 
-		normal *= -1.0f;
+		// 接触点のワールド座標
+		// Capsule の線分上の最近接点から法線と逆方向に半径分戻った点
+		Vector3 contactPoint = bestPointOnSeg - normal * radius;
 
-		outContacts.emplace_back(ContactPoint{ normal, penetration });
+		// ContactPoint に position を追加
+		outContacts.emplace_back(ContactPoint{ normal, penetration, contactPoint });
 	}
 }
 
@@ -565,7 +588,13 @@ void PhysWorld::CollectContactPoints_Sphere_Capsule(const Sphere& a, const Capsu
 		float penetration = radiusSum - dist;
 
 		Vector3 normal = (dist > 0.0001f) ? diff / dist : Vector3::UnitX;
-		outContacts.emplace_back(ContactPoint{ normal, penetration });
+		
+		// 接触点のワールド座標
+		// Sphere A の中心から法線と逆方向に Sphere A の半径分戻った点
+		Vector3 contactPoint = a.mCenter - normal * a.mRadius;
+
+		// ContactPoint に position を追加
+		outContacts.emplace_back(ContactPoint{ normal, penetration, contactPoint });
 	}
 }
 
@@ -573,8 +602,6 @@ void PhysWorld::ClearAllCollider()
 {
 	mCollider.clear();
 	mColliderXAxis.clear();
-	mColliderYAxis.clear();
-	mColliderZAxis.clear();
 }
 
 
@@ -582,8 +609,6 @@ void PhysWorld::AddCollider(Collider* box)
 {
 	mCollider.push_back(box);
 	mColliderXAxis.emplace_back(box);
-	mColliderYAxis.emplace_back(box);
-	mColliderZAxis.emplace_back(box);
 }
 
 void PhysWorld::RemoveCollider(Collider* box)
@@ -604,24 +629,6 @@ void PhysWorld::RemoveCollider(Collider* box)
 		// ポップオフします（コピーの消去を避けるため）
 		std::iter_swap(iter, mColliderXAxis.end() - 1);
 		mColliderXAxis.pop_back();
-	}
-
-	iter = std::find(mColliderYAxis.begin(), mColliderYAxis.end(), box);
-	if (iter != mColliderYAxis.end())
-	{
-		// ベクトルの末尾にスワップし、
-		// ポップオフします（コピーの消去を避けるため）
-		std::iter_swap(iter, mColliderYAxis.end() - 1);
-		mColliderYAxis.pop_back();
-	}
-
-	iter = std::find(mColliderZAxis.begin(), mColliderZAxis.end(), box);
-	if (iter != mColliderZAxis.end())
-	{
-		// ベクトルの末尾にスワップし、
-		// ポップオフします（コピーの消去を避けるため）
-		std::iter_swap(iter, mColliderZAxis.end() - 1);
-		mColliderZAxis.pop_back();
 	}
 
 	for (auto it = mPrevHitPairs.begin(); it != mPrevHitPairs.end(); )

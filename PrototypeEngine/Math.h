@@ -705,139 +705,6 @@ public:
 	static const Vector4 NegInfinity;
 };
 
-// 3x3 Matrix
-class PROTOTYPEENGINE_API Matrix3
-{
-public:
-	float mat[3][3];
-
-	Matrix3()
-	{
-		*this = Matrix3::Identity;
-	}
-
-	explicit Matrix3(float inMat[3][3])
-	{
-		memcpy(mat, inMat, 9 * sizeof(float));
-	}
-
-	// const floatポインタにキャスト
-	inline const float* GetAsFloatPtr() const
-	{
-		return reinterpret_cast<const float*>(&mat[0][0]);
-	}
-
-	// 行列の乗算
-	friend Matrix3 operator*(const Matrix3& left, const Matrix3& right)
-	{
-		Matrix3 retVal;
-		// row 0
-		retVal.mat[0][0] =
-			left.mat[0][0] * right.mat[0][0] +
-			left.mat[0][1] * right.mat[1][0] +
-			left.mat[0][2] * right.mat[2][0];
-
-		retVal.mat[0][1] =
-			left.mat[0][0] * right.mat[0][1] +
-			left.mat[0][1] * right.mat[1][1] +
-			left.mat[0][2] * right.mat[2][1];
-
-		retVal.mat[0][2] =
-			left.mat[0][0] * right.mat[0][2] +
-			left.mat[0][1] * right.mat[1][2] +
-			left.mat[0][2] * right.mat[2][2];
-
-		// row 1
-		retVal.mat[1][0] =
-			left.mat[1][0] * right.mat[0][0] +
-			left.mat[1][1] * right.mat[1][0] +
-			left.mat[1][2] * right.mat[2][0];
-
-		retVal.mat[1][1] =
-			left.mat[1][0] * right.mat[0][1] +
-			left.mat[1][1] * right.mat[1][1] +
-			left.mat[1][2] * right.mat[2][1];
-
-		retVal.mat[1][2] =
-			left.mat[1][0] * right.mat[0][2] +
-			left.mat[1][1] * right.mat[1][2] +
-			left.mat[1][2] * right.mat[2][2];
-
-		// row 2
-		retVal.mat[2][0] =
-			left.mat[2][0] * right.mat[0][0] +
-			left.mat[2][1] * right.mat[1][0] +
-			left.mat[2][2] * right.mat[2][0];
-
-		retVal.mat[2][1] =
-			left.mat[2][0] * right.mat[0][1] +
-			left.mat[2][1] * right.mat[1][1] +
-			left.mat[2][2] * right.mat[2][1];
-
-		retVal.mat[2][2] =
-			left.mat[2][0] * right.mat[0][2] +
-			left.mat[2][1] * right.mat[1][2] +
-			left.mat[2][2] * right.mat[2][2];
-
-		return retVal;
-	}
-
-	Matrix3& operator*=(const Matrix3& right)
-	{
-		*this = *this * right;
-		return *this;
-	}
-
-	// xおよびyスケールを持つスケール行列を作成
-	inline static Matrix3 CreateScale(float xScale, float yScale)
-	{
-		float temp[3][3] =
-		{
-			{ xScale, 0.0f, 0.0f },
-			{ 0.0f, yScale, 0.0f },
-			{ 0.0f, 0.0f, 1.0f },
-		};
-		return Matrix3(temp);
-	}
-
-	inline static Matrix3 CreateScale(const Vector2& scaleVector)
-	{
-		return CreateScale(scaleVector.x, scaleVector.y);
-	}
-
-	// 均一な因子でスケール行列を作成
-	inline static Matrix3 CreateScale(float scale)
-	{
-		return CreateScale(scale, scale);
-	}
-
-	// Z軸回りの回転行列を作成
-	// シータはラジアンで表されます
-	inline static Matrix3 CreateRotation(float theta)
-	{
-		float temp[3][3] =
-		{
-			{ Math::Cos(theta), Math::Sin(theta), 0.0f },
-			{ -Math::Sin(theta), Math::Cos(theta), 0.0f },
-			{ 0.0f, 0.0f, 1.0f },
-		};
-		return Matrix3(temp);
-	}
-
-	// xy平面上に翻訳行列を作成
-	inline static Matrix3 CreateTranslation(const Vector2& trans)
-	{
-		float temp[3][3] =
-		{
-			{ 1.0f, 0.0f, 0.0f },
-			{ 0.0f, 1.0f, 0.0f },
-			{ trans.x, trans.y, 1.0f },
-		};
-		return Matrix3(temp);
-	}
-
-	static const Matrix3 Identity;
-};
 
 // (Unit) Quaternion
 class PROTOTYPEENGINE_API Quaternion
@@ -873,6 +740,27 @@ public:
 		y = inY;
 		z = inZ;
 		w = inW;
+	}
+
+	Quaternion& operator*=(float scalar)
+	{
+		x *= scalar;
+		y *= scalar;
+		z *= scalar;
+		w *= scalar;
+		return *this;
+	}
+
+
+	friend Quaternion operator+(const Quaternion& qua1, const Quaternion& qua2)
+	{
+		return Quaternion(qua1.x + qua2.x, qua1.y + qua2.y, qua1.z + qua2.z, qua1.w + qua2.w);
+	}
+	// 要素ごとの乗算
+	// スカラー乗算
+	friend Quaternion operator*(const Quaternion& qua, float scalar)
+	{
+		return Quaternion(qua.x * scalar, qua.y * scalar, qua.z * scalar, qua.w * scalar);
 	}
 
 	inline void Conjugate()
@@ -911,11 +799,20 @@ public:
 
 	inline void Normalize()
 	{
-		float length = Length();
-		x /= length;
-		y /= length;
-		z /= length;
-		w /= length;
+		float len = LengthSq(); // LengthSq()が実装済みと仮定
+		if (Math::NearZero(len))
+		{
+			// 長さがゼロに近い場合、デフォルト値（Identity）に設定
+			*this = Identity;
+		}
+		else
+		{
+			float invLen = 1.0f / Math::Sqrt(len);
+			x *= invLen;
+			y *= invLen;
+			z *= invLen;
+			w *= invLen;
+		}
 	}
 
 	Vector3 ToEulerAngles()const;
@@ -1056,6 +953,175 @@ public:
 			q1.w * q2.w - q1.x * q2.x - q1.y * q2.y - q1.z * q2.z
 		);
 	}
+};
+// 3x3 Matrix
+class PROTOTYPEENGINE_API Matrix3
+{
+public:
+	float mat[3][3];
+
+	Matrix3()
+	{
+		*this = Matrix3::Identity;
+	}
+
+	explicit Matrix3(float inMat[3][3])
+	{
+		memcpy(mat, inMat, 9 * sizeof(float));
+	}
+
+	// Quaternionから回転行列を生成
+	explicit Matrix3(const Quaternion& q)
+	{
+		// クォータニオン q = (x, y, z, w) から回転行列を生成
+		float xx = q.x * q.x;
+		float yy = q.y * q.y;
+		float zz = q.z * q.z;
+		float xy = q.x * q.y;
+		float xz = q.x * q.z;
+		float yz = q.y * q.z;
+		float wx = q.w * q.x;
+		float wy = q.w * q.y;
+		float wz = q.w * q.z;
+
+		mat[0][0] = 1.0f - 2.0f * (yy + zz);
+		mat[0][1] = 2.0f * (xy - wz);
+		mat[0][2] = 2.0f * (xz + wy);
+
+		mat[1][0] = 2.0f * (xy + wz);
+		mat[1][1] = 1.0f - 2.0f * (xx + zz);
+		mat[1][2] = 2.0f * (yz - wx);
+
+		mat[2][0] = 2.0f * (xz - wy);
+		mat[2][1] = 2.0f * (yz + wx);
+		mat[2][2] = 1.0f - 2.0f * (xx + yy);
+	}
+
+	// const floatポインタにキャスト
+	inline const float* GetAsFloatPtr() const
+	{
+		return reinterpret_cast<const float*>(&mat[0][0]);
+	}
+
+	// 行列の乗算
+	friend Matrix3 operator*(const Matrix3& left, const Matrix3& right)
+	{
+		Matrix3 retVal;
+		// row 0
+		retVal.mat[0][0] =
+			left.mat[0][0] * right.mat[0][0] +
+			left.mat[0][1] * right.mat[1][0] +
+			left.mat[0][2] * right.mat[2][0];
+
+		retVal.mat[0][1] =
+			left.mat[0][0] * right.mat[0][1] +
+			left.mat[0][1] * right.mat[1][1] +
+			left.mat[0][2] * right.mat[2][1];
+
+		retVal.mat[0][2] =
+			left.mat[0][0] * right.mat[0][2] +
+			left.mat[0][1] * right.mat[1][2] +
+			left.mat[0][2] * right.mat[2][2];
+
+		// row 1
+		retVal.mat[1][0] =
+			left.mat[1][0] * right.mat[0][0] +
+			left.mat[1][1] * right.mat[1][0] +
+			left.mat[1][2] * right.mat[2][0];
+
+		retVal.mat[1][1] =
+			left.mat[1][0] * right.mat[0][1] +
+			left.mat[1][1] * right.mat[1][1] +
+			left.mat[1][2] * right.mat[2][1];
+
+		retVal.mat[1][2] =
+			left.mat[1][0] * right.mat[0][2] +
+			left.mat[1][1] * right.mat[1][2] +
+			left.mat[1][2] * right.mat[2][2];
+
+		// row 2
+		retVal.mat[2][0] =
+			left.mat[2][0] * right.mat[0][0] +
+			left.mat[2][1] * right.mat[1][0] +
+			left.mat[2][2] * right.mat[2][0];
+
+		retVal.mat[2][1] =
+			left.mat[2][0] * right.mat[0][1] +
+			left.mat[2][1] * right.mat[1][1] +
+			left.mat[2][2] * right.mat[2][1];
+
+		retVal.mat[2][2] =
+			left.mat[2][0] * right.mat[0][2] +
+			left.mat[2][1] * right.mat[1][2] +
+			left.mat[2][2] * right.mat[2][2];
+
+		return retVal;
+	}
+
+	Matrix3& operator*=(const Matrix3& right)
+	{
+		*this = *this * right;
+		return *this;
+	}
+
+	// xおよびyスケールを持つスケール行列を作成
+	inline static Matrix3 CreateScale(float xScale, float yScale)
+	{
+		float temp[3][3] =
+		{
+			{ xScale, 0.0f, 0.0f },
+			{ 0.0f, yScale, 0.0f },
+			{ 0.0f, 0.0f, 1.0f },
+		};
+		return Matrix3(temp);
+	}
+
+	inline static Matrix3 CreateScale(const Vector2& scaleVector)
+	{
+		return CreateScale(scaleVector.x, scaleVector.y);
+	}
+
+	// 均一な因子でスケール行列を作成
+	inline static Matrix3 CreateScale(float scale)
+	{
+		return CreateScale(scale, scale);
+	}
+
+	// Z軸回りの回転行列を作成
+	// シータはラジアンで表されます
+	inline static Matrix3 CreateRotation(float theta)
+	{
+		float temp[3][3] =
+		{
+			{ Math::Cos(theta), Math::Sin(theta), 0.0f },
+			{ -Math::Sin(theta), Math::Cos(theta), 0.0f },
+			{ 0.0f, 0.0f, 1.0f },
+		};
+		return Matrix3(temp);
+	}
+
+	// xy平面上に翻訳行列を作成
+	inline static Matrix3 CreateTranslation(const Vector2& trans)
+	{
+		float temp[3][3] =
+		{
+			{ 1.0f, 0.0f, 0.0f },
+			{ 0.0f, 1.0f, 0.0f },
+			{ trans.x, trans.y, 1.0f },
+		};
+		return Matrix3(temp);
+	}
+
+	// ベクトル変換 (行列 * ベクトル)
+	Vector3 Transform(const Vector3& vec) const;
+
+	// 逆行列 (慣性テンソル用)
+	Matrix3 Inverse() const;
+
+	// 転置
+	Matrix3 Transpose() const;
+
+	static const Matrix3 Identity;
 };
 // 4x4 Matrix
 //FOCUS : 行列は行優先で作成

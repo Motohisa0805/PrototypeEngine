@@ -42,6 +42,7 @@ public:
 	{
 		Vector3 normal;        // 接触法線
 		float penetration;     // めり込み深さ
+		Vector3 position;	   // 接触点のワールド座標
 	};
 
 private:
@@ -49,10 +50,6 @@ private:
 	vector<Collider*>									mCollider;
 
 	vector<Collider*>									mColliderXAxis;
-
-	vector<Collider*>									mColliderYAxis;
-
-	vector<Collider*>									mColliderZAxis;
 
 	std::set<std::pair<Collider*, Collider*>>			mHitColliderXAxis;
 
@@ -88,7 +85,7 @@ public:
 	//OBB vs OBBの押し出し処理
 	void												CollectContactPoints_OBB_OBB(const OBB& a, const OBB& b, std::vector<ContactPoint>& outContacts, float contactOffset);
 	//OBB vs OBBの押し出し処理に使う関数
-	bool												GetContactInfo_OBB(const OBB& a, const OBB& b, Vector3& outNormal, float& outDepth);
+	bool												GetContactInfo_OBB(const OBB& a, const OBB& b, Vector3& outNormal, float& outDepth,Vector3& contactPoint);
 	//Sphere vs Sphereの押し出し処理
 	void												CollectContactPoints_Sphere_Sphere(const Sphere& a, const Sphere& b, std::vector<ContactPoint>& outContacts, float contactOffset);
 	//Capsule vs Capsuleの押し出し処理

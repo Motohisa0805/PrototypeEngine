@@ -4,6 +4,8 @@
 #include "SceneManager.h"
 #include "MeshRenderer.h"
 #include "BoxCollider.h"
+#include "SphereCollider.h"
+#include "CapsuleCollider.h"
 #include "ComponentFactory.h"
 #include "ScriptComponent.h"
 
@@ -212,6 +214,32 @@ void ActorObject::OnComponentAdded(Component* newComp)
 			{
 				collider->SetObjectAABB(meshRenderer->GetMeshs()[0]->GetBoxs()[0]);
 				collider->SetObjectOBB(meshRenderer->GetMeshs()[0]->GetOBBBoxs()[0]);
+			}
+		}
+	}
+	else if (SphereCollider* sphere = dynamic_cast<SphereCollider*>(newComp))
+	{
+		//既にMeshRendererがアタッチされているかチェック
+		meshRenderer = GetComponent<MeshRenderer>();
+		if (meshRenderer != nullptr)
+		{
+			//MeshRendererが既にいるので、コライダーのサイズを初期設定する
+			if (!meshRenderer->GetMeshs().empty())
+			{
+				sphere->SetObjectSphere(meshRenderer->GetMeshs()[0]->GetAABBFromSphere());
+			}
+		}
+	}
+	else if (CapsuleCollider* capsule = dynamic_cast<CapsuleCollider*>(newComp))
+	{
+		//既にMeshRendererがアタッチされているかチェック
+		meshRenderer = GetComponent<MeshRenderer>();
+		if (meshRenderer != nullptr)
+		{
+			//MeshRendererが既にいるので、コライダーのサイズを初期設定する
+			if (!meshRenderer->GetMeshs().empty())
+			{
+				capsule->SetObjectCapsule(meshRenderer->GetMeshs()[0]->GetAABBFromCapsule());
 			}
 		}
 	}

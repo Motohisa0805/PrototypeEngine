@@ -821,3 +821,41 @@ Texture* Mesh::GetTexture(size_t index)
 		return nullptr;
 	}
 }
+
+Sphere Mesh::GetAABBFromSphere()
+{
+	float radius = mRadiusArray[0];
+	const AABB& localAABB = mBoxs[0];
+	Vector3 center = (localAABB.mMin + localAABB.mMax) / 2.0f;
+	return Sphere(center,radius);
+}
+
+Capsule Mesh::GetAABBFromCapsule()
+{
+	const AABB& localAABB = mBoxs[0];
+	Vector3 minP = localAABB.mMin;
+	Vector3 maxP = localAABB.mMax;
+
+	//半径を決定
+	float half_x = (maxP.x - minP.x) / 2.0f;
+	float half_z = (maxP.z - minP.z) / 2.0f;
+
+	// Capsuleの半径は、軸以外の断面の最大の半長とする
+	float capsuleRadius = std::max(half_x, half_z);
+
+	// 線分の開始点と終了点 (Y軸をCapsuleの中心線とする)
+	Vector3 start = Vector3(minP.x, minP.y + capsuleRadius, minP.z);
+	Vector3 end = Vector3(maxP.x, maxP.y - capsuleRadius, maxP.z);
+
+	// X, Z軸はAABBの中心点に固定
+	start.x = end.x = (minP.x + maxP.x) / 2.0f;
+	start.z = end.z = (minP.z + maxP.z) / 2.0f;
+
+	// 線分の長さが 2 * radius よりも短い場合は、線分長を 0 にして点（球）とする。
+	if (start.y > end.y) {
+		start.y = end.y = (minP.y + maxP.y) / 2.0f;
+	}
+	LineSegment segment(start, end);
+
+	return Capsule(segment, capsuleRadius);
+}

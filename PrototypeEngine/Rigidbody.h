@@ -3,6 +3,7 @@
 #include "StandardLibrary.h"
 #include "Math.h"
 #include "Collision.h"
+#include "Collider.h"
 /*
 * ===エンジン内部処理/Engine internal processing===
 */
@@ -32,13 +33,30 @@ private:
 	float		mBounciness;   
 	// Rigidbody.h
 	bool		mIsGrounded = false;
+
+	// --- 回転運動に必要な要素 ---
+	//角速度
+	Vector3		mAngularVelocity;
+	//トルク/回転モーメント
+	Vector3		mTorques;
+	// 慣性テンソル
+	float		mInertia;
+	//角減衰
+	float		mAngularDamping;
+	// 慣性テンソルの逆行列（ワールド座標系）
+	Matrix3		mInverseInertiaTensorW;
+	// ローカル座標系での慣性テンソル（Fixed）
+	Matrix3		mInverseInertiaTensorL;
+
+	Collider::ColliderType mShapeType;
 public:
 				Rigidbody(ActorObject* owner, int updateOrder = 100);
 	//FixedUpdateで呼び出す
 	void		FixedUpdate(float deltaTime)override;
 
+	void		OnUpdateWorldTransform()override;
 
-	void		ResolveCollision(const Vector3& push);
+	void		ResolveCollision(const Vector3& push, const Vector3& contactPoint);
 
 	void		ApplyPushCorrection(const Vector3& correction, float dt);
 
@@ -47,6 +65,8 @@ public:
 	bool		IsUseGravity() { return mUseGravity; }
 	//力を加える関数
 	void		AddForce(Vector3 velocity);
+
+	void		SetMass(float mass) {mMass = mass; CalculateInertiaTensor();}
 	//mVelocityのGetter
 	Vector3		GetVelocity() { return mVelocity; }
 	//Setter
@@ -63,9 +83,16 @@ public:
 
 	void		SetGrounded(bool grounded) { mIsGrounded = grounded; }
 	bool		IsGrounded() const { return mIsGrounded; }
+	// トルクを加える関数
+	void		AddTorque(Vector3 torque);
 
-	void						Serialize(json& j) const override;
-	void						Deserialize(const json& j)override;
+	// 慣性モーメントの初期化処理
+	void        CalculateInertiaTensor();
 
-	void						DrawCustomGUI(const std::vector<PropertyInfo>& properties)override;
+	Vector3		GetAngularVelocity() const { return mAngularVelocity; }
+
+	void		Serialize(json& j) const override;
+	void		Deserialize(const json& j)override;
+
+	void		DrawCustomGUI(const std::vector<PropertyInfo>& properties)override;
 };

@@ -7,8 +7,8 @@
 
 SphereCollider::SphereCollider(ActorObject* owner, int updateOrder)
 	:Collider(owner, updateOrder)
-	, mObjectSphere(Vector3::Zero, 0)
-	, mWorldSphere(Vector3::Zero, 0)
+	, mObjectSphere(Vector3::Zero, 0.5f)
+	, mWorldSphere(Vector3::Zero, 0.5f)
 	, mShouldRotate(true)
 {
 	mName = "SphereCollider";
@@ -67,5 +67,5 @@ void SphereCollider::DrawCustomGUI(const std::vector<PropertyInfo>& properties)
 
 	ImGui::Separator();
 
-	ImGui::PushID(this);
+	ImGui::PopID();
 }
