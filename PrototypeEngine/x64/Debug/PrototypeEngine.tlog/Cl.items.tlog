@@ -65,6 +65,7 @@ C:\C++Files\PrototypeEngine\PrototypeEngine\Math.cpp;C:\C++Files\PrototypeEngine
 C:\C++Files\PrototypeEngine\PrototypeEngine\Mesh.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\Mesh.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\MeshActor.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\MeshActor.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\MeshRenderer.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\MeshRenderer.obj
+C:\C++Files\PrototypeEngine\PrototypeEngine\ActorManager.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\ActorManager.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\OrbitActor.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\OrbitActor.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\OrbitCamera.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\OrbitCamera.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\ParticleSystem.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\ParticleSystem.obj

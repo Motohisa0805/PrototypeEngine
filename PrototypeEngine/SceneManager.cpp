@@ -112,7 +112,7 @@ const vector<ActorObject*>& SceneManager::GetAllActorsInCurrentScene()
 {
 	if (mNowScene)
 	{
-		return mNowScene->GetActors();
+		return mNowScene->GetActorManager()->GetActors();
 	}
 	return vector<ActorObject*>{};
 }

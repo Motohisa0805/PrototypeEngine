@@ -2,6 +2,7 @@
 #include "GameWinMain.h"
 #include "Typedefs.h"
 #include "InputSystem.h"
+#include "ActorManager.h"
 /*
 * ===エンジン内部処理/Engine internal processing===
 */
@@ -34,13 +35,8 @@ protected:
 	AudioSystem*									mAudioSystem;
 
 	PhysWorld*										mPhysWorld;
-
-	// Any pending actors
-	vector<ActorObject*>							mPendingActors;
-
-	// All the actors in the game
-	vector<ActorObject*>							mActors;
 	
+	ActorManager*									mActorManager;
 	
 	vector<Canvas*>									mCanvasStack;
 	
@@ -96,17 +92,9 @@ public:
 
 	void											LoadSkyBoxTexture(string file);
 
-	const vector<ActorObject*>&						GetActors()const { return mActors; }
-	//オブジェクト追加
-	void											AddActor(ActorObject* actor);
-	//オブジェクト削除
-	void											RemoveActor(ActorObject* actor);
-	void											DeleteActor(ActorObject* actor);
-	//更新待ちのオブジェクトをメインリストに移動する関数
-	void											ProcessPendingActors();
-
-	template<typename T>
-	vector<ActorObject*>							SelectAllActorComponent();
+	ActorManager*									GetActorManager() { return mActorManager; }
+	//template<typename T>
+	//vector<ActorObject*>							SelectAllActorComponent();
 
 	//FontのGetter
 	Font*											GetFont(const string& fileName);
@@ -143,12 +131,6 @@ public:
 
 	std::unordered_map<string, BaseCamera*> 		GetCameras() { return mCameras; }
 
-	//シーン内のアクティブな方向性ライトコンポーネントを取得
-	DirectionalLightComponent*						GetActiveDirectionalLightComponent();
-
-	//シーン内のメインカメラコンポーネントを取得
-	BaseScene*										GetMainCameraComponent();
-
 	//シーン名のGetter
 	string											GetName() { return mName; }
 	//シーン名のSetter
@@ -163,7 +145,7 @@ public:
 	//シーン内のオブジェクトの頂点数を表示
 	int												GetSceneAllVertices();
 };
-
+/*
 template<typename T>
 inline vector<ActorObject*> BaseScene::SelectAllActorComponent()
 {
@@ -183,6 +165,7 @@ inline vector<ActorObject*> BaseScene::SelectAllActorComponent()
 
 	return result;
 }
+*/
 
 // ActorObjectリストを保持するEditorSceneクラスを仮定
 class EditorScene : public BaseScene

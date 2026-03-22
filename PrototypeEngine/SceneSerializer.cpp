@@ -16,7 +16,7 @@ bool SceneSerializer::SaveScene(const filesystem::path& filePath, BaseScene* sce
     sceneJson["SceneName"] = filePath.stem().string();
 
     //シーンが持つActorリストを取得
-    vector<ActorObject*> actors = scene->GetActors();
+    vector<ActorObject*> actors = scene->GetActorManager()->GetActors();
 	//Actors配列の作成
 	json actorsArray = json::array();
 	//各Actorをシリアライズして配列に追加
@@ -114,7 +114,7 @@ BaseScene* SceneSerializer::LoadScene(const string& filePath)
 		newActor->Deserialize(actorData);
 
         //シーンにActorを追加
-		newScene->AddActor(newActor);
+		newScene->GetActorManager()->AddActor(newActor);
     }
     WriteEditorData(filePath, newScene);
     return newScene;
@@ -129,7 +129,7 @@ void SceneSerializer::WriteEditorData(const filesystem::path& filePath, BaseScen
     editorDataJson["SceneName"] = filePath.stem().string();
 
     //シーンが持つActorリストを取得
-    vector<ActorObject*> actors = scene->GetActors();
+    vector<ActorObject*> actors = scene->GetActorManager()->GetActors();
     //Actors配列の作成
     json actorsArray = json::array();
     //各Actorをシリアライズして配列に追加

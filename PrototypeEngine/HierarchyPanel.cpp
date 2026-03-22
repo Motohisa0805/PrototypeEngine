@@ -45,7 +45,7 @@ void HierarchyPanel::Draw(float width, float height, ImTextureRef ref)
 			ImGui::Separator();
 			// Sceneからアクターリストを取得する関数を呼び出す
 			// BaseScene::GetActors() が必要
-			const vector<ActorObject*>& actors = currentScene->GetActors();
+			const vector<ActorObject*>& actors = currentScene->GetActorManager()->GetActors();
 
 			//各親無しアクターをループして表示
 			for (auto& actor : actors)
@@ -231,7 +231,7 @@ bool HierarchyPanel::RightClickMenu()
 
 			if (ImGui::MenuItem("Delete Actor"))
 			{
-				SceneManager::GetNowScene()->DeleteActor(mSelectedActor);
+				SceneManager::GetNowScene()->GetActorManager()->DeleteActor(mSelectedActor);
 				mSelectedActor = nullptr;
 			}
 		}

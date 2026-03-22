@@ -255,7 +255,7 @@ void PhysWorld::FixCollisions(class Collider* dynamicCollider, class Collider* s
 		{
 			for (auto& contact : contactPoints)
 			{
-				rb->ResolveCollision(totalPush, contact.position);
+				rb->ResolveCollision(contact.normal, contact.position,contact.penetration);
 			}
 		}
 	}

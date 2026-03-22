@@ -16,7 +16,8 @@
 #include "EditorSettingsManager.h"
 
 BaseScene::BaseScene()
-	: mAudioSystem(nullptr)
+	: mActorManager(nullptr)
+	, mAudioSystem(nullptr)
 	, mPhysWorld(nullptr)
 	, mUpdatingActors(false)
 	, mFixed_Delta_Time(0.02f)
@@ -28,6 +29,7 @@ BaseScene::BaseScene()
 	, mNextActorID(0)
 	, mIsDirtyFlag(false)
 {
+	mActorManager = new ActorManager();
 }
 
 void BaseScene::LoadSkyBoxTexture(string file)
@@ -43,7 +45,7 @@ bool BaseScene::Initialize()
 	FreeCamera* mainCam = nullptr;
 	DirectionalLightComponent* dirLight = nullptr;
 	//シーンにあるか調べる
-	for (auto* actor : mActors)
+	for (auto* actor : mActorManager->GetActors())
 	{
 		if (!mainCam)
 		{
@@ -96,7 +98,7 @@ bool BaseScene::InputUpdate(const InputState& state)
 
 	if (GameStateClass::gGameState == GameState::GamePlay)
 	{
-		for (auto actor : mActors)
+		for (auto actor : mActorManager->GetActors())
 		{
 			if (actor->GetState() == ActorObject::EActive)
 			{
@@ -118,11 +120,13 @@ bool BaseScene::FixedUpdate()
 	while (mFixedTimeAccumulator >= mFixed_Delta_Time)
 	{
 		//Rigidbody などの物理処理をここで呼ぶ
-		
+		/*
 		for (auto actor : mActors)
 		{
 			actor->FixedUpdate(Time::gDeltaTime);
 		}
+		*/
+		mActorManager->FixedUpdateActors(Time::gDeltaTime);
 
 		mPhysWorld->SweepAndPruneXYZ();
 
@@ -137,6 +141,7 @@ bool BaseScene::Update()
 	//特定のシーンに読み込まれたオブジェクトやコンポーネントを
 	// まとめて処理する部分
 	// Update all actors
+	/*
 	mUpdatingActors = true;
 	for (int i = 0; i < mActors.size(); i++)
 	{
@@ -173,6 +178,8 @@ bool BaseScene::Update()
 	{
 		delete actor;
 	}
+	*/
+	mActorManager->UpdateActors(Time::gDeltaTime);
 
 	// Update audio system
 	mAudioSystem->Update(Time::gDeltaTime);
@@ -248,6 +255,7 @@ bool BaseScene::EditorUpdate(bool isRun)
 	//特定のシーンに読み込まれたオブジェクトやコンポーネントを
 	// まとめて処理する部分
 	// Update all actors
+	/*
 	mUpdatingActors = true;
 	for (int i = 0; i < mActors.size(); i++)
 	{
@@ -283,6 +291,8 @@ bool BaseScene::EditorUpdate(bool isRun)
 	{
 		delete actor;
 	}
+	*/
+	mActorManager->UpdateActors(Time::gDeltaTime);
 
 	// Update UI screens
 	for (int i = 0; i < mCanvasStack.size(); i++)
@@ -343,58 +353,6 @@ bool BaseScene::EditorUpdate(bool isRun)
 void BaseScene::ClearDirtyFlag()
 {
 	mIsDirtyFlag = false;
-}
-
-void BaseScene::AddActor(ActorObject* actor)
-{
-	if (mUpdatingActors)
-	{
-		// If we're updating actors, need to add to pending
-		mPendingActors.emplace_back(actor);
-	}
-	else
-	{
-		// 更新中でない場合はメインリストに直接追加（エディタ操作は通常こちら）
-		mActors.push_back(actor);
-	}
-}
-
-void BaseScene::RemoveActor(ActorObject* actor)
-{
-	// Is it in pending actors?
-	auto iter = std::find(mPendingActors.begin(), mPendingActors.end(), actor);
-	if (iter != mPendingActors.end())
-	{
-		// Swap to end of vector and pop off (avoid erase copies)
-		std::iter_swap(iter, mPendingActors.end() - 1);
-		mPendingActors.pop_back();
-	}
-
-	// Is it in actors?
-	iter = std::find(mActors.begin(), mActors.end(), actor);
-	if (iter != mActors.end())
-	{
-		// Swap to end of vector and pop off (avoid erase copies)
-		std::iter_swap(iter, mActors.end() - 1);
-		mActors.pop_back();
-	}
-}
-
-void BaseScene::DeleteActor(ActorObject* actor)
-{
-	actor->SetState(ActorObject::EDead);
-}
-
-void BaseScene::ProcessPendingActors()
-{
-	// 保留中のアクターをmActorsに移動します
-	for (int i = 0; i < mPendingActors.size(); i++)
-	{
-		mPendingActors[i]->ComputeWorldTransform();
-		mActors.emplace_back(mPendingActors[i]);
-	}
-
-	mPendingActors.clear();
 }
 
 Font* BaseScene::GetFont(const string& fileName)
@@ -529,37 +487,11 @@ BaseCamera* BaseScene::GetCamera(const string& name)
 	return mCameras[name];
 }
 
-DirectionalLightComponent* BaseScene::GetActiveDirectionalLightComponent()
-{
-	for (auto* actor : mActors)
-	{
-		DirectionalLightComponent* comp = actor->GetComponent<DirectionalLightComponent>();
-		if (comp)
-		{
-			return comp;
-		}
-	}
-	return nullptr;
-}
-
-BaseScene* BaseScene::GetMainCameraComponent()
-{
-	for (auto* actor : mActors)
-	{
-		BaseScene* comp = actor->GetComponent<BaseScene>();
-		if (comp)
-		{
-			return comp;
-		}
-	}
-	return nullptr;
-}
-
 int BaseScene::GetSceneAllVertices()
 {
 	int vertices = 0;
 
-	for (auto* actor : mActors)
+	for (auto* actor : mActorManager->GetActors())
 	{
 		MeshRenderer* comp = actor->GetComponent<MeshRenderer>();
 		if (comp)
@@ -583,11 +515,19 @@ void BaseScene::UnloadData()
 	
 	// Delete actors
 	// Because ~Actor calls RemoveActor, have to use a different style loop
+	/*
 	while (!mActors.empty())
 	{
 		delete mActors.back();
 	}
 	mActors.clear();
+	*/
+	if (mActorManager)
+	{
+		mActorManager->UnloadActors();
+		delete mActorManager;
+		mActorManager = nullptr;
+	}
 
 	// Clear the UI stack
 	while (!mCanvasStack.empty())

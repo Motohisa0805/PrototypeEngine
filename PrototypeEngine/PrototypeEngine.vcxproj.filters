@@ -559,6 +559,9 @@
     <ClCompile Include="stb_impl.cpp">
       <Filter>SourceCodes\G_OutsideLibrary\stb</Filter>
     </ClCompile>
+    <ClCompile Include="ActorManager.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BulletActor.h">
@@ -950,6 +953,9 @@
     </ClInclude>
     <ClInclude Include="Color.h">
       <Filter>SourceCodes\F_Editor\Utilitys</Filter>
+    </ClInclude>
+    <ClInclude Include="ActorManager.h">
+      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

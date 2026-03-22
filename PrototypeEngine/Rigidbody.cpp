@@ -64,7 +64,7 @@ void Rigidbody::FixedUpdate(float deltaTime)
     // --- 角運動の更新 ---
     if (mMass > 0.0f)
     {
-        Quaternion rotation = GetOwner()->GetRotation();
+        Quaternion rotation = mOwner->GetRotation();
 
         // 1. ワールド逆慣性テンソルの更新
         // I_world^-1 = R * I_local^-1 * R^T
@@ -76,7 +76,7 @@ void Rigidbody::FixedUpdate(float deltaTime)
         Vector3 angularAcceleration = mInverseInertiaTensorW.Transform(mTorques);
 
         // 3. 角速度の更新
-        //mAngularVelocity += angularAcceleration * deltaTime;
+        mAngularVelocity += angularAcceleration * deltaTime;
 
         // 4. 角減衰の適用
         mAngularVelocity *= (1.0f - mAngularDamping * deltaTime);
@@ -89,7 +89,7 @@ void Rigidbody::FixedUpdate(float deltaTime)
             //pureQuaternion
             Quaternion pureQuaternion(mAngularVelocity.x, mAngularVelocity.y, mAngularVelocity.z, 0.0f);
             //q_old
-            Quaternion rotation = GetOwner()->GetRotation();
+            Quaternion rotation = mOwner->GetRotation();
 
             // (pureQuaternion * rotation) は四元数の積を指します
             //(pureQuaternion * q_old)
@@ -106,7 +106,7 @@ void Rigidbody::FixedUpdate(float deltaTime)
             rotation = rotation + deltaRotation;
             rotation.Normalize();
 
-            GetOwner()->SetRotation(rotation);
+            mOwner->SetRotation(rotation);
         }
         // 力のリセット
         //（次フレームでまたAddForceするため）
@@ -124,12 +124,12 @@ void Rigidbody::OnUpdateWorldTransform()
     CalculateInertiaTensor();
 }
 
-void Rigidbody::ResolveCollision(const Vector3& push, const Vector3& contactPoint)
+void Rigidbody::ResolveCollision(const Vector3& contactNormal,const Vector3& contactPoint,float penetrationDepth)
 {
     // 衝突法線（床 → 剛体）
-    Vector3 hitNormal = push.Normalized();
+    Vector3 hitNormal = contactNormal;
 
-    Vector3 centerOfMass = GetOwner()->GetPosition();
+    Vector3 centerOfMass = mOwner->GetPosition();
     Vector3 r = contactPoint - centerOfMass;
 
     // 接触点速度
@@ -152,7 +152,7 @@ void Rigidbody::ResolveCollision(const Vector3& push, const Vector3& contactPoin
 
     float kNormal = (1.0f / mMass) + Vector3::Dot(hitNormal, Vector3::Cross(invI_rn, r));
 
-    float jn = -(1.0f + bounciness) * vRelN / kNormal;
+    float jn = -(1.0f + bounciness) * (vRelN / kNormal);
 
     Vector3 impulseN = hitNormal * jn;
 
@@ -161,9 +161,15 @@ void Rigidbody::ResolveCollision(const Vector3& push, const Vector3& contactPoin
     // 回転
     mAngularVelocity += mInverseInertiaTensorW.Transform(Vector3::Cross(r, impulseN));
 
-    // 摩擦 impulse
-    // 接線速度
-    Vector3 vt = vContact - (hitNormal * vRelN);
+    // --- 法線 impulse 後の接触点速度を再計算 ---
+    Vector3 vContactAfter =mVelocity + Vector3::Cross(mAngularVelocity, r);
+
+    float vRelNAfter = Vector3::Dot(vContactAfter, hitNormal);
+
+    // =========================
+    // 2. 摩擦 impulse
+    // =========================
+    Vector3 vt = vContactAfter - (hitNormal * vRelNAfter);
 
     if (vt.LengthSq() > 1e-6f)
     {
@@ -174,7 +180,7 @@ void Rigidbody::ResolveCollision(const Vector3& push, const Vector3& contactPoin
 
         float kTangent = (1.0f / mMass) + Vector3::Dot(t, Vector3::Cross(invI_rt, r));
 
-        float jt = -Vector3::Dot(vContact, t) / kTangent;
+        float jt = -Vector3::Dot(vContactAfter, t) / kTangent;
 
         // クーロン摩擦制限
         float maxFriction = mFriction * std::abs(jn);
@@ -188,37 +194,30 @@ void Rigidbody::ResolveCollision(const Vector3& push, const Vector3& contactPoin
         mAngularVelocity += mInverseInertiaTensorW.Transform(Vector3::Cross(r, impulseT));
     }
 
-    // 接地判定（Unityっぽい）
+    // =========================
+    // 3. penetration correction（姿勢安定用）
+    // =========================
+    if (penetrationDepth > 0.0f)
+    {
+        const float percent = 0.8f;     // 押し戻し率
+        const float slop = 0.01f;       // 許容めり込み
+
+        float depth = Math::Max(penetrationDepth - slop, 0.0f);
+        Vector3 correction = hitNormal * (depth * percent);
+
+        mOwner->SetLocalPosition(mOwner->GetPosition() + correction);
+    }
+
+    // 接地判定
     if (hitNormal.y > 0.7f)
     {
         mIsGrounded = true;
     }
 }
 
-void Rigidbody::ApplyPushCorrection(const Vector3& correction, float dt)
-{
-    // correctionを速度に変換して加算（次のFixedUpdateで統合される）
-    Vector3 correctionVelocity = correction / dt;
-
-    // 法線方向の速度がめり込み方向なら置き換え or 調整
-    float projected = Vector3::Dot(mVelocity, correctionVelocity.Normalized());
-    if (projected < 0.0f)
-    {
-        mVelocity -= correctionVelocity.Normalized() * projected;
-    }
-
-    // さらに correctionVelocity を反映
-    mVelocity += correctionVelocity;
-}
-
 void Rigidbody::AddForce(Vector3 force)
 {
     mForces += force;
-}
-
-void Rigidbody::AddTorque(Vector3 torque)
-{
-    mTorques += torque;
 }
 
 void Rigidbody::CalculateInertiaTensor()
@@ -243,20 +242,16 @@ void Rigidbody::CalculateInertiaTensor()
     else if (coll->GetType() == Collider::BoxType)
     {
         BoxCollider* bc = static_cast<BoxCollider*>(coll);
-        // オーナーのアクタのワールドスケールを取得
-        Vector3 scale = GetOwner()->GetScale();
-        // BoxColliderのローカルExtentsとオーナーのスケールを乗算してワールドサイズを求める
-        Vector3 halfSize = bc->GetObjectOBB().mExtents * scale;
-        float W = halfSize.x * 2.0f; // 幅 (Width)
-        float H = halfSize.y * 2.0f; // 高さ (Height)
-        float D = halfSize.z * 2.0f; // 奥行き (Depth)
 
-        // 慣性テンソルの計算
-        // I_xx = m/12 * (H^2 + D^2)
+        // ローカルサイズ（回転・スケールなし）
+        Vector3 halfSize = bc->GetWorldOBB().mExtents;
+
+        float W = halfSize.x * 2.0f;
+        float H = halfSize.y * 2.0f;
+        float D = halfSize.z * 2.0f;
+
         inertiaTensor.mat[0][0] = (1.0f / 12.0f) * mMass * (H * H + D * D);
-        // I_yy = m/12 * (W^2 + D^2)
         inertiaTensor.mat[1][1] = (1.0f / 12.0f) * mMass * (W * W + D * D);
-        // I_zz = m/12 * (W^2 + H^2)
         inertiaTensor.mat[2][2] = (1.0f / 12.0f) * mMass * (W * W + H * H);
         mShapeType = coll->GetType();
     }
@@ -271,7 +266,7 @@ void Rigidbody::CalculateInertiaTensor()
         inertiaTensor.mat[2][2] = I_perp;
         // Y軸周りの回転は無視するため非常に大きな値に設定 (実際にはテンソルを使わず、FixedUpdateで処理することも可能)
         inertiaTensor.mat[1][1] = 1.0e+6f;
-        mShapeType = Collider::CapsuleType;
+        mShapeType = coll->GetType();
     }
     // 逆行列を計算し、ローカル逆慣性テンソルとして格納
     mInverseInertiaTensorL = inertiaTensor.Inverse();
