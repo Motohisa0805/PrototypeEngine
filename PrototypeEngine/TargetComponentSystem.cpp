@@ -14,6 +14,7 @@ void TargetComponentSystem::UpdateActor(float deltaTime)
 
 void TargetComponentSystem::AllTargetCheck()
 {
+	/*
 	vector<ActorObject*> actors = mGame->SelectAllActorComponent<TargetComponent>();
 
 
@@ -42,6 +43,7 @@ void TargetComponentSystem::AllTargetCheck()
 			}
 		}
 	}
+	*/
 }
 
 void TargetComponentSystem::AddTargetComponent(TargetComponent* tc)

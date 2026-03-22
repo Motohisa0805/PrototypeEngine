@@ -97,8 +97,9 @@ private:
 	Shader*												mArrowShader;
 	//オブジェクトの方向矢印用の頂点配列
 	VertexArray*										mAxisVAO;
-
+	//エディターシーンのデータ
 	SceneViewEditor*									mSceneViewEditor;
+	//ゲームシーンのデータ
 	SceneViewEditor*									mGameSceneViewEditor;
 
 	//3D描画処理

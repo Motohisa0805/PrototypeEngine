@@ -356,6 +356,7 @@ inline Quaternion Quaternion::RotateTowards(const Quaternion& from, const Quater
 }
 
 //Matrix4‚Ìƒƒ\ƒbƒh
+
 void Matrix4::Invert()
 {
 	// Thanks slow math

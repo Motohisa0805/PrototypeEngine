@@ -4,21 +4,6 @@ C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(80,12): warning C4251: '
       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(541,7):
       'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' の宣言を確認してください
   
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(82,13): warning C4251: 'Component::mHeaderColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'Actor.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(83,13): warning C4251: 'Component::mHeaderHoveredColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'Actor.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(84,13): warning C4251: 'Component::mHeaderActiveColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'Actor.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
 C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
   (ソース ファイル 'Actor.cpp' をコンパイルしています)
       C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
@@ -34,21 +19,6 @@ C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(80,12): warning C4251: '
   (ソース ファイル 'Animation.cpp' をコンパイルしています)
       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(541,7):
       'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(82,13): warning C4251: 'Component::mHeaderColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'Animation.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(83,13): warning C4251: 'Component::mHeaderHoveredColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'Animation.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(84,13): warning C4251: 'Component::mHeaderActiveColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'Animation.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
   
 C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
   (ソース ファイル 'Animation.cpp' をコンパイルしています)
@@ -68,21 +38,6 @@ C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(80,12): warning C4251: '
       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(541,7):
       'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' の宣言を確認してください
   
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(82,13): warning C4251: 'Component::mHeaderColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'Animator.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(83,13): warning C4251: 'Component::mHeaderHoveredColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'Animator.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(84,13): warning C4251: 'Component::mHeaderActiveColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'Animator.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
 C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
   (ソース ファイル 'Animator.cpp' をコンパイルしています)
       C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
@@ -95,42 +50,12 @@ C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(80,12): warning C4251: '
       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(541,7):
       'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' の宣言を確認してください
   
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(82,13): warning C4251: 'Component::mHeaderColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'AudioComponent.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(83,13): warning C4251: 'Component::mHeaderHoveredColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'AudioComponent.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(84,13): warning C4251: 'Component::mHeaderActiveColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'AudioComponent.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
   AudioSystem.cpp
   BaseCamera.cpp
 C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(80,12): warning C4251: 'Component::mName': 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
   (ソース ファイル 'BaseCamera.cpp' をコンパイルしています)
       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(541,7):
       'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(82,13): warning C4251: 'Component::mHeaderColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'BaseCamera.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(83,13): warning C4251: 'Component::mHeaderHoveredColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'BaseCamera.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(84,13): warning C4251: 'Component::mHeaderActiveColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'BaseCamera.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
   
 C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
   (ソース ファイル 'BaseCamera.cpp' をコンパイルしています)
@@ -148,42 +73,12 @@ C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(80,12): warning C4251: '
       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(541,7):
       'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' の宣言を確認してください
   
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(82,13): warning C4251: 'Component::mHeaderColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'BaseScene.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(83,13): warning C4251: 'Component::mHeaderHoveredColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'BaseScene.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(84,13): warning C4251: 'Component::mHeaderActiveColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'BaseScene.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\BaseScene.cpp(512,12): warning C4267: '初期化中': 'size_t' から 'int' に変換しました。データが失われているかもしれません。
+C:\C++Files\PrototypeEngine\PrototypeEngine\BaseScene.cpp(510,12): warning C4267: '初期化中': 'size_t' から 'int' に変換しました。データが失われているかもしれません。
   BasicInputAction.cpp
 C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(80,12): warning C4251: 'Component::mName': 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
   (ソース ファイル 'BasicInputAction.cpp' をコンパイルしています)
       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(541,7):
       'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(82,13): warning C4251: 'Component::mHeaderColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'BasicInputAction.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(83,13): warning C4251: 'Component::mHeaderHoveredColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'BasicInputAction.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(84,13): warning C4251: 'Component::mHeaderActiveColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'BasicInputAction.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
   
   BoneActor.cpp
 C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(80,12): warning C4251: 'Component::mName': 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
@@ -191,41 +86,11 @@ C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(80,12): warning C4251: '
       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(541,7):
       'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' の宣言を確認してください
   
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(82,13): warning C4251: 'Component::mHeaderColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'BoneActor.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(83,13): warning C4251: 'Component::mHeaderHoveredColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'BoneActor.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(84,13): warning C4251: 'Component::mHeaderActiveColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'BoneActor.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
   BoneTransform.cpp
 C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(80,12): warning C4251: 'Component::mName': 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
   (ソース ファイル 'BoneTransform.cpp' をコンパイルしています)
       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(541,7):
       'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(82,13): warning C4251: 'Component::mHeaderColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'BoneTransform.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(83,13): warning C4251: 'Component::mHeaderHoveredColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'BoneTransform.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(84,13): warning C4251: 'Component::mHeaderActiveColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'BoneTransform.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
   
   BoxCollider.cpp
 C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(80,12): warning C4251: 'Component::mName': 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
@@ -233,41 +98,11 @@ C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(80,12): warning C4251: '
       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(541,7):
       'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' の宣言を確認してください
   
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(82,13): warning C4251: 'Component::mHeaderColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'BoxCollider.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(83,13): warning C4251: 'Component::mHeaderHoveredColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'BoxCollider.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(84,13): warning C4251: 'Component::mHeaderActiveColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'BoxCollider.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
   BulletActor.cpp
 C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(80,12): warning C4251: 'Component::mName': 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
   (ソース ファイル 'BulletActor.cpp' をコンパイルしています)
       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(541,7):
       'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(82,13): warning C4251: 'Component::mHeaderColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'BulletActor.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(83,13): warning C4251: 'Component::mHeaderHoveredColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'BulletActor.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(84,13): warning C4251: 'Component::mHeaderActiveColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'BulletActor.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
   
 C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
   (ソース ファイル 'BulletActor.cpp' をコンパイルしています)
@@ -293,21 +128,6 @@ C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(80,12): warning C4251: '
       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(541,7):
       'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' の宣言を確認してください
   
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(82,13): warning C4251: 'Component::mHeaderColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'CapsuleActor.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(83,13): warning C4251: 'Component::mHeaderHoveredColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'CapsuleActor.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(84,13): warning C4251: 'Component::mHeaderActiveColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'CapsuleActor.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
 C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
   (ソース ファイル 'CapsuleActor.cpp' をコンパイルしています)
       C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
@@ -319,41 +139,17 @@ C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(80,12): warning C4251: '
       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(541,7):
       'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' の宣言を確認してください
   
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(82,13): warning C4251: 'Component::mHeaderColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
+C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(506,24): warning C4506: インライン関数 'Vector3 Vector3::Min(const Vector3 &,const Vector3 &)' は定義されていません。
   (ソース ファイル 'CapsuleCollider.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
   
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(83,13): warning C4251: 'Component::mHeaderHoveredColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
+C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(509,24): warning C4506: インライン関数 'Vector3 Vector3::Max(const Vector3 &,const Vector3 &)' は定義されていません。
   (ソース ファイル 'CapsuleCollider.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(84,13): warning C4251: 'Component::mHeaderActiveColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'CapsuleCollider.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
   
   Collider.cpp
 C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(80,12): warning C4251: 'Component::mName': 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
   (ソース ファイル 'Collider.cpp' をコンパイルしています)
       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(541,7):
       'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(82,13): warning C4251: 'Component::mHeaderColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'Collider.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(83,13): warning C4251: 'Component::mHeaderHoveredColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'Collider.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(84,13): warning C4251: 'Component::mHeaderActiveColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'Collider.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
   
   Collision.cpp
   コンパイル中...
@@ -362,21 +158,6 @@ C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(80,12): warning C4251: '
   (ソース ファイル 'Component.cpp' をコンパイルしています)
       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(541,7):
       'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(82,13): warning C4251: 'Component::mHeaderColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'Component.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(83,13): warning C4251: 'Component::mHeaderHoveredColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'Component.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(84,13): warning C4251: 'Component::mHeaderActiveColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'Component.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
   
 C:\C++Files\PrototypeEngine\PrototypeEngine\Component.cpp(119,54): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
 C:\C++Files\PrototypeEngine\PrototypeEngine\Component.cpp(119,54): warning C4056: 浮動小数点数の定数演算でオーバーフローしました。
@@ -387,21 +168,6 @@ C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(80,12): warning C4251: '
   (ソース ファイル 'ComponentFactory.cpp' をコンパイルしています)
       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(541,7):
       'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(82,13): warning C4251: 'Component::mHeaderColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'ComponentFactory.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(83,13): warning C4251: 'Component::mHeaderHoveredColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'ComponentFactory.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(84,13): warning C4251: 'Component::mHeaderActiveColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'ComponentFactory.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
   
 C:\C++Files\PrototypeEngine\PrototypeEngine\ComponentFactory.h(18,44): warning C4251: 'ComponentFactory::sCreators': 'std::map<string,ComponentCreator,std::less<string>,std::allocator<std::pair<const string,ComponentCreator>>>' には、'ComponentFactory' のクライアントが使用する DLL インターフェイスが必要です
   (ソース ファイル 'ComponentFactory.cpp' をコンパイルしています)
@@ -420,21 +186,6 @@ C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(80,12): warning C4251: '
       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(541,7):
       'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' の宣言を確認してください
   
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(82,13): warning C4251: 'Component::mHeaderColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'CubeActor.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(83,13): warning C4251: 'Component::mHeaderHoveredColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'CubeActor.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(84,13): warning C4251: 'Component::mHeaderActiveColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'CubeActor.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
 C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
   (ソース ファイル 'CubeActor.cpp' をコンパイルしています)
       C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
@@ -452,21 +203,6 @@ C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(80,12): warning C4251: '
       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(541,7):
       'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' の宣言を確認してください
   
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(82,13): warning C4251: 'Component::mHeaderColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'DebugScene01.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(83,13): warning C4251: 'Component::mHeaderHoveredColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'DebugScene01.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(84,13): warning C4251: 'Component::mHeaderActiveColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'DebugScene01.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
 C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
   (ソース ファイル 'DebugScene01.cpp' をコンパイルしています)
       C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
@@ -477,21 +213,6 @@ C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(80,12): warning C4251: '
   (ソース ファイル 'DebugScene02.cpp' をコンパイルしています)
       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(541,7):
       'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(82,13): warning C4251: 'Component::mHeaderColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'DebugScene02.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(83,13): warning C4251: 'Component::mHeaderHoveredColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'DebugScene02.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(84,13): warning C4251: 'Component::mHeaderActiveColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'DebugScene02.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
   
 C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
   (ソース ファイル 'DebugScene02.cpp' をコンパイルしています)
@@ -510,21 +231,6 @@ C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(80,12): warning C4251: '
       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(541,7):
       'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' の宣言を確認してください
   
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(82,13): warning C4251: 'Component::mHeaderColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'DirectionalLightActor.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(83,13): warning C4251: 'Component::mHeaderHoveredColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'DirectionalLightActor.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(84,13): warning C4251: 'Component::mHeaderActiveColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'DirectionalLightActor.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
 C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
   (ソース ファイル 'DirectionalLightActor.cpp' をコンパイルしています)
       C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
@@ -535,21 +241,6 @@ C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(80,12): warning C4251: '
   (ソース ファイル 'DirectionalLightComponent.cpp' をコンパイルしています)
       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(541,7):
       'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(82,13): warning C4251: 'Component::mHeaderColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'DirectionalLightComponent.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(83,13): warning C4251: 'Component::mHeaderHoveredColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'DirectionalLightComponent.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(84,13): warning C4251: 'Component::mHeaderActiveColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'DirectionalLightComponent.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
   
 C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
   (ソース ファイル 'DirectionalLightComponent.cpp' をコンパイルしています)
@@ -571,21 +262,6 @@ C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(80,12): warning C4251: '
       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(541,7):
       'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' の宣言を確認してください
   
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(82,13): warning C4251: 'Component::mHeaderColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'EngineWindow.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(83,13): warning C4251: 'Component::mHeaderHoveredColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'EngineWindow.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(84,13): warning C4251: 'Component::mHeaderActiveColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'EngineWindow.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
 C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
   (ソース ファイル 'EngineWindow.cpp' をコンパイルしています)
       C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
@@ -602,52 +278,54 @@ C:\Program Files (x86)\Windows Kits\10\Include\10.0.26100.0\um\winnt.h(24548,9):
       'KEY_EXECUTE' の以前の定義を確認してください
   
   tinyxml2.cpp
+  FPSActor.cpp
+C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(80,12): warning C4251: 'Component::mName': 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
+  (ソース ファイル 'FPSActor.cpp' をコンパイルしています)
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(541,7):
+      'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' の宣言を確認してください
+  
+C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
+  (ソース ファイル 'FPSActor.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
+      'SDL_VERSION' は以前にコマンド ラインで宣言されています
+  
+  FPSCamera.cpp
+C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(80,12): warning C4251: 'Component::mName': 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
+  (ソース ファイル 'FPSCamera.cpp' をコンパイルしています)
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(541,7):
+      'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' の宣言を確認してください
+  
+  FPSCanvas.cpp
+C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(80,12): warning C4251: 'Component::mName': 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
+  (ソース ファイル 'FPSCanvas.cpp' をコンパイルしています)
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(541,7):
+      'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' の宣言を確認してください
+  
+C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
+  (ソース ファイル 'FPSCanvas.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
+      'SDL_VERSION' は以前にコマンド ラインで宣言されています
+  
   FollowCamera.cpp
 C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(80,12): warning C4251: 'Component::mName': 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
   (ソース ファイル 'FollowCamera.cpp' をコンパイルしています)
       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(541,7):
       'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' の宣言を確認してください
   
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(82,13): warning C4251: 'Component::mHeaderColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'FollowCamera.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(83,13): warning C4251: 'Component::mHeaderHoveredColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'FollowCamera.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(84,13): warning C4251: 'Component::mHeaderActiveColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'FollowCamera.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
 C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
   (ソース ファイル 'FollowCamera.cpp' をコンパイルしています)
       C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
       'SDL_VERSION' は以前にコマンド ラインで宣言されています
   
+  コンパイル中...
   FollowObjectMovement.cpp
 C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(80,12): warning C4251: 'Component::mName': 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
   (ソース ファイル 'FollowObjectMovement.cpp' をコンパイルしています)
       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(541,7):
       'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' の宣言を確認してください
   
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(82,13): warning C4251: 'Component::mHeaderColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
+C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(926,27): warning C4506: インライン関数 'Quaternion Quaternion::RotateTowards(const Quaternion &,const Quaternion &,float)' は定義されていません。
   (ソース ファイル 'FollowObjectMovement.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(83,13): warning C4251: 'Component::mHeaderHoveredColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'FollowObjectMovement.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(84,13): warning C4251: 'Component::mHeaderActiveColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'FollowObjectMovement.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
   
   Font.cpp
 C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
@@ -660,137 +338,17 @@ C:\C++Files\PrototypeEngine\PrototypeEngine\Font.cpp(32,51): warning C4244:     
 C:\C++Files\PrototypeEngine\PrototypeEngine\Font.cpp(32,51): warning C4244:         [
 C:\C++Files\PrototypeEngine\PrototypeEngine\Font.cpp(32,51): warning C4244:             _Ty=int
 C:\C++Files\PrototypeEngine\PrototypeEngine\Font.cpp(32,51): warning C4244:         ]
-  FPSActor.cpp
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(80,12): warning C4251: 'Component::mName': 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'FPSActor.cpp' をコンパイルしています)
-      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(541,7):
-      'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(82,13): warning C4251: 'Component::mHeaderColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'FPSActor.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(83,13): warning C4251: 'Component::mHeaderHoveredColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'FPSActor.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(84,13): warning C4251: 'Component::mHeaderActiveColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'FPSActor.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
-  (ソース ファイル 'FPSActor.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
-      'SDL_VERSION' は以前にコマンド ラインで宣言されています
-  
-  コンパイル中...
-  FPSCamera.cpp
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(80,12): warning C4251: 'Component::mName': 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'FPSCamera.cpp' をコンパイルしています)
-      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(541,7):
-      'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(82,13): warning C4251: 'Component::mHeaderColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'FPSCamera.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(83,13): warning C4251: 'Component::mHeaderHoveredColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'FPSCamera.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(84,13): warning C4251: 'Component::mHeaderActiveColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'FPSCamera.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
-  FPSCanvas.cpp
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(80,12): warning C4251: 'Component::mName': 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'FPSCanvas.cpp' をコンパイルしています)
-      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(541,7):
-      'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(82,13): warning C4251: 'Component::mHeaderColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'FPSCanvas.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(83,13): warning C4251: 'Component::mHeaderHoveredColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'FPSCanvas.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(84,13): warning C4251: 'Component::mHeaderActiveColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'FPSCanvas.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
-  (ソース ファイル 'FPSCanvas.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
-      'SDL_VERSION' は以前にコマンド ラインで宣言されています
-  
   FreeCamera.cpp
 C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(80,12): warning C4251: 'Component::mName': 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
   (ソース ファイル 'FreeCamera.cpp' をコンパイルしています)
       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(541,7):
       'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' の宣言を確認してください
   
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(82,13): warning C4251: 'Component::mHeaderColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'FreeCamera.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(83,13): warning C4251: 'Component::mHeaderHoveredColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'FreeCamera.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(84,13): warning C4251: 'Component::mHeaderActiveColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'FreeCamera.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
   FreeCameraActor.cpp
 C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(80,12): warning C4251: 'Component::mName': 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
   (ソース ファイル 'FreeCameraActor.cpp' をコンパイルしています)
       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(541,7):
       'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(82,13): warning C4251: 'Component::mHeaderColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'FreeCameraActor.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(83,13): warning C4251: 'Component::mHeaderHoveredColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'FreeCameraActor.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(84,13): warning C4251: 'Component::mHeaderActiveColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'FreeCameraActor.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
-  GameApp.cpp
-  GameMain.cpp
-  GameViewPanel.cpp
-C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
-  (ソース ファイル 'GameViewPanel.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
-      'SDL_VERSION' は以前にコマンド ラインで宣言されています
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\GameViewPanel.cpp(47,92): warning C4244: '引数': 'int' から 'float' への変換です。データが失われる可能性があります。
-C:\C++Files\PrototypeEngine\PrototypeEngine\GameViewPanel.cpp(47,76): warning C4244: '引数': 'int' から 'float' への変換です。データが失われる可能性があります。
-  GameWinMain.cpp
-C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
-  (ソース ファイル 'GameWinMain.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
-      'SDL_VERSION' は以前にコマンド ラインで宣言されています
   
   GBuffer.cpp
 C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
@@ -821,21 +379,6 @@ C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(80,12): warning C4251: '
       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(541,7):
       'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' の宣言を確認してください
   
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(82,13): warning C4251: 'Component::mHeaderColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'GUIWinMain.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(83,13): warning C4251: 'Component::mHeaderHoveredColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'GUIWinMain.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(84,13): warning C4251: 'Component::mHeaderActiveColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'GUIWinMain.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
 C:\C++Files\PrototypeEngine\PrototypeEngine\GUIWinMain.cpp(65,18): warning C4244: '初期化中': 'float' から 'int' への変換です。データが失われる可能性があります。
 C:\C++Files\PrototypeEngine\PrototypeEngine\GUIWinMain.cpp(66,19): warning C4244: '初期化中': 'float' から 'int' への変換です。データが失われる可能性があります。
 C:\C++Files\PrototypeEngine\PrototypeEngine\GUIWinMain.cpp(92,41): warning C4244: '引数': 'int' から 'float' への変換です。データが失われる可能性があります。
@@ -844,26 +387,27 @@ C:\C++Files\PrototypeEngine\PrototypeEngine\GUIWinMain.cpp(119,18): warning C424
 C:\C++Files\PrototypeEngine\PrototypeEngine\GUIWinMain.cpp(120,19): warning C4244: '初期化中': 'float' から 'int' への変換です。データが失われる可能性があります。
 C:\C++Files\PrototypeEngine\PrototypeEngine\GUIWinMain.cpp(124,35): warning C4244: '引数': 'int' から 'float' への変換です。データが失われる可能性があります。
 C:\C++Files\PrototypeEngine\PrototypeEngine\GUIWinMain.cpp(124,22): warning C4244: '引数': 'int' から 'float' への変換です。データが失われる可能性があります。
+  GameApp.cpp
+  GameMain.cpp
+  GameViewPanel.cpp
+C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
+  (ソース ファイル 'GameViewPanel.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
+      'SDL_VERSION' は以前にコマンド ラインで宣言されています
+  
+C:\C++Files\PrototypeEngine\PrototypeEngine\GameViewPanel.cpp(57,92): warning C4244: '引数': 'int' から 'float' への変換です。データが失われる可能性があります。
+C:\C++Files\PrototypeEngine\PrototypeEngine\GameViewPanel.cpp(57,76): warning C4244: '引数': 'int' から 'float' への変換です。データが失われる可能性があります。
+  GameWinMain.cpp
+C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
+  (ソース ファイル 'GameWinMain.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
+      'SDL_VERSION' は以前にコマンド ラインで宣言されています
+  
   GunActor.cpp
 C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(80,12): warning C4251: 'Component::mName': 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
   (ソース ファイル 'GunActor.cpp' をコンパイルしています)
       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(541,7):
       'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(82,13): warning C4251: 'Component::mHeaderColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'GunActor.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(83,13): warning C4251: 'Component::mHeaderHoveredColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'GunActor.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(84,13): warning C4251: 'Component::mHeaderActiveColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'GunActor.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
   
 C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
   (ソース ファイル 'GunActor.cpp' をコンパイルしています)
@@ -881,21 +425,19 @@ C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(80,12): warning C4251: '
       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(541,7):
       'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' の宣言を確認してください
   
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(82,13): warning C4251: 'Component::mHeaderColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'HierarchyPanel.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
+  imgui.cpp
+  imgui_demo.cpp
+  imgui_draw.cpp
+  imgui_impl_opengl3.cpp
+  imgui_impl_sdl3.cpp
+C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
+  (ソース ファイル 'ImGui/imgui_impl_sdl3.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
+      'SDL_VERSION' は以前にコマンド ラインで宣言されています
   
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(83,13): warning C4251: 'Component::mHeaderHoveredColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'HierarchyPanel.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(84,13): warning C4251: 'Component::mHeaderActiveColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'HierarchyPanel.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
+  imgui_tables.cpp
+  コンパイル中...
+  imgui_widgets.cpp
   Image.cpp
 C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
   (ソース ファイル 'Image.cpp' をコンパイルしています)
@@ -910,19 +452,6 @@ C:\C++Files\PrototypeEngine\PrototypeEngine\Image.cpp(146,11): warning C4244: '�
 C:\C++Files\PrototypeEngine\PrototypeEngine\Image.cpp(147,11): warning C4244: '初期化中': 'int' から 'float' への変換です。データが失われる可能性があります。
 C:\C++Files\PrototypeEngine\PrototypeEngine\Image.cpp(148,11): warning C4244: '初期化中': 'int' から 'float' への変換です。データが失われる可能性があります。
 C:\C++Files\PrototypeEngine\PrototypeEngine\Image.cpp(149,11): warning C4244: '初期化中': 'int' から 'float' への変換です。データが失われる可能性があります。
-  imgui.cpp
-  imgui_demo.cpp
-  imgui_draw.cpp
-  imgui_impl_opengl3.cpp
-  imgui_impl_sdl3.cpp
-C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
-  (ソース ファイル 'ImGui/imgui_impl_sdl3.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
-      'SDL_VERSION' は以前にコマンド ラインで宣言されています
-  
-  コンパイル中...
-  imgui_tables.cpp
-  imgui_widgets.cpp
   InputSystem.cpp
 C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
   (ソース ファイル 'InputSystem.cpp' をコンパイルしています)
@@ -935,6 +464,22 @@ C:\C++Files\PrototypeEngine\PrototypeEngine\InputSystem.cpp(247,42): warning C42
 C:\C++Files\PrototypeEngine\PrototypeEngine\InputSystem.cpp(251,6): warning C4244: '=': 'int' から 'float' への変換です。データが失われる可能性があります。
 C:\C++Files\PrototypeEngine\PrototypeEngine\InputSystem.cpp(253,46): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
 C:\C++Files\PrototypeEngine\PrototypeEngine\InputSystem.cpp(253,43): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
+  InspectorPanel.cpp
+C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
+  (ソース ファイル 'InspectorPanel.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
+      'SDL_VERSION' は以前にコマンド ラインで宣言されています
+  
+C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(80,12): warning C4251: 'Component::mName': 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
+  (ソース ファイル 'InspectorPanel.cpp' をコンパイルしています)
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(541,7):
+      'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' の宣言を確認してください
+  
+C:\C++Files\PrototypeEngine\PrototypeEngine\ComponentFactory.h(18,44): warning C4251: 'ComponentFactory::sCreators': 'std::map<string,ComponentCreator,std::less<string>,std::allocator<std::pair<const string,ComponentCreator>>>' には、'ComponentFactory' のクライアントが使用する DLL インターフェイスが必要です
+  (ソース ファイル 'InspectorPanel.cpp' をコンパイルしています)
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\map(72,7):
+      'std::map<string,ComponentCreator,std::less<string>,std::allocator<std::pair<const string,ComponentCreator>>>' の宣言を確認してください
+  
   Math.cpp
   Mesh.cpp
 C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
@@ -951,21 +496,6 @@ C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(80,12): warning C4251: '
       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(541,7):
       'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' の宣言を確認してください
   
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(82,13): warning C4251: 'Component::mHeaderColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'MeshActor.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(83,13): warning C4251: 'Component::mHeaderHoveredColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'MeshActor.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(84,13): warning C4251: 'Component::mHeaderActiveColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'MeshActor.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
 C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
   (ソース ファイル 'MeshActor.cpp' をコンパイルしています)
       C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
@@ -976,21 +506,6 @@ C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(80,12): warning C4251: '
   (ソース ファイル 'MeshRenderer.cpp' をコンパイルしています)
       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(541,7):
       'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(82,13): warning C4251: 'Component::mHeaderColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'MeshRenderer.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(83,13): warning C4251: 'Component::mHeaderHoveredColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'MeshRenderer.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(84,13): warning C4251: 'Component::mHeaderActiveColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'MeshRenderer.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
   
 C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
   (ソース ファイル 'MeshRenderer.cpp' をコンパイルしています)
@@ -1003,21 +518,6 @@ C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(80,12): warning C4251: '
       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(541,7):
       'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' の宣言を確認してください
   
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(82,13): warning C4251: 'Component::mHeaderColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'OrbitActor.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(83,13): warning C4251: 'Component::mHeaderHoveredColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'OrbitActor.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(84,13): warning C4251: 'Component::mHeaderActiveColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'OrbitActor.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
 C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
   (ソース ファイル 'OrbitActor.cpp' をコンパイルしています)
       C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
@@ -1029,41 +529,11 @@ C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(80,12): warning C4251: '
       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(541,7):
       'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' の宣言を確認してください
   
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(82,13): warning C4251: 'Component::mHeaderColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'OrbitCamera.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(83,13): warning C4251: 'Component::mHeaderHoveredColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'OrbitCamera.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(84,13): warning C4251: 'Component::mHeaderActiveColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'OrbitCamera.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
   ParticleSystem.cpp
 C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(80,12): warning C4251: 'Component::mName': 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
   (ソース ファイル 'ParticleSystem.cpp' をコンパイルしています)
       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(541,7):
       'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(82,13): warning C4251: 'Component::mHeaderColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'ParticleSystem.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(83,13): warning C4251: 'Component::mHeaderHoveredColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'ParticleSystem.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(84,13): warning C4251: 'Component::mHeaderActiveColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'ParticleSystem.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
   
 C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
   (ソース ファイル 'ParticleSystem.cpp' をコンパイルしています)
@@ -1075,21 +545,6 @@ C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(80,12): warning C4251: '
   (ソース ファイル 'ParticleTestActor.cpp' をコンパイルしています)
       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(541,7):
       'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(82,13): warning C4251: 'Component::mHeaderColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'ParticleTestActor.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(83,13): warning C4251: 'Component::mHeaderHoveredColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'ParticleTestActor.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(84,13): warning C4251: 'Component::mHeaderActiveColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'ParticleTestActor.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
   
 C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
   (ソース ファイル 'ParticleTestActor.cpp' をコンパイルしています)
@@ -1108,21 +563,6 @@ C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(80,12): warning C4251: '
       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(541,7):
       'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' の宣言を確認してください
   
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(82,13): warning C4251: 'Component::mHeaderColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'PhysWorld.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(83,13): warning C4251: 'Component::mHeaderHoveredColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'PhysWorld.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(84,13): warning C4251: 'Component::mHeaderActiveColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'PhysWorld.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
 C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
   (ソース ファイル 'PhysWorld.cpp' をコンパイルしています)
       C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
@@ -1134,21 +574,6 @@ C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(80,12): warning C4251: '
       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(541,7):
       'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' の宣言を確認してください
   
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(82,13): warning C4251: 'Component::mHeaderColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'PlaneActor.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(83,13): warning C4251: 'Component::mHeaderHoveredColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'PlaneActor.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(84,13): warning C4251: 'Component::mHeaderActiveColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'PlaneActor.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
 C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
   (ソース ファイル 'PlaneActor.cpp' をコンパイルしています)
       C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
@@ -1159,21 +584,6 @@ C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(80,12): warning C4251: '
   (ソース ファイル 'PortalActor.cpp' をコンパイルしています)
       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(541,7):
       'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(82,13): warning C4251: 'Component::mHeaderColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'PortalActor.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(83,13): warning C4251: 'Component::mHeaderHoveredColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'PortalActor.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(84,13): warning C4251: 'Component::mHeaderActiveColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'PortalActor.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
   
 C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
   (ソース ファイル 'PortalActor.cpp' をコンパイルしています)
@@ -1192,21 +602,6 @@ C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(80,12): warning C4251: '
       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(541,7):
       'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' の宣言を確認してください
   
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(82,13): warning C4251: 'Component::mHeaderColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'PushButtonMove.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(83,13): warning C4251: 'Component::mHeaderHoveredColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'PushButtonMove.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(84,13): warning C4251: 'Component::mHeaderActiveColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'PushButtonMove.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
   Random.cpp
   Renderer.cpp
 C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
@@ -1219,65 +614,25 @@ C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(80,12): warning C4251: '
       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(541,7):
       'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' の宣言を確認してください
   
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(82,13): warning C4251: 'Component::mHeaderColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'Renderer.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(83,13): warning C4251: 'Component::mHeaderHoveredColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'Renderer.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(84,13): warning C4251: 'Component::mHeaderActiveColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'Renderer.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Renderer.cpp(437,74): warning C4244: '引数': 'float' から 'GLsizei' への変換です。データが失われる可能性があります。
-C:\C++Files\PrototypeEngine\PrototypeEngine\Renderer.cpp(437,38): warning C4244: '引数': 'float' から 'GLsizei' への変換です。データが失われる可能性があります。
+C:\C++Files\PrototypeEngine\PrototypeEngine\Renderer.cpp(457,74): warning C4244: '引数': 'float' から 'GLsizei' への変換です。データが失われる可能性があります。
+C:\C++Files\PrototypeEngine\PrototypeEngine\Renderer.cpp(457,38): warning C4244: '引数': 'float' から 'GLsizei' への変換です。データが失われる可能性があります。
+  コンパイル中...
   Rigidbody.cpp
 C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(80,12): warning C4251: 'Component::mName': 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
   (ソース ファイル 'Rigidbody.cpp' をコンパイルしています)
       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(541,7):
       'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' の宣言を確認してください
   
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(82,13): warning C4251: 'Component::mHeaderColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
+C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
   (ソース ファイル 'Rigidbody.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
+      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
+      'SDL_VERSION' は以前にコマンド ラインで宣言されています
   
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(83,13): warning C4251: 'Component::mHeaderHoveredColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'Rigidbody.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(84,13): warning C4251: 'Component::mHeaderActiveColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'Rigidbody.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
-  コンパイル中...
   SceneEditorCamera.cpp
 C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(80,12): warning C4251: 'Component::mName': 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
   (ソース ファイル 'SceneEditorCamera.cpp' をコンパイルしています)
       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(541,7):
       'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(82,13): warning C4251: 'Component::mHeaderColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'SceneEditorCamera.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(83,13): warning C4251: 'Component::mHeaderHoveredColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'SceneEditorCamera.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(84,13): warning C4251: 'Component::mHeaderActiveColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'SceneEditorCamera.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
   
 C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
   (ソース ファイル 'SceneEditorCamera.cpp' をコンパイルしています)
@@ -1296,28 +651,14 @@ C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(80,12): warning C4251: '
       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(541,7):
       'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' の宣言を確認してください
   
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(82,13): warning C4251: 'Component::mHeaderColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'SceneSerializer.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(83,13): warning C4251: 'Component::mHeaderHoveredColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'SceneSerializer.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(84,13): warning C4251: 'Component::mHeaderActiveColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'SceneSerializer.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
 C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
   (ソース ファイル 'SceneSerializer.cpp' をコンパイルしています)
       C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
       'SDL_VERSION' は以前にコマンド ラインで宣言されています
   
-C:\C++Files\PrototypeEngine\PrototypeEngine\SceneSerializer.cpp(70,34): warning C4101: 'e': ローカル変数は 1 度も使われていません。
-C:\C++Files\PrototypeEngine\PrototypeEngine\SceneSerializer.cpp(92,34): warning C4101: 'e': ローカル変数は 1 度も使われていません。
+C:\C++Files\PrototypeEngine\PrototypeEngine\SceneSerializer.cpp(74,34): warning C4101: 'e': ローカル変数は 1 度も使われていません。
+C:\C++Files\PrototypeEngine\PrototypeEngine\SceneSerializer.cpp(96,34): warning C4101: 'e': ローカル変数は 1 度も使われていません。
+C:\C++Files\PrototypeEngine\PrototypeEngine\SceneSerializer.cpp(156,34): warning C4101: 'e': ローカル変数は 1 度も使われていません。
   SceneViewEditor.cpp
   SceneViewPanel.cpp
 C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
@@ -1325,39 +666,8 @@ C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\S
       C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
       'SDL_VERSION' は以前にコマンド ラインで宣言されています
   
-C:\C++Files\PrototypeEngine\PrototypeEngine\SceneViewPanel.cpp(32,88): warning C4244: '引数': 'int' から 'float' への変換です。データが失われる可能性があります。
-C:\C++Files\PrototypeEngine\PrototypeEngine\SceneViewPanel.cpp(32,72): warning C4244: '引数': 'int' から 'float' への変換です。データが失われる可能性があります。
-  InspectorPanel.cpp
-C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
-  (ソース ファイル 'InspectorPanel.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
-      'SDL_VERSION' は以前にコマンド ラインで宣言されています
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(80,12): warning C4251: 'Component::mName': 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'InspectorPanel.cpp' をコンパイルしています)
-      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(541,7):
-      'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(82,13): warning C4251: 'Component::mHeaderColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'InspectorPanel.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(83,13): warning C4251: 'Component::mHeaderHoveredColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'InspectorPanel.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(84,13): warning C4251: 'Component::mHeaderActiveColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'InspectorPanel.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\ComponentFactory.h(18,44): warning C4251: 'ComponentFactory::sCreators': 'std::map<string,ComponentCreator,std::less<string>,std::allocator<std::pair<const string,ComponentCreator>>>' には、'ComponentFactory' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'InspectorPanel.cpp' をコンパイルしています)
-      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\map(72,7):
-      'std::map<string,ComponentCreator,std::less<string>,std::allocator<std::pair<const string,ComponentCreator>>>' の宣言を確認してください
-  
+C:\C++Files\PrototypeEngine\PrototypeEngine\SceneViewPanel.cpp(39,88): warning C4244: '引数': 'int' から 'float' への変換です。データが失われる可能性があります。
+C:\C++Files\PrototypeEngine\PrototypeEngine\SceneViewPanel.cpp(39,72): warning C4244: '引数': 'int' から 'float' への変換です。データが失われる可能性があります。
   ScriptComponent.cpp
 C:\C++Files\PrototypeEngine\PrototypeEngine\SDL_Scancode.h(143,9): warning C4005: 'KEY_EXECUTE': マクロが再定義されました。
   (ソース ファイル 'ScriptComponent.cpp' をコンパイルしています)
@@ -1368,21 +678,6 @@ C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(80,12): warning C4251: '
   (ソース ファイル 'ScriptComponent.cpp' をコンパイルしています)
       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(541,7):
       'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(82,13): warning C4251: 'Component::mHeaderColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'ScriptComponent.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(83,13): warning C4251: 'Component::mHeaderHoveredColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'ScriptComponent.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(84,13): warning C4251: 'Component::mHeaderActiveColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'ScriptComponent.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
   
 C:\C++Files\PrototypeEngine\PrototypeEngine\ComponentFactory.h(18,44): warning C4251: 'ComponentFactory::sCreators': 'std::map<string,ComponentCreator,std::less<string>,std::allocator<std::pair<const string,ComponentCreator>>>' には、'ComponentFactory' のクライアントが使用する DLL インターフェイスが必要です
   (ソース ファイル 'ScriptComponent.cpp' をコンパイルしています)
@@ -1432,21 +727,6 @@ C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(80,12): warning C4251: '
       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(541,7):
       'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' の宣言を確認してください
   
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(82,13): warning C4251: 'Component::mHeaderColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'ScriptHotReloadManager.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(83,13): warning C4251: 'Component::mHeaderHoveredColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'ScriptHotReloadManager.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(84,13): warning C4251: 'Component::mHeaderActiveColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'ScriptHotReloadManager.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
 C:\C++Files\PrototypeEngine\PrototypeEngine\ComponentFactory.h(18,44): warning C4251: 'ComponentFactory::sCreators': 'std::map<string,ComponentCreator,std::less<std::string>,std::allocator<std::pair<const string,ComponentCreator>>>' には、'ComponentFactory' のクライアントが使用する DLL インターフェイスが必要です
   (ソース ファイル 'ScriptHotReloadManager.cpp' をコンパイルしています)
       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\map(72,7):
@@ -1471,21 +751,6 @@ C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(80,12): warning C4251: '
       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(541,7):
       'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' の宣言を確認してください
   
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(82,13): warning C4251: 'Component::mHeaderColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'SkeletalMeshRenderer.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(83,13): warning C4251: 'Component::mHeaderHoveredColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'SkeletalMeshRenderer.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(84,13): warning C4251: 'Component::mHeaderActiveColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'SkeletalMeshRenderer.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
 C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
   (ソース ファイル 'SkeletalMeshRenderer.cpp' をコンパイルしています)
       C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
@@ -1497,41 +762,11 @@ C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(80,12): warning C4251: '
       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(541,7):
       'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' の宣言を確認してください
   
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(82,13): warning C4251: 'Component::mHeaderColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'Skeleton.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(83,13): warning C4251: 'Component::mHeaderHoveredColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'Skeleton.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(84,13): warning C4251: 'Component::mHeaderActiveColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'Skeleton.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
   SkeletonMeshActor.cpp
 C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(80,12): warning C4251: 'Component::mName': 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
   (ソース ファイル 'SkeletonMeshActor.cpp' をコンパイルしています)
       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(541,7):
       'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(82,13): warning C4251: 'Component::mHeaderColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'SkeletonMeshActor.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(83,13): warning C4251: 'Component::mHeaderHoveredColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'SkeletonMeshActor.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(84,13): warning C4251: 'Component::mHeaderActiveColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'SkeletonMeshActor.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
   
 C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
   (ソース ファイル 'SkeletonMeshActor.cpp' をコンパイルしています)
@@ -1551,21 +786,6 @@ C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(80,12): warning C4251: '
       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(541,7):
       'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' の宣言を確認してください
   
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(82,13): warning C4251: 'Component::mHeaderColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'SphereActor.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(83,13): warning C4251: 'Component::mHeaderHoveredColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'SphereActor.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(84,13): warning C4251: 'Component::mHeaderActiveColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'SphereActor.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
 C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
   (ソース ファイル 'SphereActor.cpp' をコンパイルしています)
       C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
@@ -1577,41 +797,11 @@ C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(80,12): warning C4251: '
       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(541,7):
       'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' の宣言を確認してください
   
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(82,13): warning C4251: 'Component::mHeaderColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'SphereCollider.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(83,13): warning C4251: 'Component::mHeaderHoveredColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'SphereCollider.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(84,13): warning C4251: 'Component::mHeaderActiveColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'SphereCollider.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
   SplineActor.cpp
 C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(80,12): warning C4251: 'Component::mName': 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
   (ソース ファイル 'SplineActor.cpp' をコンパイルしています)
       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(541,7):
       'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(82,13): warning C4251: 'Component::mHeaderColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'SplineActor.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(83,13): warning C4251: 'Component::mHeaderHoveredColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'SplineActor.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(84,13): warning C4251: 'Component::mHeaderActiveColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'SplineActor.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
   
 C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
   (ソース ファイル 'SplineActor.cpp' をコンパイルしています)
@@ -1624,41 +814,11 @@ C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(80,12): warning C4251: '
       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(541,7):
       'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' の宣言を確認してください
   
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(82,13): warning C4251: 'Component::mHeaderColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'SplineCamera.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(83,13): warning C4251: 'Component::mHeaderHoveredColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'SplineCamera.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(84,13): warning C4251: 'Component::mHeaderActiveColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'SplineCamera.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
   Stages00.cpp
 C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(80,12): warning C4251: 'Component::mName': 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
   (ソース ファイル 'Stages00.cpp' をコンパイルしています)
       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(541,7):
       'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(82,13): warning C4251: 'Component::mHeaderColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'Stages00.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(83,13): warning C4251: 'Component::mHeaderHoveredColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'Stages00.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(84,13): warning C4251: 'Component::mHeaderActiveColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'Stages00.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
   
 C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
   (ソース ファイル 'Stages00.cpp' をコンパイルしています)
@@ -1672,47 +832,33 @@ C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(80,12): warning C4251: '
       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(541,7):
       'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' の宣言を確認してください
   
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(82,13): warning C4251: 'Component::mHeaderColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'Stages01.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(83,13): warning C4251: 'Component::mHeaderHoveredColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'Stages01.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(84,13): warning C4251: 'Component::mHeaderActiveColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'Stages01.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
 C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
   (ソース ファイル 'Stages01.cpp' をコンパイルしています)
       C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
       'SDL_VERSION' は以前にコマンド ラインで宣言されています
   
-  stb_impl.cpp
+  TPSCanvas.cpp
+C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
+  (ソース ファイル 'TPSCanvas.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
+      'SDL_VERSION' は以前にコマンド ラインで宣言されています
+  
+  TPSPlayer.cpp
+C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(80,12): warning C4251: 'Component::mName': 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
+  (ソース ファイル 'TPSPlayer.cpp' をコンパイルしています)
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(541,7):
+      'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' の宣言を確認してください
+  
+C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
+  (ソース ファイル 'TPSPlayer.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
+      'SDL_VERSION' は以前にコマンド ラインで宣言されています
+  
   TargetActor.cpp
 C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(80,12): warning C4251: 'Component::mName': 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
   (ソース ファイル 'TargetActor.cpp' をコンパイルしています)
       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(541,7):
       'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(82,13): warning C4251: 'Component::mHeaderColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'TargetActor.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(83,13): warning C4251: 'Component::mHeaderHoveredColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'TargetActor.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(84,13): warning C4251: 'Component::mHeaderActiveColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'TargetActor.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
   
 C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
   (ソース ファイル 'TargetActor.cpp' をコンパイルしています)
@@ -1725,41 +871,11 @@ C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(80,12): warning C4251: '
       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(541,7):
       'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' の宣言を確認してください
   
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(82,13): warning C4251: 'Component::mHeaderColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'TargetComponent.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(83,13): warning C4251: 'Component::mHeaderHoveredColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'TargetComponent.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(84,13): warning C4251: 'Component::mHeaderActiveColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'TargetComponent.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
   TargetComponentSystem.cpp
 C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(80,12): warning C4251: 'Component::mName': 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
   (ソース ファイル 'TargetComponentSystem.cpp' をコンパイルしています)
       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(541,7):
       'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(82,13): warning C4251: 'Component::mHeaderColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'TargetComponentSystem.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(83,13): warning C4251: 'Component::mHeaderHoveredColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'TargetComponentSystem.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(84,13): warning C4251: 'Component::mHeaderActiveColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'TargetComponentSystem.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
   
   Text.cpp
 C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
@@ -1796,21 +912,6 @@ C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(80,12): warning C4251: '
       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(541,7):
       'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' の宣言を確認してください
   
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(82,13): warning C4251: 'Component::mHeaderColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'TitleScene.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(83,13): warning C4251: 'Component::mHeaderHoveredColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'TitleScene.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(84,13): warning C4251: 'Component::mHeaderActiveColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'TitleScene.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
 C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
   (ソース ファイル 'TitleScene.cpp' をコンパイルしています)
       C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
@@ -1822,72 +923,21 @@ C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\S
       C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
       'SDL_VERSION' は以前にコマンド ラインで宣言されています
   
-  TPSCanvas.cpp
-C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
-  (ソース ファイル 'TPSCanvas.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
-      'SDL_VERSION' は以前にコマンド ラインで宣言されています
-  
-  TPSPlayer.cpp
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(80,12): warning C4251: 'Component::mName': 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'TPSPlayer.cpp' をコンパイルしています)
-      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(541,7):
-      'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(82,13): warning C4251: 'Component::mHeaderColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'TPSPlayer.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(83,13): warning C4251: 'Component::mHeaderHoveredColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'TPSPlayer.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(84,13): warning C4251: 'Component::mHeaderActiveColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'TPSPlayer.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
-  (ソース ファイル 'TPSPlayer.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
-      'SDL_VERSION' は以前にコマンド ラインで宣言されています
-  
   Transform.cpp
 C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(80,12): warning C4251: 'Component::mName': 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
   (ソース ファイル 'Transform.cpp' をコンパイルしています)
       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(541,7):
       'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' の宣言を確認してください
   
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(82,13): warning C4251: 'Component::mHeaderColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'Transform.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(83,13): warning C4251: 'Component::mHeaderHoveredColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'Transform.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(84,13): warning C4251: 'Component::mHeaderActiveColor': 'Vector4' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'Transform.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(513,7):
-      'Vector4' の宣言を確認してください
-  
   VertexArray.cpp
   WindowRenderProperty.cpp
+  stb_impl.cpp
 LINK : warning LNK4075: /INCREMENTAL は /LTCG の指定によって無視されます。
      ライブラリ C:\C++Files\PrototypeEngine\bin\PrototypeEngine.lib とオブジェクト C:\C++Files\PrototypeEngine\bin\PrototypeEngine.exp を作成中
 LINK : warning LNK4098: defaultlib 'LIBCMT' は他のライブラリの使用と競合しています。/NODEFAULTLIB:library を使用してください。
   コード生成しています。
-  Previous IPDB not found, fall back to full compilation.
-C:\C++Files\PrototypeEngine\PrototypeEngine\CapsuleCollider.h(28): warning C4172: ローカル変数またはテンポラリ  のアドレスを返します
-C:\C++Files\PrototypeEngine\PrototypeEngine\BoxCollider.h(38): warning C4172: ローカル変数またはテンポラリ  のアドレスを返します
-C:\C++Files\PrototypeEngine\PrototypeEngine\SphereCollider.h(29): warning C4172: ローカル変数またはテンポラリ  のアドレスを返します
-C:\C++Files\PrototypeEngine\PrototypeEngine\BoxCollider.h(40): warning C4172: ローカル変数またはテンポラリ  のアドレスを返します
-C:\C++Files\PrototypeEngine\PrototypeEngine\SceneManager.cpp(114): warning C4172: ローカル変数またはテンポラリ  のアドレスを返します
-C:\C++Files\PrototypeEngine\PrototypeEngine\EditorUtils.cpp(165): warning C4715: '`EditorUtils::AddScriptFileToVcxProj'::`2'::<lambda_1>::operator()': 値を返さないコントロール パスがあります。
-  All 14281 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  4500 of 14507 functions (31.0%) were compiled, the rest were copied from previous compilation.
+    214 functions were new in current compilation
+    868 functions had inline decision re-evaluated but remain unchanged
   コード生成が終了しました。
   PrototypeEngine.vcxproj -> C:\C++Files\PrototypeEngine\bin\PrototypeEngine.exe

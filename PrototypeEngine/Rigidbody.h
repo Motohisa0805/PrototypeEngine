@@ -56,9 +56,7 @@ public:
 
 	void		OnUpdateWorldTransform()override;
 
-	void		ResolveCollision(const Vector3& push, const Vector3& contactPoint);
-
-	void		ApplyPushCorrection(const Vector3& correction, float dt);
+	void		ResolveCollision(const Vector3& contactNormal, const Vector3& contactPoint, float penetrationDepth);
 
 	//Getter
 	//重力フラグの参照
@@ -83,8 +81,6 @@ public:
 
 	void		SetGrounded(bool grounded) { mIsGrounded = grounded; }
 	bool		IsGrounded() const { return mIsGrounded; }
-	// トルクを加える関数
-	void		AddTorque(Vector3 torque);
 
 	// 慣性モーメントの初期化処理
 	void        CalculateInertiaTensor();

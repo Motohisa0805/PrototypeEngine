@@ -19,7 +19,7 @@ ActorObject::ActorObject()
 	, mRigidbody(nullptr)
 {
 	mName = "Actor" + std::to_string(mGame->mNextActorID++);
-	mGame->AddActor(this);
+	mGame->GetActorManager()->AddActor(this);
 }
 
 ActorObject::ActorObject(BaseScene* scene)
@@ -35,7 +35,7 @@ ActorObject::ActorObject(BaseScene* scene)
 
 ActorObject::~ActorObject()
 {
-	mGame->RemoveActor(this);
+	mGame->GetActorManager()->RemoveActor(this);
 	// Need to delete components
 	// Because ~Component calls RemoveComponent, need a different style loop
 	for (auto comp : mComponents)
