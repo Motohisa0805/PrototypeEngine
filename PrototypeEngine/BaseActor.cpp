@@ -1,8 +1,8 @@
-#include "Transform.h"
+#include "BaseActor.h"
 #include "Actor.h"
 #include "SceneManager.h"
 
-void Transform::AddChild(Transform* child)
+void BaseActor::AddChild(BaseActor* child)
 {
 	//重複チェック
 	auto iter = std::find(mChildActor.begin(), mChildActor.end(), child);
@@ -12,7 +12,7 @@ void Transform::AddChild(Transform* child)
 	}
 }
 
-void Transform::RemoveChild(Transform* child)
+void BaseActor::RemoveChild(BaseActor* child)
 {
 	//重複チェック
 	auto iter = std::find(mChildActor.begin(), mChildActor.end(), child);
@@ -22,7 +22,7 @@ void Transform::RemoveChild(Transform* child)
 	}
 }
 
-Transform::Transform()
+BaseActor::BaseActor()
 	: mPosition(Vector3::Zero)
 	, mLocalPosition(Vector3::Zero)
 	, mPositionOffset(Vector3::Zero)
@@ -39,11 +39,11 @@ Transform::Transform()
 {
 }
 
-Transform::~Transform()
+BaseActor::~BaseActor()
 {
 }
 
-void Transform::RotateToNewForward(const Vector3& forward)
+void BaseActor::RotateToNewForward(const Vector3& forward)
 {
 	// Figure out difference between original (unit x) and new
 	float dot = Vector3::Dot(Vector3::UnitZ, forward);
@@ -67,7 +67,7 @@ void Transform::RotateToNewForward(const Vector3& forward)
 	}
 }
 
-void Transform::LookAt(const Vector3& targetPosition)
+void BaseActor::LookAt(const Vector3& targetPosition)
 {
 	Vector3 currentPosition = mPosition;
 	Vector3 forward = (targetPosition - currentPosition).Normalized();
@@ -79,7 +79,7 @@ void Transform::LookAt(const Vector3& targetPosition)
 	mIsDirty = true;
 }
 
-void Transform::SetPosition(const Vector3& pos)
+void BaseActor::SetPosition(const Vector3& pos)
 {
 	//ワールド座標からローカル座標を逆計算してmLocalPositionを更新
 	mLocalPosition = pos;
@@ -87,21 +87,21 @@ void Transform::SetPosition(const Vector3& pos)
 	ComputeWorldTransform();
 }
 
-void Transform::SetRotation(const Quaternion& rotation)
+void BaseActor::SetRotation(const Quaternion& rotation)
 {
 	mLocalRotation = rotation;
 	SetDirty(); // 更新フラグを立てる
 	ComputeWorldTransform();
 }
 
-void Transform::SetScale(Vector3 scale)
+void BaseActor::SetScale(Vector3 scale)
 {
 	mLocalScale = scale;
 	SetDirty();
 	ComputeWorldTransform();
 }
 
-void Transform::ComputeWorldTransform()
+void BaseActor::ComputeWorldTransform()
 {
 	//更新フラグがfalseなら
 	if (!mIsDirty)
@@ -141,9 +141,9 @@ void Transform::ComputeWorldTransform()
 	}
 }
 
-const Transform* Transform::GetChildActor(Transform* actor)
+const BaseActor* BaseActor::GetChildActor(BaseActor* actor)
 {
-	for (Transform* a : mChildActor) {
+	for (BaseActor* a : mChildActor) {
 		if (a == actor) {
 			return a;
 		}
@@ -151,7 +151,7 @@ const Transform* Transform::GetChildActor(Transform* actor)
 	return nullptr;
 }
 
-void Transform::AddComponent(Component* component)
+void BaseActor::AddComponent(Component* component)
 {
 	// Find the insertion point in the sorted vector
 	int myOrder = component->GetUpdateOrder();
@@ -173,7 +173,7 @@ void Transform::AddComponent(Component* component)
 	}
 }
 
-void Transform::RemoveComponent(Component* component)
+void BaseActor::RemoveComponent(Component* component)
 {
 	auto iter = std::find(mComponents.begin(), mComponents.end(), component);
 	if (iter != mComponents.end())
@@ -182,7 +182,7 @@ void Transform::RemoveComponent(Component* component)
 	}
 }
 
-void Transform::SetDirty()
+void BaseActor::SetDirty()
 {
 	if (mIsDirty)
 	{
@@ -203,12 +203,12 @@ void Transform::SetDirty()
 	}
 }
 
-void Transform::ActiveDirty()
+void BaseActor::ActiveDirty()
 {
 	mIsDirty = true;
 }
 
-void Transform::AddChildActor(Transform* childactor)
+void BaseActor::AddChildActor(BaseActor* childactor)
 {
 	if (childactor)
 	{
@@ -216,7 +216,7 @@ void Transform::AddChildActor(Transform* childactor)
 	}
 }
 
-void Transform::RemoveChildActor(Transform* child)
+void BaseActor::RemoveChildActor(BaseActor* child)
 {
 	if (child && child->GetParentActor() == this)
 	{
@@ -224,12 +224,12 @@ void Transform::RemoveChildActor(Transform* child)
 	}
 }
 
-void Transform::AddParentActor(Transform* parent)
+void BaseActor::AddParentActor(BaseActor* parent)
 {
 	mParentActor = parent;
 }
 
-void Transform::SetParent(Transform* newParent)
+void BaseActor::SetParent(BaseActor* newParent)
 {
 	// 1. 変更不要なケースは早期リターン
 	// 同じ親を再設定しようとしている
@@ -288,12 +288,12 @@ void Transform::SetParent(Transform* newParent)
 	SetDirty();
 }
 
-void Transform::RemoveParentActor()
+void BaseActor::RemoveParentActor()
 {
 	SetParent(nullptr);
 }
 
-void Transform::Serialize(json& j) const
+void BaseActor::Serialize(json& j) const
 {
 	j["Type"] = "Transform";
 	// ローカルの値を保存する
@@ -302,7 +302,7 @@ void Transform::Serialize(json& j) const
 	j["LocalScale"] = { mLocalScale.x, mLocalScale.y, mLocalScale.z };
 }
 
-void Transform::Deserialize(const json& j)
+void BaseActor::Deserialize(const json& j)
 {
 	mLocalPosition.x = j["LocalPosition"][0];
 	mLocalPosition.y = j["LocalPosition"][1];

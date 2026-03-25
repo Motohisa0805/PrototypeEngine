@@ -161,7 +161,7 @@ void InspectorPanel::Draw(float width, float height, ImTextureRef ref)
 	ImGui::End();
 }
 
-void InspectorPanel::DrawTransformProperties(Transform* transform)
+void InspectorPanel::DrawTransformProperties(BaseActor* transform)
 {
 	//Position(Vector3)�̕ҏW
 	Vector3 pos = transform->GetLocalPosition();

@@ -11,7 +11,7 @@
 class Matrix4;
 //オブジェクトの座標、回転、スケーリングの情報を管理
 //UnityのTransformに近いクラス
-class Transform
+class BaseActor
 {
 protected:
 
@@ -33,20 +33,20 @@ protected:
 	bool								mIsDirty;
 
 	//親オブジェクト
-	Transform*							mParentActor;
+	BaseActor*							mParentActor;
 	//子オブジェクトの配列
-	vector<Transform*>					mChildActor;
+	vector<BaseActor*>					mChildActor;
 
 
 	vector<Component*>					mComponents;
 
 	// これらのヘルパー関数は private にして SetParent からのみ呼び出すようにすると設計が綺麗になります
-	void								AddChild(Transform* child);
-	void								RemoveChild(Transform* child);
+	void								AddChild(BaseActor* child);
+	void								RemoveChild(BaseActor* child);
 public:
-										Transform();
+										BaseActor();
 
-	virtual								~Transform();
+	virtual								~BaseActor();
 
 	virtual const Matrix4&				GetWorldTransform() const { return mWorldTransform; }
 
@@ -125,20 +125,20 @@ public:
 	virtual void						ComputeWorldTransform();
 
 	//***子オブジェクト関係の処理***
-	virtual Transform*					GetParentActor() { return mParentActor; }
+	virtual BaseActor*					GetParentActor() { return mParentActor; }
 
-	virtual const Transform*			GetChildActor(Transform* actor);
+	virtual const BaseActor*			GetChildActor(BaseActor* actor);
 
-	const vector<Transform*>			GetChildActorList()const { return mChildActor; }
+	const vector<BaseActor*>			GetChildActorList()const { return mChildActor; }
 
 	//子オブジェクトを追加
-	virtual void						AddChildActor(Transform* actor);
+	virtual void						AddChildActor(BaseActor* actor);
 
-	virtual void						RemoveChildActor(Transform* actor);
+	virtual void						RemoveChildActor(BaseActor* actor);
 
 
-	virtual void						AddParentActor(Transform* parent);
-	virtual void						SetParent(Transform* newParent);
+	virtual void						AddParentActor(BaseActor* parent);
+	virtual void						SetParent(BaseActor* newParent);
 
 	virtual void						RemoveParentActor();
 
