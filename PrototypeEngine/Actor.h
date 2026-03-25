@@ -1,6 +1,6 @@
 #pragma once
 #include "BaseScene.h"
-#include "Transform.h"
+#include "BaseActor.h"
 /*
 * ===エンジン内部処理/Engine internal processing===
 */
@@ -18,7 +18,7 @@ enum ActorTag
 class Rigidbody;
 class Collider;
 //全3Dモデルの基底クラス
-class ActorObject : public Transform
+class ActorObject : public BaseActor
 {
 public:
 	//オブジェクトの状態

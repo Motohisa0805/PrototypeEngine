@@ -3,7 +3,8 @@
 
 //前方宣言
 class ActorObject;
-
+//Actorオブジェクトの管理クラス
+//追加、削除、更新、解放を行う
 class ActorManager
 {
 private:
@@ -11,17 +12,21 @@ private:
 	vector<ActorObject*>			mPendingActors;
 	//更新用の配列
 	vector<ActorObject*>			mActors;
-
+	//更新フラグ
 	bool							mUpdatingActors;
 public:
+	//更新
 	void							UpdateActors(float time);
+	//固定更新
 	void							FixedUpdateActors(float time);
-
+	//解放
 	void							UnloadActors();
+	//ActorのGetter
 	const vector<ActorObject*>&		GetActors()const { return mActors; }
-	//オブジェクト追加
+	//Actor追加
 	void							AddActor(ActorObject* actor);
-	//オブジェクト削除
+	//Actor解放
 	void							RemoveActor(ActorObject* actor);
+	//Actorの削除
 	void							DeleteActor(ActorObject* actor);
 };

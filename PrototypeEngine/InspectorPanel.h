@@ -9,7 +9,7 @@ class InspectorPanel : public GUIPanel
 {
 private:
 	//Transformプロパティを描画するためのヘルパー関数を宣言
-	void		DrawTransformProperties(class Transform* transform);
+	void		DrawTransformProperties(class BaseActor* transform);
 
 	void		DrawComponentProperties(class Component* comp, const PropertyInfo& prop);
 public:

@@ -10,7 +10,7 @@
 #include "ScriptComponent.h"
 
 ActorObject::ActorObject()
-	: Transform()
+	: BaseActor()
 	, mGame(SceneManager::GetNowScene())
 	, mName("Actor")
 	, mState(EActive)
@@ -23,7 +23,7 @@ ActorObject::ActorObject()
 }
 
 ActorObject::ActorObject(BaseScene* scene)
-	: Transform()
+	: BaseActor()
 	, mGame(scene)
 	, mName("Actor")
 	, mState(EActive)
@@ -130,7 +130,7 @@ void ActorObject::ActorInput(const struct InputState& keyState)
 
 void ActorObject::Serialize(json& j) const
 {
-	Transform::Serialize(j);
+	BaseActor::Serialize(j);
 	j["Name"] = mName;
 	j["State"] = mState;
 	j["Tag"] = mActorTag;
@@ -149,7 +149,7 @@ void ActorObject::Serialize(json& j) const
 
 void ActorObject::Deserialize(const json& j)
 {
-	Transform::Deserialize(j);
+	BaseActor::Deserialize(j);
 	// ñºëOÇì«Ç›çûÇﬁ
 	mName = j.at("Name").get<std::string>();
 

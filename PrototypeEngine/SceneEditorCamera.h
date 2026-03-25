@@ -1,11 +1,11 @@
 #pragma once
-#include "Transform.h"
+#include "BaseActor.h"
 
 #define MAX_YAW_SPEED 50
 
 
 //GUIのエディターシーンのカメラの処理を行うクラス
-class SceneEditorCamera : public Transform
+class SceneEditorCamera : public BaseActor
 {
 public:
 	enum EditCameraMode

@@ -85,7 +85,7 @@ void HierarchyPanel::DrawActorNode(ActorObject* actor)
 	}
 
 	//子オブジェクトを取得
-	const vector<Transform*>& children = actor->GetChildActorList();
+	const vector<BaseActor*>& children = actor->GetChildActorList();
 	//子オブジェクトがなければ末端ノードとして扱う
 	if (children.empty())
 	{
@@ -156,7 +156,7 @@ void HierarchyPanel::DrawActorNode(ActorObject* actor)
 
 					//ドロップ先オブジェクトが、ドラッグ元オブジェクト自身またはその子孫でないことを確認
 					bool isCircular = false;
-					Transform* parentCheck = actor;
+					BaseActor* parentCheck = actor;
 					while (parentCheck != nullptr)
 					{
 						if (parentCheck == draggedActor)
@@ -181,7 +181,7 @@ void HierarchyPanel::DrawActorNode(ActorObject* actor)
 		//ノードが開かれた場合、子オブジェクトを再帰的に描画
 		if (open)
 		{
-			for (Transform* childTransform : children)
+			for (BaseActor* childTransform : children)
 			{
 				if (ActorObject* childActor = dynamic_cast<ActorObject*>(childTransform))
 				{

@@ -277,7 +277,7 @@
     <ClCompile Include="Actor.cpp">
       <Filter>SourceCodes\F_Editor\Actors\Base\Actor</Filter>
     </ClCompile>
-    <ClCompile Include="Transform.cpp">
+    <ClCompile Include="BaseActor.cpp">
       <Filter>SourceCodes\F_Editor\Actors\Base\Transform</Filter>
     </ClCompile>
     <ClCompile Include="BoneActor.cpp">
@@ -630,7 +630,7 @@
     <ClInclude Include="Actor.h">
       <Filter>SourceCodes\F_Editor\Actors\Base\Actor</Filter>
     </ClInclude>
-    <ClInclude Include="Transform.h">
+    <ClInclude Include="BaseActor.h">
       <Filter>SourceCodes\F_Editor\Actors\Base\Transform</Filter>
     </ClInclude>
     <ClInclude Include="BoneActor.h">
