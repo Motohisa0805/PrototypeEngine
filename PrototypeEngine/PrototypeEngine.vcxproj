@@ -278,6 +278,7 @@
     <ClCompile Include="TPSCanvas.cpp" />
     <ClCompile Include="TPSPlayer.cpp" />
     <ClCompile Include="BaseActor.cpp" />
+    <ClCompile Include="Transform.cpp" />
     <ClCompile Include="VertexArray.cpp" />
     <ClCompile Include="WindowRenderProperty.cpp" />
   </ItemGroup>
@@ -410,6 +411,7 @@
     <ClInclude Include="TPSCanvas.h" />
     <ClInclude Include="TPSPlayer.h" />
     <ClInclude Include="BaseActor.h" />
+    <ClInclude Include="Transform.h" />
     <ClInclude Include="Typedefs.h" />
     <ClInclude Include="VertexArray.h" />
     <ClInclude Include="WindowRenderProperty.h" />

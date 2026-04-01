@@ -1,6 +1,7 @@
 #include "BaseActor.h"
 #include "Actor.h"
 #include "SceneManager.h"
+#include "Transform.h"
 
 void BaseActor::AddChild(BaseActor* child)
 {
