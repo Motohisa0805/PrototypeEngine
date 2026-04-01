@@ -57,7 +57,7 @@ void InspectorPanel::Draw(float width, float height, ImTextureRef ref)
 			ImGui::Separator();
 
 			// ----------------------------------------------------------------
-			//2.Transformコンポーネントの表示・編集(TransformはActorObjectの基底クラス)
+			//2.Transformコンポーネントの表示・編集(BaseActorはActorObjectの基底クラス)
 			// ----------------------------------------------------------------
 			if (ImGui::CollapsingHeader("Transform", ImGuiTreeNodeFlags_DefaultOpen))
 			{

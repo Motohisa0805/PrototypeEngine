@@ -120,12 +120,6 @@ bool BaseScene::FixedUpdate()
 	while (mFixedTimeAccumulator >= mFixed_Delta_Time)
 	{
 		//Rigidbody などの物理処理をここで呼ぶ
-		/*
-		for (auto actor : mActors)
-		{
-			actor->FixedUpdate(Time::gDeltaTime);
-		}
-		*/
 		mActorManager->FixedUpdateActors(Time::gDeltaTime);
 
 		mPhysWorld->SweepAndPruneXYZ();
@@ -141,44 +135,6 @@ bool BaseScene::Update()
 	//特定のシーンに読み込まれたオブジェクトやコンポーネントを
 	// まとめて処理する部分
 	// Update all actors
-	/*
-	mUpdatingActors = true;
-	for (int i = 0; i < mActors.size(); i++)
-	{
-		if (mActors[i]->GetState() == ActorObject::EActive)
-		{
-			mActors[i]->Update(Time::gDeltaTime);
-		}
-	}
-
-	mUpdatingActors = false;
-
-	// 保留中のアクターをmActorsに移動します
-	for (int i = 0; i < mPendingActors.size(); i++)
-	{
-		mPendingActors[i]->ComputeWorldTransform();
-		mActors.emplace_back(mPendingActors[i]);
-	}
-
-	mPendingActors.clear();
-
-	// Add any dead actors to a temp vector
-	vector<ActorObject*> deadActors;
-	for (int i = 0; i < mActors.size(); i++)
-	{
-		if (mActors[i]->GetState() == ActorObject::EDead)
-		{
-			deadActors.emplace_back(mActors[i]);
-		}
-	}
-
-
-	// Delete dead actors (which removes them from mActors)
-	for (auto actor : deadActors)
-	{
-		delete actor;
-	}
-	*/
 	mActorManager->UpdateActors(Time::gDeltaTime);
 
 	// Update audio system
@@ -255,43 +211,6 @@ bool BaseScene::EditorUpdate(bool isRun)
 	//特定のシーンに読み込まれたオブジェクトやコンポーネントを
 	// まとめて処理する部分
 	// Update all actors
-	/*
-	mUpdatingActors = true;
-	for (int i = 0; i < mActors.size(); i++)
-	{
-		if (mActors[i]->GetState() == ActorObject::EActive)
-		{
-			mActors[i]->EditorComputeWorldTransform();
-		}
-	}
-
-	mUpdatingActors = false;
-
-	// 保留中のアクターをmActorsに移動します
-	for (int i = 0; i < mPendingActors.size(); i++)
-	{
-		mPendingActors[i]->EditorComputeWorldTransform();
-		mActors.emplace_back(mPendingActors[i]);
-	}
-
-	mPendingActors.clear();
-
-	//TODO : エラー原因の可能性あり
-	// Add any dead actors to a temp vector
-	vector<ActorObject*> deadActors;
-	for (int i = 0; i < mActors.size(); i++)
-	{
-		if (mActors[i]->GetState() == ActorObject::EDead)
-		{
-			deadActors.emplace_back(mActors[i]);
-		}
-	}
-	// Delete dead actors (which removes them from mActors)
-	for (auto actor : deadActors)
-	{
-		delete actor;
-	}
-	*/
 	mActorManager->UpdateActors(Time::gDeltaTime);
 
 	// Update UI screens
@@ -515,13 +434,6 @@ void BaseScene::UnloadData()
 	
 	// Delete actors
 	// Because ~Actor calls RemoveActor, have to use a different style loop
-	/*
-	while (!mActors.empty())
-	{
-		delete mActors.back();
-	}
-	mActors.clear();
-	*/
 	if (mActorManager)
 	{
 		mActorManager->UnloadActors();
