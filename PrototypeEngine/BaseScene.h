@@ -13,10 +13,7 @@ class Canvas;
 class Image;
 class Font;
 class Skeleton;
-class DirectionalLightActor;
 class BaseCamera;
-class DirectionalLightComponent; //‰¼’Ç‰Á
-class FreeCamera;               // ‰¼’Ç‰Á
 class Text;
 
 class AudioSystem;

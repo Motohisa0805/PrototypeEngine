@@ -22,17 +22,11 @@
     <Filter Include="SourceCodes\B_GameObjects">
       <UniqueIdentifier>{7c853373-b002-4c41-b367-3a1e9636da3c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="SourceCodes\B_GameObjects\3Ds">
-      <UniqueIdentifier>{907b256d-37f0-4fe4-b451-c5bcf42fb721}</UniqueIdentifier>
-    </Filter>
     <Filter Include="SourceCodes\C_Components">
       <UniqueIdentifier>{467e75fa-b246-4d5a-9c65-57965719625d}</UniqueIdentifier>
     </Filter>
     <Filter Include="SourceCodes\D_UIs">
       <UniqueIdentifier>{cec41da6-f2de-4cc1-a16c-e315e240a4f2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="SourceCodes\E_Scenes">
-      <UniqueIdentifier>{9aee763c-3625-448c-bb2d-cbd8f74e8ee1}</UniqueIdentifier>
     </Filter>
     <Filter Include="SourceCodes\F_Editor">
       <UniqueIdentifier>{9c5ab43d-4b22-459c-8704-3737fba58014}</UniqueIdentifier>
@@ -48,9 +42,6 @@
     </Filter>
     <Filter Include="SourceCodes\F_Editor\Actors">
       <UniqueIdentifier>{8105e781-d7ca-4db8-8609-d1ada9412e72}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="SourceCodes\F_Editor\Actors\Defaults">
-      <UniqueIdentifier>{4f4da415-6f52-499e-bbb2-b538f0a744c0}</UniqueIdentifier>
     </Filter>
     <Filter Include="SourceCodes\F_Editor\Actors\Base">
       <UniqueIdentifier>{2488c340-9626-4efa-922f-aa14a512627d}</UniqueIdentifier>
@@ -211,36 +202,6 @@
     <None Include="cpp.hint" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="BulletActor.cpp">
-      <Filter>SourceCodes\B_GameObjects\3Ds</Filter>
-    </ClCompile>
-    <ClCompile Include="FPSActor.cpp">
-      <Filter>SourceCodes\B_GameObjects\3Ds</Filter>
-    </ClCompile>
-    <ClCompile Include="GunActor.cpp">
-      <Filter>SourceCodes\B_GameObjects\3Ds</Filter>
-    </ClCompile>
-    <ClCompile Include="ParticleTestActor.cpp">
-      <Filter>SourceCodes\B_GameObjects\3Ds</Filter>
-    </ClCompile>
-    <ClCompile Include="PortalActor.cpp">
-      <Filter>SourceCodes\B_GameObjects\3Ds</Filter>
-    </ClCompile>
-    <ClCompile Include="Stages00.cpp">
-      <Filter>SourceCodes\B_GameObjects\3Ds</Filter>
-    </ClCompile>
-    <ClCompile Include="Stages01.cpp">
-      <Filter>SourceCodes\B_GameObjects\3Ds</Filter>
-    </ClCompile>
-    <ClCompile Include="TargetActor.cpp">
-      <Filter>SourceCodes\B_GameObjects\3Ds</Filter>
-    </ClCompile>
-    <ClCompile Include="TargetComponentSystem.cpp">
-      <Filter>SourceCodes\B_GameObjects\3Ds</Filter>
-    </ClCompile>
-    <ClCompile Include="TPSPlayer.cpp">
-      <Filter>SourceCodes\B_GameObjects\3Ds</Filter>
-    </ClCompile>
     <ClCompile Include="BasicInputAction.cpp">
       <Filter>SourceCodes\C_Components</Filter>
     </ClCompile>
@@ -265,15 +226,6 @@
     <ClCompile Include="TPSCanvas.cpp">
       <Filter>SourceCodes\D_UIs</Filter>
     </ClCompile>
-    <ClCompile Include="DebugScene02.cpp">
-      <Filter>SourceCodes\E_Scenes</Filter>
-    </ClCompile>
-    <ClCompile Include="DebugScene01.cpp">
-      <Filter>SourceCodes\E_Scenes</Filter>
-    </ClCompile>
-    <ClCompile Include="TitleScene.cpp">
-      <Filter>SourceCodes\E_Scenes</Filter>
-    </ClCompile>
     <ClCompile Include="Actor.cpp">
       <Filter>SourceCodes\F_Editor\Actors\Base\Actor</Filter>
     </ClCompile>
@@ -282,36 +234,6 @@
     </ClCompile>
     <ClCompile Include="BoneActor.cpp">
       <Filter>SourceCodes\F_Editor\Actors\Bones</Filter>
-    </ClCompile>
-    <ClCompile Include="CapsuleActor.cpp">
-      <Filter>SourceCodes\F_Editor\Actors\Defaults</Filter>
-    </ClCompile>
-    <ClCompile Include="CubeActor.cpp">
-      <Filter>SourceCodes\F_Editor\Actors\Defaults</Filter>
-    </ClCompile>
-    <ClCompile Include="PlaneActor.cpp">
-      <Filter>SourceCodes\F_Editor\Actors\Defaults</Filter>
-    </ClCompile>
-    <ClCompile Include="SphereActor.cpp">
-      <Filter>SourceCodes\F_Editor\Actors\Defaults</Filter>
-    </ClCompile>
-    <ClCompile Include="DirectionalLightActor.cpp">
-      <Filter>SourceCodes\F_Editor\Actors</Filter>
-    </ClCompile>
-    <ClCompile Include="FreeCameraActor.cpp">
-      <Filter>SourceCodes\F_Editor\Actors</Filter>
-    </ClCompile>
-    <ClCompile Include="MeshActor.cpp">
-      <Filter>SourceCodes\F_Editor\Actors</Filter>
-    </ClCompile>
-    <ClCompile Include="OrbitActor.cpp">
-      <Filter>SourceCodes\F_Editor\Actors</Filter>
-    </ClCompile>
-    <ClCompile Include="SkeletonMeshActor.cpp">
-      <Filter>SourceCodes\F_Editor\Actors</Filter>
-    </ClCompile>
-    <ClCompile Include="SplineActor.cpp">
-      <Filter>SourceCodes\F_Editor\Actors</Filter>
     </ClCompile>
     <ClCompile Include="Animation.cpp">
       <Filter>SourceCodes\F_Editor\Animations</Filter>
@@ -331,19 +253,7 @@
     <ClCompile Include="BaseCamera.cpp">
       <Filter>SourceCodes\F_Editor\Cameras\Base</Filter>
     </ClCompile>
-    <ClCompile Include="FollowCamera.cpp">
-      <Filter>SourceCodes\F_Editor\Cameras</Filter>
-    </ClCompile>
-    <ClCompile Include="FPSCamera.cpp">
-      <Filter>SourceCodes\F_Editor\Cameras</Filter>
-    </ClCompile>
     <ClCompile Include="FreeCamera.cpp">
-      <Filter>SourceCodes\F_Editor\Cameras</Filter>
-    </ClCompile>
-    <ClCompile Include="OrbitCamera.cpp">
-      <Filter>SourceCodes\F_Editor\Cameras</Filter>
-    </ClCompile>
-    <ClCompile Include="SplineCamera.cpp">
       <Filter>SourceCodes\F_Editor\Cameras</Filter>
     </ClCompile>
     <ClCompile Include="Collision.cpp">
@@ -567,36 +477,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="BulletActor.h">
-      <Filter>SourceCodes\B_GameObjects\3Ds</Filter>
-    </ClInclude>
-    <ClInclude Include="FPSActor.h">
-      <Filter>SourceCodes\B_GameObjects\3Ds</Filter>
-    </ClInclude>
-    <ClInclude Include="GunActor.h">
-      <Filter>SourceCodes\B_GameObjects\3Ds</Filter>
-    </ClInclude>
-    <ClInclude Include="ParticleTestActor.h">
-      <Filter>SourceCodes\B_GameObjects\3Ds</Filter>
-    </ClInclude>
-    <ClInclude Include="PortalActor.h">
-      <Filter>SourceCodes\B_GameObjects\3Ds</Filter>
-    </ClInclude>
-    <ClInclude Include="Stages00.h">
-      <Filter>SourceCodes\B_GameObjects\3Ds</Filter>
-    </ClInclude>
-    <ClInclude Include="Stages01.h">
-      <Filter>SourceCodes\B_GameObjects\3Ds</Filter>
-    </ClInclude>
-    <ClInclude Include="TargetActor.h">
-      <Filter>SourceCodes\B_GameObjects\3Ds</Filter>
-    </ClInclude>
-    <ClInclude Include="TargetComponentSystem.h">
-      <Filter>SourceCodes\B_GameObjects\3Ds</Filter>
-    </ClInclude>
-    <ClInclude Include="TPSPlayer.h">
-      <Filter>SourceCodes\B_GameObjects\3Ds</Filter>
-    </ClInclude>
     <ClInclude Include="BasicInputAction.h">
       <Filter>SourceCodes\C_Components</Filter>
     </ClInclude>
@@ -621,15 +501,6 @@
     <ClInclude Include="TPSCanvas.h">
       <Filter>SourceCodes\D_UIs</Filter>
     </ClInclude>
-    <ClInclude Include="DebugScene02.h">
-      <Filter>SourceCodes\E_Scenes</Filter>
-    </ClInclude>
-    <ClInclude Include="DebugScene01.h">
-      <Filter>SourceCodes\E_Scenes</Filter>
-    </ClInclude>
-    <ClInclude Include="TitleScene.h">
-      <Filter>SourceCodes\E_Scenes</Filter>
-    </ClInclude>
     <ClInclude Include="Actor.h">
       <Filter>SourceCodes\F_Editor\Actors\Base\Actor</Filter>
     </ClInclude>
@@ -638,36 +509,6 @@
     </ClInclude>
     <ClInclude Include="BoneActor.h">
       <Filter>SourceCodes\F_Editor\Actors\Bones</Filter>
-    </ClInclude>
-    <ClInclude Include="CapsuleActor.h">
-      <Filter>SourceCodes\F_Editor\Actors\Defaults</Filter>
-    </ClInclude>
-    <ClInclude Include="CubeActor.h">
-      <Filter>SourceCodes\F_Editor\Actors\Defaults</Filter>
-    </ClInclude>
-    <ClInclude Include="PlaneActor.h">
-      <Filter>SourceCodes\F_Editor\Actors\Defaults</Filter>
-    </ClInclude>
-    <ClInclude Include="SphereActor.h">
-      <Filter>SourceCodes\F_Editor\Actors\Defaults</Filter>
-    </ClInclude>
-    <ClInclude Include="DirectionalLightActor.h">
-      <Filter>SourceCodes\F_Editor\Actors</Filter>
-    </ClInclude>
-    <ClInclude Include="FreeCameraActor.h">
-      <Filter>SourceCodes\F_Editor\Actors</Filter>
-    </ClInclude>
-    <ClInclude Include="MeshActor.h">
-      <Filter>SourceCodes\F_Editor\Actors</Filter>
-    </ClInclude>
-    <ClInclude Include="OrbitActor.h">
-      <Filter>SourceCodes\F_Editor\Actors</Filter>
-    </ClInclude>
-    <ClInclude Include="SkeletonMeshActor.h">
-      <Filter>SourceCodes\F_Editor\Actors</Filter>
-    </ClInclude>
-    <ClInclude Include="SplineActor.h">
-      <Filter>SourceCodes\F_Editor\Actors</Filter>
     </ClInclude>
     <ClInclude Include="Animation.h">
       <Filter>SourceCodes\F_Editor\Animations</Filter>
@@ -687,19 +528,7 @@
     <ClInclude Include="BaseCamera.h">
       <Filter>SourceCodes\F_Editor\Cameras\Base</Filter>
     </ClInclude>
-    <ClInclude Include="FollowCamera.h">
-      <Filter>SourceCodes\F_Editor\Cameras</Filter>
-    </ClInclude>
-    <ClInclude Include="FPSCamera.h">
-      <Filter>SourceCodes\F_Editor\Cameras</Filter>
-    </ClInclude>
     <ClInclude Include="FreeCamera.h">
-      <Filter>SourceCodes\F_Editor\Cameras</Filter>
-    </ClInclude>
-    <ClInclude Include="OrbitCamera.h">
-      <Filter>SourceCodes\F_Editor\Cameras</Filter>
-    </ClInclude>
-    <ClInclude Include="SplineCamera.h">
       <Filter>SourceCodes\F_Editor\Cameras</Filter>
     </ClInclude>
     <ClInclude Include="Collision.h">

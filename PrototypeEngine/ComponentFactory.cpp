@@ -17,8 +17,6 @@
 
 #include "BaseCamera.h"
 #include "FreeCamera.h"
-#include "FollowCamera.h"
-#include "FPSCamera.h"
 
 #include "ScriptComponent.h"
 

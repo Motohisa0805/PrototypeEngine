@@ -67,8 +67,8 @@ FPSCanvas::FPSCanvas()
 	mHelthBarFrame->SetPosition(Vector2(-300,-300));
 	mHelthBar->SetPosition(Vector2(-300,-300));
 
-	mTargetComponentSystem = new TargetComponentSystem();
-	mTargetComponentSystem->AllTargetCheck();
+	//mTargetComponentSystem = new TargetComponentSystem();
+	//mTargetComponentSystem->AllTargetCheck();
 }
 
 FPSCanvas::~FPSCanvas()
@@ -185,6 +185,7 @@ void FPSCanvas::UpdateCrosshair(float deltaTime)
 	// Segment cast
 	PhysWorld::CollisionInfo info;
 	ActorTag tag = ActorTag::Enemy;
+	/*
 	if (mGame->GetPhysWorld()->RayCast(l, info, (int)tag))
 	{
 		// Is this a target?
@@ -197,10 +198,12 @@ void FPSCanvas::UpdateCrosshair(float deltaTime)
 			}
 		}
 	}
+	*/
 }
 
 void FPSCanvas::UpdateBlipTextures()
 {
+	/*
 	int targetCount = static_cast<int>(mTargetComponentSystem->GetTargetComponent().size());
 	int currentCount = static_cast<int>(mBlipTexs.size());
 
@@ -224,6 +227,7 @@ void FPSCanvas::UpdateBlipTextures()
 			mBlipTexs.pop_back();
 		}
 	}
+	*/
 }
 
 void FPSCanvas::UpdateRadar(float deltaTime)
@@ -242,7 +246,7 @@ void FPSCanvas::UpdateRadar(float deltaTime)
 	float angle = Math::Atan2(playerForward2D.y, playerForward2D.x);
 	// Make a 2D rotation matrix
 	Matrix3 rotMat = Matrix3::CreateRotation(angle);
-
+	/*
 	// Get positions of blips
 	for (auto tc : mTargetComponentSystem->GetTargetComponent())
 	{
@@ -265,4 +269,5 @@ void FPSCanvas::UpdateRadar(float deltaTime)
 			mBlips.emplace_back(blipPos);
 		}
 	}
+	*/
 }

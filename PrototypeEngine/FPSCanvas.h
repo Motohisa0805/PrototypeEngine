@@ -3,7 +3,7 @@
 #include "PhysWorld.h"
 #include "TargetComponent.h"
 #include "Actor.h"
-#include "TargetComponentSystem.h"
+//#include "TargetComponentSystem.h"
 
 //ƒGƒ“ƒWƒ“‚Å‚Í”h¶ƒNƒ‰ƒX‚Æ‚µ‚ÄŠg’£«‚ª‚È‚­‚È‚é‚Ì”p~—\’è
 
@@ -52,7 +52,7 @@ protected:
 
 	float									mCrosshairAngle;
 
-	TargetComponentSystem*					mTargetComponentSystem;
+	//TargetComponentSystem*					mTargetComponentSystem;
 public:
 	// (‰º‚Éˆø‚­‡˜‚ÍŒã‚ë‚É‘Î‰‚µ‚Ü‚·)
 											FPSCanvas();
