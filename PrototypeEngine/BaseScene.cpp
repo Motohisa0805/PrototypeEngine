@@ -29,7 +29,10 @@ BaseScene::BaseScene()
 	, mNextActorID(0)
 	, mIsDirtyFlag(false)
 {
-	mActorManager = new ActorManager();
+	if (mActorManager == nullptr)
+	{
+		mActorManager = new ActorManager();
+	}
 }
 
 void BaseScene::LoadSkyBoxTexture(string file)
@@ -63,8 +66,8 @@ bool BaseScene::Initialize()
 		ActorObject* cameraActor = new ActorObject();
 		cameraActor->SetName("MainCamera");
 		//初期位置と回転を設定
-		cameraActor->SetPosition(Vector3(0.0f, 2.0f, -5.0f));
-		cameraActor->SetRotation(Quaternion(Vector3::UnitY, 0.0f));
+		cameraActor->GetTransform()->SetPosition(Vector3(0.0f, 2.0f, -5.0f));
+		cameraActor->GetTransform()->SetRotation(Quaternion(Vector3::UnitY, 0.0f));
 
 		//ここはカメラコンポーネントを改造して変更予定
 		//FreeCameraコンポーネントをアタッチ
@@ -80,7 +83,7 @@ bool BaseScene::Initialize()
 		// 太陽光のデフォルト回転 (例: X軸で-45度回転、Y軸で45度回転)
 		// 90度：X→Yに向く → Y成分 = 1（昼！）
 		Quaternion rot = Quaternion::CreateFromAxisAngle(Vector3::UnitZ, -45.0f);
-		lightActor->SetLocalRotation(rot);
+		lightActor->GetTransform()->SetLocalRotation(rot);
 
 		// DirectionalLightComponent をアタッチ
 		lightActor->AddComponent(new DirectionalLightComponent(lightActor));

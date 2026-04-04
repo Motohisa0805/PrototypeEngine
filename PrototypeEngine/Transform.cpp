@@ -6,7 +6,7 @@
 #include "imgui_impl_sdl3.h"
 #include "imgui_impl_opengl3.h"
 
-void Transform::AddChild(Transform* child)
+void Transform::AddChild(ActorObject* child)
 {
 	//重複チェック
 	auto iter = std::find(mChildActor.begin(), mChildActor.end(), child);
@@ -16,7 +16,7 @@ void Transform::AddChild(Transform* child)
 	}
 }
 
-void Transform::RemoveChild(Transform* child)
+void Transform::RemoveChild(ActorObject* child)
 {
 	//重複チェック
 	auto iter = std::find(mChildActor.begin(), mChildActor.end(), child);
@@ -129,8 +129,8 @@ void Transform::ComputeWorldTransform()
 	if (mParentActor)
 	{
 		// 親のワールドトランスフォームが最新であることを保証する必要がある
-		mParentActor->ComputeWorldTransform();
-		mWorldTransform = mLocalTransform * mParentActor->GetWorldTransform();
+		mParentActor->GetTransform()->ComputeWorldTransform();
+		mWorldTransform = mLocalTransform * mParentActor->GetTransform()->GetWorldTransform();
 	}
 	//いなかったら
 	else
@@ -150,9 +150,9 @@ void Transform::ComputeWorldTransform()
 	}
 }
 
-const Transform* Transform::GetChildActor(Transform* actor)
+const ActorObject* Transform::GetChildActor(ActorObject* actor)
 {
-	for(Transform* a : mChildActor) {
+	for(ActorObject* a : mChildActor) {
 		if (a == actor) {
 			return a;
 		}
@@ -160,28 +160,28 @@ const Transform* Transform::GetChildActor(Transform* actor)
 	return nullptr;
 }
 
-void Transform::AddChildActor(Transform* child)
+void Transform::AddChildActor(ActorObject* child)
 {
 	if (child)
 	{
-		child->SetParent(this);
+		child->GetTransform()->SetParent(mOwner);
 	}
 }
 
-void Transform::RemoveChildActor(Transform* child)
+void Transform::RemoveChildActor(ActorObject* child)
 {
-	if (child && child->GetParentActor() == this)
+	if (child && child->GetTransform()->GetParentActor() == mOwner)
 	{
-		child->SetParent(nullptr);
+		child->GetTransform()->SetParent(nullptr);
 	}
 }
 
-void Transform::AddParentActor(Transform* parent)
+void Transform::AddParentActor(ActorObject* parent)
 {
 	mParentActor = parent;
 }
 
-void Transform::SetParent(Transform* newParent)
+void Transform::SetParent(ActorObject* newParent)
 {
 	// 1. 変更不要なケースは早期リターン
 	// 同じ親を再設定しようとしている
@@ -190,7 +190,7 @@ void Transform::SetParent(Transform* newParent)
 		return;
 	}
 	// 自分自身を親にしようとしている
-	if (this == newParent)
+	if (mOwner == newParent)
 	{
 		return;
 	}
@@ -203,14 +203,14 @@ void Transform::SetParent(Transform* newParent)
 	// 3. 現在の親がいる場合は、その親の子リストから自分を削除する
 	if (mParentActor)
 	{
-		mParentActor->RemoveChild(this);
+		mParentActor->GetTransform()->RemoveChild(mOwner);
 	}
 
 	// 4. 新しい親子関係を構築する
 	mParentActor = newParent;
 	if (mParentActor)
 	{
-		mParentActor->AddChild(this);
+		mParentActor->GetTransform()->AddChild(mOwner);
 	}
 
 	// 5. ワールドトランスフォームを維持するように、新しいローカル値を計算する
@@ -218,8 +218,8 @@ void Transform::SetParent(Transform* newParent)
 	{
 		// 新しい親を基準にしたローカル座標を逆算する
 		// NewLocal = CurrentWorld * ParentWorld^-1
-		mParentActor->ComputeWorldTransform(); // 親の行列を最新に
-		Matrix4 parentWorldInverse = mParentActor->GetWorldTransform();
+		mParentActor->GetTransform()->ComputeWorldTransform(); // 親の行列を最新に
+		Matrix4 parentWorldInverse = mParentActor->GetTransform()->GetWorldTransform();
 		parentWorldInverse.Invert();
 
 		Matrix4 newLocalMatrix = worldMatrix * parentWorldInverse;
@@ -257,7 +257,7 @@ void Transform::SetDirty()
 
 	for (auto child : mChildActor)
 	{
-		child->SetDirty();//再帰的にフラグを立てる
+		child->GetTransform()->SetDirty();//再帰的にフラグを立てる
 	}
 	//Sceneがあるなら
 	if (SceneManager::GetNowScene() != nullptr)
@@ -274,14 +274,17 @@ void Transform::ActiveDirty()
 void Transform::Serialize(json& j) const
 {
 	Component::Serialize(j);
+	/*
 	// ローカルの値を保存する
 	j["LocalPosition"] = { mLocalPosition.x, mLocalPosition.y, mLocalPosition.z };
 	j["LocalRotation"] = { mLocalRotation.w, mLocalRotation.x, mLocalRotation.y, mLocalRotation.z };
 	j["LocalScale"] = { mLocalScale.x, mLocalScale.y, mLocalScale.z };
+	*/
 }
 
 void Transform::Deserialize(const json& j)
 {
+	/*
 	mLocalPosition.x = j["LocalPosition"][0];
 	mLocalPosition.y = j["LocalPosition"][1];
 	mLocalPosition.z = j["LocalPosition"][2];
@@ -294,6 +297,7 @@ void Transform::Deserialize(const json& j)
 	mLocalScale.x = j["LocalScale"][0];
 	mLocalScale.y = j["LocalScale"][1];
 	mLocalScale.z = j["LocalScale"][2];
+	*/
 
 	mIsDirty = true;
 }

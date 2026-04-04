@@ -17,7 +17,7 @@ void ActorManager::UpdateActors(float time)
 	// 保留中のアクターをmActorsに移動します
 	for (int i = 0; i < mPendingActors.size(); i++)
 	{
-		mPendingActors[i]->ComputeWorldTransform();
+		mPendingActors[i]->GetTransform()->ComputeWorldTransform();
 		mActors.emplace_back(mPendingActors[i]);
 	}
 

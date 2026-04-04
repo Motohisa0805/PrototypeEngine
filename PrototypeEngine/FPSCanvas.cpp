@@ -236,10 +236,10 @@ void FPSCanvas::UpdateRadar(float deltaTime)
 	mBlips.clear();
 
 	// Convert player position to radar coordinates (x forward, z up)
-	Vector3 playerPos = mGame->GetPlayer()->GetLocalPosition();
+	Vector3 playerPos = mGame->GetPlayer()->GetTransform()->GetLocalPosition();
 	Vector2 playerPos2D(playerPos.x, playerPos.z);
 	// Ditto for player forward
-	Vector3 playerForward = mGame->GetPlayer()->GetForward();
+	Vector3 playerForward = mGame->GetPlayer()->GetTransform()->GetForward();
 	Vector2 playerForward2D(playerForward.z, playerForward.x);
 
 	// Use atan2 to get rotation of radar

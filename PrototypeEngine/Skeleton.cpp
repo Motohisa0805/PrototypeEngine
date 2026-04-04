@@ -271,14 +271,14 @@ void Skeleton::AddBoneChildActor(string boneName, class ActorObject* actor)
 	{
 		index = mBoneTransform[boneName];
 	}
-	mBoneActors[index]->AddChildActor(actor);
+	mBoneActors[index]->GetTransform()->AddChildActor(actor);
 }
 
 void Skeleton::SetParentActor(ActorObject* parent)
 {
 	for (unsigned int i = 0; i < mBoneActors.size(); i++)
 	{
-		mBoneActors[i]->AddParentActor(parent);
+		mBoneActors[i]->GetTransform()->AddParentActor(parent);
 	}
 }
 

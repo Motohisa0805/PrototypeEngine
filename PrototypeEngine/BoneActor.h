@@ -19,7 +19,6 @@ private:
 	int				mParentIndex;
 public:
 	BoneActor();
-	void			ComputeWorldTransform()override;
 
 	void			SetBoneName(string name) { boneName = name; mName = name; }
 

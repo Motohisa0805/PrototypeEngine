@@ -64,7 +64,7 @@ bool EngineWindow::EngineInitialize()
 	//仮で一回更新を行う
 	mGameWindow->GameRunLoop();
 	//エディター用カメラの生成
-	mSceneEditorCamera = new SceneEditorCamera();
+	mSceneEditorCamera = new SceneEditorCamera(nullptr);
 	//デバッグ用グリッドを表示するフラグを立てる
 	GameStateClass::gDebugGridFrag = true;
 	//スクリプトのホットリロードマネージャーを生成
@@ -188,11 +188,19 @@ void EngineWindow::EngineRender()
 
 void EngineWindow::EngineShutdown()
 {
+	//エンジンのシャットダウン処理
+	//編集用カメラの削除
+	if (mSceneEditorCamera)
+	{
+		delete mSceneEditorCamera;
+		mSceneEditorCamera = nullptr;
+	}
 	if (mHotReloadManager)
 	{
 		mHotReloadManager.get()->UnloadScripts();
 		mHotReloadManager.reset();
 	}
+	//ゲームウィンドウのシャットダウンと解放
 	if (mGameWindow)
 	{
 		mGameWindow->Shutdown();
@@ -201,17 +209,13 @@ void EngineWindow::EngineShutdown()
 	}
 	SceneManager::ReleaseAllScenes();
 	TTF_Quit();
+	//Rendererの解放
 	if (mRenderer)
 	{
 		mRenderer->UnloadData();
 		mRenderer->Shutdown();
 		delete mRenderer;
 		mRenderer = nullptr;
-	}
-	if (mSceneEditorCamera)
-	{
-		delete mSceneEditorCamera;
-		mSceneEditorCamera = nullptr;
 	}
 	GUIWinMain::ShutdownImGui();
 	SDL_Quit();

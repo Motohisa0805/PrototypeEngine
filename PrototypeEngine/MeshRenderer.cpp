@@ -39,7 +39,7 @@ void MeshRenderer::Draw(Shader* shader)
 			{
 				// Set the world transform
 				shader->SetMatrixUniform("uWorldTransform",
-					mOwner->GetWorldTransform());
+					mOwner->GetTransform()->GetWorldTransform());
 				Texture* t = nullptr;
 				// Set the active texture
 				t = mMeshs[i]->GetTexture(j);
@@ -85,7 +85,7 @@ void MeshRenderer::DrawForShadowMap(Shader* shader)
 			if (!mMeshs[i]) continue;
 
 			// ワールド変換のみ設定
-			shader->SetMatrixUniform("uWorldTransform", mOwner->GetWorldTransform());
+			shader->SetMatrixUniform("uWorldTransform", mOwner->GetTransform()->GetWorldTransform());
 
 			// ブレンドなどはシャドウマップ描画時は一切不要
 			glDisable(GL_BLEND);

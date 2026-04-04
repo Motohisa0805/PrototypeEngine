@@ -247,8 +247,8 @@ void PhysWorld::FixCollisions(class Collider* dynamicCollider, class Collider* s
 	{
 		auto actor = dynamicCollider->GetOwner();
 		auto rb = actor->GetComponent<Rigidbody>();
-		actor->SetLocalPosition(actor->GetPosition() + totalPush);
-		actor->ComputeWorldTransform();
+		actor->GetTransform()->SetLocalPosition(actor->GetTransform()->GetPosition() + totalPush);
+		actor->GetTransform()->ComputeWorldTransform();
 
 		// Rigidbodyに押し出し方向を通知（滑り/跳ね返り等に使用）
 		if (rb)

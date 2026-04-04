@@ -3,8 +3,9 @@
 #include "WindowRenderProperty.h"
 
 
-SceneEditorCamera::SceneEditorCamera()
-	: mMode(EditCameraMode::Null)
+SceneEditorCamera::SceneEditorCamera(BaseScene* scene)
+	: ActorObject(scene)
+	, mMode(EditCameraMode::Null)
 	, mYawSpeed(0.0f)
 	, mPitchSpeed(0.0f)
 	, mMaxPitch(Math::Pi / 3.0f)
@@ -25,11 +26,11 @@ void SceneEditorCamera::Update()
 	if (mMode == EditCameraMode::MiddleOperation)
 	{
 		// カメラの位置はオーナーの位置
-		Vector3 cameraPos = mPosition;
+		Vector3 cameraPos = mTransform->GetPosition();
 		// オーナーの右ベクトルを軸とするピッチ回転を表す四元数を作成
-		Quaternion q(GetRight(), mPitch);
+		Quaternion q(mTransform->GetRight(), mPitch);
 		// 所有者をピッチクォータニオンで前方に回転
-		Vector3 viewForward = Vector3::Transform(GetForward(), q);
+		Vector3 viewForward = Vector3::Transform(mTransform->GetForward(), q);
 		// 視線の前方100ユニットのターゲット位置。
 		Vector3 target = cameraPos + viewForward * 100.0f;
 		// ピッチクォータニオンを回転。
@@ -41,11 +42,11 @@ void SceneEditorCamera::Update()
 		WindowRenderProperty::SetViewUp(up);
 		mViewMatrix = view;
 		// 前後移動、左右移動
-		Vector3 pos = mLocalPosition;
-		pos += GetRight() * mStrafeSpeed * Time::gUnscaledDeltaTime;
+		Vector3 pos = mTransform->GetLocalPosition();
+		pos += mTransform->GetRight() * mStrafeSpeed * Time::gUnscaledDeltaTime;
 		pos += up * mUpSpeed * Time::gUnscaledDeltaTime;
-		SetLocalPosition(pos);
-		ComputeWorldTransform();
+		mTransform->SetLocalPosition(pos);
+		mTransform->ComputeWorldTransform();
 	}
 	else if (mMode == EditCameraMode::RightOperation)
 	{
@@ -54,14 +55,14 @@ void SceneEditorCamera::Update()
 		//視点回転
 		if (!Math::NearZero(mYawSpeed))
 		{
-			Quaternion rot = mLocalRotation;
+			Quaternion rot = mTransform->GetLocalRotation();
 			float angular = mYawSpeed * Time::gUnscaledDeltaTime;
 			// Create quaternion for incremental rotation
 			// (Rotate about up axis)
 			Quaternion inc(Vector3::UnitY, angular);
 			// Concatenate old and new quaternion
 			rot = Quaternion::Concatenate(rot, inc);
-			SetLocalRotation(rot);
+			mTransform->SetLocalRotation(rot);
 		}
 		// ピッチ速度に基づいてピッチを更新
 		mPitch += mPitchSpeed * Time::gUnscaledDeltaTime;
@@ -70,11 +71,11 @@ void SceneEditorCamera::Update()
 	}
 
 	// カメラの位置はオーナーの位置
-	Vector3 cameraPos = mPosition;
+	Vector3 cameraPos = mTransform->GetPosition();
 	// オーナーの右ベクトルを軸とするピッチ回転を表す四元数を作成
-	Quaternion q(GetRight(), mPitch);
+	Quaternion q(mTransform->GetRight(), mPitch);
 	// 所有者をピッチクォータニオンで前方に回転
-	Vector3 viewForward = Vector3::Transform(GetForward(), q);
+	Vector3 viewForward = Vector3::Transform(mTransform->GetForward(), q);
 	// 視線の前方100ユニットのターゲット位置。
 	Vector3 target = cameraPos + viewForward * 100.0f;
 	// ピッチクォータニオンを回転。
@@ -91,11 +92,11 @@ void SceneEditorCamera::Update()
 		// 前後移動、左右移動
 		if (!Math::NearZero(mForwardSpeed) || !Math::NearZero(mStrafeSpeed))
 		{
-			Vector3 pos = mLocalPosition;
+			Vector3 pos = mTransform->GetLocalPosition();
 			pos += viewForward * mForwardSpeed * Time::gUnscaledDeltaTime;
-			pos += GetRight() * mStrafeSpeed * Time::gUnscaledDeltaTime;
-			SetLocalPosition(pos);
-			ComputeWorldTransform();
+			pos += mTransform->GetRight() * mStrafeSpeed * Time::gUnscaledDeltaTime;
+			mTransform->SetLocalPosition(pos);
+			mTransform->ComputeWorldTransform();
 		}
 	}
 }

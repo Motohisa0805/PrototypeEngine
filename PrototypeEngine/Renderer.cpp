@@ -295,8 +295,8 @@ void Renderer::MeshOrderUpdate()
 	std::sort(transparentList.begin(), transparentList.end(),
 		[&](MeshRenderer* a, MeshRenderer* b)
 		{
-			float distA = (a->GetOwner()->GetPosition() - cameraPos).LengthSq();
-			float distB = (b->GetOwner()->GetPosition() - cameraPos).LengthSq();
+			float distA = (a->GetOwner()->GetTransform()->GetPosition() - cameraPos).LengthSq();
+			float distB = (b->GetOwner()->GetTransform()->GetPosition() - cameraPos).LengthSq();
 			return distA > distB; // 遠い順に
 		}
 	);
@@ -521,8 +521,8 @@ void Renderer::EditorDraw3DScene(unsigned int framebuffer, const Matrix4& view, 
 	if (actor != nullptr && actor->GetState() == ActorObject::EActive)
 	{
 		//1.カメラとオブジェクトの位置を取得
-		Vector3 cameraPos = EngineWindow::GetSceneEditorCamera()->GetLocalPosition();
-		Vector3 actorPos = actor->GetLocalPosition();
+		Vector3 cameraPos = EngineWindow::GetSceneEditorCamera()->GetTransform()->GetLocalPosition();
+		Vector3 actorPos = actor->GetTransform()->GetLocalPosition();
 
 		//2.カメラとオブジェクトの距離を計算
 		float distance = (actorPos - cameraPos).Length();
@@ -547,7 +547,7 @@ void Renderer::EditorDraw3DScene(unsigned int framebuffer, const Matrix4& view, 
 		// 6. 新しいモデル行列を作成
 		// Scale -> Rotation -> Translation の順で適用
 		Matrix4 gizmoModel = Matrix4::CreateScale(scale);
-		gizmoModel *= Matrix4::CreateFromQuaternion(actor->GetLocalRotation());
+		gizmoModel *= Matrix4::CreateFromQuaternion(actor->GetTransform()->GetLocalRotation());
 		gizmoModel *= Matrix4::CreateTranslation(actorPos);
 
 		// オブジェクトのデバッグ描画
@@ -561,7 +561,10 @@ void Renderer::EditorDraw3DScene(unsigned int framebuffer, const Matrix4& view, 
 	//デバッググリッド描画
 	if (GameStateClass::gDebugGridFrag)
 	{
-		mDebugGrid->Draw(mGridShader, view * proj,EngineWindow::GetSceneEditorCamera()->GetPosition());
+		if (mGridShader && EngineWindow::GetSceneEditorCamera())
+		{
+			mDebugGrid->Draw(mGridShader, view * proj,EngineWindow::GetSceneEditorCamera()->GetTransform()->GetPosition());
+		}
 	}
 
 	glDepthMask(GL_TRUE);  // 書き込みを戻す
