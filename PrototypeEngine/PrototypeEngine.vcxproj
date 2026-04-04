@@ -250,7 +250,6 @@
     <ClCompile Include="TitleCanvas.cpp" />
     <ClCompile Include="ToolbarPanel.cpp" />
     <ClCompile Include="TPSCanvas.cpp" />
-    <ClCompile Include="BaseActor.cpp" />
     <ClCompile Include="Transform.cpp" />
     <ClCompile Include="VertexArray.cpp" />
     <ClCompile Include="WindowRenderProperty.cpp" />
@@ -356,7 +355,6 @@
     <ClInclude Include="TitleCanvas.h" />
     <ClInclude Include="ToolbarPanel.h" />
     <ClInclude Include="TPSCanvas.h" />
-    <ClInclude Include="BaseActor.h" />
     <ClInclude Include="Transform.h" />
     <ClInclude Include="Typedefs.h" />
     <ClInclude Include="VertexArray.h" />

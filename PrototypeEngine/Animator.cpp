@@ -164,17 +164,17 @@ void Animator::ComputeMatrixPalette()
 		// Global inverse bind pose matrix times current pose matrix
 		mPalette.mEntry[i] = globalInvBindPoses[i] * pose;
 		Matrix4 transform;
-		if (mOwner->GetParentActor() == nullptr)
+		if (mOwner->GetTransform()->GetParentActor() == nullptr)
 		{
 			transform = pose;
 		}
 		else
 		{
-			transform = pose * mOwner->GetWorldTransform();
+			transform = pose * mOwner->GetTransform()->GetWorldTransform();
 		}
-		mSkeleton->GetBoneActor()[i]->SetLocalScale(transform.GetScale());
-		mSkeleton->GetBoneActor()[i]->SetLocalRotation(transform.GetRotation());
-		mSkeleton->GetBoneActor()[i]->SetLocalPosition(transform.GetTranslation());
+		mSkeleton->GetBoneActor()[i]->GetTransform()->SetLocalScale(transform.GetScale());
+		mSkeleton->GetBoneActor()[i]->GetTransform()->SetLocalRotation(transform.GetRotation());
+		mSkeleton->GetBoneActor()[i]->GetTransform()->SetLocalPosition(transform.GetTranslation());
 	}
 }
 
@@ -215,17 +215,17 @@ void Animator::BlendComputeMatrixPalette()
 		Matrix4 pose = goalPose[i];
 		mPalette.mEntry[i] = globalInvBindPoses[i] * pose;
 		Matrix4 transform;
-		if (mOwner->GetParentActor() == nullptr)
+		if (mOwner->GetTransform()->GetParentActor() == nullptr)
 		{
 			transform = pose;
 		}
 		else
 		{
-			transform = pose * mOwner->GetWorldTransform();
+			transform = pose * mOwner->GetTransform()->GetWorldTransform();
 		}
-		mSkeleton->GetBoneActor()[i]->SetLocalScale(transform.GetScale());
-		mSkeleton->GetBoneActor()[i]->SetLocalRotation(transform.GetRotation());
-		mSkeleton->GetBoneActor()[i]->SetLocalPosition(transform.GetTranslation());
+		mSkeleton->GetBoneActor()[i]->GetTransform()->SetLocalScale(transform.GetScale());
+		mSkeleton->GetBoneActor()[i]->GetTransform()->SetLocalRotation(transform.GetRotation());
+		mSkeleton->GetBoneActor()[i]->GetTransform()->SetLocalPosition(transform.GetTranslation());
 	}
 }
 

@@ -1,6 +1,6 @@
 #pragma once
 #include "BaseScene.h"
-#include "BaseActor.h"
+#include "Transform.h"
 /*
 * ===エンジン内部処理/Engine internal processing===
 */
@@ -18,7 +18,7 @@ enum ActorTag
 class Rigidbody;
 class Collider;
 //全3Dモデルの基底クラス
-class ActorObject : public BaseActor
+class ActorObject
 {
 public:
 	//オブジェクトの状態
@@ -38,9 +38,13 @@ protected:
 
 	BaseScene*					mGame;
 
+	Transform*					mTransform;
+
 	Rigidbody*					mRigidbody;
 
 	Collider*					mCollider;
+
+	vector<Component*>			mComponents;
 public:
 	//コンストラクタ
 								ActorObject();
@@ -78,9 +82,17 @@ public:
 	void						SetActorTag(ActorTag tag) { mActorTag = tag; }
 	
 	BaseScene*					GetGame() { return mGame; }
+
+	Transform*					GetTransform() const { return mTransform; }
+
 	Rigidbody*					GetRigidbody() { return mRigidbody; }
 
 	Collider*					GetCollider() { return mCollider; }
+
+	// Add/remove components
+	virtual void				AddComponent(Component* component);
+	virtual void				RemoveComponent(Component* component);
+	const vector<Component*>&	GetComponents()const { return mComponents; }
 
 
 	//親のアクターのGetter
@@ -97,9 +109,9 @@ public:
 
 
 	// JSONに変換するメソッド
-	void						Serialize(json& j) const override;
+	void						Serialize(json& j) const;
 	// JSONから復元するメソッド
-	void						Deserialize(const json& j)override;
+	void						Deserialize(const json& j);
 	//コンポーネントが追加された後に呼ばれる通知関数
 	virtual void				OnComponentAdded(Component* newComp);
 };

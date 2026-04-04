@@ -13,8 +13,8 @@ BoxCollider::BoxCollider(ActorObject* owner, int updateOrder)
 {
 	mName = "BoxCollider";
 	// 単位ボックスを基準とした OBB
-	mObjectOBB.mCenter = owner->GetPosition();
-	mObjectOBB.mRotation = owner->GetRotation();
+	mObjectOBB.mCenter = owner->GetTransform()->GetPosition();
+	mObjectOBB.mRotation = owner->GetTransform()->GetRotation();
 	mObjectOBB.mExtents = Vector3(0.5f, 0.5f, 0.5f); // 1x1x1ボックスの半分
 
 
@@ -32,9 +32,9 @@ void BoxCollider::OnUpdateWorldTransform()
 {
 	//===OBBの更新===
 	// スケール、回転、位置を取得
-	Vector3 scale = mOwner->GetScale();
-	Quaternion rotation = mOwner->GetRotation();
-	Vector3 position = mOwner->GetPosition();
+	Vector3 scale = mOwner->GetTransform()->GetScale();
+	Quaternion rotation = mOwner->GetTransform()->GetRotation();
+	Vector3 position = mOwner->GetTransform()->GetPosition();
 	Vector3 offset = mObjectOBB.mOffset;
 
 	// ワールド OBB を構築

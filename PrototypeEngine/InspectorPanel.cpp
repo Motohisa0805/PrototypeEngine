@@ -57,7 +57,7 @@ void InspectorPanel::Draw(float width, float height, ImTextureRef ref)
 			ImGui::Separator();
 
 			// ----------------------------------------------------------------
-			//2.Transformコンポーネントの表示・編集(BaseActorはActorObjectの基底クラス)
+			//2.Transformコンポーネントの表示・編集(ActorObjectはActorObjectの基底クラス)
 			// ----------------------------------------------------------------
 			if (ImGui::CollapsingHeader("Transform", ImGuiTreeNodeFlags_DefaultOpen))
 			{
@@ -145,7 +145,7 @@ void InspectorPanel::Draw(float width, float height, ImTextureRef ref)
 							selectedActor->AddComponent(newComp);
 							// メッシュとコライダーの依存性が解決したら処理
 							selectedActor->OnComponentAdded(newComp); // ← ActorObject側で実装する
-							selectedActor->SetDirty();
+							selectedActor->GetTransform()->SetDirty();
 						}
 						ImGui::CloseCurrentPopup();
 					}
@@ -161,18 +161,18 @@ void InspectorPanel::Draw(float width, float height, ImTextureRef ref)
 	ImGui::End();
 }
 
-void InspectorPanel::DrawTransformProperties(BaseActor* transform)
+void InspectorPanel::DrawTransformProperties(ActorObject* transform)
 {
 	//Position(Vector3)の編集
-	Vector3 pos = transform->GetLocalPosition();
+	Vector3 pos = transform->GetTransform()->GetLocalPosition();
 	if (ImGui::DragFloat3("Position", &pos.x, 0.1f))//0.1fはドラッグの感度
 	{
 		//ローカル関数なので注意
-		transform->SetLocalPosition(pos);
+		transform->GetTransform()->SetLocalPosition(pos);
 	}
 	//回転だけローカルで取得
 	//ローカルならスケール値を含まないため
-	Vector3 eulerRad = transform->GetLocalRotation().ToEulerAngles();
+	Vector3 eulerRad = transform->GetTransform()->GetLocalRotation().ToEulerAngles();
 	Vector3 rot;
 	rot.x = Math::ToDegrees(eulerRad.x);
 	rot.y = Math::ToDegrees(eulerRad.y);
@@ -186,15 +186,15 @@ void InspectorPanel::DrawTransformProperties(BaseActor* transform)
 		Quaternion qy = Quaternion::CreateFromAxisAngle(Vector3::UnitY, rot.y);
 		Quaternion qz = Quaternion::CreateFromAxisAngle(Vector3::UnitZ, rot.z);
 		Quaternion newRotation = qy * qx * qz; // ZYX順で回転を適用
-		transform->SetLocalRotation(newRotation);
+		transform->GetTransform()->SetLocalRotation(newRotation);
 	}
 
 	//Scale(Vector3)の編集
-	Vector3 scale = transform->GetLocalScale();
+	Vector3 scale = transform->GetTransform()->GetLocalScale();
 	if (ImGui::DragFloat3("Scale", &scale.x, 0.1f))//0.1fはドラッグの感度
 	{
 		//ローカル関数なので注意
-		transform->SetLocalScale(scale);
+		transform->GetTransform()->SetLocalScale(scale);
 	}
 }
 

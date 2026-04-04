@@ -9,8 +9,10 @@
 #include "ComponentFactory.h"
 #include "ScriptComponent.h"
 
+#include "Component.h"
+
 ActorObject::ActorObject()
-	: BaseActor()
+	: mComponents()
 	, mGame(SceneManager::GetNowScene())
 	, mName("Actor")
 	, mState(EActive)
@@ -18,24 +20,37 @@ ActorObject::ActorObject()
 	, mCollider(nullptr)
 	, mRigidbody(nullptr)
 {
+	mTransform = new Transform(this);
+
 	mName = "Actor" + std::to_string(mGame->mNextActorID++);
 	mGame->GetActorManager()->AddActor(this);
 }
 
 ActorObject::ActorObject(BaseScene* scene)
-	: BaseActor()
-	, mGame(scene)
+	: mGame(scene)
 	, mName("Actor")
 	, mState(EActive)
 	, mActorTag(ActorTag::None)
 	, mCollider(nullptr)
 	, mRigidbody(nullptr)
 {
+	//Transformの生成
+	mTransform = new Transform(this);
 }
 
 ActorObject::~ActorObject()
 {
-	mGame->GetActorManager()->RemoveActor(this);
+	if (mGame && mGame->GetActorManager())
+	{
+		mGame->GetActorManager()->RemoveActor(this);
+	}
+
+	// TransformはActorObjectが所有しているので、ここで削除
+	if (mTransform)
+	{
+		delete mTransform;
+		mTransform = nullptr;
+	}
 	// Need to delete components
 	// Because ~Component calls RemoveComponent, need a different style loop
 	for (auto comp : mComponents)
@@ -51,7 +66,7 @@ void ActorObject::FixedUpdate(float deltaTime)
 	{
 		FixedUpdateComponents(deltaTime);
 		FixedUpdateActor(deltaTime);
-		ComputeWorldTransform();
+		mTransform->ComputeWorldTransform();
 	}
 }
 
@@ -74,7 +89,7 @@ void ActorObject::Update(float deltaTime)
 		//ComputeLocalTransform();
 		UpdateComponents(deltaTime);
 		UpdateActor(deltaTime);
-		ComputeWorldTransform();
+		mTransform->ComputeWorldTransform();
 	}
 }
 
@@ -84,7 +99,7 @@ void ActorObject::EditorComputeWorldTransform()
 	{
 		UpdateComponents(Time::gDeltaTime);
 		UpdateActor(Time::gDeltaTime);
-		ComputeWorldTransform();
+		mTransform->ComputeWorldTransform();
 	}
 }
 
@@ -128,9 +143,46 @@ void ActorObject::ActorInput(const struct InputState& keyState)
 {
 }
 
+void ActorObject::AddComponent(Component* component)
+{
+	// Find the insertion point in the sorted vector
+	int myOrder = component->GetUpdateOrder();
+	auto iter = mComponents.begin();
+	for (; iter != mComponents.end(); ++iter)
+	{
+		if (myOrder < (*iter)->GetUpdateOrder())
+		{
+			break;
+		}
+	}
+
+	mComponents.insert(iter, component);
+	// ActorObject::OnComponentAdded を呼び出す
+	// dynamic_castの型が完全型であることを保証
+	if (ActorObject* actor = dynamic_cast<ActorObject*>(this))
+	{
+		actor->OnComponentAdded(component);
+	}
+}
+
+void ActorObject::RemoveComponent(Component* component)
+{
+	auto iter = std::find(mComponents.begin(), mComponents.end(), component);
+	if (iter != mComponents.end())
+	{
+		mComponents.erase(iter);
+	}
+}
+
 void ActorObject::Serialize(json& j) const
 {
-	BaseActor::Serialize(j);
+	j["Type"] = "Transform";
+	// ローカルの値を保存する
+	j["LocalPosition"] = { mTransform->GetLocalPosition().x, mTransform->GetLocalPosition().y, mTransform->GetLocalPosition().z };
+	j["LocalRotation"] = { mTransform->GetLocalRotation().w, mTransform->GetLocalRotation().x, mTransform->GetLocalRotation().y, mTransform->GetLocalRotation().z };
+	j["LocalScale"] = { mTransform->GetLocalScale().x, mTransform->GetLocalScale().y, mTransform->GetLocalScale().z };
+
+
 	j["Name"] = mName;
 	j["State"] = mState;
 	j["Tag"] = mActorTag;
@@ -149,7 +201,39 @@ void ActorObject::Serialize(json& j) const
 
 void ActorObject::Deserialize(const json& j)
 {
-	BaseActor::Deserialize(j);
+	mTransform->SetLocalPosition
+	(
+		Vector3
+		(
+			j["LocalPosition"][0],
+			j["LocalPosition"][1],
+			j["LocalPosition"][2]
+		)
+	);
+
+	mTransform->SetLocalRotation
+	(
+		Quaternion
+		(
+			j["LocalRotation"][1],
+			j["LocalRotation"][2],
+			j["LocalRotation"][3],
+			j["LocalRotation"][0]
+		)
+	);
+
+	mTransform->SetLocalScale
+	(
+		Vector3
+		(
+			j["LocalScale"][0],
+			j["LocalScale"][1],
+			j["LocalScale"][2]
+		)
+	);
+
+	//mTransform->ActiveDirty();
+
 	// 名前を読み込む
 	mName = j.at("Name").get<std::string>();
 
@@ -176,7 +260,7 @@ void ActorObject::Deserialize(const json& j)
 				newComponent->Deserialize(componentData);
 				// ActorObjectにコンポーネントをアタッチ
 				AddComponent(newComponent);
-				SetDirty();
+				mTransform->SetDirty();
 			}
 		}
 	}

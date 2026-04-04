@@ -7,8 +7,12 @@
 * ===エンジン内部処理/Engine internal processing===
 */
 
+//コンポーネントに近い扱いとして作成
+//※通常のコンポーネントとは違いオブジェクト生成時に自動的に生成されるように設計
+
 //前方宣言
 class Matrix4;
+class ActorObject;
 
 class Transform : Component
 {
@@ -32,13 +36,13 @@ protected:
 	bool								mIsDirty;
 
 	//親オブジェクト
-	Transform*							mParentActor;
+	ActorObject*						mParentActor;
 	//子オブジェクトの配列
-	vector<Transform*>					mChildActor;
+	vector<ActorObject*>				mChildActor;
 
 	// これらのヘルパー関数は private にして SetParent からのみ呼び出すようにすると設計が綺麗になります
-	void								AddChild(Transform* child);
-	void								RemoveChild(Transform* child);
+	void								AddChild(ActorObject* child);
+	void								RemoveChild(ActorObject* child);
 public:
 	Transform(class ActorObject* owner);
 
@@ -121,20 +125,20 @@ public:
 	virtual void						ComputeWorldTransform();
 
 	//***子オブジェクト関係の処理***
-	virtual Transform*					GetParentActor() { return mParentActor; }
+	virtual ActorObject*					GetParentActor() { return mParentActor; }
 
-	virtual const Transform*			GetChildActor(Transform* actor);
+	virtual const ActorObject*			GetChildActor(ActorObject* actor);
 
-	const vector<Transform*>			GetChildActorList()const { return mChildActor; }
+	const vector<ActorObject*>			GetChildActorList()const { return mChildActor; }
 
 	//子オブジェクトを追加
-	virtual void						AddChildActor(Transform* childtransform);
+	virtual void						AddChildActor(ActorObject* childtransform);
 
-	virtual void						RemoveChildActor(Transform* childtransform);
+	virtual void						RemoveChildActor(ActorObject* childtransform);
 
 
-	virtual void						AddParentActor(Transform* parent);
-	virtual void						SetParent(Transform* newParent);
+	virtual void						AddParentActor(ActorObject* parent);
+	virtual void						SetParent(ActorObject* newParent);
 
 	virtual void						RemoveParentActor();
 

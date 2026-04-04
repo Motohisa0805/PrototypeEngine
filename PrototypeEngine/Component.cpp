@@ -13,7 +13,10 @@ Component::Component(ActorObject* owner, int updateOrder)
 	, mHeaderHoveredColor(0.26f, 0.59f, 0.98f, 0.65f)
 	, mHeaderActiveColor(0.26f, 0.59f, 0.98f, 1.00f)
 {
-	mOwner->SetDirty();
+	if (mOwner->GetTransform())
+	{
+		mOwner->GetTransform()->SetDirty();
+	}
 }
 
 Component::~Component()

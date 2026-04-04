@@ -57,14 +57,14 @@ void Rigidbody::FixedUpdate(float deltaTime)
     mVelocity += acceleration * deltaTime;
 
     // 位置更新
-    Vector3 position = mOwner->GetLocalPosition();
+    Vector3 position = mOwner->GetTransform()->GetLocalPosition();
     position += mVelocity * deltaTime;
-    mOwner->SetLocalPosition(position);
+    mOwner->GetTransform()->SetLocalPosition(position);
 
     // --- 角運動の更新 ---
     if (mMass > 0.0f)
     {
-        Quaternion rotation = mOwner->GetRotation();
+        Quaternion rotation = mOwner->GetTransform()->GetRotation();
 
         // 1. ワールド逆慣性テンソルの更新
         // I_world^-1 = R * I_local^-1 * R^T
@@ -89,7 +89,7 @@ void Rigidbody::FixedUpdate(float deltaTime)
             //pureQuaternion
             Quaternion pureQuaternion(mAngularVelocity.x, mAngularVelocity.y, mAngularVelocity.z, 0.0f);
             //q_old
-            Quaternion rotation = mOwner->GetRotation();
+            Quaternion rotation = mOwner->GetTransform()->GetRotation();
 
             // (pureQuaternion * rotation) は四元数の積を指します
             //(pureQuaternion * q_old)
@@ -106,7 +106,7 @@ void Rigidbody::FixedUpdate(float deltaTime)
             rotation = rotation + deltaRotation;
             rotation.Normalize();
 
-            mOwner->SetRotation(rotation);
+            mOwner->GetTransform()->SetRotation(rotation);
         }
         // 力のリセット
         //（次フレームでまたAddForceするため）
@@ -129,7 +129,7 @@ void Rigidbody::ResolveCollision(const Vector3& contactNormal,const Vector3& con
     // 衝突法線（床 → 剛体）
     Vector3 hitNormal = contactNormal;
 
-    Vector3 centerOfMass = mOwner->GetPosition();
+    Vector3 centerOfMass = mOwner->GetTransform()->GetPosition();
     Vector3 r = contactPoint - centerOfMass;
 
     // 接触点速度
@@ -205,7 +205,7 @@ void Rigidbody::ResolveCollision(const Vector3& contactNormal,const Vector3& con
         float depth = Math::Max(penetrationDepth - slop, 0.0f);
         Vector3 correction = hitNormal * (depth * percent);
 
-        mOwner->SetLocalPosition(mOwner->GetPosition() + correction);
+        mOwner->GetTransform()->SetLocalPosition(mOwner->GetTransform()->GetPosition() + correction);
     }
 
     // 接地判定

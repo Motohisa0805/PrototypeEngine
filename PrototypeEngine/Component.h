@@ -121,7 +121,7 @@ public:
 	void				DrawIntProperty(const PropertyInfo& prop);
 	void				DrawBoolProperty(const PropertyInfo& prop);
 
-	class ActorObject*	GetOwner() { return mOwner; }
+	ActorObject*		GetOwner() { return mOwner; }
 	int					GetUpdateOrder() const { return mUpdateOrder; }
 
 	string				GetName()const { return mName; }

@@ -1,11 +1,12 @@
 #pragma once
-#include "BaseActor.h"
+#include "Actor.h"
 
 #define MAX_YAW_SPEED 50
 
+class BaseScene;
 
 //GUIのエディターシーンのカメラの処理を行うクラス
-class SceneEditorCamera : public BaseActor
+class SceneEditorCamera : public ActorObject
 {
 public:
 	enum EditCameraMode
@@ -44,7 +45,7 @@ private:
 	float	mSpeed;
 
 public:
-	SceneEditorCamera();
+	SceneEditorCamera(class BaseScene* scene);
 
 
 	void	Update();

@@ -51,7 +51,7 @@ void HierarchyPanel::Draw(float width, float height, ImTextureRef ref)
 			for (auto& actor : actors)
 			{
 				//親がいないオブジェクトだけ描画
-				if (actor->GetParentActor() == nullptr)
+				if (actor->GetTransform()->GetParentActor() == nullptr)
 				{
 					DrawActorNode(actor);
 				}
@@ -85,7 +85,7 @@ void HierarchyPanel::DrawActorNode(ActorObject* actor)
 	}
 
 	//子オブジェクトを取得
-	const vector<BaseActor*>& children = actor->GetChildActorList();
+	const vector<ActorObject*>& children = actor->GetTransform()->GetChildActorList();
 	//子オブジェクトがなければ末端ノードとして扱う
 	if (children.empty())
 	{
@@ -156,7 +156,7 @@ void HierarchyPanel::DrawActorNode(ActorObject* actor)
 
 					//ドロップ先オブジェクトが、ドラッグ元オブジェクト自身またはその子孫でないことを確認
 					bool isCircular = false;
-					BaseActor* parentCheck = actor;
+					ActorObject* parentCheck = actor;
 					while (parentCheck != nullptr)
 					{
 						if (parentCheck == draggedActor)
@@ -164,13 +164,13 @@ void HierarchyPanel::DrawActorNode(ActorObject* actor)
 							isCircular = true;
 							break;
 						}
-						parentCheck = parentCheck->GetParentActor();
+						parentCheck = parentCheck->GetTransform()->GetParentActor();
 					}
 
 					if (!isCircular && draggedActor != actor)
 					{
 						// SetParentを呼び出すだけで、親子関係の付け替えが完結する
-						draggedActor->SetParent(actor);
+						draggedActor->GetTransform()->SetParent(actor);
 
 						mSelectedActor = draggedActor;
 					}
@@ -181,7 +181,7 @@ void HierarchyPanel::DrawActorNode(ActorObject* actor)
 		//ノードが開かれた場合、子オブジェクトを再帰的に描画
 		if (open)
 		{
-			for (BaseActor* childTransform : children)
+			for (ActorObject* childTransform : children)
 			{
 				if (ActorObject* childActor = dynamic_cast<ActorObject*>(childTransform))
 				{
@@ -226,7 +226,7 @@ bool HierarchyPanel::RightClickMenu()
 
 			if (ImGui::MenuItem("Release Parent Object"))
 			{
-				mSelectedActor->SetParent(nullptr);
+				mSelectedActor->GetTransform()->SetParent(nullptr);
 			}
 
 			if (ImGui::MenuItem("Delete Actor"))

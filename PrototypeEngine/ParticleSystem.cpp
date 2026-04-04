@@ -75,7 +75,7 @@ void ParticleSystem::Emit()
 	if (!p) return; // Å‘å”‚È‚çEmit‚µ‚È‚¢
 	p->mActive = true;
 	p->mLifetime = p->mMaxLifetime = Random::GetFloatRange(0.5f, 1.0f);
-	p->mPosition = mOwner->GetLocalPosition(); // © –ˆ‰ñ‰ŠúˆÊ’u‚©‚ç
+	p->mPosition = mOwner->GetTransform()->GetLocalPosition(); // © –ˆ‰ñ‰ŠúˆÊ’u‚©‚ç
 	p->mVelocity = AddVelocity();
 	p->mSize = Random::GetFloatRange(mParticleMinSize, mParticleMaxSize);
 	p->mColor = mDefaultColor;

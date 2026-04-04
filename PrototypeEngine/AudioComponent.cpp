@@ -53,7 +53,7 @@ void AudioComponent::Update(float deltaTime)
 void AudioComponent::OnUpdateWorldTransform()
 {
 	// 3Dイベントの世界が変わるアプデ
-	Matrix4 world = mOwner->GetWorldTransform();
+	Matrix4 world = mOwner->GetTransform()->GetWorldTransform();
 	for (auto& event : mEvents3D)
 	{
 		if (event.IsValid())
@@ -71,7 +71,7 @@ SoundEventClip AudioComponent::LoadAudio(const string& name)
 	{
 		mEvents3D.emplace_back(e);
 		// 初期の3D属性を設定する
-		e.Set3DAttributes(mOwner->GetWorldTransform());
+		e.Set3DAttributes(mOwner->GetTransform()->GetWorldTransform());
 	}
 	else
 	{
