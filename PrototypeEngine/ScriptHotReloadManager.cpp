@@ -60,7 +60,7 @@ bool ScriptHotReloadManager::Initialize()
 bool ScriptHotReloadManager::LoadScripts()
 {
 	//1.DLLのロード
-	mCurrentDll.hDll = LoadLibraryA(mActiveDllPath.c_str());
+	mCurrentDll.hDll = LoadLibraryA(mSourceDllPath.c_str());
 	if (!mCurrentDll.hDll)
 	{
 		//ロード失敗
@@ -153,7 +153,6 @@ bool ScriptHotReloadManager::ReloadInGameProject()
 
 	// mActivePDBPathを更新 (デバッガがこのパスを参照できるように)
 	mActivePDBPath = newPDBPath;
-	remove(mSourcePDBPath.c_str());
 
 
 
@@ -223,7 +222,8 @@ bool ScriptHotReloadManager::CheckForChanges()
 	{
 		if (entry.is_regular_file())
 		{
-			string path = entry.path().string();
+			string path = entry.path().lexically_normal().string();
+			std::replace(path.begin(), path.end(), '\\', '/');
 			//.cppと.hのみ対象
 			if (path.ends_with(".cpp") || path.ends_with(".h"))
 			{
@@ -299,15 +299,30 @@ bool ScriptHotReloadManager::CheckForChanges()
 	}
 	if (needsRebuild)
 	{
+		Debug::Log("Needs Rebuild");
+		// どのファイルが原因でリロードが走っているか表示
+		for (auto& p : assetsAddedOrModified)
+		{
+			Debug::Log("Added/Modified: ");
+			Debug::Log(p.c_str());
+		}
+		for (auto& p : assetsRemoved)
+		{
+			Debug::Log("Removed/Modified: ");
+			Debug::Log(p.c_str());
+		}
 		return ExecuteMsbuildAndReload();
 	}
-
-	// 既存の .dll の変更監視
+	//mLastLoadTime = GetDllLastWriteTime(mSourceDllPath);
+	/*
+	// 既存の .dll の変更監視 (スクリプトファイルの変更がなくても、プロジェクトファイルの変更などでビルドが走り、DLLが更新される可能性があるため)
 	FILETIME currentWriteTime = GetDllLastWriteTime(mSourceDllPath);
 	if (CompareFileTime(&currentWriteTime, &mLastLoadTime) > 0)
 	{
+		Debug::Log("Project do Rebuild because .dll File Changed");
 		return ExecuteMsbuildAndReload();
 	}
+	*/
 
 	return false;
 }
