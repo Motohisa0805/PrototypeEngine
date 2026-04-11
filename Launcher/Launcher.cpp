@@ -5,8 +5,6 @@
 #include <windows.h>
 #include <string>
 
-//TODO : 現在Release構成でのLauncherに問題があるので
-// Release構成でのexeの実行はbinフォルダ内のPrototypeEngine.exeの実行お願いします。
 #ifdef _DEBUG
 int main()
 {

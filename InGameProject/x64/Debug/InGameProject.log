@@ -3,7 +3,7 @@
   InGameProject_API.cpp
 C:\C++Files\PrototypeEngine\PrototypeEngine\SDL_Scancode.h(143,9): warning C4005: 'KEY_EXECUTE': マクロが再定義されました。
   (ソース ファイル '/InGameProject_API.cpp' をコンパイルしています)
-      C:\Program Files (x86)\Windows Kits\10\Include\10.0.26100.0\um\winnt.h(24548,9):
+      C:\Program Files (x86)\Windows Kits\10\Include\10.0.26100.0\um\winnt.h(24912,9):
       'KEY_EXECUTE' の以前の定義を確認してください
   
 C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(80,12): warning C4251: 'Component::mName': 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' には、'Component' のクライアントが使用する DLL インターフェイスが必要です

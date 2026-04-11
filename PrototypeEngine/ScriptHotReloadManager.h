@@ -48,7 +48,8 @@ struct PipeCloser
 	}
 };
 using UniquePipe = std::unique_ptr<FILE, PipeCloser>;
-
+// <要注意>ホットリロードはLauncherで起動したPrototypeEngine.exeでのみ正常に動作
+//（Visual StudioのスタートアッププロジェクトをLauncherに設定して、そこからPrototypeEngine.exeを起動してください）
 class ScriptHotReloadManager
 {
 private:
