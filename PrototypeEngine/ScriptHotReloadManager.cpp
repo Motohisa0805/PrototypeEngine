@@ -5,10 +5,10 @@
 #include "ProjectPanel.h"
 
 ScriptHotReloadManager::ScriptHotReloadManager()
-	: mSourceDllPath("bin/InGameProject.dll")
-	, mActiveDllPath("bin/InGameProject_Active.dll")
-	, mSourcePDBPath("bin/InGameProject.pdb")
-	, mActivePDBPath("bin/InGameProject_Active.pdb")
+	: mSourceDllPath("bin\\InGameProject.dll")
+	, mActiveDllPath("bin\\InGameProject_Active.dll")
+	, mSourcePDBPath("bin\\InGameProject.pdb")
+	, mActivePDBPath("bin\\InGameProject_Active.pdb")
 	, mDllIndex(0)
 	, mLastLoadTime{ 0 }
 	, mScriptsDirectory("Assets/")
@@ -23,15 +23,16 @@ ScriptHotReloadManager::~ScriptHotReloadManager()
 
 bool ScriptHotReloadManager::Initialize()
 {
+
 	// 最初のDLLロード
 	const string& sourcePath = mSourceDllPath;
 	//初回ロードに使うコピー先のファイルパス
-	string initialDllPath = "bin/InGameProject_Active.dll";
+	string initialDllPath = mActiveDllPath;
 
 	//初回起動時、オリジナルDLLをアクティブDLLとしてコピー
 	if(!CopyFileA(sourcePath.c_str(), initialDllPath.c_str(), FALSE))
 	{
-		Debug::ErrorLog("File Copy Dll File");
+		Debug::ErrorLog("File Copy Dll File",mActiveDllPath);
 		return false;
 	}
 
@@ -40,7 +41,7 @@ bool ScriptHotReloadManager::Initialize()
 	// 2. PDBの初回コピー
 	const string& sourcePDBPath = mSourcePDBPath;
 	// 初回ロードに使うコピー先のファイルパス (DLLと一致させる)
-	string initialPDBPath = "bin/InGameProject_Active.pdb";
+	string initialPDBPath = mActivePDBPath;
 
 	if (!CopyFileA(sourcePDBPath.c_str(), initialPDBPath.c_str(), FALSE))
 	{
@@ -127,8 +128,7 @@ bool ScriptHotReloadManager::ReloadInGameProject()
 	// ----------------------------------------------------
 	// 3. 【新しいDLLのコンパイル】
 	// ----------------------------------------------------
-	mDllIndex = (mDllIndex % 2) + 1; // 1または2を交互に使用
-	string newDllPath = "bin/InGameProject_Active.dll";
+	string newDllPath = mActiveDllPath;
 	
 	//開発者がビルドしたDLLを新しい名前にコピー
 	if (CopyFileA(mSourceDllPath.c_str(), newDllPath.c_str(), FALSE))
@@ -143,7 +143,7 @@ bool ScriptHotReloadManager::ReloadInGameProject()
 
 	// B) PDBのコピー
 	// DLLと同じインデックス（1 or 2）を持つPDBパスを作成
-	string newPDBPath = "bin/InGameProject_Active.pdb";
+	string newPDBPath = mActivePDBPath;
 
 	// オリジナル(mSourcePDBPath)を新しいPDB(newPDBPath)にコピー
 	if (!CopyFileA(mSourcePDBPath.c_str(), newPDBPath.c_str(), FALSE))

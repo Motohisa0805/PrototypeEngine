@@ -57,11 +57,11 @@ private:
 	std::map<std::string, FILETIME>						mKnownAssetTimestamps;
 	bool												mFirstScanComplete = false;
 	//ファイルロックされていない、ビルド出力先
-	const string										mSourceDllPath;
+	string												mSourceDllPath;
 	// ロード中のDLL名
 	string												mActiveDllPath;
 
-	const string										mSourcePDBPath;
+	string												mSourcePDBPath;
 	// ロード中のDLL名
 	string												mActivePDBPath;
 	// 次のロードでファイル名を変更するためのインデックス
