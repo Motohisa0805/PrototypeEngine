@@ -21,9 +21,6 @@ int main()
     std::string binPath = baseDir + "\\bin";
     std::string targetExe = binPath + "\\PrototypeEngine.exe";
 
-    // DLL 検索パスに bin を追加
-    SetDllDirectoryA(binPath.c_str());
-
     // 本体 exe を起動
     STARTUPINFOA si = { sizeof(si) };
     PROCESS_INFORMATION pi;
