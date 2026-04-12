@@ -1,0 +1,59 @@
+MSBuild のバージョン 17.14.40+3e7442088 (.NET Framework)
+2026/04/12 15:17:28 にビルドを開始しました。
+
+ノード 1 上のプロジェクト "C:\C++Files\PrototypeEngine\InGameProject.sln" (既定のターゲット)。
+ValidateSolutionConfiguration:
+  ソリューション構成 "Debug|x64" をビルドしています。
+プロジェクト "C:\C++Files\PrototypeEngine\InGameProject.sln" (1) は、ノード 1 上に "C:\C++Files\PrototypeEngine\InGameProject\InGameProject.vcxproj" (2) をビルドしています (既定のターゲット)。
+PrepareForBuild:
+  構造化出力が有効になっています。コンパイラ診断の書式設定にはエラー階層が反映されます。詳細については、https://aka.ms/cpp/structured-output を参照してください。
+InitializeBuildStatus:
+  "AlwaysCreate" が指定されたため "x64\Debug\InGameProject.tlog\unsuccessfulbuild" を作成しています。
+  "x64\Debug\InGameProject.tlog\unsuccessfulbuild" のタッチ タスクを実行しています。
+ClCompile:
+  すべての出力が最新のものです。
+  C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\bin\HostX86\x64\CL.exe /c /I"C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include" /I"C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3_image-3.2.4\include" /I"C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\FMOD Studio API Windows\api\lowlevel\inc" /I"C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\FMOD Studio API Windows\api\studio\inc" /I"C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3_ttf-3.1.0\include" /I"C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\rapidjson-master\rapidjson-master\include" /IC:\C++Files\PrototypeEngine\PrototypeEngine\ImGui /I"C:\C++Files\PrototypeEngine\PrototypeEngine\json-develop\include" /I"C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\tinyxml2-master" /IC:\C++Files\PrototypeEngine\PrototypeEngine\..\ /IC:\C++Files\PrototypeEngine\InGameProject\ /I"C:\C++Files\PrototypeEngine\InGameProject\ExternalLibrary\stb-master" /ZI /JMC /nologo /W3 /WX- /diagnostics:column /sdl /Od /D _DEBUG /D GAMESCRIPTS_EXPORTS /D _CONSOLE /D "SDL_VERSION=SDL3-3.2.8" /D _USRDLL /D _WINDLL /D _UNICODE /D UNICODE /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /std:c++20 /permissive- /Yu"pch.h" /Fp"x64\Debug\InGameProject.pch" /Fo"x64\Debug\\" /Fd"x64\Debug\vc143.pdb" /external:W3 /Gd /TP /FC /errorReport:queue ..\Assets\ScriptsFolder\MovementScript.cpp
+  MovementScript.cpp
+C:\C++Files\PrototypeEngine\PrototypeEngine\SDL_Scancode.h(143,9): warning C4005: 'KEY_EXECUTE': マクロが再定義されました。 [C:\C++Files\PrototypeEngine\InGameProject\InGameProject.vcxproj]
+  (ソース ファイル '/Assets/ScriptsFolder/MovementScript.cpp' をコンパイルしています)
+      C:\Program Files (x86)\Windows Kits\10\Include\10.0.26100.0\um\winnt.h(24912,9):
+      'KEY_EXECUTE' の以前の定義を確認してください
+  
+C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(80,12): warning C4251: 'Component::mName': 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' には、'Component' のクライアントが使用する DLL インターフェイスが必要です [C:\C++Files\PrototypeEngine\InGameProject\InGameProject.vcxproj]
+  (ソース ファイル '/Assets/ScriptsFolder/MovementScript.cpp' をコンパイルしています)
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(541,7):
+      'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' の宣言を確認してください
+  
+C:\C++Files\PrototypeEngine\PrototypeEngine\ComponentFactory.h(18,44): warning C4251: 'ComponentFactory::sCreators': 'std::map<string,ComponentCreator,std::less<string>,std::allocator<std::pair<const string,ComponentCreator>>>' には、'ComponentFactory' のクライアントが使用する DLL インターフェイスが必要です [C:\C++Files\PrototypeEngine\InGameProject\InGameProject.vcxproj]
+  (ソース ファイル '/Assets/ScriptsFolder/MovementScript.cpp' をコンパイルしています)
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\map(72,7):
+      'std::map<string,ComponentCreator,std::less<string>,std::allocator<std::pair<const string,ComponentCreator>>>' の宣言を確認してください
+  
+Link:
+  C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\bin\HostX86\x64\link.exe /ERRORREPORT:QUEUE /OUT:"C:\C++Files\PrototypeEngine\bin\InGameProject.dll" /INCREMENTAL /ILK:"x64\Debug\InGameProject.ilk" /NOLOGO /LIBPATH:C:\C++Files\PrototypeEngine\bin /LIBPATH:"C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\lib\x64" /LIBPATH:"C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3_image-3.2.4\lib\x64" /LIBPATH:"C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\FMOD Studio API Windows\api\studio\lib" /LIBPATH:"C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\FMOD Studio API Windows\api\lowlevel\lib" /LIBPATH:"C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3_ttf-3.1.0\lib\x64" SDL3.lib SDL3_image.lib fmod64_vc.lib fmodL64_vc.lib fmodstudio64_vc.lib fmodstudioL64_vc.lib SDL3_ttf.lib PrototypeEngine.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:NO /manifest:embed /DEBUG /PDB:"C:\C++Files\PrototypeEngine\bin\InGameProject.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\C++Files\PrototypeEngine\bin\InGameProject.lib" /MACHINE:X64 /DLL x64\Debug\dllmain.obj
+  x64\Debug\InGameProject_API.obj
+  x64\Debug\pch.obj
+  x64\Debug\MovementScript.obj
+     ライブラリ C:\C++Files\PrototypeEngine\bin\InGameProject.lib とオブジェクト C:\C++Files\PrototypeEngine\bin\InGameProject.exp を作成中
+  InGameProject.vcxproj -> C:\C++Files\PrototypeEngine\bin\InGameProject.dll
+TlogCleanup:
+  プロジェクトまたはビルドから削除された tlog から次の項目を削除しています: C:\C++Files\PrototypeEngine\InGameProject\x64\Debug\asadfwScript.obj
+FinalizeBuildStatus:
+  ファイル "x64\Debug\InGameProject.tlog\unsuccessfulbuild" を削除しています。
+  "x64\Debug\InGameProject.tlog\InGameProject.lastbuildstate" のタッチ タスクを実行しています。
+プロジェクト "C:\C++Files\PrototypeEngine\InGameProject\InGameProject.vcxproj" (既定のターゲット) のビルドが完了しました。
+プロジェクト "C:\C++Files\PrototypeEngine\InGameProject.sln" (既定のターゲット) のビルドが完了しました。
+
+ビルドに成功しました。
+
+"C:\C++Files\PrototypeEngine\InGameProject.sln" (既定のターゲット) (1) ->
+"C:\C++Files\PrototypeEngine\InGameProject\InGameProject.vcxproj" (既定のターゲット) (2) ->
+(ClCompile ターゲット) -> 
+  C:\C++Files\PrototypeEngine\PrototypeEngine\SDL_Scancode.h(143,9): warning C4005: 'KEY_EXECUTE': マクロが再定義されました。 [C:\C++Files\PrototypeEngine\InGameProject\InGameProject.vcxproj]
+  C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(80,12): warning C4251: 'Component::mName': 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' には、'Component' のクライアントが使用する DLL インターフェイスが必要です [C:\C++Files\PrototypeEngine\InGameProject\InGameProject.vcxproj]
+  C:\C++Files\PrototypeEngine\PrototypeEngine\ComponentFactory.h(18,44): warning C4251: 'ComponentFactory::sCreators': 'std::map<string,ComponentCreator,std::less<string>,std::allocator<std::pair<const string,ComponentCreator>>>' には、'ComponentFactory' のクライアントが使用する DLL インターフェイスが必要です [C:\C++Files\PrototypeEngine\InGameProject\InGameProject.vcxproj]
+
+    3 個の警告
+    0 エラー
+
+経過時間 00:00:02.69

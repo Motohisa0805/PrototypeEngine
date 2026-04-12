@@ -60,10 +60,11 @@ bool ScriptHotReloadManager::Initialize()
 bool ScriptHotReloadManager::LoadScripts()
 {
 	//1.DLLのロード
-	mCurrentDll.hDll = LoadLibraryA(mSourceDllPath.c_str());
+	mCurrentDll.hDll = LoadLibraryA(mActiveDllPath.c_str());
 	if (!mCurrentDll.hDll)
 	{
 		//ロード失敗
+		Debug::ErrorLog("Failed to load DLL: ", mActiveDllPath.c_str());
 		return false;
 	}
 
@@ -206,6 +207,7 @@ void ScriptHotReloadManager::UnloadScripts()
 	{
 		// 2.DLLのアンロード: DLLをメモリから解放
 		FreeLibrary(mCurrentDll.hDll);
+		remove(mActiveDllPath.c_str());
 		remove(mActivePDBPath.c_str());
 	}
 	mCurrentDll = { };
@@ -277,11 +279,18 @@ bool ScriptHotReloadManager::CheckForChanges()
 	// A) 削除処理
 	for (const auto& path : assetsRemoved)
 	{
+		/*
 		std::string stem = std::filesystem::path(path).stem().string();
 		if (processedStems.find(stem) == processedStems.end())
 		{
 			EditorUtils::GetInstance().RemoveScriptFileToVcxProj(path, stem);
 			processedStems.insert(stem);
+			needsRebuild = true;
+		}
+		*/
+		// stemによるガードを外し、削除されたファイル（.cppも.hも）をすべて処理に回す
+		if (EditorUtils::GetInstance().RemoveScriptFileToVcxProj(path, ""))
+		{
 			needsRebuild = true;
 		}
 	}
@@ -484,7 +493,8 @@ bool ScriptHotReloadManager::ExecuteMsbuildAndReload()
 
 	// 2. コマンド文字列をフルパスで組み立てる
 	string msBuildCommand = msBuildPath + " " + targetPath + " /p:Configuration=Debug /p:Platform=x64";
-
+	//コマンドの出力をログファイルにリダイレクト（ビルドエラーの詳細を確認するため）
+	//string msBuildCommand = "cmd /c " + msBuildPath + " " + targetPath + " /p:Configuration=Debug /p:Platform=x64 > build_log.txt 2>&1";
 	int buildResult = ExecuteAndWaitForProcess(msBuildCommand);
 
 	if (buildResult != 0)

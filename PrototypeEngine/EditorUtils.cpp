@@ -209,56 +209,50 @@ bool EditorUtils::RemoveScriptFileToVcxProj(const filesystem::path& path, const 
 {
     tinyxml2::XMLDocument doc;
 
-    if (doc.LoadFile(mVcxppoj_Path.string().c_str()) != tinyxml2::XMLError::XML_SUCCESS)return false;
+    // 1. XMLファイルをロード
+    if (doc.LoadFile(mVcxppoj_Path.string().c_str()) != tinyxml2::XML_SUCCESS) return false;
 
-    string rootPath = StringConverter::RemoveString(path.string(), path.filename().string());
+    // 2. 削除対象の拡張子を確認し、タグを決定 (.cpp なら ClCompile, .h なら ClHeader)
+    string ext = path.extension().string();
+    const char* targetTag = nullptr;
+    if (ext == ".cpp") targetTag = "ClCompile";
+    else if (ext == ".h") targetTag = "ClInclude";
 
-    // 削除対象のパスを構築
-    string cppPathToRemove = "..\\" + rootPath + scriptClassName + ".cpp";
-    string hPathToRemove = "..\\" + rootPath + scriptClassName + ".h";
-    std::replace(cppPathToRemove.begin(), cppPathToRemove.end(), '/', '\\');
-    std::replace(hPathToRemove.begin(), hPathToRemove.end(), '/', '\\');
+    if (!targetTag) return false; // 対象外の拡張子なら終了
+
+    // 3. プロジェクトファイルからの相対パスを構築 (例: Assets/Test.cpp -> ..\Assets\Test.cpp)
+    string targetPath = "..\\" + path.string();
+    std::replace(targetPath.begin(), targetPath.end(), '/', '\\');
 
     tinyxml2::XMLElement* root = doc.RootElement();
-    if (!root)return false;
+    if (!root) return false;
 
-    // フラグ
     bool changed = false;
 
-    // 全ての <ItemGroup> をイテレート
+    // 4. 全ての <ItemGroup> を検索
     for (tinyxml2::XMLElement* itemGroup = root->FirstChildElement("ItemGroup");
         itemGroup != nullptr;
         itemGroup = itemGroup->NextSiblingElement("ItemGroup"))
     {
-        // 1. <ClCompile(.cpp)> を削除
-        tinyxml2::XMLElement* clCompile = itemGroup->FirstChildElement("ClCompile");
-        while (clCompile) 
+        // ターゲットとなるタグ (ClCompile か ClHeader) を検索して削除
+        tinyxml2::XMLElement* element = itemGroup->FirstChildElement(targetTag);
+        while (element)
         {
-            tinyxml2::XMLElement* next = clCompile->NextSiblingElement("ClCompile");
-            const char* includeAttr = clCompile->Attribute("Include");
-            if (includeAttr && (std::string(includeAttr)) == cppPathToRemove)
-            {
-                itemGroup->DeleteChild(clCompile);
-                changed = true;
-            }
-            clCompile = next;
-        }
+            tinyxml2::XMLElement* next = element->NextSiblingElement(targetTag);
+            const char* includeAttr = element->Attribute("Include");
 
-        // 2. <ClInclude(.h)> を削除
-        tinyxml2::XMLElement* clHeader = itemGroup->FirstChildElement("ClInclude");
-        while (clHeader) {
-            tinyxml2::XMLElement* next = clHeader->NextSiblingElement("ClInclude");
-            const char* includeAttr = clHeader->Attribute("Include");
-            if (includeAttr && (std::string(includeAttr)) == hPathToRemove) 
+            // パスが一致したら削除
+            if (includeAttr && (string(includeAttr)) == targetPath)
             {
-                itemGroup->DeleteChild(clHeader);
+                itemGroup->DeleteChild(element);
                 changed = true;
             }
-            clHeader = next;
+            element = next;
         }
     }
 
-    if (changed) 
+    // 5. 変更があれば保存
+    if (changed)
     {
         doc.SaveFile(mVcxppoj_Path.string().c_str());
     }
