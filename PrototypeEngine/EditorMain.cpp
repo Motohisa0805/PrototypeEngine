@@ -68,6 +68,20 @@ int main(int argc, char* argv[])
 	CurrentDirectorySetting();
 	// メモリリーク検出を有効にする
 	EnableMemoryLeakCheck();
+
+	// 自分の実行パスを取得
+	char buf[MAX_PATH];
+	GetModuleFileNameA(NULL, buf, MAX_PATH);
+	std::string exePath(buf);
+
+	// 自分があるディレクトリを抽出
+	size_t pos = exePath.find_last_of("\\/");
+	std::string baseDir = exePath.substr(0, pos);
+
+	// bin フォルダを組み立てる
+	std::string binPath = baseDir + "\\bin";
+	std::string targetExe = binPath + "\\PrototypeEngine.exe";
+
 	// エンジンの初期化
 	EngineWindow engine;
 	bool success = engine.EngineInitialize();
