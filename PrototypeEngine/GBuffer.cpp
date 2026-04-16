@@ -124,18 +124,3 @@ void GBuffer::SetTexturesActive()
 		mTextures[i]->SetActive(i);
 	}
 }
-
-bool GBuffer::NeedsResize(Vector2 size)
-{
-	bool b = (size.x != mWidth || size.y != mHeight);
-	return b;
-}
-
-GLuint GBuffer::GetImGuiColorAttachment(int index) const
-{
-	if (index < 0 || index >= (int)mTextures.size())
-	{
-		return 0;
-	}
-	return mTextures[index]->GetTextureID();
-}

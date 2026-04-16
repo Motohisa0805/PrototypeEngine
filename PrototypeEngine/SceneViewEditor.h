@@ -7,7 +7,7 @@
 class SceneViewEditor
 {
 private:
-	GLuint mSceneFBO;
+	GLuint mBufferID;
 	GLuint mSceneColorTex;
 	GLuint mSceneDepthTex;
 
@@ -20,7 +20,7 @@ public:
 
 	bool	NeedsResize(Vector2 size);
 
-	GLuint	GetSceneFBO() const { return mSceneFBO; }
+	GLuint	GetBufferID() const { return mBufferID; }
 	GLuint	GetSceneColorTex() const { return mSceneColorTex; }
 	GLuint	GetSceneDepthTex() const { return mSceneDepthTex; }
 };

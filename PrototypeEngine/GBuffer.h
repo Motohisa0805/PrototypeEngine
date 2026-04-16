@@ -10,7 +10,6 @@
 //前方宣言
 class Texture;
 
-//書籍元のファイル
 class GBuffer
 {
 public:
@@ -47,9 +46,4 @@ public:
 	unsigned int				GetBufferID() const { return mBufferID; }
 	// Setup all the G-buffer textures for sampling
 	void						SetTexturesActive();
-
-	bool						NeedsResize(Vector2 size);
-
-	//ImGui に渡すための関数を追加
-	GLuint						GetImGuiColorAttachment(int index = 0) const;
 };

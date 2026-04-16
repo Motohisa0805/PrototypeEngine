@@ -1454,7 +1454,7 @@ public:
 		};
 		return Matrix4(mat);
 	}
-	// Positionを取得(列優先)
+	// Positionを取得(行優先)
 	inline static Matrix4 CreateTranslation(const Vector3& trans)
 	{
 		float temp[4][4] =
