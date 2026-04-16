@@ -32,7 +32,7 @@ void main()
 
 	// 座標変換に伴う法線の変換
 	mat3 normalMatrix = transpose(inverse(mat3(uWorldTransform)));
-	fragNormal = normalize(normalMatrix * inNormal);
+	fragNormal = normalize(inNormal * normalMatrix);
 
 	// シェーダーにテクスチャ座標を渡す
 	fragTexCoord = inTexCoord;

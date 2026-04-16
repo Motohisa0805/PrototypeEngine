@@ -1,7 +1,7 @@
 #include "SceneViewEditor.h"
 
 SceneViewEditor::SceneViewEditor()
-	: mSceneFBO(0)
+	: mBufferID(0)
     , mSceneColorTex(0)
     , mSceneDepthTex(0)
 {
@@ -10,10 +10,10 @@ SceneViewEditor::SceneViewEditor()
 SceneViewEditor::~SceneViewEditor()
 {
 
-    if (mSceneFBO != 0)
+    if (mBufferID != 0)
     {
-        glDeleteFramebuffers(1, &mSceneFBO);
-        mSceneFBO = 0;
+        glDeleteFramebuffers(1, &mBufferID);
+        mBufferID = 0;
     }
     if (mSceneColorTex != 0)
     {
@@ -29,8 +29,9 @@ SceneViewEditor::~SceneViewEditor()
 
 void SceneViewEditor::CreateSceneFBO(int width, int height)
 {
-    glGenFramebuffers(1, &mSceneFBO);
-    glBindFramebuffer(GL_FRAMEBUFFER, mSceneFBO);
+    // Create the framebuffer object
+    glGenFramebuffers(1, &mBufferID);
+    glBindFramebuffer(GL_FRAMEBUFFER, mBufferID);
 
     // カラーテクスチャ
     glGenTextures(1, &mSceneColorTex);

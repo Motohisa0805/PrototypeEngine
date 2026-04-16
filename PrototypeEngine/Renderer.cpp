@@ -69,10 +69,12 @@ bool Renderer::Initialize(float screenWidth, float screenHeight)
 	SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 8);
 	SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 8);
 	SDL_GL_SetAttribute(SDL_GL_ALPHA_SIZE, 8);
+	//Zファイティング防止のため数値は高めに深度バッファをリクエスト
 	SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
 	// ダブルバッファリングを有効にする
 	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 	// OpenGLにハードウェアアクセラレーションを使用
+	//動作軽減のため描画用GPUを使用するように要求
 	SDL_GL_SetAttribute(SDL_GL_ACCELERATED_VISUAL, 1);
 	//SDL_Windowを作成する
 	mWindow = SDL_CreateWindow(mWindowTitle.c_str(), static_cast<int>(WindowRenderProperty::GetWidth()), static_cast<int>(WindowRenderProperty::GetHeight()), SDL_WINDOW_OPENGL);
@@ -84,6 +86,12 @@ bool Renderer::Initialize(float screenWidth, float screenHeight)
 	}
 	// OpenGLコンテキストを作成する
 	mContext = SDL_GL_CreateContext(mWindow);
+	if (!mContext)
+	{
+		// コンテキスト作成失敗（グラボのドライバが古い、設定が無茶すぎる等）
+		SDL_Log("Failed to create OpenGL context: %s", SDL_GetError());
+		return false;
+	}
 	// GLEWを初期化する
 	glewExperimental = GL_TRUE;
 	if (glewInit() != GLEW_OK)
@@ -132,9 +140,11 @@ bool Renderer::Initialize(float screenWidth, float screenHeight)
 		SDL_Log("Failed to load shaders.");
 		return false;
 	}
-
+	//エディターとゲームのシーンビューのFBOを作成
+	//エディターシーンのFBOを作成
 	mSceneViewEditor = new SceneViewEditor();
 	mSceneViewEditor->CreateSceneFBO(width, height);
+	//ゲームシーンのFBOを作成
 	mGameSceneViewEditor = new SceneViewEditor();
 	mGameSceneViewEditor->CreateSceneFBO(width, height);
 	
@@ -340,30 +350,20 @@ void Renderer::StartDraw()
 	}
 	//Meshの順番を変更
 	MeshOrderUpdate();
-
-
 	// ライト視点で深度情報をシャドウマップに描画
 	DrawShadow3DScene();
-	//***SceneViewEditorのSceneFBOに描画
 
+	//***SceneViewEditorのSceneFBOに描画
 	// G-bufferに3Dシーンを描画します。
 	EditorDraw3DScene(mSceneBuffer->GetBufferID(), EngineWindow::GetSceneEditorCamera()->GetViewMatrix(), mProjection, 1.0f, true);
-
-	glBindFramebuffer(GL_FRAMEBUFFER, mSceneViewEditor->GetSceneFBO());
-
 	// Gバッファから描画する
 	DrawFromGBufferForEditor();
 
 	//***gameViewEditorのGameSceneFBOに描画***
-
 	// G-bufferに3Dシーンを描画します。
 	Draw3DScene(mGBuffer->GetBufferID(), mView, mProjection, 1.0f, true);
-
-	glBindFramebuffer(GL_FRAMEBUFFER, mGameSceneViewEditor->GetSceneFBO());
-
 	// Gバッファから描画する
 	DrawFromGBuffer();
-
 	// すべてのスプライトコンポーネントを描画する
 	// 深度バッファリングを無効にする
 	glDisable(GL_DEPTH_TEST);
@@ -685,6 +685,9 @@ void Renderer::DrawShadow3DScene()
 
 void Renderer::DrawFromGBufferForEditor()
 {
+	//描画先を指定されたフレームバッファに切り替える
+	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, mSceneViewEditor->GetBufferID());
+
 	glDisable(GL_DEPTH_TEST);
 
 	mGGlobalShader->SetActive();
@@ -708,6 +711,8 @@ void Renderer::DrawFromGBufferForEditor()
 
 void Renderer::DrawFromGBuffer()
 {
+	//描画先を指定されたフレームバッファに切り替える
+	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, mGameSceneViewEditor->GetBufferID());
 	// グローバルライティングパスの深度テストを無効にします
 	glDisable(GL_DEPTH_TEST);
 	// グローバルGバッファシェーダをアクティブにする
