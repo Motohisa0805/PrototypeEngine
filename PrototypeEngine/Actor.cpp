@@ -65,7 +65,6 @@ void ActorObject::FixedUpdate(float deltaTime)
 	if (mState == EActive)
 	{
 		FixedUpdateComponents(deltaTime);
-		FixedUpdateActor(deltaTime);
 		mTransform->ComputeWorldTransform();
 	}
 }
@@ -78,17 +77,12 @@ void ActorObject::FixedUpdateComponents(float deltaTime)
 	}
 }
 
-void ActorObject::FixedUpdateActor(float deltaTime)
-{
-}
-
 void ActorObject::Update(float deltaTime)
 {
 	if (mState == EActive)
 	{
 		//ComputeLocalTransform();
 		UpdateComponents(deltaTime);
-		UpdateActor(deltaTime);
 		mTransform->ComputeWorldTransform();
 	}
 }
@@ -98,7 +92,6 @@ void ActorObject::EditorComputeWorldTransform()
 	if (mState == EActive)
 	{
 		UpdateComponents(Time::gDeltaTime);
-		UpdateActor(Time::gDeltaTime);
 		mTransform->ComputeWorldTransform();
 	}
 }
@@ -107,12 +100,15 @@ void ActorObject::UpdateComponents(float deltaTime)
 {
 	for (auto comp : mComponents)
 	{
+		ScriptComponent* scriptComp = dynamic_cast<ScriptComponent*>(comp);
 		//1.ScriptComponentであるか確認
-		if (ScriptComponent* scriptComp = dynamic_cast<ScriptComponent*>(comp))
+		if (scriptComp != nullptr)
 		{
 			//2.Start()が呼ばれたか確認
 			if (!scriptComp->HasStarted())
 			{
+				scriptComp->Awake();
+				scriptComp->OnEnable();
 				scriptComp->Start();
 				scriptComp->SetStarted(true);
 			}
@@ -121,8 +117,35 @@ void ActorObject::UpdateComponents(float deltaTime)
 	}
 }
 
-void ActorObject::UpdateActor(float deltaTime)
+void ActorObject::StateUpdate(float deltaTime)
 {
+	//状態が変化していない場合は何もしない
+	if(mState == mPreviousState)
+	{
+		return;
+	}
+	//状態が変化したときに、ScriptComponentのOnEnable/OnDisableを呼び出す
+	if (mState != mPreviousState)
+	{
+		for (auto comp : mComponents)
+		{
+			ScriptComponent* scriptComp = dynamic_cast<ScriptComponent*>(comp);
+			//1.ScriptComponentであるか確認
+			if (scriptComp != nullptr)
+			{
+				if (mState == EPaused || mState == EDead)
+				{
+					scriptComp->OnDisable();
+				}
+				else if (mState == EActive)
+				{
+					scriptComp->OnEnable();
+				}
+			}
+		}
+	}
+	//最後に状態を更新
+	mPreviousState = mState;
 }
 
 void ActorObject::ProcessInput(const struct InputState& keyState)
@@ -141,6 +164,20 @@ void ActorObject::ProcessInput(const struct InputState& keyState)
 
 void ActorObject::ActorInput(const struct InputState& keyState)
 {
+}
+
+void ActorObject::OnDestroy()
+{
+	for (auto comp : mComponents)
+	{
+		ScriptComponent* scriptComp = dynamic_cast<ScriptComponent*>(comp);
+		//1.ScriptComponentであるか確認
+		if (scriptComp != nullptr)
+		{
+			scriptComp->OnDisable();
+			scriptComp->Destroy();
+		}
+	}
 }
 
 void ActorObject::AddComponent(Component* component)

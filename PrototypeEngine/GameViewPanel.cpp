@@ -32,10 +32,7 @@ void GameViewPanel::Draw(float width, float height, ImTextureRef ref)
 	if(ImGui::Begin(GetName(), nullptr, flag))
 	{
 		//デバッグモード切り替えボタン
-		if (ImGui::Button("States", ImVec2(0.0f, 0.0f)))
-		{
-			GameStateClass::gDebugStatesFrag = !GameStateClass::gDebugStatesFrag;
-		}
+		ImGuiHelper::FragTextButton("State:", ImVec2(0.0f, 0.0f), GameStateClass::gDebugStatesFrag);
 
 		//入力処理
 		MouseHoveredDisble();

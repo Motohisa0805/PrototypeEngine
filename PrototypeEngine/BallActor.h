@@ -7,8 +7,6 @@ class BallActor : public ActorObject
 public:
 	BallActor();
 
-	void UpdateActor(float deltaTime) override;
-
 	void SetPlayer(ActorObject* player);
 
 	void HitTarget();

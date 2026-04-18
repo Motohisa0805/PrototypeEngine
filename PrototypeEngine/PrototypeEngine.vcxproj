@@ -207,6 +207,7 @@
     <ClCompile Include="GUIWinMain.cpp" />
     <ClCompile Include="HierarchyPanel.cpp" />
     <ClCompile Include="Image.cpp" />
+    <ClCompile Include="ImGuiHelper.cpp" />
     <ClCompile Include="ImGui\imgui.cpp" />
     <ClCompile Include="ImGui\imgui_demo.cpp" />
     <ClCompile Include="ImGui\imgui_draw.cpp" />
@@ -303,6 +304,7 @@
     <ClInclude Include="GUIWinMain.h" />
     <ClInclude Include="HierarchyPanel.h" />
     <ClInclude Include="Image.h" />
+    <ClInclude Include="ImGuiHelper.h" />
     <ClInclude Include="ImGui\imconfig.h" />
     <ClInclude Include="ImGui\imgui.h" />
     <ClInclude Include="ImGui\imgui_impl_opengl3.h" />

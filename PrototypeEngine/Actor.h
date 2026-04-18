@@ -33,6 +33,8 @@ protected:
 	// Actor's state
 	State						mState;
 
+	State						mPreviousState;
+
 	//オブジェクトのタグ
 	ActorTag					mActorTag = ActorTag::None;
 
@@ -55,27 +57,28 @@ public:
 	void						FixedUpdate(float deltaTime);
 	// Actorに接続されたすべてのコンポーネントを更新します（オーバーライド不可）
 	void						FixedUpdateComponents(float deltaTime);
-	// 任意のActor固有の更新コード（上書き可能）
-	virtual void				FixedUpdateActor(float deltaTime);
 	// ゲームから呼び出される更新関数（オーバーライド不可）
 	void						Update(float deltaTime);
 	void						EditorComputeWorldTransform();
 	// Actorに接続されたすべてのコンポーネントを更新します（オーバーライド不可）
 	void						UpdateComponents(float deltaTime);
-	// 任意のActor固有の更新コード（上書き可能）
-	virtual void				UpdateActor(float deltaTime);
+
+	void						StateUpdate(float deltaTime);
 	// ゲームから呼び出されたProcessInput関数（オーバーライドできません）
 	void						ProcessInput(const struct InputState& keyState);
 	// 任意のActor特有の入力コード（上書き可能）
 	virtual void				ActorInput(const struct InputState& keyState);
-
-	template<typename T>
-	T*							GetComponent() const;
+	// Actorが破壊されたときに呼び出される関数
+	void						OnDestroy();
 
 	// Getters/setters
 	State						GetState() const { return mState; }
 
 	void						SetState(State state) { mState = state; }
+
+	State 						GetPreviousState() const { return mPreviousState; }
+
+	void 						SetPreviousState(State state) { mPreviousState = state; }
 
 	virtual ActorTag			GetActorTag() { return mActorTag; }
 
@@ -89,6 +92,8 @@ public:
 
 	Collider*					GetCollider() { return mCollider; }
 
+	template<typename T>
+	T*							GetComponent() const;
 	// Add/remove components
 	virtual void				AddComponent(Component* component);
 	virtual void				RemoveComponent(Component* component);
