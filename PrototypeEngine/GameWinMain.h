@@ -14,7 +14,12 @@ public:
 	static void			SetGameState(GameState state) { gGameState = state; }
 	static GameState	gGameState;
 	static bool			gGameEventFrag;
+
+	//エディターシーン用のフラグ
 	static bool			gDebugGridFrag;
+
+	static bool			gShadowFrag;
+	//ゲームシーン用のフラグ
 	static bool			gDebugStatesFrag;
 };
 

@@ -472,6 +472,9 @@
     <ClCompile Include="ActorManager.cpp">
       <Filter>SourceCodes\F_Editor\Actors</Filter>
     </ClCompile>
+    <ClCompile Include="ImGuiHelper.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BasicInputAction.h">
@@ -785,6 +788,9 @@
     </ClInclude>
     <ClInclude Include="PrototypeEngine_API.h">
       <Filter>SourceCodes\F_Editor\Utilitys</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGuiHelper.h">
+      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

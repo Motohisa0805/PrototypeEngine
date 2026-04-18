@@ -16,20 +16,22 @@ public:
 	GAMESCRIPTS_API void SetStarted(bool started);
 
 	// ----------------------------------------------------
-	// ライフサイクル関数 (ユーザーがオーバーライドする場所)
+	// ライフサイクル(イベント関数)関数 (ユーザーがオーバーライドする場所)
 	// ----------------------------------------------------
 
 	//初期化処理:Startの前に呼ばれるものとして宣言
 	GAMESCRIPTS_API virtual void Awake();
-
+	//Actorが有効になったときに呼ばれるものとして宣言
+	GAMESCRIPTS_API virtual void OnEnable();
 	//初期化処理:最初のUpdate()が呼ばれる前に一度だけ呼ばれる
 	GAMESCRIPTS_API virtual void Start();
-
 	//毎フレームの更新処理
 	GAMESCRIPTS_API virtual void Update(float deltaTime)override;
-
 	//物理更新処理
 	GAMESCRIPTS_API virtual void FixedUpdate(float deltaTime)override;
-
+	//Actorが無効になったときに呼ばれるものとして宣言
+	GAMESCRIPTS_API virtual void OnDisable();
+	//Actorが破壊されたときに呼ばれるものとして宣言
+	GAMESCRIPTS_API virtual void Destroy();
 };
 

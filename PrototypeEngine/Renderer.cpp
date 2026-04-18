@@ -694,7 +694,7 @@ void Renderer::DrawFromGBufferForEditor()
 	mSpriteVerts->SetActive();
 	mSceneBuffer->SetTexturesActive();
 	// シャドウマップを無効にする
-	mGGlobalShader->SetBoolUniform("uEnableShadow", false); // withShadow = true/false
+	mGGlobalShader->SetBoolUniform("uEnableShadow", GameStateClass::gShadowFrag); // withShadow = true/false
 	
 	SetLightUniforms(mGGlobalShader, mView);
 

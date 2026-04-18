@@ -20,9 +20,12 @@ void ActorManager::UpdateActors(float time)
 		mPendingActors[i]->GetTransform()->ComputeWorldTransform();
 		mActors.emplace_back(mPendingActors[i]);
 	}
-
 	mPendingActors.clear();
-
+	//アクターの状態を更新します（EDeadになったものは後で削除）
+	for (int i = 0; i < mActors.size(); i++)
+	{
+		mActors[i]->StateUpdate(time);
+	}
 	// Add any dead actors to a temp vector
 	vector<ActorObject*> deadActors;
 	for (int i = 0; i < mActors.size(); i++)
@@ -37,6 +40,7 @@ void ActorManager::UpdateActors(float time)
 	// Delete dead actors (which removes them from mActors)
 	for (auto actor : deadActors)
 	{
+		actor->OnDestroy();
 		delete actor;
 	}
 }

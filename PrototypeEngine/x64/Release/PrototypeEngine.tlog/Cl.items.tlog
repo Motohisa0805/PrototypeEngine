@@ -42,6 +42,7 @@ C:\C++Files\PrototypeEngine\PrototypeEngine\GUIPanel.cpp;C:\C++Files\PrototypeEn
 C:\C++Files\PrototypeEngine\PrototypeEngine\GUIWinMain.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Release\GUIWinMain.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\HierarchyPanel.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Release\HierarchyPanel.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\Image.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Release\Image.obj
+C:\C++Files\PrototypeEngine\PrototypeEngine\ImGuiHelper.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Release\ImGuiHelper.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\ImGui\imgui.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Release\imgui.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\ImGui\imgui_demo.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Release\imgui_demo.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\ImGui\imgui_draw.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Release\imgui_draw.obj
