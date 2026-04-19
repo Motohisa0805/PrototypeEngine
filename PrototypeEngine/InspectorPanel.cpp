@@ -48,10 +48,25 @@ void InspectorPanel::Draw(float width, float height, ImTextureRef ref)
 			char nameBuffer[128];
 			strncpy_s(nameBuffer, selectedActor->GetName().c_str(), sizeof(nameBuffer) - 1);
 			nameBuffer[sizeof(nameBuffer) - 1] = '\0'; // 念のためヌル終端
-
+			//アクターの名前入力UI
 			if (ImGui::InputText("Name", nameBuffer, sizeof(nameBuffer)))
 			{
 				selectedActor->SetName(string(nameBuffer));
+			}
+			ImGui::SameLine();
+			//StaticタグのコンボUI
+			if (ImGui::BeginCombo("Static", ActorInformation::GetStateName(selectedActor->GetStatic()).c_str()))
+			{
+				for (uint32_t i = 0; i < 4; ++i) {
+					ActorInformation::StaticTag tag = static_cast<ActorInformation::StaticTag>(i);
+					bool isSelected = (selectedActor->GetStatic() == tag);
+
+					if (ImGui::Selectable(ActorInformation::GetStateName(tag).c_str(), isSelected))
+					{
+						selectedActor->SetStaticTag(tag);
+					}
+				}
+				ImGui::EndCombo();
 			}
 
 			ImGui::Separator();

@@ -29,17 +29,17 @@ void ScriptComponent::SetStarted(bool started)
 
 void ScriptComponent::Awake()
 {
-
+	Debug::Log("ScriptComponent Awake");
 }
 
 void ScriptComponent::OnEnable()
 {
-
+	Debug::Log("ScriptComponent OnEnable");
 }
 
 void ScriptComponent::Start()
 {
-
+	Debug::Log("ScriptComponent Start");
 }
 
 void ScriptComponent::Update(float deltaTime)
@@ -52,12 +52,27 @@ void ScriptComponent::FixedUpdate(float deltaTime)
 
 }
 
-void ScriptComponent::OnDisable()
+void ScriptComponent::OnCollisionEnter(ActorObject* target)
 {
 
 }
 
-void ScriptComponent::Destroy()
+void ScriptComponent::OnCollisionStay(ActorObject* target)
 {
 
+}
+
+void ScriptComponent::OnCollisionExit(ActorObject* target)
+{
+
+}
+
+void ScriptComponent::OnDisable()
+{
+	Debug::Log("ScriptComponent OnDisable");
+}
+
+void ScriptComponent::Destroy()
+{
+	Debug::Log("ScriptComponent Destroyed");
 }

@@ -16,7 +16,7 @@ ActorObject::ActorObject()
 	, mGame(SceneManager::GetNowScene())
 	, mName("Actor")
 	, mState(EActive)
-	, mActorTag(ActorTag::None)
+	, mActorTag(ActorInformation::Tag::None)
 	, mCollider(nullptr)
 	, mRigidbody(nullptr)
 {
@@ -30,7 +30,7 @@ ActorObject::ActorObject(BaseScene* scene)
 	: mGame(scene)
 	, mName("Actor")
 	, mState(EActive)
-	, mActorTag(ActorTag::None)
+	, mActorTag(ActorInformation::Tag::None)
 	, mCollider(nullptr)
 	, mRigidbody(nullptr)
 {
@@ -211,6 +211,45 @@ void ActorObject::RemoveComponent(Component* component)
 	}
 }
 
+void ActorObject::OnCollisionEnter(ActorObject* target)
+{
+	for (auto comp : mComponents)
+	{
+		ScriptComponent* scriptComp = dynamic_cast<ScriptComponent*>(comp);
+		//1.ScriptComponentであるか確認
+		if (scriptComp != nullptr)
+		{
+			scriptComp->OnCollisionEnter(target);
+		}
+	}
+}
+
+void ActorObject::OnCollisionStay(ActorObject* target)
+{
+	for (auto comp : mComponents)
+	{
+		ScriptComponent* scriptComp = dynamic_cast<ScriptComponent*>(comp);
+		//1.ScriptComponentであるか確認
+		if (scriptComp != nullptr)
+		{
+			scriptComp->OnCollisionStay(target);
+		}
+	}
+}
+
+void ActorObject::OnCollisionExit(ActorObject* target)
+{
+	for (auto comp : mComponents)
+	{
+		ScriptComponent* scriptComp = dynamic_cast<ScriptComponent*>(comp);
+		//1.ScriptComponentであるか確認
+		if (scriptComp != nullptr)
+		{
+			scriptComp->OnCollisionExit(target);
+		}
+	}
+}
+
 void ActorObject::Serialize(json& j) const
 {
 	j["Type"] = "Transform";
@@ -278,7 +317,7 @@ void ActorObject::Deserialize(const json& j)
 	mState = static_cast<State>(j.at("State").get<int>());
 
 	// タグを読み込む
-	mActorTag = static_cast<ActorTag>(j.at("Tag").get<int>());
+	mActorTag = static_cast<ActorInformation::Tag>(j.at("Tag").get<int>());
 
 	// コンポーネントリストを処理
 	if (j.contains("Components"))
