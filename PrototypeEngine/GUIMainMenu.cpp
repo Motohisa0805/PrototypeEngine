@@ -60,7 +60,7 @@ void GUIMainMenu::FileMenuDraw()
 	// "File" メニューの開始
 	if (ImGui::BeginMenu("File"))
 	{
-		if (ImGui::MenuItem("Save"))
+		if (ImGui::MenuItem("Save","Ctrl+S"))
 		{
 			string startupScenePath = EditorSettingsManager::GetInstance().GetLastOpenedScene();
 			SceneSerializer::SaveScene(startupScenePath, SceneManager::GetNowScene());

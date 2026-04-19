@@ -184,7 +184,7 @@ void FPSCanvas::UpdateCrosshair(float deltaTime)
 	LineSegment l(start, start + dir * cAimDist);
 	// Segment cast
 	PhysWorld::CollisionInfo info;
-	ActorTag tag = ActorTag::Enemy;
+	ActorInformation::Tag tag = ActorInformation::Tag::Enemy;
 	/*
 	if (mGame->GetPhysWorld()->RayCast(l, info, (int)tag))
 	{
