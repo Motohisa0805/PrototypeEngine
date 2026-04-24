@@ -22,7 +22,7 @@ public:
 									SkeletalMeshRenderer(ActorObject* owner);
 									~SkeletalMeshRenderer();
 	// スケルタルモデルの描画
-	void							Draw(Shader* shader) override;
+	bool							Draw(Shader* shader) override;
 
 	void							DrawForShadowMap(Shader* shader)override;
 

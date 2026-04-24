@@ -31,7 +31,7 @@ public:
 								MeshRenderer(ActorObject* owner, bool isSkeletal = false);
 								~MeshRenderer();							
 	// このメッシュコンポーネントを描画
-	virtual void				Draw(Shader* shader);
+	virtual bool				Draw(Shader* shader);
 	virtual void				DrawForShadowMap(Shader* shader);
 	// メッシュコンポーネントで使用されるメッシュ/テクスチャインデックスを設定する
 	virtual void				SetMesh(Mesh* mesh) 

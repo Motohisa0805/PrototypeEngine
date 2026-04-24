@@ -20,8 +20,9 @@ SkeletalMeshRenderer::~SkeletalMeshRenderer()
 {
 }
 
-void SkeletalMeshRenderer::Draw(Shader* shader)
+bool SkeletalMeshRenderer::Draw(Shader* shader)
 {
+	if (mMeshs.size() <= 0) return false;
 	for (unsigned int i = 0; i < mMeshs.size(); i++) 
 	{
 		for (unsigned int j = 0; j < mMeshs[i]->GetVertexArrays().size(); j++) 
@@ -73,6 +74,7 @@ void SkeletalMeshRenderer::Draw(Shader* shader)
 			}
 		}
 	}
+	return true;
 }
 
 void SkeletalMeshRenderer::DrawForShadowMap(Shader* shader)

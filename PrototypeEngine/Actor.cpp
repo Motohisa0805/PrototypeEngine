@@ -262,6 +262,7 @@ void ActorObject::Serialize(json& j) const
 	j["Name"] = mName;
 	j["State"] = mState;
 	j["Tag"] = mActorTag;
+	j["Static"] = mStatic;
 
 	// コンポーネントリストのシリアライズ
 	nlohmann::json componentsArray = nlohmann::json::array();
@@ -308,16 +309,25 @@ void ActorObject::Deserialize(const json& j)
 		)
 	);
 
-	//mTransform->ActiveDirty();
+	if (j.contains("Name")) {
+		// 名前を読み込む
+		mName = j.at("Name").get<std::string>();
+	}
 
-	// 名前を読み込む
-	mName = j.at("Name").get<std::string>();
+	if (j.contains("State")) {
+		// 状態を読み込む
+		mState = static_cast<State>(j.at("State").get<int>());
+	}
 
-	// 状態を読み込む
-	mState = static_cast<State>(j.at("State").get<int>());
+	if (j.contains("Tag")){
+		// タグを読み込む
+		mActorTag = static_cast<ActorInformation::Tag>(j.at("Tag").get<int>());
+	}
 
-	// タグを読み込む
-	mActorTag = static_cast<ActorInformation::Tag>(j.at("Tag").get<int>());
+	if (j.contains("Static")) {
+		// 静的状態タグを読み込む
+		mStatic = static_cast<ActorInformation::StaticTag>(j.at("Static").get<uint32_t>());
+	}
 
 	// コンポーネントリストを処理
 	if (j.contains("Components"))

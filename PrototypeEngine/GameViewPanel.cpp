@@ -96,8 +96,8 @@ void GameViewPanel::Draw(float width, float height, ImTextureRef ref)
 				ImGui::Separator();
 				float time = Time::GetFrameRate();
 				ImGui::Text("FPS: %.1f", time);
-				//‰¼
-				int drawCalls = 0; // mRenderer->GetStats().DrawCalls ‚È‚Ç
+				
+				int drawCalls = mRenderer->GetDrawCalls(); // mRenderer->GetStats().DrawCalls ‚È‚Ç
 
 				int vertices = SceneManager::GetNowScene()->GetSceneAllVertices();  // mRenderer->GetStats().Vertices ‚È‚Ç
 

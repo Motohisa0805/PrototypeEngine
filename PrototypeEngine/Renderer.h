@@ -102,6 +102,9 @@ private:
 	//ゲームシーンのデータ
 	SceneViewEditor*									mGameSceneViewEditor;
 
+	//描画回数のカウンター
+	int													mDrawCalls;
+
 	//3D描画処理
 	void												EditorDraw3DScene(unsigned int framebuffer, const Matrix4& view, const Matrix4& proj,
 		float viewPortScale = 1.0f, bool lit = true);
@@ -198,4 +201,6 @@ public:
 	SceneViewEditor*									GetSceneViewEditor() { return mSceneViewEditor; }
 	// mGameSceneViewEditorのGetter
 	SceneViewEditor*									GetGameSceneViewEditor() { return mGameSceneViewEditor; }
+
+	int 												GetDrawCalls() { return mDrawCalls; }
 };

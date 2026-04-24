@@ -24,6 +24,7 @@
       ],
       "Name": "MainCamera",
       "State": 0,
+      "Static": 0,
       "Tag": 0,
       "Type": "Transform"
     },
@@ -71,6 +72,7 @@
       ],
       "Name": "Directional Light",
       "State": 0,
+      "Static": 0,
       "Tag": 0,
       "Type": "Transform"
     },
@@ -112,6 +114,7 @@
       ],
       "Name": "Ground",
       "State": 0,
+      "Static": 1,
       "Tag": 0,
       "Type": "Transform"
     },
@@ -153,6 +156,7 @@
       ],
       "Name": "Wall",
       "State": 0,
+      "Static": 1,
       "Tag": 0,
       "Type": "Transform"
     },
@@ -194,6 +198,7 @@
       ],
       "Name": "Cube2",
       "State": 0,
+      "Static": 0,
       "Tag": 0,
       "Type": "Transform"
     },
@@ -243,6 +248,7 @@
       ],
       "Name": "Cube1",
       "State": 0,
+      "Static": 0,
       "Tag": 0,
       "Type": "Transform"
     },
@@ -287,6 +293,7 @@
       ],
       "Name": "Sphere",
       "State": 0,
+      "Static": 0,
       "Tag": 0,
       "Type": "Transform"
     },
@@ -318,6 +325,7 @@
       ],
       "Name": "Portal",
       "State": 0,
+      "Static": 0,
       "Tag": 0,
       "Type": "Transform"
     },
@@ -362,6 +370,7 @@
       ],
       "Name": "Capsule",
       "State": 0,
+      "Static": 0,
       "Tag": 0,
       "Type": "Transform"
     }
