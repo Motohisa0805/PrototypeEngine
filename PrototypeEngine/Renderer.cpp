@@ -359,6 +359,8 @@ void Renderer::StartDraw()
 	// Gバッファから描画する
 	DrawFromGBufferForEditor();
 
+	//描画呼び出しのカウンターをリセット
+	mDrawCalls = 0;
 	//***gameViewEditorのGameSceneFBOに描画***
 	// G-bufferに3Dシーンを描画します。
 	Draw3DScene(mGBuffer->GetBufferID(), mView, mProjection, 1.0f, true);
@@ -600,7 +602,10 @@ void Renderer::Draw3DScene(unsigned int framebuffer, const Matrix4& view, const 
 	{
 		if (mc->GetVisible())
 		{
-			mc->Draw(mMeshShader);
+			if (mc->Draw(mMeshShader))
+			{
+				mDrawCalls++;
+			}
 		}
 	}
 

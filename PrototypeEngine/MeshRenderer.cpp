@@ -29,8 +29,11 @@ MeshRenderer::~MeshRenderer()
 	EngineWindow::GetRenderer()->RemoveMeshComp(this);
 }
 
-void MeshRenderer::Draw(Shader* shader)
+bool MeshRenderer::Draw(Shader* shader)
 {
+	// ƒƒbƒVƒ…‚ª‚È‚¢ê‡‚Í•`‰æ‚µ‚È‚¢
+	if(mMeshs.size() <= 0) return false;
+
 	for (unsigned int i = 0; i < mMeshs.size(); i++) 
 	{
 		for (unsigned int j = 0; j < mMeshs[i]->GetVertexArrays().size(); j++)
@@ -74,6 +77,7 @@ void MeshRenderer::Draw(Shader* shader)
 			}
 		}
 	}
+	return true;
 }
 
 void MeshRenderer::DrawForShadowMap(Shader* shader)
@@ -198,6 +202,12 @@ void MeshRenderer::DrawCustomGUI(const std::vector<PropertyInfo>& properties)
 			mFilePath = path;
 		}
 		ImGui::EndDragDropTarget();
+	}
+	if(ImGui::Button("Clear Meshs"))
+	{
+		SetMeshs({});
+		mFilePath = "";
+		mAlpha = 1.0f;
 	}
 
 	ImGui::NewLine();
