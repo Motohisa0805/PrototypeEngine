@@ -26,7 +26,7 @@ private:
 	// ユーザーが左クリックでハイライトしたファイル/フォルダ
 	filesystem::path				mSelectedPath;
 
-	static filesystem::path			mScriptFilePath;  
+	static filesystem::path			mScriptFilePath;
 public:
 	//選択中のファイルパスを取得
 	const char* GetName()override { return "Project"; }
@@ -58,7 +58,5 @@ public:
 
 	//スクリプトを削除する時の専用の関数
 	void 		ProcessScriptDelete(const filesystem::path& path);
-
-	static const filesystem::path& GetScriptFilePath();
 };
 

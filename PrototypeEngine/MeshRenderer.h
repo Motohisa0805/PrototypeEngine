@@ -21,7 +21,9 @@ protected:
 	string 						mFilePath;
 	//メッシュのアルファ値
 	float						mAlpha;
-protected:
+	//影描画フラグ
+	bool						mShadowFrag;
+
 	//メッシュ配列
 	vector<Mesh*>				mMeshs;
 	//スケルタルフラグ

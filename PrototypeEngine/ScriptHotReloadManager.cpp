@@ -1,7 +1,7 @@
 ﻿#include "ScriptHotReloadManager.h"
 #include "SceneManager.h"
 #include "ScriptComponent.h"
-#include "EditorUtils.h"
+#include "ScriptEditManager.h"
 #include "ProjectPanel.h"
 
 ScriptHotReloadManager::ScriptHotReloadManager()
@@ -248,7 +248,7 @@ bool ScriptHotReloadManager::CheckForChanges()
 	}
 
 	//削除されたファイルの検出
-	// --- 2. 削除されたファイルを検出 ---
+	// --- 削除されたファイルを検出 ---
 	for (const auto& pair : mKnownAssetTimestamps)
 	{
 		const std::string& knownPath = pair.first;
@@ -264,7 +264,7 @@ bool ScriptHotReloadManager::CheckForChanges()
 		mKnownAssetTimestamps.erase(path);
 	}
 
-	// --- 3. 変更を処理 ---
+	// --- 変更を処理 ---
 
 	// 初回スキャン時は、変更を処理しない (ベースラインを作成するだけ)
 	if (!mFirstScanComplete)
@@ -279,17 +279,8 @@ bool ScriptHotReloadManager::CheckForChanges()
 	// A) 削除処理
 	for (const auto& path : assetsRemoved)
 	{
-		/*
-		std::string stem = std::filesystem::path(path).stem().string();
-		if (processedStems.find(stem) == processedStems.end())
-		{
-			EditorUtils::GetInstance().RemoveScriptFileToVcxProj(path, stem);
-			processedStems.insert(stem);
-			needsRebuild = true;
-		}
-		*/
 		// stemによるガードを外し、削除されたファイル（.cppも.hも）をすべて処理に回す
-		if (EditorUtils::GetInstance().RemoveScriptFileToVcxProj(path, ""))
+		if (ScriptEditManager::GetInstance().RemoveScriptFileToVcxProj(path, ""))
 		{
 			needsRebuild = true;
 		}
@@ -301,7 +292,7 @@ bool ScriptHotReloadManager::CheckForChanges()
 		std::string stem = std::filesystem::path(path).stem().string();
 		if (processedStems.find(stem) == processedStems.end())
 		{
-			EditorUtils::GetInstance().AddScriptFileToVcxProj(path, stem);
+			ScriptEditManager::GetInstance().AddScriptFileToVcxProj(path, stem);
 			processedStems.insert(stem);
 			needsRebuild = true;
 		}
@@ -322,16 +313,6 @@ bool ScriptHotReloadManager::CheckForChanges()
 		}
 		return ExecuteMsbuildAndReload();
 	}
-	//mLastLoadTime = GetDllLastWriteTime(mSourceDllPath);
-	/*
-	// 既存の .dll の変更監視 (スクリプトファイルの変更がなくても、プロジェクトファイルの変更などでビルドが走り、DLLが更新される可能性があるため)
-	FILETIME currentWriteTime = GetDllLastWriteTime(mSourceDllPath);
-	if (CompareFileTime(&currentWriteTime, &mLastLoadTime) > 0)
-	{
-		Debug::Log("Project do Rebuild because .dll File Changed");
-		return ExecuteMsbuildAndReload();
-	}
-	*/
 
 	return false;
 }

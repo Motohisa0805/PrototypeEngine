@@ -454,7 +454,7 @@
     <ClCompile Include="ExternalLibrary\tinyxml2-master\tinyxml2.cpp">
       <Filter>SourceCodes\G_OutsideLibrary\tinyxml2</Filter>
     </ClCompile>
-    <ClCompile Include="EditorUtils.cpp">
+    <ClCompile Include="ScriptEditManager.cpp">
       <Filter>SourceCodes\F_Editor\GUIViews</Filter>
     </ClCompile>
     <ClCompile Include="ScriptComponent.cpp">
@@ -474,6 +474,9 @@
     </ClCompile>
     <ClCompile Include="ImGuiHelper.cpp">
       <Filter>SourceCodes\F_Editor\GUIViews</Filter>
+    </ClCompile>
+    <ClCompile Include="StaticMeshBatch.cpp">
+      <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -765,7 +768,7 @@
     <ClInclude Include="ExternalLibrary\tinyxml2-master\tinyxml2.h">
       <Filter>SourceCodes\G_OutsideLibrary\tinyxml2</Filter>
     </ClInclude>
-    <ClInclude Include="EditorUtils.h">
+    <ClInclude Include="ScriptEditManager.h">
       <Filter>SourceCodes\F_Editor\GUIViews</Filter>
     </ClInclude>
     <ClInclude Include="ScriptComponent.h">
@@ -791,6 +794,9 @@
     </ClInclude>
     <ClInclude Include="ImGuiHelper.h">
       <Filter>SourceCodes\F_Editor\GUIViews</Filter>
+    </ClInclude>
+    <ClInclude Include="StaticMeshBatch.h">
+      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

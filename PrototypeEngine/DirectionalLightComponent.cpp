@@ -11,9 +11,9 @@ DirectionalLightComponent::DirectionalLightComponent(ActorObject* owner)
 	, mDirectionalLight()
 {
     mName = "DirectionalLightComponent";
-    mDirectionalLight.mDirection = Vector3(0.0f, -0.707f, -0.707f);
-    mDirectionalLight.mDiffuseColor = Vector3(0.78f, 0.88f, 1.0f);
-    mDirectionalLight.mSpecColor = Vector3(0.8f, 0.8f, 0.8f);
+    mDirectionalLight.gDirection = Vector3(0.0f, -0.707f, -0.707f);
+    mDirectionalLight.gDiffuseColor = Vector3(0.78f, 0.88f, 1.0f);
+    mDirectionalLight.gSpecColor = Vector3(0.8f, 0.8f, 0.8f);
 
     mHeaderColor = Vector4(0.4f, 0.8f, 0.8f, 1.0f);
     mHeaderHoveredColor = Vector4(0.3f, 0.6f, 0.6f, 1.0f);
@@ -34,7 +34,7 @@ void DirectionalLightComponent::OnUpdateWorldTransform()
     //lightDir.Normalize();
 
     // ライト方向を保存
-    mDirectionalLight.mDirection = lightDir;
+    mDirectionalLight.gDirection = lightDir;
 
 
     // ライトのY成分（太陽の高さ）を使って環境光を調整
@@ -43,21 +43,21 @@ void DirectionalLightComponent::OnUpdateWorldTransform()
     // Ambient（環境光）
     Vector3 dayAmbient = Vector3(0.7f, 0.7f, 0.6f);
     Vector3 nightAmbient = Vector3(0.05f, 0.05f, 0.1f);
-    mDirectionalLight.mAmbientColor = Vector3::Lerp(dayAmbient, nightAmbient, y);
+    mDirectionalLight.gAmbientColor = Vector3::Lerp(dayAmbient, nightAmbient, y);
 
     // Diffuse（拡散光）
     Vector3 dayDiffuse = Vector3(1.0f, 0.95f, 0.8f);
     Vector3 nightDiffuse = Vector3(0.05f, 0.05f, 0.1f);
-    mDirectionalLight.mDiffuseColor = Vector3::Lerp(dayDiffuse, nightDiffuse, y);
+    mDirectionalLight.gDiffuseColor = Vector3::Lerp(dayDiffuse, nightDiffuse, y);
 
     // Specular（鏡面反射）
     Vector3 daySpecular = Vector3(1.0f, 1.0f, 1.0f);
     Vector3 nightSpecular = Vector3(0.0f, 0.0f, 0.0f);
-    mDirectionalLight.mSpecColor = Vector3::Lerp(daySpecular, nightSpecular, y);
+    mDirectionalLight.gSpecColor = Vector3::Lerp(daySpecular, nightSpecular, y);
 
 
 
-    mDirectionalLight.mPosition = mOwner->GetTransform()->GetPosition();
+    mDirectionalLight.gPosition = mOwner->GetTransform()->GetPosition();
     EngineWindow::GetRenderer()->SetDirectionalLight(mDirectionalLight);
 }
 
@@ -65,10 +65,10 @@ void DirectionalLightComponent::Serialize(json& j) const
 {
 	Component::Serialize(j);
 
-	j["Direction"] = { mDirectionalLight.mDirection.x, mDirectionalLight.mDirection.y, mDirectionalLight.mDirection.z };
-	j["DiffuseColor"] = { mDirectionalLight.mDiffuseColor.x, mDirectionalLight.mDiffuseColor.y, mDirectionalLight.mDiffuseColor.z };
-	j["AmbientColor"] = { mDirectionalLight.mAmbientColor.x, mDirectionalLight.mAmbientColor.y, mDirectionalLight.mAmbientColor.z };
-	j["SpecularColor"] = { mDirectionalLight.mSpecColor.x, mDirectionalLight.mSpecColor.y, mDirectionalLight.mSpecColor.z };
+	j["Direction"] = { mDirectionalLight.gDirection.x, mDirectionalLight.gDirection.y, mDirectionalLight.gDirection.z };
+	j["DiffuseColor"] = { mDirectionalLight.gDiffuseColor.x, mDirectionalLight.gDiffuseColor.y, mDirectionalLight.gDiffuseColor.z };
+	j["AmbientColor"] = { mDirectionalLight.gAmbientColor.x, mDirectionalLight.gAmbientColor.y, mDirectionalLight.gAmbientColor.z };
+	j["SpecularColor"] = { mDirectionalLight.gSpecColor.x, mDirectionalLight.gSpecColor.y, mDirectionalLight.gSpecColor.z };
 }
 
 void DirectionalLightComponent::Deserialize(const json& j)
@@ -77,22 +77,22 @@ void DirectionalLightComponent::Deserialize(const json& j)
     if (j.contains("Direction"))
     {
         auto dirArray = j["Direction"];
-        mDirectionalLight.mDirection.Set(dirArray[0], dirArray[1], dirArray[2]);
+        mDirectionalLight.gDirection.Set(dirArray[0], dirArray[1], dirArray[2]);
 	}
     if (j.contains("DiffuseColor"))
     {
         auto diffArray = j["DiffuseColor"];
-        mDirectionalLight.mDiffuseColor.Set(diffArray[0], diffArray[1], diffArray[2]);
+        mDirectionalLight.gDiffuseColor.Set(diffArray[0], diffArray[1], diffArray[2]);
     }
     if (j.contains("AmbientColor"))
     {
         auto ambArray = j["AmbientColor"];
-        mDirectionalLight.mAmbientColor.Set(ambArray[0], ambArray[1], ambArray[2]);
+        mDirectionalLight.gAmbientColor.Set(ambArray[0], ambArray[1], ambArray[2]);
     }
     if (j.contains("SpecularColor"))
     {
         auto specArray = j["SpecularColor"];
-        mDirectionalLight.mSpecColor.Set(specArray[0], specArray[1], specArray[2]);
+        mDirectionalLight.gSpecColor.Set(specArray[0], specArray[1], specArray[2]);
 	}
 }
 
@@ -107,28 +107,28 @@ void DirectionalLightComponent::DrawCustomGUI(const std::vector<PropertyInfo>& p
     ImGui::Text("Direction");
 	ImGui::SameLine();
     ImGui::SetNextItemWidth(150);
-	ImGui::DragFloat3("##direction", &mDirectionalLight.mDirection.x, 0.1f, -1.0f, 1.0f);
+	ImGui::DragFloat3("##direction", &mDirectionalLight.gDirection.x, 0.1f, -1.0f, 1.0f);
     
     ImGui::NewLine();
     
     ImGui::Text("Diffuse Color");
     ImGui::SameLine();
     ImGui::SetNextItemWidth(150);
-	ImGui::DragFloat3("##diffuse Color", &mDirectionalLight.mDiffuseColor.x, 0.01f, 0.0f, 1.0f);
+	ImGui::DragFloat3("##diffuse Color", &mDirectionalLight.gDiffuseColor.x, 0.01f, 0.0f, 1.0f);
 	
     ImGui::NewLine();
     
     ImGui::Text("Ambient Color");
     ImGui::SameLine();
     ImGui::SetNextItemWidth(150);
-	ImGui::DragFloat3("##ambient Color", &mDirectionalLight.mAmbientColor.x, 0.01f, 0.0f, 1.0f);
+	ImGui::DragFloat3("##ambient Color", &mDirectionalLight.gAmbientColor.x, 0.01f, 0.0f, 1.0f);
 	
     ImGui::NewLine();
     
     ImGui::Text("Specular Color");
     ImGui::SameLine();
     ImGui::SetNextItemWidth(150);
-	ImGui::DragFloat3("##specular Color", &mDirectionalLight.mSpecColor.x, 0.01f, 0.0f, 1.0f);
+	ImGui::DragFloat3("##specular Color", &mDirectionalLight.gSpecColor.x, 0.01f, 0.0f, 1.0f);
 	
     ImGui::NewLine();
 	

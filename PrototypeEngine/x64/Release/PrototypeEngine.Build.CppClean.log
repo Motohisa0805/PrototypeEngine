@@ -39,7 +39,6 @@ c:\c++files\prototypeengine\prototypeengine\x64\release\directionallightcomponen
 c:\c++files\prototypeengine\prototypeengine\x64\release\dialogbox.obj
 c:\c++files\prototypeengine\prototypeengine\x64\release\debuggrid.obj
 c:\c++files\prototypeengine\prototypeengine\x64\release\convertnumtostring.obj
-c:\c++files\prototypeengine\prototypeengine\x64\release\projectpanel.obj
 c:\c++files\prototypeengine\prototypeengine\x64\release\physworld.obj
 c:\c++files\prototypeengine\prototypeengine\x64\release\pausemenu.obj
 c:\c++files\prototypeengine\prototypeengine\x64\release\particlesystem.obj
@@ -55,11 +54,11 @@ c:\c++files\prototypeengine\prototypeengine\x64\release\imgui_impl_opengl3.obj
 c:\c++files\prototypeengine\prototypeengine\x64\release\imgui_draw.obj
 c:\c++files\prototypeengine\prototypeengine\x64\release\imgui_demo.obj
 c:\c++files\prototypeengine\prototypeengine\x64\release\imgui.obj
+c:\c++files\prototypeengine\prototypeengine\x64\release\imguihelper.obj
 c:\c++files\prototypeengine\prototypeengine\x64\release\image.obj
 c:\c++files\prototypeengine\prototypeengine\x64\release\hierarchypanel.obj
 c:\c++files\prototypeengine\prototypeengine\x64\release\guiwinmain.obj
 c:\c++files\prototypeengine\prototypeengine\x64\release\guipanel.obj
-c:\c++files\prototypeengine\prototypeengine\x64\release\stb_impl.obj
 c:\c++files\prototypeengine\prototypeengine\x64\release\spherecollider.obj
 c:\c++files\prototypeengine\prototypeengine\x64\release\soundeventclip.obj
 c:\c++files\prototypeengine\prototypeengine\x64\release\skyboxrenderer.obj
@@ -79,6 +78,7 @@ c:\c++files\prototypeengine\prototypeengine\x64\release\rigidbody.obj
 c:\c++files\prototypeengine\prototypeengine\x64\release\renderer.obj
 c:\c++files\prototypeengine\prototypeengine\x64\release\random.obj
 c:\c++files\prototypeengine\prototypeengine\x64\release\pushbuttonmove.obj
+c:\c++files\prototypeengine\prototypeengine\x64\release\projectpanel.obj
 c:\c++files\prototypeengine\prototypeengine\x64\release\windowrenderproperty.obj
 c:\c++files\prototypeengine\prototypeengine\x64\release\vertexarray.obj
 c:\c++files\prototypeengine\prototypeengine\x64\release\transform.obj
@@ -89,6 +89,8 @@ c:\c++files\prototypeengine\prototypeengine\x64\release\time.obj
 c:\c++files\prototypeengine\prototypeengine\x64\release\texture.obj
 c:\c++files\prototypeengine\prototypeengine\x64\release\text.obj
 c:\c++files\prototypeengine\prototypeengine\x64\release\targetcomponent.obj
+c:\c++files\prototypeengine\prototypeengine\x64\release\stb_impl.obj
+c:\c++files\prototypeengine\prototypeengine\x64\release\staticmeshbatch.obj
 c:\c++files\prototypeengine\bin\prototypeengine.exe
 c:\c++files\prototypeengine\bin\prototypeengine.pdb
 c:\c++files\prototypeengine\bin\prototypeengine.lib

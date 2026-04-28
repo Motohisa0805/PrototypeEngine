@@ -510,6 +510,8 @@ public:
 
 	static Vector3 Transform(const Vector3& vec, const class Matrix4& mat, float w = 1.0f);
 
+	static Vector3 TransformNormal(const Vector3& vec, const class Matrix4& mat);
+
 	// ベクトルを変換、w成分が再正規化
 	static Vector3 TransformWithPerspDiv(const Vector3& vec, const class Matrix4& mat, float w = 1.0f);
 

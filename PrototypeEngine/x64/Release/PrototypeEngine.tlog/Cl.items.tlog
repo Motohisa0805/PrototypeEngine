@@ -25,7 +25,7 @@ C:\C++Files\PrototypeEngine\PrototypeEngine\DirectionalLightComponent.cpp;C:\C++
 C:\C++Files\PrototypeEngine\PrototypeEngine\EditorMain.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Release\EditorMain.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\EditorSettingsManager.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Release\EditorSettingsManager.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\EditorTextureManager.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Release\EditorTextureManager.obj
-C:\C++Files\PrototypeEngine\PrototypeEngine\EditorUtils.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Release\EditorUtils.obj
+C:\C++Files\PrototypeEngine\PrototypeEngine\ScriptEditManager.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Release\ScriptEditManager.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\EngineWindow.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Release\EngineWindow.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\tinyxml2-master\tinyxml2.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Release\tinyxml2.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\FollowObjectMovement.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Release\FollowObjectMovement.obj
@@ -78,6 +78,7 @@ C:\C++Files\PrototypeEngine\PrototypeEngine\Skeleton.cpp;C:\C++Files\PrototypeEn
 C:\C++Files\PrototypeEngine\PrototypeEngine\SkyBoxRenderer.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Release\SkyBoxRenderer.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\SoundEventClip.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Release\SoundEventClip.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\SphereCollider.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Release\SphereCollider.obj
+C:\C++Files\PrototypeEngine\PrototypeEngine\StaticMeshBatch.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Release\StaticMeshBatch.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\stb_impl.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Release\stb_impl.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\TargetComponent.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Release\TargetComponent.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\Text.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Release\Text.obj

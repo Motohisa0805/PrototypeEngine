@@ -71,7 +71,16 @@ struct AxisVertex
 	Vector3 color;
 };
 
-//書籍元を改造したファイル
+struct Vertex
+{
+	Vector3		pos;	// 12バイト
+	Vector3		normal;	// 12バイト
+	Vector2		uv;		// 8バイト
+	/*
+	uint8_t 	boneIDs[4];
+	*/
+};
+
 //頂点配列オブジェクト(Vertex Array Object)を管理するクラス
 class VertexArray
 {

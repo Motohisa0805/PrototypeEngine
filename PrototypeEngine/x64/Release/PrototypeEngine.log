@@ -13,8 +13,8 @@ LINK : warning LNK4075: /INCREMENTAL は /LTCG の指定によって無視され
      ライブラリ C:\C++Files\PrototypeEngine\bin\PrototypeEngine.lib とオブジェクト C:\C++Files\PrototypeEngine\bin\PrototypeEngine.exp を作成中
 LINK : warning LNK4098: defaultlib 'LIBCMT' は他のライブラリの使用と競合しています。/NODEFAULTLIB:library を使用してください。
   コード生成しています。
-  2 of 13658 functions (<0.1%) were compiled, the rest were copied from previous compilation.
+  9 of 13753 functions (<0.1%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
-    118 functions had inline decision re-evaluated but remain unchanged
+    103 functions had inline decision re-evaluated but remain unchanged
   コード生成が終了しました。
   PrototypeEngine.vcxproj -> C:\C++Files\PrototypeEngine\bin\PrototypeEngine.exe

@@ -92,18 +92,16 @@ void GameViewPanel::Draw(float width, float height, ImTextureRef ref)
 			//5.オーバーレイウインドウの描画開始
 			if (ImGui::Begin("StatesOverlay", nullptr, overlayFlags))
 			{
-				ImGui::Text("Game Stats");//タイトル
+				//タイトル
+				ImGui::Text("Game Stats");
 				ImGui::Separator();
 				float time = Time::GetFrameRate();
 				ImGui::Text("FPS: %.1f", time);
-				
-				int drawCalls = mRenderer->GetDrawCalls(); // mRenderer->GetStats().DrawCalls など
-
-				int vertices = SceneManager::GetNowScene()->GetSceneAllVertices();  // mRenderer->GetStats().Vertices など
-
+				int drawCalls = mRenderer->GetDrawCalls();
 				ImGui::Text("Draw Calls: %d", drawCalls);
+				int vertices = SceneManager::GetNowScene()->GetSceneAllVertices();
 				ImGui::Text("Vertices: %d", vertices);
-				ImGui::Text("Tris: %d", vertices / 3); // 仮
+				ImGui::Text("Tris: %d", vertices / 3);
 			}
 			ImGui::End();
 		}

@@ -1,31 +1,39 @@
 #pragma once
 #include "SDL3.h"
 #include "Typedefs.h"
+#include "VertexArray.h"
+#include "Texture.h"
+
+#include "BaseScene.h"
+#include "Shader.h"
+#include "StaticMeshBatch.h"
 
 /*
 * ===エンジン内部処理/Engine internal processing===
 */
 
-//書籍元を改造したファイル
 //環境光の構造体
 struct DirectionalLightData
 {
 	// Direction of light
-	Vector3 mDirection = Vector3();
+	Vector3 gDirection = Vector3();
 	// Diffuse color
-	Vector3 mDiffuseColor = Vector3();
+	Vector3 gDiffuseColor = Vector3();
 	// Ambient color
-	Vector3 mAmbientColor = Vector3();
+	Vector3 gAmbientColor = Vector3();
 	// Specular color
-	Vector3 mSpecColor = Vector3();
+	Vector3 gSpecColor = Vector3();
 	//位置
-	Vector3 mPosition = Vector3();
+	Vector3 gPosition = Vector3();
 };
 
-class BaseScene;
-class Shader;
-class Texture;
-class VertexArray;
+struct StaticMeshBatch {
+	vector<Vertex>			gAllVertices;
+	vector<unsigned int>	gAllIndices;
+	VertexArray*			gBatchVertexArray;
+	Texture*				gBatchTexture;
+};
+
 class ParticleSystem;
 class Mesh;
 class MeshRenderer;
@@ -102,6 +110,8 @@ private:
 	//ゲームシーンのデータ
 	SceneViewEditor*									mGameSceneViewEditor;
 
+	std::map<Texture*, StaticMeshBatch>					mStaticMeshBatches;
+
 	//描画回数のカウンター
 	int													mDrawCalls;
 
@@ -132,6 +142,9 @@ public:
 														~Renderer();
 
 	bool												Initialize(float screenWidth, float screenHeight);
+	//ゲーム実行時に一度だけ呼び出される初期化処理
+	void												BuildStaticBatch();
+
 	//描画部分のアンロード(Shaderなど)
 	void												Shutdown();
 	//シーン別に保存しているオブジェクトをアンロードする処理

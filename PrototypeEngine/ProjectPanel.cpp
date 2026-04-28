@@ -1,6 +1,6 @@
 #include "ProjectPanel.h"
 #include "EditorSettingsManager.h"
-#include "EditorUtils.h"
+#include "ScriptEditManager.h"
 #include "SceneManager.h"
 #include "SceneSerializer.h"
 #include "DebugManager.h"
@@ -156,7 +156,7 @@ void ProjectPanel::DrawPickUpFolderView()
     if (!filesystem::exists(mCurrentFolder)) return;
 
     // === パンくずリスト表示 ===
-    filesystem::path root = "Assets";
+    filesystem::path root = mCurrentFolder;
     filesystem::path relative = filesystem::relative(mCurrentFolder, root);
 
     // ルート ("Assets") を必ず表示
@@ -429,7 +429,7 @@ bool ProjectPanel::RightClickMenu(const filesystem::path& path)
                 mRenameInputBuffer = "NewScript"; // デフォルトの入力文字列
                 mRenaming = true;
             }
-            if (mSelectedPath.string() != "Assets")
+            if (mSelectedPath.string() != mCurrentFolder)
             {
                 //フォルダの削除
                 if (ImGui::MenuItem("Delete Folder"))
@@ -639,7 +639,7 @@ void ProjectPanel::ProcessPendingOperations()
                 }
 
                 // 2. 確定した名前 (req.newStem) でスクリプトファイルを作成
-                if (EditorUtils::GetInstance().CreateScriptFile(req.oldPath.parent_path(), req.newStem))
+                if (ScriptEditManager::GetInstance().CreateScriptFile(req.oldPath.parent_path(), req.newStem))
                 {
                     mScriptFilePath = req.oldPath;
                     Debug::Log("Created new script: %s\n", req.newStem.c_str());
@@ -666,7 +666,7 @@ void ProjectPanel::ProcessPendingOperations()
                 {
                     filesystem::rename(oldHPath, newHPath);
                     //2..hファイルの内容を書き換え
-                    EditorUtils::GetInstance().ReplaceInFile(newHPath, oldClassName, newClassName);
+                    ScriptEditManager::GetInstance().ReplaceInFile(newHPath, oldClassName, newClassName);
                 }
 
                 //  .cppのロジックのコメントアウトを解除
@@ -675,7 +675,7 @@ void ProjectPanel::ProcessPendingOperations()
                 {
                     filesystem::rename(oldCppPath, newCppPath);
                     //2..cppファイルの内容を書き換え
-                    EditorUtils::GetInstance().ReplaceInFile(newCppPath, oldClassName, newClassName);
+                    ScriptEditManager::GetInstance().ReplaceInFile(newCppPath, oldClassName, newClassName);
                 }
             }
             //スクリプト以外 のリネーム
@@ -746,11 +746,4 @@ void ProjectPanel::ProcessScriptDelete(const filesystem::path& path)
             mDeleteQueue.push_back(hPath);
         }
     }
-}
-
-const filesystem::path& ProjectPanel::GetScriptFilePath()
-{
-	filesystem::path scriptPath = mScriptFilePath;
-    //mScriptFilePath = "";
-    return mScriptFilePath;
 }

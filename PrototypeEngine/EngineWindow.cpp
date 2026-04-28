@@ -154,6 +154,8 @@ void EngineWindow::EngineRunLoop()
 					GUIWinMain::ResetPointer();
 					GameStateClass::SetGameState(GameState::GamePlay);
 					GUIWinMain::SetIsStarting(false);
+					//静的バッチの構築
+					mRenderer->BuildStaticBatch();
 				}
 				mGameWindow->GameRunLoop();
 			}
