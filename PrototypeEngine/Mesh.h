@@ -3,6 +3,7 @@
 #include "Assimp.h"
 #include "Collision.h"
 
+#include "VertexArray.h"
 /*
 * ===エンジン内部処理/Engine internal processing===
 */
@@ -62,6 +63,9 @@ private:
 	vector<float>				mRadiusArray;
 	// マテリアル情報
 	vector<MaterialInfo>		mMaterialInfo;
+
+	vector<Vertex>				mVertices;
+	vector<unsigned int>		mIndices;
 public:
 								Mesh();
 								~Mesh();
@@ -96,4 +100,7 @@ public:
 	{ 
 		mMaterialInfo = info; 
 	}
+
+	const vector<Vertex>& GetVertices() const { return mVertices; }
+	const vector<unsigned int>& GetIndices() const { return mIndices; }
 };

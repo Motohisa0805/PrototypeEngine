@@ -9,13 +9,13 @@ class DebugGrid
 {
 private:
 
-	VertexArray* mGridVAO;
+	VertexArray*	mGridVAO;
 	//現在のグリッド間隔
-	float mCurrentGridSize;
+	float			mCurrentGridSize;
 	//現在のグリッド数
-	int mCurrentGridCount;
+	int				mCurrentGridCount;
 	//現在のグリッドの中心(X,0,Z)
-	Vector3 mGridCenter;
+	Vector3			mGridCenter;
 
 	void GenerateGrid(float gridSize, int gridCount,const Vector3& center);
 public:

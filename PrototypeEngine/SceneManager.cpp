@@ -81,7 +81,11 @@ void SceneManager::ChangeScene()
 		mNowScene = SceneSerializer::LoadScene(mNextSceneFilePath);
 		mNowScene->Initialize();
 		EngineWindow::GetRenderer()->SetBaseScene(mNowScene);
-		//...(後続の処理)...
+		if (GUIWinMain::IsPlaying())
+		{
+			//実行中なら静的バッチの構築も行う
+			EngineWindow::GetRenderer()->BuildStaticBatch();
+		}
 	}
 	loading = false;
 }
@@ -101,6 +105,11 @@ void SceneManager::GamePlayEndInitilaizeScene()
 	mNowScene = SceneSerializer::LoadScene(SceneSerializer::GetTempPath().string());
 	mNowScene->Initialize();
 	EngineWindow::GetRenderer()->SetBaseScene(mNowScene);
+	if (GUIWinMain::IsPlaying())
+	{
+		//実行中なら静的バッチの構築も行う
+		EngineWindow::GetRenderer()->BuildStaticBatch();
+	}
 }
 
 void SceneManager::SetCurrentEditorSceneFilePath(const string& path)

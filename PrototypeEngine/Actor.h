@@ -126,6 +126,8 @@ public:
 	ActorInformation::StaticTag		GetStatic() { return mStatic; }
 
 	void							SetStaticTag(ActorInformation::StaticTag statics) { mStatic = statics; }
+	//Ã“Iƒtƒ‰ƒO‚ªON‚È‚ç
+	bool							IsStatic() { return mStatic != ActorInformation::StaticTag::Nothing; }
 	
 	BaseScene*						GetGame() { return mGame; }
 

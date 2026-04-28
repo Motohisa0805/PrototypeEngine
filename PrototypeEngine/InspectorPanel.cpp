@@ -178,6 +178,10 @@ void InspectorPanel::Draw(float width, float height, ImTextureRef ref)
 
 void InspectorPanel::DrawTransformProperties(ActorObject* transform)
 {
+	bool isStatic = transform->IsStatic() && GUIWinMain::IsPlaying();
+	// Staticならこれ以降のUI入力を無効化（グレーアウト）する
+	ImGui::BeginDisabled(isStatic);
+
 	//Position(Vector3)の編集
 	Vector3 pos = transform->GetTransform()->GetLocalPosition();
 	if (ImGui::DragFloat3("Position", &pos.x, 0.1f))//0.1fはドラッグの感度
@@ -210,6 +214,17 @@ void InspectorPanel::DrawTransformProperties(ActorObject* transform)
 	{
 		//ローカル関数なので注意
 		transform->GetTransform()->SetLocalScale(scale);
+	}
+
+	// 無効化範囲の終了
+	ImGui::EndDisabled();
+
+	// 補足：なぜ動かせないかのヒントテキスト出力
+	if (isStatic) {
+		ImGui::TextDisabled("(?)");
+		if (ImGui::IsItemHovered()) {
+			ImGui::SetTooltip("Static Objects can't be moved while running.");
+		}
 	}
 }
 

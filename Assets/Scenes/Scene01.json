@@ -82,6 +82,7 @@
           "Alpha": 1.0,
           "FilePath": "DebugStage.fbx",
           "IsSkeletal": false,
+          "ShadowFrag": true,
           "Type": "MeshRenderer",
           "Visible": true
         },
@@ -124,6 +125,7 @@
           "Alpha": 1.0,
           "FilePath": "DebugStage.fbx",
           "IsSkeletal": false,
+          "ShadowFrag": true,
           "Type": "MeshRenderer",
           "Visible": true
         },
@@ -144,10 +146,10 @@
         15.5
       ],
       "LocalRotation": [
-        0.9238795042037964,
-        -0.3826834559440613,
-        0.0,
-        0.0
+        0.9238797426223755,
+        -0.3826829493045807,
+        -4.032215450422427e-09,
+        -9.734643313663582e-09
       ],
       "LocalScale": [
         1.0,
@@ -166,6 +168,7 @@
           "Alpha": 1.0,
           "FilePath": "Cube.fbx",
           "IsSkeletal": false,
+          "ShadowFrag": true,
           "Type": "MeshRenderer",
           "Visible": true
         },
@@ -208,6 +211,7 @@
           "Alpha": 1.0,
           "FilePath": "Cube.fbx",
           "IsSkeletal": false,
+          "ShadowFrag": true,
           "Type": "MeshRenderer",
           "Visible": true
         },
@@ -258,6 +262,7 @@
           "Alpha": 1.0,
           "FilePath": "Sphere.fbx",
           "IsSkeletal": false,
+          "ShadowFrag": true,
           "Type": "MeshRenderer",
           "Visible": true
         },
@@ -303,6 +308,7 @@
           "Alpha": 0.6499999761581421,
           "FilePath": "Portal.fbx",
           "IsSkeletal": false,
+          "ShadowFrag": false,
           "Type": "MeshRenderer",
           "Visible": true
         }
@@ -335,6 +341,7 @@
           "Alpha": 1.0,
           "FilePath": "Capsule.fbx",
           "IsSkeletal": false,
+          "ShadowFrag": true,
           "Type": "MeshRenderer",
           "Visible": true
         },
@@ -371,6 +378,39 @@
       "Name": "Capsule",
       "State": 0,
       "Static": 0,
+      "Tag": 0,
+      "Type": "Transform"
+    },
+    {
+      "Components": [
+        {
+          "Alpha": 1.0,
+          "FilePath": "TestCube.fbx",
+          "IsSkeletal": false,
+          "ShadowFrag": true,
+          "Type": "MeshRenderer",
+          "Visible": true
+        }
+      ],
+      "LocalPosition": [
+        -3.0999999046325684,
+        2.4000000953674316,
+        0.0
+      ],
+      "LocalRotation": [
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "LocalScale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "Name": "Dice",
+      "State": 0,
+      "Static": 1,
       "Tag": 0,
       "Type": "Transform"
     }

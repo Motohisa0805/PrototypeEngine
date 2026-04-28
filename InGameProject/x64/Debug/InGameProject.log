@@ -1,4 +1,22 @@
-﻿  MovementScript.cpp
+﻿  pch.cpp
+  dllmain.cpp
+  InGameProject_API.cpp
+C:\C++Files\PrototypeEngine\PrototypeEngine\SDL_Scancode.h(143,9): warning C4005: 'KEY_EXECUTE': マクロが再定義されました。
+  (ソース ファイル '/InGameProject_API.cpp' をコンパイルしています)
+      C:\Program Files (x86)\Windows Kits\10\Include\10.0.26100.0\um\winnt.h(24912,9):
+      'KEY_EXECUTE' の以前の定義を確認してください
+  
+C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(80,12): warning C4251: 'Component::mName': 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
+  (ソース ファイル '/InGameProject_API.cpp' をコンパイルしています)
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(541,7):
+      'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' の宣言を確認してください
+  
+C:\C++Files\PrototypeEngine\PrototypeEngine\ComponentFactory.h(18,44): warning C4251: 'ComponentFactory::sCreators': 'std::map<string,ComponentCreator,std::less<string>,std::allocator<std::pair<const string,ComponentCreator>>>' には、'ComponentFactory' のクライアントが使用する DLL インターフェイスが必要です
+  (ソース ファイル '/InGameProject_API.cpp' をコンパイルしています)
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\map(72,7):
+      'std::map<string,ComponentCreator,std::less<string>,std::allocator<std::pair<const string,ComponentCreator>>>' の宣言を確認してください
+  
+  MovementScript.cpp
 C:\C++Files\PrototypeEngine\PrototypeEngine\SDL_Scancode.h(143,9): warning C4005: 'KEY_EXECUTE': マクロが再定義されました。
   (ソース ファイル '/Assets/ScriptsFolder/MovementScript.cpp' をコンパイルしています)
       C:\Program Files (x86)\Windows Kits\10\Include\10.0.26100.0\um\winnt.h(24912,9):
@@ -14,4 +32,6 @@ C:\C++Files\PrototypeEngine\PrototypeEngine\ComponentFactory.h(18,44): warning C
       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\map(72,7):
       'std::map<string,ComponentCreator,std::less<string>,std::allocator<std::pair<const string,ComponentCreator>>>' の宣言を確認してください
   
+  コードを生成中...
+     ライブラリ C:\C++Files\PrototypeEngine\bin\InGameProject.lib とオブジェクト C:\C++Files\PrototypeEngine\bin\InGameProject.exp を作成中
   InGameProject.vcxproj -> C:\C++Files\PrototypeEngine\bin\InGameProject.dll

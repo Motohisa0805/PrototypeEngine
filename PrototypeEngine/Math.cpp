@@ -82,6 +82,16 @@ Vector3 Vector3::Transform(const Vector3& vec, const class Matrix4& mat, float w
 	return retVal;
 }
 
+Vector3 Vector3::TransformNormal(const Vector3& vec, const Matrix4& mat)
+{
+	Vector3 retVal;
+	retVal.x = vec.x * mat.mat[0][0] + vec.y * mat.mat[1][0] + vec.z * mat.mat[2][0];
+	retVal.y = vec.x * mat.mat[0][1] + vec.y * mat.mat[1][1] + vec.z * mat.mat[2][1];
+	retVal.z = vec.x * mat.mat[0][2] + vec.y * mat.mat[1][2] + vec.z * mat.mat[2][2];
+
+	return retVal;
+}
+
 Vector3 Vector3::TransformWithPerspDiv(const Vector3& vec, const Matrix4& mat, float w)
 {
 	Vector3 retVal;

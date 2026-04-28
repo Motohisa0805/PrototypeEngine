@@ -1,11 +1,7 @@
 ﻿#include "Renderer.h"
-#include "BaseScene.h"
 #include "BaseCamera.h"
 #include <GL/glew.h>
-#include "Texture.h"
 #include "Mesh.h"
-#include "Shader.h"
-#include "VertexArray.h"
 #include "MeshRenderer.h"
 #include "ParticleSystem.h"
 #include "Canvas.h"
@@ -150,6 +146,64 @@ bool Renderer::Initialize(float screenWidth, float screenHeight)
 	
 	GUIWinMain::SetRenderer(this);
 	return true;
+}
+
+void Renderer::BuildStaticBatch()
+{
+	// 1. 古いバッチの破棄とクリア
+	for (auto& pair : mStaticMeshBatches) {
+		if (pair.second.gBatchVertexArray) {
+			delete pair.second.gBatchVertexArray;
+		}
+	}
+	mStaticMeshBatches.clear();
+	// 2. メッシュごとの処理
+	for (auto mc : mMeshComps) {
+		if (mc->GetOwner()->GetStatic() != ActorInformation::StaticTag::Occluder_Static) continue;
+		Matrix4 world = mc->GetOwner()->GetTransform()->GetLocalTransform();
+		for (auto mesh : mc->GetMeshs())
+		{
+			for(int i = 0; i < mesh->GetVertexArrays().size(); i++)
+			{
+				Texture* tex = mesh->GetTexture(i);
+
+				// テクスチャに対応するバッチを取得（なければ自動生成される）
+				StaticMeshBatch& currentBatch = mStaticMeshBatches[tex];
+
+				const std::vector<Vertex>& meshVertices = mesh->GetVertices();
+				const std::vector<uint32_t>& meshIndices = mesh->GetIndices();
+
+				// 現在のバッチの頂点数をオフセットにする
+				unsigned int vertexOffset = static_cast<unsigned int>(currentBatch.gAllVertices.size());
+				for (const auto& v : meshVertices) {
+					Vertex transformed = v;
+					transformed.pos = Vector3::Transform(v.pos, world);
+					transformed.normal = Vector3::TransformNormal(v.normal, world);
+					transformed.normal.Normalize();
+					currentBatch.gAllVertices.push_back(transformed);
+				}
+
+				// インデックスを結合（オフセットを考慮）
+				for (uint32_t idx : meshIndices) {
+					currentBatch.gAllIndices.push_back(idx + vertexOffset);
+				}
+			}
+		}
+	}
+
+	// 3. 全てのバッチのVertexArrayを生成
+	for (auto& pair : mStaticMeshBatches) {
+		StaticMeshBatch& batch = pair.second;
+		if (!batch.gAllVertices.empty()) {
+			batch.gBatchVertexArray = new VertexArray(
+				batch.gAllVertices.data(),
+				batch.gAllVertices.size(),
+				VertexArray::PosNormTex,
+				batch.gAllIndices.data(),
+				batch.gAllIndices.size()
+			);
+		}
+	}
 }
 
 bool Renderer::LoadShaders()
@@ -473,11 +527,72 @@ void Renderer::EditorDraw3DScene(unsigned int framebuffer, const Matrix4& view, 
 	mMeshShader->SetMatrixUniform("uViewProj", view * proj);
 	SetLightUniforms(mMeshShader, view);
 
+	if (GUIWinMain::IsPlaying())
+	{
+		// Staticバッチの描画 (1回のDrawCall)
+		for (auto& pair : mStaticMeshBatches) {
+			//uWorldTransformはすでに頂点にワールド変換が適用されているため、単位行列を渡す
+			mMeshShader->SetMatrixUniform("uWorldTransform", Matrix4::Identity);
+			Texture* tex = pair.first;
+			StaticMeshBatch& batch = pair.second;
+
+			if (!batch.gBatchVertexArray) continue;
+
+			// このバッチ用のテクスチャをセット
+			if (tex) {
+				tex->SetActive();
+			}
+			else {
+				mMeshShader->SetNoTexture();
+			}
+			/*
+			MaterialInfo m = mMeshs[i]->GetMaterialInfo()[j];
+
+			// 不透明度によってブレンド設定（1回だけで済むならループの外でもOK）
+			if (m.Color.w < 1.0f)
+			{
+				glEnable(GL_BLEND);
+				glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+				glDepthMask(GL_FALSE);  // 透明物体は深度書き込み無効（任意）
+			}
+			else
+			{
+				glDisable(GL_BLEND);
+				glDepthMask(GL_TRUE);   // 不透明物体は通常通り
+			}
+
+			mMeshShader->SetColorUniform("uTexture", m);
+			*/
+
+			batch.gBatchVertexArray->SetActive();
+			glDrawElements(GL_TRIANGLES, batch.gBatchVertexArray->GetNumIndices(), GL_UNSIGNED_INT, nullptr);
+		}
+	}
+
+
+
 	for (auto mc : mMeshComps)
 	{
-		if (mc->GetVisible())
+		//静的オブジェクトは実行中のみ描画する
+		if (GUIWinMain::IsPlaying())
 		{
-			mc->Draw(mMeshShader);
+			if (mc->GetVisible() && mc->GetOwner()->GetStatic() != ActorInformation::StaticTag::Occluder_Static)
+			{
+				if (mc->Draw(mMeshShader))
+				{
+					mDrawCalls++;
+				}
+			}
+		}
+		else
+		{
+			if (mc->GetVisible())
+			{
+				if (mc->Draw(mMeshShader))
+				{
+					mDrawCalls++;
+				}
+			}
 		}
 	}
 
@@ -592,19 +707,76 @@ void Renderer::Draw3DScene(unsigned int framebuffer, const Matrix4& view, const 
 	// アルファブレンドを無効にする
 	glEnable(GL_DEPTH_TEST);
 	glDisable(GL_BLEND);
-
 	// メッシュ（静的）
 	mMeshShader->SetActive();
 	mMeshShader->SetMatrixUniform("uViewProj", view * proj);
 	SetLightUniforms(mMeshShader, view);
 
+	if (GUIWinMain::IsPlaying())
+	{
+		// Staticバッチの描画 (1回のDrawCall)
+		for (auto& pair : mStaticMeshBatches) {
+			//uWorldTransformはすでに頂点にワールド変換が適用されているため、単位行列を渡す
+			mMeshShader->SetMatrixUniform("uWorldTransform", Matrix4::Identity);
+			Texture* tex = pair.first;
+			StaticMeshBatch& batch = pair.second;
+
+			if (!batch.gBatchVertexArray) continue;
+
+			// このバッチ用のテクスチャをセット
+			if (tex) {
+				tex->SetActive();
+			}
+			else {
+				mMeshShader->SetNoTexture();
+			}
+			/*
+			MaterialInfo m = mMeshs[i]->GetMaterialInfo()[j];
+
+			// 不透明度によってブレンド設定（1回だけで済むならループの外でもOK）
+			if (m.Color.w < 1.0f)
+			{
+				glEnable(GL_BLEND);
+				glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+				glDepthMask(GL_FALSE);  // 透明物体は深度書き込み無効（任意）
+			}
+			else
+			{
+				glDisable(GL_BLEND);
+				glDepthMask(GL_TRUE);   // 不透明物体は通常通り
+			}
+
+			mMeshShader->SetColorUniform("uTexture", m);
+			*/
+
+			batch.gBatchVertexArray->SetActive();
+			glDrawElements(GL_TRIANGLES, batch.gBatchVertexArray->GetNumIndices(), GL_UNSIGNED_INT, nullptr);
+		}
+	}
+	
+
+
 	for (auto mc : mMeshComps)
 	{
-		if (mc->GetVisible())
+		//静的オブジェクトは実行中のみ描画する
+		if (GUIWinMain::IsPlaying())
 		{
-			if (mc->Draw(mMeshShader))
+			if (mc->GetVisible()&&mc->GetOwner()->GetStatic() != ActorInformation::StaticTag::Occluder_Static)
 			{
-				mDrawCalls++;
+				if (mc->Draw(mMeshShader))
+				{
+					mDrawCalls++;
+				}
+			}
+		}
+		else
+		{
+			if (mc->GetVisible())
+			{
+				if (mc->Draw(mMeshShader))
+				{
+					mDrawCalls++;
+				}
 			}
 		}
 	}
@@ -650,7 +822,7 @@ void Renderer::Draw3DScene(unsigned int framebuffer, const Matrix4& view, const 
 void Renderer::DrawShadow3DScene()
 {
 
-	mShadowMap->UpdateLightMatrix(mDirLight.mDirection.Normalized(), Vector3::Zero);
+	mShadowMap->UpdateLightMatrix(mDirLight.gDirection.Normalized(), Vector3::Zero);
 	Matrix4 lightViewProj = mShadowMap->GetLightViewProj();
 	mGGlobalShader->SetActive();
 	mGGlobalShader->SetMatrixUniform("uLightViewProj", lightViewProj);
@@ -942,6 +1114,15 @@ void Renderer::UnloadData()
 		delete i.second;
 	}
 	mTextures.clear();
+	for(auto & pair : mStaticMeshBatches)
+	{
+		if(pair.second.gBatchVertexArray)
+		{
+			delete pair.second.gBatchVertexArray;
+			pair.second.gBatchVertexArray = nullptr;
+		}
+	}
+
 	// メッシュを破壊する
 	for (auto i : mMeshes)
 	{
@@ -1158,11 +1339,11 @@ void Renderer::SetLightUniforms(Shader* shader, const Matrix4& view)
 	invView.Invert();
 	shader->SetVectorUniform("uCameraPos", invView.GetTranslation());
 	// Ambient light
-	shader->SetVectorUniform("uAmbientLight", mDirLight.mAmbientColor);
+	shader->SetVectorUniform("uAmbientLight", mDirLight.gAmbientColor);
 	// Directional light
-	shader->SetVectorUniform("uDirLight.mDirection",mDirLight.mDirection);
-	shader->SetVectorUniform("uDirLight.mDiffuseColor",mDirLight.mDiffuseColor);
-	shader->SetVectorUniform("uDirLight.mSpecColor",mDirLight.mSpecColor);
+	shader->SetVectorUniform("uDirLight.mDirection",mDirLight.gDirection);
+	shader->SetVectorUniform("uDirLight.mDiffuseColor",mDirLight.gDiffuseColor);
+	shader->SetVectorUniform("uDirLight.mSpecColor",mDirLight.gSpecColor);
 }
 
 Vector3 Renderer::Unproject(const Vector3& screenPoint) const

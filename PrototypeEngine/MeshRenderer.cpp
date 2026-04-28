@@ -14,6 +14,7 @@ MeshRenderer::MeshRenderer(ActorObject* owner, bool isSkeletal)
 	, mIsSkeletal(isSkeletal)
 	, mFilePath("")
 	, mAlpha(1.0f)
+	, mShadowFrag(true)
 {
 	mName = "MeshRenderer";
 
@@ -82,6 +83,8 @@ bool MeshRenderer::Draw(Shader* shader)
 
 void MeshRenderer::DrawForShadowMap(Shader* shader)
 {
+	//‰eƒtƒ‰ƒO‚ªOFF‚È‚ç•`‰æ‚µ‚È‚¢
+	if (!mShadowFrag) { return; }
 	for (unsigned int i = 0; i < mMeshs.size(); i++)
 	{
 		for (unsigned int j = 0; j < mMeshs[i]->GetVertexArrays().size(); j++)
@@ -132,6 +135,7 @@ void MeshRenderer::Serialize(json& j) const
 	j["Visible"] = mVisible;
 	j["IsSkeletal"] = mIsSkeletal;
 	j["Alpha"] = mAlpha;
+	j["ShadowFrag"] = mShadowFrag;
 }
 
 void MeshRenderer::Deserialize(const json& j)
@@ -165,6 +169,10 @@ void MeshRenderer::Deserialize(const json& j)
 	{
 		mAlpha = j.at("Alpha").get<float>();
 		SetMaterialAlpha(mAlpha);
+	}
+	if (j.contains("ShadowFrag"))
+	{
+		mShadowFrag = j.at("ShadowFrag").get<bool>();
 	}
 }
 
@@ -223,6 +231,19 @@ void MeshRenderer::DrawCustomGUI(const std::vector<PropertyInfo>& properties)
 			SetMaterialAlpha(mAlpha);
 		}
 	}
+
+	ImGui::NewLine();
+
+	string shadowText = "Shadow";
+	if (mShadowFrag)
+	{
+		shadowText += "/On";
+	}
+	else
+	{
+		shadowText += "/Off";
+	}
+	ImGui::Checkbox(shadowText.c_str(), &mShadowFrag);
 
 	ImGui::Separator();
 
