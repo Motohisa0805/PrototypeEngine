@@ -58,11 +58,21 @@ public:
 
 	void		ResolveCollision(const Vector3& contactNormal, const Vector3& contactPoint, float penetrationDepth);
 
+	void		ResolveVelocity(Rigidbody* other, const Vector3& normal, const Vector3& contactPoint, float deltaTime);
+
+	void		ApplyImpulse(const Vector3& impulse, const Vector3& contactPoint);
+
+	Matrix3 	GetInverseInertiaTensorW() const { return mInverseInertiaTensorW; }
+
 	//Getter
 	//重力フラグの参照
 	bool		IsUseGravity() { return mUseGravity; }
 	//力を加える関数
 	void		AddForce(Vector3 velocity);
+
+	float 		GetMass() { return mMass; }
+
+	float		GetInverseMass() const {return mMass > 0.0f ? 1.0f / mMass : 0.0f;}
 
 	void		SetMass(float mass) {mMass = mass; CalculateInertiaTensor();}
 	//mVelocityのGetter
@@ -86,6 +96,7 @@ public:
 	void        CalculateInertiaTensor();
 
 	Vector3		GetAngularVelocity() const { return mAngularVelocity; }
+	void		SetAngularVelocity(const Vector3& angularVelocity) { mAngularVelocity = angularVelocity; }
 
 	void		Serialize(json& j) const override;
 	void		Deserialize(const json& j)override;
