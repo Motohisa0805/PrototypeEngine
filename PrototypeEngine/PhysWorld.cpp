@@ -161,39 +161,11 @@ void PhysWorld::SweepAndPruneXYZ()
 			{
 				actorA->OnCollisionStay(actorB);
 				actorB->OnCollisionStay(actorA);
-				/*
-				if (colliderA->IsCollider() && colliderB->IsCollider())
-				{
-					//当たり続けている時も判定
-					if (colliderA->GetOwner()->GetComponent<Rigidbody>() && !colliderB->GetOwner()->GetComponent<Rigidbody>())
-					{
-						FixCollisions(colliderA, colliderB);
-					}
-					else if (!colliderA->GetOwner()->GetComponent<Rigidbody>() && colliderB->GetOwner()->GetComponent<Rigidbody>())
-					{
-						FixCollisions(colliderB, colliderA);
-					}
-				}
-				*/
 			}
 			else
 			{
 				actorA->OnCollisionEnter(actorB);
 				actorB->OnCollisionEnter(actorA);
-				/*
-				if (colliderA->IsCollider() && colliderB->IsCollider())
-				{
-					//当たり初めに判定
-					if (colliderA->GetOwner()->GetComponent<Rigidbody>() && !colliderB->GetOwner()->GetComponent<Rigidbody>())
-					{
-						FixCollisions(colliderA, colliderB);
-					}
-					else if (!colliderA->GetOwner()->GetComponent<Rigidbody>() && colliderB->GetOwner()->GetComponent<Rigidbody>())
-					{
-						FixCollisions(colliderB, colliderA);
-					}
-				}
-				*/
 			}
 
 			// 押し出し処理のためのContactManifoldを作成する
@@ -215,30 +187,6 @@ void PhysWorld::SweepAndPruneXYZ()
 						m.gRbA = rbA;
 						m.gRbB = rbB;
 						m.gNormal = cpList[0].mNormal;
-						/*
-						// rbAが常に有効（動的）になるようにAとBを入れ替える
-						if (!rbA && rbB)
-						{
-							m.rbA = nullptr;
-							m.rbB = rbB; // 静止物として扱う
-							// AとBを入れ替えたので、法線ベクトルも「逆向き」にする
-							m.normal = cpList[0].normal;
-						}
-						else if (rbA && !rbB)
-						{
-							m.rbA = rbA;
-							m.rbB = nullptr; // 静止物として扱う
-							// AとBを入れ替えたので、法線ベクトルも「逆向き」にする
-							m.normal = -1.0f * cpList[0].normal;
-						}
-						else
-						{
-							// 両方動的、またはAだけ動的な場合はそのまま
-							m.rbA = rbA;
-							m.rbB = rbB;
-							m.normal = cpList[0].normal;
-						}
-						*/
 
 						m.gPenetration = cpList[0].mPenetration;
 						for (auto& cp : cpList) m.gContactPoints.push_back(cp.mPosition);
@@ -267,57 +215,6 @@ void PhysWorld::SweepAndPruneXYZ()
 
 	// 状態更新
 	mPrevHitPairs = mCurrentHitPairs;
-}
-
-void PhysWorld::FixCollisions(class Collider* dynamicCollider, class Collider* staticCollider)
-{
-	std::vector<ContactPoint> contactPoints;
-	const float contactOffset = dynamicCollider->GetContactOffset() + staticCollider->GetContactOffset();
-
-	// OBB対応の接触点収集
-	IsCollectContactPoints(dynamicCollider, staticCollider, contactPoints, contactOffset);
-
-	if (contactPoints.empty())
-	{
-		return;
-	}
-
-	// 総押し出しベクトル（複数法線合成）
-	Vector3 totalNormal = Vector3::Zero;
-	float maxPenetration = 0.0f; // 最大めり込み深さを追跡
-	for (auto& contact : contactPoints)
-	{
-		totalNormal += contact.mNormal; // 法線を単純に合成して方向を求める
-		if (contact.mPenetration > maxPenetration)
-		{
-			maxPenetration = contact.mPenetration; // 最も深いめり込みを記録
-		}
-	}
-	// 押し出し方向の正規化と、最大めり込み深さによる押し出し量の決定
-	Vector3 totalPush = Vector3::Zero;
-	// 押し出し方向の正規化（あまりに小さいときはスキップ）
-	if (totalNormal.Length() > 0.0001f)
-	{
-		totalPush = totalNormal.Normalized() * maxPenetration;
-	}
-
-	// 合成ベクトルを1つの方向に正規化（複合押し出し）
-	if (!Math::NearZero(totalPush.Length()))
-	{
-		auto actor = dynamicCollider->GetOwner();
-		auto rb = actor->GetComponent<Rigidbody>();
-		actor->GetTransform()->SetLocalPosition(actor->GetTransform()->GetPosition() + totalPush);
-		actor->GetTransform()->ComputeWorldTransform();
-
-		// Rigidbodyに押し出し方向を通知（滑り/跳ね返り等に使用）
-		if (rb)
-		{
-			for (auto& contact : contactPoints)
-			{
-				rb->ResolveCollision(contact.mNormal, contact.mPosition,contact.mPenetration);
-			}
-		}
-	}
 }
 
 bool PhysWorld::IsOnCollision(Collider* colliderA, Collider* colliderB)
@@ -415,50 +312,6 @@ bool PhysWorld::IsCollectContactPoints(Collider* colliderA, Collider* colliderB,
 		}
 	}
 	return result;
-
-	/*
-	if (colliderA->GetType() == Collider::BoxType && colliderB->GetType() == Collider::BoxType)
-	{
-		return CollectContactPoints_OBB_OBB(colliderA->GetWorldOBB(), colliderB->GetWorldOBB(), outContacts, contactOffset);
-	}
-	else if (colliderA->GetType() == Collider::BoxType && colliderB->GetType() == Collider::SphereType)
-	{
-		return CollectContactPoints_OBB_Sphere(colliderA->GetWorldOBB(), colliderB->GetWorldSphere(), outContacts, contactOffset);
-	}
-	else if (colliderA->GetType() == Collider::SphereType && colliderB->GetType() == Collider::BoxType)
-	{
-		return CollectContactPoints_OBB_Sphere(colliderB->GetWorldOBB(), colliderA->GetWorldSphere(), outContacts, contactOffset);
-	}
-	else if (colliderA->GetType() == Collider::BoxType && colliderB->GetType() == Collider::CapsuleType)
-	{
-		return CollectContactPoints_OBB_Capsule(colliderA->GetWorldOBB(), colliderB->GetWorldCapsule(), outContacts, contactOffset);
-	}
-	else if (colliderA->GetType() == Collider::CapsuleType && colliderB->GetType() == Collider::BoxType)
-	{
-		return CollectContactPoints_OBB_Capsule(colliderB->GetWorldOBB(), colliderA->GetWorldCapsule(), outContacts, contactOffset);
-	}
-
-
-	if (colliderA->GetType() == Collider::SphereType && colliderB->GetType() == Collider::SphereType)
-	{
-		return CollectContactPoints_Sphere_Sphere(colliderA->GetWorldSphere(), colliderB->GetWorldSphere(), outContacts, contactOffset);
-	}
-	else if (colliderA->GetType() == Collider::SphereType && colliderB->GetType() == Collider::CapsuleType)
-	{
-		return CollectContactPoints_Sphere_Capsule(colliderA->GetWorldSphere(), colliderB->GetWorldCapsule(), outContacts, contactOffset);
-	}
-	else if (colliderA->GetType() == Collider::CapsuleType && colliderB->GetType() == Collider::SphereType)
-	{
-		return CollectContactPoints_Sphere_Capsule(colliderB->GetWorldSphere(), colliderA->GetWorldCapsule(), outContacts, contactOffset);
-	}
-
-
-	if (colliderA->GetType() == Collider::CapsuleType && colliderB->GetType() == Collider::CapsuleType)
-	{
-		return CollectContactPoints_Capsule_Capsule(colliderA->GetWorldCapsule(), colliderB->GetWorldCapsule(), outContacts, contactOffset);
-	}
-	return false;
-	*/
 }
 
 void PhysWorld::ApplyIterations(std::vector<ContactManifold>& manifolds, float deltaTime)
@@ -543,64 +396,164 @@ void PhysWorld::ResolvePosition(ContactManifold& m)
 		m.gRbB->GetOwner()->GetTransform()->SetLocalPosition(posB + correctionB);
 		m.gRbB->GetOwner()->GetTransform()->ComputeWorldTransform();
 	}
-	/*
-	// 押し出す量（修正ベクトル）の計算
-	// penetration（めり込み深さ）から slop を引いた分に percent を掛ける
-	float correctionMagnitude = std::max(m.penetration - slop, 0.0f) * percent;
-	Vector3 correction = m.normal * correctionMagnitude;
-
-	if (m.rbA && m.rbB)
-	{
-		// --- 【動的 vs 動的】 ---
-		// 質量に応じて押し出し量を按分する（軽い方がよく動く）
-		float invMassA = m.rbA->GetInverseMass(); // (1.0f / mMass) を返す関数を想定
-		float invMassB = m.rbB->GetInverseMass();
-		float totalInvMass = invMassA + invMassB;
-
-		Vector3 moveA = correction * (invMassA / totalInvMass);
-		Vector3 moveB = correction * (invMassB / totalInvMass);
-
-		// Aを法線方向に移動
-		Vector3 posA = m.rbA->GetOwner()->GetTransform()->GetLocalPosition();
-		m.rbA->GetOwner()->GetTransform()->SetLocalPosition(posA + moveA);
-		m.rbA->GetOwner()->GetTransform()->ComputeWorldTransform();
-
-		// Bを法線の【逆】方向に移動
-		Vector3 posB = m.rbB->GetOwner()->GetTransform()->GetLocalPosition();
-		m.rbB->GetOwner()->GetTransform()->SetLocalPosition(posB - moveB);
-		m.rbB->GetOwner()->GetTransform()->ComputeWorldTransform();
-	}
-	else if (m.rbA && !m.rbB)
-	{
-		// --- 【動的 vs 静的】 ---
-		// Aだけを100%押し出す
-		Vector3 posA = m.rbA->GetOwner()->GetTransform()->GetLocalPosition();
-		m.rbA->GetOwner()->GetTransform()->SetLocalPosition(posA + correction);
-		m.rbA->GetOwner()->GetTransform()->ComputeWorldTransform();
-	}
-	else if (!m.rbA && m.rbB)
-	{
-		// --- 【動的 vs 静的】 ---
-		// Aだけを100%押し出す
-		Vector3 posB = m.rbB->GetOwner()->GetTransform()->GetLocalPosition();
-		m.rbB->GetOwner()->GetTransform()->SetLocalPosition(posB + correction);
-		m.rbB->GetOwner()->GetTransform()->ComputeWorldTransform();
-	}
-	*/
 }
 
 bool PhysWorld::CollectContactPoints_OBB_OBB(const OBB& a, const OBB& b, std::vector<ContactPoint>& outContacts, float contactOffset)
 {
 	Vector3 normal;
 	float depth;
-	Vector3 contactPoint;
+	Vector3 singlePoint;
 
-	if (GetContactInfo_OBB(a, b, normal, depth, contactPoint))
+	if (!GetContactInfo_OBB(a, b, normal, depth, singlePoint))
 	{
-		outContacts.emplace_back(ContactPoint{ normal, depth, contactPoint });
-		return true;
+		return false;
 	}
-	return false;
+
+	// 軸を取得するための簡易ラムダ
+	auto getLocalAxis = [](int i) 
+	{
+		return (i == 0) ? Vector3::UnitX : ((i == 1) ? Vector3::UnitY : Vector3::UnitZ); 
+	};
+
+	// 2. Reference OBB（受ける側）と Incident OBB（ぶつかる側）を決める
+	float dotA = 0.0f, dotB = 0.0f;
+	for (int i = 0; i < 3; ++i) {
+		Vector3 axisA = Vector3::Transform(getLocalAxis(i), a.mRotation);
+		float d = std::abs(Vector3::Dot(axisA, normal));
+		if (d > dotA) dotA = d;
+
+		Vector3 axisB = Vector3::Transform(getLocalAxis(i), b.mRotation);
+		d = std::abs(Vector3::Dot(axisB, normal));
+		if (d > dotB) dotB = d;
+	}
+
+	// 法線により直角に近い面を持っている方をReference（基準）とする
+	bool isARef = (dotA >= dotB);
+	const OBB& refOBB = isARef ? a : b;
+	const OBB& incOBB = isARef ? b : a;
+	Vector3 refNormal = isARef ? normal : -1.0f * normal; // 常にReferenceから外を向く法線
+
+	// 3. Incident Face（ぶつかってくる側の4頂点）の取得
+	std::vector<Vector3> incFace = GetOBBIncidentFace(incOBB, refNormal);
+
+	// 4. Reference OBB のサイド4面によるクリッピング（はみ出た部分をカット）
+	Vector3 rAxes[3] = {
+		Vector3::Transform(Vector3::UnitX, refOBB.mRotation),
+		Vector3::Transform(Vector3::UnitY, refOBB.mRotation),
+		Vector3::Transform(Vector3::UnitZ, refOBB.mRotation)
+	};
+
+	// Reference面の法線軸を特定
+	int nAxis = 0;
+	float maxD = 0;
+	for (int i = 0; i < 3; ++i) {
+		float d = std::abs(Vector3::Dot(rAxes[i], refNormal));
+		if (d > maxD) { maxD = d; nAxis = i; }
+	}
+
+	Vector3 axis1 = rAxes[(nAxis + 1) % 3];
+	Vector3 axis2 = rAxes[(nAxis + 2) % 3];
+	float ext1 = ((nAxis + 1) % 3 == 0) ? refOBB.mExtents.x : (((nAxis + 1) % 3 == 1) ? refOBB.mExtents.y : refOBB.mExtents.z);
+	float ext2 = ((nAxis + 2) % 3 == 0) ? refOBB.mExtents.x : (((nAxis + 2) % 3 == 1) ? refOBB.mExtents.y : refOBB.mExtents.z);
+
+	std::vector<Vector3> clippedFace;
+	std::vector<Vector3> inputFace = incFace;
+
+	// クッキーの型抜きのように、4つの側面で順番にカットしていく
+	ClipPolygonAgainstPlane(inputFace, axis1, refOBB.mCenter + axis1 * ext1, clippedFace);
+	inputFace = clippedFace;
+	ClipPolygonAgainstPlane(inputFace, -1.0f * axis1, refOBB.mCenter - axis1 * ext1, clippedFace);
+	inputFace = clippedFace;
+	ClipPolygonAgainstPlane(inputFace, axis2, refOBB.mCenter + axis2 * ext2, clippedFace);
+	inputFace = clippedFace;
+	ClipPolygonAgainstPlane(inputFace, -1.0f * axis2, refOBB.mCenter - axis2 * ext2, clippedFace);
+
+	// 5. カットされた頂点のうち、実際にめり込んでいる点だけをContactPointとして採用
+	float extN = (nAxis == 0) ? refOBB.mExtents.x : ((nAxis == 1) ? refOBB.mExtents.y : refOBB.mExtents.z);
+	float signN = (Vector3::Dot(rAxes[nAxis], refNormal) > 0.0f) ? 1.0f : -1.0f;
+	Vector3 refPlanePoint = refOBB.mCenter + rAxes[nAxis] * signN * extN;
+
+	bool added = false;
+	for (const auto& pt : clippedFace) {
+		// Reference面からの深さを測る
+		float pen = Vector3::Dot(refNormal, refPlanePoint - pt);
+		if (pen > -contactOffset) { // めり込んでいる（または許容範囲内）
+			float finalPen = std::max(pen, 0.0f);
+			outContacts.emplace_back(ContactPoint{ normal, finalPen, pt });
+			added = true;
+		}
+	}
+
+	// 6. エッジ同士の衝突（十字に重なるなど）で点が0個になった場合は、SATの1点でフォールバック
+	if (!added) {
+		outContacts.emplace_back(ContactPoint{ normal, depth, singlePoint });
+	}
+
+	return true;
+}
+
+vector<Vector3> PhysWorld::GetOBBIncidentFace(const OBB& obb, const Vector3& normal)
+{
+	Vector3 axes[3] = {
+			Vector3::Transform(Vector3::UnitX, obb.mRotation),
+			Vector3::Transform(Vector3::UnitY, obb.mRotation),
+			Vector3::Transform(Vector3::UnitZ, obb.mRotation)
+	};
+
+	int bestAxis = 0;
+	float minDot = Math::Infinity;
+	float sign = 1.0f;
+
+	// 法線と「最も逆向き」の軸を探す（これがぶつかる面の法線になる）
+	for (int i = 0; i < 3; ++i) {
+		float dot = Vector3::Dot(axes[i], normal);
+		if (dot < minDot) { minDot = dot; bestAxis = i; sign = 1.0f; }
+		if (-dot < minDot) { minDot = -dot; bestAxis = i; sign = -1.0f; }
+	}
+
+	Vector3 faceNormal = axes[bestAxis] * sign;
+	int a1 = (bestAxis + 1) % 3;
+	int a2 = (bestAxis + 2) % 3;
+	Vector3 axis1 = axes[a1];
+	Vector3 axis2 = axes[a2];
+
+	float extNormal = (bestAxis == 0) ? obb.mExtents.x : ((bestAxis == 1) ? obb.mExtents.y : obb.mExtents.z);
+	float ext1 = (a1 == 0) ? obb.mExtents.x : ((a1 == 1) ? obb.mExtents.y : obb.mExtents.z);
+	float ext2 = (a2 == 0) ? obb.mExtents.x : ((a2 == 1) ? obb.mExtents.y : obb.mExtents.z);
+
+	Vector3 center = obb.mCenter + faceNormal * extNormal;
+
+	// 4つの頂点を生成して返す
+	std::vector<Vector3> face;
+	face.push_back(center - axis1 * ext1 - axis2 * ext2);
+	face.push_back(center + axis1 * ext1 - axis2 * ext2);
+	face.push_back(center + axis1 * ext1 + axis2 * ext2);
+	face.push_back(center - axis1 * ext1 + axis2 * ext2);
+	return face;
+}
+
+void PhysWorld::ClipPolygonAgainstPlane(const std::vector<Vector3>& inPoly, const Vector3& planeNormal, const Vector3& planePoint, std::vector<Vector3>& outPoly)
+{
+	outPoly.clear();
+	if (inPoly.empty()) return;
+
+	Vector3 p1 = inPoly.back();
+	float d1 = Vector3::Dot(planeNormal, p1 - planePoint);
+
+	for (size_t i = 0; i < inPoly.size(); ++i) {
+		Vector3 p2 = inPoly[i];
+		float d2 = Vector3::Dot(planeNormal, p2 - planePoint);
+
+		if (d1 <= 0.0f) { // p1が平面の内側にある
+			outPoly.push_back(p1);
+		}
+		if (d1 * d2 < 0.0f) { // 線分が平面と交差する
+			float t = d1 / (d1 - d2);
+			outPoly.push_back(p1 + (p2 - p1) * t); // 交差点を作成
+		}
+		p1 = p2;
+		d1 = d2;
+	}
 }
 
 bool PhysWorld::GetContactInfo_OBB(const OBB& a, const OBB& b, Vector3& outNormal, float& outDepth,Vector3& contactPoint)
@@ -668,7 +621,7 @@ bool PhysWorld::GetContactInfo_OBB(const OBB& a, const OBB& b, Vector3& outNorma
 	}
 
 	// より信頼できる方向を使う（localからtransformされた差ベクトル）
-	Vector3 dir = a.mCenter - b.mCenter;
+	Vector3 dir = b.mCenter - a.mCenter;
 	float fDir = Vector3::Dot(dir, bestAxis);
 	if (fDir < 0.0f)
 	{
@@ -678,9 +631,9 @@ bool PhysWorld::GetContactInfo_OBB(const OBB& a, const OBB& b, Vector3& outNorma
 	outNormal = bestAxis;
 	outDepth = minOverlap;	
 	// 法線はBからAへ向かっているので、
-	// Aにとって最も深く刺さっている点は「-bestAxis方向」の頂点
+	// Aにとって最も深く刺さっている点は「bestAxis方向」の頂点
 	Vector3 supportA = GetSupportPoint(a, bestAxis);
-	// Bにとって最も深く刺さっている点は「bestAxis方向」の頂点
+	// Bにとって最も深く刺さっている点は「-bestAxis方向」の頂点
 	Vector3 supportB = GetSupportPoint(b, -1.0f * bestAxis);
 	// 2つの頂点の中点を近似的な接触点とする
 	contactPoint = (supportA + supportB) * 0.5f;
