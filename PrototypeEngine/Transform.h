@@ -22,6 +22,9 @@ protected:
 	Vector3								mLocalPosition;
 	Vector3								mPositionOffset;
 	Quaternion							mLocalRotation;
+	//回転をVector3で保持(GUIのキャッシュ用)
+	Vector3								mRotationEditor;
+
 	Vector3								mLocalScale;
 
 	//計算結果をキャッシュ
@@ -119,6 +122,12 @@ public:
 	{
 		mLocalRotation = rotation;
 		SetDirty();
+	}
+
+	Vector3								GetRotationEditor() { return mRotationEditor; }
+	void								SetRotationEditor(const Vector3& rotation)
+	{
+		mRotationEditor = rotation;
 	}
 
 	//ワールド座標の更新		

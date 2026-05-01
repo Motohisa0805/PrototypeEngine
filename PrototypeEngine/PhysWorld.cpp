@@ -1,11 +1,11 @@
 ﻿#include "PhysWorld.h"
-#include "Rigidbody.h"
 #include "BoxCollider.h"
 #include "SphereCollider.h"
 #include "CapsuleCollider.h"
 #include "Collider.h"
 #include "Actor.h"
 #include <SDL3/SDL.h>
+#include "Time.h"
 
 PhysWorld::PhysWorld()
 {
@@ -104,18 +104,19 @@ void PhysWorld::SweepAndPruneXYZ()
 
 	mCurrentHitPairs.clear();
 
+
+	vector<ContactManifold> manifolds;
+
 	// X軸スイープ開始
 	for (size_t i = 0; i < mColliderXAxis.size(); ++i)
 	{
 		Collider* colliderA = mColliderXAxis[i];
 		const AABB& aabbA = colliderA->GetWorldAABBFromOBB();
-		//const AABB& aabbA = colliderA->GetWorldBox();
 
 		for (size_t j = i + 1; j < mColliderXAxis.size(); ++j)
 		{
 			Collider* colliderB = mColliderXAxis[j];
 			const AABB& aabbB = colliderB->GetWorldAABBFromOBB();
-			//const AABB& aabbB = colliderB->GetWorldBox();
 
 			const float contactOffsetA = colliderA->GetContactOffset();
 			const float contactOffsetB = colliderB->GetContactOffset();
@@ -160,6 +161,7 @@ void PhysWorld::SweepAndPruneXYZ()
 			{
 				actorA->OnCollisionStay(actorB);
 				actorB->OnCollisionStay(actorA);
+				/*
 				if (colliderA->IsCollider() && colliderB->IsCollider())
 				{
 					//当たり続けている時も判定
@@ -172,12 +174,13 @@ void PhysWorld::SweepAndPruneXYZ()
 						FixCollisions(colliderB, colliderA);
 					}
 				}
+				*/
 			}
 			else
 			{
 				actorA->OnCollisionEnter(actorB);
 				actorB->OnCollisionEnter(actorA);
-
+				/*
 				if (colliderA->IsCollider() && colliderB->IsCollider())
 				{
 					//当たり初めに判定
@@ -190,9 +193,65 @@ void PhysWorld::SweepAndPruneXYZ()
 						FixCollisions(colliderB, colliderA);
 					}
 				}
+				*/
+			}
+
+			// 押し出し処理のためのContactManifoldを作成する
+			if (colliderA->IsCollider() && colliderB->IsCollider())
+			{
+				if (colliderA->IsCollider() && colliderB->IsCollider())
+				{
+					Rigidbody* rbA = actorA->GetComponent<Rigidbody>();
+					Rigidbody* rbB = actorB->GetComponent<Rigidbody>();
+
+					// 両方ともRigidbodyがない（静止物同士）なら計算不要
+					if (!rbA && !rbB) continue;
+
+					std::vector<ContactPoint> cpList;
+					if (IsCollectContactPoints(colliderA, colliderB, cpList, contactOffsetA + contactOffsetB))
+					{
+						ContactManifold m;
+
+						m.gRbA = rbA;
+						m.gRbB = rbB;
+						m.gNormal = cpList[0].mNormal;
+						/*
+						// rbAが常に有効（動的）になるようにAとBを入れ替える
+						if (!rbA && rbB)
+						{
+							m.rbA = nullptr;
+							m.rbB = rbB; // 静止物として扱う
+							// AとBを入れ替えたので、法線ベクトルも「逆向き」にする
+							m.normal = cpList[0].normal;
+						}
+						else if (rbA && !rbB)
+						{
+							m.rbA = rbA;
+							m.rbB = nullptr; // 静止物として扱う
+							// AとBを入れ替えたので、法線ベクトルも「逆向き」にする
+							m.normal = -1.0f * cpList[0].normal;
+						}
+						else
+						{
+							// 両方動的、またはAだけ動的な場合はそのまま
+							m.rbA = rbA;
+							m.rbB = rbB;
+							m.normal = cpList[0].normal;
+						}
+						*/
+
+						m.gPenetration = cpList[0].mPenetration;
+						for (auto& cp : cpList) m.gContactPoints.push_back(cp.mPosition);
+
+						manifolds.push_back(m);
+					}
+				}
 			}
 		}
 	}
+	// 集めた全ペアに対して、反復計算（ソルバー）を実行する
+	// ここで初めて物体が動かされる。1フレームに1回だけこの関数を呼ぶ。
+	ApplyIterations(manifolds, Time::gDeltaTime);
 
 	// Exitチェック
 	for (const auto& pair : mPrevHitPairs)
@@ -228,10 +287,10 @@ void PhysWorld::FixCollisions(class Collider* dynamicCollider, class Collider* s
 	float maxPenetration = 0.0f; // 最大めり込み深さを追跡
 	for (auto& contact : contactPoints)
 	{
-		totalNormal += contact.normal; // 法線を単純に合成して方向を求める
-		if (contact.penetration > maxPenetration)
+		totalNormal += contact.mNormal; // 法線を単純に合成して方向を求める
+		if (contact.mPenetration > maxPenetration)
 		{
-			maxPenetration = contact.penetration; // 最も深いめり込みを記録
+			maxPenetration = contact.mPenetration; // 最も深いめり込みを記録
 		}
 	}
 	// 押し出し方向の正規化と、最大めり込み深さによる押し出し量の決定
@@ -255,7 +314,7 @@ void PhysWorld::FixCollisions(class Collider* dynamicCollider, class Collider* s
 		{
 			for (auto& contact : contactPoints)
 			{
-				rb->ResolveCollision(contact.normal, contact.position,contact.penetration);
+				rb->ResolveCollision(contact.mNormal, contact.mPosition,contact.mPenetration);
 			}
 		}
 	}
@@ -289,16 +348,6 @@ bool PhysWorld::IsOnCollision(Collider* colliderA, Collider* colliderB)
 	{
 		return OnCollision(colliderA->GetWorldSphere(), colliderB->GetWorldSphere());
 	}
-	/*
-	else if (colliderA->GetType() == Collider::SphereType && colliderB->GetType() == Collider::BoxType)
-	{
-		return OnCollision(colliderB->GetWorldOBB(), colliderA->GetWorldSphere());
-	}
-	else if (colliderA->GetType() == Collider::BoxType && colliderB->GetType() == Collider::SphereType)
-	{
-		return OnCollision(colliderA->GetWorldOBB(), colliderB->GetWorldSphere());
-	}
-	*/
 	else if (colliderA->GetType() == Collider::SphereType && colliderB->GetType() == Collider::CapsuleType)
 	{
 		return OnCollision(colliderA->GetWorldSphere(), colliderB->GetWorldCapsule());
@@ -317,51 +366,230 @@ bool PhysWorld::IsOnCollision(Collider* colliderA, Collider* colliderB)
 	return false;
 }
 
-void PhysWorld::IsCollectContactPoints(Collider* colliderA, Collider* colliderB, std::vector<ContactPoint>& outContacts, float contactOffset)
+bool PhysWorld::IsCollectContactPoints(Collider* colliderA, Collider* colliderB, std::vector<ContactPoint>& outContacts, float contactOffset)
 {
+	Collider* cA = colliderA;
+	Collider* cB = colliderB;
+	bool swapped = false;
+
+	// 型の順序を強制する (例: Box < Sphere < Capsule)
+	// こうすることで (Sphere, Box) という組み合わせを (Box, Sphere) として扱える
+	if (cA->GetType() > cB->GetType())
+	{
+		std::swap(cA, cB);
+		swapped = true;
+	}
+
+	bool result = false;
+	Collider::ColliderType typeA = cA->GetType();
+	Collider::ColliderType typeB = cB->GetType();
+
+	//Colliderの型の組み合わせに応じて、適切な接触点収集関数を呼び出す
+	if (typeA == Collider::BoxType)
+	{
+		if (typeB == Collider::BoxType)
+			result = CollectContactPoints_OBB_OBB(cA->GetWorldOBB(), cB->GetWorldOBB(), outContacts, contactOffset);
+		else if (typeB == Collider::SphereType)
+			result = CollectContactPoints_OBB_Sphere(cA->GetWorldOBB(), cB->GetWorldSphere(), outContacts, contactOffset);
+		else if (typeB == Collider::CapsuleType)
+			result = CollectContactPoints_OBB_Capsule(cA->GetWorldOBB(), cB->GetWorldCapsule(), outContacts, contactOffset);
+	}
+	else if (typeA == Collider::SphereType)
+	{
+		if (typeB == Collider::SphereType)
+			result = CollectContactPoints_Sphere_Sphere(cA->GetWorldSphere(), cB->GetWorldSphere(), outContacts, contactOffset);
+		else if (typeB == Collider::CapsuleType)
+			result = CollectContactPoints_Sphere_Capsule(cA->GetWorldSphere(), cB->GetWorldCapsule(), outContacts, contactOffset);
+	}
+	else if(typeA == Collider::CapsuleType)
+	{
+		if (typeB == Collider::CapsuleType)
+			result = CollectContactPoints_Capsule_Capsule(cA->GetWorldCapsule(), cB->GetWorldCapsule(), outContacts, contactOffset);
+	}
+
+	if (result && swapped)
+	{
+		for (auto& cp : outContacts)
+		{
+			cp.mNormal = -1.0f * cp.mNormal;
+		}
+	}
+	return result;
+
+	/*
 	if (colliderA->GetType() == Collider::BoxType && colliderB->GetType() == Collider::BoxType)
 	{
-		CollectContactPoints_OBB_OBB(colliderA->GetWorldOBB(), colliderB->GetWorldOBB(), outContacts, contactOffset);
+		return CollectContactPoints_OBB_OBB(colliderA->GetWorldOBB(), colliderB->GetWorldOBB(), outContacts, contactOffset);
 	}
 	else if (colliderA->GetType() == Collider::BoxType && colliderB->GetType() == Collider::SphereType)
 	{
-		CollectContactPoints_OBB_Sphere(colliderA->GetWorldOBB(), colliderB->GetWorldSphere(), outContacts, contactOffset);
+		return CollectContactPoints_OBB_Sphere(colliderA->GetWorldOBB(), colliderB->GetWorldSphere(), outContacts, contactOffset);
 	}
 	else if (colliderA->GetType() == Collider::SphereType && colliderB->GetType() == Collider::BoxType)
 	{
-		CollectContactPoints_OBB_Sphere(colliderB->GetWorldOBB(), colliderA->GetWorldSphere(), outContacts, contactOffset);
+		return CollectContactPoints_OBB_Sphere(colliderB->GetWorldOBB(), colliderA->GetWorldSphere(), outContacts, contactOffset);
 	}
 	else if (colliderA->GetType() == Collider::BoxType && colliderB->GetType() == Collider::CapsuleType)
 	{
-		CollectContactPoints_OBB_Capsule(colliderA->GetWorldOBB(), colliderB->GetWorldCapsule(), outContacts, contactOffset);
+		return CollectContactPoints_OBB_Capsule(colliderA->GetWorldOBB(), colliderB->GetWorldCapsule(), outContacts, contactOffset);
 	}
 	else if (colliderA->GetType() == Collider::CapsuleType && colliderB->GetType() == Collider::BoxType)
 	{
-		CollectContactPoints_OBB_Capsule(colliderB->GetWorldOBB(), colliderA->GetWorldCapsule(), outContacts, contactOffset);
+		return CollectContactPoints_OBB_Capsule(colliderB->GetWorldOBB(), colliderA->GetWorldCapsule(), outContacts, contactOffset);
 	}
 
 
 	if (colliderA->GetType() == Collider::SphereType && colliderB->GetType() == Collider::SphereType)
 	{
-		CollectContactPoints_Sphere_Sphere(colliderA->GetWorldSphere(), colliderB->GetWorldSphere(), outContacts, contactOffset);
+		return CollectContactPoints_Sphere_Sphere(colliderA->GetWorldSphere(), colliderB->GetWorldSphere(), outContacts, contactOffset);
 	}
 	else if (colliderA->GetType() == Collider::SphereType && colliderB->GetType() == Collider::CapsuleType)
 	{
-		CollectContactPoints_Sphere_Capsule(colliderA->GetWorldSphere(), colliderB->GetWorldCapsule(), outContacts, contactOffset);
+		return CollectContactPoints_Sphere_Capsule(colliderA->GetWorldSphere(), colliderB->GetWorldCapsule(), outContacts, contactOffset);
 	}
 	else if (colliderA->GetType() == Collider::CapsuleType && colliderB->GetType() == Collider::SphereType)
 	{
-		CollectContactPoints_Sphere_Capsule(colliderB->GetWorldSphere(), colliderA->GetWorldCapsule(), outContacts, contactOffset);
+		return CollectContactPoints_Sphere_Capsule(colliderB->GetWorldSphere(), colliderA->GetWorldCapsule(), outContacts, contactOffset);
 	}
 
 
 	if (colliderA->GetType() == Collider::CapsuleType && colliderB->GetType() == Collider::CapsuleType)
 	{
-		CollectContactPoints_Capsule_Capsule(colliderA->GetWorldCapsule(), colliderB->GetWorldCapsule(), outContacts, contactOffset);
+		return CollectContactPoints_Capsule_Capsule(colliderA->GetWorldCapsule(), colliderB->GetWorldCapsule(), outContacts, contactOffset);
+	}
+	return false;
+	*/
+}
+
+void PhysWorld::ApplyIterations(std::vector<ContactManifold>& manifolds, float deltaTime)
+{
+	const int velocityIterations = 8; // 速度（跳ね返り・摩擦）の反復回数
+	const int positionIterations = 3; // 位置（めり込み押し出し）の反復回数
+
+	// 1. 速度のイテレーション（これを繰り返すとジェンガが安定する）
+	for (int i = 0; i < velocityIterations; ++i) {
+		for (auto& m : manifolds) {
+			for (auto& point : m.gContactPoints) {
+				// Rigidbodyの速度と角速度だけを更新する
+				// ResolveCollisionの中から「座標更新」を抜いた処理を呼ぶ
+				if (m.gRbA) {
+					// Aが動的オブジェクトの場合
+					m.gRbA->ResolveVelocity(m.gRbB, m.gNormal, point, deltaTime);
+				}
+				else if (m.gRbB) {
+					// Aが静止物で、Bだけが動的オブジェクトの場合
+					// Bから見て「A（静止物）」とぶつかった計算にするため、法線を反転して呼ぶ
+					m.gRbB->ResolveVelocity(nullptr, m.gNormal, point, deltaTime);
+				}
+			}
+		}
+	}
+
+	// 2. 位置のイテレーション（めり込みを解消する）
+	for (int i = 0; i < positionIterations; ++i) {
+		for (auto& m : manifolds) {
+			// 座標を直接ズラす処理
+			// ここで少しずつ押し出すことで、複数の衝突がある場合も矛盾しにくくなる
+			ResolvePosition(m);
+		}
 	}
 }
 
-void PhysWorld::CollectContactPoints_OBB_OBB(const OBB& a, const OBB& b, std::vector<ContactPoint>& outContacts, float contactOffset)
+void PhysWorld::ResolvePosition(ContactManifold& m)
+{
+
+	// Rigidbodyの取得（付いていない場合は nullptr）
+	Rigidbody* rbA = m.gRbA;
+	Rigidbody* rbB = m.gRbB;
+
+	// 質量の逆数を取得。Rigidbodyがない（静的）場合は 0.0f と見なす
+	float invMassA = (rbA != nullptr) ? rbA->GetInverseMass() : 0.0f;
+	float invMassB = (rbB != nullptr) ? rbB->GetInverseMass() : 0.0f;
+
+	// 両方の InverseMass の合計
+	float sumInvMass = invMassA + invMassB;
+
+	// どちらも動かない物体（合計がゼロ）なら何もしない
+	if (sumInvMass <= 0.0001f)
+	{
+		return;
+	}
+
+	// 押し出しの割合（AとBでどう分担するか）
+	float ratioA = invMassA / sumInvMass;
+	float ratioB = invMassB / sumInvMass;
+
+	// めり込み量に対して、少し余裕（0.01fなど）を残して押し出す（ジッター対策）
+	const float slop = 0.01f;
+	const float percent = 0.8f; // 1.0にすると跳ねすぎることがあるので80%程度にする
+	float correctionMagnitude = std::max(m.gPenetration - slop, 0.0f) * percent;
+
+	// 各オブジェクトの押し出しベクトルを計算（重いほど動かない）
+	Vector3 correctionA = m.gNormal * (correctionMagnitude * (invMassA / sumInvMass));
+	Vector3 correctionB = m.gNormal * (correctionMagnitude * (invMassB / sumInvMass));
+
+	if (m.gRbA)
+	{
+		// Aを法線方向に移動
+		Vector3 posA = m.gRbA->GetOwner()->GetTransform()->GetLocalPosition();
+		m.gRbA->GetOwner()->GetTransform()->SetLocalPosition(posA - correctionA);
+		m.gRbA->GetOwner()->GetTransform()->ComputeWorldTransform();
+	}
+
+	if (m.gRbB)
+	{
+		// Bを法線の【逆】方向に移動
+		Vector3 posB = m.gRbB->GetOwner()->GetTransform()->GetLocalPosition();
+		m.gRbB->GetOwner()->GetTransform()->SetLocalPosition(posB + correctionB);
+		m.gRbB->GetOwner()->GetTransform()->ComputeWorldTransform();
+	}
+	/*
+	// 押し出す量（修正ベクトル）の計算
+	// penetration（めり込み深さ）から slop を引いた分に percent を掛ける
+	float correctionMagnitude = std::max(m.penetration - slop, 0.0f) * percent;
+	Vector3 correction = m.normal * correctionMagnitude;
+
+	if (m.rbA && m.rbB)
+	{
+		// --- 【動的 vs 動的】 ---
+		// 質量に応じて押し出し量を按分する（軽い方がよく動く）
+		float invMassA = m.rbA->GetInverseMass(); // (1.0f / mMass) を返す関数を想定
+		float invMassB = m.rbB->GetInverseMass();
+		float totalInvMass = invMassA + invMassB;
+
+		Vector3 moveA = correction * (invMassA / totalInvMass);
+		Vector3 moveB = correction * (invMassB / totalInvMass);
+
+		// Aを法線方向に移動
+		Vector3 posA = m.rbA->GetOwner()->GetTransform()->GetLocalPosition();
+		m.rbA->GetOwner()->GetTransform()->SetLocalPosition(posA + moveA);
+		m.rbA->GetOwner()->GetTransform()->ComputeWorldTransform();
+
+		// Bを法線の【逆】方向に移動
+		Vector3 posB = m.rbB->GetOwner()->GetTransform()->GetLocalPosition();
+		m.rbB->GetOwner()->GetTransform()->SetLocalPosition(posB - moveB);
+		m.rbB->GetOwner()->GetTransform()->ComputeWorldTransform();
+	}
+	else if (m.rbA && !m.rbB)
+	{
+		// --- 【動的 vs 静的】 ---
+		// Aだけを100%押し出す
+		Vector3 posA = m.rbA->GetOwner()->GetTransform()->GetLocalPosition();
+		m.rbA->GetOwner()->GetTransform()->SetLocalPosition(posA + correction);
+		m.rbA->GetOwner()->GetTransform()->ComputeWorldTransform();
+	}
+	else if (!m.rbA && m.rbB)
+	{
+		// --- 【動的 vs 静的】 ---
+		// Aだけを100%押し出す
+		Vector3 posB = m.rbB->GetOwner()->GetTransform()->GetLocalPosition();
+		m.rbB->GetOwner()->GetTransform()->SetLocalPosition(posB + correction);
+		m.rbB->GetOwner()->GetTransform()->ComputeWorldTransform();
+	}
+	*/
+}
+
+bool PhysWorld::CollectContactPoints_OBB_OBB(const OBB& a, const OBB& b, std::vector<ContactPoint>& outContacts, float contactOffset)
 {
 	Vector3 normal;
 	float depth;
@@ -370,7 +598,9 @@ void PhysWorld::CollectContactPoints_OBB_OBB(const OBB& a, const OBB& b, std::ve
 	if (GetContactInfo_OBB(a, b, normal, depth, contactPoint))
 	{
 		outContacts.emplace_back(ContactPoint{ normal, depth, contactPoint });
+		return true;
 	}
+	return false;
 }
 
 bool PhysWorld::GetContactInfo_OBB(const OBB& a, const OBB& b, Vector3& outNormal, float& outDepth,Vector3& contactPoint)
@@ -446,13 +676,18 @@ bool PhysWorld::GetContactInfo_OBB(const OBB& a, const OBB& b, Vector3& outNorma
 	}
 
 	outNormal = bestAxis;
-	outDepth = minOverlap;
-	contactPoint = a.mCenter - bestAxis * (minOverlap / 2.0f);
-	
+	outDepth = minOverlap;	
+	// 法線はBからAへ向かっているので、
+	// Aにとって最も深く刺さっている点は「-bestAxis方向」の頂点
+	Vector3 supportA = GetSupportPoint(a, bestAxis);
+	// Bにとって最も深く刺さっている点は「bestAxis方向」の頂点
+	Vector3 supportB = GetSupportPoint(b, -1.0f * bestAxis);
+	// 2つの頂点の中点を近似的な接触点とする
+	contactPoint = (supportA + supportB) * 0.5f;
 	return true;
 }
 
-void PhysWorld::CollectContactPoints_Sphere_Sphere(const Sphere& a, const Sphere& b, std::vector<ContactPoint>& outContacts, float contactOffset)
+bool PhysWorld::CollectContactPoints_Sphere_Sphere(const Sphere& a, const Sphere& b, std::vector<ContactPoint>& outContacts, float contactOffset)
 {
 	Vector3 diff = b.mCenter - a.mCenter;
 	float dist = diff.Length();
@@ -469,10 +704,12 @@ void PhysWorld::CollectContactPoints_Sphere_Sphere(const Sphere& a, const Sphere
 
 		// ContactPoint に position を追加
 		outContacts.emplace_back(ContactPoint{ normal, penetration, contactPoint });
+		return true;
 	}
+	return false;
 }
 
-void PhysWorld::CollectContactPoints_Capsule_Capsule(const Capsule& a, const Capsule& b, std::vector<ContactPoint>& outContacts, float contactOffset)
+bool PhysWorld::CollectContactPoints_Capsule_Capsule(const Capsule& a, const Capsule& b, std::vector<ContactPoint>& outContacts, float contactOffset)
 {
 	float distSq = LineSegment::MinDistSq(a.mSegment, b.mSegment);
 	float radiusSum = a.mRadius + b.mRadius;
@@ -491,16 +728,18 @@ void PhysWorld::CollectContactPoints_Capsule_Capsule(const Capsule& a, const Cap
 			normal.Normalize();
 		else
 			normal = Vector3::UnitX;
-		// ★ 接触点のワールド座標
-					// pA と pB の中間点（あるいは pA から a.mRadius 分進んだ点）
+		// 接触点のワールド座標
+		// pA と pB の中間点（あるいは pA から a.mRadius 分進んだ点）
 		Vector3 contactPoint = pa + normal * a.mRadius;
 
 		// ContactPoint に position を追加
 		outContacts.emplace_back(ContactPoint{ normal, penetration, contactPoint });
+		return true;
 	}
+	return false;
 }
 
-void PhysWorld::CollectContactPoints_OBB_Sphere(const OBB& a, const Sphere& b, std::vector<ContactPoint>& outContacts, float contactOffset)
+bool PhysWorld::CollectContactPoints_OBB_Sphere(const OBB& a, const Sphere& b, std::vector<ContactPoint>& outContacts, float contactOffset)
 {
 	Vector3 closest = ClosestPointOnOBB(b.mCenter, a);
 	Vector3 diff = b.mCenter - closest;
@@ -523,11 +762,13 @@ void PhysWorld::CollectContactPoints_OBB_Sphere(const OBB& a, const Sphere& b, s
 
 			// 接触点を追加
 			outContacts.emplace_back(ContactPoint{ normal, penetration, contactPoint });
+			return true;
 		}
 	}
+	return false;
 }
 
-void PhysWorld::CollectContactPoints_OBB_Capsule(const OBB& a, const Capsule& b, std::vector<ContactPoint>& outContacts, float contactOffset)
+bool PhysWorld::CollectContactPoints_OBB_Capsule(const OBB& a, const Capsule& b, std::vector<ContactPoint>& outContacts, float contactOffset)
 {
 	const int steps = 10;
 	float minDistSq = Math::Infinity;
@@ -566,10 +807,12 @@ void PhysWorld::CollectContactPoints_OBB_Capsule(const OBB& a, const Capsule& b,
 
 		// ContactPoint に position を追加
 		outContacts.emplace_back(ContactPoint{ normal, penetration, contactPoint });
+		return true;
 	}
+	return false;
 }
 
-void PhysWorld::CollectContactPoints_Sphere_Capsule(const Sphere& a, const Capsule& b, std::vector<ContactPoint>& outContacts, float contactOffset)
+bool PhysWorld::CollectContactPoints_Sphere_Capsule(const Sphere& a, const Capsule& b, std::vector<ContactPoint>& outContacts, float contactOffset)
 {
 	float distSq = b.mSegment.MinDistSq(a.mCenter);
 	float radiusSum = a.mRadius + b.mRadius;
@@ -595,7 +838,9 @@ void PhysWorld::CollectContactPoints_Sphere_Capsule(const Sphere& a, const Capsu
 
 		// ContactPoint に position を追加
 		outContacts.emplace_back(ContactPoint{ normal, penetration, contactPoint });
+		return true;
 	}
+	return false;
 }
 
 void PhysWorld::ClearAllCollider()

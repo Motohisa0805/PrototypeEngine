@@ -287,17 +287,21 @@ void ActorObject::Deserialize(const json& j)
 			j["LocalPosition"][2]
 		)
 	);
-
-	mTransform->SetLocalRotation
+	Quaternion localRotation = Quaternion
 	(
-		Quaternion
-		(
-			j["LocalRotation"][1],
-			j["LocalRotation"][2],
-			j["LocalRotation"][3],
-			j["LocalRotation"][0]
-		)
+		j["LocalRotation"][1],
+		j["LocalRotation"][2],
+		j["LocalRotation"][3],
+		j["LocalRotation"][0]
 	);
+	mTransform->SetLocalRotation(localRotation);
+	//GUI上で編集する用キャッシュ数値をVector3で取得
+	Vector3 eulerRad = localRotation.ToEulerAngles();
+	Vector3 rot;
+	rot.x = Math::ToDegrees(eulerRad.x);
+	rot.y = Math::ToDegrees(eulerRad.y);
+	rot.z = Math::ToDegrees(eulerRad.z);
+	mTransform->SetRotationEditor(rot);
 
 	mTransform->SetLocalScale
 	(

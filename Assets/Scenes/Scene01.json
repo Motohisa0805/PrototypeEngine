@@ -240,10 +240,10 @@
         14.0
       ],
       "LocalRotation": [
-        0.8446232080459595,
-        0.46193981170654297,
-        0.19134171307086945,
-        0.19134171307086945
+        1.0,
+        0.0,
+        0.0,
+        0.0
       ],
       "LocalScale": [
         0.5000000596046448,
@@ -346,17 +346,17 @@
           "Visible": true
         },
         {
+          "Type": "CapsuleCollider",
+          "mContactOffset": 0.0010000000474974513,
+          "mIsCollider": true
+        },
+        {
           "Bounciness": 0.10000000149011612,
           "Friction": 0.30000001192092896,
           "GravityScale": 2.0,
           "Mass": 1.0,
           "Type": "Rigidbody",
           "UseGravity": true
-        },
-        {
-          "Type": "CapsuleCollider",
-          "mContactOffset": 0.0010000000474974513,
-          "mIsCollider": true
         }
       ],
       "LocalPosition": [

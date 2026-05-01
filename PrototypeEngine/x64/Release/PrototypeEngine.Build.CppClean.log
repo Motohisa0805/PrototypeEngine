@@ -31,7 +31,6 @@ c:\c++files\prototypeengine\prototypeengine\x64\release\font.obj
 c:\c++files\prototypeengine\prototypeengine\x64\release\followobjectmovement.obj
 c:\c++files\prototypeengine\prototypeengine\x64\release\tinyxml2.obj
 c:\c++files\prototypeengine\prototypeengine\x64\release\enginewindow.obj
-c:\c++files\prototypeengine\prototypeengine\x64\release\editorutils.obj
 c:\c++files\prototypeengine\prototypeengine\x64\release\editortexturemanager.obj
 c:\c++files\prototypeengine\prototypeengine\x64\release\editorsettingsmanager.obj
 c:\c++files\prototypeengine\prototypeengine\x64\release\editormain.obj
@@ -91,12 +90,14 @@ c:\c++files\prototypeengine\prototypeengine\x64\release\text.obj
 c:\c++files\prototypeengine\prototypeengine\x64\release\targetcomponent.obj
 c:\c++files\prototypeengine\prototypeengine\x64\release\stb_impl.obj
 c:\c++files\prototypeengine\prototypeengine\x64\release\staticmeshbatch.obj
+c:\c++files\prototypeengine\prototypeengine\x64\release\scripteditmanager.obj
 c:\c++files\prototypeengine\bin\prototypeengine.exe
 c:\c++files\prototypeengine\bin\prototypeengine.pdb
 c:\c++files\prototypeengine\bin\prototypeengine.lib
 c:\c++files\prototypeengine\bin\prototypeengine.exp
 c:\c++files\prototypeengine\prototypeengine\x64\release\prototypeengine.ipdb
 c:\c++files\prototypeengine\prototypeengine\x64\release\prototypeengine.iobj
+c:\c++files\prototypeengine\prototypeengine\x64\release\editorutils.obj
 c:\c++files\prototypeengine\prototypeengine\x64\release\prototypeengine.tlog\cl.command.1.tlog
 c:\c++files\prototypeengine\prototypeengine\x64\release\prototypeengine.tlog\cl.items.tlog
 c:\c++files\prototypeengine\prototypeengine\x64\release\prototypeengine.tlog\cl.read.1.tlog

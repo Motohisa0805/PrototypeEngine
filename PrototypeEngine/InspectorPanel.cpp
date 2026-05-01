@@ -191,11 +191,7 @@ void InspectorPanel::DrawTransformProperties(ActorObject* transform)
 	}
 	//回転だけローカルで取得
 	//ローカルならスケール値を含まないため
-	Vector3 eulerRad = transform->GetTransform()->GetLocalRotation().ToEulerAngles();
-	Vector3 rot;
-	rot.x = Math::ToDegrees(eulerRad.x);
-	rot.y = Math::ToDegrees(eulerRad.y);
-	rot.z = Math::ToDegrees(eulerRad.z);
+	Vector3 rot = transform->GetTransform()->GetRotationEditor();
 	//度数法で表示・編集
 	if (ImGui::DragFloat3("Rotation(deg)", &rot.x, 1.0f))
 	{
@@ -204,8 +200,9 @@ void InspectorPanel::DrawTransformProperties(ActorObject* transform)
 		Quaternion qx = Quaternion::CreateFromAxisAngle(Vector3::UnitX, rot.x);
 		Quaternion qy = Quaternion::CreateFromAxisAngle(Vector3::UnitY, rot.y);
 		Quaternion qz = Quaternion::CreateFromAxisAngle(Vector3::UnitZ, rot.z);
-		Quaternion newRotation = qy * qx * qz; // ZYX順で回転を適用
+		Quaternion newRotation = qy * qx * qz; // ZXY順で回転を適用
 		transform->GetTransform()->SetLocalRotation(newRotation);
+		transform->GetTransform()->SetRotationEditor(rot);
 	}
 
 	//Scale(Vector3)の編集

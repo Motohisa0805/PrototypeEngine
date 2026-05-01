@@ -877,7 +877,7 @@ public:
 	inline static Vector3 RotateVector(const Vector3 scale, const Quaternion& parent)
 	{
 		// ベクトルをクォータニオン形式に変換
-		Quaternion qv = Quaternion(0, scale.x, scale.y, scale.z);
+		Quaternion qv = Quaternion(scale.x, scale.y, scale.z, 0.0f);
 		// 回転を適用
 		qv = parent * qv * parent.Inverse();
 		// 回転後のベクトルを返す
