@@ -56,8 +56,6 @@ public:
 
 	void		OnUpdateWorldTransform()override;
 
-	void		ResolveCollision(const Vector3& contactNormal, const Vector3& contactPoint, float penetrationDepth);
-
 	void		ResolveVelocity(Rigidbody* other, const Vector3& normal, const Vector3& contactPoint, float deltaTime);
 
 	void		ApplyImpulse(const Vector3& impulse, const Vector3& contactPoint);

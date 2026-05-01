@@ -142,97 +142,6 @@ void Rigidbody::OnUpdateWorldTransform()
     CalculateInertiaTensor();
 }
 
-void Rigidbody::ResolveCollision(const Vector3& contactNormal,const Vector3& contactPoint,float penetrationDepth)
-{
-    // 衝突法線（床 → 剛体）
-    Vector3 hitNormal = contactNormal;
-
-    Vector3 r = contactPoint - mOwner->GetTransform()->GetPosition();
-
-    // 接触点速度
-    Vector3 vContact = mVelocity + Vector3::Cross(mAngularVelocity, r);
-
-    // 法線方向相対速度
-    float vRelN = Vector3::Dot(vContact, hitNormal);
-
-    // 離れているなら何もしない
-    if (vRelN > 0.0f)
-    {
-        return;
-    }
-
-    //法線 impulse（反発）
-    float bounciness = mBounciness;
-
-    Vector3 rn = Vector3::Cross(r, hitNormal);
-    Vector3 invI_rn = mInverseInertiaTensorW.Transform(rn);
-
-    float kNormal = (1.0f / mMass) + Vector3::Dot(hitNormal, Vector3::Cross(invI_rn, r));
-
-    float jn = -(1.0f + bounciness) * (vRelN / kNormal);
-
-    Vector3 impulseN = hitNormal * jn;
-
-    // 並進
-    mVelocity += impulseN / mMass;
-    // 回転
-    mAngularVelocity += mInverseInertiaTensorW.Transform(Vector3::Cross(r, impulseN));
-
-    // --- 法線 impulse 後の接触点速度を再計算 ---
-    Vector3 vContactAfter =mVelocity + Vector3::Cross(mAngularVelocity, r);
-
-    float vRelNAfter = Vector3::Dot(vContactAfter, hitNormal);
-
-    // =========================
-    // 2. 摩擦 impulse
-    // =========================
-    Vector3 vt = vContactAfter - (hitNormal * vRelNAfter);
-
-    if (vt.LengthSq() > 0.0001f)
-    {
-        Vector3 t = vt.Normalized();
-
-        Vector3 rt = Vector3::Cross(r, t);
-        Vector3 invI_rt = mInverseInertiaTensorW.Transform(rt);
-
-        float kTangent = (1.0f / mMass) + Vector3::Dot(t, Vector3::Cross(invI_rt, r));
-
-        float jt = -Vector3::Dot(vContactAfter, t) / kTangent;
-
-        // クーロン摩擦制限
-        float maxFriction = mFriction * std::abs(jn);
-        jt = Math::Clamp(jt, -maxFriction, maxFriction);
-
-        Vector3 impulseT = t * jt;
-
-        // 並進
-        mVelocity += impulseT / mMass;
-        // 回転
-        mAngularVelocity += mInverseInertiaTensorW.Transform(Vector3::Cross(r, impulseT));
-    }
-    /*
-    // =========================
-    // 3. penetration correction（姿勢安定用）
-    // =========================
-    if (penetrationDepth > 0.0f)
-    {
-        const float percent = 0.8f;     // 押し戻し率
-        const float slop = 0.01f;       // 許容めり込み
-
-        float depth = Math::Max(penetrationDepth - slop, 0.0f);
-        Vector3 correction = hitNormal * (depth * percent);
-
-        mOwner->GetTransform()->SetLocalPosition(mOwner->GetTransform()->GetPosition() + correction);
-    }
-    */
-
-    // 接地判定
-    if (hitNormal.y > 0.7f)
-    {
-        mIsGrounded = true;
-    }
-}
-
 void Rigidbody::ResolveVelocity(Rigidbody* other, const Vector3& normal, const Vector3& contactPoint, float deltaTime)
 {
     // ==========================================
@@ -254,13 +163,13 @@ void Rigidbody::ResolveVelocity(Rigidbody* other, const Vector3& normal, const V
     // ==========================================
     // 1. 相対速度の計算
     // ==========================================
-    Vector3 rA = contactPoint - mOwner->GetTransform()->GetPosition();
+    Vector3 rA = contactPoint - mOwner->GetTransform()->GetLocalPosition();
     Vector3 vContactA = mVelocity + Vector3::Cross(mAngularVelocity, rA);
 
     Vector3 rB = Vector3::Zero;
     Vector3 vContactB = Vector3::Zero;
     if (other) {
-        rB = contactPoint - other->GetOwner()->GetTransform()->GetPosition();
+        rB = contactPoint - other->GetOwner()->GetTransform()->GetLocalPosition();
         vContactB = other->GetVelocity() + Vector3::Cross(other->GetAngularVelocity(), rB);
     }
 
@@ -349,60 +258,6 @@ void Rigidbody::ResolveVelocity(Rigidbody* other, const Vector3& normal, const V
             other->ApplyImpulse(impulseT * -1.0f, contactPoint);
         }
     }
-    /*
-    
-    //相対速度の計算
-	Vector3 rA = contactPoint - mOwner->GetTransform()->GetPosition();
-	Vector3 vA = mVelocity + Vector3::Cross(mAngularVelocity, rA);
-
-	Vector3 vB = Vector3::Zero;
-    if (other) {
-        Vector3 rB = contactPoint - other->GetOwner()->GetTransform()->GetPosition();
-		vB = other->GetVelocity() + Vector3::Cross(other->GetAngularVelocity(), rB);
-    }
-
-	Vector3 relativeVelocity = vA - vB; // 他の剛体が存在する場合は相対速度を計算
-	float velocityAlongNormal = Vector3::Dot(relativeVelocity, normal);
-
-    // すでに離れようとしている場合は何もしない
-    if (velocityAlongNormal > 0) return;
-
-    //反発インパルスの計算
-    float e = mBounciness;// 本来は2つの物体の最小値などを使う
-    float j = -(1.0f + e) * velocityAlongNormal;
-
-	//慣性を考慮したインパルスの計算
-    float invMassSum = mMass;
-	if (other)invMassSum += other->GetMass();
-
-	Vector3 rACrossN = Vector3::Cross(rA, normal);
-	float rotationInvMass = Vector3::Dot(rACrossN, mInverseInertiaTensorW.Transform(rACrossN));
-
-    j /= (invMassSum + rotationInvMass);
-
-    //インパルスの適用
-	Vector3 impulse = normal * j;
-    ApplyImpulse(impulse, contactPoint);
-    if (other) {// other は rbB のこと
-        other->ApplyImpulse(impulse * -1.0f, contactPoint);
-    }
-    // 3. 摩擦インパルスの計算 (ここが静止のキモ)
-    relativeVelocity = (mVelocity + Vector3::Cross(mAngularVelocity, rA)) - vB;
-    Vector3 tangent = relativeVelocity - (normal * Vector3::Dot(relativeVelocity, normal));
-    if (tangent.LengthSq() > 0.0001f) {
-        tangent.Normalize();
-        float jt = -Vector3::Dot(relativeVelocity, tangent);
-        jt /= (invMassSum + rotationInvMass); // 簡易化のため回転慣性は再利用
-
-        // クーロン摩擦の制限 (|jt| <= j * friction)
-        float friction = mFriction;
-        jt = std::clamp(jt, -j * friction, j * friction);
-
-        Vector3 frictionImpulse = tangent * jt;
-        ApplyImpulse(frictionImpulse, contactPoint);
-        if (other) other->ApplyImpulse(frictionImpulse * -1.0f, contactPoint);
-    }
-    */
 }
 
 void Rigidbody::ApplyImpulse(const Vector3& impulse, const Vector3& contactPoint)
@@ -412,7 +267,7 @@ void Rigidbody::ApplyImpulse(const Vector3& impulse, const Vector3& contactPoint
 
     // 2. 角速度への影響（ここが回転の源！）
     // 重心から衝突点へのベクトル
-    Vector3 r = contactPoint - mOwner->GetTransform()->GetPosition();
+    Vector3 r = contactPoint - mOwner->GetTransform()->GetLocalPosition();
 
     // トルク成分 = r × impulse (外積)
     Vector3 impulsiveTorque = Vector3::Cross(r, impulse);

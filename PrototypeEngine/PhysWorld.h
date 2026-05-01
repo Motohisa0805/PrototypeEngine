@@ -58,6 +58,11 @@ private:
 	// 現在の衝突ペア（Actor同士）を管理するセット。これを使って、衝突開始/継続/終了イベントを判定する。
 	std::set<std::pair<ActorObject*, ActorObject*>>		mCurrentHitPairs;
 
+	vector<Vector3>										GetOBBIncidentFace(const class OBB& obb,const Vector3& normal);
+
+	// ポリゴンを平面でカットする（クリッピング）
+	void												ClipPolygonAgainstPlane(const std::vector<Vector3>& inPoly, const Vector3& planeNormal, const Vector3& planePoint, std::vector<Vector3>& outPoly);
+
 public:
 
 														PhysWorld();
@@ -70,15 +75,13 @@ public:
 
 	//XYZのSweeppruneを使用した衝突判定
 	void												SweepAndPruneXYZ();
-	//押し出し処理の呼び出し元
-	void												FixCollisions(Collider* dynamicCollider, Collider* staticCollider);
 	//各コライダー同士の精密判定をまとめた関数
 	bool												IsOnCollision(Collider* colliderA, Collider* colliderB);
 	//各コライダー同士の押し出し処理をまとめた関数
 	bool												IsCollectContactPoints(class Collider* colliderA, class Collider* colliderB, std::vector<ContactPoint>& outContacts, float contactOffset);
-
+	//衝突の解決を一定数繰り返す関数
 	void												ApplyIterations(std::vector<ContactManifold>& manifolds, float deltaTime);
-
+	//衝突の解決
 	void												ResolvePosition(ContactManifold& m);
 
 	//OBB vs OBBの押し出し処理
