@@ -181,6 +181,15 @@
             0.0,
             0.0
           ]
+        },
+        {
+          "Bounciness": 0.10000000149011612,
+          "Friction": 0.30000001192092896,
+          "GravityScale": 1.0,
+          "IsPrivateUseGravityScale": false,
+          "Mass": 10.0,
+          "Type": "Rigidbody",
+          "UseGravity": true
         }
       ],
       "LocalPosition": [
@@ -199,7 +208,7 @@
         1.0,
         1.0
       ],
-      "Name": "Cube2",
+      "Name": "RigidbodyCube2",
       "State": 0,
       "Static": 0,
       "Tag": 0,
@@ -226,18 +235,19 @@
           ]
         },
         {
-          "Bounciness": 1.0,
+          "Bounciness": 0.10000000149011612,
           "Friction": 0.30000001192092896,
-          "GravityScale": 2.0,
+          "GravityScale": 1.0,
+          "IsPrivateUseGravityScale": false,
           "Mass": 1.0,
           "Type": "Rigidbody",
           "UseGravity": true
         }
       ],
       "LocalPosition": [
-        2.0,
-        8.5,
-        14.0
+        0.0,
+        3.0,
+        5.0
       ],
       "LocalRotation": [
         1.0,
@@ -250,7 +260,7 @@
         1.0,
         1.0
       ],
-      "Name": "Cube1",
+      "Name": "RigidbodyCube1",
       "State": 0,
       "Static": 0,
       "Tag": 0,
@@ -272,10 +282,11 @@
           "mIsCollider": true
         },
         {
-          "Bounciness": 0.10000000149011612,
+          "Bounciness": 1.0,
           "Friction": 0.30000001192092896,
-          "GravityScale": 2.0,
-          "Mass": 1.0,
+          "GravityScale": 10.0,
+          "IsPrivateUseGravityScale": false,
+          "Mass": 100.0,
           "Type": "Rigidbody",
           "UseGravity": true
         }
@@ -296,7 +307,7 @@
         1.0,
         1.0
       ],
-      "Name": "Sphere",
+      "Name": "RigidbodySphere",
       "State": 0,
       "Static": 0,
       "Tag": 0,
@@ -353,7 +364,8 @@
         {
           "Bounciness": 0.10000000149011612,
           "Friction": 0.30000001192092896,
-          "GravityScale": 2.0,
+          "GravityScale": 1.0,
+          "IsPrivateUseGravityScale": false,
           "Mass": 1.0,
           "Type": "Rigidbody",
           "UseGravity": true
@@ -375,7 +387,7 @@
         1.0,
         1.0
       ],
-      "Name": "Capsule",
+      "Name": "RigidbodyCapsule",
       "State": 0,
       "Static": 0,
       "Tag": 0,
@@ -411,6 +423,58 @@
       "Name": "Dice",
       "State": 0,
       "Static": 1,
+      "Tag": 0,
+      "Type": "Transform"
+    },
+    {
+      "Components": [
+        {
+          "Alpha": 1.0,
+          "FilePath": "Cube.fbx",
+          "IsSkeletal": false,
+          "ShadowFrag": true,
+          "Type": "MeshRenderer",
+          "Visible": true
+        },
+        {
+          "Type": "BoxCollider",
+          "mContactOffset": 0.0010000000474974513,
+          "mIsCollider": true,
+          "mObjectOBB.mOffset": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "Bounciness": 1.0,
+          "Friction": 0.30000001192092896,
+          "GravityScale": 2.0,
+          "IsPrivateUseGravityScale": true,
+          "Mass": 100.0,
+          "Type": "Rigidbody",
+          "UseGravity": true
+        }
+      ],
+      "LocalPosition": [
+        5.0,
+        8.5,
+        14.0
+      ],
+      "LocalRotation": [
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "LocalScale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "Name": "RigidbodyCube3",
+      "State": 0,
+      "Static": 0,
       "Tag": 0,
       "Type": "Transform"
     }

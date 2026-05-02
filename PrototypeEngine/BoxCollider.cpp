@@ -107,7 +107,7 @@ void BoxCollider::DrawCustomGUI(const std::vector<PropertyInfo>& properties)
 {
 	ImGui::PushID(this);
 
-	ImGui::Text("BoxCollider Properties");
+	ImGui::Text("Properties");
 	Collider::DrawCustomGUI(properties);
 	
 	ImGui::NewLine();

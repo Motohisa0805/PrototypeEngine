@@ -3,6 +3,7 @@
 #include "Math.h"
 #include "Collision.h"
 #include "Rigidbody.h"
+#include "Physics.h"
 /*
 * ===ƒGƒ“ƒWƒ““à•”ˆ—/Engine internal processing===
 */

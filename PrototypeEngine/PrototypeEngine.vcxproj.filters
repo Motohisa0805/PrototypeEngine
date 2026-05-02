@@ -798,5 +798,8 @@
     <ClInclude Include="StaticMeshBatch.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="Physics.h">
+      <Filter>SourceCodes\F_Editor\Collisions</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

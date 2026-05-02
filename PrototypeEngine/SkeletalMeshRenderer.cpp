@@ -234,7 +234,7 @@ void SkeletalMeshRenderer::Deserialize(const json& j)
 void SkeletalMeshRenderer::DrawCustomGUI(const std::vector<PropertyInfo>& properties)
 {
 	//MeshRendererのプロパティ
-	ImGui::Text("SkeletalMeshRenderer");
+	ImGui::Text("Properties");
 
 	//1.ファイルパスの取得
 	string currentPath = mFilePath;

@@ -4,6 +4,8 @@
 #include "Math.h"
 #include "Collision.h"
 #include "Collider.h"
+#include "Physics.h"
+
 /*
 * ===エンジン内部処理/Engine internal processing===
 */
@@ -17,6 +19,7 @@ class Rigidbody : public Component
 private:
 	//重力フラグ
 	bool		mUseGravity;
+	bool		mIsPrivateUseGravityScale;
 	//重力スケーリング
 	float		mGravityScale;
 	//質量(1.0f = 1kg)
