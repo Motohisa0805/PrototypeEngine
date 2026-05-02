@@ -316,8 +316,8 @@ bool PhysWorld::IsCollectContactPoints(Collider* colliderA, Collider* colliderB,
 
 void PhysWorld::ApplyIterations(std::vector<ContactManifold>& manifolds, float deltaTime)
 {
-	const int velocityIterations = 8; // 速度（跳ね返り・摩擦）の反復回数
-	const int positionIterations = 3; // 位置（めり込み押し出し）の反復回数
+	const int velocityIterations = Physics::VELOCITY_ITERATIONS; // 速度（跳ね返り・摩擦）の反復回数
+	const int positionIterations = Physics::POSITION_ITERATIONS; // 位置（めり込み押し出し）の反復回数
 
 	// 1. 速度のイテレーション（これを繰り返すとジェンガが安定する）
 	for (int i = 0; i < velocityIterations; ++i) {
@@ -396,6 +396,8 @@ void PhysWorld::ResolvePosition(ContactManifold& m)
 		m.gRbB->GetOwner()->GetTransform()->SetLocalPosition(posB + correctionB);
 		m.gRbB->GetOwner()->GetTransform()->ComputeWorldTransform();
 	}
+	// 最終的なめり込み量を更新（残った分だけ次のイテレーションで解消する）
+	m.gPenetration -= correctionMagnitude;
 }
 
 bool PhysWorld::CollectContactPoints_OBB_OBB(const OBB& a, const OBB& b, std::vector<ContactPoint>& outContacts, float contactOffset)

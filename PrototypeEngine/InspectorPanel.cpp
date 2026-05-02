@@ -92,12 +92,9 @@ void InspectorPanel::Draw(float width, float height, ImTextureRef ref)
 			{
 				comp->InitializeDrawCustomGUI();
 				// 各コンポーネントのプロパティ編集UI
-				if (ImGui::CollapsingHeader(comp->GetName().c_str() + index, ImGuiTreeNodeFlags_DefaultOpen))
+				if (ImGui::CollapsingHeader((comp->GetName() + std::to_string(index)).c_str(), ImGuiTreeNodeFlags_DefaultOpen))
 				{
 					//ここに各コンポーネント固有のプロパティ編集ロジックを実装
-
-					ImGui::Text("[Type: %s]", comp->GetName().c_str());
-					ImGui::SameLine();
 
 					// --------------------------------------------------
 					// 【重要】リフレクション情報に基づいてプロパティを描画

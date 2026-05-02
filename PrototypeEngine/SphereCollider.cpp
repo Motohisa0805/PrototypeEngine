@@ -62,7 +62,7 @@ void SphereCollider::DrawCustomGUI(const std::vector<PropertyInfo>& properties)
 {
 	ImGui::PushID(this);
 
-	ImGui::Text("SphereCollider Properties");
+	ImGui::Text("Properties");
 	Collider::DrawCustomGUI(properties);
 
 	ImGui::Separator();

@@ -15,7 +15,8 @@
 Rigidbody::Rigidbody(ActorObject* owner, int updateOrder)
     : Component(owner)
     , mUseGravity(false)
-    , mGravityScale(2)
+	, mIsPrivateUseGravityScale(false)
+    , mGravityScale(1.0f)
     , mMass(1.0f)
     , mFriction(0.3f)
     , mBounciness(0.1f)
@@ -45,8 +46,11 @@ void Rigidbody::FixedUpdate(float deltaTime)
     //重力フラグが有効なら
     if (mUseGravity && !mIsGrounded)
     {
+		// 重力スケーリングの適用
+		// mIsPrivateUseGravityScale が true の場合は mGravityScale を使用し、そうでない場合は 1.0f を使用
+		float gravityScale = mIsPrivateUseGravityScale ? mGravityScale : 1.0f;
         // 重力を力として加える
-        gravityForce = Vector3::UnitY * (-9.8f) * mMass * mGravityScale;
+        gravityForce = Vector3::NegUnitY * Physics::GRAVITY_ACCELERATION * mMass * gravityScale;
     }
     mForces += gravityForce;
 
@@ -57,7 +61,7 @@ void Rigidbody::FixedUpdate(float deltaTime)
     mVelocity += acceleration * deltaTime;
     // 一時的に以下の減衰処理を追加
     // 1.0f だと減衰なし。0.95f 〜 0.99f くらいにすると自然
-    float linearDamping = 0.98f;
+    float linearDamping = 0.99f;
 
     mVelocity *= (1.0f - linearDamping * deltaTime);
 
@@ -65,7 +69,7 @@ void Rigidbody::FixedUpdate(float deltaTime)
     if (mVelocity.LengthSq() < 0.001f) mVelocity = Vector3::Zero;
 
     // 位置更新
-    Vector3 position = mOwner->GetTransform()->GetLocalPosition();
+    Vector3 position = mOwner->GetTransform()->GetPosition();
     position += mVelocity * deltaTime;
     mOwner->GetTransform()->SetLocalPosition(position);
 
@@ -116,7 +120,7 @@ void Rigidbody::FixedUpdate(float deltaTime)
 
             // クォータニオンの足し算
 			Quaternion newRotation = oldRotation + deltaRotation;
-
+            newRotation.Normalize();
             mOwner->GetTransform()->SetLocalRotation(newRotation);
             //GUI上で編集する用キャッシュ数値をVector3で取得
             Vector3 eulerRad = newRotation.ToEulerAngles();
@@ -135,6 +139,14 @@ void Rigidbody::FixedUpdate(float deltaTime)
         // 6. トルクをリセット
         mTorques = Vector3::Zero;
     }
+
+    //最大速度の制御
+	float maxSpeed = 40.0f; 
+    if (mVelocity.LengthSq() > maxSpeed * maxSpeed) {
+        mVelocity.Normalize();
+		mVelocity *= maxSpeed;
+    }
+
 }
 
 void Rigidbody::OnUpdateWorldTransform()
@@ -163,13 +175,13 @@ void Rigidbody::ResolveVelocity(Rigidbody* other, const Vector3& normal, const V
     // ==========================================
     // 1. 相対速度の計算
     // ==========================================
-    Vector3 rA = contactPoint - mOwner->GetTransform()->GetLocalPosition();
+    Vector3 rA = contactPoint - mOwner->GetTransform()->GetPosition();
     Vector3 vContactA = mVelocity + Vector3::Cross(mAngularVelocity, rA);
 
     Vector3 rB = Vector3::Zero;
     Vector3 vContactB = Vector3::Zero;
     if (other) {
-        rB = contactPoint - other->GetOwner()->GetTransform()->GetLocalPosition();
+        rB = contactPoint - other->GetOwner()->GetTransform()->GetPosition();
         vContactB = other->GetVelocity() + Vector3::Cross(other->GetAngularVelocity(), rB);
     }
 
@@ -183,6 +195,11 @@ void Rigidbody::ResolveVelocity(Rigidbody* other, const Vector3& normal, const V
     // 2. 法線方向（反発）インパルスの計算
     // ==========================================
     float bounciness = mBounciness; // (本来は std::min(mBounciness, other->mBounciness) が自然)
+
+    if (std::abs(vRelN) < 1.0f)
+    {
+        bounciness = 0.0f;
+    }
 
     // mMassそのものではなく、質量の逆数（1/m）を使う
     float invMassA = GetInverseMass();
@@ -267,7 +284,7 @@ void Rigidbody::ApplyImpulse(const Vector3& impulse, const Vector3& contactPoint
 
     // 2. 角速度への影響（ここが回転の源！）
     // 重心から衝突点へのベクトル
-    Vector3 r = contactPoint - mOwner->GetTransform()->GetLocalPosition();
+    Vector3 r = contactPoint - mOwner->GetTransform()->GetPosition();
 
     // トルク成分 = r × impulse (外積)
     Vector3 impulsiveTorque = Vector3::Cross(r, impulse);
@@ -339,6 +356,7 @@ void Rigidbody::Serialize(json& j) const
 	Component::Serialize(j);
 
 	j["UseGravity"] = mUseGravity;
+	j["IsPrivateUseGravityScale"] = mIsPrivateUseGravityScale;
 	j["GravityScale"] = mGravityScale;
 	j["Mass"] = mMass;
 	j["Friction"] = mFriction;
@@ -353,6 +371,10 @@ void Rigidbody::Deserialize(const json& j)
     {
         mUseGravity = j.at("UseGravity").get<bool>();
 	}
+    if (j.contains("IsPrivateUseGravityScale"))
+    {
+        mIsPrivateUseGravityScale = j.at("IsPrivateUseGravityScale").get<bool>();
+    }
     if (j.contains("GravityScale"))
     {
         mGravityScale = j.at("GravityScale").get<float>();
@@ -381,7 +403,15 @@ void Rigidbody::DrawCustomGUI(const std::vector<PropertyInfo>& properties)
     ImGui::DragFloat("Mass", &mMass);
     ImGui::NewLine();
     ImGui::SetNextItemWidth(50);
+
+	//個別の重力スケールを使用するかどうかのチェックボックス
+	ImGui::Checkbox("Use Private Gravity Scale", &mIsPrivateUseGravityScale);
+	//重力スケールのドラッグフロート。個別の重力スケールを使用する場合は有効、そうでない場合は無効にする
+    ImGui::BeginDisabled(!mIsPrivateUseGravityScale);
+	//個別の重力スケールを使用しない場合は、全てのRigidbodyで同じ重力スケールを使用するため、ここで編集できるようにする
     ImGui::DragFloat("GravityScale", &mGravityScale);
+    ImGui::EndDisabled();
+
     ImGui::NewLine();
     ImGui::SetNextItemWidth(50);
     ImGui::DragFloat("Friction", &mFriction);

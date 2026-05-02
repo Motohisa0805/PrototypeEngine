@@ -264,7 +264,7 @@ void ParticleSystem::DrawCustomGUI(const std::vector<PropertyInfo>& properties)
 {
 	ImGui::PushID(this);
 
-	ImGui::Text("ParticleSystemProperties");
+	ImGui::Text("Properties");
 	
 	ImGui::NewLine();
 	

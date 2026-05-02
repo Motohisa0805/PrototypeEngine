@@ -181,7 +181,7 @@ void MeshRenderer::DrawCustomGUI(const std::vector<PropertyInfo>& properties)
 	ImGui::PushID(this);
 
 	//MeshRendererのプロパティ
-	ImGui::Text("Mesh Renderer Properties");
+	ImGui::Text("Properties");
 
 	ImGui::NewLine();
 
