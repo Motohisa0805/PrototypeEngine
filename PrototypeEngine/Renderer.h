@@ -32,6 +32,7 @@ struct StaticMeshBatch {
 	vector<unsigned int>	gAllIndices;
 	VertexArray*			gBatchVertexArray;
 	Texture*				gBatchTexture;
+	MaterialInfo 			gBatchMaterial;
 };
 
 class ParticleSystem;
@@ -109,8 +110,11 @@ private:
 	SceneViewEditor*									mSceneViewEditor;
 	//ゲームシーンのデータ
 	SceneViewEditor*									mGameSceneViewEditor;
-
-	std::map<Texture*, StaticMeshBatch>					mStaticMeshBatches;
+	//シーンごとに保存しているオブジェクトのバッチ
+	// アンチ半透明バッチ
+	std::map<MaterialInfo*, StaticMeshBatch>			mAntiTransparentBatches;      
+	// 半透明バッチ
+	std::map<MaterialInfo*, StaticMeshBatch>			mTransparentBatches; 
 
 	//描画回数のカウンター
 	int													mDrawCalls;
@@ -144,6 +148,8 @@ public:
 	bool												Initialize(float screenWidth, float screenHeight);
 	//ゲーム実行時に一度だけ呼び出される初期化処理
 	void												BuildStaticBatch();
+
+	void 												BuildMeshBatch(Mesh* mesh, Matrix4 world, StaticMeshBatch& outBatch, int index);
 
 	//描画部分のアンロード(Shaderなど)
 	void												Shutdown();
