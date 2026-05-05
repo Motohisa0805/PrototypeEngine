@@ -1,6 +1,7 @@
 
 
 // Request GLSL 3.3
+//PBRの考え方のもと、G-Bufferに必要な情報を出力するフラグメントシェーダーに改良予定
 #version 330
 //メッシュ用のフラグシェーダー
 // 頂点シェーダーからの入力
@@ -11,10 +12,11 @@ in vec3 fragNormal;
 // 座標（ワールド空間）
 in vec3 fragWorldPos;
 
-// G-Buffer出力
+// G-Buffer出力(RGBA16FやRGBA8などのフォーマットはC++側で設定)
 layout(location = 0) out vec4 outDiffuse;
 layout(location = 1) out vec3 outNormal;
 layout(location = 2) out vec3 outWorldPos;
+//layout(location = 3) out vec4 outPBR; // R: Metallic, G: Roughness, B: AO, A: 未使用
 
 // ユニフォーム
 uniform sampler2D uTexture;

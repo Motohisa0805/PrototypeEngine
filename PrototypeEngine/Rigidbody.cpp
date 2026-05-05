@@ -25,7 +25,8 @@ Rigidbody::Rigidbody(ActorObject* owner, int updateOrder)
     , mAngularVelocity(Vector3::Zero)
     , mTorques(Vector3::Zero)
     , mInertia(1.0f)
-    , mAngularDamping(1.0f)
+    , mAngularDamping(0.998f)
+	, mLinearDamping(0.998f)
     , mInverseInertiaTensorW(Matrix3::Identity)
     , mInverseInertiaTensorL(Matrix3::Identity)
     , mShapeType(Collider::ColliderType::SphereType) // 仮の初期化
@@ -59,11 +60,8 @@ void Rigidbody::FixedUpdate(float deltaTime)
 
     // 速度更新
     mVelocity += acceleration * deltaTime;
-    // 一時的に以下の減衰処理を追加
-    // 1.0f だと減衰なし。0.95f 〜 0.99f くらいにすると自然
-    float linearDamping = 0.99f;
 
-    mVelocity *= (1.0f - linearDamping * deltaTime);
+    mVelocity *= (1.0f - mLinearDamping * deltaTime);
 
     // --- 微小な動きを完全に止める（スリープ） ---
     if (mVelocity.LengthSq() < 0.001f) mVelocity = Vector3::Zero;

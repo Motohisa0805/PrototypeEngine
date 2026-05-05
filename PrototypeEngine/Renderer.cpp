@@ -151,12 +151,20 @@ bool Renderer::Initialize(float screenWidth, float screenHeight)
 void Renderer::BuildStaticBatch()
 {
 	// 1. 古いバッチの破棄とクリア
-	for (auto& pair : mStaticMeshBatches) {
+	for(auto& pair : mAntiTransparentBatches) {
 		if (pair.second.gBatchVertexArray) {
 			delete pair.second.gBatchVertexArray;
 		}
 	}
-	mStaticMeshBatches.clear();
+	for(auto& pair : mTransparentBatches) {
+		if (pair.second.gBatchVertexArray) {
+			delete pair.second.gBatchVertexArray;
+		}
+	}
+
+	//mStaticMeshBatches.clear();
+	mAntiTransparentBatches.clear();
+	mTransparentBatches.clear();
 	// 2. メッシュごとの処理
 	for (auto mc : mMeshComps) {
 		if (mc->GetOwner()->GetStatic() != ActorInformation::StaticTag::Occluder_Static) continue;
@@ -165,34 +173,22 @@ void Renderer::BuildStaticBatch()
 		{
 			for(int i = 0; i < mesh->GetVertexArrays().size(); i++)
 			{
-				Texture* tex = mesh->GetTexture(i);
-
-				// テクスチャに対応するバッチを取得（なければ自動生成される）
-				StaticMeshBatch& currentBatch = mStaticMeshBatches[tex];
-
-				const std::vector<Vertex>& meshVertices = mesh->GetVertices();
-				const std::vector<uint32_t>& meshIndices = mesh->GetIndices();
-
-				// 現在のバッチの頂点数をオフセットにする
-				unsigned int vertexOffset = static_cast<unsigned int>(currentBatch.gAllVertices.size());
-				for (const auto& v : meshVertices) {
-					Vertex transformed = v;
-					transformed.pos = Vector3::Transform(v.pos, world);
-					transformed.normal = Vector3::TransformNormal(v.normal, world);
-					transformed.normal.Normalize();
-					currentBatch.gAllVertices.push_back(transformed);
+				if(mesh->GetMaterialInfo()[i].Color.w < 1.0f)
+				{
+					// 半透明バッチに追加
+					BuildMeshBatch(mesh, world, mTransparentBatches[&mesh->GetMaterialInfo()[i]], i);
 				}
-
-				// インデックスを結合（オフセットを考慮）
-				for (uint32_t idx : meshIndices) {
-					currentBatch.gAllIndices.push_back(idx + vertexOffset);
+				else
+				{
+					// アンチ半透明バッチに追加
+					BuildMeshBatch(mesh, world, mAntiTransparentBatches[&mesh->GetMaterialInfo()[i]], i);
 				}
 			}
 		}
 	}
 
 	// 3. 全てのバッチのVertexArrayを生成
-	for (auto& pair : mStaticMeshBatches) {
+	for (auto& pair : mAntiTransparentBatches) {
 		StaticMeshBatch& batch = pair.second;
 		if (!batch.gAllVertices.empty()) {
 			batch.gBatchVertexArray = new VertexArray(
@@ -203,6 +199,43 @@ void Renderer::BuildStaticBatch()
 				batch.gAllIndices.size()
 			);
 		}
+	}
+
+	for (auto& pair : mTransparentBatches) {
+		StaticMeshBatch& batch = pair.second;
+		if (!batch.gAllVertices.empty()) {
+			batch.gBatchVertexArray = new VertexArray(
+				batch.gAllVertices.data(),
+				batch.gAllVertices.size(),
+				VertexArray::PosNormTex,
+				batch.gAllIndices.data(),
+				batch.gAllIndices.size()
+			);
+		}
+	}
+}
+
+void Renderer::BuildMeshBatch(Mesh* mesh, Matrix4 world, StaticMeshBatch& outBatch,int index)
+{
+	outBatch.gBatchTexture = mesh->GetTexture(index);
+	outBatch.gBatchMaterial = mesh->GetMaterialInfo()[index];
+
+	const std::vector<Vertex>& meshVertices = mesh->GetVertices();
+	const std::vector<uint32_t>& meshIndices = mesh->GetIndices();
+
+	// 現在のバッチの頂点数をオフセットにする
+	unsigned int vertexOffset = static_cast<unsigned int>(outBatch.gAllVertices.size());
+	for (const auto& v : meshVertices) {
+		Vertex transformed = v;
+		transformed.pos = Vector3::Transform(v.pos, world);
+		transformed.normal = Vector3::TransformNormal(v.normal, world);
+		transformed.normal.Normalize();
+		outBatch.gAllVertices.push_back(transformed);
+	}
+
+	// インデックスを結合（オフセットを考慮）
+	for (uint32_t idx : meshIndices) {
+		outBatch.gAllIndices.push_back(idx + vertexOffset);
 	}
 }
 
@@ -322,7 +355,7 @@ void Renderer::MeshOrderUpdate()
 	// 1. 一時リストに分離
 	std::vector<MeshRenderer*> opaqueList;
 	std::vector<MeshRenderer*> transparentList;
-	// 透明オブジェクトと不透明オブジェクトを分ける
+	// not透明オブジェクトと不透明オブジェクトを分ける
 	for (auto& mesh : mMeshComps)
 	{
 		if (!mesh->GetVisible()) continue;
@@ -530,40 +563,38 @@ void Renderer::EditorDraw3DScene(unsigned int framebuffer, const Matrix4& view, 
 	if (GUIWinMain::IsPlaying())
 	{
 		// Staticバッチの描画 (1回のDrawCall)
-		for (auto& pair : mStaticMeshBatches) {
-			//uWorldTransformはすでに頂点にワールド変換が適用されているため、単位行列を渡す
-			mMeshShader->SetMatrixUniform("uWorldTransform", Matrix4::Identity);
-			Texture* tex = pair.first;
+		for(auto& pair : mAntiTransparentBatches) {
 			StaticMeshBatch& batch = pair.second;
-
 			if (!batch.gBatchVertexArray) continue;
-
-			// このバッチ用のテクスチャをセット
+			mMeshShader->SetMatrixUniform("uWorldTransform", Matrix4::Identity);
+			Texture* tex = batch.gBatchTexture;
 			if (tex) {
 				tex->SetActive();
 			}
 			else {
 				mMeshShader->SetNoTexture();
 			}
-			/*
-			MaterialInfo m = mMeshs[i]->GetMaterialInfo()[j];
-
-			// 不透明度によってブレンド設定（1回だけで済むならループの外でもOK）
-			if (m.Color.w < 1.0f)
-			{
-				glEnable(GL_BLEND);
-				glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-				glDepthMask(GL_FALSE);  // 透明物体は深度書き込み無効（任意）
-			}
-			else
-			{
-				glDisable(GL_BLEND);
-				glDepthMask(GL_TRUE);   // 不透明物体は通常通り
-			}
-
+			MaterialInfo m = batch.gBatchMaterial;
 			mMeshShader->SetColorUniform("uTexture", m);
-			*/
-
+			batch.gBatchVertexArray->SetActive();
+			glDrawElements(GL_TRIANGLES, batch.gBatchVertexArray->GetNumIndices(), GL_UNSIGNED_INT, nullptr);
+		}
+		for(auto& pair : mTransparentBatches) {
+			StaticMeshBatch& batch = pair.second;
+			if (!batch.gBatchVertexArray) continue;
+			mMeshShader->SetMatrixUniform("uWorldTransform", Matrix4::Identity);
+			Texture* tex = batch.gBatchTexture;
+			if (tex) {
+				tex->SetActive();
+			}
+			else {
+				mMeshShader->SetNoTexture();
+			}
+			MaterialInfo m = batch.gBatchMaterial;
+			mMeshShader->SetColorUniform("uTexture", m);
+			glEnable(GL_BLEND);
+			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+			glDepthMask(GL_FALSE);  // 透明物体は深度書き込み無効（任意）
 			batch.gBatchVertexArray->SetActive();
 			glDrawElements(GL_TRIANGLES, batch.gBatchVertexArray->GetNumIndices(), GL_UNSIGNED_INT, nullptr);
 		}
@@ -714,41 +745,38 @@ void Renderer::Draw3DScene(unsigned int framebuffer, const Matrix4& view, const 
 
 	if (GUIWinMain::IsPlaying())
 	{
-		// Staticバッチの描画 (1回のDrawCall)
-		for (auto& pair : mStaticMeshBatches) {
-			//uWorldTransformはすでに頂点にワールド変換が適用されているため、単位行列を渡す
-			mMeshShader->SetMatrixUniform("uWorldTransform", Matrix4::Identity);
-			Texture* tex = pair.first;
+		for (auto& pair : mAntiTransparentBatches) {
 			StaticMeshBatch& batch = pair.second;
-
 			if (!batch.gBatchVertexArray) continue;
-
-			// このバッチ用のテクスチャをセット
+			mMeshShader->SetMatrixUniform("uWorldTransform", Matrix4::Identity);
+			Texture* tex = batch.gBatchTexture;
 			if (tex) {
 				tex->SetActive();
 			}
 			else {
 				mMeshShader->SetNoTexture();
 			}
-			/*
-			MaterialInfo m = mMeshs[i]->GetMaterialInfo()[j];
-
-			// 不透明度によってブレンド設定（1回だけで済むならループの外でもOK）
-			if (m.Color.w < 1.0f)
-			{
-				glEnable(GL_BLEND);
-				glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-				glDepthMask(GL_FALSE);  // 透明物体は深度書き込み無効（任意）
-			}
-			else
-			{
-				glDisable(GL_BLEND);
-				glDepthMask(GL_TRUE);   // 不透明物体は通常通り
-			}
-
+			MaterialInfo m = batch.gBatchMaterial;
 			mMeshShader->SetColorUniform("uTexture", m);
-			*/
-
+			batch.gBatchVertexArray->SetActive();
+			glDrawElements(GL_TRIANGLES, batch.gBatchVertexArray->GetNumIndices(), GL_UNSIGNED_INT, nullptr);
+		}
+		for (auto& pair : mTransparentBatches) {
+			StaticMeshBatch& batch = pair.second;
+			if (!batch.gBatchVertexArray) continue;
+			mMeshShader->SetMatrixUniform("uWorldTransform", Matrix4::Identity);
+			Texture* tex = batch.gBatchTexture;
+			if (tex) {
+				tex->SetActive();
+			}
+			else {
+				mMeshShader->SetNoTexture();
+			}
+			MaterialInfo m = batch.gBatchMaterial;
+			mMeshShader->SetColorUniform("uTexture", m);
+			glEnable(GL_BLEND);
+			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+			glDepthMask(GL_FALSE);  // 透明物体は深度書き込み無効（任意）
 			batch.gBatchVertexArray->SetActive();
 			glDrawElements(GL_TRIANGLES, batch.gBatchVertexArray->GetNumIndices(), GL_UNSIGNED_INT, nullptr);
 		}
@@ -1114,9 +1142,19 @@ void Renderer::UnloadData()
 		delete i.second;
 	}
 	mTextures.clear();
-	for(auto & pair : mStaticMeshBatches)
+
+	for (auto& pair : mAntiTransparentBatches)
 	{
-		if(pair.second.gBatchVertexArray)
+		if (pair.second.gBatchVertexArray)
+		{
+			delete pair.second.gBatchVertexArray;
+			pair.second.gBatchVertexArray = nullptr;
+		}
+	}
+
+	for (auto& pair : mTransparentBatches)
+	{
+		if (pair.second.gBatchVertexArray)
 		{
 			delete pair.second.gBatchVertexArray;
 			pair.second.gBatchVertexArray = nullptr;

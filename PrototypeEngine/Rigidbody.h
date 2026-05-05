@@ -46,6 +46,8 @@ private:
 	float		mInertia;
 	//角減衰
 	float		mAngularDamping;
+	// 線形減衰
+	float		mLinearDamping;
 	// 慣性テンソルの逆行列（ワールド座標系）
 	Matrix3		mInverseInertiaTensorW;
 	// ローカル座標系での慣性テンソル（Fixed）
