@@ -30,6 +30,10 @@ Rigidbody::Rigidbody(ActorObject* owner, int updateOrder)
     , mInverseInertiaTensorW(Matrix3::Identity)
     , mInverseInertiaTensorL(Matrix3::Identity)
     , mShapeType(Collider::ColliderType::SphereType) // 仮の初期化
+	, mTempPosition(Vector3::Zero)
+	, mIsSleeping(false)
+	, mSleepTimer(0.0f)
+	, mSleepThreshold(0.5f)
 {
     mName = "Rigidbody";
 	mUseGravity = true;
@@ -43,6 +47,10 @@ Rigidbody::Rigidbody(ActorObject* owner, int updateOrder)
 
 void Rigidbody::FixedUpdate(float deltaTime)
 {
+	UpdateSleepState(deltaTime);
+    
+    if (mIsSleeping) return;
+
     Vector3 gravityForce;
     //重力フラグが有効なら
     if (mUseGravity && !mIsGrounded)
@@ -145,6 +153,24 @@ void Rigidbody::FixedUpdate(float deltaTime)
 		mVelocity *= maxSpeed;
     }
 
+}
+
+void Rigidbody::UpdateSleepState(float deltaTime)
+{
+    // 速度と角速度がしきい値以下かチェック
+    if (mVelocity.LengthSq() < 0.01f && mAngularVelocity.LengthSq() < 0.01f) {
+        mSleepTimer += deltaTime;
+        if (mSleepTimer > 0.5f) { // 0.5秒静止したら
+            mIsSleeping = true;
+            mVelocity = Vector3::Zero;
+            mAngularVelocity = Vector3::Zero;
+        }
+    }
+    else {
+        // 動いているならタイマーリセット
+        mSleepTimer = 0.0f;
+        mIsSleeping = false;
+    }
 }
 
 void Rigidbody::OnUpdateWorldTransform()
@@ -417,6 +443,11 @@ void Rigidbody::DrawCustomGUI(const std::vector<PropertyInfo>& properties)
     ImGui::SetNextItemWidth(50);
     ImGui::DragFloat("Bounciness", &mBounciness);
     ImGui::NewLine();
+
+    if (mIsSleeping)
+    {
+		ImGui::TextColored(ImVec4(1.0f, 0.5f, 0.5f, 1.0f), "Sleeping");
+    }
 
     ImGui::Separator();
 }

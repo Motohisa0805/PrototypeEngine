@@ -178,7 +178,8 @@ void PhysWorld::SweepAndPruneXYZ()
 
 					// 両方ともRigidbodyがない（静止物同士）なら計算不要
 					if (!rbA && !rbB) continue;
-
+					// 両方ともRigidbodyがあって、両方ともスリープ状態なら計算不要
+					if (rbA && rbB && rbA->IsSleeping() && rbB->IsSleeping()) continue; 
 					std::vector<ContactPoint> cpList;
 					if (IsCollectContactPoints(colliderA, colliderB, cpList, contactOffsetA + contactOffsetB))
 					{
@@ -190,6 +191,9 @@ void PhysWorld::SweepAndPruneXYZ()
 
 						m.gPenetration = cpList[0].mPenetration;
 						for (auto& cp : cpList) m.gContactPoints.push_back(cp.mPosition);
+						// スリープ状態を解除する（どちらかがスリープ状態なら両方とも起こす）
+						if (rbA && rbA->IsSleeping()) rbA->WakeUp();
+						if (rbB && rbB->IsSleeping()) rbB->WakeUp();
 
 						manifolds.push_back(m);
 					}
@@ -337,18 +341,11 @@ void PhysWorld::ApplyIterations(std::vector<ContactManifold>& manifolds, float d
 			}
 		}
 	}
-
 	// 2. 位置のイテレーション（めり込みを解消する）
-	for (int i = 0; i < positionIterations; ++i) {
-		for (auto& m : manifolds) {
-			// 座標を直接ズラす処理
-			// ここで少しずつ押し出すことで、複数の衝突がある場合も矛盾しにくくなる
-			ResolvePosition(m);
-		}
-	}
+	ResolvePositions(manifolds, positionIterations);
 }
 
-void PhysWorld::ResolvePosition(ContactManifold& m)
+void PhysWorld::OneResolvePosition(ContactManifold& m)
 {
 
 	// Rigidbodyの取得（付いていない場合は nullptr）
@@ -398,6 +395,67 @@ void PhysWorld::ResolvePosition(ContactManifold& m)
 	}
 	// 最終的なめり込み量を更新（残った分だけ次のイテレーションで解消する）
 	m.gPenetration -= correctionMagnitude;
+}
+
+void PhysWorld::ResolvePositions(std::vector<ContactManifold>& manifolds, int velocityIterations)
+{
+	for (auto& m : manifolds) {
+		if (m.gRbA) {
+			m.gRbA->SetTempPosition(m.gRbA->GetOwner()->GetTransform()->GetLocalPosition());
+		}
+		if (m.gRbB) {
+			m.gRbB->SetTempPosition(m.gRbB->GetOwner()->GetTransform()->GetLocalPosition());
+		}
+	}
+
+	// 2. 位置のイテレーション（めり込みを解消する）
+	for (int i = 0; i < velocityIterations; ++i) {
+		for (auto& m : manifolds) {
+			// Rigidbodyの取得（付いていない場合は nullptr）
+			Rigidbody* rbA = m.gRbA;
+			Rigidbody* rbB = m.gRbB;
+
+			// 質量の逆数を取得。Rigidbodyがない（静的）場合は 0.0f と見なす
+			float invMassA = (rbA != nullptr) ? rbA->GetInverseMass() : 0.0f;
+			float invMassB = (rbB != nullptr) ? rbB->GetInverseMass() : 0.0f;
+
+			// 両方の InverseMass の合計
+			float sumInvMass = invMassA + invMassB;
+
+			// どちらも動かない物体（合計がゼロ）なら何もしない
+			if (sumInvMass <= 0.0001f) continue;
+
+			// めり込み量に対して、少し余裕（0.01fなど）を残して押し出す（ジッター対策）
+			const float slop = 0.01f;
+			const float percent = 0.8f; // 1.0にすると跳ねすぎることがあるので80%程度にする
+			float correctionMagnitude = std::max(m.gPenetration - slop, 0.0f) * percent;
+
+			Vector3 correction = m.gNormal * (correctionMagnitude / sumInvMass);
+
+			if (m.gRbA)
+			{
+				m.gRbA->SetTempPosition(m.gRbA->GetTempPosition() - (correction * invMassA));
+			}
+
+			if (m.gRbB)
+			{
+				m.gRbB->SetTempPosition(m.gRbB->GetTempPosition() + (correction * invMassB));
+			}
+			// 最終的なめり込み量を更新（残った分だけ次のイテレーションで解消する）
+			m.gPenetration -= correctionMagnitude;
+		}
+	}
+	for(auto& m : manifolds)
+	{
+		if (m.gRbA) {
+			m.gRbA->GetOwner()->GetTransform()->SetLocalPosition(m.gRbA->GetTempPosition());
+			m.gRbA->GetOwner()->GetTransform()->ComputeWorldTransform();
+		}
+		if (m.gRbB) {
+			m.gRbB->GetOwner()->GetTransform()->SetLocalPosition(m.gRbB->GetTempPosition());
+			m.gRbB->GetOwner()->GetTransform()->ComputeWorldTransform();
+		}
+	}
 }
 
 bool PhysWorld::CollectContactPoints_OBB_OBB(const OBB& a, const OBB& b, std::vector<ContactPoint>& outContacts, float contactOffset)

@@ -18,46 +18,57 @@ class Rigidbody : public Component
 {
 private:
 	//重力フラグ
-	bool		mUseGravity;
-	bool		mIsPrivateUseGravityScale;
+	bool					mUseGravity;
+	bool					mIsPrivateUseGravityScale;
 	//重力スケーリング
-	float		mGravityScale;
+	float					mGravityScale;
 	//質量(1.0f = 1kg)
-	float		mMass;
+	float					mMass;
 	//移動量
-	Vector3		mVelocity;
+	Vector3					mVelocity;
 	//加える分の力の変数
-	Vector3		mForces = Vector3::Zero;
+	Vector3					mForces = Vector3::Zero;
 
 	// 0～1：静止摩擦係数
-	float		mFriction;     
+	float					mFriction;     
 
 	// 0～1：反発係数
-	float		mBounciness;   
+	float					mBounciness;   
 	// Rigidbody.h
-	bool		mIsGrounded = false;
+	bool					mIsGrounded = false;
 
 	// --- 回転運動に必要な要素 ---
 	//角速度
-	Vector3		mAngularVelocity;
+	Vector3					mAngularVelocity;
 	//トルク/回転モーメント
-	Vector3		mTorques;
+	Vector3					mTorques;
 	// 慣性テンソル
-	float		mInertia;
+	float					mInertia;
 	//角減衰
-	float		mAngularDamping;
+	float					mAngularDamping;
 	// 線形減衰
-	float		mLinearDamping;
+	float					mLinearDamping;
 	// 慣性テンソルの逆行列（ワールド座標系）
-	Matrix3		mInverseInertiaTensorW;
+	Matrix3					mInverseInertiaTensorW;
 	// ローカル座標系での慣性テンソル（Fixed）
-	Matrix3		mInverseInertiaTensorL;
+	Matrix3					mInverseInertiaTensorL;
 
-	Collider::ColliderType mShapeType;
+	Collider::ColliderType	mShapeType;
+
+	Vector3					mTempPosition;
+
+	//スリープ状態を管理するフラグ
+	bool 					mIsSleeping;
+
+	float					mSleepTimer;
+
+	float					mSleepThreshold;
 public:
 				Rigidbody(ActorObject* owner, int updateOrder = 100);
 	//FixedUpdateで呼び出す
 	void		FixedUpdate(float deltaTime)override;
+
+	void		UpdateSleepState(float deltaTime);
 
 	void		OnUpdateWorldTransform()override;
 
@@ -81,10 +92,10 @@ public:
 	//mVelocityのGetter
 	Vector3		GetVelocity() { return mVelocity; }
 	//Setter
-	//重力フラグの切り替え
-	void		SetUseGravity(bool active) { mUseGravity = active; }
 	//mVelocityのSetter
 	void		SetVelocity(Vector3 velocity) { mVelocity = velocity; }
+	//重力フラグの切り替え
+	void		SetUseGravity(bool active) { mUseGravity = active; }
 
 	float		GetFriction() const { return mFriction; }
 	void		SetFriction(float f) { mFriction = f; }
@@ -100,6 +111,12 @@ public:
 
 	Vector3		GetAngularVelocity() const { return mAngularVelocity; }
 	void		SetAngularVelocity(const Vector3& angularVelocity) { mAngularVelocity = angularVelocity; }
+
+	Vector3		GetTempPosition() const { return mTempPosition; }
+	void		SetTempPosition(const Vector3& tempPosition) { mTempPosition = tempPosition; }
+
+	bool 		IsSleeping() const { return mIsSleeping; }
+	void		WakeUp() { mIsSleeping = false; mSleepTimer = 0.0f; }
 
 	void		Serialize(json& j) const override;
 	void		Deserialize(const json& j)override;
