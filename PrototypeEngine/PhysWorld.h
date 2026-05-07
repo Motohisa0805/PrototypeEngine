@@ -14,10 +14,10 @@ class ActorObject;
 class BaseScene;
 
 struct ContactManifold {
-	Rigidbody* gRbA;
-	Rigidbody* gRbB;
-	Vector3 gNormal;
-	float gPenetration;
+	Rigidbody*		gRbA;
+	Rigidbody*		gRbB;
+	Vector3			gNormal;
+	float			gPenetration;
 	vector<Vector3> gContactPoints;
 };
 
@@ -82,8 +82,10 @@ public:
 	bool												IsCollectContactPoints(class Collider* colliderA, class Collider* colliderB, std::vector<ContactPoint>& outContacts, float contactOffset);
 	//衝突の解決を一定数繰り返す関数
 	void												ApplyIterations(std::vector<ContactManifold>& manifolds, float deltaTime);
-	//衝突の解決
-	void												ResolvePosition(ContactManifold& m);
+	//衝突の解決を1回行う関数
+	void												OneResolvePosition(ContactManifold& m);
+	//衝突の解決をすべてのマニホールドに対して行う関数
+	void												ResolvePositions(std::vector<ContactManifold>& manifolds,int index);
 
 	//OBB vs OBBの押し出し処理
 	bool												CollectContactPoints_OBB_OBB(const OBB& a, const OBB& b, std::vector<ContactPoint>& outContacts, float contactOffset);
