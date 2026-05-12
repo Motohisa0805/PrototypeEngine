@@ -32,7 +32,7 @@ c:\c++files\prototypeengine\prototypeengine\x64\debug\font.obj
 c:\c++files\prototypeengine\prototypeengine\x64\debug\followobjectmovement.obj
 c:\c++files\prototypeengine\prototypeengine\x64\debug\tinyxml2.obj
 c:\c++files\prototypeengine\prototypeengine\x64\debug\enginewindow.obj
-c:\c++files\prototypeengine\prototypeengine\x64\debug\editorutils.obj
+c:\c++files\prototypeengine\prototypeengine\x64\debug\scripteditmanager.obj
 c:\c++files\prototypeengine\prototypeengine\x64\debug\editortexturemanager.obj
 c:\c++files\prototypeengine\prototypeengine\x64\debug\editorsettingsmanager.obj
 c:\c++files\prototypeengine\prototypeengine\x64\debug\editormain.obj
@@ -91,12 +91,12 @@ c:\c++files\prototypeengine\prototypeengine\x64\debug\texture.obj
 c:\c++files\prototypeengine\prototypeengine\x64\debug\text.obj
 c:\c++files\prototypeengine\prototypeengine\x64\debug\targetcomponent.obj
 c:\c++files\prototypeengine\prototypeengine\x64\debug\stb_impl.obj
-c:\c++files\prototypeengine\prototypeengine\x64\debug\staticmeshbatch.obj
 c:\c++files\prototypeengine\bin\prototypeengine.exe
 c:\c++files\prototypeengine\bin\prototypeengine.pdb
 c:\c++files\prototypeengine\bin\prototypeengine.lib
 c:\c++files\prototypeengine\bin\prototypeengine.exp
 c:\c++files\prototypeengine\prototypeengine\x64\debug\prototypeengine.ilk
+c:\c++files\prototypeengine\prototypeengine\x64\debug\staticmeshbatch.obj
 c:\c++files\prototypeengine\prototypeengine\x64\debug\prototypeengine.tlog\cl.command.1.tlog
 c:\c++files\prototypeengine\prototypeengine\x64\debug\prototypeengine.tlog\cl.items.tlog
 c:\c++files\prototypeengine\prototypeengine\x64\debug\prototypeengine.tlog\cl.read.1.tlog

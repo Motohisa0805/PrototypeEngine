@@ -6,7 +6,6 @@
 
 #include "BaseScene.h"
 #include "Shader.h"
-#include "StaticMeshBatch.h"
 
 /*
 * ===ƒGƒ“ƒWƒ““à•”ˆ—/Engine internal processing===

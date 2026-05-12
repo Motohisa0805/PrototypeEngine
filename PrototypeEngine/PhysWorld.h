@@ -4,6 +4,7 @@
 #include "Collision.h"
 #include "Rigidbody.h"
 #include "Physics.h"
+#include "IsLandPhysic.h"
 /*
 * ===エンジン内部処理/Engine internal processing===
 */
@@ -13,20 +14,11 @@ class Collider;
 class ActorObject;
 class BaseScene;
 
-struct ContactManifold {
-	Rigidbody*		gRbA;
-	Rigidbody*		gRbB;
-	Vector3			gNormal;
-	float			gPenetration;
-	vector<Vector3> gContactPoints;
-};
-
 //すべてのオブジェクトの衝突判定を管理しているクラス
 //Unityの当たり判定の衝突判定部分みたいな機能
 class PhysWorld
 {
 public:
-
 	// 衝突結果に関する情報をまとめている(※Ray関係の構造体)
 	struct CollisionInfo
 	{
@@ -36,9 +28,9 @@ public:
 		Vector3				mNormal;
 		float				mT;
 		// 衝突クラス
-		Collider*			mCollider = nullptr;
+		Collider* mCollider = nullptr;
 		// コンポーネントの所有Actor
-		ActorObject*		mActor = nullptr;
+		ActorObject* mActor = nullptr;
 	};
 
 	struct ContactPoint
@@ -47,7 +39,6 @@ public:
 		float mPenetration;     // めり込み深さ
 		Vector3 mPosition;	   // 接触点のワールド座標
 	};
-
 private:
 
 	vector<Collider*>									mCollider;
@@ -59,6 +50,9 @@ private:
 	// 現在の衝突ペア（Actor同士）を管理するセット。これを使って、衝突開始/継続/終了イベントを判定する。
 	std::set<std::pair<ActorObject*, ActorObject*>>		mCurrentHitPairs;
 
+	//島の概念の変数宣言
+	IsLandPhysic*										mLandPhysic;
+
 	vector<Vector3>										GetOBBIncidentFace(const class OBB& obb,const Vector3& normal);
 
 	// ポリゴンを平面でカットする（クリッピング）
@@ -67,6 +61,7 @@ private:
 public:
 
 														PhysWorld();
+														~PhysWorld();
 
 	// 線分をボックスに対して判定します。
 	// ボックスに衝突する場合は真を返します。
@@ -75,17 +70,19 @@ public:
 	std::vector<CollisionInfo>							RayCastAll(const LineSegment& l);
 
 	//XYZのSweeppruneを使用した衝突判定
-	void												SweepAndPruneXYZ();
+	void												SweepAndPruneXYZ(float deltaTime);
 	//各コライダー同士の精密判定をまとめた関数
 	bool												IsOnCollision(Collider* colliderA, Collider* colliderB);
 	//各コライダー同士の押し出し処理をまとめた関数
-	bool												IsCollectContactPoints(class Collider* colliderA, class Collider* colliderB, std::vector<ContactPoint>& outContacts, float contactOffset);
+	bool												IsCollectContactPoints(class Collider* colliderA, class Collider* colliderB, vector<ContactPoint>& outContacts, float contactOffset);
 	//衝突の解決を一定数繰り返す関数
-	void												ApplyIterations(std::vector<ContactManifold>& manifolds, float deltaTime);
+	void												ApplyIterations(vector<ContactManifold>& manifolds, float deltaTime);
 	//衝突の解決を1回行う関数
 	void												OneResolvePosition(ContactManifold& m);
 	//衝突の解決をすべてのマニホールドに対して行う関数
-	void												ResolvePositions(std::vector<ContactManifold>& manifolds,int index);
+	void												ResolvePositions(vector<ContactManifold>& manifolds,int index);
+
+
 
 	//OBB vs OBBの押し出し処理
 	bool												CollectContactPoints_OBB_OBB(const OBB& a, const OBB& b, std::vector<ContactPoint>& outContacts, float contactOffset);
@@ -106,6 +103,8 @@ public:
 	// 世界からボックスコンポーネントを追加/削除する
 	void												AddCollider(Collider* box);
 	void												RemoveCollider(Collider* box);
+
+	IsLandPhysic*										GetLandPhysic() { return mLandPhysic; }
 };
 
 inline Vector3 GetSupportPoint(const OBB& obb, const Vector3& dir)

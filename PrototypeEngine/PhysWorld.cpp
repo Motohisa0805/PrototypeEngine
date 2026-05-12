@@ -8,7 +8,19 @@
 #include "Time.h"
 
 PhysWorld::PhysWorld()
+	:mLandPhysic(nullptr)
 {
+	if (!mLandPhysic) {
+		mLandPhysic = new IsLandPhysic(this);
+	}
+}
+
+PhysWorld::~PhysWorld()
+{
+	if (mLandPhysic) {
+		delete mLandPhysic;
+		mLandPhysic = nullptr;
+	}
 }
 
 bool PhysWorld::RayCast(const LineSegment& l, CollisionInfo& outColl, int tag)
@@ -94,7 +106,7 @@ std::vector<PhysWorld::CollisionInfo> PhysWorld::RayCastAll(const LineSegment& l
 	return results;
 }
 
-void PhysWorld::SweepAndPruneXYZ()
+void PhysWorld::SweepAndPruneXYZ(float deltaTime)
 {
 	// X軸でソート
 	std::sort(mColliderXAxis.begin(), mColliderXAxis.end(),
@@ -184,7 +196,7 @@ void PhysWorld::SweepAndPruneXYZ()
 					if (IsCollectContactPoints(colliderA, colliderB, cpList, contactOffsetA + contactOffsetB))
 					{
 						ContactManifold m;
-
+						m.gProcessed = false;
 						m.gRbA = rbA;
 						m.gRbB = rbB;
 						m.gNormal = cpList[0].mNormal;
@@ -192,8 +204,18 @@ void PhysWorld::SweepAndPruneXYZ()
 						m.gPenetration = cpList[0].mPenetration;
 						for (auto& cp : cpList) m.gContactPoints.push_back(cp.mPosition);
 						// スリープ状態を解除する（どちらかがスリープ状態なら両方とも起こす）
-						if (rbA && rbA->IsSleeping()) rbA->WakeUp();
-						if (rbB && rbB->IsSleeping()) rbB->WakeUp();
+						if (rbA) {
+							if (rbA->IsSleeping()) {
+								rbA->WakeUp();
+							}
+							mLandPhysic->AddActiveBodies(rbA); // スリープから起こしたRigidbodyをIsLandPhysicのアクティブリストに追加
+						}
+						if (rbB) {
+							if (rbB->IsSleeping()) {
+								rbB->WakeUp();
+							}
+							mLandPhysic->AddActiveBodies(rbB); // スリープから起こしたRigidbodyをIsLandPhysicのアクティブリストに追加
+						}
 
 						manifolds.push_back(m);
 					}
@@ -201,9 +223,12 @@ void PhysWorld::SweepAndPruneXYZ()
 			}
 		}
 	}
+
+	//島の概念の処理
+	mLandPhysic->BuildAndSolveIslands(manifolds, deltaTime);
 	// 集めた全ペアに対して、反復計算（ソルバー）を実行する
 	// ここで初めて物体が動かされる。1フレームに1回だけこの関数を呼ぶ。
-	ApplyIterations(manifolds, Time::gDeltaTime);
+	//ApplyIterations(manifolds, deltaTime);
 
 	// Exitチェック
 	for (const auto& pair : mPrevHitPairs)

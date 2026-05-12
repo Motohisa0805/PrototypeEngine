@@ -18,6 +18,7 @@
 #include <functional>
 #include <unordered_map>
 #include <set>
+#include <unordered_set>
 #include <cmath>
 #include <memory.h>
 #include <limits>
@@ -26,6 +27,7 @@
 #include <coroutine>
 #include <thread>
 #include <optional>
+#include <stack>
 //Rapidjsonの外部インクルード
 #include <rapidjson/document.h>
 #include <rapidjson/istreamwrapper.h>

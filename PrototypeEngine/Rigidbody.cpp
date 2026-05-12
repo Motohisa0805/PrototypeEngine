@@ -34,6 +34,7 @@ Rigidbody::Rigidbody(ActorObject* owner, int updateOrder)
 	, mIsSleeping(false)
 	, mSleepTimer(0.0f)
 	, mSleepThreshold(0.5f)
+	, mIsInActiveList(false)
 {
     mName = "Rigidbody";
 	mUseGravity = true;
@@ -43,6 +44,14 @@ Rigidbody::Rigidbody(ActorObject* owner, int updateOrder)
     mHeaderColor = Vector4(0.4f, 0.8f, 0.4f, 1.0f);
     mHeaderHoveredColor = Vector4(0.3f, 0.6f, 0.3f, 1.0f);
     mHeaderActiveColor = Vector4(0.4f, 0.8f, 0.4f, 1.0f);
+}
+
+Rigidbody::~Rigidbody()
+{
+    if(mGame->GetPhysWorld()->GetLandPhysic())
+    {
+        mGame->GetPhysWorld()->GetLandPhysic()->RemoveActioveBodies(this);
+	}
 }
 
 void Rigidbody::FixedUpdate(float deltaTime)
@@ -164,6 +173,9 @@ void Rigidbody::UpdateSleepState(float deltaTime)
             mIsSleeping = true;
             mVelocity = Vector3::Zero;
             mAngularVelocity = Vector3::Zero;
+            if(mGame->GetPhysWorld()&& mGame->GetPhysWorld()->GetLandPhysic()) {
+				mGame->GetPhysWorld()->GetLandPhysic()->RemoveActioveBodies(this);
+			}
         }
     }
     else {

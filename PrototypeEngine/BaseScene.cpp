@@ -123,9 +123,9 @@ bool BaseScene::FixedUpdate()
 	while (mFixedTimeAccumulator >= mFixed_Delta_Time)
 	{
 		//Rigidbody ‚È‚Ç‚Ì•¨—ˆ—‚ð‚±‚±‚ÅŒÄ‚Ô
-		mActorManager->FixedUpdateActors(Time::gDeltaTime);
+		mActorManager->FixedUpdateActors(deltaTime);
 
-		mPhysWorld->SweepAndPruneXYZ();
+		mPhysWorld->SweepAndPruneXYZ(deltaTime);
 
 		mFixedTimeAccumulator -= mFixed_Delta_Time;
 	}

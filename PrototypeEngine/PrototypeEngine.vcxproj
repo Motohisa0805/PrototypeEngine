@@ -190,6 +190,7 @@
     <ClCompile Include="EditorMain.cpp" />
     <ClCompile Include="EditorSettingsManager.cpp" />
     <ClCompile Include="EditorTextureManager.cpp" />
+    <ClCompile Include="IsLandPhysic.cpp" />
     <ClCompile Include="ScriptEditManager.cpp" />
     <ClCompile Include="EngineWindow.cpp" />
     <ClCompile Include="ExternalLibrary\tinyxml2-master\tinyxml2.cpp" />
@@ -243,7 +244,6 @@
     <ClCompile Include="SkyBoxRenderer.cpp" />
     <ClCompile Include="SoundEventClip.cpp" />
     <ClCompile Include="SphereCollider.cpp" />
-    <ClCompile Include="StaticMeshBatch.cpp" />
     <ClCompile Include="stb_impl.cpp" />
     <ClCompile Include="TargetComponent.cpp" />
     <ClCompile Include="Text.cpp" />
@@ -287,6 +287,7 @@
     <ClInclude Include="DirectionalLightComponent.h" />
     <ClInclude Include="EditorSettingsManager.h" />
     <ClInclude Include="EditorTextureManager.h" />
+    <ClInclude Include="IsLandPhysic.h" />
     <ClInclude Include="Physics.h" />
     <ClInclude Include="ScriptEditManager.h" />
     <ClInclude Include="EngineWindow.h" />
@@ -351,7 +352,6 @@
     <ClInclude Include="SoundEventClip.h" />
     <ClInclude Include="SphereCollider.h" />
     <ClInclude Include="StandardLibrary.h" />
-    <ClInclude Include="StaticMeshBatch.h" />
     <ClInclude Include="StringFormat.h" />
     <ClInclude Include="TargetComponent.h" />
     <ClInclude Include="Text.h" />
