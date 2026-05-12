@@ -477,6 +477,58 @@
       "Static": 0,
       "Tag": 0,
       "Type": "Transform"
+    },
+    {
+      "Components": [
+        {
+          "Alpha": 1.0,
+          "FilePath": "Cube.fbx",
+          "IsSkeletal": false,
+          "ShadowFrag": true,
+          "Type": "MeshRenderer",
+          "Visible": true
+        },
+        {
+          "Type": "BoxCollider",
+          "mContactOffset": 0.0010000000474974513,
+          "mIsCollider": true,
+          "mObjectOBB.mOffset": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "Bounciness": 0.10000000149011612,
+          "Friction": 0.30000001192092896,
+          "GravityScale": 1.0,
+          "IsPrivateUseGravityScale": false,
+          "Mass": 1.0,
+          "Type": "Rigidbody",
+          "UseGravity": true
+        }
+      ],
+      "LocalPosition": [
+        0.0,
+        6.0,
+        5.0
+      ],
+      "LocalRotation": [
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "LocalScale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "Name": "RigidbodyCube4",
+      "State": 0,
+      "Static": 0,
+      "Tag": 0,
+      "Type": "Transform"
     }
   ],
   "SceneName": "Scene01"

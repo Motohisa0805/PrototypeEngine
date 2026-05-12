@@ -1,8 +1,35 @@
-﻿  Time.cpp
+﻿  IsLandPhysic.cpp
+C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(80,12): warning C4251: 'Component::mName': 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
+  (ソース ファイル 'IsLandPhysic.cpp' をコンパイルしています)
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(541,7):
+      'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' の宣言を確認してください
+  
+C:\C++Files\PrototypeEngine\PrototypeEngine\PhysWorld.h(56,58): warning C4099: 'OBB': タイプ名は最初 'struct' として使われていましたが 'class' として使われています。
+  (ソース ファイル 'IsLandPhysic.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\Collision.h(64,8):
+      'OBB' の宣言を確認してください
+  
+C:\C++Files\PrototypeEngine\PrototypeEngine\PhysWorld.h(123,14): warning C4244: '初期化中': 'int' から 'float' への変換です。データが失われる可能性があります。
+  (ソース ファイル 'IsLandPhysic.cpp' をコンパイルしています)
+  
+  PhysWorld.cpp
+C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(80,12): warning C4251: 'Component::mName': 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
+  (ソース ファイル 'PhysWorld.cpp' をコンパイルしています)
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(541,7):
+      'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' の宣言を確認してください
+  
+C:\C++Files\PrototypeEngine\PrototypeEngine\PhysWorld.h(56,58): warning C4099: 'OBB': タイプ名は最初 'struct' として使われていましたが 'class' として使われています。
+  (ソース ファイル 'PhysWorld.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\Collision.h(64,8):
+      'OBB' の宣言を確認してください
+  
+C:\C++Files\PrototypeEngine\PrototypeEngine\PhysWorld.h(123,14): warning C4244: '初期化中': 'int' から 'float' への変換です。データが失われる可能性があります。
+  (ソース ファイル 'PhysWorld.cpp' をコンパイルしています)
+  
 C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
-  (ソース ファイル 'Time.cpp' をコンパイルしています)
+  (ソース ファイル 'PhysWorld.cpp' をコンパイルしています)
       C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
       'SDL_VERSION' は以前にコマンド ラインで宣言されています
   
-C:\C++Files\PrototypeEngine\PrototypeEngine\Time.cpp(15,26): warning C4244: '初期化中': 'float' から 'Uint64' への変換です。データが失われる可能性があります。
+  コードを生成中...
   PrototypeEngine.vcxproj -> C:\C++Files\PrototypeEngine\bin\PrototypeEngine.exe

@@ -25,6 +25,7 @@ C:\C++Files\PrototypeEngine\PrototypeEngine\DirectionalLightComponent.cpp;C:\C++
 C:\C++Files\PrototypeEngine\PrototypeEngine\EditorMain.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\EditorMain.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\EditorSettingsManager.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\EditorSettingsManager.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\EditorTextureManager.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\EditorTextureManager.obj
+C:\C++Files\PrototypeEngine\PrototypeEngine\IsLandPhysic.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\IsLandPhysic.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\ScriptEditManager.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\ScriptEditManager.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\EngineWindow.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\EngineWindow.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\tinyxml2-master\tinyxml2.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\tinyxml2.obj
@@ -78,7 +79,6 @@ C:\C++Files\PrototypeEngine\PrototypeEngine\Skeleton.cpp;C:\C++Files\PrototypeEn
 C:\C++Files\PrototypeEngine\PrototypeEngine\SkyBoxRenderer.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\SkyBoxRenderer.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\SoundEventClip.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\SoundEventClip.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\SphereCollider.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\SphereCollider.obj
-C:\C++Files\PrototypeEngine\PrototypeEngine\StaticMeshBatch.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\StaticMeshBatch.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\stb_impl.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\stb_impl.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\TargetComponent.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\TargetComponent.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\Text.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\Text.obj

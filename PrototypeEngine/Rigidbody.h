@@ -63,8 +63,11 @@ private:
 	float					mSleepTimer;
 
 	float					mSleepThreshold;
+
+	bool					mIsInActiveList;
 public:
 				Rigidbody(ActorObject* owner, int updateOrder = 100);
+				~Rigidbody();
 	//FixedUpdateÇ≈åƒÇ—èoÇ∑
 	void		FixedUpdate(float deltaTime)override;
 
@@ -117,6 +120,9 @@ public:
 
 	bool 		IsSleeping() const { return mIsSleeping; }
 	void		WakeUp() { mIsSleeping = false; mSleepTimer = 0.0f; }
+
+	bool 		IsInActiveList() const { return mIsInActiveList; }
+	void 		SetInActiveList(bool inActiveList) { mIsInActiveList = inActiveList; }
 
 	void		Serialize(json& j) const override;
 	void		Deserialize(const json& j)override;
