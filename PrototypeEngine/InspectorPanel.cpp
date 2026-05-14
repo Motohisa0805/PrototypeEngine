@@ -34,7 +34,7 @@ void InspectorPanel::Draw(float width, float height, ImTextureRef ref)
 		BaseGUIPanelPopupMenu();
 
 		//1.‘I‘ð’†‚ÌActor‚ðŽæ“¾
-		ActorObject* selectedActor = GUIWinMain::GetHierarchyPanel()->GetSelectedActor();
+		ActorObject* selectedActor = SelectionManager::GetSelectedActor();
 
 		if(selectedActor)
 		{

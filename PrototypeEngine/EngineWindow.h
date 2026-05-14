@@ -1,6 +1,7 @@
 #pragma once
 #include "Typedefs.h"
 #include "GameWinMain.h"
+#include "PhysWorld.h"
 
 enum EngineState
 {
@@ -19,6 +20,8 @@ class EngineWindow
 private:
 	//エンジン用のRendererを用意	
 	static Renderer*			mRenderer;
+
+	static PhysWorld*			mPhysWorld;
 
 	//ゲーム内のウィンドウ
 	GameWinMain*				mGameWindow;
@@ -43,6 +46,8 @@ public:
 	void			EngineShutdown();
 
 	static Renderer*			GetRenderer() { return mRenderer; }
+
+	static PhysWorld*			GetPhysWorld() { return mPhysWorld; }
 
 	static EngineState			GetEngineState() { return mEngineState; }
 	static void					SetEngineState(EngineState state) { mEngineState = state; }

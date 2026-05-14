@@ -55,12 +55,14 @@ void ActorManager::FixedUpdateActors(float time)
 
 void ActorManager::UnloadActors()
 {
-	// Delete actors
-// Because ~Actor calls RemoveActor, have to use a different style loop
-	while (!mActors.empty())
+	//全てのアクターを順番に破棄
+	for (auto actor : mActors)
 	{
-		delete mActors.back();
+		// デストラクタ内で Manager を呼ばないため、ここで安全に delete できる
+		delete actor;
 	}
+
+	//リストを空にする
 	mActors.clear();
 }
 
@@ -102,4 +104,39 @@ void ActorManager::RemoveActor(ActorObject* actor)
 void ActorManager::DeleteActor(ActorObject* actor)
 {
 	actor->SetState(ActorObject::EDead);
+}
+
+void ActorManager::ReAddActor(ActorObject* actor)
+{
+	if (mUpdatingActors)
+	{
+		// If we're updating actors, need to add to pending
+		mPendingActors.emplace_back(actor);
+	}
+	else
+	{
+		// 更新中でない場合はメインリストに直接追加（エディタ操作は通常こちら）
+		mActors.push_back(actor);
+		actor->OnEnabled();
+	}
+}
+
+void ActorManager::DetachActor(ActorObject* actor)
+{
+	auto it = std::find(mActors.begin(), mActors.end(), actor);
+	if (it != mActors.end()) {
+		mActors.erase(it); // リストから削除
+		actor->OnDisable();
+	}
+}
+
+size_t ActorManager::GetActorIndex(ActorObject* actor)
+{
+	auto iter = std::find(mActors.begin(), mActors.end(), actor);
+	if (iter != mActors.end()) {
+		size_t index = std::distance(mActors.begin(), iter);
+		return index;
+	}
+	//未発見
+	return -1;
 }

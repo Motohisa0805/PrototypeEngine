@@ -19,9 +19,6 @@
     <Filter Include="SourceCodes">
       <UniqueIdentifier>{43960d6a-6463-41b2-a24d-36bd2e751ec9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="SourceCodes\B_GameObjects">
-      <UniqueIdentifier>{7c853373-b002-4c41-b367-3a1e9636da3c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="SourceCodes\C_Components">
       <UniqueIdentifier>{467e75fa-b246-4d5a-9c65-57965719625d}</UniqueIdentifier>
     </Filter>
@@ -94,15 +91,6 @@
     <Filter Include="SourceCodes\A_Editor\Function\Defines">
       <UniqueIdentifier>{3a45d6e9-c690-41ef-a5b1-5615e7022bd1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="SourceCodes\A_Editor\Function\GUIViews">
-      <UniqueIdentifier>{e45438c9-7504-4a6c-9785-c706183d4edd}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="SourceCodes\A_Editor\Function\GUIViews\Panels">
-      <UniqueIdentifier>{b11a48d9-2d8c-4dca-846d-47c2a0248981}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="SourceCodes\A_Editor\Function\GUIViews\EditorCameras">
-      <UniqueIdentifier>{640f1662-933f-45d5-aaf2-8794fc6f98f0}</UniqueIdentifier>
-    </Filter>
     <Filter Include="SourceCodes\A_Editor\Function\Inputs">
       <UniqueIdentifier>{2aa73ea6-e25e-49ad-b243-11bc3c0fc402}</UniqueIdentifier>
     </Filter>
@@ -135,6 +123,30 @@
     </Filter>
     <Filter Include="SourceCodes\A_Editor\Function\Physics\Rigidbody">
       <UniqueIdentifier>{af4df9c3-4398-4e59-a6c2-b24feaa1e209}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceCodes\A_Editor\Function\GUIs">
+      <UniqueIdentifier>{e45438c9-7504-4a6c-9785-c706183d4edd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceCodes\A_Editor\Function\GUIs\Panels">
+      <UniqueIdentifier>{b11a48d9-2d8c-4dca-846d-47c2a0248981}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceCodes\A_Editor\Function\GUIs\EditorCameras">
+      <UniqueIdentifier>{640f1662-933f-45d5-aaf2-8794fc6f98f0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceCodes\A_Editor\Function\GUIs\Selection">
+      <UniqueIdentifier>{6a7b6527-5a80-4a83-9473-0c07476305a8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceCodes\A_Editor\Function\GUIs\Commands">
+      <UniqueIdentifier>{ba5af1ca-b748-45e2-8add-836311c5d7a6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceCodes\A_Editor\Function\GUIs\Commands\Interface">
+      <UniqueIdentifier>{18de2cf6-85d9-44f1-a7a8-10e95befd1fb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceCodes\A_Editor\Function\GUIs\Commands\Manager">
+      <UniqueIdentifier>{635f8525-b7bc-4218-aecb-b7d70a37eb57}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceCodes\A_Editor\Function\GUIs\EditorClipboard">
+      <UniqueIdentifier>{732ce46f-9e3b-436d-a71b-03f760d93d27}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -374,28 +386,28 @@
       <Filter>SourceCodes\G_OutsideLibrary\ImGui</Filter>
     </ClCompile>
     <ClCompile Include="ToolbarPanel.cpp">
-      <Filter>SourceCodes\A_Editor\Function\GUIViews\Panels</Filter>
+      <Filter>SourceCodes\A_Editor\Function\GUIs\Panels</Filter>
     </ClCompile>
     <ClCompile Include="InspectorPanel.cpp">
-      <Filter>SourceCodes\A_Editor\Function\GUIViews\Panels</Filter>
+      <Filter>SourceCodes\A_Editor\Function\GUIs\Panels</Filter>
     </ClCompile>
     <ClCompile Include="SceneViewPanel.cpp">
-      <Filter>SourceCodes\A_Editor\Function\GUIViews\Panels</Filter>
+      <Filter>SourceCodes\A_Editor\Function\GUIs\Panels</Filter>
     </ClCompile>
     <ClCompile Include="ProjectPanel.cpp">
-      <Filter>SourceCodes\A_Editor\Function\GUIViews\Panels</Filter>
+      <Filter>SourceCodes\A_Editor\Function\GUIs\Panels</Filter>
     </ClCompile>
     <ClCompile Include="HierarchyPanel.cpp">
-      <Filter>SourceCodes\A_Editor\Function\GUIViews\Panels</Filter>
+      <Filter>SourceCodes\A_Editor\Function\GUIs\Panels</Filter>
     </ClCompile>
     <ClCompile Include="GUIPanel.cpp">
-      <Filter>SourceCodes\A_Editor\Function\GUIViews\Panels</Filter>
+      <Filter>SourceCodes\A_Editor\Function\GUIs\Panels</Filter>
     </ClCompile>
     <ClCompile Include="GameViewPanel.cpp">
-      <Filter>SourceCodes\A_Editor\Function\GUIViews\Panels</Filter>
+      <Filter>SourceCodes\A_Editor\Function\GUIs\Panels</Filter>
     </ClCompile>
     <ClCompile Include="SceneEditorCamera.cpp">
-      <Filter>SourceCodes\A_Editor\Function\GUIViews\EditorCameras</Filter>
+      <Filter>SourceCodes\A_Editor\Function\GUIs\EditorCameras</Filter>
     </ClCompile>
     <ClCompile Include="EditorMain.cpp">
       <Filter>SourceCodes\A_Editor\Mains</Filter>
@@ -416,7 +428,7 @@
       <Filter>SourceCodes\A_Editor\Mains</Filter>
     </ClCompile>
     <ClCompile Include="GUIMainMenu.cpp">
-      <Filter>SourceCodes\A_Editor\Function\GUIViews\Panels</Filter>
+      <Filter>SourceCodes\A_Editor\Function\GUIs\Panels</Filter>
     </ClCompile>
     <ClCompile Include="BoxCollider.cpp">
       <Filter>SourceCodes\A_Editor\Function\Physics\Colliders</Filter>
@@ -437,7 +449,7 @@
       <Filter>SourceCodes\A_Editor\Function\Components\Base</Filter>
     </ClCompile>
     <ClCompile Include="EditorTextureManager.cpp">
-      <Filter>SourceCodes\A_Editor\Function\GUIViews</Filter>
+      <Filter>SourceCodes\A_Editor\Function\GUIs</Filter>
     </ClCompile>
     <ClCompile Include="WindowRenderProperty.cpp">
       <Filter>SourceCodes\A_Editor\Function\Defines</Filter>
@@ -452,7 +464,7 @@
       <Filter>SourceCodes\G_OutsideLibrary\tinyxml2</Filter>
     </ClCompile>
     <ClCompile Include="ScriptEditManager.cpp">
-      <Filter>SourceCodes\A_Editor\Function\GUIViews</Filter>
+      <Filter>SourceCodes\A_Editor\Function\GUIs</Filter>
     </ClCompile>
     <ClCompile Include="ScriptComponent.cpp">
       <Filter>SourceCodes\A_Editor\Function\Components</Filter>
@@ -470,13 +482,37 @@
       <Filter>SourceCodes\A_Editor\Function\Actors</Filter>
     </ClCompile>
     <ClCompile Include="ImGuiHelper.cpp">
-      <Filter>SourceCodes\A_Editor\Function\GUIViews</Filter>
+      <Filter>SourceCodes\A_Editor\Function\GUIs</Filter>
     </ClCompile>
     <ClCompile Include="EditorSettingsManager.cpp">
       <Filter>SourceCodes\A_Editor\Mains</Filter>
     </ClCompile>
     <ClCompile Include="IsLandPhysic.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>SourceCodes\A_Editor\Function\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="CommandManager.cpp">
+      <Filter>SourceCodes\A_Editor\Function\GUIs\Commands\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="ReparentAndReorderCommand.cpp">
+      <Filter>SourceCodes\A_Editor\Function\GUIs\Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="ReorderCommand.cpp">
+      <Filter>SourceCodes\A_Editor\Function\GUIs\Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="RenameCommand.cpp">
+      <Filter>SourceCodes\A_Editor\Function\GUIs\Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="DeleteCommand.cpp">
+      <Filter>SourceCodes\A_Editor\Function\GUIs\Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="CreateNewActorCommand.cpp">
+      <Filter>SourceCodes\A_Editor\Function\GUIs\Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="SelectionManager.cpp">
+      <Filter>SourceCodes\A_Editor\Function\GUIs\Selection</Filter>
+    </ClCompile>
+    <ClCompile Include="EditorClipboard.cpp">
+      <Filter>SourceCodes\A_Editor\Function\GUIs\EditorClipboard</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -694,28 +730,28 @@
       <Filter>SourceCodes\G_OutsideLibrary\ImGui</Filter>
     </ClInclude>
     <ClInclude Include="ToolbarPanel.h">
-      <Filter>SourceCodes\A_Editor\Function\GUIViews\Panels</Filter>
+      <Filter>SourceCodes\A_Editor\Function\GUIs\Panels</Filter>
     </ClInclude>
     <ClInclude Include="GameViewPanel.h">
-      <Filter>SourceCodes\A_Editor\Function\GUIViews\Panels</Filter>
+      <Filter>SourceCodes\A_Editor\Function\GUIs\Panels</Filter>
     </ClInclude>
     <ClInclude Include="GUIPanel.h">
-      <Filter>SourceCodes\A_Editor\Function\GUIViews\Panels</Filter>
+      <Filter>SourceCodes\A_Editor\Function\GUIs\Panels</Filter>
     </ClInclude>
     <ClInclude Include="HierarchyPanel.h">
-      <Filter>SourceCodes\A_Editor\Function\GUIViews\Panels</Filter>
+      <Filter>SourceCodes\A_Editor\Function\GUIs\Panels</Filter>
     </ClInclude>
     <ClInclude Include="ProjectPanel.h">
-      <Filter>SourceCodes\A_Editor\Function\GUIViews\Panels</Filter>
+      <Filter>SourceCodes\A_Editor\Function\GUIs\Panels</Filter>
     </ClInclude>
     <ClInclude Include="SceneViewPanel.h">
-      <Filter>SourceCodes\A_Editor\Function\GUIViews\Panels</Filter>
+      <Filter>SourceCodes\A_Editor\Function\GUIs\Panels</Filter>
     </ClInclude>
     <ClInclude Include="InspectorPanel.h">
-      <Filter>SourceCodes\A_Editor\Function\GUIViews\Panels</Filter>
+      <Filter>SourceCodes\A_Editor\Function\GUIs\Panels</Filter>
     </ClInclude>
     <ClInclude Include="SceneEditorCamera.h">
-      <Filter>SourceCodes\A_Editor\Function\GUIViews\EditorCameras</Filter>
+      <Filter>SourceCodes\A_Editor\Function\GUIs\EditorCameras</Filter>
     </ClInclude>
     <ClInclude Include="GameApp.h">
       <Filter>SourceCodes\A_Game\A_Mains</Filter>
@@ -730,7 +766,7 @@
       <Filter>SourceCodes\A_Editor\Mains</Filter>
     </ClInclude>
     <ClInclude Include="GUIMainMenu.h">
-      <Filter>SourceCodes\A_Editor\Function\GUIViews\Panels</Filter>
+      <Filter>SourceCodes\A_Editor\Function\GUIs\Panels</Filter>
     </ClInclude>
     <ClInclude Include="BoxCollider.h">
       <Filter>SourceCodes\A_Editor\Function\Physics\Colliders</Filter>
@@ -751,7 +787,7 @@
       <Filter>SourceCodes\A_Editor\Function\Components\Base</Filter>
     </ClInclude>
     <ClInclude Include="EditorTextureManager.h">
-      <Filter>SourceCodes\A_Editor\Function\GUIViews</Filter>
+      <Filter>SourceCodes\A_Editor\Function\GUIs</Filter>
     </ClInclude>
     <ClInclude Include="WindowRenderProperty.h">
       <Filter>SourceCodes\A_Editor\Function\Defines</Filter>
@@ -766,7 +802,7 @@
       <Filter>SourceCodes\G_OutsideLibrary\tinyxml2</Filter>
     </ClInclude>
     <ClInclude Include="ScriptEditManager.h">
-      <Filter>SourceCodes\A_Editor\Function\GUIViews</Filter>
+      <Filter>SourceCodes\A_Editor\Function\GUIs</Filter>
     </ClInclude>
     <ClInclude Include="ScriptComponent.h">
       <Filter>SourceCodes\A_Editor\Function\Components</Filter>
@@ -790,7 +826,7 @@
       <Filter>SourceCodes\A_Editor\Function\Utilitys</Filter>
     </ClInclude>
     <ClInclude Include="ImGuiHelper.h">
-      <Filter>SourceCodes\A_Editor\Function\GUIViews</Filter>
+      <Filter>SourceCodes\A_Editor\Function\GUIs</Filter>
     </ClInclude>
     <ClInclude Include="Physics.h">
       <Filter>SourceCodes\A_Editor\Function\Physics</Filter>
@@ -799,7 +835,34 @@
       <Filter>SourceCodes\A_Editor\Mains</Filter>
     </ClInclude>
     <ClInclude Include="IsLandPhysic.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>SourceCodes\A_Editor\Function\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="ICommand.h">
+      <Filter>SourceCodes\A_Editor\Function\GUIs\Commands\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="CommandManager.h">
+      <Filter>SourceCodes\A_Editor\Function\GUIs\Commands\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="ReparentAndReorderCommand.h">
+      <Filter>SourceCodes\A_Editor\Function\GUIs\Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="ReorderCommand.h">
+      <Filter>SourceCodes\A_Editor\Function\GUIs\Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="RenameCommand.h">
+      <Filter>SourceCodes\A_Editor\Function\GUIs\Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="DeleteCommand.h">
+      <Filter>SourceCodes\A_Editor\Function\GUIs\Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="CreateNewActorCommand.h">
+      <Filter>SourceCodes\A_Editor\Function\GUIs\Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="SelectionManager.h">
+      <Filter>SourceCodes\A_Editor\Function\GUIs\Selection</Filter>
+    </ClInclude>
+    <ClInclude Include="EditorClipboard.h">
+      <Filter>SourceCodes\A_Editor\Function\GUIs\EditorClipboard</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -12,6 +12,7 @@ Component::Component(ActorObject* owner, int updateOrder)
 	, mHeaderColor(0.20f, 0.20f, 0.20f, 1.00f)
 	, mHeaderHoveredColor(0.26f, 0.59f, 0.98f, 0.65f)
 	, mHeaderActiveColor(0.26f, 0.59f, 0.98f, 1.00f)
+	, mIsRun(true)
 {
 	if (mOwner->GetTransform())
 	{

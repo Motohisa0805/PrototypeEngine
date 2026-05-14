@@ -19,6 +19,7 @@
 #include "HierarchyPanel.h"
 #include "GameWinMain.h"
 #include "EngineWindow.h"
+#include "EditorSettingsManager.h"
 
 Renderer::Renderer()
 	: mWindowTitle("PrototypeEngine - Windows - Ver0.01 <OpenGL 2.2.0,SDL3>")
@@ -406,7 +407,7 @@ void Renderer::MeshOrderUpdate()
 void Renderer::DrawWindowTitle()
 {
 	//ウィンドウの名前変更処理
-	if (mNowScene->IsNoSaveFlag())
+	if (EditorSettingsManager::IsNoSaveFlag())
 	{
 		const string title = mWindowTitle + "No Save";
 		if (SDL_GetWindowTitle(mWindow) != title)
@@ -665,7 +666,7 @@ void Renderer::EditorDraw3DScene(unsigned int framebuffer, const Matrix4& view, 
 	//オブジェクトの矢印描画
 	mArrowShader->SetActive();
 	mArrowShader->SetMatrixUniform("uViewProj", view * proj);
-	ActorObject* actor = GUIWinMain::GetHierarchyPanel()->GetSelectedActor();
+	ActorObject* actor = SelectionManager::GetSelectedActor();
 	if (actor != nullptr && actor->GetState() == ActorObject::EActive)
 	{
 		//1.カメラとオブジェクトの位置を取得
@@ -975,6 +976,13 @@ void Renderer::DrawFromGBuffer()
 
 void Renderer::Shutdown()
 {
+	// メッシュを破壊する
+	for (auto i : mMeshes)
+	{
+		i.second->Unload();
+		delete i.second;
+	}
+	mMeshes.clear();
 	// Gバッファを取り除く
 	if (mGBuffer)
 	{
@@ -1160,14 +1168,6 @@ void Renderer::UnloadData()
 			pair.second.gBatchVertexArray = nullptr;
 		}
 	}
-
-	// メッシュを破壊する
-	for (auto i : mMeshes)
-	{
-		i.second->Unload();
-		delete i.second;
-	}
-	mMeshes.clear();
 }
 
 
@@ -1190,12 +1190,16 @@ void Renderer::RemoveMeshComp(MeshRenderer* mesh)
 	{
 		SkeletalMeshRenderer* sk = static_cast<SkeletalMeshRenderer*>(mesh);
 		auto iter = std::find(mSkeletalMeshes.begin(), mSkeletalMeshes.end(), sk);
-		mSkeletalMeshes.erase(iter);
+		if (iter != mSkeletalMeshes.end()) {
+			mSkeletalMeshes.erase(iter);
+		}
 	}
 	else
 	{
 		auto iter = std::find(mMeshComps.begin(), mMeshComps.end(), mesh);
-		mMeshComps.erase(iter);
+		if (iter != mMeshComps.end()) {
+			mMeshComps.erase(iter);
+		}
 	}
 }
 
@@ -1207,7 +1211,9 @@ void Renderer::AddParticleComp(ParticleSystem* particle)
 void Renderer::RemoveParticleComp(ParticleSystem* particle)
 {
 	auto iter = std::find(mParticlesComps.begin(), mParticlesComps.end(), particle);
-	mParticlesComps.erase(iter);
+	if (iter != mParticlesComps.end()) {
+		mParticlesComps.erase(iter);
+	}
 }
 
 void Renderer::AddPointLight(PointLightComponent* light)
@@ -1218,7 +1224,9 @@ void Renderer::AddPointLight(PointLightComponent* light)
 void Renderer::RemovePointLight(PointLightComponent* light)
 {
 	auto iter = std::find(mPointLights.begin(), mPointLights.end(), light);
-	mPointLights.erase(iter);
+	if (iter != mPointLights.end()) {
+		mPointLights.erase(iter);
+	}
 }
 
 Texture* Renderer::GetTexture(const string& fileName)

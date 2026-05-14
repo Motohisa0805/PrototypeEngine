@@ -6,10 +6,13 @@
 #include "WindowRenderProperty.h"
 #include "ComponentFactory.h"
 #include "ScriptHotReloadManager.h"
+#include "PhysWorld.h"
 
 EngineState EngineWindow::mEngineState = EngineState::Run;
 
 Renderer* EngineWindow::mRenderer = nullptr;
+
+PhysWorld* EngineWindow::mPhysWorld = nullptr;
 
 SceneEditorCamera* EngineWindow::mSceneEditorCamera = nullptr;
 
@@ -41,6 +44,7 @@ bool EngineWindow::EngineInitialize()
 		mRenderer = nullptr;
 		return false;
 	}
+	mPhysWorld = new PhysWorld();
 
 	RegisterAllComponents();
 
@@ -151,6 +155,8 @@ void EngineWindow::EngineRunLoop()
 				//開始した瞬間なら
 				if (GUIWinMain::IsStarting())
 				{
+					//一時的なコマンド解放処理
+					CommandManager::Shutdown();
 					GUIWinMain::ResetPointer();
 					GameStateClass::SetGameState(GameState::GamePlay);
 					GUIWinMain::SetIsStarting(false);
@@ -205,12 +211,18 @@ void EngineWindow::EngineShutdown()
 	//ゲームウィンドウのシャットダウンと解放
 	if (mGameWindow)
 	{
+		CommandManager::Shutdown();
 		mGameWindow->Shutdown();
 		delete mGameWindow;
 		mGameWindow = nullptr;
 	}
 	SceneManager::ReleaseAllScenes();
 	TTF_Quit();
+	if (mPhysWorld)
+	{
+		delete mPhysWorld;
+		mPhysWorld = nullptr;
+	}
 	//Rendererの解放
 	if (mRenderer)
 	{

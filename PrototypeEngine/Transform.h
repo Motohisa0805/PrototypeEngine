@@ -139,6 +139,7 @@ public:
 	virtual const ActorObject*			GetChildActor(ActorObject* actor);
 
 	const vector<ActorObject*>			GetChildActorList()const { return mChildActor; }
+	vector<ActorObject*>&				GetChildActorListMutable() { return mChildActor; }
 
 	//子オブジェクトを追加
 	virtual void						AddChildActor(ActorObject* childtransform);

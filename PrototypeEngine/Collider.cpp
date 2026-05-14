@@ -1,8 +1,7 @@
 #include "Collider.h"
 #include "Actor.h"
 #include "BaseScene.h"
-#include "PhysWorld.h"
-
+#include "EngineWindow.h"
 #include "imgui.h"
 #include "imgui_impl_sdl3.h"
 #include "imgui_impl_opengl3.h"
@@ -14,12 +13,23 @@ Collider::Collider(ActorObject* owner, int updateOrder)
 	, mContactOffset(0.001f)
 	, mWorldOBB(Vector3::Zero, Quaternion::Identity, Vector3::Zero)
 {
-	mOwner->GetGame()->GetPhysWorld()->AddCollider(this);
+	EngineWindow::GetPhysWorld()->AddCollider(this);
 }
 
 Collider::~Collider()
 {
-	mOwner->GetGame()->GetPhysWorld()->RemoveCollider(this);
+	EngineWindow::GetPhysWorld()->RemoveCollider(this);
+}
+
+void Collider::SetIsRun(bool run)
+{
+	Component::SetIsRun(run);
+	if (run) {
+		EngineWindow::GetPhysWorld()->AddCollider(this);
+	}
+	else {
+		EngineWindow::GetPhysWorld()->RemoveCollider(this);
+	}
 }
 
 void Collider::Serialize(json& j) const

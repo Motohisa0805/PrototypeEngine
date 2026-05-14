@@ -9,8 +9,11 @@ private:
 	static const filesystem::path			SETTEINGS_FILE_PATH;
 
 	//現在のプロジェクト設定を保持するJSONオブジェクト
-	json							mSettings;
+	json									mSettings;
 	
+	//シーンが保存されたか
+	static bool								mIsNoSaveFlag;
+
 	EditorSettingsManager() { LoadSettings(); }
 	~EditorSettingsManager() { SaveEditorSettings(); }
 
@@ -26,5 +29,9 @@ public:
 	void							SetLastOpenedScene(const string& path);
 	string							GetLastOpenedScene() const;
 
+
+	//シーン保存フラグのGetter/Setter
+	static bool						IsNoSaveFlag() { return mIsNoSaveFlag; }
+	static void						SetSaveFlag(bool isSave) { mIsNoSaveFlag = isSave; }
 };
 
