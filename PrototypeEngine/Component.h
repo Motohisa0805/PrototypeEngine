@@ -82,6 +82,9 @@ protected:
 	Vector4				mHeaderColor;
 	Vector4				mHeaderHoveredColor;
 	Vector4				mHeaderActiveColor;
+
+	//エディターで削除した場合一時的に機能停止
+	bool				mIsRun;
 public:
 	// コンストラクタ
 	// （更新順序が低いほど、コンポーネントが早く更新される）
@@ -125,9 +128,14 @@ public:
 	int					GetUpdateOrder() const { return mUpdateOrder; }
 
 	string				GetName()const { return mName; }
+
+	bool				IsRun() { return mIsRun; }
+	virtual void		SetIsRun(bool run) { mIsRun = run; }
 	// JSONに変換するメソッド
 	virtual void		Serialize(json& j) const;
 	// JSONから復元するメソッド
 	virtual void		Deserialize(const json& j);
 
+
+	virtual Component*	Clone(ActorObject* newOwner) const { return nullptr; }
 };

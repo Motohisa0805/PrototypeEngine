@@ -64,7 +64,7 @@ void GUIMainMenu::FileMenuDraw()
 		{
 			string startupScenePath = EditorSettingsManager::GetInstance().GetLastOpenedScene();
 			SceneSerializer::SaveScene(startupScenePath, SceneManager::GetNowScene());
-			SceneManager::GetNowScene()->SetSaveFlag(false);
+			EditorSettingsManager::SetSaveFlag(false);
 		}
 
 		if (ImGui::MenuItem("Build Game(Incomplete)"))

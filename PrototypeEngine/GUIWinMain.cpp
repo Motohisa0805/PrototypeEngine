@@ -92,6 +92,8 @@ bool GUIWinMain::InitializeImGui(SDL_Window* window, SDL_GLContext glContext)
 		mGUIPanel[i]->Initialize(windowWidth, windowHeight);
 	}
 
+	SelectionManager::SetSelectedActor(nullptr);
+
 	EditorTextureManager::GetInstance().AllLoad();
 
 	return true;
@@ -114,6 +116,14 @@ void GUIWinMain::ResetPointer()
 
 void GUIWinMain::RenderImGui()
 {
+	//エンジン全体に共通する入力処理
+	if (ImGui::IsKeyDown(ImGuiMod_Ctrl) && ImGui::IsKeyPressed(ImGuiKey_Z)) {
+		CommandManager::Undo();
+	}
+	if (ImGui::IsKeyDown(ImGuiMod_Ctrl) && ImGui::IsKeyPressed(ImGuiKey_Y)) {
+		CommandManager::Redo();
+	}
+
 	// ここでImGuiの描画を行う
 	// 画面サイズ（SDLで取得したウィンドウ幅/高さ）
 	int windowWidth = WindowRenderProperty::GetWidth();
@@ -171,7 +181,10 @@ void GUIWinMain::ShutdownImGui()
 	}
 
 	mGUIPanel.clear();
-
+	if (SelectionManager::GetSelectedActor())
+	{
+		SelectionManager::SetSelectedActor(nullptr);
+	}
 
 	EditorTextureManager::GetInstance().AllRelease();
 }

@@ -46,6 +46,8 @@ public:
 
 	float					GetContactOffset() { return mContactOffset; }
 
+	void					SetIsRun(bool run)override;
+
 	void					Serialize(json& j) const override;
 	void					Deserialize(const json& j)override;
 

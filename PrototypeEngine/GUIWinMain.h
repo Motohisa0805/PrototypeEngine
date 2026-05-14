@@ -3,6 +3,7 @@
 #include "imgui_impl_sdl3.h"
 #include "imgui_impl_opengl3.h"
 #include "GUIPanel.h"
+#include "CommandManager.h"
 //‘O•ûéŒ¾
 //•`‰æƒNƒ‰ƒX
 class Renderer;

@@ -1,14 +1,11 @@
 #include "BaseScene.h"
-
-#include "EngineWindow.h"
 #include "Renderer.h"
-
+#include "EngineWindow.h"
 #include "GameFunctions.h"
 #include "DirectionalLightComponent.h" // DirectionalLightComponent の型を使うために必要
 #include "FreeCamera.h"
 #include "BaseCamera.h"          // BaseCamera の IsMain を使うために必要
 #include "AudioSystem.h"
-#include "PhysWorld.h"
 
 #include "VertexArray.h"
 
@@ -18,7 +15,6 @@
 BaseScene::BaseScene()
 	: mActorManager(nullptr)
 	, mAudioSystem(nullptr)
-	, mPhysWorld(nullptr)
 	, mUpdatingActors(false)
 	, mFixed_Delta_Time(0.02f)
 	, mPlayer(nullptr)
@@ -125,7 +121,8 @@ bool BaseScene::FixedUpdate()
 		//Rigidbody などの物理処理をここで呼ぶ
 		mActorManager->FixedUpdateActors(deltaTime);
 
-		mPhysWorld->SweepAndPruneXYZ(deltaTime);
+
+		EngineWindow::GetPhysWorld()->SweepAndPruneXYZ(deltaTime);
 
 		mFixedTimeAccumulator -= mFixed_Delta_Time;
 	}
@@ -266,7 +263,7 @@ bool BaseScene::EditorUpdate(bool isRun)
 		//編集での変更があればそれを記録する
 		string startupScenePath = EditorSettingsManager::GetInstance().GetLastOpenedScene();
 		SceneSerializer::WriteEditorData(startupScenePath,this);
-		mIsNoSaveFlag = true;
+		EditorSettingsManager::SetSaveFlag(true);
 	}
 	mIsDirtyFlag = false;
 	return true;
@@ -499,11 +496,6 @@ void BaseScene::UnloadData()
 	}
 	mCameras.clear();
 
-	if (mPhysWorld)
-	{
-		delete mPhysWorld;
-		mPhysWorld = nullptr;
-	}
 	if (mAudioSystem)
 	{
 		mAudioSystem->Shutdown();
@@ -528,9 +520,6 @@ EditorScene::EditorScene()
 		delete mAudioSystem;
 		mAudioSystem = nullptr;
 	}
-
-	// Physics Worldを作成
-	mPhysWorld = new PhysWorld();
 }
 
 void EditorScene::EditorInitilaize()

@@ -4,17 +4,12 @@
 
 HierarchyPanel::HierarchyPanel(Renderer* renderer)
 	:GUIPanel(renderer)
-	, mSelectedActor(nullptr)
 	, mRenaming(false)
 {
 }
 
 HierarchyPanel::~HierarchyPanel()
 {
-	if (mSelectedActor)
-	{
-		mSelectedActor = nullptr;
-	}
 }
 
 void HierarchyPanel::Initialize(float width, float height, ImTextureRef ref)
@@ -64,8 +59,6 @@ void HierarchyPanel::Draw(float width, float height, ImTextureRef ref)
 		RightClickMenu();
 	}
 	ImGui::End();
-
-	ProcessPendingOperations();
 }
 
 void HierarchyPanel::DrawActorNode(ActorObject* actor)
@@ -78,7 +71,7 @@ void HierarchyPanel::DrawActorNode(ActorObject* actor)
 	//ノードフラグの設定
 	//ImGuiTreeNodeFlags_SpanAvailWidth : 選択の幅をGUIパネルの幅と同じにする
 	ImGuiBackendFlags node_flags = ImGuiTreeNodeFlags_AllowOverlap | ImGuiTreeNodeFlags_SpanAvailWidth;
-	bool isSelected = (mSelectedActor == actor);
+	bool isSelected = (SelectionManager::GetSelectedActor() == actor);
 	if (isSelected)
 	{
 		node_flags |= ImGuiTreeNodeFlags_Selected;
@@ -95,7 +88,7 @@ void HierarchyPanel::DrawActorNode(ActorObject* actor)
 	//PushIDでユニークIDを設定
 	ImGui::PushID(actor);
 	//リネーム中の場合、InputTextを表示
-	if (mSelectedActor == actor &&mRenaming)
+	if (SelectionManager::GetSelectedActor() == actor && mRenaming)
 	{
 		char buffer[256];
 		//ここで入力を行っている
@@ -108,9 +101,8 @@ void HierarchyPanel::DrawActorNode(ActorObject* actor)
 
 		if (ImGui::InputText("##rename", buffer, sizeof(buffer), ImGuiInputTextFlags_EnterReturnsTrue))
 		{
-			RenameRequest req;
-			req.newStem = string(buffer);
-			mRenameQueue.push_back(req);
+			auto cmd = std::make_unique<RenameCommand>(SelectionManager::GetSelectedActor(), string(buffer));
+			CommandManager::Execute(std::move(cmd));
 			mRenaming = false;
 		}
 
@@ -129,7 +121,7 @@ void HierarchyPanel::DrawActorNode(ActorObject* actor)
 		//ノードがクリックされたら選択オブジェクトを更新
 		if (ImGui::IsItemClicked(0)|| ImGui::IsItemClicked(1))
 		{
-			mSelectedActor = actor;
+			SelectionManager::SetSelectedActor(actor);
 		}
 
 		//1.ドラッグ元(Drag Source)の設定
@@ -148,31 +140,47 @@ void HierarchyPanel::DrawActorNode(ActorObject* actor)
 			//ドラッグペイロードを受け取る
 			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("ACTOR_NODE_PTR"))
 			{
-				//ポインタのサイズが正しいことを確認
-				if (payload->DataSize == sizeof(ActorObject*))
+				ActorObject* draggedActor = *(ActorObject**)payload->Data;
+
+				// ガード：自分自身、または自分の子孫への移動は無視する
+				if (!ImGuiHelper::IsAncestorOf(draggedActor, actor))
 				{
-					//ドラッグされてきたオブジェクトのポインターを取得
-					ActorObject* draggedActor = *(ActorObject**)payload->Data;
+					float mouseClickY = ImGui::GetMousePos().y;
+					float nodeRectMinY = ImGui::GetItemRectMin().y;
+					float nodeRectMaxY = ImGui::GetItemRectMax().y;
+					float nodeHeight = nodeRectMaxY - nodeRectMinY;
 
-					//ドロップ先オブジェクトが、ドラッグ元オブジェクト自身またはその子孫でないことを確認
-					bool isCircular = false;
-					ActorObject* parentCheck = actor;
-					while (parentCheck != nullptr)
+					if (mouseClickY < nodeRectMinY + nodeHeight * 0.25f || mouseClickY > nodeRectMinY + nodeHeight * 0.75f)
 					{
-						if (parentCheck == draggedActor)
-						{
-							isCircular = true;
-							break;
-						}
-						parentCheck = parentCheck->GetTransform()->GetParentActor();
+						// ----------------------------------------------------------------
+						// 【ケースA】隙間にドロップ（＝ターゲットと「同じ親」の階層に滑り込ませる）
+						// ----------------------------------------------------------------
+						ActorObject* desiredParent = actor->GetTransform()->GetParentActor();
+
+						// ターゲットがその親のリストの何番目にいるかを取得
+						auto& siblingList = desiredParent ? desiredParent->GetTransform()->GetChildActorListMutable()
+							: SceneManager::GetNowScene()->GetActorManager()->GetActorsMutable();
+
+						auto it = std::find(siblingList.begin(), siblingList.end(), actor);
+						size_t targetIndex = std::distance(siblingList.begin(), it);
+
+						// 上部ならその位置、下部なら次の位置
+						size_t toIndex = (mouseClickY < nodeRectMinY + nodeHeight * 0.25f) ? targetIndex : targetIndex + 1;
+
+						// ※同じ親の中で後ろに動かす場合は、挿入位置モデルの仕様に合わせてインデックスを調整するロジックが必要あり、
+						// 別階層からの移動であれば、現在は問題はなし。
+						auto cmd = std::make_unique<ReparentAndReorderCommand>(draggedActor, desiredParent, toIndex);
+						CommandManager::Execute(std::move(cmd));
 					}
-
-					if (!isCircular && draggedActor != actor)
+					else
 					{
-						// SetParentを呼び出すだけで、親子関係の付け替えが完結する
-						draggedActor->GetTransform()->SetParent(actor);
+						// ----------------------------------------------------------------
+						// 【ケースB】中央にドロップ（＝ターゲットの「直下（子供）」にする）
+						// ----------------------------------------------------------------
+						size_t toIndex = actor->GetTransform()->GetChildActorList().size(); // 子供リストの末尾
 
-						mSelectedActor = draggedActor;
+						auto cmd = std::make_unique<ReparentAndReorderCommand>(draggedActor, actor, toIndex);
+						CommandManager::Execute(std::move(cmd));
 					}
 				}
 			}
@@ -209,30 +217,22 @@ bool HierarchyPanel::RightClickMenu()
 	{
 		if (ImGui::MenuItem("Create Empty Actor"))
 		{
-			//3.ActorObjectの生成とシーンへの追加
-
-			// 1. SceneManager::GetNowScene() を取得し mGame に設定
-			// 2. mGame->AddActor(this); を呼び出し、現在のシーンの Actor リストに追加
-			ActorObject* newActor = new ActorObject();
-			mSelectedActor = newActor; // 新しく作ったアクターを自動で選択
+			// 直接 new するのではなく、コマンドを作って実行させる
+			auto cmd = std::make_unique<CreateNewActorCommand>();
+			CommandManager::Execute(std::move(cmd));
 		}
-		if (mSelectedActor)
+		if (SelectionManager::GetSelectedActor())
 		{
-			if (ImGui::MenuItem("Rename"))
+			if (ImGui::MenuItem("Rename", "F2"))
 			{
-				mRenameInputBuffer = mSelectedActor->GetName();
+				mRenameInputBuffer = SelectionManager::GetSelectedActor()->GetName();
 				mRenaming = true;
 			}
 
-			if (ImGui::MenuItem("Release Parent Object"))
+			if (ImGui::MenuItem("Delete Actor","Delete"))
 			{
-				mSelectedActor->GetTransform()->SetParent(nullptr);
-			}
-
-			if (ImGui::MenuItem("Delete Actor"))
-			{
-				SceneManager::GetNowScene()->GetActorManager()->DeleteActor(mSelectedActor);
-				mSelectedActor = nullptr;
+				auto cmd = std::make_unique<DeleteCommand>(SelectionManager::GetSelectedActor());
+				CommandManager::Execute(std::move(cmd));
 			}
 		}
 		if (ImGui::MenuItem("GUI Initialization of position"))
@@ -247,51 +247,5 @@ bool HierarchyPanel::RightClickMenu()
 
 void HierarchyPanel::ClearPointer()
 {
-	mSelectedActor = nullptr;
-}
-
-void HierarchyPanel::ProcessPendingOperations()
-{
-	// まずリネームを行う（リネーム後の名前衝突チェックを行う）
-	for (const auto& req : mRenameQueue)
-	{
-		try
-		{
-			mSelectedActor->SetName(req.newStem);
-		}
-		catch (const exception& e)
-		{
-			Debug::Log("Rename failed: %s\n", e.what());
-		}
-	}
-	mRenameQueue.clear();
-	/*
-	// 次に削除処理
-	for (const auto& p : mDeleteQueue)
-	{
-		try
-		{
-			if (!filesystem::exists(p)) continue;
-
-			// 2. ファイルシステムからの削除
-			if (filesystem::is_directory(p))
-			{
-				// フォルダの場合、配下のすべてのファイルを削除
-				filesystem::remove_all(p);
-				Debug::Log("Deleted folder: %s\n", p.string().c_str());
-			}
-			else // ファイルの場合
-			{
-				mScriptFilePath = p;
-				filesystem::remove(p);
-				Debug::Log("Deleted file: %s\n", p.string().c_str());
-			}
-		}
-		catch (const exception& e)
-		{
-			Debug::Log("Delete failed: %s\n", e.what());
-		}
-	}
-	mDeleteQueue.clear();
-	*/
+	SelectionManager::SetSelectedActor(nullptr);
 }

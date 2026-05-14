@@ -1,8 +1,7 @@
 ﻿#include "Rigidbody.h"
 #include "Actor.h"
 #include "BaseScene.h"
-#include "PhysWorld.h"
-
+#include "EngineWindow.h"
 #include "BoxCollider.h"
 #include "SphereCollider.h"
 #include "CapsuleCollider.h"
@@ -48,9 +47,9 @@ Rigidbody::Rigidbody(ActorObject* owner, int updateOrder)
 
 Rigidbody::~Rigidbody()
 {
-    if(mGame->GetPhysWorld()->GetLandPhysic())
+    if(EngineWindow::GetPhysWorld()->GetLandPhysic())
     {
-        mGame->GetPhysWorld()->GetLandPhysic()->RemoveActioveBodies(this);
+        EngineWindow::GetPhysWorld()->GetLandPhysic()->RemoveActioveBodies(this);
 	}
 }
 
@@ -173,8 +172,8 @@ void Rigidbody::UpdateSleepState(float deltaTime)
             mIsSleeping = true;
             mVelocity = Vector3::Zero;
             mAngularVelocity = Vector3::Zero;
-            if(mGame->GetPhysWorld()&& mGame->GetPhysWorld()->GetLandPhysic()) {
-				mGame->GetPhysWorld()->GetLandPhysic()->RemoveActioveBodies(this);
+            if(EngineWindow::GetPhysWorld()&& EngineWindow::GetPhysWorld()->GetLandPhysic()) {
+                EngineWindow::GetPhysWorld()->GetLandPhysic()->RemoveActioveBodies(this);
 			}
         }
     }

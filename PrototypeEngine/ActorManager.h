@@ -23,10 +23,17 @@ public:
 	void							UnloadActors();
 	//Actor‚ÌGetter
 	const vector<ActorObject*>&		GetActors()const { return mActors; }
+	vector<ActorObject*>&			GetActorsMutable() { return mActors; }
 	//Actor’Ç‰Á
 	void							AddActor(ActorObject* actor);
 	//Actor‰ğ•ú
 	void							RemoveActor(ActorObject* actor);
 	//Actor‚Ìíœ
 	void							DeleteActor(ActorObject* actor);
+	void							ReAddActor(ActorObject* actor);
+	//Actor‚ğ”z—ñ‚©‚çŠO‚·
+	void							DetachActor(ActorObject* actor);
+
+	//Actor‚ÌIndex‚ğŒŸõ
+	size_t							GetActorIndex(ActorObject* actor);
 };

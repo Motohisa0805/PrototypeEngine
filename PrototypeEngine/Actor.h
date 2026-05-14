@@ -109,7 +109,9 @@ public:
 	virtual void					ActorInput(const struct InputState& keyState);
 	// Actorが破壊されたときに呼び出される関数
 	void							OnDestroy();
-
+	void							OnEnabled();
+	//一時的に機能停止
+	void							OnDisable();
 	// Getters/setters
 	State							GetState() const { return mState; }
 
@@ -164,6 +166,9 @@ public:
 	void							Deserialize(const json& j);
 	//コンポーネントが追加された後に呼ばれる通知関数
 	virtual void					OnComponentAdded(Component* newComp);
+
+
+	ActorObject*					Clone();
 };
 
 template<typename T>

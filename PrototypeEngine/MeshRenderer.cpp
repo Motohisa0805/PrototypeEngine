@@ -125,6 +125,17 @@ void MeshRenderer::SetMaterialAlpha(float alpha)
 	}
 }
 
+void MeshRenderer::SetIsRun(bool run)
+{
+	Component::SetIsRun(run);
+	if (run) {
+		EngineWindow::GetRenderer()->AddMeshComp(this);
+	}
+	else {
+		EngineWindow::GetRenderer()->RemoveMeshComp(this);
+	}
+}
+
 void MeshRenderer::Serialize(json& j) const
 {
 	Component::Serialize(j);

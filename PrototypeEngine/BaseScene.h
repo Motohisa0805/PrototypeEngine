@@ -17,7 +17,6 @@ class BaseCamera;
 class Text;
 
 class AudioSystem;
-class PhysWorld;
 //シーンの基底クラス
 //オブジェクトの更新などをまとめて行う部分になります。
 // シーンごとに継承して使用します。
@@ -30,8 +29,6 @@ protected:
 	bool											mUpdatingActors;
 
 	AudioSystem*									mAudioSystem;
-
-	PhysWorld*										mPhysWorld;
 	
 	ActorManager*									mActorManager;
 	
@@ -67,8 +64,6 @@ protected:
 	string											mName;
 	//シーンが変更されたかどうかのフラグ
 	bool											mIsDirtyFlag;
-	//シーンが保存されたか
-	bool											mIsNoSaveFlag;
 public:
 
 	//コンストラクタ
@@ -99,8 +94,6 @@ public:
 	Skeleton*										GetSkeleton(const string& fileName);
 	//AudioSystemのGetter
 	AudioSystem*									GetAudioSystem() { return mAudioSystem; }
-	//PhysWorldのGetter
-	PhysWorld*										GetPhysWorld() { return mPhysWorld; }
 
 	// Manage UI stack
 	const vector<Canvas*>&							GetUIStack() { return mCanvasStack; }
@@ -136,9 +129,6 @@ public:
 	//シーンの変更フラグのGetter/Setter
 	bool										    IsDirtyFlag() { return mIsDirtyFlag; }
 	void										    SetDirtyFlag(bool isDirty) { mIsDirtyFlag = isDirty; }
-	//シーン保存フラグのGetter/Setter
-	bool											IsNoSaveFlag() { return mIsNoSaveFlag; }
-	void											SetSaveFlag(bool isSave) { mIsNoSaveFlag = isSave; }
 	//シーン内のオブジェクトの頂点数を表示
 	int												GetSceneAllVertices();
 };

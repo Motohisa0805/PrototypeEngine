@@ -7,6 +7,7 @@
 #include "BaseScene.h"
 #include "Shader.h"
 
+#include "SelectionManager.h"
 /*
 * ===ƒGƒ“ƒWƒ““à•”ˆ—/Engine internal processing===
 */

@@ -40,10 +40,12 @@ ActorObject::ActorObject(BaseScene* scene)
 
 ActorObject::~ActorObject()
 {
+	/*
 	if (mGame && mGame->GetActorManager())
 	{
 		mGame->GetActorManager()->RemoveActor(this);
 	}
+	*/
 
 	// TransformはActorObjectが所有しているので、ここで削除
 	if (mTransform)
@@ -177,6 +179,22 @@ void ActorObject::OnDestroy()
 			scriptComp->OnDisable();
 			scriptComp->Destroy();
 		}
+	}
+}
+
+void ActorObject::OnEnabled()
+{
+	for (auto comp : mComponents)
+	{
+		comp->SetIsRun(true);
+	}
+}
+
+void ActorObject::OnDisable() 
+{
+	for (auto comp : mComponents)
+	{
+		comp->SetIsRun(false);
 	}
 }
 
@@ -417,4 +435,27 @@ void ActorObject::OnComponentAdded(Component* newComp)
 			}
 		}
 	}
+}
+
+ActorObject* ActorObject::Clone()
+{
+	// 真っ新なアクターを生成
+	ActorObject* clone = new ActorObject();
+
+	clone->mName = this->mName;
+	clone->mState = this->mState;
+
+	clone->GetTransform()->SetLocalPosition(this->GetTransform()->GetLocalPosition());
+	clone->GetTransform()->SetLocalRotation(this->GetTransform()->GetLocalRotation());
+	clone->GetTransform()->SetLocalScale(this->GetTransform()->GetLocalScale());
+
+	// 4. 自身が持っているコンポーネントのディープコピー
+	for (const auto& comp : this->mComponents)
+	{
+		// 多態性（ポリモーフィズム）により、コンポーネントの実体（Sprite等）に応じた
+		// オーバーライド版の Clone() が自動的に呼び出されます。
+		comp->Clone(clone);
+	}
+
+	return clone;
 }

@@ -3,6 +3,8 @@
 
 const filesystem::path EditorSettingsManager::SETTEINGS_FILE_PATH = "Library/EditorSettings.json";
 
+bool EditorSettingsManager::mIsNoSaveFlag = false;
+
 EditorSettingsManager& EditorSettingsManager::GetInstance()
 {
 	static EditorSettingsManager instance;
