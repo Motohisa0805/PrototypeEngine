@@ -195,6 +195,7 @@
     <ClCompile Include="EditorSettingsManager.cpp" />
     <ClCompile Include="EditorTextureManager.cpp" />
     <ClCompile Include="IsLandPhysic.cpp" />
+    <ClCompile Include="PasteActorCommand.cpp" />
     <ClCompile Include="RenameCommand.cpp" />
     <ClCompile Include="ReorderCommand.cpp" />
     <ClCompile Include="ReparentAndReorderCommand.cpp" />
@@ -301,6 +302,7 @@
     <ClInclude Include="EditorTextureManager.h" />
     <ClInclude Include="ICommand.h" />
     <ClInclude Include="IsLandPhysic.h" />
+    <ClInclude Include="PasteActorCommand.h" />
     <ClInclude Include="Physics.h" />
     <ClInclude Include="RenameCommand.h" />
     <ClInclude Include="ReorderCommand.h" />

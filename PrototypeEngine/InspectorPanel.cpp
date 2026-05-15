@@ -4,8 +4,6 @@
 #include "Actor.h"
 #include "Math.h"//Vector3,Quaternionを使うために必要
 
-// 仮: 外部から HierarchyPanel のインスタンスを取得できる関数があると仮定
-
 InspectorPanel::InspectorPanel(Renderer* renderer)
 	:GUIPanel(renderer)
 {
@@ -51,7 +49,8 @@ void InspectorPanel::Draw(float width, float height, ImTextureRef ref)
 			//アクターの名前入力UI
 			if (ImGui::InputText("Name", nameBuffer, sizeof(nameBuffer)))
 			{
-				selectedActor->SetName(string(nameBuffer));
+				auto cmd = std::make_unique<RenameCommand>(SelectionManager::GetSelectedActor(), string(nameBuffer));
+				CommandManager::Execute(std::move(cmd));
 			}
 			ImGui::SameLine();
 			//StaticタグのコンボUI

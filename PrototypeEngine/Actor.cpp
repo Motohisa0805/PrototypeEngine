@@ -449,12 +449,12 @@ ActorObject* ActorObject::Clone()
 	clone->GetTransform()->SetLocalRotation(this->GetTransform()->GetLocalRotation());
 	clone->GetTransform()->SetLocalScale(this->GetTransform()->GetLocalScale());
 
+
 	// 4. 自身が持っているコンポーネントのディープコピー
 	for (const auto& comp : this->mComponents)
 	{
-		// 多態性（ポリモーフィズム）により、コンポーネントの実体（Sprite等）に応じた
-		// オーバーライド版の Clone() が自動的に呼び出されます。
-		comp->Clone(clone);
+		Component* clonedComp = comp->Clone(clone);
+		clone->AddComponent(clonedComp); // 手動でリストに加える
 	}
 
 	return clone;

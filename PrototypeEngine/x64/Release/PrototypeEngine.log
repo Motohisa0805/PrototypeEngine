@@ -50,12 +50,12 @@ C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(80,12): warning C4251: '
       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(541,7):
       'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' の宣言を確認してください
   
-C:\C++Files\PrototypeEngine\PrototypeEngine\PhysWorld.h(62,58): warning C4099: 'OBB': タイプ名は最初 'struct' として使われていましたが 'class' として使われています。
+C:\C++Files\PrototypeEngine\PrototypeEngine\PhysWorld.h(56,58): warning C4099: 'OBB': タイプ名は最初 'struct' として使われていましたが 'class' として使われています。
   (ソース ファイル 'AudioComponent.cpp' をコンパイルしています)
       C:\C++Files\PrototypeEngine\PrototypeEngine\Collision.h(64,8):
       'OBB' の宣言を確認してください
   
-C:\C++Files\PrototypeEngine\PrototypeEngine\PhysWorld.h(124,14): warning C4244: '初期化中': 'int' から 'float' への変換です。データが失われる可能性があります。
+C:\C++Files\PrototypeEngine\PrototypeEngine\PhysWorld.h(123,14): warning C4244: '初期化中': 'int' から 'float' への変換です。データが失われる可能性があります。
   (ソース ファイル 'AudioComponent.cpp' をコンパイルしています)
   
   AudioSystem.cpp
@@ -64,12 +64,12 @@ C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(80,12): warning C4251: '
       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(541,7):
       'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' の宣言を確認してください
   
-C:\C++Files\PrototypeEngine\PrototypeEngine\PhysWorld.h(62,58): warning C4099: 'OBB': タイプ名は最初 'struct' として使われていましたが 'class' として使われています。
+C:\C++Files\PrototypeEngine\PrototypeEngine\PhysWorld.h(56,58): warning C4099: 'OBB': タイプ名は最初 'struct' として使われていましたが 'class' として使われています。
   (ソース ファイル 'AudioSystem.cpp' をコンパイルしています)
       C:\C++Files\PrototypeEngine\PrototypeEngine\Collision.h(64,8):
       'OBB' の宣言を確認してください
   
-C:\C++Files\PrototypeEngine\PrototypeEngine\PhysWorld.h(124,14): warning C4244: '初期化中': 'int' から 'float' への変換です。データが失われる可能性があります。
+C:\C++Files\PrototypeEngine\PrototypeEngine\PhysWorld.h(123,14): warning C4244: '初期化中': 'int' から 'float' への変換です。データが失われる可能性があります。
   (ソース ファイル 'AudioSystem.cpp' をコンパイルしています)
   
   BaseCamera.cpp
@@ -83,12 +83,12 @@ C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\S
       C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
       'SDL_VERSION' は以前にコマンド ラインで宣言されています
   
-C:\C++Files\PrototypeEngine\PrototypeEngine\PhysWorld.h(62,58): warning C4099: 'OBB': タイプ名は最初 'struct' として使われていましたが 'class' として使われています。
+C:\C++Files\PrototypeEngine\PrototypeEngine\PhysWorld.h(56,58): warning C4099: 'OBB': タイプ名は最初 'struct' として使われていましたが 'class' として使われています。
   (ソース ファイル 'BaseCamera.cpp' をコンパイルしています)
       C:\C++Files\PrototypeEngine\PrototypeEngine\Collision.h(64,8):
       'OBB' の宣言を確認してください
   
-C:\C++Files\PrototypeEngine\PrototypeEngine\PhysWorld.h(124,14): warning C4244: '初期化中': 'int' から 'float' への変換です。データが失われる可能性があります。
+C:\C++Files\PrototypeEngine\PrototypeEngine\PhysWorld.h(123,14): warning C4244: '初期化中': 'int' から 'float' への変換です。データが失われる可能性があります。
   (ソース ファイル 'BaseCamera.cpp' をコンパイルしています)
   
   BaseScene.cpp
@@ -102,15 +102,15 @@ C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(80,12): warning C4251: '
       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(541,7):
       'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' の宣言を確認してください
   
-C:\C++Files\PrototypeEngine\PrototypeEngine\PhysWorld.h(62,58): warning C4099: 'OBB': タイプ名は最初 'struct' として使われていましたが 'class' として使われています。
+C:\C++Files\PrototypeEngine\PrototypeEngine\PhysWorld.h(56,58): warning C4099: 'OBB': タイプ名は最初 'struct' として使われていましたが 'class' として使われています。
   (ソース ファイル 'BaseScene.cpp' をコンパイルしています)
       C:\C++Files\PrototypeEngine\PrototypeEngine\Collision.h(64,8):
       'OBB' の宣言を確認してください
   
-C:\C++Files\PrototypeEngine\PrototypeEngine\PhysWorld.h(124,14): warning C4244: '初期化中': 'int' から 'float' への変換です。データが失われる可能性があります。
+C:\C++Files\PrototypeEngine\PrototypeEngine\PhysWorld.h(123,14): warning C4244: '初期化中': 'int' から 'float' への変換です。データが失われる可能性があります。
   (ソース ファイル 'BaseScene.cpp' をコンパイルしています)
   
-C:\C++Files\PrototypeEngine\PrototypeEngine\BaseScene.cpp(390,12): warning C4267: '初期化中': 'size_t' から 'int' に変換しました。データが失われているかもしれません。
+C:\C++Files\PrototypeEngine\PrototypeEngine\BaseScene.cpp(387,12): warning C4267: '初期化中': 'size_t' から 'int' に変換しました。データが失われているかもしれません。
   BasicInputAction.cpp
 C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(80,12): warning C4251: 'Component::mName': 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
   (ソース ファイル 'BasicInputAction.cpp' をコンパイルしています)
@@ -148,6 +148,11 @@ C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\S
       C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
       'SDL_VERSION' は以前にコマンド ラインで宣言されています
   
+C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(80,12): warning C4251: 'Component::mName': 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
+  (ソース ファイル 'Canvas.cpp' をコンパイルしています)
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(541,7):
+      'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' の宣言を確認してください
+  
   CapsuleCollider.cpp
 C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(80,12): warning C4251: 'Component::mName': 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
   (ソース ファイル 'CapsuleCollider.cpp' をコンパイルしています)
@@ -166,25 +171,37 @@ C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(80,12): warning C4251: '
       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(541,7):
       'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' の宣言を確認してください
   
-C:\C++Files\PrototypeEngine\PrototypeEngine\PhysWorld.h(62,58): warning C4099: 'OBB': タイプ名は最初 'struct' として使われていましたが 'class' として使われています。
+C:\C++Files\PrototypeEngine\PrototypeEngine\PhysWorld.h(56,58): warning C4099: 'OBB': タイプ名は最初 'struct' として使われていましたが 'class' として使われています。
   (ソース ファイル 'Collider.cpp' をコンパイルしています)
       C:\C++Files\PrototypeEngine\PrototypeEngine\Collision.h(64,8):
       'OBB' の宣言を確認してください
   
-C:\C++Files\PrototypeEngine\PrototypeEngine\PhysWorld.h(124,14): warning C4244: '初期化中': 'int' から 'float' への変換です。データが失われる可能性があります。
+C:\C++Files\PrototypeEngine\PrototypeEngine\PhysWorld.h(123,14): warning C4244: '初期化中': 'int' から 'float' への変換です。データが失われる可能性があります。
   (ソース ファイル 'Collider.cpp' をコンパイルしています)
   
   Collision.cpp
+  CommandManager.cpp
+C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(80,12): warning C4251: 'Component::mName': 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
+  (ソース ファイル 'CommandManager.cpp' をコンパイルしています)
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(541,7):
+      'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' の宣言を確認してください
+  
+C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
+  (ソース ファイル 'CommandManager.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
+      'SDL_VERSION' は以前にコマンド ラインで宣言されています
+  
   Component.cpp
 C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(80,12): warning C4251: 'Component::mName': 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
   (ソース ファイル 'Component.cpp' をコンパイルしています)
       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(541,7):
       'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' の宣言を確認してください
   
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.cpp(122,54): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.cpp(122,54): warning C4056: 浮動小数点数の定数演算でオーバーフローしました。
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.cpp(122,44): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.cpp(122,44): warning C4056: 浮動小数点数の定数演算でオーバーフローしました。
+C:\C++Files\PrototypeEngine\PrototypeEngine\Component.cpp(123,54): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\C++Files\PrototypeEngine\PrototypeEngine\Component.cpp(123,54): warning C4056: 浮動小数点数の定数演算でオーバーフローしました。
+C:\C++Files\PrototypeEngine\PrototypeEngine\Component.cpp(123,44): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\C++Files\PrototypeEngine\PrototypeEngine\Component.cpp(123,44): warning C4056: 浮動小数点数の定数演算でオーバーフローしました。
+  コンパイル中...
   ComponentFactory.cpp
 C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(80,12): warning C4251: 'Component::mName': 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
   (ソース ファイル 'ComponentFactory.cpp' をコンパイルしています)
@@ -201,19 +218,40 @@ C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\S
       C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
       'SDL_VERSION' は以前にコマンド ラインで宣言されています
   
-C:\C++Files\PrototypeEngine\PrototypeEngine\PhysWorld.h(62,58): warning C4099: 'OBB': タイプ名は最初 'struct' として使われていましたが 'class' として使われています。
+C:\C++Files\PrototypeEngine\PrototypeEngine\PhysWorld.h(56,58): warning C4099: 'OBB': タイプ名は最初 'struct' として使われていましたが 'class' として使われています。
   (ソース ファイル 'ComponentFactory.cpp' をコンパイルしています)
       C:\C++Files\PrototypeEngine\PrototypeEngine\Collision.h(64,8):
       'OBB' の宣言を確認してください
   
-C:\C++Files\PrototypeEngine\PrototypeEngine\PhysWorld.h(124,14): warning C4244: '初期化中': 'int' から 'float' への変換です。データが失われる可能性があります。
+C:\C++Files\PrototypeEngine\PrototypeEngine\PhysWorld.h(123,14): warning C4244: '初期化中': 'int' から 'float' への変換です。データが失われる可能性があります。
   (ソース ファイル 'ComponentFactory.cpp' をコンパイルしています)
   
-  コンパイル中...
   ConvertNumToString.cpp
+  CreateNewActorCommand.cpp
+C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(80,12): warning C4251: 'Component::mName': 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
+  (ソース ファイル 'CreateNewActorCommand.cpp' をコンパイルしています)
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(541,7):
+      'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' の宣言を確認してください
+  
+C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
+  (ソース ファイル 'CreateNewActorCommand.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
+      'SDL_VERSION' は以前にコマンド ラインで宣言されています
+  
   DebugGrid.cpp
 C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
   (ソース ファイル 'DebugGrid.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
+      'SDL_VERSION' は以前にコマンド ラインで宣言されています
+  
+  DeleteCommand.cpp
+C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(80,12): warning C4251: 'Component::mName': 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
+  (ソース ファイル 'DeleteCommand.cpp' をコンパイルしています)
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(541,7):
+      'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' の宣言を確認してください
+  
+C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
+  (ソース ファイル 'DeleteCommand.cpp' をコンパイルしています)
       C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
       'SDL_VERSION' は以前にコマンド ラインで宣言されています
   
@@ -234,11 +272,96 @@ C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\S
       C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
       'SDL_VERSION' は以前にコマンド ラインで宣言されています
   
+C:\C++Files\PrototypeEngine\PrototypeEngine\PhysWorld.h(56,58): warning C4099: 'OBB': タイプ名は最初 'struct' として使われていましたが 'class' として使われています。
+  (ソース ファイル 'DirectionalLightComponent.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\Collision.h(64,8):
+      'OBB' の宣言を確認してください
+  
+C:\C++Files\PrototypeEngine\PrototypeEngine\PhysWorld.h(123,14): warning C4244: '初期化中': 'int' から 'float' への変換です。データが失われる可能性があります。
+  (ソース ファイル 'DirectionalLightComponent.cpp' をコンパイルしています)
+  
+  EditorClipboard.cpp
+C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(80,12): warning C4251: 'Component::mName': 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
+  (ソース ファイル 'EditorClipboard.cpp' をコンパイルしています)
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(541,7):
+      'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' の宣言を確認してください
+  
   EditorMain.cpp
+C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(80,12): warning C4251: 'Component::mName': 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
+  (ソース ファイル 'EditorMain.cpp' をコンパイルしています)
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(541,7):
+      'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' の宣言を確認してください
+  
+C:\C++Files\PrototypeEngine\PrototypeEngine\PhysWorld.h(56,58): warning C4099: 'OBB': タイプ名は最初 'struct' として使われていましたが 'class' として使われています。
+  (ソース ファイル 'EditorMain.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\Collision.h(64,8):
+      'OBB' の宣言を確認してください
+  
+C:\C++Files\PrototypeEngine\PrototypeEngine\PhysWorld.h(123,14): warning C4244: '初期化中': 'int' から 'float' への変換です。データが失われる可能性があります。
+  (ソース ファイル 'EditorMain.cpp' をコンパイルしています)
+  
   EditorSettingsManager.cpp
   EditorTextureManager.cpp
 C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
   (ソース ファイル 'EditorTextureManager.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
+      'SDL_VERSION' は以前にコマンド ラインで宣言されています
+  
+C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(80,12): warning C4251: 'Component::mName': 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
+  (ソース ファイル 'EditorTextureManager.cpp' をコンパイルしています)
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(541,7):
+      'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' の宣言を確認してください
+  
+  IsLandPhysic.cpp
+C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(80,12): warning C4251: 'Component::mName': 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
+  (ソース ファイル 'IsLandPhysic.cpp' をコンパイルしています)
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(541,7):
+      'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' の宣言を確認してください
+  
+C:\C++Files\PrototypeEngine\PrototypeEngine\PhysWorld.h(56,58): warning C4099: 'OBB': タイプ名は最初 'struct' として使われていましたが 'class' として使われています。
+  (ソース ファイル 'IsLandPhysic.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\Collision.h(64,8):
+      'OBB' の宣言を確認してください
+  
+C:\C++Files\PrototypeEngine\PrototypeEngine\PhysWorld.h(123,14): warning C4244: '初期化中': 'int' から 'float' への変換です。データが失われる可能性があります。
+  (ソース ファイル 'IsLandPhysic.cpp' をコンパイルしています)
+  
+  PasteActorCommand.cpp
+C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(80,12): warning C4251: 'Component::mName': 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
+  (ソース ファイル 'PasteActorCommand.cpp' をコンパイルしています)
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(541,7):
+      'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' の宣言を確認してください
+  
+C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
+  (ソース ファイル 'PasteActorCommand.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
+      'SDL_VERSION' は以前にコマンド ラインで宣言されています
+  
+  RenameCommand.cpp
+C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(80,12): warning C4251: 'Component::mName': 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
+  (ソース ファイル 'RenameCommand.cpp' をコンパイルしています)
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(541,7):
+      'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' の宣言を確認してください
+  
+  ReorderCommand.cpp
+C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(80,12): warning C4251: 'Component::mName': 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
+  (ソース ファイル 'ReorderCommand.cpp' をコンパイルしています)
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(541,7):
+      'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' の宣言を確認してください
+  
+C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
+  (ソース ファイル 'ReorderCommand.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
+      'SDL_VERSION' は以前にコマンド ラインで宣言されています
+  
+  ReparentAndReorderCommand.cpp
+C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(80,12): warning C4251: 'Component::mName': 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
+  (ソース ファイル 'ReparentAndReorderCommand.cpp' をコンパイルしています)
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(541,7):
+      'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' の宣言を確認してください
+  
+C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
+  (ソース ファイル 'ReparentAndReorderCommand.cpp' をコンパイルしています)
       C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
       'SDL_VERSION' は以前にコマンド ラインで宣言されています
   
@@ -248,6 +371,14 @@ C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(80,12): warning C4251: '
   (ソース ファイル 'EngineWindow.cpp' をコンパイルしています)
       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(541,7):
       'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' の宣言を確認してください
+  
+C:\C++Files\PrototypeEngine\PrototypeEngine\PhysWorld.h(56,58): warning C4099: 'OBB': タイプ名は最初 'struct' として使われていましたが 'class' として使われています。
+  (ソース ファイル 'EngineWindow.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\Collision.h(64,8):
+      'OBB' の宣言を確認してください
+  
+C:\C++Files\PrototypeEngine\PrototypeEngine\PhysWorld.h(123,14): warning C4244: '初期化中': 'int' から 'float' への変換です。データが失われる可能性があります。
+  (ソース ファイル 'EngineWindow.cpp' をコンパイルしています)
   
 C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
   (ソース ファイル 'EngineWindow.cpp' をコンパイルしています)
@@ -274,6 +405,7 @@ C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(80,12): warning C4251: '
 C:\C++Files\PrototypeEngine\PrototypeEngine\Math.h(928,27): warning C4506: インライン関数 'Quaternion Quaternion::RotateTowards(const Quaternion &,const Quaternion &,float)' は定義されていません。
   (ソース ファイル 'FollowObjectMovement.cpp' をコンパイルしています)
   
+  コンパイル中...
   Font.cpp
 C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
   (ソース ファイル 'Font.cpp' をコンパイルしています)
@@ -291,12 +423,12 @@ C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(80,12): warning C4251: '
       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(541,7):
       'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' の宣言を確認してください
   
-C:\C++Files\PrototypeEngine\PrototypeEngine\PhysWorld.h(62,58): warning C4099: 'OBB': タイプ名は最初 'struct' として使われていましたが 'class' として使われています。
+C:\C++Files\PrototypeEngine\PrototypeEngine\PhysWorld.h(56,58): warning C4099: 'OBB': タイプ名は最初 'struct' として使われていましたが 'class' として使われています。
   (ソース ファイル 'FPSCanvas.cpp' をコンパイルしています)
       C:\C++Files\PrototypeEngine\PrototypeEngine\Collision.h(64,8):
       'OBB' の宣言を確認してください
   
-C:\C++Files\PrototypeEngine\PrototypeEngine\PhysWorld.h(124,14): warning C4244: '初期化中': 'int' から 'float' への変換です。データが失われる可能性があります。
+C:\C++Files\PrototypeEngine\PrototypeEngine\PhysWorld.h(123,14): warning C4244: '初期化中': 'int' から 'float' への変換です。データが失われる可能性があります。
   (ソース ファイル 'FPSCanvas.cpp' をコンパイルしています)
   
 C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
@@ -318,6 +450,19 @@ C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\S
       C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
       'SDL_VERSION' は以前にコマンド ラインで宣言されています
   
+C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(80,12): warning C4251: 'Component::mName': 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
+  (ソース ファイル 'GameViewPanel.cpp' をコンパイルしています)
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(541,7):
+      'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' の宣言を確認してください
+  
+C:\C++Files\PrototypeEngine\PrototypeEngine\PhysWorld.h(56,58): warning C4099: 'OBB': タイプ名は最初 'struct' として使われていましたが 'class' として使われています。
+  (ソース ファイル 'GameViewPanel.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\Collision.h(64,8):
+      'OBB' の宣言を確認してください
+  
+C:\C++Files\PrototypeEngine\PrototypeEngine\PhysWorld.h(123,14): warning C4244: '初期化中': 'int' から 'float' への変換です。データが失われる可能性があります。
+  (ソース ファイル 'GameViewPanel.cpp' をコンパイルしています)
+  
 C:\C++Files\PrototypeEngine\PrototypeEngine\GameViewPanel.cpp(54,92): warning C4244: '引数': 'int' から 'float' への変換です。データが失われる可能性があります。
 C:\C++Files\PrototypeEngine\PrototypeEngine\GameViewPanel.cpp(54,76): warning C4244: '引数': 'int' から 'float' への変換です。データが失われる可能性があります。
   GameWinMain.cpp
@@ -338,12 +483,29 @@ C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\S
       C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
       'SDL_VERSION' は以前にコマンド ラインで宣言されています
   
-  コンパイル中...
+C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(80,12): warning C4251: 'Component::mName': 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
+  (ソース ファイル 'GUIMainMenu.cpp' をコンパイルしています)
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(541,7):
+      'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' の宣言を確認してください
+  
+C:\C++Files\PrototypeEngine\PrototypeEngine\PhysWorld.h(56,58): warning C4099: 'OBB': タイプ名は最初 'struct' として使われていましたが 'class' として使われています。
+  (ソース ファイル 'GUIMainMenu.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\Collision.h(64,8):
+      'OBB' の宣言を確認してください
+  
+C:\C++Files\PrototypeEngine\PrototypeEngine\PhysWorld.h(123,14): warning C4244: '初期化中': 'int' から 'float' への変換です。データが失われる可能性があります。
+  (ソース ファイル 'GUIMainMenu.cpp' をコンパイルしています)
+  
   GUIPanel.cpp
 C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
   (ソース ファイル 'GUIPanel.cpp' をコンパイルしています)
       C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
       'SDL_VERSION' は以前にコマンド ラインで宣言されています
+  
+C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(80,12): warning C4251: 'Component::mName': 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
+  (ソース ファイル 'GUIPanel.cpp' をコンパイルしています)
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(541,7):
+      'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' の宣言を確認してください
   
   GUIWinMain.cpp
 C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
@@ -360,10 +522,10 @@ C:\C++Files\PrototypeEngine\PrototypeEngine\GUIWinMain.cpp(65,18): warning C4244
 C:\C++Files\PrototypeEngine\PrototypeEngine\GUIWinMain.cpp(66,19): warning C4244: '初期化中': 'float' から 'int' への変換です。データが失われる可能性があります。
 C:\C++Files\PrototypeEngine\PrototypeEngine\GUIWinMain.cpp(92,41): warning C4244: '引数': 'int' から 'float' への変換です。データが失われる可能性があります。
 C:\C++Files\PrototypeEngine\PrototypeEngine\GUIWinMain.cpp(92,28): warning C4244: '引数': 'int' から 'float' への変換です。データが失われる可能性があります。
-C:\C++Files\PrototypeEngine\PrototypeEngine\GUIWinMain.cpp(119,18): warning C4244: '初期化中': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\C++Files\PrototypeEngine\PrototypeEngine\GUIWinMain.cpp(120,19): warning C4244: '初期化中': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\C++Files\PrototypeEngine\PrototypeEngine\GUIWinMain.cpp(124,35): warning C4244: '引数': 'int' から 'float' への変換です。データが失われる可能性があります。
-C:\C++Files\PrototypeEngine\PrototypeEngine\GUIWinMain.cpp(124,22): warning C4244: '引数': 'int' から 'float' への変換です。データが失われる可能性があります。
+C:\C++Files\PrototypeEngine\PrototypeEngine\GUIWinMain.cpp(129,18): warning C4244: '初期化中': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\C++Files\PrototypeEngine\PrototypeEngine\GUIWinMain.cpp(130,19): warning C4244: '初期化中': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\C++Files\PrototypeEngine\PrototypeEngine\GUIWinMain.cpp(134,35): warning C4244: '引数': 'int' から 'float' への変換です。データが失われる可能性があります。
+C:\C++Files\PrototypeEngine\PrototypeEngine\GUIWinMain.cpp(134,22): warning C4244: '引数': 'int' から 'float' への変換です。データが失われる可能性があります。
   HierarchyPanel.cpp
 C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
   (ソース ファイル 'HierarchyPanel.cpp' をコンパイルしています)
@@ -381,6 +543,19 @@ C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\S
       C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
       'SDL_VERSION' は以前にコマンド ラインで宣言されています
   
+C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(80,12): warning C4251: 'Component::mName': 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
+  (ソース ファイル 'Image.cpp' をコンパイルしています)
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(541,7):
+      'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' の宣言を確認してください
+  
+C:\C++Files\PrototypeEngine\PrototypeEngine\PhysWorld.h(56,58): warning C4099: 'OBB': タイプ名は最初 'struct' として使われていましたが 'class' として使われています。
+  (ソース ファイル 'Image.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\Collision.h(64,8):
+      'OBB' の宣言を確認してください
+  
+C:\C++Files\PrototypeEngine\PrototypeEngine\PhysWorld.h(123,14): warning C4244: '初期化中': 'int' から 'float' への変換です。データが失われる可能性があります。
+  (ソース ファイル 'Image.cpp' をコンパイルしています)
+  
 C:\C++Files\PrototypeEngine\PrototypeEngine\Image.cpp(39,56): warning C4244: '=': 'float' から 'int' への変換です。データが失われる可能性があります。
 C:\C++Files\PrototypeEngine\PrototypeEngine\Image.cpp(40,57): warning C4244: '=': 'float' から 'int' への変換です。データが失われる可能性があります。
 C:\C++Files\PrototypeEngine\PrototypeEngine\Image.cpp(48,56): warning C4244: '=': 'float' から 'int' への変換です。データが失われる可能性があります。
@@ -390,6 +565,11 @@ C:\C++Files\PrototypeEngine\PrototypeEngine\Image.cpp(147,11): warning C4244: '�
 C:\C++Files\PrototypeEngine\PrototypeEngine\Image.cpp(148,11): warning C4244: '初期化中': 'int' から 'float' への変換です。データが失われる可能性があります。
 C:\C++Files\PrototypeEngine\PrototypeEngine\Image.cpp(149,11): warning C4244: '初期化中': 'int' から 'float' への変換です。データが失われる可能性があります。
   ImGuiHelper.cpp
+C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(80,12): warning C4251: 'Component::mName': 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
+  (ソース ファイル 'ImGuiHelper.cpp' をコンパイルしています)
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(541,7):
+      'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' の宣言を確認してください
+  
   imgui.cpp
   imgui_demo.cpp
   imgui_draw.cpp
@@ -401,8 +581,22 @@ C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\S
       'SDL_VERSION' は以前にコマンド ラインで宣言されています
   
   imgui_tables.cpp
+  コンパイル中...
   imgui_widgets.cpp
   InputSystem.cpp
+C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(80,12): warning C4251: 'Component::mName': 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
+  (ソース ファイル 'InputSystem.cpp' をコンパイルしています)
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(541,7):
+      'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' の宣言を確認してください
+  
+C:\C++Files\PrototypeEngine\PrototypeEngine\PhysWorld.h(56,58): warning C4099: 'OBB': タイプ名は最初 'struct' として使われていましたが 'class' として使われています。
+  (ソース ファイル 'InputSystem.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\Collision.h(64,8):
+      'OBB' の宣言を確認してください
+  
+C:\C++Files\PrototypeEngine\PrototypeEngine\PhysWorld.h(123,14): warning C4244: '初期化中': 'int' から 'float' への変換です。データが失われる可能性があります。
+  (ソース ファイル 'InputSystem.cpp' をコンパイルしています)
+  
 C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
   (ソース ファイル 'InputSystem.cpp' をコンパイルしています)
       C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
@@ -421,6 +615,11 @@ C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\S
       C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
       'SDL_VERSION' は以前にコマンド ラインで宣言されています
   
+C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(80,12): warning C4251: 'Component::mName': 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
+  (ソース ファイル 'Mesh.cpp' をコンパイルしています)
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(541,7):
+      'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' の宣言を確認してください
+  
 C:\C++Files\PrototypeEngine\PrototypeEngine\Mesh.cpp(145,22): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
 C:\C++Files\PrototypeEngine\PrototypeEngine\Mesh.cpp(410,22): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
   MeshRenderer.cpp
@@ -433,6 +632,14 @@ C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\S
   (ソース ファイル 'MeshRenderer.cpp' をコンパイルしています)
       C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
       'SDL_VERSION' は以前にコマンド ラインで宣言されています
+  
+C:\C++Files\PrototypeEngine\PrototypeEngine\PhysWorld.h(56,58): warning C4099: 'OBB': タイプ名は最初 'struct' として使われていましたが 'class' として使われています。
+  (ソース ファイル 'MeshRenderer.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\Collision.h(64,8):
+      'OBB' の宣言を確認してください
+  
+C:\C++Files\PrototypeEngine\PrototypeEngine\PhysWorld.h(123,14): warning C4244: '初期化中': 'int' から 'float' への変換です。データが失われる可能性があります。
+  (ソース ファイル 'MeshRenderer.cpp' をコンパイルしています)
   
   ActorManager.cpp
 C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(80,12): warning C4251: 'Component::mName': 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
@@ -451,6 +658,14 @@ C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\S
       C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
       'SDL_VERSION' は以前にコマンド ラインで宣言されています
   
+C:\C++Files\PrototypeEngine\PrototypeEngine\PhysWorld.h(56,58): warning C4099: 'OBB': タイプ名は最初 'struct' として使われていましたが 'class' として使われています。
+  (ソース ファイル 'ParticleSystem.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\Collision.h(64,8):
+      'OBB' の宣言を確認してください
+  
+C:\C++Files\PrototypeEngine\PrototypeEngine\PhysWorld.h(123,14): warning C4244: '初期化中': 'int' から 'float' への変換です。データが失われる可能性があります。
+  (ソース ファイル 'ParticleSystem.cpp' をコンパイルしています)
+  
   PauseMenu.cpp
 C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
   (ソース ファイル 'PauseMenu.cpp' をコンパイルしています)
@@ -463,12 +678,12 @@ C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(80,12): warning C4251: '
       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(541,7):
       'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' の宣言を確認してください
   
-C:\C++Files\PrototypeEngine\PrototypeEngine\PhysWorld.h(62,58): warning C4099: 'OBB': タイプ名は最初 'struct' として使われていましたが 'class' として使われています。
+C:\C++Files\PrototypeEngine\PrototypeEngine\PhysWorld.h(56,58): warning C4099: 'OBB': タイプ名は最初 'struct' として使われていましたが 'class' として使われています。
   (ソース ファイル 'PhysWorld.cpp' をコンパイルしています)
       C:\C++Files\PrototypeEngine\PrototypeEngine\Collision.h(64,8):
       'OBB' の宣言を確認してください
   
-C:\C++Files\PrototypeEngine\PrototypeEngine\PhysWorld.h(124,14): warning C4244: '初期化中': 'int' から 'float' への変換です。データが失われる可能性があります。
+C:\C++Files\PrototypeEngine\PrototypeEngine\PhysWorld.h(123,14): warning C4244: '初期化中': 'int' から 'float' への変換です。データが失われる可能性があります。
   (ソース ファイル 'PhysWorld.cpp' をコンパイルしています)
   
 C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
@@ -476,12 +691,16 @@ C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\S
       C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
       'SDL_VERSION' は以前にコマンド ラインで宣言されています
   
-  コンパイル中...
   ProjectPanel.cpp
 C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
   (ソース ファイル 'ProjectPanel.cpp' をコンパイルしています)
       C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
       'SDL_VERSION' は以前にコマンド ラインで宣言されています
+  
+C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(80,12): warning C4251: 'Component::mName': 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
+  (ソース ファイル 'ProjectPanel.cpp' をコンパイルしています)
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(541,7):
+      'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' の宣言を確認してください
   
   PushButtonMove.cpp
 C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(80,12): warning C4251: 'Component::mName': 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
@@ -501,32 +720,32 @@ C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(80,12): warning C4251: '
       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(541,7):
       'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' の宣言を確認してください
   
-C:\C++Files\PrototypeEngine\PrototypeEngine\PhysWorld.h(62,58): warning C4099: 'OBB': タイプ名は最初 'struct' として使われていましたが 'class' として使われています。
+C:\C++Files\PrototypeEngine\PrototypeEngine\PhysWorld.h(56,58): warning C4099: 'OBB': タイプ名は最初 'struct' として使われていましたが 'class' として使われています。
   (ソース ファイル 'Renderer.cpp' をコンパイルしています)
       C:\C++Files\PrototypeEngine\PrototypeEngine\Collision.h(64,8):
       'OBB' の宣言を確認してください
   
-C:\C++Files\PrototypeEngine\PrototypeEngine\PhysWorld.h(124,14): warning C4244: '初期化中': 'int' から 'float' への変換です。データが失われる可能性があります。
+C:\C++Files\PrototypeEngine\PrototypeEngine\PhysWorld.h(123,14): warning C4244: '初期化中': 'int' から 'float' への変換です。データが失われる可能性があります。
   (ソース ファイル 'Renderer.cpp' をコンパイルしています)
   
-C:\C++Files\PrototypeEngine\PrototypeEngine\Renderer.cpp(199,27): warning C4267: '引数': 'size_t' から 'unsigned int' に変換しました。データが失われているかもしれません。
-C:\C++Files\PrototypeEngine\PrototypeEngine\Renderer.cpp(196,28): warning C4267: '引数': 'size_t' から 'unsigned int' に変換しました。データが失われているかもしれません。
-C:\C++Files\PrototypeEngine\PrototypeEngine\Renderer.cpp(212,27): warning C4267: '引数': 'size_t' から 'unsigned int' に変換しました。データが失われているかもしれません。
-C:\C++Files\PrototypeEngine\PrototypeEngine\Renderer.cpp(209,28): warning C4267: '引数': 'size_t' から 'unsigned int' に変換しました。データが失われているかもしれません。
-C:\C++Files\PrototypeEngine\PrototypeEngine\Renderer.cpp(546,74): warning C4244: '引数': 'float' から 'GLsizei' への変換です。データが失われる可能性があります。
-C:\C++Files\PrototypeEngine\PrototypeEngine\Renderer.cpp(546,38): warning C4244: '引数': 'float' から 'GLsizei' への変換です。データが失われる可能性があります。
+C:\C++Files\PrototypeEngine\PrototypeEngine\Renderer.cpp(200,27): warning C4267: '引数': 'size_t' から 'unsigned int' に変換しました。データが失われているかもしれません。
+C:\C++Files\PrototypeEngine\PrototypeEngine\Renderer.cpp(197,28): warning C4267: '引数': 'size_t' から 'unsigned int' に変換しました。データが失われているかもしれません。
+C:\C++Files\PrototypeEngine\PrototypeEngine\Renderer.cpp(213,27): warning C4267: '引数': 'size_t' から 'unsigned int' に変換しました。データが失われているかもしれません。
+C:\C++Files\PrototypeEngine\PrototypeEngine\Renderer.cpp(210,28): warning C4267: '引数': 'size_t' から 'unsigned int' に変換しました。データが失われているかもしれません。
+C:\C++Files\PrototypeEngine\PrototypeEngine\Renderer.cpp(547,74): warning C4244: '引数': 'float' から 'GLsizei' への変換です。データが失われる可能性があります。
+C:\C++Files\PrototypeEngine\PrototypeEngine\Renderer.cpp(547,38): warning C4244: '引数': 'float' から 'GLsizei' への変換です。データが失われる可能性があります。
   Rigidbody.cpp
 C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(80,12): warning C4251: 'Component::mName': 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
   (ソース ファイル 'Rigidbody.cpp' をコンパイルしています)
       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(541,7):
       'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' の宣言を確認してください
   
-C:\C++Files\PrototypeEngine\PrototypeEngine\PhysWorld.h(62,58): warning C4099: 'OBB': タイプ名は最初 'struct' として使われていましたが 'class' として使われています。
+C:\C++Files\PrototypeEngine\PrototypeEngine\PhysWorld.h(56,58): warning C4099: 'OBB': タイプ名は最初 'struct' として使われていましたが 'class' として使われています。
   (ソース ファイル 'Rigidbody.cpp' をコンパイルしています)
       C:\C++Files\PrototypeEngine\PrototypeEngine\Collision.h(64,8):
       'OBB' の宣言を確認してください
   
-C:\C++Files\PrototypeEngine\PrototypeEngine\PhysWorld.h(124,14): warning C4244: '初期化中': 'int' から 'float' への変換です。データが失われる可能性があります。
+C:\C++Files\PrototypeEngine\PrototypeEngine\PhysWorld.h(123,14): warning C4244: '初期化中': 'int' から 'float' への変換です。データが失われる可能性があります。
   (ソース ファイル 'Rigidbody.cpp' をコンパイルしています)
   
 C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
@@ -546,6 +765,19 @@ C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\S
       'SDL_VERSION' は以前にコマンド ラインで宣言されています
   
   SceneManager.cpp
+C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(80,12): warning C4251: 'Component::mName': 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
+  (ソース ファイル 'SceneManager.cpp' をコンパイルしています)
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(541,7):
+      'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' の宣言を確認してください
+  
+C:\C++Files\PrototypeEngine\PrototypeEngine\PhysWorld.h(56,58): warning C4099: 'OBB': タイプ名は最初 'struct' として使われていましたが 'class' として使われています。
+  (ソース ファイル 'SceneManager.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\Collision.h(64,8):
+      'OBB' の宣言を確認してください
+  
+C:\C++Files\PrototypeEngine\PrototypeEngine\PhysWorld.h(123,14): warning C4244: '初期化中': 'int' から 'float' への変換です。データが失われる可能性があります。
+  (ソース ファイル 'SceneManager.cpp' をコンパイルしています)
+  
 C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
   (ソース ファイル 'SceneManager.cpp' をコンパイルしています)
       C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
@@ -572,6 +804,19 @@ C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\S
       C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
       'SDL_VERSION' は以前にコマンド ラインで宣言されています
   
+C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(80,12): warning C4251: 'Component::mName': 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
+  (ソース ファイル 'SceneViewPanel.cpp' をコンパイルしています)
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(541,7):
+      'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' の宣言を確認してください
+  
+C:\C++Files\PrototypeEngine\PrototypeEngine\PhysWorld.h(56,58): warning C4099: 'OBB': タイプ名は最初 'struct' として使われていましたが 'class' として使われています。
+  (ソース ファイル 'SceneViewPanel.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\Collision.h(64,8):
+      'OBB' の宣言を確認してください
+  
+C:\C++Files\PrototypeEngine\PrototypeEngine\PhysWorld.h(123,14): warning C4244: '初期化中': 'int' から 'float' への変換です。データが失われる可能性があります。
+  (ソース ファイル 'SceneViewPanel.cpp' をコンパイルしています)
+  
 C:\C++Files\PrototypeEngine\PrototypeEngine\SceneViewPanel.cpp(40,88): warning C4244: '引数': 'int' から 'float' への変換です。データが失われる可能性があります。
 C:\C++Files\PrototypeEngine\PrototypeEngine\SceneViewPanel.cpp(40,72): warning C4244: '引数': 'int' から 'float' への変換です。データが失われる可能性があります。
   InspectorPanel.cpp
@@ -590,6 +835,7 @@ C:\C++Files\PrototypeEngine\PrototypeEngine\ComponentFactory.h(18,44): warning C
       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\map(72,7):
       'std::map<string,ComponentCreator,std::less<string>,std::allocator<std::pair<const string,ComponentCreator>>>' の宣言を確認してください
   
+  コンパイル中...
   ScriptComponent.cpp
 C:\C++Files\PrototypeEngine\PrototypeEngine\SDL_Scancode.h(143,9): warning C4005: 'KEY_EXECUTE': マクロが再定義されました。
   (ソース ファイル 'ScriptComponent.cpp' をコンパイルしています)
@@ -684,6 +930,17 @@ C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\S
       'SDL_VERSION' は以前にコマンド ラインで宣言されています
   
 C:\C++Files\PrototypeEngine\PrototypeEngine\ScriptHotReloadManager.cpp(435,38): warning C4267: '引数': 'size_t' から 'int' に変換しました。データが失われているかもしれません。
+  SelectionManager.cpp
+C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
+  (ソース ファイル 'SelectionManager.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
+      'SDL_VERSION' は以前にコマンド ラインで宣言されています
+  
+C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(80,12): warning C4251: 'Component::mName': 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
+  (ソース ファイル 'SelectionManager.cpp' をコンパイルしています)
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(541,7):
+      'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' の宣言を確認してください
+  
   Shader.cpp
 C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
   (ソース ファイル 'Shader.cpp' をコンパイルしています)
@@ -701,6 +958,14 @@ C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\S
   (ソース ファイル 'SkeletalMeshRenderer.cpp' をコンパイルしています)
       C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
       'SDL_VERSION' は以前にコマンド ラインで宣言されています
+  
+C:\C++Files\PrototypeEngine\PrototypeEngine\PhysWorld.h(56,58): warning C4099: 'OBB': タイプ名は最初 'struct' として使われていましたが 'class' として使われています。
+  (ソース ファイル 'SkeletalMeshRenderer.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\Collision.h(64,8):
+      'OBB' の宣言を確認してください
+  
+C:\C++Files\PrototypeEngine\PrototypeEngine\PhysWorld.h(123,14): warning C4244: '初期化中': 'int' から 'float' への変換です。データが失われる可能性があります。
+  (ソース ファイル 'SkeletalMeshRenderer.cpp' をコンパイルしています)
   
   Skeleton.cpp
 C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(80,12): warning C4251: 'Component::mName': 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
@@ -720,12 +985,12 @@ C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(80,12): warning C4251: '
       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(541,7):
       'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' の宣言を確認してください
   
-C:\C++Files\PrototypeEngine\PrototypeEngine\PhysWorld.h(62,58): warning C4099: 'OBB': タイプ名は最初 'struct' として使われていましたが 'class' として使われています。
+C:\C++Files\PrototypeEngine\PrototypeEngine\PhysWorld.h(56,58): warning C4099: 'OBB': タイプ名は最初 'struct' として使われていましたが 'class' として使われています。
   (ソース ファイル 'SoundEventClip.cpp' をコンパイルしています)
       C:\C++Files\PrototypeEngine\PrototypeEngine\Collision.h(64,8):
       'OBB' の宣言を確認してください
   
-C:\C++Files\PrototypeEngine\PrototypeEngine\PhysWorld.h(124,14): warning C4244: '初期化中': 'int' から 'float' への変換です。データが失われる可能性があります。
+C:\C++Files\PrototypeEngine\PrototypeEngine\PhysWorld.h(123,14): warning C4244: '初期化中': 'int' から 'float' への変換です。データが失われる可能性があります。
   (ソース ファイル 'SoundEventClip.cpp' をコンパイルしています)
   
   SphereCollider.cpp
@@ -734,7 +999,6 @@ C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(80,12): warning C4251: '
       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(541,7):
       'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' の宣言を確認してください
   
-  コンパイル中...
   stb_impl.cpp
   TargetComponent.cpp
 C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(80,12): warning C4251: 'Component::mName': 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
@@ -742,12 +1006,12 @@ C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(80,12): warning C4251: '
       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(541,7):
       'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' の宣言を確認してください
   
-C:\C++Files\PrototypeEngine\PrototypeEngine\PhysWorld.h(62,58): warning C4099: 'OBB': タイプ名は最初 'struct' として使われていましたが 'class' として使われています。
+C:\C++Files\PrototypeEngine\PrototypeEngine\PhysWorld.h(56,58): warning C4099: 'OBB': タイプ名は最初 'struct' として使われていましたが 'class' として使われています。
   (ソース ファイル 'TargetComponent.cpp' をコンパイルしています)
       C:\C++Files\PrototypeEngine\PrototypeEngine\Collision.h(64,8):
       'OBB' の宣言を確認してください
   
-C:\C++Files\PrototypeEngine\PrototypeEngine\PhysWorld.h(124,14): warning C4244: '初期化中': 'int' から 'float' への変換です。データが失われる可能性があります。
+C:\C++Files\PrototypeEngine\PrototypeEngine\PhysWorld.h(123,14): warning C4244: '初期化中': 'int' から 'float' への変換です。データが失われる可能性があります。
   (ソース ファイル 'TargetComponent.cpp' をコンパイルしています)
   
   Text.cpp
@@ -785,7 +1049,25 @@ C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\S
       C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
       'SDL_VERSION' は以前にコマンド ラインで宣言されています
   
+C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(80,12): warning C4251: 'Component::mName': 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
+  (ソース ファイル 'ToolbarPanel.cpp' をコンパイルしています)
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(541,7):
+      'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' の宣言を確認してください
+  
   TPSCanvas.cpp
+C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(80,12): warning C4251: 'Component::mName': 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
+  (ソース ファイル 'TPSCanvas.cpp' をコンパイルしています)
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(541,7):
+      'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' の宣言を確認してください
+  
+C:\C++Files\PrototypeEngine\PrototypeEngine\PhysWorld.h(56,58): warning C4099: 'OBB': タイプ名は最初 'struct' として使われていましたが 'class' として使われています。
+  (ソース ファイル 'TPSCanvas.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\Collision.h(64,8):
+      'OBB' の宣言を確認してください
+  
+C:\C++Files\PrototypeEngine\PrototypeEngine\PhysWorld.h(123,14): warning C4244: '初期化中': 'int' から 'float' への変換です。データが失われる可能性があります。
+  (ソース ファイル 'TPSCanvas.cpp' をコンパイルしています)
+  
 C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
   (ソース ファイル 'TPSCanvas.cpp' をコンパイルしています)
       C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
@@ -798,6 +1080,7 @@ C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(80,12): warning C4251: '
       'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' の宣言を確認してください
   
   VertexArray.cpp
+  コンパイル中...
   WindowRenderProperty.cpp
 LINK : warning LNK4075: /INCREMENTAL は /LTCG の指定によって無視されます。
      ライブラリ C:\C++Files\PrototypeEngine\bin\PrototypeEngine.lib とオブジェクト C:\C++Files\PrototypeEngine\bin\PrototypeEngine.exp を作成中
@@ -807,6 +1090,6 @@ LINK : warning LNK4098: defaultlib 'LIBCMT' は他のライブラリの使用と
 C:\C++Files\PrototypeEngine\PrototypeEngine\SceneManager.cpp(126): warning C4172: ローカル変数またはテンポラリ  のアドレスを返します
 C:\C++Files\PrototypeEngine\PrototypeEngine\ScriptEditManager.cpp(165): warning C4715: '`ScriptEditManager::AddScriptFileToVcxProj'::`2'::<lambda_1>::operator()': 値を返さないコントロール パスがあります。
 C:\C++Files\PrototypeEngine\PrototypeEngine\Actor.h(50): warning C4715: 'ActorInformation::GetStateName': 値を返さないコントロール パスがあります。
-  All 13885 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  All 14948 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
   コード生成が終了しました。
   PrototypeEngine.vcxproj -> C:\C++Files\PrototypeEngine\bin\PrototypeEngine.exe

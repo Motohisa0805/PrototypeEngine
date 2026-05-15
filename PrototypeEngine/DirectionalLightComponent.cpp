@@ -136,3 +136,12 @@ void DirectionalLightComponent::DrawCustomGUI(const std::vector<PropertyInfo>& p
 
     ImGui::PopID();
 }
+
+Component* DirectionalLightComponent::Clone(ActorObject* newOwner) const
+{
+    DirectionalLightComponent* clone = new DirectionalLightComponent(newOwner);
+
+    clone->mDirectionalLight = this->mDirectionalLight;
+
+    return clone;
+}

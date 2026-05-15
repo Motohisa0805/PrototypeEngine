@@ -260,3 +260,19 @@ void MeshRenderer::DrawCustomGUI(const std::vector<PropertyInfo>& properties)
 
 	ImGui::PopID();
 }
+
+Component* MeshRenderer::Clone(ActorObject* newOwner) const
+{
+	// 1. 新しいオーナーを指定して、自分と同じ型のインスタンスを new する
+	MeshRenderer* clone = new MeshRenderer(newOwner);
+
+	// 2. 自身のパラメータ（値やリソースへのポインタ）をコピーする
+	clone->mVisible = this->mVisible;
+	clone->mFilePath = this->mFilePath;
+	clone->mAlpha = this->mAlpha;
+	clone->mShadowFrag = this->mShadowFrag;
+	clone->mMeshs = this->mMeshs;
+	clone->mIsSkeletal = this->mIsSkeletal;
+
+	return clone;
+}

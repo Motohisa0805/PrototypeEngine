@@ -14,11 +14,8 @@ public:
     {
         if (!target) return;
 
-        // 古いバッファがあれば消す
-        if (mCopiedActorBuffer) { delete mCopiedActorBuffer; }
-
-        // 【重要】ポインタのコピーではなく、中身を複製（ディープコピー）して保持する
-        mCopiedActorBuffer = target->Clone();
+        // 【重要】ポインタのコピーを複製して保持する
+        mCopiedActorBuffer = target;
     }
 
     static ActorObject* GetCopiedActor() { return mCopiedActorBuffer; }

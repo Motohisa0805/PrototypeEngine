@@ -30,6 +30,7 @@ C:\C++Files\PrototypeEngine\PrototypeEngine\EditorMain.cpp;C:\C++Files\Prototype
 C:\C++Files\PrototypeEngine\PrototypeEngine\EditorSettingsManager.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\EditorSettingsManager.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\EditorTextureManager.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\EditorTextureManager.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\IsLandPhysic.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\IsLandPhysic.obj
+C:\C++Files\PrototypeEngine\PrototypeEngine\PasteActorCommand.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\PasteActorCommand.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\RenameCommand.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\RenameCommand.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\ReorderCommand.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\ReorderCommand.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\ReparentAndReorderCommand.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\ReparentAndReorderCommand.obj

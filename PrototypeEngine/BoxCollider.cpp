@@ -125,3 +125,18 @@ void BoxCollider::DrawCustomGUI(const std::vector<PropertyInfo>& properties)
 
 	ImGui::PopID();
 }
+
+Component* BoxCollider::Clone(ActorObject* newOwner) const
+{
+	BoxCollider* clone = new BoxCollider(newOwner);
+
+	clone->mWorldOBB = this->mWorldOBB;
+	clone->mWorldAABB = this->mWorldAABB;
+	clone->mIsCollider = this->mIsCollider;
+	clone->mContactOffset = this->mContactOffset;
+
+	clone->mObjectAABB = this->mObjectAABB;
+	clone->mObjectOBB = this->mObjectOBB;
+	clone->mShouldRotate = this->mShouldRotate;
+	return clone;
+}
