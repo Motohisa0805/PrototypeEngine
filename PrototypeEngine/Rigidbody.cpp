@@ -462,3 +462,36 @@ void Rigidbody::DrawCustomGUI(const std::vector<PropertyInfo>& properties)
 
     ImGui::Separator();
 }
+
+Component* Rigidbody::Clone(ActorObject* newOwner) const
+{
+    Rigidbody* clone = new Rigidbody(newOwner);
+
+    clone->mUseGravity = this->mUseGravity;
+    clone->mIsPrivateUseGravityScale = this->mIsPrivateUseGravityScale;
+    clone->mGravityScale = this->mGravityScale;
+    clone->mMass = this->mMass;
+    clone->mVelocity = this->mVelocity;
+    clone->mForces = this->mForces;
+    clone->mFriction = this->mFriction;
+    clone->mBounciness = this->mBounciness;
+    clone->mIsGrounded = this->mIsGrounded;
+
+    //剛体運動に必要な変数(念のため追加)
+    clone->mAngularVelocity = this->mAngularVelocity;
+    clone->mTorques = this->mTorques;
+    clone->mInertia = this->mInertia;
+    clone->mAngularDamping = this->mAngularDamping;
+    clone->mLinearDamping = this->mLinearDamping;
+    clone->mInverseInertiaTensorW = this->mInverseInertiaTensorW;
+    clone->mInverseInertiaTensorL = this->mInverseInertiaTensorL;
+    clone->mShapeType = this->mShapeType;
+    clone->mTempPosition = this->mTempPosition;
+    clone->mIsSleeping = this->mIsSleeping;
+    clone->mSleepTimer = this->mSleepTimer;
+    clone->mSleepThreshold = this->mSleepThreshold;
+    clone->mIsInActiveList = this->mIsInActiveList;
+
+
+    return clone;
+}

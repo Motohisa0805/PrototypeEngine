@@ -281,3 +281,9 @@ void SkeletalMeshRenderer::DrawCustomGUI(const std::vector<PropertyInfo>& proper
 
 	ImGui::Separator();
 }
+
+Component* SkeletalMeshRenderer::Clone(ActorObject* newOwner) const
+{
+
+	return nullptr;
+}

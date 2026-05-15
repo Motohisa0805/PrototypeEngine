@@ -112,3 +112,13 @@ void AudioComponent::DrawCustomGUI(const std::vector<PropertyInfo>& properties)
 
 
 }
+
+Component* AudioComponent::Clone(ActorObject* newOwner) const
+{
+	AudioComponent* clone = new AudioComponent(newOwner);
+
+	clone->mEvents2D = this->mEvents2D;
+	clone->mEvents3D = this->mEvents3D;
+
+	return clone;
+}

@@ -69,3 +69,18 @@ void SphereCollider::DrawCustomGUI(const std::vector<PropertyInfo>& properties)
 
 	ImGui::PopID();
 }
+
+Component* SphereCollider::Clone(ActorObject* newOwner) const
+{
+	SphereCollider* clone = new SphereCollider(newOwner);
+
+	clone->mWorldOBB = this->mWorldOBB;
+	clone->mWorldAABB = this->mWorldAABB;
+	clone->mIsCollider = this->mIsCollider;
+	clone->mContactOffset = this->mContactOffset;
+
+	clone->mObjectSphere = this->mObjectSphere;
+	clone->mWorldSphere = this->mWorldSphere;
+	clone->mShouldRotate = this->mShouldRotate;
+	return clone;
+}

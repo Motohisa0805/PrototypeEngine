@@ -7,6 +7,7 @@
 #include "ReorderCommand.h"
 #include "ReparentAndReorderCommand.h"
 #include "CreateNewActorCommand.h"
+#include "PasteActorCommand.h"
 
 //Undo/Redo‚ÌŽi—ß“ƒ
 class CommandManager

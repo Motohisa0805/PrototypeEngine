@@ -514,6 +514,9 @@
     <ClCompile Include="EditorClipboard.cpp">
       <Filter>SourceCodes\A_Editor\Function\GUIs\EditorClipboard</Filter>
     </ClCompile>
+    <ClCompile Include="PasteActorCommand.cpp">
+      <Filter>SourceCodes\A_Editor\Function\GUIs\Commands</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BasicInputAction.h">
@@ -852,9 +855,6 @@
     <ClInclude Include="RenameCommand.h">
       <Filter>SourceCodes\A_Editor\Function\GUIs\Commands</Filter>
     </ClInclude>
-    <ClInclude Include="DeleteCommand.h">
-      <Filter>SourceCodes\A_Editor\Function\GUIs\Commands</Filter>
-    </ClInclude>
     <ClInclude Include="CreateNewActorCommand.h">
       <Filter>SourceCodes\A_Editor\Function\GUIs\Commands</Filter>
     </ClInclude>
@@ -863,6 +863,12 @@
     </ClInclude>
     <ClInclude Include="EditorClipboard.h">
       <Filter>SourceCodes\A_Editor\Function\GUIs\EditorClipboard</Filter>
+    </ClInclude>
+    <ClInclude Include="DeleteCommand.h">
+      <Filter>SourceCodes\A_Editor\Function\GUIs\Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="PasteActorCommand.h">
+      <Filter>SourceCodes\A_Editor\Function\GUIs\Commands</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

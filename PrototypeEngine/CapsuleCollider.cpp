@@ -86,3 +86,19 @@ void CapsuleCollider::DrawCustomGUI(const std::vector<PropertyInfo>& properties)
 
     ImGui::PopID();
 }
+
+Component* CapsuleCollider::Clone(ActorObject* newOwner) const
+{
+    CapsuleCollider* clone = new CapsuleCollider(newOwner);
+
+    clone->mWorldOBB = this->mWorldOBB;
+    clone->mWorldAABB = this->mWorldAABB;
+    clone->mIsCollider = this->mIsCollider;
+    clone->mContactOffset = this->mContactOffset;
+
+    clone->mObjectCapsule = this->mObjectCapsule;
+    clone->mWorldCapsule = this->mWorldCapsule;
+    clone->mShouldRotate = this->mShouldRotate;
+
+    return clone;
+}

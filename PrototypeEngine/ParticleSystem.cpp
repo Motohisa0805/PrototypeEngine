@@ -320,3 +320,24 @@ void ParticleSystem::DrawCustomGUI(const std::vector<PropertyInfo>& properties)
 
 	ImGui::PopID();
 }
+
+Component* ParticleSystem::Clone(ActorObject* newOwner) const
+{
+	ParticleSystem* clone = new ParticleSystem(newOwner);
+
+	clone->mParticle = this->mParticle;
+	clone->mParticleTexture = this->mParticleTexture;
+	clone->mIsAlphaFade = this->mIsAlphaFade;
+	clone->mIsLoop = this->mIsLoop;
+	clone->mVisible = this->mVisible;
+	clone->mIsDestroyed = this->mIsDestroyed;
+	clone->mMaxParticleCount = this->mMaxParticleCount;
+	clone->mParticleLifeTime = this->mParticleLifeTime;
+	clone->mParticleAllLifeTime = this->mParticleAllLifeTime;
+	clone->mParticleEmitSpeed = this->mParticleEmitSpeed;
+	clone->mParticleMaxSize = this->mParticleMaxSize;
+	clone->mEmitInterval = this->mEmitInterval;
+	clone->mEmitTimer = this->mEmitTimer;
+
+	return clone;
+}

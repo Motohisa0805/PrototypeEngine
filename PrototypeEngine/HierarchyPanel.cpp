@@ -57,6 +57,26 @@ void HierarchyPanel::Draw(float width, float height, ImTextureRef ref)
 		// 2. パネルを右クリックしたときのメニュー
 		// ----------------------------------------------------------------
 		RightClickMenu();
+
+		// --- コピー (Ctrl + C) ---
+		if (ImGui::IsKeyDown(ImGuiKey_LeftCtrl) && ImGui::IsKeyPressed(ImGuiKey_C))
+		{
+			if (SelectionManager::GetSelectedActor())
+			{
+				EditorClipboard::Copy(SelectionManager::GetSelectedActor());
+			}
+		}
+
+		// --- ペースト (Ctrl + V) ---
+		if (ImGui::IsKeyDown(ImGuiKey_LeftCtrl) && ImGui::IsKeyPressed(ImGuiKey_V))
+		{
+			if (EditorClipboard::HasCopiedActor())
+			{
+				// ペーストはシーンが変わるのでコマンドを介して実行
+				auto cmd = std::make_unique<PasteActorCommand>();
+				CommandManager::Execute(std::move(cmd));
+			}
+		}
 	}
 	ImGui::End();
 }
@@ -167,7 +187,7 @@ void HierarchyPanel::DrawActorNode(ActorObject* actor)
 						// 上部ならその位置、下部なら次の位置
 						size_t toIndex = (mouseClickY < nodeRectMinY + nodeHeight * 0.25f) ? targetIndex : targetIndex + 1;
 
-						// ※同じ親の中で後ろに動かす場合は、挿入位置モデルの仕様に合わせてインデックスを調整するロジックが必要あり、
+						// 同じ親の中で後ろに動かす場合は、挿入位置モデルの仕様に合わせてインデックスを調整するロジックが必要あり、
 						// 別階層からの移動であれば、現在は問題はなし。
 						auto cmd = std::make_unique<ReparentAndReorderCommand>(draggedActor, desiredParent, toIndex);
 						CommandManager::Execute(std::move(cmd));

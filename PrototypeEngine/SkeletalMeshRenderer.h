@@ -42,4 +42,6 @@ public:
 	void							Deserialize(const json& j)override;
 
 	void							DrawCustomGUI(const std::vector<PropertyInfo>& properties)override;
+
+	Component*						Clone(ActorObject* newOwner) const override;
 };
