@@ -8,7 +8,8 @@ class DeleteCommand : public ICommand
 {
 private:
 	// 削除対象のアクター
-	ActorObject*	mTarget;	
+	uint64_t		mTargetID;
+	ActorObject*	mTarget;
 	//現在シーンに存在するかどうかのフラグ
 	bool			mIsActiveInScene;
 public:

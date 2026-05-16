@@ -7,15 +7,12 @@
 class ReparentAndReorderCommand : public ICommand
 {
 private:
-	ActorObject*	mTarget;
+    uint64_t    mTargetID;      // 操作対象アクターのID
+    uint64_t    mOldParentID;   // 移動前の親アクターのID（ルートなら0）
+    uint64_t    mNewParentID;   // 移動後の親アクターのID（ルートなら0）
 
-	ActorObject*	mOldParent;
-	// 移動前、旧親（またはルート）のリスト内でのインデックス
-	size_t			mFromIndex;
-
-	ActorObject*	mNewParent;
-	// 移動後、新親（またはルート）のリスト内でのインデックス
-	size_t			mToIndex;
+    size_t      mFromIndex;       // 移動前のリスト内でのインデックス
+    size_t      mToIndex;         // 移動後のリスト内でのインデックス
 public:
 	ReparentAndReorderCommand(ActorObject* target, ActorObject* newParent, size_t toIndex);
 
@@ -24,5 +21,8 @@ public:
 	void Undo() override;
 
 	void Redo()override;
+
+    // IDから対象となる「変更可能なアクターリスト」を取得する内部ヘルパー関数
+    vector<ActorObject*>& GetActorListMutable(uint64_t parentID);
 };
 

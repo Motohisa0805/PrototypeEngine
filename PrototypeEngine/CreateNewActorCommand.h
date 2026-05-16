@@ -7,6 +7,7 @@
 class CreateNewActorCommand : public ICommand
 {
 private:
+	uint64_t		mTargetID;
 	ActorObject*	mTarget;
 	// アクターが現在シーン側にいるかどうかのフラグ
 	bool			mIsActiveInScene;        

@@ -1090,6 +1090,6 @@ LINK : warning LNK4098: defaultlib 'LIBCMT' は他のライブラリの使用と
 C:\C++Files\PrototypeEngine\PrototypeEngine\SceneManager.cpp(126): warning C4172: ローカル変数またはテンポラリ  のアドレスを返します
 C:\C++Files\PrototypeEngine\PrototypeEngine\ScriptEditManager.cpp(165): warning C4715: '`ScriptEditManager::AddScriptFileToVcxProj'::`2'::<lambda_1>::operator()': 値を返さないコントロール パスがあります。
 C:\C++Files\PrototypeEngine\PrototypeEngine\Actor.h(50): warning C4715: 'ActorInformation::GetStateName': 値を返さないコントロール パスがあります。
-  All 14948 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  All 14964 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
   コード生成が終了しました。
   PrototypeEngine.vcxproj -> C:\C++Files\PrototypeEngine\bin\PrototypeEngine.exe

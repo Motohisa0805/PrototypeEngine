@@ -1,49 +1,71 @@
 #include "DeleteCommand.h"
 
 DeleteCommand::DeleteCommand(ActorObject* actor)
-	: mTarget(actor)
+	: mTargetID(actor->GetID())
+	, mTarget(nullptr)
 	, mIsActiveInScene(true)
 {
 }
 
 DeleteCommand::~DeleteCommand()
 {
-	// コマンドが破棄される時、アクターがシーンに戻っていないなら
-		// ここで初めてメモリを解放する（メモリリーク防止）
-	if (!mIsActiveInScene && mTarget) {
+	if (!mIsActiveInScene && mTarget)
+	{
 		delete mTarget;
-		mTarget = nullptr;
 	}
 }
 
 void DeleteCommand::Execute()
 {
-	if (mIsActiveInScene) {
-		auto manager = SceneManager::GetNowScene()->GetActorManager();
-		manager->DetachActor(mTarget); // シーンから切り離す
-		mIsActiveInScene = false;      // 「今は消えている」状態
-		SelectionManager::SetSelectedActor(nullptr);
+	if (!mIsActiveInScene) return;
 
-		//編集操作の変更を記録する
-		string startupScenePath = EditorSettingsManager::GetInstance().GetLastOpenedScene();
-		SceneSerializer::WriteEditorData(startupScenePath, SceneManager::GetNowScene());
-		EditorSettingsManager::SetSaveFlag(true);
+	ActorManager* actorManager = SceneManager::GetNowScene()->GetActorManager();
+	
+	// 初回実行時はコンストラクタから貰った mTarget をそのまま使う。
+	// もしシーンリロードなどでポインタが変わっている（mTargetがnullptrの）場合は、IDから最新のポインタを再解決する。
+	if (!mTarget)
+	{
+		mTarget = actorManager->FindActorByID(mTargetID);
 	}
+	
+	if (mTarget)
+	{
+		actorManager->RemoveActor(mTarget);
+		mIsActiveInScene = false; // 「今は消えている」状態にする
+	}
+
+	// 削除されたアクターが選択されていたら、安全に選択解除する
+	if (SelectionManager::GetSelectedActor() == mTarget)
+	{
+		SelectionManager::SetSelectedActor(nullptr);
+	}
+
+	// 編集操作の変更を記録する
+	string startupScenePath = EditorSettingsManager::GetInstance().GetLastOpenedScene();
+	SceneSerializer::WriteEditorData(startupScenePath, SceneManager::GetNowScene());
+	EditorSettingsManager::SetSaveFlag(true);
 }
 
 void DeleteCommand::Undo()
 {
-	if (!mIsActiveInScene) {
-		auto manager = SceneManager::GetNowScene()->GetActorManager();
-		manager->ReAddActor(mTarget);    // シーンに戻す
-		mIsActiveInScene = true;       // 「今は存在する」状態
-		SelectionManager::SetSelectedActor(mTarget);
+	// 安全ガード：すでにシーンにいる、または戻すターゲットがないなら何もしない
+	if (mIsActiveInScene || !mTarget) return;
 
-		//編集操作の変更を記録する
-		string startupScenePath = EditorSettingsManager::GetInstance().GetLastOpenedScene();
-		SceneSerializer::WriteEditorData(startupScenePath, SceneManager::GetNowScene());
-		EditorSettingsManager::SetSaveFlag(true);
-	}
+	ActorManager* actorManager = SceneManager::GetNowScene()->GetActorManager();
+
+	actorManager->AddActor(mTarget);
+
+	mIsActiveInScene = true; // 「今は存在する」状態に戻す
+
+	// 復元されたアクターを自動的に再選択する
+	SelectionManager::SetSelectedActor(mTarget);
+
+	mTarget = nullptr;
+
+	//編集操作の変更を記録する
+	string startupScenePath = EditorSettingsManager::GetInstance().GetLastOpenedScene();
+	SceneSerializer::WriteEditorData(startupScenePath, SceneManager::GetNowScene());
+	EditorSettingsManager::SetSaveFlag(true);
 }
 
 void DeleteCommand::Redo()

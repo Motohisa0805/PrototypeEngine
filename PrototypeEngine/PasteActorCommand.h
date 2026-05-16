@@ -9,6 +9,7 @@ class PasteActorCommand : public ICommand
 {
 private:
 	// ペーストによって生成されたアクター
+	uint64_t		mTargetID; 
 	ActorObject*	mTarget; 
 	bool			mIsActiveInScene;
 public:
