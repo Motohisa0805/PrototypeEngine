@@ -6,6 +6,7 @@
           "Type": "FreeCamera"
         }
       ],
+      "ID": 1,
       "LocalPosition": [
         0.0,
         1.0,
@@ -54,6 +55,7 @@
           "Type": "DirectionalLightComponent"
         }
       ],
+      "ID": 2,
       "LocalPosition": [
         0.0,
         0.0,
@@ -97,6 +99,7 @@
           ]
         }
       ],
+      "ID": 3,
       "LocalPosition": [
         0.0,
         -1.0,
@@ -140,6 +143,7 @@
           ]
         }
       ],
+      "ID": 4,
       "LocalPosition": [
         0.0,
         5.699999809265137,
@@ -192,6 +196,7 @@
           "UseGravity": true
         }
       ],
+      "ID": 5,
       "LocalPosition": [
         0.0,
         0.0,
@@ -244,6 +249,7 @@
           "UseGravity": true
         }
       ],
+      "ID": 6,
       "LocalPosition": [
         0.0,
         3.0,
@@ -291,6 +297,7 @@
           "UseGravity": true
         }
       ],
+      "ID": 7,
       "LocalPosition": [
         0.0,
         8.5,
@@ -324,6 +331,7 @@
           "Visible": true
         }
       ],
+      "ID": 8,
       "LocalPosition": [
         4.0,
         1.0,
@@ -371,6 +379,7 @@
           "UseGravity": true
         }
       ],
+      "ID": 9,
       "LocalPosition": [
         -5.0,
         5.0,
@@ -404,6 +413,7 @@
           "Visible": true
         }
       ],
+      "ID": 10,
       "LocalPosition": [
         -3.0999999046325684,
         2.4000000953674316,
@@ -456,6 +466,7 @@
           "UseGravity": true
         }
       ],
+      "ID": 11,
       "LocalPosition": [
         5.0,
         8.5,
@@ -508,6 +519,7 @@
           "UseGravity": true
         }
       ],
+      "ID": 12,
       "LocalPosition": [
         0.0,
         6.0,

@@ -11,7 +11,9 @@
 
 #include "Component.h"
 
-ActorObject::ActorObject()
+static uint64_t sNextID = 1;
+
+ActorObject::ActorObject(uint64_t id)
 	: mComponents()
 	, mGame(SceneManager::GetNowScene())
 	, mName("Actor")
@@ -20,6 +22,16 @@ ActorObject::ActorObject()
 	, mCollider(nullptr)
 	, mRigidbody(nullptr)
 {
+	if (id == 0) {
+		// 新規生成なら新しい番号を振る
+		mID = sNextID++;
+	}
+	else {
+		// ロード時は元のIDを引き継ぐ
+		mID = id;
+		if (id >= sNextID)sNextID = id + 1;
+	}
+
 	mTransform = new Transform(this);
 
 	mName = "Actor" + std::to_string(mGame->mNextActorID++);
@@ -276,7 +288,7 @@ void ActorObject::Serialize(json& j) const
 	j["LocalRotation"] = { mTransform->GetLocalRotation().w, mTransform->GetLocalRotation().x, mTransform->GetLocalRotation().y, mTransform->GetLocalRotation().z };
 	j["LocalScale"] = { mTransform->GetLocalScale().x, mTransform->GetLocalScale().y, mTransform->GetLocalScale().z };
 
-
+	j["ID"] = mID;
 	j["Name"] = mName;
 	j["State"] = mState;
 	j["Tag"] = mActorTag;
@@ -330,6 +342,16 @@ void ActorObject::Deserialize(const json& j)
 			j["LocalScale"][2]
 		)
 	);
+	//IDをロードする時
+	if (j.contains("ID")) {
+		uint64_t id = j.at("ID").get<uint64_t>();
+		mID = id;
+		if (id >= sNextID)sNextID = id + 1;
+	}
+	//IDがないなら
+	else {
+		mID = sNextID++;
+	}
 
 	if (j.contains("Name")) {
 		// 名前を読み込む

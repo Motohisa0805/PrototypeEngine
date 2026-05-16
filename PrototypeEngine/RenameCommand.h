@@ -7,7 +7,7 @@ class RenameCommand : public ICommand
 {
 private:
 	// 操作対象のアクター
-	ActorObject*	mTarget;	
+	uint64_t		mTargetID;	
 	// 変更前の名前（Undo用）
 	string			mOldName;		
 	// 変更後の名前（Execute用）

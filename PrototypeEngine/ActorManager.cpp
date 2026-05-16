@@ -140,3 +140,22 @@ size_t ActorManager::GetActorIndex(ActorObject* actor)
 	//未発見
 	return -1;
 }
+
+ActorObject* ActorManager::FindActorByID(uint64_t id)
+{
+	return FindActorByIDInternal(mActors, id);
+}
+
+ActorObject* ActorManager::FindActorByIDInternal(const std::vector<ActorObject*>& list, uint64_t id)
+{
+	for (auto actor : list) {
+		if (actor->GetID() == id) return actor;
+
+		// 子供のリストからも再帰的に探す
+		auto& children = actor->GetTransform()->GetChildActorList();
+		if (ActorObject* found = FindActorByIDInternal(children, id)) {
+			return found;
+		}
+	}
+	return nullptr; // 見つからなかった場合
+}

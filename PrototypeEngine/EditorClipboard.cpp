@@ -1,3 +1,3 @@
 #include "EditorClipboard.h"
 
-ActorObject* EditorClipboard::mCopiedActorBuffer = nullptr;
+uint64_t EditorClipboard::mCopiedActorBuffer = 0;

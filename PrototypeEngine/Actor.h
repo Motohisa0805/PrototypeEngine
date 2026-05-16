@@ -53,7 +53,7 @@ namespace ActorInformation
 //前方宣言
 class Rigidbody;
 class Collider;
-//全3Dモデルの基底クラス
+//ゲームオブジェクトのアクター
 class ActorObject
 {
 public:
@@ -65,6 +65,7 @@ public:
 		EDead
 	};
 protected:
+	uint64_t						mID;
 	string							mName;
 	// Actor's state
 	State							mState;
@@ -88,7 +89,7 @@ protected:
 	vector<Component*>				mComponents;
 public:
 	//コンストラクタ
-									ActorObject();
+									ActorObject(uint64_t id = 0);
 									ActorObject(BaseScene* scene);
 	//デストラクタ
 	virtual							~ActorObject();
@@ -154,6 +155,10 @@ public:
 	virtual void					OnCollisionStay(ActorObject* target);
 	//当たり終わった時に呼び出される関数
 	virtual void					OnCollisionExit(ActorObject* target);
+
+	// 通常生成時はIDを指定せず自動採番、ロード時はファイルから読み込んだIDを指定する
+
+	uint64_t						GetID()const { return mID; }
 
 	string							GetName() const { return mName; }
 

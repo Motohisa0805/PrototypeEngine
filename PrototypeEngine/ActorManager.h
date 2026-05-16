@@ -36,4 +36,8 @@ public:
 
 	//Actor‚ÌIndex‚ğŒŸõ
 	size_t							GetActorIndex(ActorObject* actor);
+
+	// ActorManager.h
+	ActorObject*					FindActorByID(uint64_t id);
+	ActorObject*					FindActorByIDInternal(const std::vector<ActorObject*>& list, uint64_t id);
 };

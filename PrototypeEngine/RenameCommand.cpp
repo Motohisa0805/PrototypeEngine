@@ -1,7 +1,7 @@
 #include "RenameCommand.h"
 
 RenameCommand::RenameCommand(ActorObject* actor, const string& newName)
-	:mTarget(actor)
+	:mTargetID(actor->GetID())
 	, mNewName(newName)
 {
 	// 変更前の名前を保存
@@ -11,9 +11,12 @@ RenameCommand::RenameCommand(ActorObject* actor, const string& newName)
 void RenameCommand::Execute()
 {
 	// アクターの名前を変更
-	if (mTarget)
+	if (mTargetID != 0)
 	{
-		mTarget->SetName(mNewName);
+		ActorObject* actor = SceneManager::GetNowScene()->GetActorManager()->FindActorByID(mTargetID);
+		if (actor) {
+			actor->SetName(mNewName);
+		}
 	}
 	//編集操作の変更を記録する
 	string startupScenePath = EditorSettingsManager::GetInstance().GetLastOpenedScene();
@@ -24,9 +27,12 @@ void RenameCommand::Execute()
 void RenameCommand::Undo()
 {
 	// アクターの名前を元に戻す
-	if (mTarget)
+	if (mTargetID != 0)
 	{
-		mTarget->SetName(mOldName);
+		ActorObject* actor = SceneManager::GetNowScene()->GetActorManager()->FindActorByID(mTargetID);
+		if (actor) {
+			actor->SetName(mOldName);
+		}
 	}
 	//編集操作の変更を記録する
 	string startupScenePath = EditorSettingsManager::GetInstance().GetLastOpenedScene();
@@ -36,13 +42,5 @@ void RenameCommand::Undo()
 
 void RenameCommand::Redo()
 {
-	// アクターの名前を再度変更
-	if (mTarget)
-	{
-		mTarget->SetName(mNewName);
-	}
-	//編集操作の変更を記録する
-	string startupScenePath = EditorSettingsManager::GetInstance().GetLastOpenedScene();
-	SceneSerializer::WriteEditorData(startupScenePath, SceneManager::GetNowScene());
-	EditorSettingsManager::SetSaveFlag(true);
+	Execute();
 }

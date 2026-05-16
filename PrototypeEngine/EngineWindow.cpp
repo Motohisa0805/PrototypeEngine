@@ -155,8 +155,6 @@ void EngineWindow::EngineRunLoop()
 				//開始した瞬間なら
 				if (GUIWinMain::IsStarting())
 				{
-					//一時的なコマンド解放処理
-					CommandManager::Shutdown();
 					GUIWinMain::ResetPointer();
 					GameStateClass::SetGameState(GameState::GamePlay);
 					GUIWinMain::SetIsStarting(false);

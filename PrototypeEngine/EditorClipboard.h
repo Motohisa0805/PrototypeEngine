@@ -7,7 +7,7 @@
 class EditorClipboard
 {
 private:
-    static ActorObject* mCopiedActorBuffer; // コピーされたアクターの雛形
+    static uint64_t mCopiedActorBuffer; // コピーされたアクターの雛形
 
 public:
     static void Copy(ActorObject* target)
@@ -15,10 +15,10 @@ public:
         if (!target) return;
 
         // 【重要】ポインタのコピーを複製して保持する
-        mCopiedActorBuffer = target;
+        mCopiedActorBuffer = target->GetID();
     }
 
-    static ActorObject* GetCopiedActor() { return mCopiedActorBuffer; }
-    static bool HasCopiedActor() { return mCopiedActorBuffer != nullptr; }
+    static uint64_t GetCopiedActor() { return mCopiedActorBuffer; }
+    static bool HasCopiedActor() { return mCopiedActorBuffer != 0; }
 };
 
