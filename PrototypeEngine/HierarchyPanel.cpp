@@ -77,6 +77,20 @@ void HierarchyPanel::Draw(float width, float height, ImTextureRef ref)
 				CommandManager::Execute(std::move(cmd));
 			}
 		}
+		//名前変更のショートカットキー
+		if (ImGui::IsKeyDown(ImGuiKey_F2)) {
+			if (!mRenaming && SelectionManager::GetSelectedActor()) {
+				mRenameInputBuffer = SelectionManager::GetSelectedActor()->GetName();
+				mRenaming = true;
+			}
+		}
+		//削除ショートカットキー
+		if (ImGui::IsKeyDown(ImGuiKey_Delete)) {
+			if (SelectionManager::GetSelectedActor()) {
+				auto cmd = std::make_unique<DeleteCommand>(SelectionManager::GetSelectedActor());
+				CommandManager::Execute(std::move(cmd));
+			}
+		}
 	}
 	ImGui::End();
 }
@@ -107,6 +121,23 @@ void HierarchyPanel::DrawActorNode(ActorObject* actor)
 
 	//PushIDでユニークIDを設定
 	ImGui::PushID(actor);
+
+	// ----------------------------------------------------------------
+	// 選択中なら背景色を「不透明な全塗り」に上書きする
+	// ----------------------------------------------------------------
+	bool pushedColor = false;
+	if (isSelected)
+	{
+		// 現在のテーマの「ホバー時の色」をベースとして取得する
+		ImVec4 color = ImGui::GetStyle().Colors[ImGuiCol_HeaderHovered];
+
+		// アルファ値（透明度）を 1.0f 
+		color.w = 1.0f;
+
+		ImGui::PushStyleColor(ImGuiCol_Header, color);
+		pushedColor = true;
+	}
+
 	//リネーム中の場合、InputTextを表示
 	if (SelectionManager::GetSelectedActor() == actor && mRenaming)
 	{
@@ -223,6 +254,11 @@ void HierarchyPanel::DrawActorNode(ActorObject* actor)
 				ImGui::TreePop();
 			}
 		}
+	}
+
+	if (pushedColor)
+	{
+		ImGui::PopStyleColor();
 	}
 
 	ImGui::PopID();
