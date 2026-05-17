@@ -478,6 +478,6 @@ ActorObject* ActorObject::Clone()
 		Component* clonedComp = comp->Clone(clone);
 		clone->AddComponent(clonedComp); // Žè“®‚ÅƒŠƒXƒg‚É‰Á‚¦‚é
 	}
-
+	mGame->SetDirtyFlag(true);
 	return clone;
 }
