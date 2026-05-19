@@ -38,10 +38,6 @@ void ReparentAndReorderCommand::Execute()
 	auto& newList = GetActorListMutable(mNewParentID);
 	ImGuiHelper::ReorderVector(newList, newList.size() - 1, mToIndex);
 
-	// 編集操作の変更を記録する
-	string startupScenePath = EditorSettingsManager::GetInstance().GetLastOpenedScene();
-	SceneSerializer::WriteEditorData(startupScenePath, SceneManager::GetNowScene());
-	EditorSettingsManager::SetSaveFlag(true);
 }
 
 void ReparentAndReorderCommand::Undo()
@@ -58,10 +54,6 @@ void ReparentAndReorderCommand::Undo()
 	auto& oldList = GetActorListMutable(mOldParentID);
 	ImGuiHelper::ReorderVector(oldList, oldList.size() - 1, mFromIndex);
 
-	// 編集操作の変更を記録する
-	string startupScenePath = EditorSettingsManager::GetInstance().GetLastOpenedScene();
-	SceneSerializer::WriteEditorData(startupScenePath, SceneManager::GetNowScene());
-	EditorSettingsManager::SetSaveFlag(true);
 }
 
 void ReparentAndReorderCommand::Redo()

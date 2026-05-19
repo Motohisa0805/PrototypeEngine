@@ -39,11 +39,6 @@ void DeleteCommand::Execute()
 	{
 		SelectionManager::SetSelectedActor(nullptr);
 	}
-
-	// 編集操作の変更を記録する
-	string startupScenePath = EditorSettingsManager::GetInstance().GetLastOpenedScene();
-	SceneSerializer::WriteEditorData(startupScenePath, SceneManager::GetNowScene());
-	EditorSettingsManager::SetSaveFlag(true);
 }
 
 void DeleteCommand::Undo()
@@ -61,11 +56,6 @@ void DeleteCommand::Undo()
 	SelectionManager::SetSelectedActor(mTarget);
 
 	mTarget = nullptr;
-
-	//編集操作の変更を記録する
-	string startupScenePath = EditorSettingsManager::GetInstance().GetLastOpenedScene();
-	SceneSerializer::WriteEditorData(startupScenePath, SceneManager::GetNowScene());
-	EditorSettingsManager::SetSaveFlag(true);
 }
 
 void DeleteCommand::Redo()

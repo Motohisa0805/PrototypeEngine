@@ -18,10 +18,6 @@ void RenameCommand::Execute()
 			actor->SetName(mNewName);
 		}
 	}
-	//編集操作の変更を記録する
-	string startupScenePath = EditorSettingsManager::GetInstance().GetLastOpenedScene();
-	SceneSerializer::WriteEditorData(startupScenePath, SceneManager::GetNowScene());
-	EditorSettingsManager::SetSaveFlag(true);
 }
 
 void RenameCommand::Undo()
@@ -34,10 +30,6 @@ void RenameCommand::Undo()
 			actor->SetName(mOldName);
 		}
 	}
-	//編集操作の変更を記録する
-	string startupScenePath = EditorSettingsManager::GetInstance().GetLastOpenedScene();
-	SceneSerializer::WriteEditorData(startupScenePath, SceneManager::GetNowScene());
-	EditorSettingsManager::SetSaveFlag(true);
 }
 
 void RenameCommand::Redo()

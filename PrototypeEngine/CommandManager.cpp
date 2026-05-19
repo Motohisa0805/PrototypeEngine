@@ -11,6 +11,12 @@ void CommandManager::Execute(std::unique_ptr<ICommand> command)
 	if (Get().mUndoStack.size() > 50) {
 		Get().mUndoStack.erase(Get().mUndoStack.begin()); // 一番古いコマンドを削除
 	}
+	if (!GUIWinMain::IsPlaying()) {
+		// 編集操作の変更を記録する
+		string startupScenePath = EditorSettingsManager::GetInstance().GetLastOpenedScene();
+		SceneSerializer::WriteEditorData(startupScenePath, SceneManager::GetNowScene());
+		EditorSettingsManager::SetSaveFlag(true);
+	}
 }
 
 void CommandManager::Undo() {
@@ -21,6 +27,13 @@ void CommandManager::Undo() {
 
 	command->Undo();
 	Get().mRedoStack.push_back(std::move(command));
+
+	if (!GUIWinMain::IsPlaying()) {
+		// 編集操作の変更を記録する
+		string startupScenePath = EditorSettingsManager::GetInstance().GetLastOpenedScene();
+		SceneSerializer::WriteEditorData(startupScenePath, SceneManager::GetNowScene());
+		EditorSettingsManager::SetSaveFlag(true);
+	}
 }
 
 void CommandManager::Redo() {
@@ -31,6 +44,13 @@ void CommandManager::Redo() {
 
 	command->Execute();
 	Get().mUndoStack.push_back(std::move(command));
+
+	if (!GUIWinMain::IsPlaying()) {
+		// 編集操作の変更を記録する
+		string startupScenePath = EditorSettingsManager::GetInstance().GetLastOpenedScene();
+		SceneSerializer::WriteEditorData(startupScenePath, SceneManager::GetNowScene());
+		EditorSettingsManager::SetSaveFlag(true);
+	}
 }
 
 void CommandManager::Shutdown() {

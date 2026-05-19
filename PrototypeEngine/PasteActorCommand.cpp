@@ -57,11 +57,6 @@ void PasteActorCommand::Execute()
             SelectionManager::SetSelectedActor(currentActor);
         }
     }
-
-    // 編集操作の変更を記録する
-    string startupScenePath = EditorSettingsManager::GetInstance().GetLastOpenedScene(); 
-    SceneSerializer::WriteEditorData(startupScenePath, SceneManager::GetNowScene()); 
-    EditorSettingsManager::SetSaveFlag(true); 
 }
 
 void PasteActorCommand::Undo()
@@ -88,11 +83,6 @@ void PasteActorCommand::Undo()
     {
         SelectionManager::SetSelectedActor(nullptr);
     }
-
-    // 編集操作の変更を記録する
-    string startupScenePath = EditorSettingsManager::GetInstance().GetLastOpenedScene();
-    SceneSerializer::WriteEditorData(startupScenePath, SceneManager::GetNowScene());
-    EditorSettingsManager::SetSaveFlag(true);
 }
 
 void PasteActorCommand::Redo()
