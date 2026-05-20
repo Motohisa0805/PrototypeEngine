@@ -20,7 +20,6 @@ BaseScene::BaseScene()
 	, mPlayer(nullptr)
 	, mCameras()
 	, mFixedTimeAccumulator(0.0f)
-	, mFrameRateText(nullptr)
 	, mName("BaseScene")
 	, mNextActorID(0)
 	, mIsDirtyFlag(false)
@@ -87,8 +86,6 @@ bool BaseScene::Initialize()
 	//-----------------------------------------------------
 
 	Font* font = GetFont("NotoSansJP-Bold.ttf");
-	mFrameRateText = new Text(font, Vector2(500, 250), Debug_Function);
-	mFrameRateText->SetFontSize(22);
 	return true;
 }
 
@@ -166,8 +163,6 @@ bool BaseScene::Update()
 				mDebugImageStack[i]->Update(Time::gDeltaTime);
 			}
 		}
-		float time = Time::GetFrameRate();
-		mFrameRateText->SetText("FPS : " + FloatToString::ToStringWithoutDecimal(time));
 	}
 
 	// Delete any UIScreens that are closed

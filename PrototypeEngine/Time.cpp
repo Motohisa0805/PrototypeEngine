@@ -14,6 +14,9 @@ float Time::gDeltaTime = 0.0f;
 
 Uint64 Time::gTicksCount = 0.0f;
 
+float Time::mAccumTime = 0.0f;
+
+int Time::mFrameCount = 0;
 
 void Time::InitializeDeltaTime()
 {
@@ -49,12 +52,15 @@ void Time::UpdateDeltaTime()
     // timeScaleを適用してdeltaTimeを作成
     gDeltaTime = gUnscaledDeltaTime * gTimeScale;
 
-    // フレームレートを計算（こっちはunscaledでもscaledでも好み）
-    if (gUnscaledDeltaTime > 0.0f) {
-        mFrameRate = 1.0f / gUnscaledDeltaTime;
-    }
-    else {
-		mFrameRate = 9999.0f; // 無限大を避けるため
+    // 実際の経過時間を蓄積
+    mAccumTime += gUnscaledDeltaTime;
+    mFrameCount++;
+    // 0.5秒（あるいは1.0f）経過したら表示用FPS（mFrameRate）を更新
+    if (mAccumTime >= 0.5f) {
+        mFrameRate = static_cast<float>(mFrameCount) / mAccumTime;
+
+        mAccumTime = 0.0f;
+        mFrameCount = 0;
     }
 
     // 次のフレーム用に現在の時刻を保存

@@ -142,7 +142,7 @@ void SceneSerializer::WriteEditorData(const filesystem::path& filePath, BaseScen
 
     editorDataJson["Actors"] = actorsArray;
     // 2. 一時ファイルパスを決定（例：元のファイルパスから一時ファイル名を生成）
-    filesystem::path tempPath = mTempParentPath / "TempScene.json";
+    filesystem::path tempPath = mTempParentPath / filePath.filename();
 
     // 3. ファイル書き出しロジックを追加
     try

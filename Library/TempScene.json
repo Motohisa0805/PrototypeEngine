@@ -541,41 +541,7 @@
       "Static": 0,
       "Tag": 0,
       "Type": "Transform"
-    },
-    {
-      "Components": [
-        {
-          "Alpha": 1.0,
-          "FilePath": "TestCube.fbx",
-          "IsSkeletal": false,
-          "ShadowFrag": true,
-          "Type": "MeshRenderer",
-          "Visible": true
-        }
-      ],
-      "ID": 13,
-      "LocalPosition": [
-        -6.5,
-        2.4000000953674316,
-        0.0
-      ],
-      "LocalRotation": [
-        1.0,
-        0.0,
-        0.0,
-        0.0
-      ],
-      "LocalScale": [
-        1.0,
-        1.0,
-        1.0
-      ],
-      "Name": "Dice (Copy)",
-      "State": 0,
-      "Static": 0,
-      "Tag": 0,
-      "Type": "Transform"
     }
   ],
-  "SceneName": "Scene01"
+  "SceneName": "TempScene"
 }

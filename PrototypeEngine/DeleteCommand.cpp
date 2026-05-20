@@ -30,7 +30,7 @@ void DeleteCommand::Execute()
 	
 	if (mTarget)
 	{
-		actorManager->RemoveActor(mTarget);
+		actorManager->DetachActor(mTarget);
 		mIsActiveInScene = false; // 「今は消えている」状態にする
 	}
 
@@ -48,7 +48,7 @@ void DeleteCommand::Undo()
 
 	ActorManager* actorManager = SceneManager::GetNowScene()->GetActorManager();
 
-	actorManager->AddActor(mTarget);
+	actorManager->ReAddActor(mTarget);
 
 	mIsActiveInScene = true; // 「今は存在する」状態に戻す
 

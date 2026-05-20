@@ -39,12 +39,16 @@ private:
 	static float    mMaxDeltaTime;
 
 	static Uint64   mMaxTicksCount;
+	// 経過時間の蓄積用
+	static float	mAccumTime;
+	// フレーム数のカウント用
+	static int		mFrameCount;
 public:
 	static void		InitializeDeltaTime();
 
 	static void		UpdateDeltaTime();
 
-	static float	GetFrameRate() { return std::floor(mFrameRate * 10.0f) / 10.0f;; }
+	static float	GetFrameRate() { return std::floor(mFrameRate * 10.0f) / 10.0f; }
 
 	static float	GetMaxDeltaTime() { return mMaxDeltaTime; }
 
