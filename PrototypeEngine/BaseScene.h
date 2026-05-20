@@ -55,9 +55,6 @@ protected:
 	const float										mFixed_Delta_Time = 0.02f;
 
 	float											mFixedTimeAccumulator;
-	//***デバッグ機能***
-	//フレームレート表示テキスト
-	Text*											mFrameRateText;
 
 
 	//シーンの名前

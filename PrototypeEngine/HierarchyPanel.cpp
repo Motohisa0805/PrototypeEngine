@@ -35,7 +35,7 @@ void HierarchyPanel::Draw(float width, float height, ImTextureRef ref)
 		if (currentScene)
 		{
 			string name = currentScene->GetName();
-			//仮シーン名を表示
+			//シーン名を表示
 			ImGui::TextColored(ImVec4(0.5f, 0.5f, 1.0f, 1.0f), "Scene:%s", currentScene->GetName().c_str());
 			ImGui::Separator();
 			// Sceneからアクターリストを取得する関数を呼び出す
