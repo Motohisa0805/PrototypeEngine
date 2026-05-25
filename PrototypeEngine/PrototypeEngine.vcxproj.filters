@@ -226,16 +226,7 @@
     <ClCompile Include="TargetComponent.cpp">
       <Filter>SourceCodes\C_Components</Filter>
     </ClCompile>
-    <ClCompile Include="FPSCanvas.cpp">
-      <Filter>SourceCodes\D_UIs</Filter>
-    </ClCompile>
     <ClCompile Include="PauseMenu.cpp">
-      <Filter>SourceCodes\D_UIs</Filter>
-    </ClCompile>
-    <ClCompile Include="TitleCanvas.cpp">
-      <Filter>SourceCodes\D_UIs</Filter>
-    </ClCompile>
-    <ClCompile Include="TPSCanvas.cpp">
       <Filter>SourceCodes\D_UIs</Filter>
     </ClCompile>
     <ClCompile Include="Actor.cpp">
@@ -543,16 +534,7 @@
     <ClInclude Include="TargetComponent.h">
       <Filter>SourceCodes\C_Components</Filter>
     </ClInclude>
-    <ClInclude Include="FPSCanvas.h">
-      <Filter>SourceCodes\D_UIs</Filter>
-    </ClInclude>
     <ClInclude Include="PauseMenu.h">
-      <Filter>SourceCodes\D_UIs</Filter>
-    </ClInclude>
-    <ClInclude Include="TitleCanvas.h">
-      <Filter>SourceCodes\D_UIs</Filter>
-    </ClInclude>
-    <ClInclude Include="TPSCanvas.h">
       <Filter>SourceCodes\D_UIs</Filter>
     </ClInclude>
     <ClInclude Include="Actor.h">
