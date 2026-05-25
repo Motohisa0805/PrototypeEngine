@@ -8,7 +8,7 @@
 #include "VertexArray.h"
 #include "Texture.h"
 
-MeshRenderer::MeshRenderer(ActorObject* owner, bool isSkeletal)
+MeshRenderer::MeshRenderer(Entity* owner, bool isSkeletal)
 	:Component(owner)
 	, mVisible(true)
 	, mIsSkeletal(isSkeletal)
@@ -43,7 +43,7 @@ bool MeshRenderer::Draw(Shader* shader)
 			{
 				// Set the world transform
 				shader->SetMatrixUniform("uWorldTransform",
-					mOwner->GetTransform()->GetWorldTransform());
+					mActor->GetTransform()->GetWorldTransform());
 				Texture* t = nullptr;
 				// Set the active texture
 				t = mMeshs[i]->GetTexture(j);
@@ -92,7 +92,7 @@ void MeshRenderer::DrawForShadowMap(Shader* shader)
 			if (!mMeshs[i]) continue;
 
 			// ワールド変換のみ設定
-			shader->SetMatrixUniform("uWorldTransform", mOwner->GetTransform()->GetWorldTransform());
+			shader->SetMatrixUniform("uWorldTransform", mActor->GetTransform()->GetWorldTransform());
 
 			// ブレンドなどはシャドウマップ描画時は一切不要
 			glDisable(GL_BLEND);

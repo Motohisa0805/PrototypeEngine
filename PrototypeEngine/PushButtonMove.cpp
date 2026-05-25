@@ -13,10 +13,10 @@ void PushButtonMove::Update(float deltaTime)
 	//XAZˆÚ“®ˆ—
 	if (!Math::NearZero(mForwardSpeed) || !Math::NearZero(mStrafeSpeed))
 	{
-		Vector3 pos = mOwner->GetTransform()->GetLocalPosition();
-		pos += mOwner->GetTransform()->GetForward() * mForwardSpeed;
-		pos += mOwner->GetTransform()->GetRight() * mStrafeSpeed;
-		mOwner->GetTransform()->SetLocalPosition(pos);
+		Vector3 pos = mActor->GetTransform()->GetLocalPosition();
+		pos += mActor->GetTransform()->GetForward() * mForwardSpeed;
+		pos += mActor->GetTransform()->GetRight() * mStrafeSpeed;
+		mActor->GetTransform()->SetLocalPosition(pos);
 	}
 }
 

@@ -6,12 +6,10 @@
 #include "Shader.h"
 #include "BaseScene.h"
 
-Image::Image(int function)
-	:mGame(SceneManager::GetNowScene())
+Image::Image(Entity* owner,int function)
+	:Component(owner)
 	,mTexture(nullptr)
-	,mAngleZ(0)
 {
-	mTexScale = Vector3(1.0f, 1.0f, 1.0f);
 	mFillAmount = 1.0f;
 	mFillMethod = FillMethod::None;
 	if (function == Release_Function)
@@ -51,12 +49,12 @@ void Image::SetTexture(Texture* texture)
 
 void Image::SetPosition(Vector2 pos)
 {
-	mTexturePos = pos;
+	//mTexturePos = pos;
 }
 
 void Image::SetScale(Vector3 scale)
 {
-	mTexScale = scale;
+	//mTexScale = scale;
 }
 
 void Image::SetFillAmount(float fill)
@@ -66,18 +64,13 @@ void Image::SetFillAmount(float fill)
 
 void Image::SetAngleZ(float angle)
 {
-	mAngleZ = angle;
+	//mAngleZ = angle;
 }
 
 void Image::SetState(UIState state)
 {
 	mState = state;
 
-}
-
-void Image::AddChildUIImage(Image* image)
-{
-	mImages.emplace_back(image);
 }
 
 void Image::Update(float deltaTime)
@@ -120,7 +113,7 @@ void Image::DrawTexture(Shader* shader)
 	FillMethodCalculation(uvTransform,verticesCount);
 
 	shader->SetVector4Uniform("uTexUV", uvTransform);
-
+	/*
 	Matrix4 scaleMat;
 
 	Matrix4 transMat;
@@ -130,8 +123,9 @@ void Image::DrawTexture(Shader* shader)
 	WorldMatrixCalculation(transMat,rotationMat,scaleMat);
 
 	Matrix4 world = scaleMat * rotationMat * transMat;
+	*/
 	
-	shader->SetMatrixUniform("uWorldTransform", world);
+	shader->SetMatrixUniform("uWorldTransform", mUIActor->GetRectTransform()->GetWorldTransform());
 
 	mTexture->SetActive();
 	
@@ -164,7 +158,7 @@ void Image::FillMethodCalculation(Vector4& uv, int& verticesCount)
 		mRectScaleWidth *= mFillAmount;
 
 		// 左端を固定して右に伸びるように位置補正（中心基準からオフセット）
-		mOffsetX = (1.0f - mFillAmount) * 0.5f * mTextureRect.w * mTexScale.x;
+		mOffsetX = (1.0f - mFillAmount) * 0.5f * mTextureRect.w * mUIActor->GetRectTransform()->GetScale().x;
 	}
 	else if (mFillMethod == FillMethod::Vertical)
 	{
@@ -189,6 +183,7 @@ void Image::FillMethodCalculation(Vector4& uv, int& verticesCount)
 
 void Image::WorldMatrixCalculation(Matrix4& trans, Matrix4& rotate, Matrix4& scale)
 {
+	/*
 	scale = Matrix4::CreateScale(
 		mRectScaleWidth * mTexScale.x,
 		mRectScaleHeight * mTexScale.y,
@@ -199,4 +194,5 @@ void Image::WorldMatrixCalculation(Matrix4& trans, Matrix4& rotate, Matrix4& sca
 		Vector3(mTexturePos.x - mOffsetX, mTexturePos.y - mOffsetY, 0.0f));
 
 	rotate = Matrix4::CreateRotationZ(mAngleZ);
+	*/
 }

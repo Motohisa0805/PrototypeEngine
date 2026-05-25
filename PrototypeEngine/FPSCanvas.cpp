@@ -3,7 +3,7 @@
 #include "Text.h"
 #include "EngineWindow.h"
 #include "Renderer.h"
-
+/*
 FPSCanvas::FPSCanvas()
 	:Canvas()
 	, mRadarRange(2000.0f)
@@ -110,20 +110,17 @@ void FPSCanvas::Update(float deltaTime)
 	const Vector2 cRadarPos(-390.0f, 275.0f);
 	mRadar->SetPosition(cRadarPos);
 	// Blips
-	/*
 	for (Vector2& blip : mBlips)
 	{
 		blip *= 100.0f;
 		mBlipTex->SetPosition(cRadarPos + blip);
 	}
-	*/
 	for(int i = 0; i < mBlips.size(); i++)
 	{
 		Vector2 blip = mBlips[i];
 		blip *= 100.0f;
 		Vector2 blipPos = cRadarPos + blip;
 		mBlipTexs[i]->SetPosition(blipPos);
-		/*
 		if (i < mBlipTexs.size())
 		{
 			mBlipTexs[i]->SetPosition(cRadarPos + mBlips[i] * 100.0f);
@@ -135,7 +132,6 @@ void FPSCanvas::Update(float deltaTime)
 			blipTex->SetPosition(cRadarPos + mBlips[i] * 100.0f);
 			mBlipTexs.push_back(blipTex);
 		}
-		*/
 	}
 
 	// Radar arrow
@@ -185,7 +181,6 @@ void FPSCanvas::UpdateCrosshair(float deltaTime)
 	// Segment cast
 	PhysWorld::CollisionInfo info;
 	ActorInformation::Tag tag = ActorInformation::Tag::Enemy;
-	/*
 	if (mGame->GetPhysWorld()->RayCast(l, info, (int)tag))
 	{
 		// Is this a target?
@@ -198,12 +193,11 @@ void FPSCanvas::UpdateCrosshair(float deltaTime)
 			}
 		}
 	}
-	*/
 }
 
 void FPSCanvas::UpdateBlipTextures()
 {
-	/*
+
 	int targetCount = static_cast<int>(mTargetComponentSystem->GetTargetComponent().size());
 	int currentCount = static_cast<int>(mBlipTexs.size());
 
@@ -227,7 +221,6 @@ void FPSCanvas::UpdateBlipTextures()
 			mBlipTexs.pop_back();
 		}
 	}
-	*/
 }
 
 void FPSCanvas::UpdateRadar(float deltaTime)
@@ -246,7 +239,7 @@ void FPSCanvas::UpdateRadar(float deltaTime)
 	float angle = Math::Atan2(playerForward2D.y, playerForward2D.x);
 	// Make a 2D rotation matrix
 	Matrix3 rotMat = Matrix3::CreateRotation(angle);
-	/*
+
 	// Get positions of blips
 	for (auto tc : mTargetComponentSystem->GetTargetComponent())
 	{
@@ -269,5 +262,5 @@ void FPSCanvas::UpdateRadar(float deltaTime)
 			mBlips.emplace_back(blipPos);
 		}
 	}
-	*/
 }
+*/

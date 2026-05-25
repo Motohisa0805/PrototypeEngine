@@ -53,7 +53,7 @@ void AudioComponent::Update(float deltaTime)
 void AudioComponent::OnUpdateWorldTransform()
 {
 	// 3Dイベントの世界が変わるアプデ
-	Matrix4 world = mOwner->GetTransform()->GetWorldTransform();
+	Matrix4 world = mActor->GetTransform()->GetWorldTransform();
 	for (auto& event : mEvents3D)
 	{
 		if (event.IsValid())
@@ -65,13 +65,13 @@ void AudioComponent::OnUpdateWorldTransform()
 
 SoundEventClip AudioComponent::LoadAudio(const string& name)
 {
-	SoundEventClip e = mOwner->GetGame()->GetAudioSystem()->PlayEvent(name);
+	SoundEventClip e = mActor->GetGame()->GetAudioSystem()->PlayEvent(name);
 	// 2D or 3D?
 	if (e.Is3D())
 	{
 		mEvents3D.emplace_back(e);
 		// 初期の3D属性を設定する
-		e.Set3DAttributes(mOwner->GetTransform()->GetWorldTransform());
+		e.Set3DAttributes(mActor->GetTransform()->GetWorldTransform());
 	}
 	else
 	{

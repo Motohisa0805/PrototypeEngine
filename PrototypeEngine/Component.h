@@ -6,7 +6,9 @@
 /*
 * ===エンジン内部処理/Engine internal processing===
 */
+class Entity;
 class ActorObject;
+class UIActorObject;
 class BaseScene;
 
 //リフレクションシステム定義
@@ -72,7 +74,9 @@ class PROTOTYPEENGINE_API Component
 {
 protected:
 	// コンポーネント元のオブジェクト
-	ActorObject*		mOwner;
+	Entity*				mOwner;
+	ActorObject*		mActor;
+	UIActorObject*		mUIActor;
 	BaseScene*			mGame;
 	// コンポーネントの順序を更新する
 	int					mUpdateOrder;
@@ -88,7 +92,7 @@ protected:
 public:
 	// コンストラクタ
 	// （更新順序が低いほど、コンポーネントが早く更新される）
-	Component(class ActorObject* owner, int updateOrder = 100);
+	Component(class Entity* owner, int updateOrder = 100);
 	// デストラクター
 	virtual				~Component();
 
@@ -124,7 +128,9 @@ public:
 	void				DrawIntProperty(const PropertyInfo& prop);
 	void				DrawBoolProperty(const PropertyInfo& prop);
 
-	ActorObject*		GetOwner() { return mOwner; }
+	Entity*				GetOwner() { return mOwner; }
+	ActorObject*		GetActor() { return mActor; }
+	UIActorObject*		GetUIActor() { return mUIActor; }
 	int					GetUpdateOrder() const { return mUpdateOrder; }
 
 	string				GetName()const { return mName; }

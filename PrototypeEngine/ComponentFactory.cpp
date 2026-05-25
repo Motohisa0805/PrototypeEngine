@@ -15,7 +15,6 @@
 #include "PushButtonMove.h"
 #include "TargetComponent.h"
 
-#include "BaseCamera.h"
 #include "FreeCamera.h"
 
 #include "ScriptComponent.h"
@@ -27,7 +26,7 @@ void ComponentFactory::RegisterComponent(const string& type, ComponentCreator cr
 	sCreators[type] = creator;
 }
 
-Component* ComponentFactory::CreateComponent(const string& type, ActorObject* owner)
+Component* ComponentFactory::CreateComponent(const string& type, Entity* owner)
 {
 	auto it = sCreators.find(type);
 	if (it != sCreators.end())
@@ -60,21 +59,21 @@ void ComponentFactory::UnregisterAllComponents()
 // 現状GUIで使用できるコンポーネントだけ処理
 void RegisterAllComponents()
 {
-	ComponentFactory::RegisterComponent("Rigidbody",[](ActorObject* owner) -> Component* { return new Rigidbody(owner); });
+	ComponentFactory::RegisterComponent("Rigidbody",[](Entity* owner) -> Component* { return new Rigidbody(owner); });
 	
-	ComponentFactory::RegisterComponent("MeshRenderer",[](ActorObject* owner) -> Component* { return new MeshRenderer(owner, false); });
+	ComponentFactory::RegisterComponent("MeshRenderer",[](Entity* owner) -> Component* { return new MeshRenderer(owner, false); });
 	
 	//ComponentFactory::RegisterComponent("SkeletalMeshRenderer",[](ActorObject* owner) -> Component* { return new SkeletalMeshRenderer(owner); });
 	
-	ComponentFactory::RegisterComponent("ParticleSystem",[](ActorObject* owner) -> Component* { return new ParticleSystem(owner); });
+	ComponentFactory::RegisterComponent("ParticleSystem",[](Entity* owner) -> Component* { return new ParticleSystem(owner); });
 	
-	ComponentFactory::RegisterComponent("DirectionalLightComponent",[](ActorObject* owner) -> Component* { return new DirectionalLightComponent(owner); });
+	ComponentFactory::RegisterComponent("DirectionalLightComponent",[](Entity* owner) -> Component* { return new DirectionalLightComponent(owner); });
 	
-	ComponentFactory::RegisterComponent("BoxCollider",[](ActorObject* owner) -> Component* { return new BoxCollider(owner); });
+	ComponentFactory::RegisterComponent("BoxCollider",[](Entity* owner) -> Component* { return new BoxCollider(owner); });
 	
-	ComponentFactory::RegisterComponent("CapsuleCollider",[](ActorObject* owner) -> Component* { return new CapsuleCollider(owner); });
+	ComponentFactory::RegisterComponent("CapsuleCollider",[](Entity* owner) -> Component* { return new CapsuleCollider(owner); });
 	
-	ComponentFactory::RegisterComponent("SphereCollider",[](ActorObject* owner) -> Component* { return new SphereCollider(owner); });
+	ComponentFactory::RegisterComponent("SphereCollider",[](Entity* owner) -> Component* { return new SphereCollider(owner); });
 	
 	//ComponentFactory::RegisterComponent("AudioComponent",[](ActorObject* owner) -> Component* { return new AudioComponent(owner); });
 	
@@ -90,7 +89,7 @@ void RegisterAllComponents()
 	
 	//ComponentFactory::RegisterComponent("BaseCamera",[](ActorObject* owner) -> Component* { return new BaseCamera(owner); });
 	
-	ComponentFactory::RegisterComponent("FreeCamera",[](ActorObject* owner) -> Component* { return new FreeCamera(owner); });
+	ComponentFactory::RegisterComponent("FreeCamera",[](Entity* owner) -> Component* { return new FreeCamera(owner); });
 	
 	//ComponentFactory::RegisterComponent("FollowCamera",[](ActorObject* owner) -> Component* { return new FollowCamera(owner); });
 	

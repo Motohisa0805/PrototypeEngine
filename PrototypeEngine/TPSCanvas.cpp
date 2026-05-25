@@ -4,7 +4,7 @@
 #include "Renderer.h"
 #include "Text.h"
 #include "BaseScene.h"
-
+/*
 TPSCanvas::TPSCanvas()
 	: Canvas()
 {
@@ -79,3 +79,5 @@ void TPSCanvas::ProcessInput(const InputState& keys)
 		new PauseMenu();
 	}
 }
+
+*/

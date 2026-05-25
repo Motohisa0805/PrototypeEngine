@@ -11,10 +11,17 @@
 #include "imgui_impl_sdl3.h"
 #include "imgui_impl_opengl3.h"
 
-Rigidbody::Rigidbody(ActorObject* owner, int updateOrder)
+// 修正案: mActorの型をEntity*からActorObject*に変更するか、キャストを追加する必要があります。
+// Rigidbody.h で mActor の型が ActorObject* であれば、キャストが必要です。
+// 例: , mActor(static_cast<ActorObject*>(owner))
+//
+// もしくは Rigidbody.h の mActor の型を Entity* に変更してください。
+
+// 例1: キャストを追加する場合
+Rigidbody::Rigidbody(Entity* owner, int updateOrder)
     : Component(owner)
     , mUseGravity(false)
-	, mIsPrivateUseGravityScale(false)
+    , mIsPrivateUseGravityScale(false)
     , mGravityScale(1.0f)
     , mMass(1.0f)
     , mFriction(0.3f)
@@ -25,18 +32,18 @@ Rigidbody::Rigidbody(ActorObject* owner, int updateOrder)
     , mTorques(Vector3::Zero)
     , mInertia(1.0f)
     , mAngularDamping(0.998f)
-	, mLinearDamping(0.998f)
+    , mLinearDamping(0.998f)
     , mInverseInertiaTensorW(Matrix3::Identity)
     , mInverseInertiaTensorL(Matrix3::Identity)
-    , mShapeType(Collider::ColliderType::SphereType) // 仮の初期化
-	, mTempPosition(Vector3::Zero)
-	, mIsSleeping(false)
-	, mSleepTimer(0.0f)
-	, mSleepThreshold(0.5f)
-	, mIsInActiveList(false)
+    , mShapeType(Collider::ColliderType::SphereType)
+    , mTempPosition(Vector3::Zero)
+    , mIsSleeping(false)
+    , mSleepTimer(0.0f)
+    , mSleepThreshold(0.5f)
+    , mIsInActiveList(false)
 {
     mName = "Rigidbody";
-	mUseGravity = true;
+    mUseGravity = true;
 
     CalculateInertiaTensor();
 
@@ -83,14 +90,14 @@ void Rigidbody::FixedUpdate(float deltaTime)
     if (mVelocity.LengthSq() < 0.001f) mVelocity = Vector3::Zero;
 
     // 位置更新
-    Vector3 position = mOwner->GetTransform()->GetPosition();
+    Vector3 position = mActor->GetTransform()->GetPosition();
     position += mVelocity * deltaTime;
-    mOwner->GetTransform()->SetLocalPosition(position);
+    mActor->GetTransform()->SetLocalPosition(position);
 
     // --- 角運動の更新 ---
     if (mMass > 0.0f)
     {
-        Quaternion rotation = mOwner->GetTransform()->GetLocalRotation();
+        Quaternion rotation = mActor->GetTransform()->GetLocalRotation();
 
         // 1. ワールド逆慣性テンソルの更新
         // I_world^-1 = R * I_local^-1 * R^T
@@ -114,7 +121,7 @@ void Rigidbody::FixedUpdate(float deltaTime)
             // オイラー積分: q_new = q_old + (dt * 0.5f) * (pureQuaternion * q_old)
             // 角速度ベクトルから「純粋クォータニオン」（w=0）を作成
             //q_old
-			Quaternion oldRotation = mOwner->GetTransform()->GetLocalRotation();
+			Quaternion oldRotation = mActor->GetTransform()->GetLocalRotation();
             
             //(dt * 0.5f)
 			float dt = deltaTime * 0.5f;
@@ -135,14 +142,14 @@ void Rigidbody::FixedUpdate(float deltaTime)
             // クォータニオンの足し算
 			Quaternion newRotation = oldRotation + deltaRotation;
             newRotation.Normalize();
-            mOwner->GetTransform()->SetLocalRotation(newRotation);
+            mActor->GetTransform()->SetLocalRotation(newRotation);
             //GUI上で編集する用キャッシュ数値をVector3で取得
             Vector3 eulerRad = newRotation.ToEulerAngles();
             Vector3 rotEuler;
             rotEuler.x = Math::ToDegrees(eulerRad.x);
             rotEuler.y = Math::ToDegrees(eulerRad.y);
             rotEuler.z = Math::ToDegrees(eulerRad.z);
-            mOwner->GetTransform()->SetRotationEditor(rotEuler);
+            mActor->GetTransform()->SetRotationEditor(rotEuler);
         }
         // 力のリセット
         //（次フレームでまたAddForceするため）
@@ -210,13 +217,13 @@ void Rigidbody::ResolveVelocity(Rigidbody* other, const Vector3& normal, const V
     // ==========================================
     // 1. 相対速度の計算
     // ==========================================
-    Vector3 rA = contactPoint - mOwner->GetTransform()->GetPosition();
+    Vector3 rA = contactPoint - mActor->GetTransform()->GetPosition();
     Vector3 vContactA = mVelocity + Vector3::Cross(mAngularVelocity, rA);
 
     Vector3 rB = Vector3::Zero;
     Vector3 vContactB = Vector3::Zero;
     if (other) {
-        rB = contactPoint - other->GetOwner()->GetTransform()->GetPosition();
+        rB = contactPoint - other->GetActor()->GetTransform()->GetPosition();
         vContactB = other->GetVelocity() + Vector3::Cross(other->GetAngularVelocity(), rB);
     }
 
@@ -319,7 +326,7 @@ void Rigidbody::ApplyImpulse(const Vector3& impulse, const Vector3& contactPoint
 
     // 2. 角速度への影響（ここが回転の源！）
     // 重心から衝突点へのベクトル
-    Vector3 r = contactPoint - mOwner->GetTransform()->GetPosition();
+    Vector3 r = contactPoint - mActor->GetTransform()->GetPosition();
 
     // トルク成分 = r × impulse (外積)
     Vector3 impulsiveTorque = Vector3::Cross(r, impulse);

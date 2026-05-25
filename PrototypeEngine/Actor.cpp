@@ -1,37 +1,10 @@
 #include "Actor.h"
-#include "Collider.h"
-#include "Rigidbody.h"
-#include "SceneManager.h"
-#include "MeshRenderer.h"
-#include "BoxCollider.h"
-#include "SphereCollider.h"
-#include "CapsuleCollider.h"
-#include "ComponentFactory.h"
 #include "ScriptComponent.h"
-
 #include "Component.h"
 
-static uint64_t sNextID = 1;
-
 ActorObject::ActorObject(uint64_t id)
-	: mComponents()
-	, mGame(SceneManager::GetNowScene())
-	, mName("Actor")
-	, mState(EActive)
-	, mActorTag(ActorInformation::Tag::None)
-	, mCollider(nullptr)
-	, mRigidbody(nullptr)
+	: Entity(id)
 {
-	if (id == 0) {
-		// 新規生成なら新しい番号を振る
-		mID = sNextID++;
-	}
-	else {
-		// ロード時は元のIDを引き継ぐ
-		mID = id;
-		if (id >= sNextID)sNextID = id + 1;
-	}
-
 	mTransform = new Transform(this);
 
 	mName = "Actor" + std::to_string(mGame->mNextActorID++);
@@ -39,12 +12,7 @@ ActorObject::ActorObject(uint64_t id)
 }
 
 ActorObject::ActorObject(BaseScene* scene)
-	: mGame(scene)
-	, mName("Actor")
-	, mState(EActive)
-	, mActorTag(ActorInformation::Tag::None)
-	, mCollider(nullptr)
-	, mRigidbody(nullptr)
+	: Entity(scene)
 {
 	//Transformの生成
 	mTransform = new Transform(this);
@@ -65,13 +33,6 @@ ActorObject::~ActorObject()
 		delete mTransform;
 		mTransform = nullptr;
 	}
-	// Need to delete components
-	// Because ~Component calls RemoveComponent, need a different style loop
-	for (auto comp : mComponents)
-	{
-		delete comp;
-	}
-	mComponents.clear();
 }
 
 void ActorObject::FixedUpdate(float deltaTime)
@@ -110,6 +71,7 @@ void ActorObject::EditorComputeWorldTransform()
 	}
 }
 
+/*
 void ActorObject::UpdateComponents(float deltaTime)
 {
 	for (auto comp : mComponents)
@@ -209,7 +171,6 @@ void ActorObject::OnDisable()
 		comp->SetIsRun(false);
 	}
 }
-
 void ActorObject::AddComponent(Component* component)
 {
 	// Find the insertion point in the sorted vector
@@ -240,6 +201,7 @@ void ActorObject::RemoveComponent(Component* component)
 		mComponents.erase(iter);
 	}
 }
+*/
 
 void ActorObject::OnCollisionEnter(ActorObject* target)
 {
@@ -282,32 +244,19 @@ void ActorObject::OnCollisionExit(ActorObject* target)
 
 void ActorObject::Serialize(json& j) const
 {
+	Entity::Serialize(j);
+
 	j["Type"] = "Transform";
 	// ローカルの値を保存する
 	j["LocalPosition"] = { mTransform->GetLocalPosition().x, mTransform->GetLocalPosition().y, mTransform->GetLocalPosition().z };
 	j["LocalRotation"] = { mTransform->GetLocalRotation().w, mTransform->GetLocalRotation().x, mTransform->GetLocalRotation().y, mTransform->GetLocalRotation().z };
 	j["LocalScale"] = { mTransform->GetLocalScale().x, mTransform->GetLocalScale().y, mTransform->GetLocalScale().z };
-
-	j["ID"] = mID;
-	j["Name"] = mName;
-	j["State"] = mState;
-	j["Tag"] = mActorTag;
-	j["Static"] = mStatic;
-
-	// コンポーネントリストのシリアライズ
-	nlohmann::json componentsArray = nlohmann::json::array();
-	for (const auto& component : mComponents)
-	{
-		//コンポーネント単体用のjson
-		nlohmann::json componentData;
-		component->Serialize(componentData); // 各コンポーネントのシリアライズメソッドを呼び出す
-		componentsArray.push_back(componentData);
-	}
-	j["Components"] = componentsArray;
 }
 
 void ActorObject::Deserialize(const json& j)
 {
+	Entity::Deserialize(j);
+
 	mTransform->SetLocalPosition
 	(
 		Vector3
@@ -342,121 +291,7 @@ void ActorObject::Deserialize(const json& j)
 			j["LocalScale"][2]
 		)
 	);
-	//IDをロードする時
-	if (j.contains("ID")) {
-		uint64_t id = j.at("ID").get<uint64_t>();
-		mID = id;
-		if (id >= sNextID)sNextID = id + 1;
-	}
-	//IDがないなら
-	else {
-		mID = sNextID++;
-	}
-
-	if (j.contains("Name")) {
-		// 名前を読み込む
-		mName = j.at("Name").get<std::string>();
-	}
-
-	if (j.contains("State")) {
-		// 状態を読み込む
-		mState = static_cast<State>(j.at("State").get<int>());
-	}
-
-	if (j.contains("Tag")){
-		// タグを読み込む
-		mActorTag = static_cast<ActorInformation::Tag>(j.at("Tag").get<int>());
-	}
-
-	if (j.contains("Static")) {
-		// 静的状態タグを読み込む
-		mStatic = static_cast<ActorInformation::StaticTag>(j.at("Static").get<uint32_t>());
-	}
-
-	// コンポーネントリストを処理
-	if (j.contains("Components"))
-	{
-		for (const auto& componentData : j.at("Components"))
-		{
-			// コンポーネントの型を特定
-			string type = componentData.at("Type").get<string>();
-
-			// ファクトリーを使ってコンポーネントを生成
-			Component* newComponent = ComponentFactory::CreateComponent(type, this);
-
-			if (newComponent)
-			{
-				// 生成したコンポーネントにJSONデータを渡し、初期化
-				newComponent->Deserialize(componentData);
-				// ActorObjectにコンポーネントをアタッチ
-				AddComponent(newComponent);
-				mTransform->SetDirty();
-			}
-		}
-	}
-}
-
-void ActorObject::OnComponentAdded(Component* newComp)
-{
-	MeshRenderer* meshRenderer = nullptr;
-	//MeshRendererが追加された場合
-	if (meshRenderer = dynamic_cast<MeshRenderer*>(newComp))
-	{
-		//既にBoxColliderがアタッチされているかチェック
-		if (BoxCollider* collider = GetComponent<BoxCollider>())
-		{
-			// BoxColliderのサイズをメッシュに合わせて初期設定する
-			// MeshRendererが複数のメッシュを持つ場合は最初のメッシュを使う
-			if (!meshRenderer->GetMeshs().empty())
-			{
-				//BoxColliderにメッシュ境界情報を受け取るSetterが必要
-
-				collider->SetObjectAABB(meshRenderer->GetMeshs()[0]->GetBoxs()[0]);
-				collider->SetObjectOBB(meshRenderer->GetMeshs()[0]->GetOBBBoxs()[0]);
-			}
-		}
-	}
-	//BoxColliderが追加された場合
-	else if (BoxCollider* collider = dynamic_cast<BoxCollider*>(newComp))
-	{
-		//既にMeshRendererがアタッチされているかチェック
-		meshRenderer = GetComponent<MeshRenderer>();
-		if (meshRenderer != nullptr)
-		{
-			//MeshRendererが既にいるので、コライダーのサイズを初期設定する
-			if (!meshRenderer->GetMeshs().empty())
-			{
-				collider->SetObjectAABB(meshRenderer->GetMeshs()[0]->GetBoxs()[0]);
-				collider->SetObjectOBB(meshRenderer->GetMeshs()[0]->GetOBBBoxs()[0]);
-			}
-		}
-	}
-	else if (SphereCollider* sphere = dynamic_cast<SphereCollider*>(newComp))
-	{
-		//既にMeshRendererがアタッチされているかチェック
-		meshRenderer = GetComponent<MeshRenderer>();
-		if (meshRenderer != nullptr)
-		{
-			//MeshRendererが既にいるので、コライダーのサイズを初期設定する
-			if (!meshRenderer->GetMeshs().empty())
-			{
-				sphere->SetObjectSphere(meshRenderer->GetMeshs()[0]->GetAABBFromSphere());
-			}
-		}
-	}
-	else if (CapsuleCollider* capsule = dynamic_cast<CapsuleCollider*>(newComp))
-	{
-		//既にMeshRendererがアタッチされているかチェック
-		meshRenderer = GetComponent<MeshRenderer>();
-		if (meshRenderer != nullptr)
-		{
-			//MeshRendererが既にいるので、コライダーのサイズを初期設定する
-			if (!meshRenderer->GetMeshs().empty())
-			{
-				capsule->SetObjectCapsule(meshRenderer->GetMeshs()[0]->GetAABBFromCapsule());
-			}
-		}
-	}
+	mTransform->SetDirty();
 }
 
 ActorObject* ActorObject::Clone()

@@ -169,7 +169,7 @@ void Renderer::BuildStaticBatch()
 	// 2. メッシュごとの処理
 	for (auto mc : mMeshComps) {
 		if (mc->GetOwner()->GetStatic() != ActorInformation::StaticTag::Occluder_Static) continue;
-		Matrix4 world = mc->GetOwner()->GetTransform()->GetLocalTransform();
+		Matrix4 world = mc->GetActor()->GetTransform()->GetLocalTransform();
 		for (auto mesh : mc->GetMeshs())
 		{
 			for(int i = 0; i < mesh->GetVertexArrays().size(); i++)
@@ -393,8 +393,8 @@ void Renderer::MeshOrderUpdate()
 	std::sort(transparentList.begin(), transparentList.end(),
 		[&](MeshRenderer* a, MeshRenderer* b)
 		{
-			float distA = (a->GetOwner()->GetTransform()->GetPosition() - cameraPos).LengthSq();
-			float distB = (b->GetOwner()->GetTransform()->GetPosition() - cameraPos).LengthSq();
+			float distA = (a->GetActor()->GetTransform()->GetPosition() - cameraPos).LengthSq();
+			float distB = (b->GetActor()->GetTransform()->GetPosition() - cameraPos).LengthSq();
 			return distA > distB; // 遠い順に
 		}
 	);

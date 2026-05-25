@@ -23,7 +23,7 @@ protected:
 
 	Matrix4	mView;
 public:
-	BaseCamera(ActorObject* owner, int updateOrder = 200);
+	BaseCamera(Entity* owner, int updateOrder = 200);
 	~BaseCamera();
 
 	Vector3 GetCameraForward() { return mCameraForward; }

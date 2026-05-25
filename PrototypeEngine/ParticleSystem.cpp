@@ -6,7 +6,7 @@
 #include "imgui_impl_sdl3.h"
 #include "imgui_impl_opengl3.h"
 
-ParticleSystem::ParticleSystem(ActorObject* owner)
+ParticleSystem::ParticleSystem(Entity* owner)
 	: Component(owner)
 	, mVisible(true)
 	, mIsAlphaFade(false)
@@ -75,7 +75,7 @@ void ParticleSystem::Emit()
 	if (!p) return; // Å‘å”‚È‚çEmit‚µ‚È‚¢
 	p->mActive = true;
 	p->mLifetime = p->mMaxLifetime = Random::GetFloatRange(0.5f, 1.0f);
-	p->mPosition = mOwner->GetTransform()->GetLocalPosition(); // © –ˆ‰ñ‰ŠúˆÊ’u‚©‚ç
+	p->mPosition = mActor->GetTransform()->GetLocalPosition(); // © –ˆ‰ñ‰ŠúˆÊ’u‚©‚ç
 	p->mVelocity = AddVelocity();
 	p->mSize = Random::GetFloatRange(mParticleMinSize, mParticleMaxSize);
 	p->mColor = mDefaultColor;

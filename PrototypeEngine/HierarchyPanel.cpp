@@ -1,6 +1,7 @@
 ﻿#include "HierarchyPanel.h"
 #include "SceneManager.h" // SceneManager::GetNowScene() を使うために必要
 #include "Actor.h"        // new ActorObject() を使うために必要
+#include "UIActor.h"
 
 HierarchyPanel::HierarchyPanel(Renderer* renderer)
 	:GUIPanel(renderer)
@@ -34,21 +35,45 @@ void HierarchyPanel::Draw(float width, float height, ImTextureRef ref)
 		BaseScene* currentScene = SceneManager::GetNowScene();
 		if (currentScene)
 		{
-			string name = currentScene->GetName();
 			//シーン名を表示
 			ImGui::TextColored(ImVec4(0.5f, 0.5f, 1.0f, 1.0f), "Scene:%s", currentScene->GetName().c_str());
 			ImGui::Separator();
-			// Sceneからアクターリストを取得する関数を呼び出す
-			// BaseScene::GetActors() が必要
-			const vector<ActorObject*>& actors = currentScene->GetActorManager()->GetActors();
+			
+			if (ImGui::CollapsingHeader("GameWorld", ImGuiTreeNodeFlags_DefaultOpen)) {
+				// Sceneからアクターリストを取得する関数を呼び出す
+				// BaseScene::GetActors() が必要
+				const vector<ActorObject*>& actors = currentScene->GetActorManager()->GetActors();
 
-			//各親無しアクターをループして表示
-			for (auto& actor : actors)
-			{
-				//親がいないオブジェクトだけ描画
-				if (actor->GetTransform()->GetParentActor() == nullptr)
+				//各親無しアクターをループして表示
+				for (auto& actor : actors)
 				{
-					DrawActorNode(actor);
+					//親がいないオブジェクトだけ描画
+					if (actor->GetTransform()->GetParentActor() == nullptr)
+					{
+						DrawActorNode(actor);
+					}
+				}
+			}
+
+			ImGui::Spacing();
+			ImGui::Separator();
+			ImGui::Spacing();
+			
+			//UI階層
+			if (ImGui::CollapsingHeader("UI Canvas", ImGuiTreeNodeFlags_DefaultOpen)) {
+				// Sceneからアクターリストを取得する関数を呼び出す
+				// BaseScene::GetActors() が必要
+				const vector<UIActorObject*>& actors = currentScene->GetUIActorManager()->GetActors();
+
+				//各親無しアクターをループして表示
+				for (auto& actor : actors)
+				{
+					//親がいないオブジェクトだけ描画
+					if (actor->GetRectTransform()->GetParentActor() == nullptr)
+					{
+						//UIアクターのノード描画関数を呼び出す
+
+					}
 				}
 			}
 

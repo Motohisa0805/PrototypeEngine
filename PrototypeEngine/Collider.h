@@ -6,7 +6,7 @@
 * ===エンジン内部処理/Engine internal processing===
 */
 
-class ActorObject;
+class Entity;
 
 //コライダーの基底クラス
 //コライダーに必要な情報を持っています。
@@ -24,7 +24,7 @@ protected:
 
 	float					mContactOffset;
 public:
-							Collider(class ActorObject* owner, int updateOrder = 100);
+							Collider(Entity* owner, int updateOrder = 100);
 							~Collider();
 
 	enum ColliderType

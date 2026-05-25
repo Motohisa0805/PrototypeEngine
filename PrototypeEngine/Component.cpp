@@ -1,11 +1,14 @@
 #include "Component.h"
 #include "Actor.h"
+#include "UIActor.h"
 #include "imgui.h"
 #include "imgui_impl_sdl3.h"
 #include "imgui_impl_opengl3.h"
 
-Component::Component(ActorObject* owner, int updateOrder)
-	:mOwner(owner)
+Component::Component(Entity* owner, int updateOrder)
+	: mOwner(owner)
+	, mActor(static_cast<ActorObject*>(owner))
+	, mUIActor(static_cast<UIActorObject*>(owner))
 	, mUpdateOrder(updateOrder)
 	, mGame(owner->GetGame())
 	, mName("Component")
@@ -14,10 +17,12 @@ Component::Component(ActorObject* owner, int updateOrder)
 	, mHeaderActiveColor(0.26f, 0.59f, 0.98f, 1.00f)
 	, mIsRun(true)
 {
+	/*
 	if (mOwner->GetTransform())
 	{
 		mOwner->GetTransform()->SetDirty();
 	}
+	*/
 }
 
 Component::~Component()

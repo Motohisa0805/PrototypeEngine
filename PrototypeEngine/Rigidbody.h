@@ -10,7 +10,7 @@
 * ===エンジン内部処理/Engine internal processing===
 */
 
-class ActorObject;
+class Entity;
 
 //オブジェクトにコンポーネントして使うRigidbody
 // UnityのRigidbodyに近いクラス
@@ -66,68 +66,68 @@ private:
 
 	bool					mIsInActiveList;
 public:
-				Rigidbody(ActorObject* owner, int updateOrder = 100);
-				~Rigidbody();
+				 Rigidbody(Entity* owner, int updateOrder = 100);
+				 ~Rigidbody();
 	//FixedUpdateで呼び出す
-	void		FixedUpdate(float deltaTime)override;
+	void		 FixedUpdate(float deltaTime)override;
 
-	void		UpdateSleepState(float deltaTime);
+	void		 UpdateSleepState(float deltaTime);
 
-	void		OnUpdateWorldTransform()override;
+	void		 OnUpdateWorldTransform()override;
 
-	void		ResolveVelocity(Rigidbody* other, const Vector3& normal, const Vector3& contactPoint, float deltaTime);
+	void		 ResolveVelocity(Rigidbody* other, const Vector3& normal, const Vector3& contactPoint, float deltaTime);
 
-	void		ApplyImpulse(const Vector3& impulse, const Vector3& contactPoint);
+	void		 ApplyImpulse(const Vector3& impulse, const Vector3& contactPoint);
 
-	Matrix3 	GetInverseInertiaTensorW() const { return mInverseInertiaTensorW; }
+	Matrix3 	 GetInverseInertiaTensorW() const { return mInverseInertiaTensorW; }
 
 	//Getter
 	//重力フラグの参照
-	bool		IsUseGravity() { return mUseGravity; }
+	bool		 IsUseGravity() { return mUseGravity; }
 	//力を加える関数
-	void		AddForce(Vector3 velocity);
+	void		 AddForce(Vector3 velocity);
 
-	float 		GetMass() { return mMass; }
+	float 		 GetMass() { return mMass; }
 
-	float		GetInverseMass() const {return mMass > 0.0f ? 1.0f / mMass : 0.0f;}
+	float		 GetInverseMass() const {return mMass > 0.0f ? 1.0f / mMass : 0.0f;}
 
-	void		SetMass(float mass) {mMass = mass; CalculateInertiaTensor();}
+	void		 SetMass(float mass) {mMass = mass; CalculateInertiaTensor();}
 	//mVelocityのGetter
-	Vector3		GetVelocity() { return mVelocity; }
+	Vector3		 GetVelocity() { return mVelocity; }
 	//Setter
 	//mVelocityのSetter
-	void		SetVelocity(Vector3 velocity) { mVelocity = velocity; }
+	void		 SetVelocity(Vector3 velocity) { mVelocity = velocity; }
 	//重力フラグの切り替え
-	void		SetUseGravity(bool active) { mUseGravity = active; }
+	void		 SetUseGravity(bool active) { mUseGravity = active; }
 
-	float		GetFriction() const { return mFriction; }
-	void		SetFriction(float f) { mFriction = f; }
+	float		 GetFriction() const { return mFriction; }
+	void		 SetFriction(float f) { mFriction = f; }
 
-	float		GetBounciness() const { return mBounciness; }
-	void		SetBounciness(float b) { mBounciness = b; }
+	float		 GetBounciness() const { return mBounciness; }
+	void		 SetBounciness(float b) { mBounciness = b; }
 
-	void		SetGrounded(bool grounded) { mIsGrounded = grounded; }
-	bool		IsGrounded() const { return mIsGrounded; }
+	void		 SetGrounded(bool grounded) { mIsGrounded = grounded; }
+	bool		 IsGrounded() const { return mIsGrounded; }
 
 	// 慣性モーメントの初期化処理
-	void        CalculateInertiaTensor();
+	void         CalculateInertiaTensor();
 
-	Vector3		GetAngularVelocity() const { return mAngularVelocity; }
-	void		SetAngularVelocity(const Vector3& angularVelocity) { mAngularVelocity = angularVelocity; }
+	Vector3		 GetAngularVelocity() const { return mAngularVelocity; }
+	void		 SetAngularVelocity(const Vector3& angularVelocity) { mAngularVelocity = angularVelocity; }
 
-	Vector3		GetTempPosition() const { return mTempPosition; }
-	void		SetTempPosition(const Vector3& tempPosition) { mTempPosition = tempPosition; }
+	Vector3		 GetTempPosition() const { return mTempPosition; }
+	void		 SetTempPosition(const Vector3& tempPosition) { mTempPosition = tempPosition; }
 
-	bool 		IsSleeping() const { return mIsSleeping; }
-	void		WakeUp() { mIsSleeping = false; mSleepTimer = 0.0f; }
+	bool 		 IsSleeping() const { return mIsSleeping; }
+	void		 WakeUp() { mIsSleeping = false; mSleepTimer = 0.0f; }
 
-	bool 		IsInActiveList() const { return mIsInActiveList; }
-	void 		SetInActiveList(bool inActiveList) { mIsInActiveList = inActiveList; }
+	bool 		 IsInActiveList() const { return mIsInActiveList; }
+	void 		 SetInActiveList(bool inActiveList) { mIsInActiveList = inActiveList; }
 
-	void		Serialize(json& j) const override;
-	void		Deserialize(const json& j)override;
+	void		 Serialize(json& j) const override;
+	void		 Deserialize(const json& j)override;
 
-	void		DrawCustomGUI(const std::vector<PropertyInfo>& properties)override;
+	void		 DrawCustomGUI(const std::vector<PropertyInfo>& properties)override;
 
-	Component*	Clone(ActorObject* newOwner) const override;
+	Component*	 Clone(ActorObject* newOwner) const override;
 };

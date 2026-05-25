@@ -22,8 +22,8 @@ void FollowObjectMovement::FixedUpdate(float deltaTime)
 	if (!Math::NearZero(mVelocity.x)|| !Math::NearZero(mVelocity.y)|| !Math::NearZero(mVelocity.z))
 	{
 		targetRotation = Quaternion::LookRotation(mVelocity, Vector3::UnitY);
-		Quaternion currnetRotation = Quaternion::RotateTowards(mOwner->GetTransform()->GetLocalRotation(), targetRotation, rotationSpeed);
-		mOwner->GetTransform()->SetLocalRotation(currnetRotation);
+		Quaternion currnetRotation = Quaternion::RotateTowards(mActor->GetTransform()->GetLocalRotation(), targetRotation, rotationSpeed);
+		mActor->GetTransform()->SetLocalRotation(currnetRotation);
 	}
 
 	//ˆÚ“®ˆ—
@@ -41,10 +41,10 @@ void FollowObjectMovement::FixedUpdate(float deltaTime)
 	Vector3 moveDir = (camForward * mInputDirection.z) + (camRight * mInputDirection.x);
 
 	if (!Math::NearZero(moveDir.LengthSq())) {
-		Vector3 pos = mOwner->GetTransform()->GetLocalPosition();
+		Vector3 pos = mActor->GetTransform()->GetLocalPosition();
 		moveDir.Normalize();
 		pos += moveDir * mMaxSpeed * deltaTime;
-		mOwner->GetTransform()->SetLocalPosition(pos);
+		mActor->GetTransform()->SetLocalPosition(pos);
 	}
 }
 
@@ -80,7 +80,7 @@ void FollowObjectMovement::MoveInputUpdate(const InputState& keys)
 	{
 		mInputDirection.x = 1.0f;
 	}
-
+	/*
 	if (mGravity)
 	{
 		if (keys.Keyboard.GetKeyDown(SDL_SCANCODE_SPACE) && !mJumping)
@@ -91,4 +91,5 @@ void FollowObjectMovement::MoveInputUpdate(const InputState& keys)
 			}
 		}
 	}
+	*/
 }

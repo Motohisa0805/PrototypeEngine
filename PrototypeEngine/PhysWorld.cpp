@@ -44,7 +44,7 @@ bool PhysWorld::RayCast(const LineSegment& l, CollisionInfo& outColl, int tag)
 				outColl.mPoint = l.PointOnSegment(t);
 				outColl.mNormal = norm;
 				outColl.mCollider = collider;
-				outColl.mActor = collider->GetOwner();
+				outColl.mActor = collider->GetActor();
 				collided = true;
 			}
 		}
@@ -73,7 +73,7 @@ std::vector<PhysWorld::CollisionInfo> PhysWorld::RayCastAll(const LineSegment& l
 					info.mPoint = l.PointOnSegment(t);
 					info.mNormal = norm;
 					info.mCollider = collider;
-					info.mActor = collider->GetOwner();
+					info.mActor = collider->GetActor();
 					results.push_back(info);
 				}
 			}
@@ -160,8 +160,8 @@ void PhysWorld::SweepAndPruneXYZ(float deltaTime)
 			}
 
 			// ここまで来たらAとBは当たっている
-			auto actorA = colliderA->GetOwner();
-			auto actorB = colliderB->GetOwner();
+			auto actorA = colliderA->GetActor();
+			auto actorB = colliderB->GetActor();
 
 			std::pair<ActorObject*, ActorObject*> sortedPair = actorA < actorB ?
 				std::make_pair(actorA, actorB) : std::make_pair(actorB, actorA);
@@ -406,17 +406,17 @@ void PhysWorld::OneResolvePosition(ContactManifold& m)
 	if (m.gRbA)
 	{
 		// Aを法線方向に移動
-		Vector3 posA = m.gRbA->GetOwner()->GetTransform()->GetLocalPosition();
-		m.gRbA->GetOwner()->GetTransform()->SetLocalPosition(posA - correctionA);
-		m.gRbA->GetOwner()->GetTransform()->ComputeWorldTransform();
+		Vector3 posA = m.gRbA->GetActor()->GetTransform()->GetLocalPosition();
+		m.gRbA->GetActor()->GetTransform()->SetLocalPosition(posA - correctionA);
+		m.gRbA->GetActor()->GetTransform()->ComputeWorldTransform();
 	}
 
 	if (m.gRbB)
 	{
 		// Bを法線の【逆】方向に移動
-		Vector3 posB = m.gRbB->GetOwner()->GetTransform()->GetLocalPosition();
-		m.gRbB->GetOwner()->GetTransform()->SetLocalPosition(posB + correctionB);
-		m.gRbB->GetOwner()->GetTransform()->ComputeWorldTransform();
+		Vector3 posB = m.gRbB->GetActor()->GetTransform()->GetLocalPosition();
+		m.gRbB->GetActor()->GetTransform()->SetLocalPosition(posB + correctionB);
+		m.gRbB->GetActor()->GetTransform()->ComputeWorldTransform();
 	}
 	// 最終的なめり込み量を更新（残った分だけ次のイテレーションで解消する）
 	m.gPenetration -= correctionMagnitude;
@@ -426,10 +426,10 @@ void PhysWorld::ResolvePositions(std::vector<ContactManifold>& manifolds, int ve
 {
 	for (auto& m : manifolds) {
 		if (m.gRbA) {
-			m.gRbA->SetTempPosition(m.gRbA->GetOwner()->GetTransform()->GetLocalPosition());
+			m.gRbA->SetTempPosition(m.gRbA->GetActor()->GetTransform()->GetLocalPosition());
 		}
 		if (m.gRbB) {
-			m.gRbB->SetTempPosition(m.gRbB->GetOwner()->GetTransform()->GetLocalPosition());
+			m.gRbB->SetTempPosition(m.gRbB->GetActor()->GetTransform()->GetLocalPosition());
 		}
 	}
 
@@ -473,12 +473,12 @@ void PhysWorld::ResolvePositions(std::vector<ContactManifold>& manifolds, int ve
 	for(auto& m : manifolds)
 	{
 		if (m.gRbA) {
-			m.gRbA->GetOwner()->GetTransform()->SetLocalPosition(m.gRbA->GetTempPosition());
-			m.gRbA->GetOwner()->GetTransform()->ComputeWorldTransform();
+			m.gRbA->GetActor()->GetTransform()->SetLocalPosition(m.gRbA->GetTempPosition());
+			m.gRbA->GetActor()->GetTransform()->ComputeWorldTransform();
 		}
 		if (m.gRbB) {
-			m.gRbB->GetOwner()->GetTransform()->SetLocalPosition(m.gRbB->GetTempPosition());
-			m.gRbB->GetOwner()->GetTransform()->ComputeWorldTransform();
+			m.gRbB->GetActor()->GetTransform()->SetLocalPosition(m.gRbB->GetTempPosition());
+			m.gRbB->GetActor()->GetTransform()->ComputeWorldTransform();
 		}
 	}
 }
