@@ -5,7 +5,7 @@
 * ===エンジン内部処理/Engine internal processing===
 */
 
-class ActorObject;
+class Entity;
 
 //指定した方向を映すカメラ
 //FreeCameraは、ユーザーが自由にカメラの位置と向きを制御できるカメラです。
@@ -18,7 +18,7 @@ private:
 	// カメラの上方向ベクトル。
 	Vector3		mUp;
 public:
-			FreeCamera(ActorObject* owner);
+			FreeCamera(Entity* owner);
 
 	void    Initiailze();
 

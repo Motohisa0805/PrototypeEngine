@@ -5,7 +5,7 @@
 #include "BaseScene.h"
 #include "AudioSystem.h"
 
-BaseCamera::BaseCamera(ActorObject* owner, int updateOrder)
+BaseCamera::BaseCamera(Entity* owner, int updateOrder)
 	:Component(owner, updateOrder)
 	, mCameraForward(Vector3::Zero)
 	, mCameraRight(Vector3::Zero)

@@ -7,11 +7,11 @@ GameDialogBox::GameDialogBox(const string& text,
 	:Canvas()
 {
 
+	/*
 	// ダイアログボックスの位置を調整する
 	mBGPos = Vector2(0.0f, 0.0f);
 	mTitlePos = Vector2(0.0f, 100.0f);
 	mNextButtonPos = Vector2(0.0f, 0.0f);
-
 	mBackground = new Image();
 	mBackground->Load("DialogBG.png");
 
@@ -24,16 +24,17 @@ GameDialogBox::GameDialogBox(const string& text,
 	CreateButton("No",Vector2(0.0f, -80.0f), [this]() {
 		Close();
 		});
+	*/
 }
 
 GameDialogBox::GameDialogBox(const char8_t* text, std::function<void()> onOK)
 	:Canvas()
 {
+	/*
 	// ダイアログボックスの位置を調整する
 	mBGPos = Vector2(0.0f, 0.0f);
 	mTitlePos = Vector2(0.0f, 100.0f);
 	mNextButtonPos = Vector2(0.0f, 0.0f);
-
 	mBackground = new Image();
 	mBackground->Load("DialogBG.png");
 
@@ -49,16 +50,17 @@ GameDialogBox::GameDialogBox(const char8_t* text, std::function<void()> onOK)
 	CreateButton(u8"いいえ", Vector2(0.0f, -80.0f), [this]() {
 		Close();
 		});
+	*/
 }
 
 GameDialogBox::GameDialogBox(const char8_t* text, std::function<void()> onOK, std::function<void()> run)
 	:Canvas()
 {
+	/*
 	// ダイアログボックスの位置を調整する
 	mBGPos = Vector2(0.0f, 0.0f);
 	mTitlePos = Vector2(0.0f, 100.0f);
 	mNextButtonPos = Vector2(0.0f, 0.0f);
-
 	mBackground = new Image();
 	mBackground->Load("DialogBG.png");
 
@@ -75,16 +77,17 @@ GameDialogBox::GameDialogBox(const char8_t* text, std::function<void()> onOK, st
 		Close();
 		});
 	run();
+	*/
 }
 
 GameDialogBox::GameDialogBox(const char8_t* text, std::function<void()> onOK, std::function<void()> run, std::function<void()> exitRun)
 	:Canvas()
 {
+	/*
 	// ダイアログボックスの位置を調整する
 	mBGPos = Vector2(0.0f, 0.0f);
 	mTitlePos = Vector2(0.0f, 100.0f);
 	mNextButtonPos = Vector2(0.0f, 0.0f);
-
 	mBackground = new Image();
 	mBackground->Load("DialogBG.png");
 
@@ -102,16 +105,17 @@ GameDialogBox::GameDialogBox(const char8_t* text, std::function<void()> onOK, st
 		});
 	run();
 	mExitRun = exitRun;
+	*/
 }
 
 GameDialogBox::GameDialogBox(const char8_t* text, std::function<void()> onOK, std::function<void()> onNO, std::function<void()> exitRun, const bool onOffFrag)
 	:Canvas()
 {
+	/*
 	// ダイアログボックスの位置を調整する
 	mBGPos = Vector2(0.0f, 0.0f);
 	mTitlePos = Vector2(0.0f, 100.0f);
 	mNextButtonPos = Vector2(0.0f, 0.0f);
-
 	mBackground = new Image();
 	mBackground->Load("DialogBG.png");
 
@@ -129,9 +133,11 @@ GameDialogBox::GameDialogBox(const char8_t* text, std::function<void()> onOK, st
 		});
 	mOnNoRun = onNO;
 	mExitRun = exitRun;
+	*/
 }
 
 
+/*
 GameDialogBox::~GameDialogBox()
 {
 	if(mExitRun)
@@ -139,7 +145,6 @@ GameDialogBox::~GameDialogBox()
 		mExitRun();
 	}
 }
-
 void GameDialogBox::Close()
 {
 	Canvas::Close();
@@ -148,3 +153,4 @@ void GameDialogBox::Close()
 		mOnNoRun();
 	}
 }
+*/

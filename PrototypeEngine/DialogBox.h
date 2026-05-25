@@ -34,8 +34,8 @@ public:
 		std::function<void()> onNO,
 		std::function<void()> exitRun,
 		const bool onOffFrag);
-	~GameDialogBox();
+	//~GameDialogBox();
 
 
-	void					Close()override;
+	//void					Close()override;
 };

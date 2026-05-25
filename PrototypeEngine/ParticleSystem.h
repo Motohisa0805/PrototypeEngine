@@ -59,7 +59,7 @@ protected:
 	// パーティクルの発射タイマー
 	float					mEmitTimer = 0.0f;
 public:
-	ParticleSystem(ActorObject* owner);
+	ParticleSystem(Entity* owner);
 	~ParticleSystem();
 	// パーティクルシステムの更新
 	void						Update(float deltaTime)override;

@@ -31,7 +31,7 @@ bool SkeletalMeshRenderer::Draw(Shader* shader)
 			{
 				// Set the world transform
 				shader->SetMatrixUniform("uWorldTransform",
-					mOwner->GetTransform()->GetWorldTransform());
+					mActor->GetTransform()->GetWorldTransform());
 				if (mAnimator)
 				{
 					// Set the matrix palette
@@ -87,7 +87,7 @@ void SkeletalMeshRenderer::DrawForShadowMap(Shader* shader)
 			{
 				// Set the world transform
 				shader->SetMatrixUniform("uWorldTransform",
-					mOwner->GetTransform()->GetWorldTransform());
+					mActor->GetTransform()->GetWorldTransform());
 				if (mAnimator)
 				{
 					// Set the matrix palette
@@ -166,7 +166,7 @@ void SkeletalMeshRenderer::SetSkeleton(Skeleton* sk, ActorObject* actor)
 			//ルートアクターをSkeletonMeshRendererを持つオーナーのオブジェクトの子にする
 			if (mOwner)
 			{
-				mOwner->GetTransform()->AddChildActor(childActor);
+				mActor->GetTransform()->AddChildActor(childActor);
 			}
 		}
 		/*
@@ -264,7 +264,7 @@ void SkeletalMeshRenderer::DrawCustomGUI(const std::vector<PropertyInfo>& proper
 			//ボーンの親子関係を構築
 			if (mSkeleton != nullptr)
 			{
-				SetSkeleton(mSkeleton, mOwner);
+				SetSkeleton(mSkeleton, mActor);
 			}
 			mIsSkeletal = true;
 		}

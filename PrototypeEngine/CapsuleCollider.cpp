@@ -5,7 +5,7 @@
 #include "imgui_impl_sdl3.h"
 #include "imgui_impl_opengl3.h"
 
-CapsuleCollider::CapsuleCollider(ActorObject* owner, int updateOrder)
+CapsuleCollider::CapsuleCollider(Entity* owner, int updateOrder)
 	: Collider(owner,updateOrder)
 	, mObjectCapsule(Vector3::Zero,Vector3::Zero,0.5f)
 	, mWorldCapsule(Vector3::Zero, Vector3::Zero, 0.5f)
@@ -27,9 +27,9 @@ void CapsuleCollider::OnUpdateWorldTransform()
     mWorldCapsule = mObjectCapsule;
 
     // スケール・回転・位置を取得
-    Vector3 scale = mOwner->GetTransform()->GetScale();
-    Quaternion rot = mOwner->GetTransform()->GetRotation();
-    Vector3 pos = mOwner->GetTransform()->GetPosition();
+    Vector3 scale = mActor->GetTransform()->GetScale();
+    Quaternion rot = mActor->GetTransform()->GetRotation();
+    Vector3 pos = mActor->GetTransform()->GetPosition();
 
     // 回転＋スケール → 始点・終点をワールド変換
     Vector3 localStart = mWorldCapsule.mSegment.mStart;

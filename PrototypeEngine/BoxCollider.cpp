@@ -5,7 +5,7 @@
 #include "imgui_impl_sdl3.h"
 #include "imgui_impl_opengl3.h"
 
-BoxCollider::BoxCollider(ActorObject* owner, int updateOrder)
+BoxCollider::BoxCollider(Entity* owner, int updateOrder)
 	:Collider(owner, updateOrder)
 	, mObjectAABB(Vector3::Zero, Vector3::Zero)
 	, mObjectOBB(Vector3::Zero, Quaternion::Identity, Vector3::Zero)
@@ -13,8 +13,8 @@ BoxCollider::BoxCollider(ActorObject* owner, int updateOrder)
 {
 	mName = "BoxCollider";
 	// 単位ボックスを基準とした OBB
-	mObjectOBB.mCenter = owner->GetTransform()->GetPosition();
-	mObjectOBB.mRotation = owner->GetTransform()->GetRotation();
+	mObjectOBB.mCenter = mActor->GetTransform()->GetPosition();
+	mObjectOBB.mRotation = mActor->GetTransform()->GetRotation();
 	mObjectOBB.mExtents = Vector3(0.5f, 0.5f, 0.5f); // 1x1x1ボックスの半分
 
 
@@ -32,9 +32,9 @@ void BoxCollider::OnUpdateWorldTransform()
 {
 	//===OBBの更新===
 	// スケール、回転、位置を取得
-	Vector3 scale = mOwner->GetTransform()->GetScale();
-	Quaternion rotation = mOwner->GetTransform()->GetRotation();
-	Vector3 position = mOwner->GetTransform()->GetPosition();
+	Vector3 scale = mActor->GetTransform()->GetScale();
+	Quaternion rotation = mActor->GetTransform()->GetRotation();
+	Vector3 position = mActor->GetTransform()->GetPosition();
 	Vector3 offset = mObjectOBB.mOffset;
 
 	// ワールド OBB を構築

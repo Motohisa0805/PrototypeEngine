@@ -29,8 +29,9 @@ protected:
 	//スケルタルフラグ
 	bool						mIsSkeletal;
 
+
 public:
-								MeshRenderer(ActorObject* owner, bool isSkeletal = false);
+								MeshRenderer(Entity* owner, bool isSkeletal = false);
 								~MeshRenderer();							
 	// このメッシュコンポーネントを描画
 	virtual bool				Draw(Shader* shader);

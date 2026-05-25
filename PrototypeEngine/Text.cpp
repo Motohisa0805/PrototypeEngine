@@ -1,12 +1,12 @@
 #include "Text.h"
 
 Text::Text(Font* font, const Vector2& pos, int function)
-: Image(function)
+: Image(nullptr,function)
 , mFont(font)
 , mHighlighted(false)
 {
 	mTexture = nullptr;
-	mTexturePos = pos;
+	//mTexturePos = pos;
 	mFontSize = 30;
 	mColor = Color::White;
 }

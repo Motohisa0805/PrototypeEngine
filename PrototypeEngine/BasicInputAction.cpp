@@ -14,10 +14,10 @@ void BasicInputAction::FixedUpdate(float deltaTime)
 	//XAZˆÚ“®ˆ—
 	if (!Math::NearZero(mForwardSpeed) || !Math::NearZero(mStrafeSpeed))
 	{
-		Vector3 pos = mOwner->GetTransform()->GetLocalPosition();
-		pos += mOwner->GetTransform()->GetForward() * mForwardSpeed * deltaTime;
-		pos += mOwner->GetTransform()->GetRight() * mStrafeSpeed * deltaTime;
-		mOwner->GetTransform()->SetLocalPosition(pos);
+		Vector3 pos = mActor->GetTransform()->GetLocalPosition();
+		pos += mActor->GetTransform()->GetForward() * mForwardSpeed * deltaTime;
+		pos += mActor->GetTransform()->GetRight() * mStrafeSpeed * deltaTime;
+		mActor->GetTransform()->SetLocalPosition(pos);
 	}
 }
 
@@ -48,6 +48,7 @@ void BasicInputAction::MoveInputUpdate(const InputState& keys)
 	{
 		strafeSpeed += 8.0f;
 	}
+	/*
 	if (mGravity)
 	{
 		if (keys.Keyboard.GetKeyDown(SDL_SCANCODE_SPACE) && !mJumping)
@@ -78,6 +79,7 @@ void BasicInputAction::MoveInputUpdate(const InputState& keys)
 			}
 		}
 	}
+	*/
 
 	mForwardSpeed = forwardSpeed;
 	mStrafeSpeed = strafeSpeed;

@@ -5,7 +5,7 @@
 #include "imgui_impl_sdl3.h"
 #include "imgui_impl_opengl3.h"
 
-SphereCollider::SphereCollider(ActorObject* owner, int updateOrder)
+SphereCollider::SphereCollider(Entity* owner, int updateOrder)
 	:Collider(owner, updateOrder)
 	, mObjectSphere(Vector3::Zero, 0.5f)
 	, mWorldSphere(Vector3::Zero, 0.5f)
@@ -26,12 +26,12 @@ void SphereCollider::OnUpdateWorldTransform()
 {
 	mWorldSphere = mObjectSphere;
 
-	Vector3 scale = mOwner->GetTransform()->GetLocalScale();
+	Vector3 scale = mActor->GetTransform()->GetLocalScale();
 	float maxScale = std::max({ scale.x, scale.y, scale.z });
 	
 	mWorldSphere.mRadius = mObjectSphere.mRadius * maxScale;
 
-	mWorldSphere.mCenter = mObjectSphere.mCenter * maxScale + mOwner->GetTransform()->GetPosition();
+	mWorldSphere.mCenter = mObjectSphere.mCenter * maxScale + mActor->GetTransform()->GetPosition();
 }
 
 OBB SphereCollider::GetWorldOBB() const

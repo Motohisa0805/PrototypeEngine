@@ -2,7 +2,7 @@
 #include "Canvas.h"
 
 //ƒGƒ“ƒWƒ“‚Å‚Í”h¶ƒNƒ‰ƒX‚Æ‚µ‚ÄŠg’£«‚ª‚È‚­‚È‚é‚Ì”p~—\’è
-
+/*
 class TPSCanvas : public Canvas
 {
 protected:
@@ -46,3 +46,4 @@ public:
 
 	Image*									GetHelthBar() { return mHelthBar; }
 };
+*/

@@ -169,6 +169,7 @@
     <ClCompile Include="AudioBankProperty.cpp" />
     <ClCompile Include="AudioComponent.cpp" />
     <ClCompile Include="AudioSystem.cpp" />
+    <ClCompile Include="Entity.cpp" />
     <ClCompile Include="BaseCamera.cpp" />
     <ClCompile Include="BaseScene.cpp" />
     <ClCompile Include="BasicInputAction.cpp" />
@@ -196,6 +197,7 @@
     <ClCompile Include="EditorTextureManager.cpp" />
     <ClCompile Include="IsLandPhysic.cpp" />
     <ClCompile Include="PasteActorCommand.cpp" />
+    <ClCompile Include="RectTransform.cpp" />
     <ClCompile Include="RenameCommand.cpp" />
     <ClCompile Include="ReorderCommand.cpp" />
     <ClCompile Include="ReparentAndReorderCommand.cpp" />
@@ -262,6 +264,8 @@
     <ClCompile Include="ToolbarPanel.cpp" />
     <ClCompile Include="TPSCanvas.cpp" />
     <ClCompile Include="Transform.cpp" />
+    <ClCompile Include="UIActor.cpp" />
+    <ClCompile Include="UIActorManager.cpp" />
     <ClCompile Include="VertexArray.cpp" />
     <ClCompile Include="WindowRenderProperty.cpp" />
   </ItemGroup>
@@ -273,6 +277,7 @@
     <ClInclude Include="AudioBankProperty.h" />
     <ClInclude Include="AudioComponent.h" />
     <ClInclude Include="AudioSystem.h" />
+    <ClInclude Include="Entity.h" />
     <ClInclude Include="BaseCamera.h" />
     <ClInclude Include="BaseScene.h" />
     <ClInclude Include="BasicInputAction.h" />
@@ -304,6 +309,7 @@
     <ClInclude Include="IsLandPhysic.h" />
     <ClInclude Include="PasteActorCommand.h" />
     <ClInclude Include="Physics.h" />
+    <ClInclude Include="RectTransform.h" />
     <ClInclude Include="RenameCommand.h" />
     <ClInclude Include="ReorderCommand.h" />
     <ClInclude Include="ReparentAndReorderCommand.h" />
@@ -381,6 +387,8 @@
     <ClInclude Include="TPSCanvas.h" />
     <ClInclude Include="Transform.h" />
     <ClInclude Include="Typedefs.h" />
+    <ClInclude Include="UIActor.h" />
+    <ClInclude Include="UIActorManager.h" />
     <ClInclude Include="VertexArray.h" />
     <ClInclude Include="WindowRenderProperty.h" />
   </ItemGroup>

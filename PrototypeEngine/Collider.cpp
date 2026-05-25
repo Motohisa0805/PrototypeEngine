@@ -6,8 +6,8 @@
 #include "imgui_impl_sdl3.h"
 #include "imgui_impl_opengl3.h"
 
-Collider::Collider(ActorObject* owner, int updateOrder)
-	:Component(owner,updateOrder)
+Collider::Collider(Entity* owner, int updateOrder)
+	: Component(owner,updateOrder)
 	, mWorldAABB(Vector3::Zero, Vector3::Zero)
 	, mIsCollider(true)
 	, mContactOffset(0.001f)

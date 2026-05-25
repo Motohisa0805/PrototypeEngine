@@ -5,6 +5,7 @@
 #include "CommandManager.h"
 
 class ActorObject;
+class UIActorObject;
 //ゲームのシーン内のオブジェクトを描画する予定のクラス
 //本格的な描画処理は未実装
 class HierarchyPanel : public GUIPanel
@@ -23,6 +24,7 @@ public:
 	void		Draw(float width, float height, ImTextureRef ref = nullptr)override;
 
 	void		DrawActorNode(ActorObject* actor);
+
 	// 右クリックメニュー
 	bool		RightClickMenu();
 

@@ -5,7 +5,7 @@
 /*
 * ===ƒGƒ“ƒWƒ““à•”ˆ—/Engine internal processing===
 */
-
+/*
 //‘O•ûéŒ¾
 class Text;
 class Texture;
@@ -63,3 +63,4 @@ private:
 
 	Vector2					mBaseButtonPosition;
 };
+*/

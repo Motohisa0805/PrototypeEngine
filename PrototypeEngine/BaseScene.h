@@ -3,12 +3,14 @@
 #include "Typedefs.h"
 #include "InputSystem.h"
 #include "ActorManager.h"
+#include "UIActorManager.h"
 /*
 * ===エンジン内部処理/Engine internal processing===
 */
 
 //前方宣言
 class ActorObject;
+class UIActorObject;
 class Canvas;
 class Image;
 class Font;
@@ -25,12 +27,15 @@ class BaseScene
 protected:
 	//ActorObjectがコンストラクタで呼び出すための関数
 	friend class ActorObject;
+	friend class UIActorObject;
 	// Track if we're updating actors right now
 	bool											mUpdatingActors;
 
 	AudioSystem*									mAudioSystem;
 	
 	ActorManager*									mActorManager;
+
+	UIActorManager*									mUIActorManager;
 	
 	vector<Canvas*>									mCanvasStack;
 	
@@ -82,6 +87,9 @@ public:
 	void											LoadSkyBoxTexture(string file);
 
 	ActorManager*									GetActorManager() { return mActorManager; }
+
+	UIActorManager*									GetUIActorManager() { return mUIActorManager; }
+
 	//template<typename T>
 	//vector<ActorObject*>							SelectAllActorComponent();
 
@@ -95,7 +103,7 @@ public:
 	// Manage UI stack
 	const vector<Canvas*>&							GetUIStack() { return mCanvasStack; }
 	//UIScreenの設定
-	void											PushUI(Canvas* screen);
+	void											PushCanvas(Canvas* screen);
 	//Image配列のGetter
 	const vector<Image*>&							GetImageStack() { return mImageStack; }
 	const vector<Image*>&							GetDebugImageStack() { return mDebugImageStack; }

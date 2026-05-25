@@ -6,7 +6,7 @@
 #include "imgui_impl_sdl3.h"
 #include "imgui_impl_opengl3.h"
 
-DirectionalLightComponent::DirectionalLightComponent(ActorObject* owner)
+DirectionalLightComponent::DirectionalLightComponent(Entity* owner)
 	: Component(owner)
 	, mDirectionalLight()
 {
@@ -30,7 +30,7 @@ void DirectionalLightComponent::OnUpdateWorldTransform()
     Vector3 baseDir = Vector3::UnitX;
 
     // 回転を適用してライトの最終的な方向を得る（ワールド空間）
-    Vector3 lightDir = Vector3::Transform(baseDir, mOwner->GetTransform()->GetRotation());
+    Vector3 lightDir = Vector3::Transform(baseDir, mActor->GetTransform()->GetRotation());
     //lightDir.Normalize();
 
     // ライト方向を保存
@@ -57,7 +57,7 @@ void DirectionalLightComponent::OnUpdateWorldTransform()
 
 
 
-    mDirectionalLight.gPosition = mOwner->GetTransform()->GetPosition();
+    mDirectionalLight.gPosition = mActor->GetTransform()->GetPosition();
     EngineWindow::GetRenderer()->SetDirectionalLight(mDirectionalLight);
 }
 

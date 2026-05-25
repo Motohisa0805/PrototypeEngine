@@ -164,7 +164,7 @@ void Transform::AddChildActor(ActorObject* child)
 {
 	if (child)
 	{
-		child->GetTransform()->SetParent(mOwner);
+		child->GetTransform()->SetParent(mActor);
 	}
 }
 
@@ -203,14 +203,14 @@ void Transform::SetParent(ActorObject* newParent)
 	// 3. 現在の親がいる場合は、その親の子リストから自分を削除する
 	if (mParentActor)
 	{
-		mParentActor->GetTransform()->RemoveChild(mOwner);
+		mParentActor->GetTransform()->RemoveChild(mActor);
 	}
 
 	// 4. 新しい親子関係を構築する
 	mParentActor = newParent;
 	if (mParentActor)
 	{
-		mParentActor->GetTransform()->AddChild(mOwner);
+		mParentActor->GetTransform()->AddChild(mActor);
 	}
 
 	// 5. ワールドトランスフォームを維持するように、新しいローカル値を計算する
@@ -274,31 +274,10 @@ void Transform::ActiveDirty()
 void Transform::Serialize(json& j) const
 {
 	Component::Serialize(j);
-	/*
-	// ローカルの値を保存する
-	j["LocalPosition"] = { mLocalPosition.x, mLocalPosition.y, mLocalPosition.z };
-	j["LocalRotation"] = { mLocalRotation.w, mLocalRotation.x, mLocalRotation.y, mLocalRotation.z };
-	j["LocalScale"] = { mLocalScale.x, mLocalScale.y, mLocalScale.z };
-	*/
 }
 
 void Transform::Deserialize(const json& j)
 {
-	/*
-	mLocalPosition.x = j["LocalPosition"][0];
-	mLocalPosition.y = j["LocalPosition"][1];
-	mLocalPosition.z = j["LocalPosition"][2];
-
-	mLocalRotation.w = j["LocalRotation"][0];
-	mLocalRotation.x = j["LocalRotation"][1];
-	mLocalRotation.y = j["LocalRotation"][2];
-	mLocalRotation.z = j["LocalRotation"][3];
-
-	mLocalScale.x = j["LocalScale"][0];
-	mLocalScale.y = j["LocalScale"][1];
-	mLocalScale.z = j["LocalScale"][2];
-	*/
-
 	mIsDirty = true;
 }
 

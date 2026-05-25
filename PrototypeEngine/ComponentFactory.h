@@ -1,14 +1,11 @@
 #pragma once
 #include "PrototypeEngine_API.h"
-#include "Component.h"
-#include <string>
-#include <map>
-#include <functional>
+#include "Typedefs.h"
 
 class Component;
-class ActorObject;
+class Entity;
 
-using ComponentCreator = std::function<Component* (ActorObject*)>;
+using ComponentCreator = std::function<Component* (Entity*)>;
 
 //FOCUS : コンポーネントの動的生成を行っているファイル
 class PROTOTYPEENGINE_API ComponentFactory
@@ -20,7 +17,7 @@ public:
 	//ファクトリーの登録処理
 	static void					RegisterComponent(const string& type, ComponentCreator creator);
 	
-	static Component*			CreateComponent(const string& type, ActorObject* owner);
+	static Component*			CreateComponent(const string& type, Entity* owner);
 
 	//登録されているコンポーネントの一覧を取得
 	static std::vector<string>	GetRegisteredComponentNames();
@@ -36,7 +33,7 @@ struct  ComponentRegistrar
 	ComponentRegistrar(const string& name)
 	{
 		ComponentFactory::RegisterComponent(name,
-			[](ActorObject* owner) -> Component*
+			[](Entity* owner) -> Component*
 			{
 				return new T(owner);
 			});

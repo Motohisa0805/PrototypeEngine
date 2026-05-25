@@ -14,6 +14,7 @@
 
 BaseScene::BaseScene()
 	: mActorManager(nullptr)
+	, mUIActorManager(nullptr)
 	, mAudioSystem(nullptr)
 	, mUpdatingActors(false)
 	, mFixed_Delta_Time(0.02f)
@@ -24,9 +25,12 @@ BaseScene::BaseScene()
 	, mNextActorID(0)
 	, mIsDirtyFlag(false)
 {
-	if (mActorManager == nullptr)
-	{
+	if (mActorManager == nullptr){
 		mActorManager = new ActorManager();
+	}
+
+	if (mUIActorManager == nullptr) {
+		mUIActorManager = new UIActorManager();
 	}
 }
 
@@ -120,6 +124,9 @@ bool BaseScene::FixedUpdate()
 
 
 		EngineWindow::GetPhysWorld()->SweepAndPruneXYZ(deltaTime);
+		
+		//UIの固定更新
+		mUIActorManager->FixedUpdateActors(deltaTime);
 
 		mFixedTimeAccumulator -= mFixed_Delta_Time;
 	}
@@ -131,12 +138,17 @@ bool BaseScene::Update()
 {
 	//特定のシーンに読み込まれたオブジェクトやコンポーネントを
 	// まとめて処理する部分
+	float deltaTime = Time::gDeltaTime;
 	// Update all actors
-	mActorManager->UpdateActors(Time::gDeltaTime);
+	mActorManager->UpdateActors(deltaTime);
 
 	// Update audio system
-	mAudioSystem->Update(Time::gDeltaTime);
+	mAudioSystem->Update(deltaTime);
+	
+	//全UIアクターの更新
+	mUIActorManager->UpdateActors(deltaTime);
 
+	//↓今後破棄予定
 	// Update UI screens
 	for (int i = 0; i < mCanvasStack.size(); i++)
 	{
@@ -169,6 +181,7 @@ bool BaseScene::Update()
 	auto iter = mCanvasStack.begin();
 	while (iter != mCanvasStack.end())
 	{
+		/*
 		if ((*iter)->GetState() == Canvas::EDestroy)
 		{
 			delete* iter;
@@ -178,6 +191,7 @@ bool BaseScene::Update()
 		{
 			++iter;
 		}
+		*/
 	}
 	auto image = mImageStack.begin();
 	while (image != mImageStack.end())
@@ -203,10 +217,14 @@ bool BaseScene::EditorUpdate(bool isRun)
 	{
 		return false;
 	}
+	float deltaTime = Time::gDeltaTime;
 	//特定のシーンに読み込まれたオブジェクトやコンポーネントを
 	// まとめて処理する部分
 	// Update all actors
-	mActorManager->UpdateActors(Time::gDeltaTime);
+	mActorManager->UpdateActors(deltaTime);
+
+	//全UIアクターの更新
+	mUIActorManager->UpdateActors(deltaTime);
 
 	// Update UI screens
 	for (int i = 0; i < mCanvasStack.size(); i++)
@@ -229,6 +247,7 @@ bool BaseScene::EditorUpdate(bool isRun)
 	auto iter = mCanvasStack.begin();
 	while (iter != mCanvasStack.end())
 	{
+		/*
 		if ((*iter)->GetState() == Canvas::EDestroy)
 		{
 			delete* iter;
@@ -238,6 +257,7 @@ bool BaseScene::EditorUpdate(bool isRun)
 		{
 			++iter;
 		}
+		*/
 	}
 	auto image = mImageStack.begin();
 	while (image != mImageStack.end())
@@ -324,7 +344,7 @@ Skeleton* BaseScene::GetSkeleton(const string& fileName)
 	return nullptr;
 }
 //キャンバスを格納
-void BaseScene::PushUI(Canvas* screen)
+void BaseScene::PushCanvas(Canvas* screen)
 {
 	mCanvasStack.emplace_back(screen);
 }
@@ -434,6 +454,12 @@ void BaseScene::UnloadData()
 		mActorManager->UnloadActors();
 		delete mActorManager;
 		mActorManager = nullptr;
+	}
+
+	if (mUIActorManager) {
+		mUIActorManager->UnloadActors();
+		delete mUIActorManager;
+		mUIActorManager = nullptr;
 	}
 
 	// Clear the UI stack

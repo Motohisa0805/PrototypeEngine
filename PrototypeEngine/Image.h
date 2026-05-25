@@ -1,7 +1,8 @@
 #pragma once
+#include "Component.h"
 #include "Math.h"
 #include "Texture.h"
-
+#include "UIActor.h"
 /*
 * ===エンジン内部処理/Engine internal processing===
 */
@@ -13,7 +14,7 @@ class Shader;
 
 //画像描画をカプセル化したクラス
 // UnityのImageに近いクラス
-class Image
+class Image : public Component
 {
 public:
 	// UIがアクティブか閉じているかを追跡します
@@ -38,22 +39,14 @@ public:
 		Radial360
 	};
 protected:
-	BaseScene*				mGame;
 	//画像
 	Texture*				mTexture;
-	// Configure positions
-	Vector2					mTexturePos;
 
 	float					mOffsetX;
 	float					mOffsetY;
 
-	//スケーリング
-	Vector3					mTexScale;
-
 	float					mRectScaleWidth;
 	float					mRectScaleHeight;
-
-	float					mAngleZ;
 
 	SDL_Rect				mTextureRect;
 
@@ -67,10 +60,8 @@ protected:
 	FillMethod				mFillMethod;
 
 	int						mVerticesCount;
-
-	vector<Image*>			mImages;
 public:
-							Image(int function = 0);
+							Image(Entity* owner,int function = 0);
 	virtual					~Image();
 	//読み込み処理
 	virtual void			Load(string file);
@@ -123,6 +114,4 @@ public:
 	virtual int				GetVerticesCount() { return mVerticesCount; }
 
 	virtual void 			SetState(UIState state);
-
-	void					AddChildUIImage(Image* image);
 };
