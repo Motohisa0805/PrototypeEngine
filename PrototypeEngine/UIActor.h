@@ -24,12 +24,12 @@ public:
 	void							EditorComputeWorldTransform()override;
 
 	RectTransform*					GetRectTransform() { return mRectTransform; }
-
+	BaseTransform*					GetBaseTransform()override { return mRectTransform; }
 	// JSONに変換するメソッド
 	void							Serialize(json& j) const;
 	// JSONから復元するメソッド
 	void							Deserialize(const json& j)override;
 
-	UIActorObject*					Clone();
+	Entity*							Clone()override;
 };
 

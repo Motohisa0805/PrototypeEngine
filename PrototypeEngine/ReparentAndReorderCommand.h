@@ -14,7 +14,7 @@ private:
     size_t      mFromIndex;       // 移動前のリスト内でのインデックス
     size_t      mToIndex;         // 移動後のリスト内でのインデックス
 public:
-	ReparentAndReorderCommand(ActorObject* target, ActorObject* newParent, size_t toIndex);
+	ReparentAndReorderCommand(Entity* target, Entity* newParent, size_t toIndex);
 
 	void Execute()override;
 
@@ -24,5 +24,6 @@ public:
 
     // IDから対象となる「変更可能なアクターリスト」を取得する内部ヘルパー関数
     vector<ActorObject*>& GetActorListMutable(uint64_t parentID);
+    vector<UIActorObject*>& GetUIActorListMutable(uint64_t parentID);
 };
 

@@ -1,21 +1,12 @@
 #include "Canvas.h"
-#include "SceneManager.h"
-#include "WindowRenderProperty.h"
-#include "GUIWinMain.h"
-#include "Texture.h"
-#include "Shader.h"
-#include "GameWinMain.h"
-#include "Font.h"
-#include "Image.h"
-#include "Text.h"
-#include "Button.h"
+#include "ScriptComponent.h"
+#include "Component.h"
 #include "BaseScene.h"
-
 
 Canvas::Canvas(uint64_t id)
 	:UIActorObject(id)
 {
-	mGame->PushCanvas(this);
+	mName = "Canvas";
 }
 
 Canvas::~Canvas()

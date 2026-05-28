@@ -19,32 +19,8 @@
     <Filter Include="SourceCodes">
       <UniqueIdentifier>{43960d6a-6463-41b2-a24d-36bd2e751ec9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="SourceCodes\C_Components">
-      <UniqueIdentifier>{467e75fa-b246-4d5a-9c65-57965719625d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="SourceCodes\D_UIs">
-      <UniqueIdentifier>{cec41da6-f2de-4cc1-a16c-e315e240a4f2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="SourceCodes\A_Game">
-      <UniqueIdentifier>{a4b83392-8759-44af-8f1e-adc8a79610a2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="SourceCodes\A_Game\A_Mains">
-      <UniqueIdentifier>{5437f9b2-d230-4919-996e-694b4602d1da}</UniqueIdentifier>
-    </Filter>
     <Filter Include="SourceCodes\A_Editor">
       <UniqueIdentifier>{b3ca6eff-bb37-4145-90a0-bc5b28c9397e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="SourceCodes\G_OutsideLibrary">
-      <UniqueIdentifier>{2af7f795-ac0f-43c2-a3c2-87729f652388}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="SourceCodes\G_OutsideLibrary\ImGui">
-      <UniqueIdentifier>{56aa8154-9617-45c4-b802-8cf79871b20c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="SourceCodes\G_OutsideLibrary\tinyxml2">
-      <UniqueIdentifier>{5b8889e2-b877-4c2b-915d-e3e0189aec73}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="SourceCodes\G_OutsideLibrary\stb">
-      <UniqueIdentifier>{96ff0061-94a7-432f-9124-6efbad3538f5}</UniqueIdentifier>
     </Filter>
     <Filter Include="SourceCodes\A_Editor\Function">
       <UniqueIdentifier>{b8e543f2-5cda-4ce4-8191-fec5dd051abc}</UniqueIdentifier>
@@ -54,15 +30,6 @@
     </Filter>
     <Filter Include="SourceCodes\A_Editor\Function\Actors">
       <UniqueIdentifier>{8105e781-d7ca-4db8-8609-d1ada9412e72}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="SourceCodes\A_Editor\Function\Actors\Base">
-      <UniqueIdentifier>{2488c340-9626-4efa-922f-aa14a512627d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="SourceCodes\A_Editor\Function\Actors\Base\Transform">
-      <UniqueIdentifier>{efedc7e3-dfec-41ef-87f7-54c8e3cb905a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="SourceCodes\A_Editor\Function\Actors\Base\Actor">
-      <UniqueIdentifier>{b986ca08-3d79-483e-af95-545594904a40}</UniqueIdentifier>
     </Filter>
     <Filter Include="SourceCodes\A_Editor\Function\Actors\Bones">
       <UniqueIdentifier>{a3150af8-6b38-4108-9f33-0efdf3cc6822}</UniqueIdentifier>
@@ -103,9 +70,6 @@
     <Filter Include="SourceCodes\A_Editor\Function\Scenes">
       <UniqueIdentifier>{60db6326-c58a-4deb-8026-7c825bd2cf61}</UniqueIdentifier>
     </Filter>
-    <Filter Include="SourceCodes\A_Editor\Function\Scenes\LoadManager">
-      <UniqueIdentifier>{773c9f77-27e4-44d6-bb19-c1548895daa9}</UniqueIdentifier>
-    </Filter>
     <Filter Include="SourceCodes\A_Editor\Function\ScriptManager">
       <UniqueIdentifier>{ab59c046-62e5-4873-9890-610d70a750fd}</UniqueIdentifier>
     </Filter>
@@ -117,12 +81,6 @@
     </Filter>
     <Filter Include="SourceCodes\A_Editor\Function\Physics">
       <UniqueIdentifier>{636a980d-5a84-4bb6-b623-bfcafa4bfd3b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="SourceCodes\A_Editor\Function\Physics\Colliders">
-      <UniqueIdentifier>{e7ef0b20-18fa-4c0c-9a6f-59f3a981024a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="SourceCodes\A_Editor\Function\Physics\Rigidbody">
-      <UniqueIdentifier>{af4df9c3-4398-4e59-a6c2-b24feaa1e209}</UniqueIdentifier>
     </Filter>
     <Filter Include="SourceCodes\A_Editor\Function\GUIs">
       <UniqueIdentifier>{e45438c9-7504-4a6c-9785-c706183d4edd}</UniqueIdentifier>
@@ -147,6 +105,51 @@
     </Filter>
     <Filter Include="SourceCodes\A_Editor\Function\GUIs\EditorClipboard">
       <UniqueIdentifier>{732ce46f-9e3b-436d-a71b-03f760d93d27}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceCodes\A_Editor\Function\Actors\Actor">
+      <UniqueIdentifier>{b986ca08-3d79-483e-af95-545594904a40}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceCodes\A_Editor\Function\Actors\Actor\Entity">
+      <UniqueIdentifier>{f8c7ea3d-f2d6-4b44-b575-9e5a4cfd522a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceCodes\A_Editor\Function\Actors\Manager">
+      <UniqueIdentifier>{8dbc75de-6df1-4747-a83d-5f6ec63e96cc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceCodes\A_Editor\Function\Actors\Transform">
+      <UniqueIdentifier>{efedc7e3-dfec-41ef-87f7-54c8e3cb905a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceCodes\A_Editor\Function\Actors\Transform\Base">
+      <UniqueIdentifier>{63b5bd6d-dff8-4d4f-82f6-188c7e457525}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceCodes\A_Editor\Function\Components\Factory">
+      <UniqueIdentifier>{42709d57-3d29-4247-abb6-f887ce4e002b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceCodes\A_Editor\Function\Components\Rigidbody">
+      <UniqueIdentifier>{af4df9c3-4398-4e59-a6c2-b24feaa1e209}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceCodes\A_Editor\Function\Components\Colliders">
+      <UniqueIdentifier>{e7ef0b20-18fa-4c0c-9a6f-59f3a981024a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceCodes\A_Editor\Function\Scenes\Load&amp;Save">
+      <UniqueIdentifier>{773c9f77-27e4-44d6-bb19-c1548895daa9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceCodes\B_Game">
+      <UniqueIdentifier>{a4b83392-8759-44af-8f1e-adc8a79610a2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceCodes\B_Game\A_Mains">
+      <UniqueIdentifier>{5437f9b2-d230-4919-996e-694b4602d1da}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceCodes\C_OutsideLibrary">
+      <UniqueIdentifier>{2af7f795-ac0f-43c2-a3c2-87729f652388}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceCodes\C_OutsideLibrary\ImGui">
+      <UniqueIdentifier>{56aa8154-9617-45c4-b802-8cf79871b20c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceCodes\C_OutsideLibrary\tinyxml2">
+      <UniqueIdentifier>{5b8889e2-b877-4c2b-915d-e3e0189aec73}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceCodes\C_OutsideLibrary\stb">
+      <UniqueIdentifier>{96ff0061-94a7-432f-9124-6efbad3538f5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -214,23 +217,8 @@
     <None Include="cpp.hint" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="BasicInputAction.cpp">
-      <Filter>SourceCodes\C_Components</Filter>
-    </ClCompile>
-    <ClCompile Include="FollowObjectMovement.cpp">
-      <Filter>SourceCodes\C_Components</Filter>
-    </ClCompile>
-    <ClCompile Include="PushButtonMove.cpp">
-      <Filter>SourceCodes\C_Components</Filter>
-    </ClCompile>
-    <ClCompile Include="TargetComponent.cpp">
-      <Filter>SourceCodes\C_Components</Filter>
-    </ClCompile>
-    <ClCompile Include="PauseMenu.cpp">
-      <Filter>SourceCodes\D_UIs</Filter>
-    </ClCompile>
     <ClCompile Include="Actor.cpp">
-      <Filter>SourceCodes\A_Editor\Function\Actors\Base\Actor</Filter>
+      <Filter>SourceCodes\A_Editor\Function\Actors\Actor</Filter>
     </ClCompile>
     <ClCompile Include="BoneActor.cpp">
       <Filter>SourceCodes\A_Editor\Function\Actors\Bones</Filter>
@@ -308,10 +296,10 @@
       <Filter>SourceCodes\A_Editor\Function\Renderers</Filter>
     </ClCompile>
     <ClCompile Include="Rigidbody.cpp">
-      <Filter>SourceCodes\A_Editor\Function\Physics\Rigidbody</Filter>
+      <Filter>SourceCodes\A_Editor\Function\Components\Rigidbody</Filter>
     </ClCompile>
     <ClCompile Include="SceneManager.cpp">
-      <Filter>SourceCodes\A_Editor\Function\Scenes\LoadManager</Filter>
+      <Filter>SourceCodes\A_Editor\Function\Scenes\Load&amp;Save</Filter>
     </ClCompile>
     <ClCompile Include="BaseScene.cpp">
       <Filter>SourceCodes\A_Editor\Function\Scenes</Filter>
@@ -356,25 +344,25 @@
       <Filter>SourceCodes\A_Editor\Function\Utilitys</Filter>
     </ClCompile>
     <ClCompile Include="ImGui\imgui.cpp">
-      <Filter>SourceCodes\G_OutsideLibrary\ImGui</Filter>
+      <Filter>SourceCodes\C_OutsideLibrary\ImGui</Filter>
     </ClCompile>
     <ClCompile Include="ImGui\imgui_demo.cpp">
-      <Filter>SourceCodes\G_OutsideLibrary\ImGui</Filter>
+      <Filter>SourceCodes\C_OutsideLibrary\ImGui</Filter>
     </ClCompile>
     <ClCompile Include="ImGui\imgui_draw.cpp">
-      <Filter>SourceCodes\G_OutsideLibrary\ImGui</Filter>
+      <Filter>SourceCodes\C_OutsideLibrary\ImGui</Filter>
     </ClCompile>
     <ClCompile Include="ImGui\imgui_impl_opengl3.cpp">
-      <Filter>SourceCodes\G_OutsideLibrary\ImGui</Filter>
+      <Filter>SourceCodes\C_OutsideLibrary\ImGui</Filter>
     </ClCompile>
     <ClCompile Include="ImGui\imgui_impl_sdl3.cpp">
-      <Filter>SourceCodes\G_OutsideLibrary\ImGui</Filter>
+      <Filter>SourceCodes\C_OutsideLibrary\ImGui</Filter>
     </ClCompile>
     <ClCompile Include="ImGui\imgui_tables.cpp">
-      <Filter>SourceCodes\G_OutsideLibrary\ImGui</Filter>
+      <Filter>SourceCodes\C_OutsideLibrary\ImGui</Filter>
     </ClCompile>
     <ClCompile Include="ImGui\imgui_widgets.cpp">
-      <Filter>SourceCodes\G_OutsideLibrary\ImGui</Filter>
+      <Filter>SourceCodes\C_OutsideLibrary\ImGui</Filter>
     </ClCompile>
     <ClCompile Include="ToolbarPanel.cpp">
       <Filter>SourceCodes\A_Editor\Function\GUIs\Panels</Filter>
@@ -386,9 +374,6 @@
       <Filter>SourceCodes\A_Editor\Function\GUIs\Panels</Filter>
     </ClCompile>
     <ClCompile Include="ProjectPanel.cpp">
-      <Filter>SourceCodes\A_Editor\Function\GUIs\Panels</Filter>
-    </ClCompile>
-    <ClCompile Include="HierarchyPanel.cpp">
       <Filter>SourceCodes\A_Editor\Function\GUIs\Panels</Filter>
     </ClCompile>
     <ClCompile Include="GUIPanel.cpp">
@@ -404,13 +389,13 @@
       <Filter>SourceCodes\A_Editor\Mains</Filter>
     </ClCompile>
     <ClCompile Include="GameMain.cpp">
-      <Filter>SourceCodes\A_Game\A_Mains</Filter>
+      <Filter>SourceCodes\B_Game\A_Mains</Filter>
     </ClCompile>
     <ClCompile Include="GameApp.cpp">
-      <Filter>SourceCodes\A_Game\A_Mains</Filter>
+      <Filter>SourceCodes\B_Game\A_Mains</Filter>
     </ClCompile>
     <ClCompile Include="GameWinMain.cpp">
-      <Filter>SourceCodes\A_Game\A_Mains</Filter>
+      <Filter>SourceCodes\B_Game\A_Mains</Filter>
     </ClCompile>
     <ClCompile Include="EngineWindow.cpp">
       <Filter>SourceCodes\A_Editor\Mains</Filter>
@@ -422,22 +407,19 @@
       <Filter>SourceCodes\A_Editor\Function\GUIs\Panels</Filter>
     </ClCompile>
     <ClCompile Include="BoxCollider.cpp">
-      <Filter>SourceCodes\A_Editor\Function\Physics\Colliders</Filter>
+      <Filter>SourceCodes\A_Editor\Function\Components\Colliders</Filter>
     </ClCompile>
     <ClCompile Include="CapsuleCollider.cpp">
-      <Filter>SourceCodes\A_Editor\Function\Physics\Colliders</Filter>
+      <Filter>SourceCodes\A_Editor\Function\Components\Colliders</Filter>
     </ClCompile>
     <ClCompile Include="Collider.cpp">
-      <Filter>SourceCodes\A_Editor\Function\Physics\Colliders</Filter>
+      <Filter>SourceCodes\A_Editor\Function\Components\Colliders</Filter>
     </ClCompile>
     <ClCompile Include="SphereCollider.cpp">
-      <Filter>SourceCodes\A_Editor\Function\Physics\Colliders</Filter>
+      <Filter>SourceCodes\A_Editor\Function\Components\Colliders</Filter>
     </ClCompile>
     <ClCompile Include="SceneSerializer.cpp">
-      <Filter>SourceCodes\A_Editor\Function\Scenes\LoadManager</Filter>
-    </ClCompile>
-    <ClCompile Include="ComponentFactory.cpp">
-      <Filter>SourceCodes\A_Editor\Function\Components\Base</Filter>
+      <Filter>SourceCodes\A_Editor\Function\Scenes\Load&amp;Save</Filter>
     </ClCompile>
     <ClCompile Include="EditorTextureManager.cpp">
       <Filter>SourceCodes\A_Editor\Function\GUIs</Filter>
@@ -452,7 +434,7 @@
       <Filter>SourceCodes\A_Editor\Function\Renderers</Filter>
     </ClCompile>
     <ClCompile Include="ExternalLibrary\tinyxml2-master\tinyxml2.cpp">
-      <Filter>SourceCodes\G_OutsideLibrary\tinyxml2</Filter>
+      <Filter>SourceCodes\C_OutsideLibrary\tinyxml2</Filter>
     </ClCompile>
     <ClCompile Include="ScriptEditManager.cpp">
       <Filter>SourceCodes\A_Editor\Function\GUIs</Filter>
@@ -464,13 +446,10 @@
       <Filter>SourceCodes\A_Editor\Function\ScriptManager</Filter>
     </ClCompile>
     <ClCompile Include="stb_impl.cpp">
-      <Filter>SourceCodes\G_OutsideLibrary\stb</Filter>
+      <Filter>SourceCodes\C_OutsideLibrary\stb</Filter>
     </ClCompile>
     <ClCompile Include="Transform.cpp">
-      <Filter>SourceCodes\A_Editor\Function\Actors\Base\Transform</Filter>
-    </ClCompile>
-    <ClCompile Include="ActorManager.cpp">
-      <Filter>SourceCodes\A_Editor\Function\Actors</Filter>
+      <Filter>SourceCodes\A_Editor\Function\Actors\Transform</Filter>
     </ClCompile>
     <ClCompile Include="ImGuiHelper.cpp">
       <Filter>SourceCodes\A_Editor\Function\GUIs</Filter>
@@ -508,37 +487,40 @@
     <ClCompile Include="PasteActorCommand.cpp">
       <Filter>SourceCodes\A_Editor\Function\GUIs\Commands</Filter>
     </ClCompile>
-    <ClCompile Include="RectTransform.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="HierarchyPanel.cpp">
+      <Filter>SourceCodes\A_Editor\Function\GUIs\Panels</Filter>
     </ClCompile>
-    <ClCompile Include="Entity.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="RectTransform.cpp">
+      <Filter>SourceCodes\A_Editor\Function\Actors\Transform</Filter>
     </ClCompile>
     <ClCompile Include="UIActor.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>SourceCodes\A_Editor\Function\Actors\Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="CreateNewCanvasCommand.cpp">
+      <Filter>SourceCodes\A_Editor\Function\GUIs\Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="CreateNewUIActorCommand.cpp">
+      <Filter>SourceCodes\A_Editor\Function\GUIs\Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity.cpp">
+      <Filter>SourceCodes\A_Editor\Function\Actors\Actor\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="ActorManager.cpp">
+      <Filter>SourceCodes\A_Editor\Function\Actors\Manager</Filter>
     </ClCompile>
     <ClCompile Include="UIActorManager.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>SourceCodes\A_Editor\Function\Actors\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="BaseTransform.cpp">
+      <Filter>SourceCodes\A_Editor\Function\Actors\Transform\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="ComponentFactory.cpp">
+      <Filter>SourceCodes\A_Editor\Function\Components\Factory</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="BasicInputAction.h">
-      <Filter>SourceCodes\C_Components</Filter>
-    </ClInclude>
-    <ClInclude Include="FollowObjectMovement.h">
-      <Filter>SourceCodes\C_Components</Filter>
-    </ClInclude>
-    <ClInclude Include="PushButtonMove.h">
-      <Filter>SourceCodes\C_Components</Filter>
-    </ClInclude>
-    <ClInclude Include="TargetComponent.h">
-      <Filter>SourceCodes\C_Components</Filter>
-    </ClInclude>
-    <ClInclude Include="PauseMenu.h">
-      <Filter>SourceCodes\D_UIs</Filter>
-    </ClInclude>
     <ClInclude Include="Actor.h">
-      <Filter>SourceCodes\A_Editor\Function\Actors\Base\Actor</Filter>
+      <Filter>SourceCodes\A_Editor\Function\Actors\Actor</Filter>
     </ClInclude>
     <ClInclude Include="BoneActor.h">
       <Filter>SourceCodes\A_Editor\Function\Actors\Bones</Filter>
@@ -646,10 +628,10 @@
       <Filter>SourceCodes\A_Editor\Function\Renderers</Filter>
     </ClInclude>
     <ClInclude Include="Rigidbody.h">
-      <Filter>SourceCodes\A_Editor\Function\Physics\Rigidbody</Filter>
+      <Filter>SourceCodes\A_Editor\Function\Components\Rigidbody</Filter>
     </ClInclude>
     <ClInclude Include="SceneManager.h">
-      <Filter>SourceCodes\A_Editor\Function\Scenes\LoadManager</Filter>
+      <Filter>SourceCodes\A_Editor\Function\Scenes\Load&amp;Save</Filter>
     </ClInclude>
     <ClInclude Include="BaseScene.h">
       <Filter>SourceCodes\A_Editor\Function\Scenes</Filter>
@@ -700,31 +682,31 @@
       <Filter>SourceCodes\A_Editor\Function\Utilitys</Filter>
     </ClInclude>
     <ClInclude Include="ImGui\imconfig.h">
-      <Filter>SourceCodes\G_OutsideLibrary\ImGui</Filter>
+      <Filter>SourceCodes\C_OutsideLibrary\ImGui</Filter>
     </ClInclude>
     <ClInclude Include="ImGui\imgui.h">
-      <Filter>SourceCodes\G_OutsideLibrary\ImGui</Filter>
+      <Filter>SourceCodes\C_OutsideLibrary\ImGui</Filter>
     </ClInclude>
     <ClInclude Include="ImGui\imgui_impl_opengl3.h">
-      <Filter>SourceCodes\G_OutsideLibrary\ImGui</Filter>
+      <Filter>SourceCodes\C_OutsideLibrary\ImGui</Filter>
     </ClInclude>
     <ClInclude Include="ImGui\imgui_impl_opengl3_loader.h">
-      <Filter>SourceCodes\G_OutsideLibrary\ImGui</Filter>
+      <Filter>SourceCodes\C_OutsideLibrary\ImGui</Filter>
     </ClInclude>
     <ClInclude Include="ImGui\imgui_impl_sdl3.h">
-      <Filter>SourceCodes\G_OutsideLibrary\ImGui</Filter>
+      <Filter>SourceCodes\C_OutsideLibrary\ImGui</Filter>
     </ClInclude>
     <ClInclude Include="ImGui\imgui_internal.h">
-      <Filter>SourceCodes\G_OutsideLibrary\ImGui</Filter>
+      <Filter>SourceCodes\C_OutsideLibrary\ImGui</Filter>
     </ClInclude>
     <ClInclude Include="ImGui\imstb_rectpack.h">
-      <Filter>SourceCodes\G_OutsideLibrary\ImGui</Filter>
+      <Filter>SourceCodes\C_OutsideLibrary\ImGui</Filter>
     </ClInclude>
     <ClInclude Include="ImGui\imstb_textedit.h">
-      <Filter>SourceCodes\G_OutsideLibrary\ImGui</Filter>
+      <Filter>SourceCodes\C_OutsideLibrary\ImGui</Filter>
     </ClInclude>
     <ClInclude Include="ImGui\imstb_truetype.h">
-      <Filter>SourceCodes\G_OutsideLibrary\ImGui</Filter>
+      <Filter>SourceCodes\C_OutsideLibrary\ImGui</Filter>
     </ClInclude>
     <ClInclude Include="ToolbarPanel.h">
       <Filter>SourceCodes\A_Editor\Function\GUIs\Panels</Filter>
@@ -751,10 +733,10 @@
       <Filter>SourceCodes\A_Editor\Function\GUIs\EditorCameras</Filter>
     </ClInclude>
     <ClInclude Include="GameApp.h">
-      <Filter>SourceCodes\A_Game\A_Mains</Filter>
+      <Filter>SourceCodes\B_Game\A_Mains</Filter>
     </ClInclude>
     <ClInclude Include="GameWinMain.h">
-      <Filter>SourceCodes\A_Game\A_Mains</Filter>
+      <Filter>SourceCodes\B_Game\A_Mains</Filter>
     </ClInclude>
     <ClInclude Include="EngineWindow.h">
       <Filter>SourceCodes\A_Editor\Mains</Filter>
@@ -766,22 +748,19 @@
       <Filter>SourceCodes\A_Editor\Function\GUIs\Panels</Filter>
     </ClInclude>
     <ClInclude Include="BoxCollider.h">
-      <Filter>SourceCodes\A_Editor\Function\Physics\Colliders</Filter>
+      <Filter>SourceCodes\A_Editor\Function\Components\Colliders</Filter>
     </ClInclude>
     <ClInclude Include="CapsuleCollider.h">
-      <Filter>SourceCodes\A_Editor\Function\Physics\Colliders</Filter>
+      <Filter>SourceCodes\A_Editor\Function\Components\Colliders</Filter>
     </ClInclude>
     <ClInclude Include="Collider.h">
-      <Filter>SourceCodes\A_Editor\Function\Physics\Colliders</Filter>
+      <Filter>SourceCodes\A_Editor\Function\Components\Colliders</Filter>
     </ClInclude>
     <ClInclude Include="SphereCollider.h">
-      <Filter>SourceCodes\A_Editor\Function\Physics\Colliders</Filter>
+      <Filter>SourceCodes\A_Editor\Function\Components\Colliders</Filter>
     </ClInclude>
     <ClInclude Include="SceneSerializer.h">
-      <Filter>SourceCodes\A_Editor\Function\Scenes\LoadManager</Filter>
-    </ClInclude>
-    <ClInclude Include="ComponentFactory.h">
-      <Filter>SourceCodes\A_Editor\Function\Components\Base</Filter>
+      <Filter>SourceCodes\A_Editor\Function\Scenes\Load&amp;Save</Filter>
     </ClInclude>
     <ClInclude Include="EditorTextureManager.h">
       <Filter>SourceCodes\A_Editor\Function\GUIs</Filter>
@@ -796,7 +775,7 @@
       <Filter>SourceCodes\A_Editor\Function\Renderers</Filter>
     </ClInclude>
     <ClInclude Include="ExternalLibrary\tinyxml2-master\tinyxml2.h">
-      <Filter>SourceCodes\G_OutsideLibrary\tinyxml2</Filter>
+      <Filter>SourceCodes\C_OutsideLibrary\tinyxml2</Filter>
     </ClInclude>
     <ClInclude Include="ScriptEditManager.h">
       <Filter>SourceCodes\A_Editor\Function\GUIs</Filter>
@@ -814,10 +793,7 @@
       <Filter>SourceCodes\A_Editor\Function\Utilitys</Filter>
     </ClInclude>
     <ClInclude Include="Transform.h">
-      <Filter>SourceCodes\A_Editor\Function\Actors\Base\Transform</Filter>
-    </ClInclude>
-    <ClInclude Include="ActorManager.h">
-      <Filter>SourceCodes\A_Editor\Function\Actors</Filter>
+      <Filter>SourceCodes\A_Editor\Function\Actors\Transform</Filter>
     </ClInclude>
     <ClInclude Include="PrototypeEngine_API.h">
       <Filter>SourceCodes\A_Editor\Function\Utilitys</Filter>
@@ -865,16 +841,31 @@
       <Filter>SourceCodes\A_Editor\Function\GUIs\Commands</Filter>
     </ClInclude>
     <ClInclude Include="RectTransform.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Entity.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>SourceCodes\A_Editor\Function\Actors\Transform</Filter>
     </ClInclude>
     <ClInclude Include="UIActor.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>SourceCodes\A_Editor\Function\Actors\Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="CreateNewUIActorCommand.h">
+      <Filter>SourceCodes\A_Editor\Function\GUIs\Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="CreateNewCanvasCommand.h">
+      <Filter>SourceCodes\A_Editor\Function\GUIs\Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity.h">
+      <Filter>SourceCodes\A_Editor\Function\Actors\Actor\Entity</Filter>
     </ClInclude>
     <ClInclude Include="UIActorManager.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>SourceCodes\A_Editor\Function\Actors\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="ActorManager.h">
+      <Filter>SourceCodes\A_Editor\Function\Actors\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseTransform.h">
+      <Filter>SourceCodes\A_Editor\Function\Actors\Transform\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="ComponentFactory.h">
+      <Filter>SourceCodes\A_Editor\Function\Components\Factory</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

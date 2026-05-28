@@ -479,9 +479,9 @@ void Renderer::StartDraw()
 	);
 	mSpriteShader->SetMatrixUniform("uViewProj", ortho);
 
-	for (auto ui : mNowScene->GetImageStack())
+	for (auto ui : mImageComps)
 	{
-		if (ui->GetState() == Image::EActive)
+		if (ui->GetOwner()->GetState() == Entity::EActive)
 		{
 			if (ui->GetFillMethod() == Image::Radial360)
 			{
@@ -494,27 +494,6 @@ void Renderer::StartDraw()
 				mSpriteVerts->SetActive();
 			}
 			ui->Draw(mSpriteShader);
-		}
-	}
-
-	if (GameStateClass::gDebugStatesFrag)
-	{
-		for (auto ui : mNowScene->GetDebugImageStack())
-		{
-			if (ui->GetState() == Image::EActive)
-			{
-				if (ui->GetFillMethod() == Image::Radial360)
-				{
-					int count = CreateFanSpriteVerts(ui->GetFillAmount(), 30);
-					ui->SetVerticesCount(count);
-					mFanSpriteVerts->SetActive();
-				}
-				else
-				{
-					mSpriteVerts->SetActive();
-				}
-				ui->Draw(mSpriteShader);
-			}
 		}
 	}
 	// FBO終了
@@ -666,12 +645,12 @@ void Renderer::EditorDraw3DScene(unsigned int framebuffer, const Matrix4& view, 
 	//オブジェクトの矢印描画
 	mArrowShader->SetActive();
 	mArrowShader->SetMatrixUniform("uViewProj", view * proj);
-	ActorObject* actor = SelectionManager::GetSelectedActor();
+	Entity* actor = SelectionManager::GetSelectedActor();
 	if (actor != nullptr && actor->GetState() == ActorObject::EActive)
 	{
 		//1.カメラとオブジェクトの位置を取得
 		Vector3 cameraPos = EngineWindow::GetSceneEditorCamera()->GetTransform()->GetLocalPosition();
-		Vector3 actorPos = actor->GetTransform()->GetLocalPosition();
+		Vector3 actorPos = actor->GetBaseTransform()->GetLocalPosition();
 
 		//2.カメラとオブジェクトの距離を計算
 		float distance = (actorPos - cameraPos).Length();
@@ -696,7 +675,7 @@ void Renderer::EditorDraw3DScene(unsigned int framebuffer, const Matrix4& view, 
 		// 6. 新しいモデル行列を作成
 		// Scale -> Rotation -> Translation の順で適用
 		Matrix4 gizmoModel = Matrix4::CreateScale(scale);
-		gizmoModel *= Matrix4::CreateFromQuaternion(actor->GetTransform()->GetLocalRotation());
+		gizmoModel *= Matrix4::CreateFromQuaternion(actor->GetBaseTransform()->GetLocalRotation());
 		gizmoModel *= Matrix4::CreateTranslation(actorPos);
 
 		// オブジェクトのデバッグ描画
@@ -1170,6 +1149,18 @@ void Renderer::UnloadData()
 	}
 }
 
+void Renderer::AddImageComps(Image* image)
+{
+	mImageComps.emplace_back(image);
+}
+
+void Renderer::RemoveImageComp(Image* image)
+{
+	auto iter = std::find(mImageComps.begin(), mImageComps.end(), image);
+	if (iter != mImageComps.end()) {
+		mImageComps.erase(iter);
+	}
+}
 
 void Renderer::AddMeshComp(MeshRenderer* mesh)
 {

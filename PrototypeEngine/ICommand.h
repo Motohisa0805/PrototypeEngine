@@ -1,5 +1,7 @@
 #pragma once
 #include "Actor.h"
+#include "UIActor.h"
+#include "Canvas.h"
 #include "SceneManager.h"
 #include "SceneSerializer.h"
 #include "EditorSettingsManager.h"

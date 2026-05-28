@@ -8,7 +8,7 @@ UIActorObject::UIActorObject(uint64_t id)
 	mRectTransform = new RectTransform(this);
 
 	mName = "UIActor" + std::to_string(mGame->mNextActorID++);
-	//mGame->GetActorManager()->AddActor(this);
+	mGame->GetUIActorManager()->AddActor(this);
 }
 
 UIActorObject::UIActorObject(BaseScene* scene)
@@ -111,4 +111,26 @@ void UIActorObject::Deserialize(const json& j)
 		)
 	);
 	mRectTransform->SetDirty();
+}
+
+Entity* UIActorObject::Clone() {
+	// 真っ新なアクターを生成
+	UIActorObject* clone = new UIActorObject();
+
+	clone->mName = this->mName;
+	clone->mState = this->mState;
+
+	clone->GetRectTransform()->SetLocalPosition(this->GetRectTransform()->GetLocalPosition());
+	clone->GetRectTransform()->SetLocalRotation(this->GetRectTransform()->GetLocalRotation());
+	clone->GetRectTransform()->SetLocalScale(this->GetRectTransform()->GetLocalScale());
+
+
+	// 4. 自身が持っているコンポーネントのディープコピー
+	for (const auto& comp : this->mComponents)
+	{
+		Component* clonedComp = comp->Clone(clone);
+		clone->AddComponent(clonedComp); // 手動でリストに加える
+	}
+	mGame->SetDirtyFlag(true);
+	return clone;
 }

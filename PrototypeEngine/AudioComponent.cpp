@@ -6,7 +6,7 @@
 #include "imgui_impl_sdl3.h"
 #include "imgui_impl_opengl3.h"
 
-AudioComponent::AudioComponent(ActorObject* owner, int updateOrder)
+AudioComponent::AudioComponent(Entity* owner, int updateOrder)
 	:Component(owner, updateOrder)
 {
 	mName = "AudioComponent";
@@ -113,7 +113,7 @@ void AudioComponent::DrawCustomGUI(const std::vector<PropertyInfo>& properties)
 
 }
 
-Component* AudioComponent::Clone(ActorObject* newOwner) const
+Component* AudioComponent::Clone(Entity* newOwner) const
 {
 	AudioComponent* clone = new AudioComponent(newOwner);
 

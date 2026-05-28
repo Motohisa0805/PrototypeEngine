@@ -11,7 +11,7 @@ class InspectorPanel : public GUIPanel
 {
 private:
 	//Transformプロパティを描画するためのヘルパー関数を宣言
-	void		DrawTransformProperties(class ActorObject* transform);
+	void		DrawTransformProperties(class Entity* transform);
 
 	void		DrawComponentProperties(class Component* comp, const PropertyInfo& prop);
 public:

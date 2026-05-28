@@ -1,3 +1,3 @@
 #include "SelectionManager.h"
 
-ActorObject* SelectionManager::mSelectedActor = nullptr;
+Entity* SelectionManager::mSelectedActor = nullptr;

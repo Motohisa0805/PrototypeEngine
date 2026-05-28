@@ -8,7 +8,7 @@ class CreateNewActorCommand : public ICommand
 {
 private:
 	uint64_t		mTargetID;
-	ActorObject*	mTarget;
+	Entity*			mTarget;
 	// アクターが現在シーン側にいるかどうかのフラグ
 	bool			mIsActiveInScene;        
 public:

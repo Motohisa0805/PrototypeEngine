@@ -27,17 +27,9 @@ void RectTransform::RemoveChild(UIActorObject* child)
 }
 
 RectTransform::RectTransform(UIActorObject* owner)
-	:Component(owner)
-	, mPosition(Vector3::Zero)
-	, mLocalPosition(Vector3::Zero)
-	, mPositionOffset(Vector3::Zero)
-	, mRotation(Quaternion::Identity)
-	, mLocalRotation(Quaternion::Identity)
-	, mScale(Vector3(1.0f,1.0f, 1.0f))
-	, mLocalScale(Vector3(1.0f,1.0f, 1.0f))
-	, mIsDirty(true)
-	, mWorldTransform()
-	, mLocalTransform()
+	:BaseTransform(owner)
+	, mRectScaleWidth(1.0f)
+	, mRectScaleHeight(1.0f)
 	, mParentActor(nullptr)
 	, mChildActor()
 {
@@ -52,26 +44,30 @@ RectTransform::~RectTransform()
 {
 }
 
-void RectTransform::SetPosition(const Vector3& pos)
+void RectTransform::SetScaleWidthAndHeight(float width, float height)
 {
-	//ワールド座標からローカル座標を逆計算してmLocalPositionを更新
-	mLocalPosition = pos;
-	SetDirty();
-	ComputeWorldTransform();
+	mRectScaleWidth = width;
+	mRectScaleHeight = height;
 }
 
-void RectTransform::SetRotation(const Quaternion& rotation)
+void RectTransform::SetScaleWidth(float width)
 {
-	mLocalRotation = rotation;
-	SetDirty(); // 更新フラグを立てる
-	ComputeWorldTransform();
+	mRectScaleWidth = width;
 }
 
-void RectTransform::SetScale(Vector3 scale)
+void RectTransform::SetScaleHeight(float height)
 {
-	mLocalScale = scale;
-	SetDirty();
-	ComputeWorldTransform();
+	mRectScaleHeight = height;
+}
+
+void RectTransform::SetOffsetX(float x)
+{
+	mOffsetX = x;
+}
+
+void RectTransform::SetOffsetY(float y)
+{
+	mOffsetY = y;
 }
 
 void RectTransform::ComputeWorldTransform() {
@@ -84,9 +80,15 @@ void RectTransform::ComputeWorldTransform() {
 
 
 	//ローカル座標計算
-	mLocalTransform = Matrix4::CreateScale(mLocalScale);
+	mLocalTransform = Matrix4::CreateScale(
+		mRectScaleWidth * mLocalScale.x,
+		mRectScaleHeight * mLocalScale.y,
+		mLocalScale.z);
+
 	mLocalTransform *= Matrix4::CreateFromQuaternion(mLocalRotation);
-	mLocalTransform *= Matrix4::CreateTranslation(mLocalPosition);
+	
+	mLocalTransform *= Matrix4::CreateTranslation(
+		Vector3(mLocalPosition.x - mOffsetX, mLocalPosition.y - mOffsetY, 0.0f));
 
 
 	//親がいたら、親のワールド行列を掛ける
@@ -147,7 +149,6 @@ void RectTransform::AddParentActor(UIActorObject* parent)
 
 void RectTransform::SetParent(UIActorObject* newParent)
 {
-	/*
 	// 1. 変更不要なケースは早期リターン
 	// 同じ親を再設定しようとしている
 	if (mParentActor == newParent)
@@ -168,14 +169,14 @@ void RectTransform::SetParent(UIActorObject* newParent)
 	// 3. 現在の親がいる場合は、その親の子リストから自分を削除する
 	if (mParentActor)
 	{
-		mParentActor->GetRectTransform()->RemoveChild(mActor);
+		mParentActor->GetRectTransform()->RemoveChild(mUIActor);
 	}
 
 	// 4. 新しい親子関係を構築する
 	mParentActor = newParent;
 	if (mParentActor)
 	{
-		mParentActor->GetRectTransform()->AddChild(mActor);
+		mParentActor->GetRectTransform()->AddChild(mUIActor);
 	}
 
 	// 5. ワールドトランスフォームを維持するように、新しいローカル値を計算する
@@ -203,7 +204,6 @@ void RectTransform::SetParent(UIActorObject* newParent)
 
 	// 6. 変更があったことを示すダーティフラグを立てる
 	SetDirty();
-	*/
 }
 
 void RectTransform::RemoveParentActor()

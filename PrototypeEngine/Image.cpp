@@ -9,33 +9,42 @@
 Image::Image(Entity* owner,int function)
 	:Component(owner)
 	,mTexture(nullptr)
+	, mFilePath("")
+	, mTextureRect()
+	, mFillAmount(0)
+	, mFillType(FillType::Simple)
+	, mFillMethod(FillMethod::None)
+	, mUVTransform(Vector4(0, 0, 1, 1))
+	, mVerticesCount(6)
 {
+	mName = "Image";
+
+	mHeaderColor = Vector4(0.4f, 0.4f, 0.8f, 1.0f);
+	mHeaderHoveredColor = Vector4(0.3f, 0.3f, 0.6f, 1.0f);
+	mHeaderActiveColor = Vector4(0.4f, 0.4f, 0.8f, 1.0f);
+
 	mFillAmount = 1.0f;
 	mFillMethod = FillMethod::None;
-	if (function == Release_Function)
-	{
-		//BaseSceneに送る処理
-		mGame->PushImage(this);
-	}
-	else
-	{
-		mGame->PushDebugImage(this);
-	}
+	EngineWindow::GetRenderer()->AddImageComps(this);
 }
 
 Image::~Image()
 {
-	mState = EDestroy;
+	mTexture = nullptr;
+	mFilePath = "";
+	EngineWindow::GetRenderer()->RemoveImageComp(this);
 }
 
 void Image::Load(string file)
 {
-	string filePath = TexFile::TextureFilePath + file;
+	string filePath = file;
 	mTexture = EngineWindow::GetRenderer()->GetTexture(filePath);
 	mTextureRect.x = 0;
 	mTextureRect.y = 0;
 	mTextureRect.w = static_cast<float>(mTexture->GetWidth());
 	mTextureRect.h = static_cast<float>(mTexture->GetHeight());
+	//読み込んだ時に一度画像の描画の描画の形を設定
+	FillMethodCalculation(mUVTransform, mVerticesCount);
 }
 
 void Image::SetTexture(Texture* texture)
@@ -47,33 +56,16 @@ void Image::SetTexture(Texture* texture)
 	mTextureRect.h = static_cast<float>(mTexture->GetHeight());
 }
 
-void Image::SetPosition(Vector2 pos)
-{
-	//mTexturePos = pos;
-}
-
-void Image::SetScale(Vector3 scale)
-{
-	//mTexScale = scale;
-}
-
 void Image::SetFillAmount(float fill)
 {
 	mFillAmount = Math::Clamp(fill, 0.0f, 1.0f);
 }
 
-void Image::SetAngleZ(float angle)
-{
-	//mAngleZ = angle;
-}
-
-void Image::SetState(UIState state)
-{
-	mState = state;
-
-}
-
 void Image::Update(float deltaTime)
+{
+}
+
+void Image::OnUpdateWorldTransform()
 {
 }
 
@@ -95,45 +87,23 @@ void Image::UnLoad()
 	}
 }
 
-void Image::Close()
-{
-	mState = EClosing;
-}
-
-void Image::Active()
-{
-	mState = EActive;
-}
-
 void Image::DrawTexture(Shader* shader)
 {
-	Vector4 uvTransform = Vector4(0, 0, 1, 1);
-	int verticesCount = 6;
 	//画像の描画の描画の形を設定
-	FillMethodCalculation(uvTransform,verticesCount);
+	FillMethodCalculation(mUVTransform, mVerticesCount);
 
-	shader->SetVector4Uniform("uTexUV", uvTransform);
-	/*
-	Matrix4 scaleMat;
-
-	Matrix4 transMat;
-
-	Matrix4 rotationMat;
-
-	WorldMatrixCalculation(transMat,rotationMat,scaleMat);
-
-	Matrix4 world = scaleMat * rotationMat * transMat;
-	*/
+	shader->SetVector4Uniform("uTexUV", mUVTransform);
 	
 	shader->SetMatrixUniform("uWorldTransform", mUIActor->GetRectTransform()->GetWorldTransform());
 
 	mTexture->SetActive();
 	
-	glDrawElements(GL_TRIANGLES, verticesCount, GL_UNSIGNED_INT, nullptr);
+	glDrawElements(GL_TRIANGLES, mVerticesCount, GL_UNSIGNED_INT, nullptr);
 }
 
 void Image::FillMethodCalculation(Vector4& uv, int& verticesCount)
 {
+	if (!mTexture) { return; }
 	uv = Vector4(0, 0, 1, 1);
 
 	// UV範囲の計算
@@ -143,8 +113,7 @@ void Image::FillMethodCalculation(Vector4& uv, int& verticesCount)
 	float v2 = (mTextureRect.y + mTextureRect.h) / mTexture->GetHeight();
 
 	// 横幅をmFillAmountでスケール
-	mRectScaleWidth = static_cast<float>(mTextureRect.w);
-	mRectScaleHeight = static_cast<float>(mTextureRect.h);
+	mUIActor->GetRectTransform()->SetScaleWidthAndHeight(static_cast<float>(mTextureRect.w), static_cast<float>(mTextureRect.h));
 
 	if (mFillMethod == FillMethod::Horizontal)
 	{
@@ -155,10 +124,11 @@ void Image::FillMethodCalculation(Vector4& uv, int& verticesCount)
 		uv.w = v2 - v1;
 
 		// 横幅をmFillAmountでスケール
-		mRectScaleWidth *= mFillAmount;
+		mUIActor->GetRectTransform()->SetScaleWidth(mUIActor->GetRectTransform()->GetRectScaleWidth() * mFillAmount);
 
 		// 左端を固定して右に伸びるように位置補正（中心基準からオフセット）
-		mOffsetX = (1.0f - mFillAmount) * 0.5f * mTextureRect.w * mUIActor->GetRectTransform()->GetScale().x;
+		float offsetX = (1.0f - mFillAmount) * 0.5f * mTextureRect.w * mUIActor->GetRectTransform()->GetScale().x;
+		mUIActor->GetRectTransform()->SetOffsetY(offsetX);
 	}
 	else if (mFillMethod == FillMethod::Vertical)
 	{
@@ -170,10 +140,11 @@ void Image::FillMethodCalculation(Vector4& uv, int& verticesCount)
 		uv.w = v2 - filledV1;
 
 		// スケーリング（高さをfillAmount倍）
-		mRectScaleHeight *= mFillAmount;
+		mUIActor->GetRectTransform()->SetScaleHeight(mUIActor->GetRectTransform()->GetRectScaleHeight() * mFillAmount);
 
 		// Y方向の位置補正（下から上に伸びるので上にずらす）
-		mOffsetY = (1.0f - mFillAmount) * 0.5f * mTexture->GetHeight();
+		float offsetY = (1.0f - mFillAmount) * 0.5f * mTexture->GetHeight();
+		mUIActor->GetRectTransform()->SetOffsetY(offsetY);
 	}
 	else if (mFillMethod == FillMethod::Radial360)
 	{
@@ -181,18 +152,112 @@ void Image::FillMethodCalculation(Vector4& uv, int& verticesCount)
 	}
 }
 
-void Image::WorldMatrixCalculation(Matrix4& trans, Matrix4& rotate, Matrix4& scale)
+void Image::SetIsRun(bool run)
 {
-	/*
-	scale = Matrix4::CreateScale(
-		mRectScaleWidth * mTexScale.x,
-		mRectScaleHeight * mTexScale.y,
-		mTexScale.z);
+	Component::SetIsRun(run);
+	if (run) {
+		mOwner->SetState(Entity::State::EActive);
+	}
+	else {
+		mOwner->SetState(Entity::State::EPaused);
+	}
+}
 
+void Image::Serialize(json& j) const
+{
+	Component::Serialize(j);
 
-	trans = Matrix4::CreateTranslation(
-		Vector3(mTexturePos.x - mOffsetX, mTexturePos.y - mOffsetY, 0.0f));
+	// ロード元のファイルパスをそのままJSONに書き込む
+	j["FilePath"] = mFilePath;
 
-	rotate = Matrix4::CreateRotationZ(mAngleZ);
-	*/
+	j["FillAmount"] = mFillAmount;
+	j["FillType"] = mFillType;
+	j["FillMethod"] = mFillMethod;
+	j["VerticesCount"] = mVerticesCount;
+	j["UVTransform"] = { mUVTransform.x,mUVTransform.y,mUVTransform.z,mUVTransform.w };
+}
+
+void Image::Deserialize(const json& j)
+{
+	Component::Deserialize(j);
+	if (j.contains("FilePath")) {
+		// 1. JSONからファイルパスを取得する
+		std::string filePath = j.at("FilePath").get<std::string>();
+
+		// 2. メンバ変数にファイルパスを設定
+		mFilePath = filePath;
+
+		Load(mFilePath);
+	}
+	if (j.contains("FillAmount")) {
+		mFillAmount = j.at("FillAmount").get<float>();
+	}
+	if (j.contains("FillType")) {
+		mFillType = j.at("FillType").get<FillType>();
+	}
+	if (j.contains("FillMethod")) {
+		mFillMethod = j.at("FillMethod").get<FillMethod>();
+	}
+	if (j.contains("VerticesCount")) {
+		mVerticesCount = j.at("VerticesCount").get<int>();
+	}
+	if (j.contains("UVTransform")) {
+		mUVTransform = Vector4
+		(
+			j["UVTransform"][0],
+			j["UVTransform"][1],
+			j["UVTransform"][2],
+			j["UVTransform"][3]
+		);
+	}
+}
+
+void Image::DrawCustomGUI(const std::vector<PropertyInfo>& properties)
+{
+	ImGui::PushID(this);
+	//1.ファイルパスの取得
+	string currentPath = mFilePath;
+	static char pathBuffer[256];
+	strncpy_s(pathBuffer, currentPath.c_str(), sizeof(pathBuffer));
+	pathBuffer[sizeof(pathBuffer) - 1] = '\0';
+	ImGui::Text("FilePath DragDropTarget");
+	//2.ファイルパスの入力フィールド
+	ImGui::InputText("Image File Path", pathBuffer, sizeof(pathBuffer), ImGuiInputTextFlags_ReadOnly);
+	//3.ファイルロードボタン(ここでファイル選択UIを開くか、ProjectPanelからのDrag&Dropを想定)
+	//Drag&Drop想定
+	if (ImGui::BeginDragDropTarget())
+	{
+		if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM"))
+		{
+			//ペイロードがファイルパスであると仮定
+			const char* dropPath = (const char*)payload->Data;
+			Load(dropPath);
+			mFilePath = dropPath;
+			mUIActor->GetRectTransform()->SetDirty();
+		}
+		ImGui::EndDragDropTarget();
+	}
+	if (ImGui::Button("Clear Image"))
+	{
+		mTexture = nullptr;
+		mFilePath = "";
+	}
+
+	ImGui::PopID();
+}
+
+Component* Image::Clone(Entity* newOwner) const
+{
+	Image* clone = new Image(newOwner);
+
+	clone->mTexture = this->mTexture;
+	clone->mFilePath = this->mFilePath;
+	clone->mTextureRect = this->mTextureRect;
+	clone->mFillAmount = this->mFillAmount;
+	clone->mFillType = this->mFillType;
+	clone->mFillMethod = this->mFillMethod;
+	clone->mVerticesCount = this->mVerticesCount;
+	clone->mUVTransform = this->mUVTransform;
+	
+	return clone;
 }

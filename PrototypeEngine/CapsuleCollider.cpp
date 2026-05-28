@@ -87,7 +87,7 @@ void CapsuleCollider::DrawCustomGUI(const std::vector<PropertyInfo>& properties)
     ImGui::PopID();
 }
 
-Component* CapsuleCollider::Clone(ActorObject* newOwner) const
+Component* CapsuleCollider::Clone(Entity* newOwner) const
 {
     CapsuleCollider* clone = new CapsuleCollider(newOwner);
 

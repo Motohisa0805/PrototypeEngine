@@ -36,7 +36,6 @@
 #include "Font.h"
 #include "Text.h"
 //UI関係のインクルード
-#include "PauseMenu.h"
 #include "Canvas.h"
 //ライト関係のインクルード
 #include "PointLightComponent.h"

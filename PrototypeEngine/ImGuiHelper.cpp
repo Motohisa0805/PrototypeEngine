@@ -29,3 +29,19 @@ bool ImGuiHelper::IsAncestorOf(ActorObject* potentialAncestor, ActorObject* targ
 
 	return false;
 }
+
+bool ImGuiHelper::IsAncestorOf_UIActor(UIActorObject* potentialAncestor, UIActorObject* target)
+{
+	if (!target || !potentialAncestor)return false;
+	if (target == potentialAncestor)return true;
+
+	//target‚Ìe‚ðã‚É‰ˆ‚Á‚Ä‚¢‚­
+	UIActorObject* current = target->GetRectTransform()->GetParentActor();
+	while (current != nullptr)
+	{
+		if (current == potentialAncestor)return true;
+		current = current->GetRectTransform()->GetParentActor();
+	}
+
+	return false;
+}

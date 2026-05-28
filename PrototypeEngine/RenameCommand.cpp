@@ -1,6 +1,6 @@
 #include "RenameCommand.h"
 
-RenameCommand::RenameCommand(ActorObject* actor, const string& newName)
+RenameCommand::RenameCommand(Entity* actor, const string& newName)
 	:mTargetID(actor->GetID())
 	, mNewName(newName)
 {
@@ -14,8 +14,12 @@ void RenameCommand::Execute()
 	if (mTargetID != 0)
 	{
 		ActorObject* actor = SceneManager::GetNowScene()->GetActorManager()->FindActorByID(mTargetID);
+		UIActorObject* uiactor = SceneManager::GetNowScene()->GetUIActorManager()->FindActorByID(mTargetID);
 		if (actor) {
 			actor->SetName(mNewName);
+		}
+		else if (uiactor) {
+			uiactor->SetName(mNewName);
 		}
 	}
 }
@@ -26,8 +30,12 @@ void RenameCommand::Undo()
 	if (mTargetID != 0)
 	{
 		ActorObject* actor = SceneManager::GetNowScene()->GetActorManager()->FindActorByID(mTargetID);
+		UIActorObject* uiactor = SceneManager::GetNowScene()->GetUIActorManager()->FindActorByID(mTargetID);
 		if (actor) {
 			actor->SetName(mOldName);
+		}
+		else if (uiactor) {
+			uiactor->SetName(mOldName);
 		}
 	}
 }

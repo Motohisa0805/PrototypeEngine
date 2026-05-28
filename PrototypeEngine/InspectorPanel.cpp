@@ -2,6 +2,7 @@
 #include "HierarchyPanel.h"//GetSelectedActor()を使うために必要
 #include "ComponentFactory.h"
 #include "Actor.h"
+#include "UIActor.h"
 #include "Math.h"//Vector3,Quaternionを使うために必要
 
 InspectorPanel::InspectorPanel(Renderer* renderer)
@@ -32,7 +33,7 @@ void InspectorPanel::Draw(float width, float height, ImTextureRef ref)
 		BaseGUIPanelPopupMenu();
 
 		//1.選択中のActorを取得
-		ActorObject* selectedActor = SelectionManager::GetSelectedActor();
+		Entity* selectedActor = SelectionManager::GetSelectedActor();
 
 		if(selectedActor)
 		{
@@ -156,7 +157,7 @@ void InspectorPanel::Draw(float width, float height, ImTextureRef ref)
 							selectedActor->AddComponent(newComp);
 							// メッシュとコライダーの依存性が解決したら処理
 							selectedActor->OnComponentAdded(newComp); // ← ActorObject側で実装する
-							selectedActor->GetTransform()->SetDirty();
+							selectedActor->GetBaseTransform()->SetDirty();
 						}
 						ImGui::CloseCurrentPopup();
 					}
@@ -172,22 +173,22 @@ void InspectorPanel::Draw(float width, float height, ImTextureRef ref)
 	ImGui::End();
 }
 
-void InspectorPanel::DrawTransformProperties(ActorObject* transform)
+void InspectorPanel::DrawTransformProperties(Entity* transform)
 {
 	bool isStatic = transform->IsStatic() && GUIWinMain::IsPlaying();
 	// Staticならこれ以降のUI入力を無効化（グレーアウト）する
 	ImGui::BeginDisabled(isStatic);
 
 	//Position(Vector3)の編集
-	Vector3 pos = transform->GetTransform()->GetLocalPosition();
+	Vector3 pos = transform->GetBaseTransform()->GetLocalPosition();
 	if (ImGui::DragFloat3("Position", &pos.x, 0.1f))//0.1fはドラッグの感度
 	{
 		//ローカル関数なので注意
-		transform->GetTransform()->SetLocalPosition(pos);
+		transform->GetBaseTransform()->SetLocalPosition(pos);
 	}
 	//回転だけローカルで取得
 	//ローカルならスケール値を含まないため
-	Vector3 rot = transform->GetTransform()->GetRotationEditor();
+	Vector3 rot = transform->GetBaseTransform()->GetRotationEditor();
 	//度数法で表示・編集
 	if (ImGui::DragFloat3("Rotation(deg)", &rot.x, 1.0f))
 	{
@@ -197,16 +198,16 @@ void InspectorPanel::DrawTransformProperties(ActorObject* transform)
 		Quaternion qy = Quaternion::CreateFromAxisAngle(Vector3::UnitY, rot.y);
 		Quaternion qz = Quaternion::CreateFromAxisAngle(Vector3::UnitZ, rot.z);
 		Quaternion newRotation = qy * qx * qz; // ZXY順で回転を適用
-		transform->GetTransform()->SetLocalRotation(newRotation);
-		transform->GetTransform()->SetRotationEditor(rot);
+		transform->GetBaseTransform()->SetLocalRotation(newRotation);
+		transform->GetBaseTransform()->SetRotationEditor(rot);
 	}
 
 	//Scale(Vector3)の編集
-	Vector3 scale = transform->GetTransform()->GetLocalScale();
+	Vector3 scale = transform->GetBaseTransform()->GetLocalScale();
 	if (ImGui::DragFloat3("Scale", &scale.x, 0.1f))//0.1fはドラッグの感度
 	{
 		//ローカル関数なので注意
-		transform->GetTransform()->SetLocalScale(scale);
+		transform->GetBaseTransform()->SetLocalScale(scale);
 	}
 
 	// 無効化範囲の終了

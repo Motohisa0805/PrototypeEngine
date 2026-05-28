@@ -1,7 +1,7 @@
 #pragma once
 #include "Typedefs.h"
 #include <memory>
-#include "Actor.h"
+#include "Entity.h"
 
 // クリップボードのイメージ（EditorSystem内などで保持）
 class EditorClipboard
@@ -10,7 +10,7 @@ private:
     static uint64_t mCopiedActorBuffer; // コピーされたアクターの雛形
 
 public:
-    static void Copy(ActorObject* target)
+    static void Copy(Entity* target)
     {
         if (!target) return;
 

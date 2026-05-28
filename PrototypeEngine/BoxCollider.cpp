@@ -126,7 +126,7 @@ void BoxCollider::DrawCustomGUI(const std::vector<PropertyInfo>& properties)
 	ImGui::PopID();
 }
 
-Component* BoxCollider::Clone(ActorObject* newOwner) const
+Component* BoxCollider::Clone(Entity* newOwner) const
 {
 	BoxCollider* clone = new BoxCollider(newOwner);
 

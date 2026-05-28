@@ -25,6 +25,8 @@ public:
 
 	void		DrawActorNode(ActorObject* actor);
 
+	void		DrawUIActorNode(UIActorObject* actor);
+
 	// 右クリックメニュー
 	bool		RightClickMenu();
 
