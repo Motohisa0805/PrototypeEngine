@@ -7,6 +7,7 @@
 #include "ComponentFactory.h"
 #include "ScriptComponent.h"
 #include "Component.h"
+#include "UIActor.h"
 
 static uint64_t sNextEntityID = 1;
 
@@ -198,6 +199,9 @@ void Entity::AddComponent(Component* component)
 	if (ActorObject* actor = dynamic_cast<ActorObject*>(this))
 	{
 		actor->OnComponentAdded(component);
+	}
+	else if (UIActorObject* uiactor = dynamic_cast<UIActorObject*>(this)) {
+		uiactor->OnComponentAdded(component);
 	}
 }
 

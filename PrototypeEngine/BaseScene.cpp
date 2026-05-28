@@ -105,6 +105,13 @@ bool BaseScene::InputUpdate(const InputState& state)
 				actor->ProcessInput(state);
 			}
 		}
+		for (auto actor : mUIActorManager->GetActors())
+		{
+			if (actor->GetState() == ActorObject::EActive)
+			{
+				actor->ProcessInput(state);
+			}
+		}
 	}
 
 
@@ -148,65 +155,6 @@ bool BaseScene::Update()
 	//全UIアクターの更新
 	mUIActorManager->UpdateActors(deltaTime);
 
-	//↓今後破棄予定
-	// Update UI screens
-	for (int i = 0; i < mCanvasStack.size(); i++)
-	{
-		if (mCanvasStack[i]->GetState() == Canvas::EActive)
-		{
-			mCanvasStack[i]->Update(Time::gDeltaTime);
-		}
-	}
-
-	for (int i = 0; i < mImageStack.size(); i++)
-	{
-		if (mImageStack[i]->GetState() == Image::EActive)
-		{
-			mImageStack[i]->Update(Time::gDeltaTime);
-		}
-	}
-
-	if (GameStateClass::gDebugStatesFrag)
-	{
-		for (int i = 0; i < mDebugImageStack.size(); i++)
-		{
-			if (mDebugImageStack[i]->GetState() == Image::EActive)
-			{
-				mDebugImageStack[i]->Update(Time::gDeltaTime);
-			}
-		}
-	}
-
-	// Delete any UIScreens that are closed
-	auto iter = mCanvasStack.begin();
-	while (iter != mCanvasStack.end())
-	{
-		/*
-		if ((*iter)->GetState() == Canvas::EDestroy)
-		{
-			delete* iter;
-			iter = mCanvasStack.erase(iter);
-		}
-		else
-		{
-			++iter;
-		}
-		*/
-	}
-	auto image = mImageStack.begin();
-	while (image != mImageStack.end())
-	{
-		if ((*image)->GetState() == Image::EDestroy)
-		{
-			delete* image;
-			image = mImageStack.erase(image);
-		}
-		else
-		{
-			++image;
-		}
-	}
-
 	return true;
 }
 
@@ -226,52 +174,7 @@ bool BaseScene::EditorUpdate(bool isRun)
 	//全UIアクターの更新
 	mUIActorManager->UpdateActors(deltaTime);
 
-	// Update UI screens
-	for (int i = 0; i < mCanvasStack.size(); i++)
-	{
-		if (mCanvasStack[i]->GetState() == Canvas::EActive)
-		{
-			mCanvasStack[i]->Update(Time::gDeltaTime);
-		}
-	}
-
-	for (int i = 0; i < mImageStack.size(); i++)
-	{
-		if (mImageStack[i]->GetState() == Image::EActive)
-		{
-			mImageStack[i]->Update(Time::gDeltaTime);
-		}
-	}
-
-	// Delete any UIScreens that are closed
-	auto iter = mCanvasStack.begin();
-	while (iter != mCanvasStack.end())
-	{
-		/*
-		if ((*iter)->GetState() == Canvas::EDestroy)
-		{
-			delete* iter;
-			iter = mCanvasStack.erase(iter);
-		}
-		else
-		{
-			++iter;
-		}
-		*/
-	}
-	auto image = mImageStack.begin();
-	while (image != mImageStack.end())
-	{
-		if ((*image)->GetState() == Image::EDestroy)
-		{
-			delete* image;
-			image = mImageStack.erase(image);
-		}
-		else
-		{
-			++image;
-		}
-	}
+	
 	//実行中じゃなければ
 	if (!isRun)
 	{
@@ -342,44 +245,6 @@ Skeleton* BaseScene::GetSkeleton(const string& fileName)
 	}
 	//読み込み失敗
 	return nullptr;
-}
-//キャンバスを格納
-void BaseScene::PushCanvas(Canvas* screen)
-{
-	mCanvasStack.emplace_back(screen);
-}
-//2D画像を格納
-void BaseScene::PushImage(Image* screen)
-{
-	mImageStack.emplace_back(screen);
-}
-void BaseScene::RemoveImage(Image* screen)
-{
-	// Is it in actors?
-	auto iter = std::find(mImageStack.begin(), mImageStack.end(), screen);
-	if (iter != mImageStack.end())
-	{
-		// Swap to end of vector and pop off (avoid erase copies)
-		std::iter_swap(iter, mImageStack.end() - 1);
-		mImageStack.pop_back();
-	}
-}
-
-void BaseScene::PushDebugImage(Image* screen)
-{
-	mDebugImageStack.emplace_back(screen);
-}
-
-void BaseScene::RemoveDebugImage(Image* screen)
-{
-	// Is it in actors?
-	auto iter = std::find(mDebugImageStack.begin(), mDebugImageStack.end(), screen);
-	if (iter != mDebugImageStack.end())
-	{
-		// Swap to end of vector and pop off (avoid erase copies)
-		std::iter_swap(iter, mDebugImageStack.end() - 1);
-		mDebugImageStack.pop_back();
-	}
 }
 
 void BaseScene::AddCamera(BaseCamera* camera)
@@ -461,28 +326,6 @@ void BaseScene::UnloadData()
 		delete mUIActorManager;
 		mUIActorManager = nullptr;
 	}
-
-	// Clear the UI stack
-	while (!mCanvasStack.empty())
-	{
-		delete mCanvasStack.back();
-		mCanvasStack.pop_back();
-	}
-	mCanvasStack.clear();
-
-	while (!mImageStack.empty())
-	{
-		delete mImageStack.back();
-		mImageStack.pop_back();
-	}
-	mImageStack.clear();
-
-	while (!mDebugImageStack.empty())
-	{
-		delete mDebugImageStack.back();
-		mDebugImageStack.pop_back();
-	}
-	mDebugImageStack.clear();
 
 	// Unload fonts
 	for (auto& f : mFonts)

@@ -294,7 +294,7 @@ void ActorObject::Deserialize(const json& j)
 	mTransform->SetDirty();
 }
 
-ActorObject* ActorObject::Clone()
+Entity* ActorObject::Clone()
 {
 	// 真っ新なアクターを生成
 	ActorObject* clone = new ActorObject();

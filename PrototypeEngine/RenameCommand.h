@@ -13,7 +13,7 @@ private:
 	// 変更後の名前（Execute用）
 	string			mNewName;		
 public:
-	RenameCommand(ActorObject* actor, const string& newName);
+	RenameCommand(Entity* actor, const string& newName);
 
 	void Execute() override;
 

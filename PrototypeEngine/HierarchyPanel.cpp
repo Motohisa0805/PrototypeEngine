@@ -72,7 +72,7 @@ void HierarchyPanel::Draw(float width, float height, ImTextureRef ref)
 					if (actor->GetRectTransform()->GetParentActor() == nullptr)
 					{
 						//UIアクターのノード描画関数を呼び出す
-
+						DrawUIActorNode(actor);
 					}
 				}
 			}
@@ -289,6 +289,175 @@ void HierarchyPanel::DrawActorNode(ActorObject* actor)
 	ImGui::PopID();
 }
 
+void HierarchyPanel::DrawUIActorNode(UIActorObject* actor)
+{
+	if (!actor || actor->GetState() == ActorObject::EDead)
+	{
+		return;
+	}
+
+	//ノードフラグの設定
+	//ImGuiTreeNodeFlags_SpanAvailWidth : 選択の幅をGUIパネルの幅と同じにする
+	ImGuiBackendFlags node_flags = ImGuiTreeNodeFlags_AllowOverlap | ImGuiTreeNodeFlags_SpanAvailWidth;
+	bool isSelected = (SelectionManager::GetSelectedActor() == actor);
+	if (isSelected)
+	{
+		node_flags |= ImGuiTreeNodeFlags_Selected;
+	}
+
+	//子オブジェクトを取得
+	const vector<UIActorObject*>& children = actor->GetRectTransform()->GetChildActorList();
+	//子オブジェクトがなければ末端ノードとして扱う
+	if (children.empty())
+	{
+		node_flags |= ImGuiTreeNodeFlags_Leaf | ImGuiTreeNodeFlags_NoTreePushOnOpen;
+	}
+
+	//PushIDでユニークIDを設定
+	ImGui::PushID(actor);
+
+	// ----------------------------------------------------------------
+	// 選択中なら背景色を「不透明な全塗り」に上書きする
+	// ----------------------------------------------------------------
+	bool pushedColor = false;
+	if (isSelected)
+	{
+		// 現在のテーマの「ホバー時の色」をベースとして取得する
+		ImVec4 color = ImGui::GetStyle().Colors[ImGuiCol_HeaderHovered];
+
+		// アルファ値（透明度）を 1.0f 
+		color.w = 1.0f;
+
+		ImGui::PushStyleColor(ImGuiCol_Header, color);
+		pushedColor = true;
+	}
+
+	//リネーム中の場合、InputTextを表示
+	if (SelectionManager::GetSelectedActor() == actor && mRenaming)
+	{
+		char buffer[256];
+		//ここで入力を行っている
+#if defined(_MSC_VER)
+		strncpy_s(buffer, mRenameInputBuffer.c_str(), sizeof(buffer));
+#else
+		std::strncpy(buffer, mRenameBuffer.c_str(), sizeof(buffer));
+#endif
+		buffer[sizeof(buffer) - 1] = '\0';
+
+		if (ImGui::InputText("##rename", buffer, sizeof(buffer), ImGuiInputTextFlags_EnterReturnsTrue))
+		{
+			auto cmd = std::make_unique<RenameCommand>(SelectionManager::GetSelectedActor(), string(buffer));
+			CommandManager::Execute(std::move(cmd));
+			mRenaming = false;
+		}
+
+		// Esc キャンセル
+		if (ImGui::IsItemDeactivated() && !ImGui::IsItemDeactivatedAfterEdit())
+		{
+			mRenaming = false;
+		}
+	}
+	//リネーム中でなければ通常のノード表示
+	else
+	{
+		//ImGui::TreeNodeExを使用
+		bool open = ImGui::TreeNodeEx(actor->GetName().c_str(), node_flags);
+
+		//ノードがクリックされたら選択オブジェクトを更新
+		if (ImGui::IsItemClicked(0) || ImGui::IsItemClicked(1))
+		{
+			SelectionManager::SetSelectedActor(actor);
+		}
+
+		//1.ドラッグ元(Drag Source)の設定
+		if (ImGui::BeginDragDropSource())
+		{
+			//ペイロードとしてオブジェクトのポインターを格納
+			ImGui::SetDragDropPayload("ACTOR_NODE_PTR", &actor, sizeof(ActorObject*));
+			//ドラッグ中に表示されるテキスト
+			ImGui::Text("%s", actor->GetName().c_str());
+			ImGui::EndDragDropSource();
+		}
+
+		//2a.ドロップ先(Drop Target)の設定(子として追加)
+		if (ImGui::BeginDragDropTarget())
+		{
+			//ドラッグペイロードを受け取る
+			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("ACTOR_NODE_PTR"))
+			{
+				UIActorObject* draggedActor = *(UIActorObject**)payload->Data;
+
+				// ガード：自分自身、または自分の子孫への移動は無視する
+				if (!ImGuiHelper::IsAncestorOf_UIActor(draggedActor, actor))
+				{
+					float mouseClickY = ImGui::GetMousePos().y;
+					float nodeRectMinY = ImGui::GetItemRectMin().y;
+					float nodeRectMaxY = ImGui::GetItemRectMax().y;
+					float nodeHeight = nodeRectMaxY - nodeRectMinY;
+
+					if (mouseClickY < nodeRectMinY + nodeHeight * 0.25f || mouseClickY > nodeRectMinY + nodeHeight * 0.75f)
+					{
+						// ----------------------------------------------------------------
+						// 【ケースA】隙間にドロップ（＝ターゲットと「同じ親」の階層に滑り込ませる）
+						// ----------------------------------------------------------------
+						UIActorObject* desiredParent = actor->GetRectTransform()->GetParentActor();
+
+						// ターゲットがその親のリストの何番目にいるかを取得
+						auto& siblingList = desiredParent ? desiredParent->GetRectTransform()->GetChildActorListMutable()
+							: SceneManager::GetNowScene()->GetUIActorManager()->GetActorsMutable();
+
+						auto it = std::find(siblingList.begin(), siblingList.end(), actor);
+						size_t targetIndex = std::distance(siblingList.begin(), it);
+
+						// 上部ならその位置、下部なら次の位置
+						size_t toIndex = (mouseClickY < nodeRectMinY + nodeHeight * 0.25f) ? targetIndex : targetIndex + 1;
+
+						// 同じ親の中で後ろに動かす場合は、挿入位置モデルの仕様に合わせてインデックスを調整するロジックが必要あり、
+						// 別階層からの移動であれば、現在は問題はなし。
+						auto cmd = std::make_unique<ReparentAndReorderCommand>(draggedActor, desiredParent, toIndex);
+						CommandManager::Execute(std::move(cmd));
+					}
+					else
+					{
+						// ----------------------------------------------------------------
+						// 【ケースB】中央にドロップ（＝ターゲットの「直下（子供）」にする）
+						// ----------------------------------------------------------------
+						size_t toIndex = actor->GetRectTransform()->GetChildActorList().size(); // 子供リストの末尾
+
+						auto cmd = std::make_unique<ReparentAndReorderCommand>(draggedActor, actor, toIndex);
+						CommandManager::Execute(std::move(cmd));
+					}
+				}
+			}
+			ImGui::EndDragDropTarget();
+		}
+		//ノードが開かれた場合、子オブジェクトを再帰的に描画
+		if (open)
+		{
+			for (UIActorObject* childTransform : children)
+			{
+				if (UIActorObject* childActor = dynamic_cast<UIActorObject*>(childTransform))
+				{
+					DrawUIActorNode(childActor);
+				}
+			}
+
+			//子要素の描画が終了したら
+			if (!(node_flags & ImGuiTreeNodeFlags_NoTreePushOnOpen))
+			{
+				ImGui::TreePop();
+			}
+		}
+	}
+
+	if (pushedColor)
+	{
+		ImGui::PopStyleColor();
+	}
+
+	ImGui::PopID();
+}
+
 bool HierarchyPanel::RightClickMenu()
 {
 	SetPopupColorTheme();
@@ -298,8 +467,16 @@ bool HierarchyPanel::RightClickMenu()
 	{
 		if (ImGui::MenuItem("Create Empty Actor"))
 		{
-			// 直接 new するのではなく、コマンドを作って実行させる
 			auto cmd = std::make_unique<CreateNewActorCommand>();
+			CommandManager::Execute(std::move(cmd));
+		}
+		if (ImGui::MenuItem("Create Empty Canvas")) {
+			auto cmd = std::make_unique<CreateNewCanvasCommand>();
+			CommandManager::Execute(std::move(cmd));
+		}
+		if (ImGui::MenuItem("Create Empty UIActor"))
+		{
+			auto cmd = std::make_unique<CreateNewUIActorCommand>();
 			CommandManager::Execute(std::move(cmd));
 		}
 		if (SelectionManager::GetSelectedActor())

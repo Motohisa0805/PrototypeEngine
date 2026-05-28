@@ -470,7 +470,7 @@ void Rigidbody::DrawCustomGUI(const std::vector<PropertyInfo>& properties)
     ImGui::Separator();
 }
 
-Component* Rigidbody::Clone(ActorObject* newOwner) const
+Component* Rigidbody::Clone(Entity* newOwner) const
 {
     Rigidbody* clone = new Rigidbody(newOwner);
 

@@ -321,7 +321,7 @@ void ParticleSystem::DrawCustomGUI(const std::vector<PropertyInfo>& properties)
 	ImGui::PopID();
 }
 
-Component* ParticleSystem::Clone(ActorObject* newOwner) const
+Component* ParticleSystem::Clone(Entity* newOwner) const
 {
 	ParticleSystem* clone = new ParticleSystem(newOwner);
 

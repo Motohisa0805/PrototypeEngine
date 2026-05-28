@@ -15,7 +15,7 @@ private:
 	vector<SoundEventClip>	mEvents2D;
 	vector<SoundEventClip>	mEvents3D;
 public:
-						AudioComponent(ActorObject* owner, int updateOrder = 200);
+						AudioComponent(Entity* owner, int updateOrder = 200);
 						~AudioComponent();
 
 	void				Update(float deltaTime) override;
@@ -29,5 +29,5 @@ public:
 
 	void				DrawCustomGUI(const std::vector<PropertyInfo>& properties)override;
 
-	Component*			Clone(ActorObject* newOwner) const override;
+	Component*			Clone(Entity* newOwner) const override;
 };

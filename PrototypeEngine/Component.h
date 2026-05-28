@@ -143,5 +143,5 @@ public:
 	virtual void		Deserialize(const json& j);
 
 
-	virtual Component*	Clone(ActorObject* newOwner) const { return nullptr; }
+	virtual Component*	Clone(Entity* newOwner) const { return nullptr; }
 };

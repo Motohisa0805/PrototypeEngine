@@ -1,15 +1,15 @@
 #pragma once
 #include "GUIWinMain.h"
-#include "Actor.h"
+#include "Entity.h"
 
 //選択オブジェクトの管理クラス
 class SelectionManager
 {
 private:
 	//選択中のアクターを保持するポインター
-	static ActorObject* mSelectedActor;
+	static Entity* mSelectedActor;
 public:
-	static ActorObject* GetSelectedActor() { return mSelectedActor; }
-	static void SetSelectedActor(ActorObject* actor) { mSelectedActor = actor; }
+	static Entity* GetSelectedActor() { return mSelectedActor; }
+	static void SetSelectedActor(Entity* actor) { mSelectedActor = actor; }
 };
 

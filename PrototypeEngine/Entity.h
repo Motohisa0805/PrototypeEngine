@@ -1,7 +1,7 @@
 #pragma once
 #include "BaseScene.h"
 #include "Time.h"
-
+#include "BaseTransform.h"
 
 //アクターのタグ、レイヤーなど詳細情報をまとめるnamespace
 namespace ActorInformation
@@ -133,6 +133,8 @@ public:
 
 	BaseScene*						GetGame() { return mGame; }
 
+	virtual BaseTransform*			GetBaseTransform() { return nullptr; }
+
 	template<typename T>
 	T*								GetComponent() const;
 	// Add/remove components
@@ -147,6 +149,8 @@ public:
 	string							GetName() const { return mName; }
 
 	void 							SetName(const string& name) { mName = name; }
+
+	virtual Entity*					Clone() { return nullptr; }
 };
 
 template<typename T>

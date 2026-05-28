@@ -70,7 +70,7 @@ void SphereCollider::DrawCustomGUI(const std::vector<PropertyInfo>& properties)
 	ImGui::PopID();
 }
 
-Component* SphereCollider::Clone(ActorObject* newOwner) const
+Component* SphereCollider::Clone(Entity* newOwner) const
 {
 	SphereCollider* clone = new SphereCollider(newOwner);
 

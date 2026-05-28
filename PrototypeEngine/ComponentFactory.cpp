@@ -10,10 +10,7 @@
 #include "AudioComponent.h"
 #include "Animator.h"
 
-#include "BasicInputAction.h"
-#include "FollowObjectMovement.h"
-#include "PushButtonMove.h"
-#include "TargetComponent.h"
+#include "Image.h"
 
 #include "FreeCamera.h"
 
@@ -95,4 +92,5 @@ void RegisterAllComponents()
 	
 	//ComponentFactory::RegisterComponent("FPSCamera",[](ActorObject* owner) -> Component* { return new FPSCamera(owner); });
 	// ...他のコンポーネントも同様に追加
+	ComponentFactory::RegisterComponent("Image", [](Entity* owner) -> Component* { return new Image(owner); });
 }

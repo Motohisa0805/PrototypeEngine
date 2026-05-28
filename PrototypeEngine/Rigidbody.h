@@ -129,5 +129,5 @@ public:
 
 	void		 DrawCustomGUI(const std::vector<PropertyInfo>& properties)override;
 
-	Component*	 Clone(ActorObject* newOwner) const override;
+	Component*	 Clone(Entity* newOwner) const override;
 };

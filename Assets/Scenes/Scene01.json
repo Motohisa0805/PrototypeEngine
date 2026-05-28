@@ -577,5 +577,47 @@
       "Type": "Transform"
     }
   ],
-  "SceneName": "Scene01"
+  "SceneName": "Scene01",
+  "UIActors": [
+    {
+      "Components": [
+        {
+          "FilePath": "Assets\\Texture\\Radar.png",
+          "FillAmount": 1.0,
+          "FillMethod": 0,
+          "FillType": 0,
+          "Type": "Image",
+          "UVTransform": [
+            0.0,
+            0.0,
+            1.0,
+            1.0
+          ],
+          "VerticesCount": 6
+        }
+      ],
+      "ID": 14,
+      "LocalPosition": [
+        700.0,
+        282.1000061035156,
+        0.0
+      ],
+      "LocalRotation": [
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "LocalScale": [
+        2.0,
+        2.0,
+        1.0
+      ],
+      "Name": "UIActor0",
+      "State": 0,
+      "Static": 0,
+      "Tag": 0,
+      "Type": "RecrTransform"
+    }
+  ]
 }

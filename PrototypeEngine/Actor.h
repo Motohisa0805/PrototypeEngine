@@ -26,7 +26,7 @@ public:
 
 
 	Transform*						GetTransform() const { return mTransform; }
-
+	BaseTransform*					GetBaseTransform()override { return mTransform; }
 
 	//親のアクターのGetter
 	//当たった時に呼び出される関数
@@ -43,5 +43,5 @@ public:
 	void							Deserialize(const json& j)override;
 
 
-	ActorObject*					Clone();
+	Entity*							Clone()override;
 };

@@ -55,6 +55,7 @@ private:
 	BaseScene*											mNowScene;
 	// テクスチャのマップが読み込み変数
 	std::unordered_map<string,Texture*>					mTextures;
+	vector<Image*>										mImageComps;
 	// Sprite shader
 	Shader*												mSpriteShader;
 	// Sprite vertex array
@@ -160,6 +161,10 @@ public:
 	//描画処理
 	void												StartDraw();
 	void												EndDraw();
+
+	void												AddImageComps(Image* image);
+	void												RemoveImageComp(Image* image);
+
 	//Mesh追加処理
 	void												AddMeshComp(class MeshRenderer* mesh);
 	//Mesh削除処理

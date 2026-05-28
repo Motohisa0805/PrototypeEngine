@@ -35,7 +35,7 @@ void CreateNewActorCommand::Execute()
         // Undo時にコマンド側（mTarget）に回収しておいたインスタンスを、もう一度シーンに戻す
         if (!mIsActiveInScene && mTarget)
         {
-            actorManager->AddActor(mTarget);
+            actorManager->AddActor(dynamic_cast<ActorObject*>(mTarget));
             mTarget = nullptr; // 所有権を再度シーンに渡す
             mIsActiveInScene = true;
         }

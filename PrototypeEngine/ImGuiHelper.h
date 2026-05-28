@@ -1,6 +1,7 @@
 #pragma once
 #include "Typedefs.h"
 #include "Actor.h"
+#include "UIActor.h"
 #include "imgui.h"
 #include "imgui_impl_sdl3.h"
 #include "imgui_impl_opengl3.h"
@@ -11,6 +12,8 @@ namespace ImGuiHelper
 	void FragTextButton(const char* lable,const ImVec2 &size,bool &frag);
 
     bool IsAncestorOf(ActorObject* potentialAncestor, ActorObject* target);
+
+    bool IsAncestorOf_UIActor(UIActorObject* potentialAncestor, UIActorObject* target);
 
     template<typename T>
     void ReorderVector(vector<T>& vec, size_t fromIndex, size_t toIndex)

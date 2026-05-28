@@ -36,12 +36,6 @@ protected:
 	ActorManager*									mActorManager;
 
 	UIActorManager*									mUIActorManager;
-	
-	vector<Canvas*>									mCanvasStack;
-	
-	vector<Image*>									mImageStack;
-	
-	vector<Image*>									mDebugImageStack;
 
 	// Map for fonts
 	std::unordered_map<string, Font*>				mFonts;
@@ -100,19 +94,6 @@ public:
 	//AudioSystemのGetter
 	AudioSystem*									GetAudioSystem() { return mAudioSystem; }
 
-	// Manage UI stack
-	const vector<Canvas*>&							GetUIStack() { return mCanvasStack; }
-	//UIScreenの設定
-	void											PushCanvas(Canvas* screen);
-	//Image配列のGetter
-	const vector<Image*>&							GetImageStack() { return mImageStack; }
-	const vector<Image*>&							GetDebugImageStack() { return mDebugImageStack; }
-	//Imageの追加
-	void											PushImage(Image* screen);
-	void											RemoveImage(Image* screen);
-	//DebugImageの追加
-	void											PushDebugImage(Image* screen);
-	void											RemoveDebugImage(Image* screen);
 	// Game-specific
 	//PlayerオブジェクトのGetter
 	ActorObject*									GetPlayer() { return mPlayer; }

@@ -169,10 +169,12 @@
     <ClCompile Include="AudioBankProperty.cpp" />
     <ClCompile Include="AudioComponent.cpp" />
     <ClCompile Include="AudioSystem.cpp" />
+    <ClCompile Include="BaseTransform.cpp" />
+    <ClCompile Include="CreateNewCanvasCommand.cpp" />
+    <ClCompile Include="CreateNewUIActorCommand.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="BaseCamera.cpp" />
     <ClCompile Include="BaseScene.cpp" />
-    <ClCompile Include="BasicInputAction.cpp" />
     <ClCompile Include="BoneActor.cpp" />
     <ClCompile Include="BoneTransform.cpp" />
     <ClCompile Include="BoxCollider.cpp" />
@@ -204,7 +206,6 @@
     <ClCompile Include="ScriptEditManager.cpp" />
     <ClCompile Include="EngineWindow.cpp" />
     <ClCompile Include="ExternalLibrary\tinyxml2-master\tinyxml2.cpp" />
-    <ClCompile Include="FollowObjectMovement.cpp" />
     <ClCompile Include="Font.cpp" />
     <ClCompile Include="FreeCamera.cpp" />
     <ClCompile Include="GameApp.cpp" />
@@ -231,10 +232,8 @@
     <ClCompile Include="MeshRenderer.cpp" />
     <ClCompile Include="ActorManager.cpp" />
     <ClCompile Include="ParticleSystem.cpp" />
-    <ClCompile Include="PauseMenu.cpp" />
     <ClCompile Include="PhysWorld.cpp" />
     <ClCompile Include="ProjectPanel.cpp" />
-    <ClCompile Include="PushButtonMove.cpp" />
     <ClCompile Include="Random.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="Rigidbody.cpp" />
@@ -255,7 +254,6 @@
     <ClCompile Include="SoundEventClip.cpp" />
     <ClCompile Include="SphereCollider.cpp" />
     <ClCompile Include="stb_impl.cpp" />
-    <ClCompile Include="TargetComponent.cpp" />
     <ClCompile Include="Text.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="Time.cpp" />
@@ -274,10 +272,12 @@
     <ClInclude Include="AudioBankProperty.h" />
     <ClInclude Include="AudioComponent.h" />
     <ClInclude Include="AudioSystem.h" />
+    <ClInclude Include="BaseTransform.h" />
+    <ClInclude Include="CreateNewCanvasCommand.h" />
+    <ClInclude Include="CreateNewUIActorCommand.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="BaseCamera.h" />
     <ClInclude Include="BaseScene.h" />
-    <ClInclude Include="BasicInputAction.h" />
     <ClInclude Include="BoneActor.h" />
     <ClInclude Include="BoneTransform.h" />
     <ClInclude Include="BoxCollider.h" />
@@ -314,7 +314,6 @@
     <ClInclude Include="EngineWindow.h" />
     <ClInclude Include="ExternalLibrary\tinyxml2-master\tinyxml2.h" />
     <ClInclude Include="FilePath.h" />
-    <ClInclude Include="FollowObjectMovement.h" />
     <ClInclude Include="Font.h" />
     <ClInclude Include="FreeCamera.h" />
     <ClInclude Include="GameApp.h" />
@@ -344,12 +343,10 @@
     <ClInclude Include="MeshRenderer.h" />
     <ClInclude Include="ActorManager.h" />
     <ClInclude Include="ParticleSystem.h" />
-    <ClInclude Include="PauseMenu.h" />
     <ClInclude Include="PhysWorld.h" />
     <ClInclude Include="ProjectPanel.h" />
     <ClInclude Include="PrototypeEngine.h" />
     <ClInclude Include="PrototypeEngine_API.h" />
-    <ClInclude Include="PushButtonMove.h" />
     <ClInclude Include="Random.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="Rigidbody.h" />
@@ -374,7 +371,6 @@
     <ClInclude Include="SphereCollider.h" />
     <ClInclude Include="StandardLibrary.h" />
     <ClInclude Include="StringFormat.h" />
-    <ClInclude Include="TargetComponent.h" />
     <ClInclude Include="Text.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="Time.h" />

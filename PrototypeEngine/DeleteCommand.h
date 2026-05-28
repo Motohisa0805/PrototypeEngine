@@ -9,11 +9,11 @@ class DeleteCommand : public ICommand
 private:
 	// 削除対象のアクター
 	uint64_t		mTargetID;
-	ActorObject*	mTarget;
+	Entity*			mTarget;
 	//現在シーンに存在するかどうかのフラグ
 	bool			mIsActiveInScene;
 public:
-	DeleteCommand(ActorObject* actor);
+	DeleteCommand(Entity* actor);
 	~DeleteCommand();
 
 	void Execute() override;

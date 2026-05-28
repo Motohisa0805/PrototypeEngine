@@ -7,6 +7,8 @@
 #include "ReorderCommand.h"
 #include "ReparentAndReorderCommand.h"
 #include "CreateNewActorCommand.h"
+#include "CreateNewUIActorCommand.h"
+#include "CreateNewCanvasCommand.h"
 #include "PasteActorCommand.h"
 
 //Undo/Redo‚ÌŽi—ß“ƒ
