@@ -8,7 +8,7 @@ UIActorObject::UIActorObject(uint64_t id)
 {
 	mRectTransform = new RectTransform(this);
 
-	mName = "UIActor" + std::to_string(mGame->mNextActorID++);
+	mName = "New UI Actor" + std::to_string(mGame->mNextActorID++);
 	mGame->GetUIActorManager()->AddActor(this);
 }
 

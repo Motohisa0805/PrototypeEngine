@@ -87,9 +87,13 @@ void GUIMainMenu::EditorMenuDraw()
 {
 	if (ImGui::BeginMenu("Editor"))
 	{
-		if (ImGui::MenuItem("Incomplete"))
+		if (ImGui::MenuItem("Undo"))
 		{
-
+			CommandManager::Undo();
+		}
+		if (ImGui::MenuItem("Redo"))
+		{
+			CommandManager::Redo();
 		}
 		ImGui::EndMenu();
 	}
@@ -99,9 +103,18 @@ void GUIMainMenu::AssetMenuDraw()
 {
 	if (ImGui::BeginMenu("Assets"))
 	{
-		if (ImGui::MenuItem("Incomplete"))
+		if (ImGui::BeginMenu("Create"))
 		{
-
+			if (ImGui::MenuItem("Folder"))
+			{
+				filesystem::path currentFolder = EditorSettingsManager::GetCurrentFolder();
+				filesystem::create_directory(currentFolder / "NewFolder");
+			}
+			if (ImGui::MenuItem("Scene"))
+			{
+				EditorSettingsManager::CreateNewScene(EditorSettingsManager::GetCurrentFolder());
+			}
+			ImGui::EndMenu();
 		}
 		ImGui::EndMenu();
 	}
@@ -111,9 +124,25 @@ void GUIMainMenu::GameObjectMenuDraw()
 {
 	if (ImGui::BeginMenu("GameObject"))
 	{
-		if (ImGui::MenuItem("Incomplete"))
+		if (ImGui::MenuItem("Create 3D Empty"))
 		{
-
+			auto cmd = std::make_unique<CreateNewActorCommand>();
+			CommandManager::Execute(std::move(cmd));
+			EditorSettingsManager::SetRenameInputBuffer(SelectionManager::GetSelectedActor()->GetName());
+			EditorSettingsManager::SetRenaming(true);
+		}
+		if (ImGui::MenuItem("Create Empty Canvas")) {
+			auto cmd = std::make_unique<CreateNewCanvasCommand>();
+			CommandManager::Execute(std::move(cmd));
+			EditorSettingsManager::SetRenameInputBuffer(SelectionManager::GetSelectedActor()->GetName());
+			EditorSettingsManager::SetRenaming(true);
+		}
+		if (ImGui::MenuItem("Create 2D Empty"))
+		{
+			auto cmd = std::make_unique<CreateNewUIActorCommand>();
+			CommandManager::Execute(std::move(cmd));
+			EditorSettingsManager::SetRenameInputBuffer(SelectionManager::GetSelectedActor()->GetName());
+			EditorSettingsManager::SetRenaming(true);
 		}
 		ImGui::EndMenu();
 	}

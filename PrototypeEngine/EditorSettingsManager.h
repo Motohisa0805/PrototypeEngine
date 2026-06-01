@@ -14,6 +14,12 @@ private:
 	//シーンが保存されたか
 	static bool								mIsNoSaveFlag;
 
+	static string							mRenameInputBuffer;
+
+	static bool								mRenaming;
+
+	static filesystem::path					mCurrentFolder;
+
 	EditorSettingsManager() { LoadSettings(); }
 	~EditorSettingsManager() { SaveEditorSettings(); }
 
@@ -33,5 +39,20 @@ public:
 	//シーン保存フラグのGetter/Setter
 	static bool						IsNoSaveFlag() { return mIsNoSaveFlag; }
 	static void						SetSaveFlag(bool isSave) { mIsNoSaveFlag = isSave; }
+
+	//リネーム入力バッファのGetter/Setter
+	static string					GetRenameInputBuffer() { return mRenameInputBuffer; }
+	static void						SetRenameInputBuffer(const string& buffer) { mRenameInputBuffer = buffer; }
+
+	//リネームフラグのGetter/Setter
+	static bool						IsRenaming() { return mRenaming; }
+	static void						SetRenaming(bool renaming) { mRenaming = renaming; }
+
+	//現在のフォルダのGetter/Setter
+	static filesystem::path			GetCurrentFolder() { return mCurrentFolder; }
+	static void						SetCurrentFolder(const filesystem::path& folder) { mCurrentFolder = folder; }
+
+
+	static void						CreateNewScene(const filesystem::path& filePath);
 };
 

@@ -5,7 +5,6 @@
 
 HierarchyPanel::HierarchyPanel(Renderer* renderer)
 	:GUIPanel(renderer)
-	, mRenaming(false)
 {
 }
 
@@ -104,9 +103,9 @@ void HierarchyPanel::Draw(float width, float height, ImTextureRef ref)
 		}
 		//名前変更のショートカットキー
 		if (ImGui::IsKeyDown(ImGuiKey_F2)) {
-			if (!mRenaming && SelectionManager::GetSelectedActor()) {
-				mRenameInputBuffer = SelectionManager::GetSelectedActor()->GetName();
-				mRenaming = true;
+			if (!EditorSettingsManager::IsRenaming() && SelectionManager::GetSelectedActor()) {
+				EditorSettingsManager::SetRenameInputBuffer(SelectionManager::GetSelectedActor()->GetName());
+				EditorSettingsManager::SetRenaming(true);
 			}
 		}
 		//削除ショートカットキー
@@ -164,14 +163,14 @@ void HierarchyPanel::DrawActorNode(ActorObject* actor)
 	}
 
 	//リネーム中の場合、InputTextを表示
-	if (SelectionManager::GetSelectedActor() == actor && mRenaming)
+	if (SelectionManager::GetSelectedActor() == actor && EditorSettingsManager::IsRenaming())
 	{
 		char buffer[256];
 		//ここで入力を行っている
 #if defined(_MSC_VER)
-		strncpy_s(buffer, mRenameInputBuffer.c_str(), sizeof(buffer));
+		strncpy_s(buffer, EditorSettingsManager::GetRenameInputBuffer().c_str(), sizeof(buffer));
 #else
-		std::strncpy(buffer, mRenameBuffer.c_str(), sizeof(buffer));
+		std::strncpy(buffer, EditorSettingsManager::GetRenameInputBuffer().c_str(), sizeof(buffer));
 #endif
 		buffer[sizeof(buffer) - 1] = '\0';
 
@@ -179,13 +178,13 @@ void HierarchyPanel::DrawActorNode(ActorObject* actor)
 		{
 			auto cmd = std::make_unique<RenameCommand>(SelectionManager::GetSelectedActor(), string(buffer));
 			CommandManager::Execute(std::move(cmd));
-			mRenaming = false;
+			EditorSettingsManager::SetRenaming(false);
 		}
 
 		// Esc キャンセル
 		if (ImGui::IsItemDeactivated() && !ImGui::IsItemDeactivatedAfterEdit())
 		{
-			mRenaming = false;
+			EditorSettingsManager::SetRenaming(false);
 		}
 	}
 	//リネーム中でなければ通常のノード表示
@@ -333,14 +332,14 @@ void HierarchyPanel::DrawUIActorNode(UIActorObject* actor)
 	}
 
 	//リネーム中の場合、InputTextを表示
-	if (SelectionManager::GetSelectedActor() == actor && mRenaming)
+	if (SelectionManager::GetSelectedActor() == actor && EditorSettingsManager::IsRenaming())
 	{
 		char buffer[256];
 		//ここで入力を行っている
 #if defined(_MSC_VER)
-		strncpy_s(buffer, mRenameInputBuffer.c_str(), sizeof(buffer));
+		strncpy_s(buffer, EditorSettingsManager::GetRenameInputBuffer().c_str(), sizeof(buffer));
 #else
-		std::strncpy(buffer, mRenameBuffer.c_str(), sizeof(buffer));
+		std::strncpy(buffer, EditorSettingsManager::GetRenameInputBuffer().c_str(), sizeof(buffer));
 #endif
 		buffer[sizeof(buffer) - 1] = '\0';
 
@@ -348,13 +347,13 @@ void HierarchyPanel::DrawUIActorNode(UIActorObject* actor)
 		{
 			auto cmd = std::make_unique<RenameCommand>(SelectionManager::GetSelectedActor(), string(buffer));
 			CommandManager::Execute(std::move(cmd));
-			mRenaming = false;
+			EditorSettingsManager::SetRenaming(false);
 		}
 
 		// Esc キャンセル
 		if (ImGui::IsItemDeactivated() && !ImGui::IsItemDeactivatedAfterEdit())
 		{
-			mRenaming = false;
+			EditorSettingsManager::SetRenaming(false);
 		}
 	}
 	//リネーム中でなければ通常のノード表示
@@ -469,22 +468,28 @@ bool HierarchyPanel::RightClickMenu()
 		{
 			auto cmd = std::make_unique<CreateNewActorCommand>();
 			CommandManager::Execute(std::move(cmd));
+			EditorSettingsManager::SetRenameInputBuffer(SelectionManager::GetSelectedActor()->GetName());
+			EditorSettingsManager::SetRenaming(true);
 		}
 		if (ImGui::MenuItem("Create Empty Canvas")) {
 			auto cmd = std::make_unique<CreateNewCanvasCommand>();
 			CommandManager::Execute(std::move(cmd));
+			EditorSettingsManager::SetRenameInputBuffer(SelectionManager::GetSelectedActor()->GetName());
+			EditorSettingsManager::SetRenaming(true);
 		}
 		if (ImGui::MenuItem("Create Empty UIActor"))
 		{
 			auto cmd = std::make_unique<CreateNewUIActorCommand>();
 			CommandManager::Execute(std::move(cmd));
+			EditorSettingsManager::SetRenameInputBuffer(SelectionManager::GetSelectedActor()->GetName());
+			EditorSettingsManager::SetRenaming(true);
 		}
 		if (SelectionManager::GetSelectedActor())
 		{
 			if (ImGui::MenuItem("Rename", "F2"))
 			{
-				mRenameInputBuffer = SelectionManager::GetSelectedActor()->GetName();
-				mRenaming = true;
+				EditorSettingsManager::SetRenameInputBuffer(SelectionManager::GetSelectedActor()->GetName());
+				EditorSettingsManager::SetRenaming(true);
 			}
 
 			if (ImGui::MenuItem("Delete Actor","Delete"))

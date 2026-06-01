@@ -21,7 +21,7 @@ private:
 	filesystem::path				mPendingDst;
 
 	vector<RenameRequest>			mRenameQueue;
-	filesystem::path				mCurrentFolder;
+
 	filesystem::path				mCurrentFile;
 	// ユーザーが左クリックでハイライトしたファイル/フォルダ
 	filesystem::path				mSelectedPath;

@@ -7,7 +7,7 @@ ActorObject::ActorObject(uint64_t id)
 {
 	mTransform = new Transform(this);
 
-	mName = "Actor" + std::to_string(mGame->mNextActorID++);
+	mName = "New Actor" + std::to_string(mGame->mNextActorID++);
 	mGame->GetActorManager()->AddActor(this);
 }
 
