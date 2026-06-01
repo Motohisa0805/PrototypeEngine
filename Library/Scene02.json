@@ -1,0 +1,86 @@
+{
+  "Actors": [
+    {
+      "Components": [
+        {
+          "Type": "FreeCamera"
+        }
+      ],
+      "ID": 19,
+      "LocalPosition": [
+        0.0,
+        2.0,
+        -5.0
+      ],
+      "LocalRotation": [
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "LocalScale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "Name": "MainCamera",
+      "ParentActorID": -1,
+      "State": 0,
+      "Static": 0,
+      "Tag": 0,
+      "Type": "Transform"
+    },
+    {
+      "Components": [
+        {
+          "AmbientColor": [
+            0.699999988079071,
+            0.699999988079071,
+            0.6000000238418579
+          ],
+          "DiffuseColor": [
+            1.0,
+            0.949999988079071,
+            0.800000011920929
+          ],
+          "Direction": [
+            0.7071067094802856,
+            -0.7071068286895752,
+            0.0
+          ],
+          "SpecularColor": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "Type": "DirectionalLightComponent"
+        }
+      ],
+      "ID": 20,
+      "LocalPosition": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "LocalRotation": [
+        0.9238795042037964,
+        -0.0,
+        -0.0,
+        -0.3826834559440613
+      ],
+      "LocalScale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "Name": "Directional Light",
+      "ParentActorID": -1,
+      "State": 0,
+      "Static": 0,
+      "Tag": 0,
+      "Type": "Transform"
+    }
+  ],
+  "SceneName": "Scene02",
+  "UIActors": []
+}
