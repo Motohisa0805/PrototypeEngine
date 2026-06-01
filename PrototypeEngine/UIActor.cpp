@@ -4,6 +4,7 @@
 
 UIActorObject::UIActorObject(uint64_t id)
 	: Entity(id)
+	, mIsCanvas(false)
 {
 	mRectTransform = new RectTransform(this);
 
@@ -13,6 +14,7 @@ UIActorObject::UIActorObject(uint64_t id)
 
 UIActorObject::UIActorObject(BaseScene* scene)
 	: Entity(scene)
+	, mIsCanvas(false)
 {
 	mRectTransform = new RectTransform(this);
 }
@@ -46,7 +48,6 @@ void UIActorObject::Update(float deltaTime)
 {
 	if (mState == EActive)
 	{
-		//ComputeLocalTransform();
 		UpdateComponents(deltaTime);
 		mRectTransform->ComputeWorldTransform();
 	}
@@ -70,6 +71,15 @@ void UIActorObject::Serialize(json& j) const
 	j["LocalPosition"] = { mRectTransform->GetLocalPosition().x, mRectTransform->GetLocalPosition().y, mRectTransform->GetLocalPosition().z };
 	j["LocalRotation"] = { mRectTransform->GetLocalRotation().w, mRectTransform->GetLocalRotation().x, mRectTransform->GetLocalRotation().y, mRectTransform->GetLocalRotation().z };
 	j["LocalScale"] = { mRectTransform->GetLocalScale().x, mRectTransform->GetLocalScale().y, mRectTransform->GetLocalScale().z };
+
+	if (mRectTransform->GetParentActor()) {
+		j["ParentActorID"] = mRectTransform->GetParentActor()->GetID();
+	}
+	else {
+		j["ParentActorID"] = -1;
+	}
+
+	j["CanvasFrag"] = mIsCanvas;
 }
 
 void UIActorObject::Deserialize(const json& j)
@@ -110,7 +120,24 @@ void UIActorObject::Deserialize(const json& j)
 			j["LocalScale"][2]
 		)
 	);
+
+	if (j.contains("ParentActorID")) {
+		uint64_t id = j.at("ParentActorID").get<uint64_t>();
+		mRectTransform->SetParentID(id);
+	}
+
+	if (j.contains("CanvasFrag")) {
+		mIsCanvas = j.at("CanvasFrag").get<bool>();
+	}
+
 	mRectTransform->SetDirty();
+}
+
+void UIActorObject::LoadParentByLoadScene()
+{
+	if (mRectTransform->GetParentID() != -1) {
+		mRectTransform->SetParent(mGame->GetUIActorManager()->FindActorByID(mRectTransform->GetParentID()));
+	}
 }
 
 Entity* UIActorObject::Clone() {

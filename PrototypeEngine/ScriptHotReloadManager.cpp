@@ -173,17 +173,16 @@ bool ScriptHotReloadManager::ReloadInGameProject()
 	// 実際のロジックのイメージ
 	for (const auto& pair : mSavedState)
 	{
-		ActorObject* actor = pair.first;
+		Entity* entity = pair.first;
 		for (const auto& savedScript : pair.second)
 		{
 			//新しいDLLのファクトリ関数を呼び出してインスタンスを生成
 			Component* newComp = mCurrentDll.CreateFunc(
-				savedScript.ClassName.c_str(),actor
+				savedScript.ClassName.c_str(),entity
 			);
 			//状態をデシリアライズ
 			newComp->Deserialize(savedScript.Data);//新しいDLLのDeserializeを呼び出し
-			//newCompをactorにアタッチ
-
+			//newCompをentityにアタッチ
 			ScriptComponent* newScript = dynamic_cast<ScriptComponent*>(newComp);
 			if (newScript)
 			{

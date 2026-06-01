@@ -43,6 +43,7 @@ void Image::Load(string file)
 	mTextureRect.y = 0;
 	mTextureRect.w = static_cast<float>(mTexture->GetWidth());
 	mTextureRect.h = static_cast<float>(mTexture->GetHeight());
+	mUIActor->GetRectTransform()->SetScaleWidthAndHeight(static_cast<float>(mTextureRect.w), static_cast<float>(mTextureRect.h));
 	//読み込んだ時に一度画像の描画の描画の形を設定
 	FillMethodCalculation(mUVTransform, mVerticesCount);
 }
@@ -94,7 +95,7 @@ void Image::DrawTexture(Shader* shader)
 
 	shader->SetVector4Uniform("uTexUV", mUVTransform);
 	
-	shader->SetMatrixUniform("uWorldTransform", mUIActor->GetRectTransform()->GetWorldTransform());
+	shader->SetMatrixUniform("uWorldTransform", mUIActor->GetRectTransform()->GetDrawTransform());
 
 	mTexture->SetActive();
 	
@@ -112,9 +113,9 @@ void Image::FillMethodCalculation(Vector4& uv, int& verticesCount)
 	float u2 = (mTextureRect.x + mTextureRect.w) / mTexture->GetWidth();
 	float v2 = (mTextureRect.y + mTextureRect.h) / mTexture->GetHeight();
 
-	// 横幅をmFillAmountでスケール
-	mUIActor->GetRectTransform()->SetScaleWidthAndHeight(static_cast<float>(mTextureRect.w), static_cast<float>(mTextureRect.h));
 
+
+	// 横幅をmFillAmountでスケール
 	if (mFillMethod == FillMethod::Horizontal)
 	{
 		float filledU2 = u1 + (u2 - u1) * mFillAmount;

@@ -2,13 +2,14 @@
 #include "InGameProject/InGameProject_API.h"
 #include "Component.h"
 #include "ComponentFactory.h"
+#include "DebugManager.h"
 
 class ScriptComponent : public Component
 {
 private:
 	bool mHasStarted = false;
 public:
-	GAMESCRIPTS_API ScriptComponent(class ActorObject* owner);
+	GAMESCRIPTS_API ScriptComponent(class Entity* owner);
 
 	GAMESCRIPTS_API virtual ~ScriptComponent();
 
@@ -31,11 +32,11 @@ public:
 	GAMESCRIPTS_API virtual void FixedUpdate(float deltaTime)override;
 
 	//当たった時に呼び出される関数
-	GAMESCRIPTS_API virtual void OnCollisionEnter(ActorObject* target);
+	GAMESCRIPTS_API virtual void OnCollisionEnter(Entity* target);
 	//当たっている時に呼び出される関数
-	GAMESCRIPTS_API virtual void OnCollisionStay(ActorObject* target);
+	GAMESCRIPTS_API virtual void OnCollisionStay(Entity* target);
 	//当たり終わった時に呼び出される関数
-	GAMESCRIPTS_API virtual void OnCollisionExit(ActorObject* target);
+	GAMESCRIPTS_API virtual void OnCollisionExit(Entity* target);
 
 	//Actorが無効になったときに呼ばれるものとして宣言
 	GAMESCRIPTS_API virtual void OnDisable();

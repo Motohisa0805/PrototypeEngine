@@ -16,8 +16,8 @@ private:
 	bool					mRenaming;
 public:
 	const char* GetName()override { return "Hierarchy"; }
-	HierarchyPanel(class Renderer* renderer);
-	~HierarchyPanel();
+				HierarchyPanel(class Renderer* renderer);
+				~HierarchyPanel();
 
 	void		Initialize(float width, float height, ImTextureRef ref = nullptr)override;
 

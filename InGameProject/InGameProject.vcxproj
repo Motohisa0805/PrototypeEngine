@@ -131,7 +131,7 @@
             <FunctionLevelLinking>true</FunctionLevelLinking>
             <IntrinsicFunctions>true</IntrinsicFunctions>
             <SDLCheck>true</SDLCheck>
-            <PreprocessorDefinitions>NDEBUG;INGAMEPROJECT_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+            <PreprocessorDefinitions>NDEBUG;GAMESCRIPTS_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
             <ConformanceMode>true</ConformanceMode>
             <PrecompiledHeader>Use</PrecompiledHeader>
             <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
@@ -150,7 +150,6 @@
         <ClInclude Include="framework.h"/>
         <ClInclude Include="InGameProject_API.h"/>
         <ClInclude Include="pch.h"/>
-        <ClInclude Include="..\Assets\ScriptsFolder\EngineTestScript.h"/>
     </ItemGroup>
     <ItemGroup>
         <ClCompile Include="dllmain.cpp"/>
@@ -161,7 +160,6 @@
             <PrecompiledHeader Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">Create</PrecompiledHeader>
             <PrecompiledHeader Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">Create</PrecompiledHeader>
         </ClCompile>
-        <ClCompile Include="..\Assets\ScriptsFolder\EngineTestScript.cpp"/>
     </ItemGroup>
     <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets"/>
     <ImportGroup Label="ExtensionTargets"/>

@@ -26,7 +26,7 @@ void ActorManager::UpdateActors(float time)
 	{
 		mActors[i]->StateUpdate(time);
 	}
-	// Add any dead actors to a temp vector
+	// 死亡アクターを一時ベクターに追加する
 	vector<ActorObject*> deadActors;
 	for (int i = 0; i < mActors.size(); i++)
 	{
@@ -37,7 +37,7 @@ void ActorManager::UpdateActors(float time)
 	}
 
 
-	// Delete dead actors (which removes them from mActors)
+	// 死んだアクターを削除する
 	for (auto actor : deadActors)
 	{
 		actor->OnDestroy();
@@ -70,7 +70,7 @@ void ActorManager::AddActor(ActorObject* actor)
 {
 	if (mUpdatingActors)
 	{
-		// If we're updating actors, need to add to pending
+		// もしアクターを更新する場合、保留中に追加する必要あり
 		mPendingActors.emplace_back(actor);
 	}
 	else
@@ -82,20 +82,20 @@ void ActorManager::AddActor(ActorObject* actor)
 
 void ActorManager::RemoveActor(ActorObject* actor)
 {
-	// Is it in pending actors?
+	// mPendingActorsに指定したアクターがあるか？
 	auto iter = std::find(mPendingActors.begin(), mPendingActors.end(), actor);
 	if (iter != mPendingActors.end())
 	{
-		// Swap to end of vector and pop off (avoid erase copies)
+		// ベクターの末尾にスワップしてポップする（eraseのコピーを避ける）
 		std::iter_swap(iter, mPendingActors.end() - 1);
 		mPendingActors.pop_back();
 	}
 
-	// Is it in actors?
+	// mActorsに指定したアクターがあるか？
 	iter = std::find(mActors.begin(), mActors.end(), actor);
 	if (iter != mActors.end())
 	{
-		// Swap to end of vector and pop off (avoid erase copies)
+		// ベクターの末尾にスワップしてポップする（eraseのコピーを避ける）
 		std::iter_swap(iter, mActors.end() - 1);
 		mActors.pop_back();
 	}
@@ -110,7 +110,7 @@ void ActorManager::ReAddActor(ActorObject* actor)
 {
 	if (mUpdatingActors)
 	{
-		// If we're updating actors, need to add to pending
+		// もしアクターを更新している場合は、保留中に追加する必要あり
 		mPendingActors.emplace_back(actor);
 	}
 	else

@@ -19,31 +19,31 @@ class EngineWindow
 {
 private:
 	//エンジン用のRendererを用意	
-	static Renderer*			mRenderer;
+	static Renderer*						mRenderer;
 
-	static PhysWorld*			mPhysWorld;
+	static PhysWorld*						mPhysWorld;
 
 	//ゲーム内のウィンドウ
-	GameWinMain*				mGameWindow;
+	GameWinMain*							mGameWindow;
 
-	static EngineState			mEngineState;
+	static EngineState						mEngineState;
 
-	static SceneEditorCamera*	mSceneEditorCamera;
+	static SceneEditorCamera*				mSceneEditorCamera;
 
 
 	std::unique_ptr<ScriptHotReloadManager> mHotReloadManager;
 public:
-					EngineWindow();
-					~EngineWindow();
+								EngineWindow();
+								~EngineWindow();
 
-	bool			EngineInitialize();
+	bool						EngineInitialize();
 
-	void			EngineProcessInput();
+	void						EngineProcessInput();
 
-	void			EngineRunLoop();
-	void			EngineRender();
+	void						EngineRunLoop();
+	void						EngineRender();
 
-	void			EngineShutdown();
+	void						EngineShutdown();
 
 	static Renderer*			GetRenderer() { return mRenderer; }
 

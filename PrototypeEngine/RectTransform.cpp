@@ -1,7 +1,6 @@
 #include "RectTransform.h"
 #include "SceneManager.h"
 #include "UIActor.h"
-
 #include "imgui.h"
 #include "imgui_impl_sdl3.h"
 #include "imgui_impl_opengl3.h"
@@ -28,6 +27,7 @@ void RectTransform::RemoveChild(UIActorObject* child)
 
 RectTransform::RectTransform(UIActorObject* owner)
 	:BaseTransform(owner)
+	, mDrawTransform()
 	, mRectScaleWidth(1.0f)
 	, mRectScaleHeight(1.0f)
 	, mParentActor(nullptr)
@@ -53,11 +53,13 @@ void RectTransform::SetScaleWidthAndHeight(float width, float height)
 void RectTransform::SetScaleWidth(float width)
 {
 	mRectScaleWidth = width;
+	SetDirty();
 }
 
 void RectTransform::SetScaleHeight(float height)
 {
 	mRectScaleHeight = height;
+	SetDirty();
 }
 
 void RectTransform::SetOffsetX(float x)
@@ -78,30 +80,43 @@ void RectTransform::ComputeWorldTransform() {
 		return;
 	}
 
-
 	//ローカル座標計算
-	mLocalTransform = Matrix4::CreateScale(
-		mRectScaleWidth * mLocalScale.x,
-		mRectScaleHeight * mLocalScale.y,
+	Matrix4 localScale = Matrix4::CreateScale(
+		mLocalScale.x,
+		mLocalScale.y,
 		mLocalScale.z);
 
-	mLocalTransform *= Matrix4::CreateFromQuaternion(mLocalRotation);
-	
-	mLocalTransform *= Matrix4::CreateTranslation(
+	Matrix4 localRotate = Matrix4::CreateFromQuaternion(mLocalRotation);
+
+	Matrix4 localTranslate = Matrix4::CreateTranslation(
 		Vector3(mLocalPosition.x - mOffsetX, mLocalPosition.y - mOffsetY, 0.0f));
 
+	mLocalTransform = localScale * localRotate * localTranslate;
+
+	// 2. 自分自身の見た目を決定する「描画用ローカル行列」を作成 (ここで初めてWidth/Heightを掛ける)
+	Matrix4 pixelScale = Matrix4::CreateScale(mRectScaleWidth * mLocalScale.x, mRectScaleHeight * mLocalScale.y, 1.0f);
+	Matrix4 localMatrixForSelf = pixelScale * localRotate * localTranslate;
 
 	//親がいたら、親のワールド行列を掛ける
 	if (mParentActor)
 	{
-		// 親のワールドトランスフォームが最新であることを保証する必要がある
+		RectTransform* parentRT = mParentActor->GetRectTransform();
+
+		// 親のワールドトランスフォームが最新であることを保証する
 		mParentActor->GetRectTransform()->ComputeWorldTransform();
-		mWorldTransform = mLocalTransform * mParentActor->GetRectTransform()->GetWorldTransform();
+		// 子供へ伝えるワールド行列（親の純粋なトランスフォーム × 自分の純粋なトランスフォーム）
+		mWorldTransform = mLocalTransform * parentRT->GetWorldTransform();
+
+		// 自分の描画用ワールド行列（親の純粋なトランスフォーム × 自分の画像サイズ込みトランスフォーム）
+		mDrawTransform = localMatrixForSelf * parentRT->GetWorldTransform();
 	}
 	//いなかったら
 	else
 	{
+
+		// 親がいない場合
 		mWorldTransform = mLocalTransform;
+		mDrawTransform = localMatrixForSelf;
 	}
 	mPosition = mWorldTransform.GetTranslation();
 	mRotation = mWorldTransform.GetRotation();
@@ -151,13 +166,11 @@ void RectTransform::SetParent(UIActorObject* newParent)
 {
 	// 1. 変更不要なケースは早期リターン
 	// 同じ親を再設定しようとしている
-	if (mParentActor == newParent)
-	{
+	if (mParentActor == newParent){
 		return;
 	}
 	// 自分自身を親にしようとしている
-	if (mOwner == newParent)
-	{
+	if (mOwner == newParent){
 		return;
 	}
 
@@ -184,7 +197,6 @@ void RectTransform::SetParent(UIActorObject* newParent)
 	{
 		// 新しい親を基準にしたローカル座標を逆算する
 		// NewLocal = CurrentWorld * ParentWorld^-1
-		mParentActor->GetRectTransform()->ComputeWorldTransform(); // 親の行列を最新に
 		Matrix4 parentWorldInverse = mParentActor->GetRectTransform()->GetWorldTransform();
 		parentWorldInverse.Invert();
 
@@ -249,40 +261,55 @@ void RectTransform::Deserialize(const json& j)
 
 void RectTransform::DrawCustomGUI(const std::vector<PropertyInfo>& properties)
 {
-	if (ImGui::CollapsingHeader("Transform", ImGuiTreeNodeFlags_DefaultOpen))
+	//Position(Vector3)の編集
+	Vector3 pos = mLocalPosition;
+	if (ImGui::DragFloat3("Position", &pos.x, 0.1f))//0.1fはドラッグの感度
 	{
-		//Position(Vector3)の編集
-		Vector3 pos = mLocalPosition;
-		if (ImGui::DragFloat3("Position", &pos.x, 0.1f))//0.1fはドラッグの感度
-		{
-			//ローカル関数なので注意
-			SetLocalPosition(pos);
-		}
-		//回転だけローカルで取得
-		//ローカルならスケール値を含まないため
-		Vector3 eulerRad = mLocalRotation.ToEulerAngles();
-		Vector3 rot;
-		rot.x = Math::ToDegrees(eulerRad.x);
-		rot.y = Math::ToDegrees(eulerRad.y);
-		rot.z = Math::ToDegrees(eulerRad.z);
-		//度数法で表示・編集
-		if (ImGui::DragFloat3("Rotation(deg)", &rot.x, 1.0f))
-		{
+		//ローカル関数なので注意
+		SetLocalPosition(pos);
+	}
 
-			// ラジアンに変換して保存
-			Quaternion qx = Quaternion::CreateFromAxisAngle(Vector3::UnitX, rot.x);
-			Quaternion qy = Quaternion::CreateFromAxisAngle(Vector3::UnitY, rot.y);
-			Quaternion qz = Quaternion::CreateFromAxisAngle(Vector3::UnitZ, rot.z);
-			Quaternion newRotation = qy * qx * qz; // ZYX順で回転を適用
-			SetLocalRotation(newRotation);
-		}
+	ImGui::PushItemWidth(80.0f);
+	float width = mRectScaleWidth;
+	if (ImGui::DragFloat("Width", &width, 0.1f, 0.0f, 0.0f, "%.1f"))//0.1fはドラッグの感度
+	{
+		SetScaleWidth(width);
+	}
 
-		//Scale(Vector3)の編集
-		Vector3 scale = mLocalScale;
-		if (ImGui::DragFloat2("Scale", &scale.x, 0.1f))//0.1fはドラッグの感度
-		{
-			//ローカル関数なので注意
-			SetLocalScale(scale);
-		}
+	ImGui::SameLine();
+
+	float height = mRectScaleHeight;
+	if (ImGui::DragFloat("Height", &height, 0.1f, 0.0f, 0.0f, "%.1f"))//0.1fはドラッグの感度
+	{
+		SetScaleHeight(height);
+	}
+	ImGui::PopItemWidth();
+
+
+	//回転だけローカルで取得
+	//ローカルならスケール値を含まないため
+	Vector3 eulerRad = mLocalRotation.ToEulerAngles();
+	Vector3 rot;
+	rot.x = Math::ToDegrees(eulerRad.x);
+	rot.y = Math::ToDegrees(eulerRad.y);
+	rot.z = Math::ToDegrees(eulerRad.z);
+	//度数法で表示・編集
+	if (ImGui::DragFloat3("Rotation(deg)", &rot.x, 1.0f))
+	{
+
+		// ラジアンに変換して保存
+		Quaternion qx = Quaternion::CreateFromAxisAngle(Vector3::UnitX, rot.x);
+		Quaternion qy = Quaternion::CreateFromAxisAngle(Vector3::UnitY, rot.y);
+		Quaternion qz = Quaternion::CreateFromAxisAngle(Vector3::UnitZ, rot.z);
+		Quaternion newRotation = qy * qx * qz; // ZYX順で回転を適用
+		SetLocalRotation(newRotation);
+	}
+
+	//Scale(Vector3)の編集
+	Vector3 scale = mLocalScale;
+	if (ImGui::DragFloat3("Scale", &scale.x, 0.1f))//0.1fはドラッグの感度
+	{
+		//ローカル関数なので注意
+		SetLocalScale(scale);
 	}
 }

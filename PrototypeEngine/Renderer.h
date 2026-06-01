@@ -56,6 +56,7 @@ private:
 	// テクスチャのマップが読み込み変数
 	std::unordered_map<string,Texture*>					mTextures;
 	vector<Image*>										mImageComps;
+	vector<Canvas*>										mCanvasActors;
 	// Sprite shader
 	Shader*												mSpriteShader;
 	// Sprite vertex array
@@ -164,6 +165,9 @@ public:
 
 	void												AddImageComps(Image* image);
 	void												RemoveImageComp(Image* image);
+
+	void												AddCanvasActor(Canvas* canvas);
+	void												RemoveCanvasActor(Canvas* canvas);
 
 	//Mesh追加処理
 	void												AddMeshComp(class MeshRenderer* mesh);

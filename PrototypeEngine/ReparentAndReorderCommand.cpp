@@ -105,7 +105,7 @@ vector<ActorObject*>& ReparentAndReorderCommand::GetActorListMutable(uint64_t pa
 	else {
 		// 特定の親がいる場合は、その親の子供リストを返す
 		ActorObject* parent = actorManager->FindActorByID(parentID);
-		// 万が一親が見つからない場合は、クラッシュ防止のためルートのリストをセーフティとして返します
+		// 万が一親が見つからない場合は、クラッシュ防止のためルートのリストをセーフティとして返す
 		if (!parent) return actorManager->GetActorsMutable();
 
 		return parent->GetTransform()->GetChildActorListMutable();

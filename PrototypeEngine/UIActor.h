@@ -11,6 +11,8 @@ class UIActorObject : public Entity
 {
 protected:
 	RectTransform*					mRectTransform;
+	//Canvasか判定するフラグ
+	bool							mIsCanvas;
 public:
 									UIActorObject(uint64_t id = 0);
 									UIActorObject(BaseScene* scene);
@@ -29,6 +31,8 @@ public:
 	void							Serialize(json& j) const;
 	// JSONから復元するメソッド
 	void							Deserialize(const json& j)override;
+
+	void							LoadParentByLoadScene();
 
 	Entity*							Clone()override;
 };

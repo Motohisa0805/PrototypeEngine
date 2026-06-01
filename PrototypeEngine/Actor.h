@@ -42,6 +42,7 @@ public:
 	// JSON‚©‚ç•œŒ³‚·‚éƒƒ\ƒbƒh
 	void							Deserialize(const json& j)override;
 
+	void							LoadParentByLoadScene();
 
 	Entity*							Clone()override;
 };
