@@ -11,9 +11,7 @@ class UIActorObject;
 class HierarchyPanel : public GUIPanel
 {
 private:
-	string					mRenameInputBuffer;
 
-	bool					mRenaming;
 public:
 	const char* GetName()override { return "Hierarchy"; }
 				HierarchyPanel(class Renderer* renderer);

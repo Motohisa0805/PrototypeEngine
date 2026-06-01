@@ -13,7 +13,6 @@ ProjectPanel::ProjectPanel(Renderer* renderer)
 	, mRenameInputBuffer("")
 	, mPathToRename("")
 	, mDeleteQueue()
-    , mCurrentFolder("Assets")
 {
 }
 
@@ -49,7 +48,7 @@ void ProjectPanel::Draw(float width, float height, ImTextureRef ref)
             // 左クリックで選択中フォルダを更新(Assetsフォルダ用)
             if (ImGui::IsItemClicked(ImGuiMouseButton_Left) || ImGui::IsItemClicked(ImGuiMouseButton_Right))
             {
-                mCurrentFolder = "Assets";
+				EditorSettingsManager::SetCurrentFolder("Assets");
 				mSelectedPath = "Assets"; // 選択パスを更新
             }
 
@@ -74,7 +73,7 @@ void ProjectPanel::Draw(float width, float height, ImTextureRef ref)
         ImGui::SetNextWindowSize(ImVec2(panel1_SizeWidth, mHeightSize), ImGuiCond_Once);
     }
 	// 右カラム = 選択中フォルダの中身
-    if (ImGui::Begin(mCurrentFolder.string().c_str(), nullptr, ImGuiWindowFlags_NoCollapse))
+    if (ImGui::Begin(EditorSettingsManager::GetCurrentFolder().string().c_str(), nullptr, ImGuiWindowFlags_NoCollapse))
     {
         //選択中フォルダの中身表示
         DrawPickUpFolderView();
@@ -132,7 +131,7 @@ void ProjectPanel::DrawFolderTree(const filesystem::path& path)
             // 左クリックで選択中フォルダを更新
             if (ImGui::IsItemClicked(ImGuiMouseButton_Left)|| ImGui::IsItemClicked(ImGuiMouseButton_Right))
             {
-                mCurrentFolder = entry.path();
+				EditorSettingsManager::SetCurrentFolder(entry.path());
                 mSelectedPath = entry.path(); // 選択パスを更新
             }
 
@@ -153,16 +152,15 @@ void ProjectPanel::DrawFolderTree(const filesystem::path& path)
 // 選択中フォルダの中身を表示(右カラム)
 void ProjectPanel::DrawPickUpFolderView()
 {
-    if (!filesystem::exists(mCurrentFolder)) return;
+    if (!filesystem::exists(EditorSettingsManager::GetCurrentFolder())) return;
 
     // === パンくずリスト表示 ===
-    filesystem::path root = mCurrentFolder;
-    filesystem::path relative = filesystem::relative(mCurrentFolder, root);
-
+    filesystem::path root = EditorSettingsManager::GetCurrentFolder();
+    filesystem::path relative = filesystem::relative(EditorSettingsManager::GetCurrentFolder(), root);
     // ルート ("Assets") を必ず表示
     if (ImGui::Button("Assets##2"))
     {
-        mCurrentFolder = root;
+		EditorSettingsManager::SetCurrentFolder(root);
     }
 
     filesystem::path temp = root;
@@ -175,20 +173,20 @@ void ProjectPanel::DrawPickUpFolderView()
         temp /= part;
         if (ImGui::Button(part.string().c_str()))
         {
-            mCurrentFolder = temp;
+			EditorSettingsManager::SetCurrentFolder(temp);
         }
     }
 
     ImGui::Separator(); // パンくずとファイルリストを区切る
 
-    for (auto& entry : filesystem::directory_iterator(mCurrentFolder))
+    for (auto& entry : filesystem::directory_iterator(EditorSettingsManager::GetCurrentFolder()))
     {
         DrawFileSystemEntry(entry);
     }
 	SetPopupColorTheme();
     if (ImGui::BeginPopupContextWindow())
     {
-        filesystem::path targetPath = mCurrentFolder;
+        filesystem::path targetPath = EditorSettingsManager::GetCurrentFolder();
         //フォルダ
         if (ImGui::MenuItem("New Folder"))
         {
@@ -212,30 +210,7 @@ void ProjectPanel::DrawPickUpFolderView()
         //シーン作成
         if (ImGui::MenuItem("New Scene"))
         {
-            string uniqueName = "NewScene.json"; // 拡張子付きで初期化
-            filesystem::path targetFolder = targetPath; // 現在右クリックしているパス（フォルダ）
-
-            // 既に存在するファイル名かチェックし、ユニークな名前に変更する
-            int counter = 1;
-            while (filesystem::exists(targetFolder / uniqueName)) {
-                // NewScene(1).json, NewScene(2).json のように生成
-                uniqueName = "NewScene (" + std::to_string(counter++) + ").json";
-            }
-
-            filesystem::path newScenePath = targetFolder / uniqueName;
-
-            // 3. SceneSerializerを使って空のシーンデータをファイルに書き出す
-            // SceneSerializer::SaveEmptyScene()内でファイル書き込み処理を行う
-            if (SceneSerializer::SaveEmptyScene(newScenePath))
-            {
-                // 成功ログ
-                Debug::Log("Created new scene: %s\n", newScenePath.string().c_str());
-            }
-            else
-            {
-                // 失敗ログ
-                Debug::Log("Failed to create scene file: %s\n", newScenePath.string().c_str());
-            }
+			EditorSettingsManager::CreateNewScene(targetPath);
         }
         //Script作成
         if (ImGui::MenuItem("New Script (C++)"))
@@ -243,7 +218,7 @@ void ProjectPanel::DrawPickUpFolderView()
             // ダミーファイル名 (Hot Reload Managerに無視される拡張子を使用)
             string dummyStem = "PendingNewScript";
             string dummyExtension = ".tmp_new";
-            filesystem::path dummyPath = mCurrentFolder / (dummyStem + dummyExtension);
+            filesystem::path dummyPath = EditorSettingsManager::GetCurrentFolder() / (dummyStem + dummyExtension);
 
             // 1. ダミーファイルを作成
             std::ofstream dummyFile(dummyPath);
@@ -305,7 +280,7 @@ void ProjectPanel::DrawFileSystemEntry(const filesystem::directory_entry& entry)
         if (entry.is_directory())
         {
             // フォルダの場合のみ移動を実行
-            mCurrentFolder = entry.path();
+            EditorSettingsManager::SetCurrentFolder(entry.path());
 
             // ダブルクリックで移動した場合、選択状態も更新する
             mSelectedPath = entry.path();
@@ -429,7 +404,7 @@ bool ProjectPanel::RightClickMenu(const filesystem::path& path)
                 mRenameInputBuffer = "NewScript"; // デフォルトの入力文字列
                 mRenaming = true;
             }
-            if (mSelectedPath.string() != mCurrentFolder)
+            if (mSelectedPath.string() != EditorSettingsManager::GetCurrentFolder().string())
             {
                 //フォルダの削除
                 if (ImGui::MenuItem("Delete Folder"))

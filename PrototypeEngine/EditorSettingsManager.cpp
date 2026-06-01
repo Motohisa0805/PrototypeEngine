@@ -1,9 +1,16 @@
 #include "EditorSettingsManager.h"
 #include "DebugManager.h"
+#include "SceneSerializer.h"
 
 const filesystem::path EditorSettingsManager::SETTEINGS_FILE_PATH = "Library/EditorSettings.json";
 
 bool EditorSettingsManager::mIsNoSaveFlag = false;
+
+string EditorSettingsManager::mRenameInputBuffer = "";
+
+bool EditorSettingsManager::mRenaming = false;
+
+filesystem::path EditorSettingsManager::mCurrentFolder = "Assets";
 
 EditorSettingsManager& EditorSettingsManager::GetInstance()
 {
@@ -66,4 +73,32 @@ string EditorSettingsManager::GetLastOpenedScene() const
 	}
 	//デフォルトの起動シーンのパス
 	return "Assets/Scenes/TestScene01.json";
+}
+
+void EditorSettingsManager::CreateNewScene(const filesystem::path& filePath)
+{
+	string uniqueName = "NewScene.json"; // 拡張子付きで初期化
+	filesystem::path targetFolder = mCurrentFolder; // 現在右クリックしているパス（フォルダ）
+
+	// 既に存在するファイル名かチェックし、ユニークな名前に変更する
+	int counter = 1;
+	while (filesystem::exists(targetFolder / uniqueName)) {
+		// NewScene(1).json, NewScene(2).json のように生成
+		uniqueName = "NewScene (" + std::to_string(counter++) + ").json";
+	}
+
+	filesystem::path newScenePath = targetFolder / uniqueName;
+
+	// 3. SceneSerializerを使って空のシーンデータをファイルに書き出す
+	// SceneSerializer::SaveEmptyScene()内でファイル書き込み処理を行う
+	if (SceneSerializer::SaveEmptyScene(newScenePath))
+	{
+		// 成功ログ
+		Debug::Log("Created new scene: %s\n", newScenePath.string().c_str());
+	}
+	else
+	{
+		// 失敗ログ
+		Debug::Log("Failed to create scene file: %s\n", newScenePath.string().c_str());
+	}
 }
