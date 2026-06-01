@@ -19,14 +19,14 @@ private:
 	vector<std::unique_ptr<ICommand>> mRedoStack;
 public:
 	//新しい操作を実行し、Undoスタッグに追加
-	static void Execute(std::unique_ptr<ICommand> command);
+	static void				Execute(std::unique_ptr<ICommand> command);
 
-	static void Undo();
+	static void				Undo();
 
-	static void Redo();
+	static void				Redo();
 
-	static void Shutdown();
+	static void				Shutdown();
 private:
-	static CommandManager& Get();
+	static CommandManager&	Get();
 };
 

@@ -5,7 +5,7 @@ class [CLASS_NAME] : public ScriptComponent
 {
 public:
     // Constructor
-    [CLASS_NAME](class ActorObject* owner);
+    [CLASS_NAME](class Entity* owner);
 
     // Overriding Lifecycle Functions
     void Start() override;

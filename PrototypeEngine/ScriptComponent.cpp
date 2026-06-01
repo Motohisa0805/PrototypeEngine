@@ -6,7 +6,7 @@
 //ユーザーはこのクラス内の記述はしない設計
 //===============================================================
 
-ScriptComponent::ScriptComponent(ActorObject* owner)
+ScriptComponent::ScriptComponent(Entity* owner)
 	: Component(owner)
 {
 	//デフォルトでコンポーネントの名前を「ScriptComponent」と設定
@@ -52,17 +52,17 @@ void ScriptComponent::FixedUpdate(float deltaTime)
 
 }
 
-void ScriptComponent::OnCollisionEnter(ActorObject* target)
+void ScriptComponent::OnCollisionEnter(Entity* target)
 {
 
 }
 
-void ScriptComponent::OnCollisionStay(ActorObject* target)
+void ScriptComponent::OnCollisionStay(Entity* target)
 {
 
 }
 
-void ScriptComponent::OnCollisionExit(ActorObject* target)
+void ScriptComponent::OnCollisionExit(Entity* target)
 {
 
 }

@@ -20,6 +20,7 @@ protected:
 
 public:
 	Canvas(uint64_t id = 0);
+	Canvas(BaseScene* scene);
 	virtual ~Canvas();
 
 	// シーンから呼ばれる関数群をオーバーライド

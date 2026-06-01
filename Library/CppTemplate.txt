@@ -2,7 +2,7 @@
 #include "[CLASS_NAME].h"
 #include <iostream>
 
-[CLASS_NAME]::[CLASS_NAME](ActorObject* owner)
+[CLASS_NAME]::[CLASS_NAME](Entity* owner)
     : ScriptComponent(owner)
 {
     //Set the display name in the Inspector

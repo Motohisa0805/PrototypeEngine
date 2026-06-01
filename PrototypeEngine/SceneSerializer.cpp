@@ -132,20 +132,45 @@ BaseScene* SceneSerializer::LoadScene(const string& filePath)
             //シーンにActorを追加
 		    newScene->GetActorManager()->AddActor(newActor);
         }
+        //各アクターの親子関係構築
+        for (const auto& actor : newScene->GetActorManager()->GetActorsMutable())
+        {
+            actor->LoadParentByLoadScene();
+        }
     }
     if (sceneJson.contains("UIActors")) {
         const json& uiactorsJson = sceneJson.at("UIActors");
         for (const auto& actorData : uiactorsJson)
         {
-            //UIActorObjectの新しいインスタンスを作成
-            UIActorObject* newActor = new UIActorObject(newScene);
+            if (actorData.contains("CanvasFrag")) {
+                if (actorData.at("CanvasFrag").get<bool>()) {
+                    //UIActorObjectの新しいインスタンスを作成
+                    Canvas* newCanvas = new Canvas(newScene);
 
-            //Deserializeメソッドを呼び出して、JSONデータからUIActorObjectを初期化
-            //この中でUIActorObject::Deserialize()とComponent::Deserialize()が連鎖して呼び出されます
-            newActor->Deserialize(actorData);
+                    //Deserializeメソッドを呼び出して、JSONデータからUIActorObjectを初期化
+                    //この中でUIActorObject::Deserialize()とComponent::Deserialize()が連鎖して呼び出されます
+                    newCanvas->Deserialize(actorData);
 
-            //シーンにUIActorを追加
-            newScene->GetUIActorManager()->AddActor(newActor);
+                    //シーンにUIActorを追加
+                    newScene->GetUIActorManager()->AddActor(newCanvas);
+                }
+                else {
+                    //UIActorObjectの新しいインスタンスを作成
+                    UIActorObject* newActor = new UIActorObject(newScene);
+
+                    //Deserializeメソッドを呼び出して、JSONデータからUIActorObjectを初期化
+                    //この中でUIActorObject::Deserialize()とComponent::Deserialize()が連鎖して呼び出されます
+                    newActor->Deserialize(actorData);
+
+                    //シーンにUIActorを追加
+                    newScene->GetUIActorManager()->AddActor(newActor);
+                }
+            }
+        }
+        //各アクターの親子関係構築
+        for (const auto& uiactor : newScene->GetUIActorManager()->GetActorsMutable())
+        {
+            uiactor->LoadParentByLoadScene();
         }
     }
     WriteEditorData(filePath, newScene);

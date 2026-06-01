@@ -479,9 +479,10 @@ void Renderer::StartDraw()
 	);
 	mSpriteShader->SetMatrixUniform("uViewProj", ortho);
 
+	//UI単体で描画処理
 	for (auto ui : mImageComps)
 	{
-		if (ui->GetOwner()->GetState() == Entity::EActive)
+		if (ui->GetOwner()->GetState() == Entity::EActive && ui->GetUIActor()->GetRectTransform()->GetParentActor() == nullptr)
 		{
 			if (ui->GetFillMethod() == Image::Radial360)
 			{
@@ -494,6 +495,27 @@ void Renderer::StartDraw()
 				mSpriteVerts->SetActive();
 			}
 			ui->Draw(mSpriteShader);
+		}
+	}
+	//Canvasを通して描画(Unityの設計を元)
+	for (auto canvas : mCanvasActors) {
+		for (auto ui : canvas->GetRectTransform()->GetChildActorList()) {
+			if (auto image = ui->GetComponent<Image>()) {
+				if (ui->GetState() == Entity::EActive)
+				{
+					if (image->GetFillMethod() == Image::Radial360)
+					{
+						int count = CreateFanSpriteVerts(image->GetFillAmount(), 30);
+						image->SetVerticesCount(count);
+						mFanSpriteVerts->SetActive();
+					}
+					else
+					{
+						mSpriteVerts->SetActive();
+					}
+					image->Draw(mSpriteShader);
+				}
+			}
 		}
 	}
 	// FBO終了
@@ -649,8 +671,8 @@ void Renderer::EditorDraw3DScene(unsigned int framebuffer, const Matrix4& view, 
 	if (actor != nullptr && actor->GetState() == ActorObject::EActive)
 	{
 		//1.カメラとオブジェクトの位置を取得
-		Vector3 cameraPos = EngineWindow::GetSceneEditorCamera()->GetTransform()->GetLocalPosition();
-		Vector3 actorPos = actor->GetBaseTransform()->GetLocalPosition();
+		Vector3 cameraPos = EngineWindow::GetSceneEditorCamera()->GetTransform()->GetPosition();
+		Vector3 actorPos = actor->GetBaseTransform()->GetPosition();
 
 		//2.カメラとオブジェクトの距離を計算
 		float distance = (actorPos - cameraPos).Length();
@@ -675,7 +697,7 @@ void Renderer::EditorDraw3DScene(unsigned int framebuffer, const Matrix4& view, 
 		// 6. 新しいモデル行列を作成
 		// Scale -> Rotation -> Translation の順で適用
 		Matrix4 gizmoModel = Matrix4::CreateScale(scale);
-		gizmoModel *= Matrix4::CreateFromQuaternion(actor->GetBaseTransform()->GetLocalRotation());
+		gizmoModel *= Matrix4::CreateFromQuaternion(actor->GetBaseTransform()->GetRotation());
 		gizmoModel *= Matrix4::CreateTranslation(actorPos);
 
 		// オブジェクトのデバッグ描画
@@ -1162,6 +1184,19 @@ void Renderer::RemoveImageComp(Image* image)
 	}
 }
 
+void Renderer::AddCanvasActor(Canvas* canvas)
+{
+	mCanvasActors.emplace_back(canvas);
+}
+
+void Renderer::RemoveCanvasActor(Canvas* canvas)
+{
+	auto iter = std::find(mCanvasActors.begin(), mCanvasActors.end(), canvas);
+	if (iter != mCanvasActors.end()) {
+		mCanvasActors.erase(iter);
+	}
+}
+
 void Renderer::AddMeshComp(MeshRenderer* mesh)
 {
 	if (mesh->GetIsSkeletal())
@@ -1276,7 +1311,7 @@ Mesh* Renderer::GetMesh(const string& fileName)
 vector<class Mesh*> Renderer::GetMeshs(const string& fileName)
 {
 	//ファイルパス追加
-	string filePath = File_P::ModelPath + fileName;
+	string filePath = fileName;
 	//返す複数のメッシュ
 	vector<class Mesh*> ms;
 	//メッシュの数を確認する処理

@@ -22,7 +22,7 @@ BaseTransform::~BaseTransform()
 
 void BaseTransform::RotateToNewForward(const Vector3& forward)
 {
-	// Figure out difference between original (unit x) and new
+	// 元のもの（単位x）と新しいものの違いを見つける
 	float dot = Vector3::Dot(Vector3::UnitZ, forward);
 	float angle = Math::Acos(dot);
 	// Facing down X
@@ -30,14 +30,14 @@ void BaseTransform::RotateToNewForward(const Vector3& forward)
 	{
 		SetLocalRotation(Quaternion::Identity);
 	}
-	// Facing down -X
+	// -Xに直面する
 	else if (dot < -0.9999f)
 	{
 		SetLocalRotation(Quaternion(Vector3::UnitZ, Math::Pi));
 	}
 	else
 	{
-		// Rotate about axis from cross product
+		// クロス積から軸について回転する
 		Vector3 axis = Vector3::Cross(Vector3::UnitZ, forward);
 		axis.Normalize();
 		SetLocalRotation(Quaternion(axis, angle));

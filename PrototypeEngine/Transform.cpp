@@ -75,7 +75,7 @@ void Transform::ComputeWorldTransform()
 
 	mIsDirty = false;
 
-	// Inform components world transform updated
+	// コンポーネントの行列を更新
 	for (auto comp : mOwner->GetComponents())
 	{
 		comp->OnUpdateWorldTransform();
@@ -150,7 +150,6 @@ void Transform::SetParent(ActorObject* newParent)
 	{
 		// 新しい親を基準にしたローカル座標を逆算する
 		// NewLocal = CurrentWorld * ParentWorld^-1
-		mParentActor->GetTransform()->ComputeWorldTransform(); // 親の行列を最新に
 		Matrix4 parentWorldInverse = mParentActor->GetTransform()->GetWorldTransform();
 		parentWorldInverse.Invert();
 
@@ -216,40 +215,37 @@ void Transform::Deserialize(const json& j)
 
 void Transform::DrawCustomGUI(const std::vector<PropertyInfo>& properties)
 {
-	if (ImGui::CollapsingHeader("Transform", ImGuiTreeNodeFlags_DefaultOpen))
+	//Position(Vector3)の編集
+	Vector3 pos = mLocalPosition;
+	if (ImGui::DragFloat3("Position", &pos.x, 0.1f))//0.1fはドラッグの感度
 	{
-		//Position(Vector3)の編集
-		Vector3 pos = mLocalPosition;
-		if (ImGui::DragFloat3("Position", &pos.x, 0.1f))//0.1fはドラッグの感度
-		{
-			//ローカル関数なので注意
-			SetLocalPosition(pos);
-		}
-		//回転だけローカルで取得
-		//ローカルならスケール値を含まないため
-		Vector3 eulerRad = mLocalRotation.ToEulerAngles();
-		Vector3 rot;
-		rot.x = Math::ToDegrees(eulerRad.x);
-		rot.y = Math::ToDegrees(eulerRad.y);
-		rot.z = Math::ToDegrees(eulerRad.z);
-		//度数法で表示・編集
-		if (ImGui::DragFloat3("Rotation(deg)", &rot.x, 1.0f))
-		{
+		//ローカル関数なので注意
+		SetLocalPosition(pos);
+	}
+	//回転だけローカルで取得
+	//ローカルならスケール値を含まないため
+	Vector3 eulerRad = mLocalRotation.ToEulerAngles();
+	Vector3 rot;
+	rot.x = Math::ToDegrees(eulerRad.x);
+	rot.y = Math::ToDegrees(eulerRad.y);
+	rot.z = Math::ToDegrees(eulerRad.z);
+	//度数法で表示・編集
+	if (ImGui::DragFloat3("Rotation(deg)", &rot.x, 1.0f))
+	{
 
-			// ラジアンに変換して保存
-			Quaternion qx = Quaternion::CreateFromAxisAngle(Vector3::UnitX, rot.x);
-			Quaternion qy = Quaternion::CreateFromAxisAngle(Vector3::UnitY, rot.y);
-			Quaternion qz = Quaternion::CreateFromAxisAngle(Vector3::UnitZ, rot.z);
-			Quaternion newRotation = qy * qx * qz; // ZYX順で回転を適用
-			SetLocalRotation(newRotation);
-		}
+		// ラジアンに変換して保存
+		Quaternion qx = Quaternion::CreateFromAxisAngle(Vector3::UnitX, rot.x);
+		Quaternion qy = Quaternion::CreateFromAxisAngle(Vector3::UnitY, rot.y);
+		Quaternion qz = Quaternion::CreateFromAxisAngle(Vector3::UnitZ, rot.z);
+		Quaternion newRotation = qy * qx * qz; // ZYX順で回転を適用
+		SetLocalRotation(newRotation);
+	}
 
-		//Scale(Vector3)の編集
-		Vector3 scale = mLocalScale;
-		if (ImGui::DragFloat3("Scale", &scale.x, 0.1f))//0.1fはドラッグの感度
-		{
-			//ローカル関数なので注意
-			SetLocalScale(scale);
-		}
+	//Scale(Vector3)の編集
+	Vector3 scale = mLocalScale;
+	if (ImGui::DragFloat3("Scale", &scale.x, 0.1f))//0.1fはドラッグの感度
+	{
+		//ローカル関数なので注意
+		SetLocalScale(scale);
 	}
 }

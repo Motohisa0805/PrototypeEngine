@@ -20,13 +20,6 @@ ActorObject::ActorObject(BaseScene* scene)
 
 ActorObject::~ActorObject()
 {
-	/*
-	if (mGame && mGame->GetActorManager())
-	{
-		mGame->GetActorManager()->RemoveActor(this);
-	}
-	*/
-
 	// TransformはActorObjectが所有しているので、ここで削除
 	if (mTransform)
 	{
@@ -56,7 +49,6 @@ void ActorObject::Update(float deltaTime)
 {
 	if (mState == EActive)
 	{
-		//ComputeLocalTransform();
 		UpdateComponents(deltaTime);
 		mTransform->ComputeWorldTransform();
 	}
@@ -70,138 +62,6 @@ void ActorObject::EditorComputeWorldTransform()
 		mTransform->ComputeWorldTransform();
 	}
 }
-
-/*
-void ActorObject::UpdateComponents(float deltaTime)
-{
-	for (auto comp : mComponents)
-	{
-		ScriptComponent* scriptComp = dynamic_cast<ScriptComponent*>(comp);
-		//1.ScriptComponentであるか確認
-		if (scriptComp != nullptr)
-		{
-			//2.Start()が呼ばれたか確認
-			if (!scriptComp->HasStarted())
-			{
-				scriptComp->Awake();
-				scriptComp->OnEnable();
-				scriptComp->Start();
-				scriptComp->SetStarted(true);
-			}
-		}
-		comp->Update(deltaTime);
-	}
-}
-
-void ActorObject::StateUpdate(float deltaTime)
-{
-	//状態が変化していない場合は何もしない
-	if(mState == mPreviousState)
-	{
-		return;
-	}
-	//状態が変化したときに、ScriptComponentのOnEnable/OnDisableを呼び出す
-	if (mState != mPreviousState)
-	{
-		for (auto comp : mComponents)
-		{
-			ScriptComponent* scriptComp = dynamic_cast<ScriptComponent*>(comp);
-			//1.ScriptComponentであるか確認
-			if (scriptComp != nullptr)
-			{
-				if (mState == EPaused || mState == EDead)
-				{
-					scriptComp->OnDisable();
-				}
-				else if (mState == EActive)
-				{
-					scriptComp->OnEnable();
-				}
-			}
-		}
-	}
-	//最後に状態を更新
-	mPreviousState = mState;
-}
-
-void ActorObject::ProcessInput(const struct InputState& keyState)
-{
-	if (mState == EActive)
-	{
-		// First process input for components
-		for (auto comp : mComponents)
-		{
-			comp->ProcessInput(keyState);
-		}
-
-		ActorInput(keyState);
-	}
-}
-
-void ActorObject::ActorInput(const struct InputState& keyState)
-{
-}
-
-void ActorObject::OnDestroy()
-{
-	for (auto comp : mComponents)
-	{
-		ScriptComponent* scriptComp = dynamic_cast<ScriptComponent*>(comp);
-		//1.ScriptComponentであるか確認
-		if (scriptComp != nullptr)
-		{
-			scriptComp->OnDisable();
-			scriptComp->Destroy();
-		}
-	}
-}
-
-void ActorObject::OnEnabled()
-{
-	for (auto comp : mComponents)
-	{
-		comp->SetIsRun(true);
-	}
-}
-
-void ActorObject::OnDisable() 
-{
-	for (auto comp : mComponents)
-	{
-		comp->SetIsRun(false);
-	}
-}
-void ActorObject::AddComponent(Component* component)
-{
-	// Find the insertion point in the sorted vector
-	int myOrder = component->GetUpdateOrder();
-	auto iter = mComponents.begin();
-	for (; iter != mComponents.end(); ++iter)
-	{
-		if (myOrder < (*iter)->GetUpdateOrder())
-		{
-			break;
-		}
-	}
-
-	mComponents.insert(iter, component);
-	// ActorObject::OnComponentAdded を呼び出す
-	// dynamic_castの型が完全型であることを保証
-	if (ActorObject* actor = dynamic_cast<ActorObject*>(this))
-	{
-		actor->OnComponentAdded(component);
-	}
-}
-
-void ActorObject::RemoveComponent(Component* component)
-{
-	auto iter = std::find(mComponents.begin(), mComponents.end(), component);
-	if (iter != mComponents.end())
-	{
-		mComponents.erase(iter);
-	}
-}
-*/
 
 void ActorObject::OnCollisionEnter(ActorObject* target)
 {
@@ -251,6 +111,13 @@ void ActorObject::Serialize(json& j) const
 	j["LocalPosition"] = { mTransform->GetLocalPosition().x, mTransform->GetLocalPosition().y, mTransform->GetLocalPosition().z };
 	j["LocalRotation"] = { mTransform->GetLocalRotation().w, mTransform->GetLocalRotation().x, mTransform->GetLocalRotation().y, mTransform->GetLocalRotation().z };
 	j["LocalScale"] = { mTransform->GetLocalScale().x, mTransform->GetLocalScale().y, mTransform->GetLocalScale().z };
+
+	if (mTransform->GetParentActor()) {
+		j["ParentActorID"] = mTransform->GetParentActor()->GetID();
+	}
+	else {
+		j["ParentActorID"] = -1;
+	}
 }
 
 void ActorObject::Deserialize(const json& j)
@@ -291,7 +158,20 @@ void ActorObject::Deserialize(const json& j)
 			j["LocalScale"][2]
 		)
 	);
+
+	if (j.contains("ParentActorID")) {
+		uint64_t id = j.at("ParentActorID").get<uint64_t>();
+		mTransform->SetParentID(id);
+	}
+
 	mTransform->SetDirty();
+}
+
+void ActorObject::LoadParentByLoadScene()
+{
+	if (mTransform->GetParentID() != -1) {
+		mTransform->SetParent(mGame->GetActorManager()->FindActorByID(mTransform->GetParentID()));
+	}
 }
 
 Entity* ActorObject::Clone()

@@ -11,6 +11,7 @@ class UIActorObject;
 class RectTransform : public BaseTransform
 {
 protected:
+	Matrix4								mDrawTransform;
 
 	float								mRectScaleWidth;
 	float								mRectScaleHeight;
@@ -23,13 +24,15 @@ protected:
 	//子オブジェクトの配列
 	vector<UIActorObject*>				mChildActor;
 
-	// これらのヘルパー関数は private にして SetParent からのみ呼び出すようにすると設計が綺麗になります
+	// 親子関係関数
 	void								AddChild(UIActorObject* child);
 	void								RemoveChild(UIActorObject* child);
 public:
 										RectTransform(class UIActorObject* owner);
 
 										~RectTransform();
+
+    const Matrix4&						GetDrawTransform() const { return mDrawTransform; }
 
 	float								GetRectScaleWidth() { return mRectScaleWidth; }
 	float								GetRectScaleHeight() { return mRectScaleHeight; }

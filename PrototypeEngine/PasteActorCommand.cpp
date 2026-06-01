@@ -1,19 +1,24 @@
 #include "PasteActorCommand.h"
 
 PasteActorCommand::PasteActorCommand()
-    : mTargetID(0)       // ヘッダーに uint64_t mTargetID; を追加してください
+    : mTargetID(0)       
     , mTarget(nullptr)   // 一時的にアクターをホールドするポインタ
-    , mIsActiveInScene(false) //
+    , mIsActiveInScene(false) 
 {
 }
 
 PasteActorCommand::~PasteActorCommand()
 {
-    // Undoされたまま（シーンに存在しない状態のまま）履歴から消えたら、
-    // コマンドが責任を持ってメモリを解放する（メモリリーク防止）
+    // メモリを解放（メモリリーク防止）
     if (!mIsActiveInScene && mTarget)
     {
-        delete mTarget;
+        if (auto actorPtr = dynamic_cast<ActorObject*>(mTarget)) {
+            delete actorPtr;
+        }
+        // UIActorか確認
+        else if (auto uiActorPtr = dynamic_cast<UIActorObject*>(mTarget)) {
+            delete uiActorPtr;
+        }
     }
 }
 

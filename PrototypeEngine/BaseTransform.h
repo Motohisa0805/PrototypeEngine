@@ -30,6 +30,8 @@ protected:
 	Matrix4								mWorldTransform;
 
 	bool								mIsDirty;
+
+	uint64_t							mParentID;
 public:
 	BaseTransform(class Entity* owner);
 
@@ -52,19 +54,19 @@ public:
 	virtual void						LookAt(const Vector3& targetPosition);
 
 	// Getters/setters
-	virtual const Vector3& GetPosition()
+	virtual const Vector3&				GetPosition()
 	{
 		ComputeWorldTransform(); // 必要なら更新
 		return mPosition;
 	}
 	virtual void						SetPosition(const Vector3& pos);
-	virtual const Quaternion& GetRotation()
+	virtual const Quaternion&			GetRotation()
 	{
 		ComputeWorldTransform(); // 必要なら更新
 		return mRotation;
 	}
 	virtual void						SetRotation(const Quaternion& rotation);
-	virtual const Vector3& GetScale()
+	virtual const Vector3&				GetScale()
 	{
 		ComputeWorldTransform(); // 必要なら更新
 		return mScale;
@@ -79,7 +81,7 @@ public:
 	}
 
 	// PositionのGetters/setters
-	virtual const Vector3& GetLocalPosition() const { return mLocalPosition; }
+	virtual const Vector3&				GetLocalPosition() const { return mLocalPosition; }
 	virtual void						SetLocalPosition(const Vector3& pos)
 	{
 		mLocalPosition = pos;
@@ -100,7 +102,7 @@ public:
 		SetDirty();
 	}
 	// RotationのGetters/setters
-	virtual const Quaternion& GetLocalRotation() const { return mLocalRotation; }
+	virtual const Quaternion&			GetLocalRotation() const { return mLocalRotation; }
 
 	virtual void						SetLocalRotation(const Quaternion& rotation)
 	{
@@ -120,5 +122,8 @@ public:
 	//子オブジェクトの座標更新
 	virtual void						SetDirty(){}
 	virtual void						ActiveDirty(){}
+
+	uint64_t							GetParentID() { return mParentID; }
+	void								SetParentID(uint64_t id) { mParentID = id; }
 };
 

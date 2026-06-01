@@ -213,12 +213,12 @@ void MeshRenderer::DrawCustomGUI(const std::vector<PropertyInfo>& properties)
 		{
 			//ペイロードがファイルパスであると仮定
 			const char* dropPath = (const char*)payload->Data;
-			string path = StringConverter::ExtensionFileName(dropPath);
+			//string path = StringConverter::ExtensionFileName(dropPath);
 			//ファイルパスを使いロード処理を呼び出す
-			vector<class Mesh*> mesh = EngineWindow::GetRenderer()->GetMeshs(path);
+			vector<class Mesh*> mesh = EngineWindow::GetRenderer()->GetMeshs(dropPath);
 			SetMeshs(mesh);
 			mAlpha = mesh[0]->GetMaterialInfo()[0].Color.w;
-			mFilePath = path;
+			mFilePath = dropPath;
 		}
 		ImGui::EndDragDropTarget();
 	}

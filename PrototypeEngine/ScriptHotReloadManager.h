@@ -1,6 +1,6 @@
 #pragma once
 #include <Windows.h>//HMODULE用
-#include "Actor.h"
+#include "Entity.h"
 #include "Typedefs.h"
 #pragma comment(lib,"kernel32.lib")
 
@@ -20,7 +20,7 @@ struct FileChangeEvent {
 };
 
 //DLLから取得する関数ポインタの型定義
-typedef Component* (*CreateScriptComponentFunc)(const char* ,ActorObject*);
+typedef Component* (*CreateScriptComponentFunc)(const char* ,Entity*);
 typedef void (*UnregisterScriptComponentsFunc)();
 
 struct DllHandle
@@ -67,8 +67,8 @@ private:
 	// 次のロードでファイル名を変更するためのインデックス
 	int													mDllIndex;
 	DllHandle											mCurrentDll;
-	// 現在ゲーム内に存在するすべてのアクターとコンポーネントを保持するリスト（ホットリロード時に利用）
-	std::map<ActorObject*, vector<SavedScriptsData>>	mSavedState;
+	// 現在ゲーム内に存在するすべてのエンティティとコンポーネントを保持するリスト（ホットリロード時に利用）
+	std::map<Entity*, vector<SavedScriptsData>>			mSavedState;
 
 	FILETIME											mLastLoadTime;
 

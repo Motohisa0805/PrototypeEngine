@@ -2,13 +2,11 @@
 #include "Renderer.h"
 #include "EngineWindow.h"
 #include "GameFunctions.h"
-#include "DirectionalLightComponent.h" // DirectionalLightComponent の型を使うために必要
+#include "DirectionalLightComponent.h" 
 #include "FreeCamera.h"
-#include "BaseCamera.h"          // BaseCamera の IsMain を使うために必要
+#include "BaseCamera.h"          
 #include "AudioSystem.h"
-
 #include "VertexArray.h"
-
 #include "SceneSerializer.h"
 #include "EditorSettingsManager.h"
 

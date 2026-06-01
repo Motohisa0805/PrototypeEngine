@@ -3,7 +3,7 @@
 #include "ComponentFactory.h"
 #include "Actor.h"
 #include "UIActor.h"
-#include "Math.h"//Vector3,Quaternionを使うために必要
+#include "Math.h"
 
 InspectorPanel::InspectorPanel(Renderer* renderer)
 	:GUIPanel(renderer)
@@ -74,9 +74,49 @@ void InspectorPanel::Draw(float width, float height, ImTextureRef ref)
 			// ----------------------------------------------------------------
 			//2.Transformコンポーネントの表示・編集(ActorObjectはActorObjectの基底クラス)
 			// ----------------------------------------------------------------
-			if (ImGui::CollapsingHeader("Transform", ImGuiTreeNodeFlags_DefaultOpen))
+			bool isStatic = selectedActor->IsStatic() && GUIWinMain::IsPlaying();
+			if (auto actor = dynamic_cast<ActorObject*>(selectedActor)) {
+				if (ImGui::CollapsingHeader("Transform", ImGuiTreeNodeFlags_DefaultOpen))
+				{
+					// Staticならこれ以降のUI入力を無効化（グレーアウト）する
+					ImGui::BeginDisabled(isStatic);
+
+					//DrawTransformProperties(selectedActor);
+					actor->GetTransform()->DrawCustomGUI(actor->GetTransform()->GetProperties());
+
+					// 無効化範囲の終了
+					ImGui::EndDisabled();
+
+					// 補足：なぜ動かせないかのヒントテキスト出力
+					if (isStatic) {
+						ImGui::TextDisabled("(?)");
+						if (ImGui::IsItemHovered()) {
+							ImGui::SetTooltip("Static Objects can't be moved while running.");
+						}
+					}
+				}
+			}
+			else if(auto uiactor = dynamic_cast<UIActorObject*>(selectedActor))
 			{
-				DrawTransformProperties(selectedActor);
+				if (ImGui::CollapsingHeader("RectTransform", ImGuiTreeNodeFlags_DefaultOpen))
+				{
+					// Staticならこれ以降のUI入力を無効化（グレーアウト）する
+					ImGui::BeginDisabled(isStatic);
+
+					//DrawTransformProperties(selectedActor);
+					uiactor->GetRectTransform()->DrawCustomGUI(uiactor->GetRectTransform()->GetProperties());
+
+					// 無効化範囲の終了
+					ImGui::EndDisabled();
+
+					// 補足：なぜ動かせないかのヒントテキスト出力
+					if (isStatic) {
+						ImGui::TextDisabled("(?)");
+						if (ImGui::IsItemHovered()) {
+							ImGui::SetTooltip("Static Objects can't be moved while running.");
+						}
+					}
+				}
 			}
 
 			//----------------------------------------------------------------

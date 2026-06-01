@@ -52,7 +52,8 @@ int Mesh::CheckMeshIndex(const string& fileName, Renderer* renderer)
 
 bool Mesh::LoadFromMeshBin(const string& fileName, Renderer* renderer, int index)
 {
-	string name = StringConverter::RemoveExtension(fileName);
+	string path = StringConverter::ExtensionFileName(fileName);
+	string name = StringConverter::RemoveExtension(path);
 
 	//1:バイナリ情報に変換した頂点、インデックスデータをbinファイルから取得
 	string number = std::to_string(index);
@@ -103,7 +104,7 @@ bool Mesh::LoadFromMeshBin(const string& fileName, Renderer* renderer, int index
 	mVertexArrays.push_back(va);
 
 	//2:Assimpを使ってファイルからテクスチャとマテリアル情報を取得
-	string assimpFilePath = name + ".fbx";
+	string assimpFilePath = fileName;
 	//ファイルチェック
 	std::ifstream fileCheck(assimpFilePath);
 	if (!fileCheck)
@@ -547,7 +548,7 @@ bool Mesh::LoadFromFBX(const string& fileName, Renderer* renderer, int index)
 	header.max = box.mMax;
 	header.colliderRadius = radius;          // 半径計算済みと仮定
 	
-
+	result = StringConverter::ExtensionFileName(result);
 	result = StringConverter::RemoveExtension(result);
 	string number = std::to_string(index);
 	std::ofstream out(File_P::BinaryFilePath + result + number + File_P::BinaryPath, std::ios::binary);

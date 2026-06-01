@@ -9,7 +9,7 @@ static unsigned long long previous_;  // Previous value, if any
 static unsigned long long current_;   // Current sequence value
 static unsigned index_;               // Current seq. position
 
-GAMESCRIPTS_API Component* CreateScriptComponent(const char* className, ActorObject* owner)
+GAMESCRIPTS_API Component* CreateScriptComponent(const char* className, Entity* owner)
 {
     return ComponentFactory::CreateComponent(className, owner);
 }
