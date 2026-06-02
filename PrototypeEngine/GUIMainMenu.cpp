@@ -6,6 +6,7 @@
 #include "GUIWinMain.h"
 #include "EngineWindow.h"
 #include "BaseScene.h"
+#include "ProjectPanel.h"
 
 GUIMainMenu::GUIMainMenu(Renderer* renderer)
 	:GUIPanel(renderer)
@@ -116,6 +117,40 @@ void GUIMainMenu::AssetMenuDraw()
 			}
 			ImGui::EndMenu();
 		}
+		if(ImGui::MenuItem("Show in Explorer"))
+		{
+			std::filesystem::path selectedPath = ProjectPanel::GetSelectedPath();
+
+			// もし何も選択されていなければ現在のフォルダを開く（フォールバック）
+			if (selectedPath.empty()) {
+				selectedPath = EditorSettingsManager::GetCurrentFolder();
+			}
+
+			FileOperationManager::ShowInExplorer(selectedPath.wstring());
+		}
+		if (ImGui::MenuItem("Open")) {
+			std::filesystem::path selectedPath = ProjectPanel::GetSelectedPath();
+			if (filesystem::is_directory(selectedPath)) {
+				EditorSettingsManager::SetCurrentFolder(selectedPath);
+			}
+			else {
+				FileOperationManager::OpenFile(selectedPath);
+			}
+		}
+		ImGui::BeginDisabled(ProjectPanel::GetSelectedPath() == "Assets");
+		if(ImGui::MenuItem("Delete"))
+		{
+			std::filesystem::path selectedPath = ProjectPanel::GetSelectedPath();
+			if (!selectedPath.empty()) {
+				EditorSettingsManager::SetDeleteQueue(selectedPath);
+				EditorSettingsManager::ProcessScriptDelete(selectedPath);
+				EditorSettingsManager::SetCurrentFolder(EditorSettingsManager::GetCurrentFolder());
+				Debug::Log("Deleted: %s\n", selectedPath.string().c_str());
+			}
+		}
+		ImGui::EndDisabled();
+
+
 		ImGui::EndMenu();
 	}
 }

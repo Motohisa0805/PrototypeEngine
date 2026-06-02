@@ -133,6 +133,10 @@ void GUIWinMain::RenderImGui()
 	{
 		mGUIPanel[i]->Draw(windowWidth, windowHeight);
 	}
+
+	//ファイル、フォルダ削除
+	EditorSettingsManager::ProcessPendingDeletions();
+
 	ImGui::Render();
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 }

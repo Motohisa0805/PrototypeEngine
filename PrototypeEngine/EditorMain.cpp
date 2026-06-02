@@ -1,5 +1,6 @@
 #include "EngineWindow.h"
 #include <windows.h>
+#include "FileOperationManager.h"
 
 #define DISABLE_DEBUG_NEW // 一時的に無効にして
 #include "DebugMemoryManager.h"
@@ -65,6 +66,7 @@ void CurrentDirectorySetting()
 int main(int argc, char* argv[])
 {
 	CurrentDirectorySetting();
+	FileOperationManager::Initialize();
 	// メモリリーク検出を有効にする
 	EnableMemoryLeakCheck();
 	// エンジンの初期化
@@ -75,6 +77,7 @@ int main(int argc, char* argv[])
 		engine.EngineRunLoop();
 	}
 	engine.EngineShutdown();
+	FileOperationManager::Release();
 	return 0;
 }
 // プロジェクトの実行場所がReleaseなら
@@ -84,6 +87,7 @@ int main(int argc, char* argv[])
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
 	CurrentDirectorySetting();
+	FileOperationManager::Initialize();
 	// メモリリーク検出を有効にする
 	//EnableMemoryLeakCheck();
 	// エンジンの初期化
@@ -94,6 +98,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		engine.EngineRunLoop();
 	}
 	engine.EngineShutdown();
+	FileOperationManager::Release();
 	return 0;
 }
 #endif
