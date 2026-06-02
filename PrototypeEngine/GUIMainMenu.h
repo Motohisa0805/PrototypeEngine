@@ -1,5 +1,6 @@
 #pragma once
 #include "GUIPanel.h"
+#include "FileOperationManager.h"
 
 class GUIMainMenu : public GUIPanel
 {

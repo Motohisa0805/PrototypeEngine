@@ -517,6 +517,9 @@
     <ClCompile Include="ComponentFactory.cpp">
       <Filter>SourceCodes\A_Editor\Function\Components\Factory</Filter>
     </ClCompile>
+    <ClCompile Include="FileOperationManager.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Actor.h">
@@ -866,6 +869,9 @@
     </ClInclude>
     <ClInclude Include="ComponentFactory.h">
       <Filter>SourceCodes\A_Editor\Function\Components\Factory</Filter>
+    </ClInclude>
+    <ClInclude Include="FileOperationManager.h">
+      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

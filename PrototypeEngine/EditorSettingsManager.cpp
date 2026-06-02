@@ -12,6 +12,8 @@ bool EditorSettingsManager::mRenaming = false;
 
 filesystem::path EditorSettingsManager::mCurrentFolder = "Assets";
 
+vector<filesystem::path> EditorSettingsManager::mDeleteQueue;
+
 EditorSettingsManager& EditorSettingsManager::GetInstance()
 {
 	static EditorSettingsManager instance;
@@ -100,5 +102,56 @@ void EditorSettingsManager::CreateNewScene(const filesystem::path& filePath)
 	{
 		// 失敗ログ
 		Debug::Log("Failed to create scene file: %s\n", newScenePath.string().c_str());
+	}
+}
+
+void EditorSettingsManager::ProcessPendingDeletions()
+{
+	// 削除処理
+	for (const auto& p : mDeleteQueue)
+	{
+		try
+		{
+			if (!filesystem::exists(p)) continue;
+
+			// 2. ファイルシステムからの削除
+			if (filesystem::is_directory(p))
+			{
+				// フォルダの場合、配下のすべてのファイルを削除
+				filesystem::remove_all(p);
+				Debug::Log("Deleted folder: %s\n", p.string().c_str());
+			}
+			else // ファイルの場合
+			{
+				filesystem::remove(p);
+				Debug::Log("Deleted file: %s\n", p.string().c_str());
+			}
+		}
+		catch (const exception& e)
+		{
+			Debug::Log("Delete failed: %s\n", e.what());
+		}
+	}
+	mDeleteQueue.clear();
+}
+
+void EditorSettingsManager::ProcessScriptDelete(const filesystem::path& path)
+{
+	filesystem::path scriptPath = path;
+	if (scriptPath.extension() == ".h")
+	{
+		filesystem::path cppPath = scriptPath.parent_path() / (scriptPath.stem().string() + ".cpp");
+		if (filesystem::exists(cppPath))
+		{
+			mDeleteQueue.push_back(cppPath);
+		}
+	}
+	else if (scriptPath.extension() == ".cpp")
+	{
+		filesystem::path hPath = scriptPath.parent_path() / (scriptPath.stem().string() + ".h");
+		if (filesystem::exists(hPath))
+		{
+			mDeleteQueue.push_back(hPath);
+		}
 	}
 }

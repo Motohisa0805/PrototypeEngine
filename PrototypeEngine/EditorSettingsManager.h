@@ -20,6 +20,9 @@ private:
 
 	static filesystem::path					mCurrentFolder;
 
+	// 削除予約リスト
+	static vector<filesystem::path>			mDeleteQueue; 
+
 	EditorSettingsManager() { LoadSettings(); }
 	~EditorSettingsManager() { SaveEditorSettings(); }
 
@@ -52,7 +55,14 @@ public:
 	static filesystem::path			GetCurrentFolder() { return mCurrentFolder; }
 	static void						SetCurrentFolder(const filesystem::path& folder) { mCurrentFolder = folder; }
 
+	static void						SetDeleteQueue(const filesystem::path& path) { mDeleteQueue.push_back(path); }
 
 	static void						CreateNewScene(const filesystem::path& filePath);
+
+	//ファイル、フォルダの削除は即実行せず、削除予約リストに追加する
+	static void 					ProcessPendingDeletions();
+
+	//スクリプトを削除する時の専用の関数
+	static 	void 					ProcessScriptDelete(const filesystem::path& path);
 };
 
