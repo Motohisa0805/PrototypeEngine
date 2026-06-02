@@ -106,50 +106,24 @@ void GUIMainMenu::AssetMenuDraw()
 	{
 		if (ImGui::BeginMenu("Create"))
 		{
-			if (ImGui::MenuItem("Folder"))
-			{
-				filesystem::path currentFolder = EditorSettingsManager::GetCurrentFolder();
-				filesystem::create_directory(currentFolder / "NewFolder");
-			}
-			if (ImGui::MenuItem("Scene"))
-			{
-				EditorSettingsManager::CreateNewScene(EditorSettingsManager::GetCurrentFolder());
-			}
+			ProjectPanel::CreateNewFolder();
+			ProjectPanel::CreateNewScene();
+			ProjectPanel::CreateNewScript();
 			ImGui::EndMenu();
 		}
-		if(ImGui::MenuItem("Show in Explorer"))
+		// Show in Explorer（フォルダ・ファイルどちらでも可）
+		ProjectPanel::ShowInExplorer();
+		if (!filesystem::is_directory(ProjectPanel::GetSelectedPath()))
 		{
-			std::filesystem::path selectedPath = ProjectPanel::GetSelectedPath();
-
-			// もし何も選択されていなければ現在のフォルダを開く（フォールバック）
-			if (selectedPath.empty()) {
-				selectedPath = EditorSettingsManager::GetCurrentFolder();
-			}
-
-			FileOperationManager::ShowInExplorer(selectedPath.wstring());
+			// Open（ファイルのみ）
+			ProjectPanel::OpenFile();
 		}
-		if (ImGui::MenuItem("Open")) {
-			std::filesystem::path selectedPath = ProjectPanel::GetSelectedPath();
-			if (filesystem::is_directory(selectedPath)) {
-				EditorSettingsManager::SetCurrentFolder(selectedPath);
-			}
-			else {
-				FileOperationManager::OpenFile(selectedPath);
-			}
-		}
-		ImGui::BeginDisabled(ProjectPanel::GetSelectedPath() == "Assets");
-		if(ImGui::MenuItem("Delete"))
-		{
-			std::filesystem::path selectedPath = ProjectPanel::GetSelectedPath();
-			if (!selectedPath.empty()) {
-				EditorSettingsManager::SetDeleteQueue(selectedPath);
-				EditorSettingsManager::ProcessScriptDelete(selectedPath);
-				EditorSettingsManager::SetCurrentFolder(EditorSettingsManager::GetCurrentFolder());
-				Debug::Log("Deleted: %s\n", selectedPath.string().c_str());
-			}
-		}
-		ImGui::EndDisabled();
-
+		// Delete（フォルダ・ファイルどちらでも可。ただしAssetsフォルダ自体は削除できない）
+		ProjectPanel::DeleteFileOrFolder();
+		//名前変更メニュー
+		ProjectPanel::RenameMenu();
+		//CopyPathメニュー
+		ProjectPanel::CopyPathMenu();
 
 		ImGui::EndMenu();
 	}

@@ -64,5 +64,8 @@ public:
 
 	//スクリプトを削除する時の専用の関数
 	static 	void 					ProcessScriptDelete(const filesystem::path& path);
+	/*
+	static void 					ProcessPendingRenames();
+	*/
 };
 

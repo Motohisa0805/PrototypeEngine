@@ -1,4 +1,52 @@
-﻿  ProjectPanel.cpp
+﻿  GUIMainMenu.cpp
+C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
+  (ソース ファイル 'GUIMainMenu.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
+      'SDL_VERSION' は以前にコマンド ラインで宣言されています
+  
+C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(84,12): warning C4251: 'Component::mName': 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
+  (ソース ファイル 'GUIMainMenu.cpp' をコンパイルしています)
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(541,7):
+      'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' の宣言を確認してください
+  
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.26100.0\um\winnt.h(24912,9): warning C4005: 'KEY_EXECUTE': マクロが再定義されました。
+  (ソース ファイル 'GUIMainMenu.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\SDL_Scancode.h(143,9):
+      'KEY_EXECUTE' の以前の定義を確認してください
+  
+C:\C++Files\PrototypeEngine\PrototypeEngine\PhysWorld.h(56,58): warning C4099: 'OBB': タイプ名は最初 'struct' として使われていましたが 'class' として使われています。
+  (ソース ファイル 'GUIMainMenu.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\Collision.h(64,8):
+      'OBB' の宣言を確認してください
+  
+C:\C++Files\PrototypeEngine\PrototypeEngine\PhysWorld.h(123,14): warning C4244: '初期化中': 'int' から 'float' への変換です。データが失われる可能性があります。
+  (ソース ファイル 'GUIMainMenu.cpp' をコンパイルしています)
+  
+  GUIWinMain.cpp
+C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
+  (ソース ファイル 'GUIWinMain.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
+      'SDL_VERSION' は以前にコマンド ラインで宣言されています
+  
+C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(84,12): warning C4251: 'Component::mName': 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
+  (ソース ファイル 'GUIWinMain.cpp' をコンパイルしています)
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(541,7):
+      'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' の宣言を確認してください
+  
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.26100.0\um\winnt.h(24912,9): warning C4005: 'KEY_EXECUTE': マクロが再定義されました。
+  (ソース ファイル 'GUIWinMain.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\SDL_Scancode.h(143,9):
+      'KEY_EXECUTE' の以前の定義を確認してください
+  
+C:\C++Files\PrototypeEngine\PrototypeEngine\GUIWinMain.cpp(65,18): warning C4244: '初期化中': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\C++Files\PrototypeEngine\PrototypeEngine\GUIWinMain.cpp(66,19): warning C4244: '初期化中': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\C++Files\PrototypeEngine\PrototypeEngine\GUIWinMain.cpp(92,41): warning C4244: '引数': 'int' から 'float' への変換です。データが失われる可能性があります。
+C:\C++Files\PrototypeEngine\PrototypeEngine\GUIWinMain.cpp(92,28): warning C4244: '引数': 'int' から 'float' への変換です。データが失われる可能性があります。
+C:\C++Files\PrototypeEngine\PrototypeEngine\GUIWinMain.cpp(129,18): warning C4244: '初期化中': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\C++Files\PrototypeEngine\PrototypeEngine\GUIWinMain.cpp(130,19): warning C4244: '初期化中': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\C++Files\PrototypeEngine\PrototypeEngine\GUIWinMain.cpp(134,35): warning C4244: '引数': 'int' から 'float' への変換です。データが失われる可能性があります。
+C:\C++Files\PrototypeEngine\PrototypeEngine\GUIWinMain.cpp(134,22): warning C4244: '引数': 'int' から 'float' への変換です。データが失われる可能性があります。
+  ProjectPanel.cpp
 C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
   (ソース ファイル 'ProjectPanel.cpp' をコンパイルしています)
       C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
@@ -14,4 +62,9 @@ C:\Program Files (x86)\Windows Kits\10\Include\10.0.26100.0\um\winnt.h(24912,9):
       C:\C++Files\PrototypeEngine\PrototypeEngine\SDL_Scancode.h(143,9):
       'KEY_EXECUTE' の以前の定義を確認してください
   
+  コードを生成中...
+     ライブラリ C:\C++Files\PrototypeEngine\bin\PrototypeEngine.lib とオブジェクト C:\C++Files\PrototypeEngine\bin\PrototypeEngine.exp を作成中
+LINK : warning LNK4217: シンボル '?HasStarted@ScriptComponent@@QEBA_NXZ (public: bool __cdecl ScriptComponent::HasStarted(void)const )' ('ScriptComponent.obj' で定義) が 'Entity.obj' によって関数 '"public: virtual void __cdecl Entity::UpdateComponents(float)" (?UpdateComponents@Entity@@UEAAXM@Z)' 内でインポートされています
+LINK : warning LNK4217: シンボル '?SetStarted@ScriptComponent@@QEAAX_N@Z (public: void __cdecl ScriptComponent::SetStarted(bool))' ('ScriptComponent.obj' で定義) が 'Entity.obj' によって関数 '"public: virtual void __cdecl Entity::UpdateComponents(float)" (?UpdateComponents@Entity@@UEAAXM@Z)' 内でインポートされています
+LINK : warning LNK4286: シンボル '?SetStarted@ScriptComponent@@QEAAX_N@Z (public: void __cdecl ScriptComponent::SetStarted(bool))' ('ScriptComponent.obj' で定義) が 'ScriptHotReloadManager.obj' によってインポートされています
   PrototypeEngine.vcxproj -> C:\C++Files\PrototypeEngine\bin\PrototypeEngine.exe

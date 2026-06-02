@@ -7,29 +7,33 @@
 class ProjectPanel : public GUIPanel
 {
 private:
+	//名前変更関係の変数
+	static filesystem::path			mPathToRename;
+	//名前変更の入力バッファ
+	static string					mRenameInputBuffer;
+	//名前変更モードかどうか
+	static bool						mRenaming;
 
-	filesystem::path				mPathToRename;
-
-	string							mRenameInputBuffer;
-	
-	bool							mRenaming;
 
 	bool							mShowOverwritePopup = false;
 	// 保留中の操作
 	filesystem::path				mPendingSrc;
 	filesystem::path				mPendingDst;
 
-	vector<RenameRequest>			mRenameQueue;
-
 	filesystem::path				mCurrentFile;
 	// ユーザーが左クリックでハイライトしたファイル/フォルダ
 	static filesystem::path			mSelectedPath;
 
-	static filesystem::path			mScriptFilePath;
+
+	static filesystem::path			mCopyPathBuffer; // コピー用のパスバッファ
 public:
 	//選択中のファイルパスを取得
-	const char* GetName()override { return "Project"; }
+	const char*						GetName()override { return "Project"; }
+
+	static void 					SetRenameInputBuffer(const string& input) { mRenameInputBuffer = input; }
 	
+	static void 					SetRenaming(bool renaming) { mRenaming = renaming; }
+
 	static filesystem::path			GetSelectedPath() { return mSelectedPath; }
 	//コンストラクタ
 	ProjectPanel(class Renderer* renderer);
@@ -44,6 +48,17 @@ public:
 	void		DrawFileSystemEntry(const filesystem::directory_entry& entry);
 	// 右クリックメニュー
 	bool		RightClickMenu();
+	static void	CreateNewFolder();
+	static void CreateNewScene();
+	static void CreateNewScript();
+	static void ShowInExplorer();
+	static void OpenFile();
+	static void DeleteFileOrFolder();
+	//名前変更メニューのカプセル化
+	static void RenameMenu();
+	//CopyPathメニューのカプセル化
+	static void CopyPathMenu();
+
 	//ショートカットキー入力
 	void        ShortcutKeyInputFunction(const filesystem::path& path);
 	//ドラッグ＆ドロップ
@@ -52,7 +67,5 @@ public:
 	void		RenameFunction(const filesystem::directory_entry entry);
 	//上書き確認ポップアップ
 	void		DrawOverwritePopup();
-	//保留中の削除、リネーム、ドラッグ＆ドロップの処理
-	void		ProcessPendingOperations();
 };
 
