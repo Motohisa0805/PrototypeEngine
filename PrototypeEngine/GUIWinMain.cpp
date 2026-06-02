@@ -133,7 +133,6 @@ void GUIWinMain::RenderImGui()
 	{
 		mGUIPanel[i]->Draw(windowWidth, windowHeight);
 	}
-
 	//ファイル、フォルダ削除
 	EditorSettingsManager::ProcessPendingDeletions();
 
