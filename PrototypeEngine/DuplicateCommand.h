@@ -4,21 +4,21 @@
 #include "SelectionManager.h"
 #include "EditorClipboard.h"
 
-//貼り付けコマンドクラス
-class PasteActorCommand : public ICommand
+//複製コマンドクラス
+class DuplicateCommand : public ICommand
 {
 private:
-	// ペーストによって生成されたアクター
-	uint64_t		mTargetID; 
-	Entity*			mTarget; 
+	// 複製によって生成されたアクターID
+	uint64_t		mTargetID;
+	Entity*			mTarget;
 	bool			mIsActiveInScene;
 public:
-	PasteActorCommand();
-	~PasteActorCommand();
+	DuplicateCommand();
+	~DuplicateCommand();
 
 	void Execute() override;
-	
-	void NoHistoryExecute()override;
+
+	void NoHistoryExecute()override{}
 
 	void Undo() override;
 

@@ -262,6 +262,7 @@ bool ProjectPanel::RightClickMenu()
         RenameMenu();
 		// Copy Path（フォルダ・ファイルどちらでも可）
         CopyPathMenu();
+        ImGui::Separator();
 
         ImGui::EndPopup();
     }
