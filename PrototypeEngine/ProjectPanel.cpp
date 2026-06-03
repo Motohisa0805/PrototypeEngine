@@ -45,6 +45,11 @@ void ProjectPanel::Draw(float width, float height, ImTextureRef ref)
 	//フォルダツリー表示用のウィンドウ
     if (ImGui::Begin("FolderTree", nullptr, ImGuiWindowFlags_NoCollapse))
     {
+        ImGui::SameLine();
+        ImGui::TextDisabled("(?)");
+        if (ImGui::IsItemHovered()) {
+            ImGui::SetTooltip("Right-click or [Assets] Menu click for options.");
+        }
         ImGui::SetNextItemOpen(true, ImGuiCond_Once);
         // 左カラム = フォルダツリー
         if (ImGui::TreeNode("Assets"))

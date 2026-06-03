@@ -166,7 +166,11 @@ void EngineWindow::EngineRunLoop()
 		}
 		else
 		{
-			mGameWindow->LoadGame_Engine();
+			if(mGameWindow->LoadGame_Engine())
+			{
+				// ゲームのロードが成功した場合の処理
+				mGameWindow->GameRunLoop();
+			}
 		}
 		SceneManager::GetNowScene()->EditorUpdate(GUIWinMain::IsPlaying());
 		//終了ボタンが押されたら
