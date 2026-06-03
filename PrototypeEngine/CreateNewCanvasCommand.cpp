@@ -11,7 +11,13 @@ CreateNewCanvasCommand::~CreateNewCanvasCommand()
 {
     if (!mIsActiveInScene && mTarget)
     {
-        delete mTarget;
+        if (auto actorPtr = dynamic_cast<ActorObject*>(mTarget)) {
+            delete actorPtr;
+        }
+        // UIActor‚©Šm”F
+        else if (auto uiActorPtr = dynamic_cast<UIActorObject*>(mTarget)) {
+            delete uiActorPtr;
+        }
     }
 }
 

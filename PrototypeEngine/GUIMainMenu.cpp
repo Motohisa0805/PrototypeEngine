@@ -7,6 +7,7 @@
 #include "EngineWindow.h"
 #include "BaseScene.h"
 #include "ProjectPanel.h"
+#include "HierarchyPanel.h"
 
 GUIMainMenu::GUIMainMenu(Renderer* renderer)
 	:GUIPanel(renderer)
@@ -96,6 +97,8 @@ void GUIMainMenu::EditorMenuDraw()
 		{
 			CommandManager::Redo();
 		}
+		ImGui::Separator();
+		HierarchyPanel::EditorCommandPopupMenu();
 		ImGui::EndMenu();
 	}
 }

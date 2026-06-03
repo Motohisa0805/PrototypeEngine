@@ -17,6 +17,8 @@ public:
 
 	void Execute()override;
 
+	void NoHistoryExecute()override {}
+
 	void Undo() override;
 
 	void Redo()override;

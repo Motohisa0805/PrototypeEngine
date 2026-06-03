@@ -82,6 +82,13 @@ void HierarchyPanel::Draw(float width, float height, ImTextureRef ref)
 		// ----------------------------------------------------------------
 		RightClickMenu();
 
+		if(ImGui::IsKeyDown(ImGuiKey_LeftCtrl) && ImGui::IsKeyPressed(ImGuiKey_X))
+		{
+			if (SelectionManager::GetSelectedActor())
+			{
+				EditorClipboard::Cut(SelectionManager::GetSelectedActor());
+			}
+		}
 		// --- コピー (Ctrl + C) ---
 		if (ImGui::IsKeyDown(ImGuiKey_LeftCtrl) && ImGui::IsKeyPressed(ImGuiKey_C))
 		{
@@ -90,15 +97,24 @@ void HierarchyPanel::Draw(float width, float height, ImTextureRef ref)
 				EditorClipboard::Copy(SelectionManager::GetSelectedActor());
 			}
 		}
-
 		// --- ペースト (Ctrl + V) ---
 		if (ImGui::IsKeyDown(ImGuiKey_LeftCtrl) && ImGui::IsKeyPressed(ImGuiKey_V))
 		{
 			if (EditorClipboard::HasCopiedActor())
 			{
-				// ペーストはシーンが変わるのでコマンドを介して実行
-				auto cmd = std::make_unique<PasteActorCommand>();
-				CommandManager::Execute(std::move(cmd));
+				// カット操作の場合はペースト後にクリップボードをクリアする
+				if (EditorClipboard::IsCutOperation())
+				{
+					// ペーストはシーンが変わるのでコマンドを介して実行
+					auto cmd = std::make_unique<PasteActorCommand>();
+					CommandManager::NoHistoryExecute(std::move(cmd));
+				}
+				// コピー操作の場合はペースト後もクリップボードに残す
+				else {
+					// ペーストはシーンが変わるのでコマンドを介して実行
+					auto cmd = std::make_unique<PasteActorCommand>();
+					CommandManager::Execute(std::move(cmd));
+				}
 			}
 		}
 		//名前変更のショートカットキー
@@ -106,6 +122,15 @@ void HierarchyPanel::Draw(float width, float height, ImTextureRef ref)
 			if (!EditorSettingsManager::IsRenaming() && SelectionManager::GetSelectedActor()) {
 				EditorSettingsManager::SetRenameInputBuffer(SelectionManager::GetSelectedActor()->GetName());
 				EditorSettingsManager::SetRenaming(true);
+			}
+		}
+		//複製ショートカットキー
+		if(ImGui::IsKeyDown(ImGuiKey_LeftCtrl) && ImGui::IsKeyPressed(ImGuiKey_D))
+		{
+			if (SelectionManager::GetSelectedActor())
+			{
+				auto cmd = std::make_unique<DuplicateCommand>();
+				CommandManager::Execute(std::move(cmd));
 			}
 		}
 		//削除ショートカットキー
@@ -464,6 +489,8 @@ bool HierarchyPanel::RightClickMenu()
 	// 右クリックされた場合にポップアップメニューを開始します。
 	if (ImGui::BeginPopupContextWindow("HierarchyContext", ImGuiMouseButton_Right))
 	{
+		EditorCommandPopupMenu();
+		ImGui::Separator();
 		if (ImGui::MenuItem("Create Empty Actor"))
 		{
 			auto cmd = std::make_unique<CreateNewActorCommand>();
@@ -484,20 +511,6 @@ bool HierarchyPanel::RightClickMenu()
 			EditorSettingsManager::SetRenameInputBuffer(SelectionManager::GetSelectedActor()->GetName());
 			EditorSettingsManager::SetRenaming(true);
 		}
-		if (SelectionManager::GetSelectedActor())
-		{
-			if (ImGui::MenuItem("Rename", "F2"))
-			{
-				EditorSettingsManager::SetRenameInputBuffer(SelectionManager::GetSelectedActor()->GetName());
-				EditorSettingsManager::SetRenaming(true);
-			}
-
-			if (ImGui::MenuItem("Delete Actor","Delete"))
-			{
-				auto cmd = std::make_unique<DeleteCommand>(SelectionManager::GetSelectedActor());
-				CommandManager::Execute(std::move(cmd));
-			}
-		}
 		if (ImGui::MenuItem("GUI Initialization of position"))
 		{
 			isResetLayout = true;
@@ -506,6 +519,67 @@ bool HierarchyPanel::RightClickMenu()
 	}
 	ResetPopupColorTheme();
 	return true;
+}
+
+void HierarchyPanel::EditorCommandPopupMenu()
+{
+	if (ImGui::MenuItem("Cut", "Ctrl + X"))
+	{
+		if (SelectionManager::GetSelectedActor())
+		{
+			EditorClipboard::Cut(SelectionManager::GetSelectedActor());
+		}
+	}
+	if (ImGui::MenuItem("Copy", "Ctrl + C"))
+	{
+		if (SelectionManager::GetSelectedActor())
+		{
+			EditorClipboard::Copy(SelectionManager::GetSelectedActor());
+		}
+	}
+	if (ImGui::MenuItem("Paste", "Ctrl + V"))
+	{
+		if (EditorClipboard::HasCopiedActor())
+		{
+			// カット操作の場合はペースト後にクリップボードをクリアする
+			if (EditorClipboard::IsCutOperation())
+			{
+				// ペーストはシーンが変わるのでコマンドを介して実行
+				auto cmd = std::make_unique<PasteActorCommand>();
+				CommandManager::NoHistoryExecute(std::move(cmd));
+			}
+			// コピー操作の場合はペースト後もクリップボードに残す
+			else {
+				// ペーストはシーンが変わるのでコマンドを介して実行
+				auto cmd = std::make_unique<PasteActorCommand>();
+				CommandManager::Execute(std::move(cmd));
+			}
+		}
+	}
+	if (ImGui::MenuItem("Rename", "F2"))
+	{
+		if (!EditorSettingsManager::IsRenaming() && SelectionManager::GetSelectedActor())
+		{
+			EditorSettingsManager::SetRenameInputBuffer(SelectionManager::GetSelectedActor()->GetName());
+			EditorSettingsManager::SetRenaming(true);
+		}
+	}
+	if (ImGui::MenuItem("Duplicate", "Ctrl + D"))
+	{
+		if (SelectionManager::GetSelectedActor())
+		{
+			auto cmd = std::make_unique<DuplicateCommand>();
+			CommandManager::Execute(std::move(cmd));
+		}
+	}
+	if (ImGui::MenuItem("Delete", "Delete"))
+	{
+		if (SelectionManager::GetSelectedActor())
+		{
+			auto cmd = std::make_unique<DeleteCommand>(SelectionManager::GetSelectedActor());
+			CommandManager::Execute(std::move(cmd));
+		}
+	}
 }
 
 void HierarchyPanel::ClearPointer()

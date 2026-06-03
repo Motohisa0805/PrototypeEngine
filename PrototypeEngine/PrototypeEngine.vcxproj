@@ -176,6 +176,7 @@
     <ClCompile Include="BaseTransform.cpp" />
     <ClCompile Include="CreateNewCanvasCommand.cpp" />
     <ClCompile Include="CreateNewUIActorCommand.cpp" />
+    <ClCompile Include="DuplicateCommand.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="BaseCamera.cpp" />
     <ClCompile Include="BaseScene.cpp" />
@@ -206,7 +207,6 @@
     <ClCompile Include="PasteActorCommand.cpp" />
     <ClCompile Include="RectTransform.cpp" />
     <ClCompile Include="RenameCommand.cpp" />
-    <ClCompile Include="ReorderCommand.cpp" />
     <ClCompile Include="ReparentAndReorderCommand.cpp" />
     <ClCompile Include="ScriptEditManager.cpp" />
     <ClCompile Include="EngineWindow.cpp" />
@@ -280,6 +280,7 @@
     <ClInclude Include="BaseTransform.h" />
     <ClInclude Include="CreateNewCanvasCommand.h" />
     <ClInclude Include="CreateNewUIActorCommand.h" />
+    <ClInclude Include="DuplicateCommand.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="BaseCamera.h" />
     <ClInclude Include="BaseScene.h" />
@@ -314,7 +315,6 @@
     <ClInclude Include="Physics.h" />
     <ClInclude Include="RectTransform.h" />
     <ClInclude Include="RenameCommand.h" />
-    <ClInclude Include="ReorderCommand.h" />
     <ClInclude Include="ReparentAndReorderCommand.h" />
     <ClInclude Include="ScriptEditManager.h" />
     <ClInclude Include="EngineWindow.h" />

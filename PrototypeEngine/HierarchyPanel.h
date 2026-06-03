@@ -28,5 +28,7 @@ public:
 	// 右クリックメニュー
 	bool		RightClickMenu();
 
+	static void	EditorCommandPopupMenu();
+
 	void		ClearPointer()override;
 };

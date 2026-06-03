@@ -19,6 +19,19 @@ void CommandManager::Execute(std::unique_ptr<ICommand> command)
 	}
 }
 
+void CommandManager::NoHistoryExecute(std::unique_ptr<ICommand> command)
+{
+	command->NoHistoryExecute();
+
+	// 新しい操作が行われたらRedoスタックはクリアする（Unityと同じ挙動）
+	if (!GUIWinMain::IsPlaying()) {
+		// 編集操作の変更を記録する
+		string startupScenePath = EditorSettingsManager::GetInstance().GetLastOpenedScene();
+		SceneSerializer::WriteEditorData(startupScenePath, SceneManager::GetNowScene());
+		EditorSettingsManager::SetSaveFlag(true);
+	}
+}
+
 void CommandManager::Undo() {
 	if (GUIWinMain::IsPlaying()) { return; }
 	if (Get().mUndoStack.empty())return;
