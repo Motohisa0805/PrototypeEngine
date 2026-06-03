@@ -65,9 +65,12 @@ void GameWinMain::GameRunLoop()
 	mGameApp->Update();
 }
 
-void GameWinMain::LoadGame_Engine()
+bool GameWinMain::LoadGame_Engine()
 {
-	mGameApp->LoadUpdate();
+	if (mGameApp->LoadUpdate()) {
+		return true;
+	}
+	return false;
 }
 
 void GameWinMain::Shutdown()

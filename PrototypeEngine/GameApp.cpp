@@ -30,8 +30,9 @@ bool GameApp::LoadUpdate()
 	if (SceneManager::IsLoading())
 	{
 		SceneManager::ChangeScene();
+		return true;
 	}
-	return true;
+	return false;
 }
 
 bool GameApp::Update()

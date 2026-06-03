@@ -27,7 +27,11 @@ void HierarchyPanel::Draw(float width, float height, ImTextureRef ref)
 	//  新しいウィンドウの作成
 	if(ImGui::Begin("Hierarchy", nullptr, ImGuiWindowFlags_NoCollapse))
 	{
-
+		ImGui::SameLine();
+		ImGui::TextDisabled("(?)");
+		if (ImGui::IsItemHovered()) {
+			ImGui::SetTooltip("Right-click or [Editor] Menu click for options.");
+		}
 		// ----------------------------------------------------------------
 		// 1. 現在のシーンのアクター一覧を表示する
 		// ----------------------------------------------------------------
@@ -35,7 +39,7 @@ void HierarchyPanel::Draw(float width, float height, ImTextureRef ref)
 		if (currentScene)
 		{
 			//シーン名を表示
-			ImGui::TextColored(ImVec4(0.5f, 0.5f, 1.0f, 1.0f), "Scene:%s", currentScene->GetName().c_str());
+			ImGui::TextColored(ImVec4(0.5f, 0.5f, 1.0f, 1.0f), "Scene Name:%s", currentScene->GetName().c_str());
 			ImGui::Separator();
 			
 			if (ImGui::CollapsingHeader("GameWorld", ImGuiTreeNodeFlags_DefaultOpen)) {
