@@ -13,6 +13,8 @@ private:
 	Texture* mPauseButtonTexture;
 	Texture* mStopButtonTexture;
 	Texture* mFrameByFrameButtonTexture;
+
+	Texture* mTestImage;
 public:
 	static EditorTextureManager& GetInstance()
 	{
@@ -30,5 +32,6 @@ public:
 	Texture* GetPauseButtonTexture()const { return mPauseButtonTexture; }
 	Texture* GetStopButtonTexture()const { return mStopButtonTexture; }
 	Texture* GetFrameByFrameButtonTexture()const { return mFrameByFrameButtonTexture; }
+	Texture* GetTestImage()const { return mTestImage; }
 };
 

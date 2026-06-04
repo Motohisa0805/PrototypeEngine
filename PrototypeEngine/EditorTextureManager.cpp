@@ -17,32 +17,39 @@ EditorTextureManager::EditorTextureManager()
 void EditorTextureManager::AllLoad()
 {
 	mPlayButtonTexture = new Texture();
-	if (!mPlayButtonTexture->Load("Assets/Editor/PlayButton.png"))
+	if (!mPlayButtonTexture->Load("Editor/PlayButton.png"))
 	{
 		Debug::ErrorLog("Failed to load play button texture");
 		delete mPlayButtonTexture;
 		mPlayButtonTexture = nullptr;
 	}
 	mStopButtonTexture = new Texture();
-	if (!mStopButtonTexture->Load("Assets/Editor/StopButton.png"))
+	if (!mStopButtonTexture->Load("Editor/StopButton.png"))
 	{
 		Debug::ErrorLog("Failed to load stop button texture");
 		delete mStopButtonTexture;
 		mStopButtonTexture = nullptr;
 	}
 	mPauseButtonTexture = new Texture();
-	if (!mPauseButtonTexture->Load("Assets/Editor/PauseButton.png"))
+	if (!mPauseButtonTexture->Load("Editor/PauseButton.png"))
 	{
 		Debug::ErrorLog("Failed to load pause button texture");
 		delete mPauseButtonTexture;
 		mPauseButtonTexture = nullptr;
 	}
 	mFrameByFrameButtonTexture = new Texture();
-	if (!mFrameByFrameButtonTexture->Load("Assets/Editor/FrameByFrame.png"))
+	if (!mFrameByFrameButtonTexture->Load("Editor/FrameByFrame.png"))
 	{
 		Debug::ErrorLog("Failed to load frame by frame button texture");
 		delete mFrameByFrameButtonTexture;
 		mFrameByFrameButtonTexture = nullptr;
+	}
+	mTestImage = new Texture();
+	if (!mTestImage->Load("Editor/TestImage.png"))
+	{
+		Debug::ErrorLog("Failed to load TestImage texture");
+		delete mTestImage;
+		mTestImage = nullptr;
 	}
 }
 
@@ -71,5 +78,11 @@ void EditorTextureManager::AllRelease()
 		mFrameByFrameButtonTexture->Unload();
 		delete mFrameByFrameButtonTexture;
 		mFrameByFrameButtonTexture = nullptr;
+	}
+	if (mTestImage)
+	{
+		mTestImage->Unload();
+		delete mTestImage;
+		mTestImage = nullptr;
 	}
 }
