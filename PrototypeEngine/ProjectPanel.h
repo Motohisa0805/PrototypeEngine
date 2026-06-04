@@ -49,7 +49,7 @@ public:
 	// 右クリックメニュー
 	bool		RightClickMenu();
 	static void	CreateNewFolder();
-	static void CreateNewScene();
+	static void CreateNewScene(const string& name);
 	static void CreateNewScript();
 	static void ShowInExplorer();
 	static void OpenFile();
