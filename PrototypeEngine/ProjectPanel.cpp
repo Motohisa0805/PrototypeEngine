@@ -250,7 +250,7 @@ bool ProjectPanel::RightClickMenu()
         if (ImGui::BeginMenu("Create")) {
 			//フォルダ、シーン、スクリプトの作成
             CreateNewFolder();
-			CreateNewScene();
+			CreateNewScene("Scene");
 			CreateNewScript();
             ImGui::EndMenu();
         }
@@ -299,10 +299,10 @@ void ProjectPanel::CreateNewFolder()
     }
 }
 
-void ProjectPanel::CreateNewScene()
+void ProjectPanel::CreateNewScene(const string& name)
 {
     //シーン作成
-    if (ImGui::MenuItem("Scene"))
+    if (ImGui::MenuItem(name.c_str()))
     {
         string uniqueName = "NewScene.json"; // 拡張子付きで初期化
         filesystem::path targetFolder = mSelectedPath; // 現在右クリックしているパス（フォルダ）
@@ -366,7 +366,15 @@ void ProjectPanel::OpenFile()
 {
     if (ImGui::MenuItem("Open"))
     {
-        if (filesystem::is_directory(mSelectedPath)) {
+        // ファイルの場合
+        if (mSelectedPath.extension().string() == ".json")
+        {
+            // シーンファイルのロード処理を呼び出す
+            // 実行中のシーンと切り替えるため、SceneManagerに処理を依頼します
+            SceneManager::LoadSceneGUI(mSelectedPath.string());
+            //EditorSettingsManager::GetInstance().SetLastOpenedScene(entry.path().string());
+        }
+        else if (filesystem::is_directory(mSelectedPath)) {
             EditorSettingsManager::SetCurrentFolder(mSelectedPath);
         }
         else {
@@ -380,7 +388,7 @@ void ProjectPanel::DeleteFileOrFolder()
     //削除メニューはAssetsフォルダ自体を削除できないようにする
     ImGui::BeginDisabled(mSelectedPath == "Assets");
     //フォルダの削除
-    if (ImGui::MenuItem("Delete Folder"))
+    if (ImGui::MenuItem("Delete"))
     {
         // 即削除はしない。遅延キューに追加する
         EditorSettingsManager::SetDeleteQueue(mSelectedPath);

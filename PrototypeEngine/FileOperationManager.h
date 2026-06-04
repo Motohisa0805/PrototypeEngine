@@ -19,5 +19,7 @@ public:
 	static void Release();
 
 	static void ExecuteRename(const std::filesystem::path& oldPath, const std::string& newName);
+
+	static void OpenSceneDialog();
 };
 

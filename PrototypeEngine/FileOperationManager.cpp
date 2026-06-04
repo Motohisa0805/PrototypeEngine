@@ -90,6 +90,84 @@ void FileOperationManager::ExecuteRename(const std::filesystem::path& oldPath, c
 	}
 }
 
+void FileOperationManager::OpenSceneDialog()
+{
+	//ファイルオープンダイアログのインスタンスを作成
+	IFileOpenDialog* pFileOpen = nullptr;
+	HRESULT hr = CoCreateInstance(CLSID_FileOpenDialog, NULL, CLSCTX_INPROC_SERVER, IID_PPV_ARGS(&pFileOpen));
+
+	if (SUCCEEDED(hr)) {
+		COMDLG_FILTERSPEC filterSpec[] = {
+			{ L"Scene Files (*.json)", L"*.json" }
+		};
+		pFileOpen->SetFileTypes(ARRAYSIZE(filterSpec), filterSpec);
+		pFileOpen->SetFileTypeIndex(1); // デフォルトで最初のフィルタを選択
+
+		//オプション)デフォルトのタイトルを設定
+		pFileOpen->SetTitle(L"Open Scene");
+
+		IShellItem* pDefaultFolder = nullptr;
+
+		try {
+			// "Assets" フォルダの絶対パスを取得し、Windows標準の区切り文字（\）にする
+			std::filesystem::path assetsPath = std::filesystem::absolute("Assets");
+			std::wstring winAssetsPath = assetsPath.make_preferred().wstring();
+
+			// 絶対パスを使って IShellItem を作成する
+			HRESULT hrFolder = SHCreateItemFromParsingName(
+				winAssetsPath.c_str(), // フルパス文字列
+				NULL,
+				IID_PPV_ARGS(&pDefaultFolder)
+			);
+
+			if (SUCCEEDED(hrFolder)) {
+				// ダイアログが開いたときの初期フォルダとしてセット
+				pFileOpen->SetFolder(pDefaultFolder);
+				pDefaultFolder->Release();
+			}
+		}
+		catch (const std::exception& e) {
+			Debug::Log("Failed to parse default folder path: %s\n", e.what());
+		}
+
+		//ダイアログを表示
+		hr = pFileOpen->Show(NULL);
+
+		if (SUCCEEDED(hr)) {
+			//ユーザーが選択したファイルのアイテムを取得
+			IShellItem* pItem = nullptr;
+			hr = pFileOpen->GetResult(&pItem);
+
+			if (SUCCEEDED(hr)) {
+				//アイテムからファイルの絶対パス（文字列）を取得
+				PWSTR pszFilePath = nullptr;
+				hr = pItem->GetDisplayName(SIGDN_FILESYSPATH, &pszFilePath);
+				if (SUCCEEDED(hr)) {
+					// ワイド文字列（std::wstring）を通常の std::string に変換
+					std::wstring wPath(pszFilePath);
+					std::string scenePath(wPath.begin(), wPath.end());
+
+					SceneManager::LoadSceneGUI(scenePath);
+					Debug::Log("Successfully opened scene via dialog: %s\n", scenePath.c_str());
+
+					// メモリの解放
+					CoTaskMemFree(pszFilePath);
+				}
+				pItem->Release();
+			}
+		}
+		else
+		{
+			// キャンセルを押したか、閉じた場合
+			Debug::Log("Open Scene dialog was canceled.\n");
+		}
+		pFileOpen->Release();
+	}
+	else {
+		Debug::Log("Failed to create FileOpenDialog instance.\n");
+	}
+}
+
 void FileOperationManager::RenameScriptPair(const std::filesystem::path& oldPath, const std::string& newName)
 {
 	try

@@ -62,6 +62,12 @@ void GUIMainMenu::FileMenuDraw()
 	// "File" メニューの開始
 	if (ImGui::BeginMenu("File"))
 	{
+		ProjectPanel::CreateNewScene("New Scene");
+
+		if (ImGui::MenuItem("Open Scene", "Ctrl + O")) {
+			FileOperationManager::OpenSceneDialog();
+		}
+
 		if (ImGui::MenuItem("Save","Ctrl+S"))
 		{
 			string startupScenePath = EditorSettingsManager::GetInstance().GetLastOpenedScene();
@@ -110,7 +116,6 @@ void GUIMainMenu::AssetMenuDraw()
 		if (ImGui::BeginMenu("Create"))
 		{
 			ProjectPanel::CreateNewFolder();
-			ProjectPanel::CreateNewScene();
 			ProjectPanel::CreateNewScript();
 			ImGui::EndMenu();
 		}

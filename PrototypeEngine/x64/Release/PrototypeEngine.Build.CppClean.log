@@ -1,5 +1,4 @@
 c:\c++files\prototypeengine\prototypeengine\x64\release\vc143.pdb
-c:\c++files\prototypeengine\prototypeengine\x64\release\collider.obj
 c:\c++files\prototypeengine\prototypeengine\x64\release\capsulecollider.obj
 c:\c++files\prototypeengine\prototypeengine\x64\release\canvas.obj
 c:\c++files\prototypeengine\prototypeengine\x64\release\callbackmanager.obj
@@ -10,6 +9,7 @@ c:\c++files\prototypeengine\prototypeengine\x64\release\boneactor.obj
 c:\c++files\prototypeengine\prototypeengine\x64\release\basescene.obj
 c:\c++files\prototypeengine\prototypeengine\x64\release\basecamera.obj
 c:\c++files\prototypeengine\prototypeengine\x64\release\entity.obj
+c:\c++files\prototypeengine\prototypeengine\x64\release\duplicatecommand.obj
 c:\c++files\prototypeengine\prototypeengine\x64\release\createnewuiactorcommand.obj
 c:\c++files\prototypeengine\prototypeengine\x64\release\createnewcanvascommand.obj
 c:\c++files\prototypeengine\prototypeengine\x64\release\basetransform.obj
@@ -19,12 +19,11 @@ c:\c++files\prototypeengine\prototypeengine\x64\release\audiobankproperty.obj
 c:\c++files\prototypeengine\prototypeengine\x64\release\animator.obj
 c:\c++files\prototypeengine\prototypeengine\x64\release\animation.obj
 c:\c++files\prototypeengine\prototypeengine\x64\release\actor.obj
-c:\c++files\prototypeengine\prototypeengine\x64\release\reparentandreordercommand.obj
-c:\c++files\prototypeengine\prototypeengine\x64\release\reordercommand.obj
 c:\c++files\prototypeengine\prototypeengine\x64\release\renamecommand.obj
 c:\c++files\prototypeengine\prototypeengine\x64\release\recttransform.obj
 c:\c++files\prototypeengine\prototypeengine\x64\release\pasteactorcommand.obj
 c:\c++files\prototypeengine\prototypeengine\x64\release\islandphysic.obj
+c:\c++files\prototypeengine\prototypeengine\x64\release\fileoperationmanager.obj
 c:\c++files\prototypeengine\prototypeengine\x64\release\editortexturemanager.obj
 c:\c++files\prototypeengine\prototypeengine\x64\release\editorsettingsmanager.obj
 c:\c++files\prototypeengine\prototypeengine\x64\release\editormain.obj
@@ -39,7 +38,7 @@ c:\c++files\prototypeengine\prototypeengine\x64\release\componentfactory.obj
 c:\c++files\prototypeengine\prototypeengine\x64\release\component.obj
 c:\c++files\prototypeengine\prototypeengine\x64\release\commandmanager.obj
 c:\c++files\prototypeengine\prototypeengine\x64\release\collision.obj
-c:\c++files\prototypeengine\prototypeengine\x64\release\imgui_impl_opengl3.obj
+c:\c++files\prototypeengine\prototypeengine\x64\release\collider.obj
 c:\c++files\prototypeengine\prototypeengine\x64\release\imgui_draw.obj
 c:\c++files\prototypeengine\prototypeengine\x64\release\imgui_demo.obj
 c:\c++files\prototypeengine\prototypeengine\x64\release\imgui.obj
@@ -59,7 +58,7 @@ c:\c++files\prototypeengine\prototypeengine\x64\release\font.obj
 c:\c++files\prototypeengine\prototypeengine\x64\release\tinyxml2.obj
 c:\c++files\prototypeengine\prototypeengine\x64\release\enginewindow.obj
 c:\c++files\prototypeengine\prototypeengine\x64\release\scripteditmanager.obj
-c:\c++files\prototypeengine\prototypeengine\x64\release\inspectorpanel.obj
+c:\c++files\prototypeengine\prototypeengine\x64\release\reparentandreordercommand.obj
 c:\c++files\prototypeengine\prototypeengine\x64\release\sceneviewpanel.obj
 c:\c++files\prototypeengine\prototypeengine\x64\release\scenevieweditor.obj
 c:\c++files\prototypeengine\prototypeengine\x64\release\sceneserializer.obj
@@ -79,7 +78,7 @@ c:\c++files\prototypeengine\prototypeengine\x64\release\inputsystem.obj
 c:\c++files\prototypeengine\prototypeengine\x64\release\imgui_widgets.obj
 c:\c++files\prototypeengine\prototypeengine\x64\release\imgui_tables.obj
 c:\c++files\prototypeengine\prototypeengine\x64\release\imgui_impl_sdl3.obj
-c:\c++files\prototypeengine\prototypeengine\x64\release\windowrenderproperty.obj
+c:\c++files\prototypeengine\prototypeengine\x64\release\imgui_impl_opengl3.obj
 c:\c++files\prototypeengine\prototypeengine\x64\release\vertexarray.obj
 c:\c++files\prototypeengine\prototypeengine\x64\release\uiactormanager.obj
 c:\c++files\prototypeengine\prototypeengine\x64\release\uiactor.obj
@@ -99,6 +98,8 @@ c:\c++files\prototypeengine\prototypeengine\x64\release\shader.obj
 c:\c++files\prototypeengine\prototypeengine\x64\release\selectionmanager.obj
 c:\c++files\prototypeengine\prototypeengine\x64\release\scripthotreloadmanager.obj
 c:\c++files\prototypeengine\prototypeengine\x64\release\scriptcomponent.obj
+c:\c++files\prototypeengine\prototypeengine\x64\release\inspectorpanel.obj
+c:\c++files\prototypeengine\prototypeengine\x64\release\windowrenderproperty.obj
 c:\c++files\prototypeengine\bin\prototypeengine.exe
 c:\c++files\prototypeengine\bin\prototypeengine.pdb
 c:\c++files\prototypeengine\bin\prototypeengine.lib
