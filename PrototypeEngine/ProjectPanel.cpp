@@ -169,75 +169,97 @@ void ProjectPanel::DrawPickUpFolderView()
 
     ImGui::Separator(); // パンくずとファイルリストを区切る
 
+    float windowVisibleX2 = ImGui::GetWindowPos().x + ImGui::GetWindowContentRegionMax().x;
+	float itemWidth = 64.0f + ImGui::GetStyle().ItemSpacing.x; // アイコンの幅＋余白
+
     for (auto& entry : filesystem::directory_iterator(EditorSettingsManager::GetCurrentFolder()))
     {
         DrawFileSystemEntry(entry);
+
+        // 次のアイテムが現在のウィンドウ幅に収まる場合のみ、横に並べる（収まらないなら自動改行）
+        float lastItemX2 = ImGui::GetItemRectMax().x;
+        float nextItemX2 = lastItemX2 + itemWidth;
+        if (nextItemX2 < windowVisibleX2)
+        {
+            ImGui::SameLine();
+        }
     }
 }
 
 void ProjectPanel::DrawFileSystemEntry(const filesystem::directory_entry& entry)
 {
     const string name = entry.path().filename().string();
+    bool isSelected = (mSelectedPath == entry.path());
 
+    // 1. 各アイテムをグループ化し、一意のIDで包む（これで競合とバグを完全に防ぐ）
+    ImGui::PushID(entry.path().string().c_str());
+    ImGui::BeginGroup();
+
+    // 選択中のアセットはボタンの背景色を変える（Unityの青背景を選択風に再現）
+    if (isSelected) {
+        ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.2f, 0.4f, 0.6f, 1.0f));
+    }
+
+    // 1. ファイルの拡張子などに応じて、表示するテクスチャ（ID）を切り替える
+    ImTextureID iconTextureID = (ImTextureID)(uintptr_t)EditorTextureManager::GetInstance().GetTestImage()->GetTextureID(); // デフォルトのファイルアイコン
+    if (ImGui::ImageButton("##icon", iconTextureID, ImVec2(64, 64)))
+    {
+        mSelectedPath = entry.path();
+    }
+    if (isSelected) {
+        ImGui::PopStyleColor();
+    }
+    // 4. ボタンの下にファイル名を表示（Unity風グリッド）
+	ImGui::PushItemWidth(64); // アイコンと同じ幅にする
     // リネーム処理
     if (mRenaming && entry.path() == mPathToRename)
     {
         RenameFunction(entry);
-        return; // リネーム中は以降の処理を行わない
+        ImGui::PopItemWidth();
+        ImGui::EndGroup(); // 一旦グループを閉じる
+        ImGui::PopID(); // IDの破棄
     }
+    else {
+        ImGui::TextWrapped(name.c_str()); // 長い名前は折り返す
+        ImGui::PopItemWidth();
 
-    // -- - 通常の表示-- -
-    ImGuiSelectableFlags selectableFlags = ImGuiSelectableFlags_None;
-    if (entry.path() == mSelectedPath)
-    {
-        selectableFlags |= ImGuiSelectableFlags_Highlight; // ハイライト表示
-    }
-
-    // フォルダ・ファイル選択 (単一クリックでの選択と移動)
-    // この処理で、フォルダでもファイルでも mSelectedPath は更新される
-    if (ImGui::Selectable(name.c_str(), false, selectableFlags))
-    {
-        mSelectedPath = entry.path();
-
-        // シングルクリックでフォルダ移動させたくない場合はこのブロックを削除
-        if (!entry.is_directory())
+        ImGui::EndGroup(); // 一旦グループを閉じる
+        DragDropFunction(entry.path());
+        if (ImGui::IsItemHovered())
         {
-            // ファイル選択
-            mCurrentFile = entry.path().string();
-        }
-    }
-
-    // ダブルクリック処理
-    if (ImGui::IsItemHovered() && ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left))
-    {
-        if (entry.is_directory())
-        {
-            // フォルダの場合のみ移動を実行
-            EditorSettingsManager::SetCurrentFolder(entry.path());
-
-            // ダブルクリックで移動した場合、選択状態も更新する
-            mSelectedPath = entry.path();
-        }
-        else
-        {
-            // ファイルの場合
-            if (entry.path().extension().string() == ".json")
+            // 左ダブルクリック処理
+            if (ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left))
             {
-                // シーンファイルのロード処理を呼び出す
-                // 実行中のシーンと切り替えるため、SceneManagerに処理を依頼します
-                SceneManager::LoadSceneGUI(entry.path().string());
-                //EditorSettingsManager::GetInstance().SetLastOpenedScene(entry.path().string());
+                if (entry.is_directory())
+                {
+                    EditorSettingsManager::SetCurrentFolder(entry.path());
+                    mSelectedPath = entry.path();
+                }
+                else
+                {
+                    if (entry.path().extension().string() == ".json")
+                    {
+                        SceneManager::LoadSceneGUI(entry.path().string());
+                    }
+                    else
+                    {
+                        FileOperationManager::OpenFile(entry.path());
+                    }
+                }
             }
-            else
+
+            // 右クリックされた瞬間、そのアセットを選択状態にする（Unity互換）
+            if (ImGui::IsMouseClicked(ImGuiMouseButton_Right))
             {
-                // その他のファイルの場合（外部エディタで開くなど）
-				FileOperationManager::OpenFile(entry.path());
+                mSelectedPath = entry.path();
             }
         }
+        // コンテキストメニュー、ショートカット、ドラッグ＆ドロップ
+        //DragDropFunction(entry.path());
+        ShortcutKeyInputFunction(entry.path());
+
+        ImGui::PopID(); // IDの破棄
     }
-    // コンテキストメニュー、ショートカット、ドラッグ＆ドロップ
-    ShortcutKeyInputFunction(entry.path()); 
-    DragDropFunction(entry.path());
 }
 
 bool ProjectPanel::RightClickMenu()
@@ -455,7 +477,7 @@ void ProjectPanel::DragDropFunction(const filesystem::path& path)
 {
     const string& filePath = path.string();
     // ドラッグ開始処理（Selectable の近くに置く）
-    if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_None))
+    if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_SourceAllowNullID))
     {
         ImGui::SetDragDropPayload("CONTENT_BROWSER_ITEM", filePath.c_str(), filePath.size() + 1);
         // ドラッグ中の表示
@@ -467,8 +489,11 @@ void ProjectPanel::DragDropFunction(const filesystem::path& path)
     {
         if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM"))
         {
+            if (payload->Data == nullptr || payload->DataSize <= 1) return;
             const char* srcPathC = (const char*)payload->Data;
-            filesystem::path src(srcPathC);
+            string srcStr(srcPathC, payload->DataSize - 1);
+
+            filesystem::path src(srcStr);
             filesystem::path dst;
 
             if (filesystem::is_directory(path))

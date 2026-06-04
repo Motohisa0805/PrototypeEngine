@@ -68,4 +68,3 @@ public:
 	//上書き確認ポップアップ
 	void		DrawOverwritePopup();
 };
-
