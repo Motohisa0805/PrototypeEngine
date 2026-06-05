@@ -1,3 +1,4 @@
+#define STB_IMAGE_RESIZE_IMPLEMENTATION
 #include "Texture.h"
 
 Texture::Texture()
@@ -282,6 +283,61 @@ bool Texture::LoadEquirectangularToCubemap(const std::string& fileName, int face
 
 	// ミップ生成
 	glGenerateMipmap(GL_TEXTURE_CUBE_MAP);
+
+	return true;
+}
+
+bool Texture::LoadWeightReductionTexture(const string& fileName, int width, int height)
+{
+	int originalWidth = 0;
+	int originalHeight = 0;
+	int channels = 0;
+
+	// 元のサイズで画像をまるごと読み込む
+	unsigned char* originalImage = stbi_load(fileName.c_str(),
+		&originalWidth, &originalHeight, &channels, 4);
+
+	if (originalImage == nullptr)
+	{
+		SDL_Log("Failed to load image %s: %s", fileName.c_str(), stbi_failure_reason());
+		return false;
+	}
+	// 縮小後のサイズ（例：64x64）のメモリバッファを確保する（RGBAなら1ピクセル4バイト）
+	mWidth = width;
+	mHeight = height;
+	std::vector<unsigned char> resizedImage(mWidth * mHeight * 4);
+
+	// stb_image_resizeでピクセルを綺麗にリサイズする
+	stbir_resize_uint8_linear(
+		originalImage,originalWidth,originalHeight,0,//入力データ
+		resizedImage.data(),mWidth,mHeight,0,//出力データ
+		STBIR_RGBA
+	);
+
+	// 元の巨大な画像データはもう不要なので即解放
+	stbi_image_free(originalImage);
+
+	glGenTextures(1, &mTextureID);
+	glBindTexture(GL_TEXTURE_2D, mTextureID);
+	// 今回は必ず4チャンネル(RGBA)でリサイズしているので GL_RGBA
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, mWidth, mHeight, 0, GL_RGBA,
+		GL_UNSIGNED_BYTE, resizedImage.data());
+
+	// ミップマップとフィルタリング設定
+	glGenerateMipmap(GL_TEXTURE_2D);
+	// Enable linear filtering
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+	// Enable anisotropic filtering, if supported
+	if (GLEW_EXT_texture_filter_anisotropic)
+	{
+		// Get the maximum anisotropy value
+		GLfloat largest;
+		glGetFloatv(GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT, &largest);
+		// Enable it
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY_EXT, largest);
+	}
 
 	return true;
 }

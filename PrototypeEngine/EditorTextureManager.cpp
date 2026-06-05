@@ -218,9 +218,8 @@ Texture* EditorTextureManager::GetFileIconTexture(const std::string& filePath, c
 		// キャッシュにない場合：新しくテクスチャを作ってロードする
 		Texture* thumbnail = new Texture();
 
-		// 【簡易実装】とりあえず元の画像をそのままロードする場合
-		// (TODO : 事前にリサイズされた軽量なキャッシュ画像をロードする)
-		if (thumbnail->Load(filePath.c_str())) {
+		//64×64の画像で読み込む
+		if (thumbnail->LoadWeightReductionTexture(filePath.c_str(),64,64)) {
 			mThumbnailCacheMap[filePath] = thumbnail;
 			return thumbnail;
 		}

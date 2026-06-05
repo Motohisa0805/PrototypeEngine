@@ -1,6 +1,7 @@
 #pragma once
 #include "Assimp.h"
 #include "stb_image.h"
+#include "stb_image_resize2.h"
 #include <GL/glew.h>
 #include "SDL3.h"
 #include "FilePath.h"
@@ -39,11 +40,14 @@ private:
 public:
 					Texture();
 					~Texture();
-
+	//画像読み込み処理
 	bool			Load(const string& fileName);
+	//3Dモデルから画像読み込み処理
 	bool			LoadFromAssimp(const aiTexture* embeddedTex);
 	bool			LoadCubemapFromSingleImage(const std::string& fileName, int faceSize);
 	bool			LoadEquirectangularToCubemap(const std::string& fileName, int faceSize);
+	//GUIのアイコン用に軽量化された画像を読み込む処理
+	bool			LoadWeightReductionTexture(const string& fileName, int width, int height);
 	void			Unload();
 	void			CreateFromSurface(struct SDL_Surface* surface);
 	void			CreateForRendering(int width, int height, unsigned int format);
