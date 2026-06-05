@@ -201,7 +201,8 @@ void ProjectPanel::DrawFileSystemEntry(const filesystem::directory_entry& entry)
     }
 
     // 1. ファイルの拡張子などに応じて、表示するテクスチャ（ID）を切り替える
-    ImTextureID iconTextureID = (ImTextureID)(uintptr_t)EditorTextureManager::GetInstance().GetTestImage()->GetTextureID(); // デフォルトのファイルアイコン
+	ImTextureID iconTextureID = (ImTextureID)(uintptr_t)EditorTextureManager::GetInstance().GetFileIconTexture(entry.path().string(), entry.path().extension().string())->GetTextureID();
+    
     if (ImGui::ImageButton("##icon", iconTextureID, ImVec2(64, 64)))
     {
         mSelectedPath = entry.path();
