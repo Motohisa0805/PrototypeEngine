@@ -4,8 +4,9 @@
 #include "UIActor.h"
 
 HierarchyPanel::HierarchyPanel(Renderer* renderer)
-	:GUIPanel(renderer)
+	:EditorWindow(renderer)
 {
+	mID = "Hierarchy";
 }
 
 HierarchyPanel::~HierarchyPanel()
@@ -18,14 +19,14 @@ void HierarchyPanel::Initialize(float width, float height, ImTextureRef ref)
 	mHeightPos = 55.0f;
 	mWidthSize = width * 0.15f;
 	mHeightSize = height - 55.0f;
-	GUIPanel::Initialize(width, height, ref);
+	EditorWindow::Initialize(width, height, ref);
 }
 
 void HierarchyPanel::Draw(float width, float height, ImTextureRef ref)
 {
 	ResetLayoutFunction();
 	//  新しいウィンドウの作成
-	if(ImGui::Begin("Hierarchy", nullptr, ImGuiWindowFlags_NoCollapse))
+	if(ImGui::Begin("Hierarchy", &mIsShow, ImGuiWindowFlags_NoCollapse))
 	{
 		ImGui::SameLine();
 		ImGui::TextDisabled("(?)");

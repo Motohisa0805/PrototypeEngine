@@ -3,15 +3,16 @@
 #include "SceneSerializer.h"
 #include "SceneManager.h"
 #include "DebugManager.h"
-#include "GUIWinMain.h"
+#include "GUIEditorManager.h"
 #include "EngineWindow.h"
 #include "BaseScene.h"
 #include "ProjectPanel.h"
 #include "HierarchyPanel.h"
 
 GUIMainMenu::GUIMainMenu(Renderer* renderer)
-	:GUIPanel(renderer)
+	:EditorWindow(renderer)
 {
+	mID = "GUIMainMenu";
 }
 
 GUIMainMenu::~GUIMainMenu()
@@ -24,7 +25,7 @@ void GUIMainMenu::Initialize(float width, float height, ImTextureRef ref)
 	mHeightPos = 0.0f;
 	mWidthSize = width;
 	mHeightSize = 25.0f;
-	GUIPanel::Initialize(width, height, ref);
+	EditorWindow::Initialize(width, height, ref);
 }
 
 void GUIMainMenu::Draw(float width, float height, ImTextureRef ref)
@@ -181,21 +182,55 @@ void GUIMainMenu::WindowMenuDraw()
 {
 	if (ImGui::BeginMenu("Window"))
 	{
+		if (ImGui::BeginMenu("Show")) {
+			if (ImGui::MenuItem("GameViewEditor")) {
+				GUIEditorManager::AddEditorWindow(EditorWindowFactory::CreateEditorWindow("GameView"));
+			}
+			if (ImGui::MenuItem("SceneViewEditor")) {
+				GUIEditorManager::AddEditorWindow(EditorWindowFactory::CreateEditorWindow("SceneView"));
+			}
+			if (ImGui::MenuItem("HierarchyEditor")) {
+				GUIEditorManager::AddEditorWindow(EditorWindowFactory::CreateEditorWindow("Hierarchy"));
+			}
+			if (ImGui::MenuItem("ProjectEditor")) {
+				GUIEditorManager::AddEditorWindow(EditorWindowFactory::CreateEditorWindow("Project"));
+			}
+			if (ImGui::MenuItem("InspectorEditor")) {
+				GUIEditorManager::AddEditorWindow(EditorWindowFactory::CreateEditorWindow("Inspector"));
+			}
+			ImGui::EndMenu();
+		}
+
 		if (ImGui::MenuItem("All GUI Initialization of position"))
 		{
 			// 全てのGUIのレイアウトを初期位置に戻す処理
-			for (int i = 0; i < GUIWinMain::GetGUIPanels().size(); ++i)
-			{
-				GUIWinMain::GetGUIPanels()[i]->EnableResetLayout();
+			for (auto window : GUIEditorManager::GetEditorWindows()) {
+				window.second->EnableResetLayout();
 			}
 		}
 		ImGui::EndMenu();
 	}
 }
 
+void GUIMainMenu::HelpMenuDraw()
+{
+	if (ImGui::BeginMenu("Help"))
+	{
+		if (ImGui::MenuItem("About PrototypeEngine")){
+
+		}
+
+		if (ImGui::MenuItem("Tutorial")) {
+
+		}
+
+		ImGui::EndMenu();
+	}
+}
+
 void GUIMainMenu::SetPopupColorTheme()
 {
-	GUIPanel::SetPopupColorTheme();
+	EditorWindow::SetPopupColorTheme();
 	ImGui::PushStyleColor(ImGuiCol_MenuBarBg, ImVec4(1.0f, 1.0f, 1.0f, 1.0f));
 	ImGui::PushStyleColor(ImGuiCol_Header, ImVec4(0.9f, 0.9f, 0.9f, 0.9f));
 }

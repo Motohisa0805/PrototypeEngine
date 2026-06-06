@@ -51,7 +51,8 @@ void SceneEditorCamera::Update()
 	else if (mMode == EditCameraMode::RightOperation)
 	{
 		// SceneViewパネルにマウスが乗っていない場合、何もしない
-		if (!GUIWinMain::GetSceneViewPanel()->IsMouseHovered()) { return; }
+		auto window = GUIEditorManager::GetEditorWindow("SceneView");
+		if (window != nullptr && !window->IsMouseHovered()) { return; }
 		//視点回転
 		if (!Math::NearZero(mYawSpeed))
 		{
@@ -111,7 +112,8 @@ void SceneEditorCamera::ProcessInput(const struct InputState& keyState)
 	mForwardSpeed = 0;
 	mMode = EditCameraMode::Null;
 	// SceneViewパネルにマウスが乗っていない場合、何もしない
-	if (!GUIWinMain::GetSceneViewPanel()->IsMouseHovered()) { return; }
+	auto window = GUIEditorManager::GetEditorWindow("SceneView");
+	if (window != nullptr && !window->IsMouseHovered()) { return; }
 	//ホイールクリック処理
 	if (keyState.Mouse.GetButtonDown(SDL_BUTTON_MIDDLE))
 	{

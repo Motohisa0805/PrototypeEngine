@@ -8,8 +8,9 @@
 #include "BaseScene.h"
 
 GameViewPanel::GameViewPanel(Renderer* renderer)
-	:GUIPanel(renderer)
+	:EditorWindow(renderer)
 {
+	mID = "GameView";
 }
 
 void GameViewPanel::Initialize(float width, float height, ImTextureRef ref)
@@ -18,7 +19,7 @@ void GameViewPanel::Initialize(float width, float height, ImTextureRef ref)
 	mHeightPos = height * 0.5f;
 	mWidthSize = width * 0.5f;
 	mHeightSize = height * 0.5f;
-	GUIPanel::Initialize(width, height, ref);
+	EditorWindow::Initialize(width, height, ref);
 }
 
 void GameViewPanel::Draw(float width, float height, ImTextureRef ref)
@@ -29,7 +30,7 @@ void GameViewPanel::Draw(float width, float height, ImTextureRef ref)
 	{
 		flag |= ImGuiWindowFlags_NoMove;
 	}
-	if(ImGui::Begin(GetName(), nullptr, flag))
+	if(ImGui::Begin(GetName(), &mIsShow, flag))
 	{
 		//デバッグモード切り替えボタン
 		ImGuiHelper::FragTextButton("State:", ImVec2(0.0f, 0.0f), GameStateClass::gDebugStatesFrag);
@@ -55,8 +56,8 @@ void GameViewPanel::Draw(float width, float height, ImTextureRef ref)
 		{
 
 		}
-		GUIWinMain::SetGameWinPos(Vector2(winPos.x, winPos.y));
-		GUIWinMain::SetGameWinSize(Vector2(winSize.x, winSize.y));
+		GUIEditorManager::SetGameWinPos(Vector2(winPos.x, winPos.y));
+		GUIEditorManager::SetGameWinSize(Vector2(winSize.x, winSize.y));
 
 
 		//描画処理

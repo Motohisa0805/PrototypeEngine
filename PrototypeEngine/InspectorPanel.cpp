@@ -6,8 +6,9 @@
 #include "Math.h"
 
 InspectorPanel::InspectorPanel(Renderer* renderer)
-	:GUIPanel(renderer)
+	:EditorWindow(renderer)
 {
+	mID = "Inspector";
 }
 
 InspectorPanel::~InspectorPanel()
@@ -21,14 +22,14 @@ void InspectorPanel::Initialize(float width, float height, ImTextureRef ref)
 	mHeightPos = 55.0f;
 	mWidthSize = width * 0.2f;
 	mHeightSize = height - 55.0f;
-	GUIPanel::Initialize(width, height, ref);
+	EditorWindow::Initialize(width, height, ref);
 }
 
 void InspectorPanel::Draw(float width, float height, ImTextureRef ref)
 {
 	ResetLayoutFunction();
 	//  新しいウィンドウの作成
-	if(ImGui::Begin("Inspector", nullptr, ImGuiWindowFlags_NoCollapse))
+	if(ImGui::Begin("Inspector", &mIsShow, ImGuiWindowFlags_NoCollapse))
 	{
 		BaseGUIPanelPopupMenu();
 
@@ -74,7 +75,7 @@ void InspectorPanel::Draw(float width, float height, ImTextureRef ref)
 			// ----------------------------------------------------------------
 			//2.Transformコンポーネントの表示・編集(ActorObjectはActorObjectの基底クラス)
 			// ----------------------------------------------------------------
-			bool isStatic = selectedActor->IsStatic() && GUIWinMain::IsPlaying();
+			bool isStatic = selectedActor->IsStatic() && GUIEditorManager::IsPlaying();
 			if (auto actor = dynamic_cast<ActorObject*>(selectedActor)) {
 				if (ImGui::CollapsingHeader("Transform", ImGuiTreeNodeFlags_DefaultOpen))
 				{
@@ -215,7 +216,7 @@ void InspectorPanel::Draw(float width, float height, ImTextureRef ref)
 
 void InspectorPanel::DrawTransformProperties(Entity* transform)
 {
-	bool isStatic = transform->IsStatic() && GUIWinMain::IsPlaying();
+	bool isStatic = transform->IsStatic() && GUIEditorManager::IsPlaying();
 	// Staticならこれ以降のUI入力を無効化（グレーアウト）する
 	ImGui::BeginDisabled(isStatic);
 

@@ -1,18 +1,21 @@
-#include "GUIPanel.h"
+#include "EditorWindow.h"
 #include "WindowRenderProperty.h"
-GUIPanel::GUIPanel(Renderer* renderer)
+
+EditorWindow::EditorWindow(Renderer* renderer)
 	: mRenderer(renderer)
 	, isMouseHovered(false)
 	, isResetLayout(false)
+	, mID("")
 {
+	mID = "BaseWindow";
 }
 
-void GUIPanel::Initialize(float width, float height, ImTextureRef ref)
+void EditorWindow::Initialize(float width, float height, ImTextureRef ref)
 {
 	SetPanelColorTheme();
 }
 
-void GUIPanel::ResetLayoutFunction()
+void EditorWindow::ResetLayoutFunction()
 {
 	// ウインドウ位置とサイズを固定
 	if (isResetLayout)
@@ -28,7 +31,7 @@ void GUIPanel::ResetLayoutFunction()
 	}
 }
 
-void GUIPanel::SetPanelColorTheme()
+void EditorWindow::SetPanelColorTheme()
 {
 	ImGuiStyle& style = ImGui::GetStyle();
 	ImVec4* colors = style.Colors;
@@ -66,17 +69,17 @@ void GUIPanel::SetPanelColorTheme()
 	style.WindowTitleAlign = ImVec2(0.5f, 0.5f); // タイトルを中央寄せ（Unity風）
 }
 
-bool GUIPanel::MouseHoveredDisble()
+bool EditorWindow::MouseHoveredDisble()
 {
 	isMouseHovered = false;
 	return true;
 }
 
-void GUIPanel::ResetWindowPos(float width, float height)
+void EditorWindow::ResetWindowPos(float width, float height)
 {
 }
 
-bool GUIPanel::WindowHoveredConfirmation()
+bool EditorWindow::WindowHoveredConfirmation()
 {
 	//マウスがこのウィンドウにあるかどうか判定
 	if (ImGui::IsWindowHovered(ImGuiHoveredFlags_AllowWhenBlockedByActiveItem))
@@ -88,12 +91,12 @@ bool GUIPanel::WindowHoveredConfirmation()
 	return false;
 }
 
-void GUIPanel::Draw(float width, float height, ImTextureRef ref)
+void EditorWindow::Draw(float width, float height, ImTextureRef ref)
 {
 
 }
 
-void GUIPanel::BaseGUIPanelPopupMenu()
+void EditorWindow::BaseGUIPanelPopupMenu()
 {
 	// 2. 直前のアイテムに対するコンテキストメニューの定義
 	if (ImGui::BeginPopupContextWindow())
@@ -114,24 +117,24 @@ void GUIPanel::BaseGUIPanelPopupMenu()
 	}
 }
 
-void GUIPanel::ClearPointer()
+void EditorWindow::ClearPointer()
 {
 }
 
-float GUIPanel::GetWindowSizeWidth()
+float EditorWindow::GetWindowSizeWidth()
 {
 	float width = WindowRenderProperty::GetWidth();
 
 	return width;
 }
 
-float GUIPanel::GetWindowSizeHeight()
+float EditorWindow::GetWindowSizeHeight()
 {
 	float height = WindowRenderProperty::GetHeight();
 	return height;
 }
 
-ImVec2 GUIPanel::GetAspectRatio()
+ImVec2 EditorWindow::GetAspectRatio()
 {
 	ImVec2 available_size = ImGui::GetContentRegionAvail();
 	float W_a = available_size.x;
@@ -166,13 +169,13 @@ ImVec2 GUIPanel::GetAspectRatio()
 	return ImVec2(W_d,H_d);
 }
 
-void GUIPanel::SetPopupColorTheme()
+void EditorWindow::SetPopupColorTheme()
 {
 	ImGui::PushStyleColor(ImGuiCol_PopupBg, ImVec4(1.0f, 1.0f, 1.0f, 1.0f));
 	ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.0f, 0.0f, 0.0f, 1.0f));
 }
 
-void GUIPanel::ResetPopupColorTheme()
+void EditorWindow::ResetPopupColorTheme()
 {
 	ImGui::PopStyleColor(2);
 }

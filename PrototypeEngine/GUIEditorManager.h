@@ -2,13 +2,14 @@
 #include "imgui.h"
 #include "imgui_impl_sdl3.h"
 #include "imgui_impl_opengl3.h"
-#include "GUIPanel.h"
+#include "EditorWindowFactory.h"
+#include "EditorWindow.h"
 #include "CommandManager.h"
 //前方宣言
 //描画クラス
 class Renderer;
 //GUIパネルのベースクラス
-class GUIPanel;
+class EditorWindow;
 //メインメニュー
 class GUIMainMenu;
 //ツールバーのパネル
@@ -24,50 +25,35 @@ class ProjectPanel;
 //アイテム選択用のパネル
 class InspectorPanel;
 
-class GUIWinMain
+class GUIEditorManager
 {
 private:
 	//描画クラス
-	static Renderer*				mRenderer;
+	static Renderer*									mRenderer;
 	//***状態管理***
 	//再生中かどうか
-	static bool						isPlaying;
+	static bool											isPlaying;
 	//スタートを押した瞬間
-	static bool						isStarting;
+	static bool											isStarting;
 	//終わってるかどうか
-	static bool						isPaused;
+	static bool											isPaused;
 	//終わった瞬間かどうか
-	static bool						isPushEnd;
+	static bool											isPushEnd;
 
-	static bool						isFrameByFrame;
+	static bool											isFrameByFrame;
 
 	//ゲームウィンドウのサイズ(横)
-	static Vector2 					mGameWinPos;
+	static Vector2 										mGameWinPos;
 	//ゲームウィンドウのサイズ(横)
-	static Vector2 					mGameWinSize;
+	static Vector2 										mGameWinSize;
 
-	static Vector2 					mSceneWinSize;
+	static Vector2 										mSceneWinSize;
 
-	static vector<GUIPanel*>		mGUIPanel;
-
-	//メインメニュー
-	static GUIMainMenu*				mMainMenu;
-	//ツールバーのパネル
-	static ToolbarPanel*			mToolbarPanel;
-	//シーンビューのパネル
-	static SceneViewPanel*			mSceneViewPanel;
-	//ゲームビューのパネル
-	static GameViewPanel*			mGameViewPanel;
-	//ヒエラルキーパネル
-	static HierarchyPanel*			mHierarchyPanel;
-	//プロジェクト選択用のパネル
-	static ProjectPanel*			mProjectPanel;
-	//アイテム選択用のパネル
-	static InspectorPanel*			mInspectorPanel;
+	static std::unordered_map<string, EditorWindow*>	mEditorWindows;
 
 public:
-	GUIWinMain() = default;
-	~GUIWinMain() = default;
+							GUIEditorManager() = default;
+							~GUIEditorManager() = default;
 	// Initialize ImGui
 	static bool				 InitializeImGui(SDL_Window* window, SDL_GLContext glContext);
 	// Update ImGui state	 
@@ -98,16 +84,17 @@ public:
 	static void				 SetGameWinSize(const Vector2& size) { mGameWinSize = size; }
 
 	static Vector2			 GetSceneWinSize() { return mSceneWinSize; }
-	static void				 SetSceneWinSize(const Vector2& size) { mSceneWinSize = size; }
+	static void				 SetSceneWinSize(const Vector2& size) { mSceneWinSize = size; }    
 
-	static vector<GUIPanel*> GetGUIPanels() { return mGUIPanel; }
+	static std::unordered_map<string, EditorWindow*> GetEditorWindows() { return mEditorWindows; }
 
-	static GUIMainMenu*		 GetMainMenu() { return mMainMenu; }
-	static ToolbarPanel*	 GetToolbarPanel() { return mToolbarPanel; }
-	static SceneViewPanel*	 GetSceneViewPanel() { return mSceneViewPanel; }
-	static GameViewPanel*	 GetGameViewPanel() { return mGameViewPanel; }
-	static HierarchyPanel*	 GetHierarchyPanel() { return mHierarchyPanel; }
-	static ProjectPanel*	 GetProjectPanel() { return mProjectPanel; }
-	static InspectorPanel*   GetSelectItemPanel() { return mInspectorPanel; }
+
+
+	static void				 AddEditorWindow(EditorWindow* window);
+
+	static void				 RemoveEditorWindow(EditorWindow* window);
+
+	static void				 DeleteEditorWindow(EditorWindow* window);
+
+	static EditorWindow*	 GetEditorWindow(string key);
 };
-

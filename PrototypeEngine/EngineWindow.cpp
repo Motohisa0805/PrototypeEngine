@@ -1,6 +1,6 @@
 #include "EngineWindow.h"
 #include "SceneEditorCamera.h"
-#include "GUIWinMain.h"
+#include "GUIEditorManager.h"
 #include "GameViewPanel.h"
 #include "SceneManager.h"
 #include "WindowRenderProperty.h"
@@ -64,7 +64,7 @@ bool EngineWindow::EngineInitialize()
 	//起動時に最初のシーンを初期化
 	SceneManager::InitializeScenes();
 	//  ImGuiの初期化処理
-	GUIWinMain::InitializeImGui(mRenderer->GetWindow(), mRenderer->GetContext());
+	GUIEditorManager::InitializeImGui(mRenderer->GetWindow(), mRenderer->GetContext());
 	//仮で一回更新を行う
 	mGameWindow->GameRunLoop();
 	//エディター用カメラの生成
@@ -94,7 +94,7 @@ void EngineWindow::EngineProcessInput()
 		{
 			//実行が終了するとtrue
 		case SDL_EVENT_QUIT:
-			if (!GUIWinMain::IsPlaying())
+			if (!GUIEditorManager::IsPlaying())
 			{
 				mEngineState = EngineState::End;
 			}
@@ -105,7 +105,8 @@ void EngineWindow::EngineProcessInput()
 	// ゲームエンジン内の入力処理
 	//-------------------------------------------------------
 	//ESCキーを押してゲーム入力を解除
-	if (state.Keyboard.GetKeyDown(KEY_ESCAPE)||!GUIWinMain::GetGameViewPanel()->IsMouseHovered())
+	auto window = GUIEditorManager::GetEditorWindow("GameView");
+	if (state.Keyboard.GetKeyDown(KEY_ESCAPE)||(window != nullptr && !window->IsMouseHovered()))
 	{
 		if (InputContextManager::IsGameInputActive())
 		{
@@ -116,7 +117,7 @@ void EngineWindow::EngineProcessInput()
 	//シーンビューのエディターカメラ入力
 	mSceneEditorCamera->ProcessInput(state);
 	//シーンの入力処理
-	if (GUIWinMain::IsPlaying()&& !GUIWinMain::IsPaused())
+	if (GUIEditorManager::IsPlaying()&& !GUIEditorManager::IsPaused())
 	{
 		if (InputContextManager::IsGameInputActive())
 		{
@@ -142,22 +143,22 @@ void EngineWindow::EngineRunLoop()
 		//入力処理
 		EngineProcessInput();
 		//ImGuiの状態更新
-		GUIWinMain::UpdateImGuiState();
+		GUIEditorManager::UpdateImGuiState();
 		//エディター用カメラの更新
 		mSceneEditorCamera->Update();
 
 		//ここからゲーム内の更新開始
 		//ゲームが開始したら
-		if (GUIWinMain::IsPlaying())
+		if (GUIEditorManager::IsPlaying())
 		{
-			if (!GUIWinMain::IsPaused())
+			if (!GUIEditorManager::IsPaused())
 			{
 				//開始した瞬間なら
-				if (GUIWinMain::IsStarting())
+				if (GUIEditorManager::IsStarting())
 				{
-					GUIWinMain::ResetPointer();
+					GUIEditorManager::ResetPointer();
 					GameStateClass::SetGameState(GameState::GamePlay);
-					GUIWinMain::SetIsStarting(false);
+					GUIEditorManager::SetIsStarting(false);
 					//静的バッチの構築
 					mRenderer->BuildStaticBatch();
 				}
@@ -172,15 +173,15 @@ void EngineWindow::EngineRunLoop()
 				mGameWindow->GameRunLoop();
 			}
 		}
-		SceneManager::GetNowScene()->EditorUpdate(GUIWinMain::IsPlaying());
+		SceneManager::GetNowScene()->EditorUpdate(GUIEditorManager::IsPlaying());
 		//終了ボタンが押されたら
-		if(GUIWinMain::IsPushEnd())
+		if(GUIEditorManager::IsPushEnd())
 		{
 			//TODO : 実行終了時アンロードしているがここは作業記録の物を読み込む
 			SceneManager::GamePlayEndInitilaizeScene();
 		    //仮で一回更新を行う
 			mGameWindow->GameRunLoop();
-			GUIWinMain::SetIsPushEnd(false);
+			GUIEditorManager::SetIsPushEnd(false);
 		}
 		EngineRender();
 	}
@@ -191,7 +192,7 @@ void EngineWindow::EngineRender()
 	//Rendererの描画開始
 	mRenderer->StartDraw();
 	//ImGuiの描画
-	GUIWinMain::RenderImGui();
+	GUIEditorManager::RenderImGui();
 	//Rendererの描画終了
 	mRenderer->EndDraw();
 }
@@ -233,6 +234,6 @@ void EngineWindow::EngineShutdown()
 		delete mRenderer;
 		mRenderer = nullptr;
 	}
-	GUIWinMain::ShutdownImGui();
+	GUIEditorManager::ShutdownImGui();
 	SDL_Quit();
 }

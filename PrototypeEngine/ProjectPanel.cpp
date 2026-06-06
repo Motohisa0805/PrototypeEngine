@@ -15,8 +15,9 @@ bool ProjectPanel::mRenaming = false;
 filesystem::path ProjectPanel::mSelectedPath = "Assets";
 
 ProjectPanel::ProjectPanel(Renderer* renderer)
-	:GUIPanel(renderer)
+	:EditorWindow(renderer)
 {
+    mID = "Project";
 }
 
 void ProjectPanel::Initialize(float width, float height, ImTextureRef ref)
@@ -25,7 +26,7 @@ void ProjectPanel::Initialize(float width, float height, ImTextureRef ref)
     mHeightPos = 55.0f;
     mWidthSize = width * 0.15f;
     mHeightSize = height - 55.0f;
-    GUIPanel::Initialize(width, height, ref);
+    EditorWindow::Initialize(width, height, ref);
 }
 
 void ProjectPanel::Draw(float width, float height, ImTextureRef ref)
@@ -43,7 +44,7 @@ void ProjectPanel::Draw(float width, float height, ImTextureRef ref)
         ImGui::SetNextWindowSize(ImVec2(panel1_SizeWidth, mHeightSize), ImGuiCond_Once);
     }
 	//フォルダツリー表示用のウィンドウ
-    if (ImGui::Begin("FolderTree", nullptr, ImGuiWindowFlags_NoCollapse))
+    if (ImGui::Begin("FolderTree", &mIsShow, ImGuiWindowFlags_NoCollapse))
     {
         ImGui::SameLine();
         ImGui::TextDisabled("(?)");
@@ -82,7 +83,7 @@ void ProjectPanel::Draw(float width, float height, ImTextureRef ref)
         ImGui::SetNextWindowSize(ImVec2(panel1_SizeWidth, mHeightSize), ImGuiCond_Once);
     }
 	// 右カラム = 選択中フォルダの中身
-    if (ImGui::Begin(EditorSettingsManager::GetCurrentFolder().string().c_str(), nullptr, ImGuiWindowFlags_NoCollapse))
+    if (ImGui::Begin(EditorSettingsManager::GetCurrentFolder().string().c_str(), &mIsShow, ImGuiWindowFlags_NoCollapse))
     {
         //選択中フォルダの中身表示
         DrawPickUpFolderView();

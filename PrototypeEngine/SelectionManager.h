@@ -1,5 +1,5 @@
 #pragma once
-#include "GUIWinMain.h"
+#include "GUIEditorManager.h"
 #include "Entity.h"
 
 //選択オブジェクトの管理クラス

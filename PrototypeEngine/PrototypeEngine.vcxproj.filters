@@ -376,7 +376,7 @@
     <ClCompile Include="ProjectPanel.cpp">
       <Filter>SourceCodes\A_Editor\Function\GUIs\Panels</Filter>
     </ClCompile>
-    <ClCompile Include="GUIPanel.cpp">
+    <ClCompile Include="EditorWindow.cpp">
       <Filter>SourceCodes\A_Editor\Function\GUIs\Panels</Filter>
     </ClCompile>
     <ClCompile Include="GameViewPanel.cpp">
@@ -400,7 +400,7 @@
     <ClCompile Include="EngineWindow.cpp">
       <Filter>SourceCodes\A_Editor\Mains</Filter>
     </ClCompile>
-    <ClCompile Include="GUIWinMain.cpp">
+    <ClCompile Include="GUIEditorManager.cpp">
       <Filter>SourceCodes\A_Editor\Mains</Filter>
     </ClCompile>
     <ClCompile Include="GUIMainMenu.cpp">
@@ -518,6 +518,9 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="DuplicateCommand.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="EditorWindowFactory.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -717,7 +720,7 @@
     <ClInclude Include="GameViewPanel.h">
       <Filter>SourceCodes\A_Editor\Function\GUIs\Panels</Filter>
     </ClInclude>
-    <ClInclude Include="GUIPanel.h">
+    <ClInclude Include="EditorWindow.h">
       <Filter>SourceCodes\A_Editor\Function\GUIs\Panels</Filter>
     </ClInclude>
     <ClInclude Include="HierarchyPanel.h">
@@ -744,7 +747,7 @@
     <ClInclude Include="EngineWindow.h">
       <Filter>SourceCodes\A_Editor\Mains</Filter>
     </ClInclude>
-    <ClInclude Include="GUIWinMain.h">
+    <ClInclude Include="GUIEditorManager.h">
       <Filter>SourceCodes\A_Editor\Mains</Filter>
     </ClInclude>
     <ClInclude Include="GUIMainMenu.h">
@@ -871,6 +874,9 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="DuplicateCommand.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="EditorWindowFactory.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

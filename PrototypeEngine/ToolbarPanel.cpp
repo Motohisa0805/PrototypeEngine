@@ -1,9 +1,10 @@
 #include "ToolbarPanel.h"
-#include "GUIWinMain.h"
+#include "GUIEditorManager.h"
 
 ToolbarPanel::ToolbarPanel(Renderer* renderer)
-	:GUIPanel(renderer)
+	:EditorWindow(renderer)
 {
+	mID = "Toolbar";
 }
 
 ToolbarPanel::~ToolbarPanel()
@@ -17,7 +18,7 @@ void ToolbarPanel::Initialize(float width, float height, ImTextureRef ref)
 	mHeightPos = 25.0f; // メニューバーの下から開始
 	mWidthSize = width;
 	mHeightSize = 25.0f;
-	GUIPanel::Initialize(width, height, ref);
+	EditorWindow::Initialize(width, height, ref);
 	
 }
 
@@ -41,24 +42,24 @@ void ToolbarPanel::Draw(float width, float height, ImTextureRef ref)
 		ImGui::SetCursorPosX(width * 0.5f - 30); // 中央寄せ調整（60はボタン群の半幅）
 
 		//再生/停止ボタン
-		if (!GUIWinMain::IsPlaying())
+		if (!GUIEditorManager::IsPlaying())
 		{
 			if (ImGui::ImageButton("PlayButton", (ImTextureID)(intptr_t)EditorTextureManager::GetInstance().GetPlayButtonTexture()->GetTextureID(), ImVec2(15, 15)))
 			{
-				GUIWinMain::SetIsPlaying(true);
-				GUIWinMain::SetIsPaused(false);
+				GUIEditorManager::SetIsPlaying(true);
+				GUIEditorManager::SetIsPaused(false);
 				// スタートボタンが押された
-				GUIWinMain::SetIsStarting(true);
+				GUIEditorManager::SetIsStarting(true);
 			}
 		}
 		else
 		{
 			if (ImGui::ImageButton("PlayButton", (ImTextureID)(intptr_t)EditorTextureManager::GetInstance().GetStopButtonTexture()->GetTextureID(), ImVec2(15, 15)))
 			{
-				GUIWinMain::SetIsPlaying(false);
-				GUIWinMain::SetIsPaused(false);
+				GUIEditorManager::SetIsPlaying(false);
+				GUIEditorManager::SetIsPaused(false);
 				// 停止ボタンが押された
-				GUIWinMain::SetIsPushEnd(true);
+				GUIEditorManager::SetIsPushEnd(true);
 			}
 		}
 
@@ -66,26 +67,26 @@ void ToolbarPanel::Draw(float width, float height, ImTextureRef ref)
 		ImGui::SameLine();
 		if (ImGui::ImageButton("PauseButton", (ImTextureID)(intptr_t)EditorTextureManager::GetInstance().GetPauseButtonTexture()->GetTextureID(), ImVec2(15, 15)))
 		{
-			if (GUIWinMain::IsPlaying())
+			if (GUIEditorManager::IsPlaying())
 			{
-				GUIWinMain::SetIsPaused(!GUIWinMain::IsPaused());
+				GUIEditorManager::SetIsPaused(!GUIEditorManager::IsPaused());
 			}
 		}
 
-		if (GUIWinMain::IsFrameByFrame())
+		if (GUIEditorManager::IsFrameByFrame())
 		{
-			GUIWinMain::SetIsPaused(true);
-			GUIWinMain::SetIsFrameByFrame(false);
+			GUIEditorManager::SetIsPaused(true);
+			GUIEditorManager::SetIsFrameByFrame(false);
 		}
 
 		// 同じ行に FrameByFrame
 		ImGui::SameLine();
 		if (ImGui::ImageButton("FrameByFrameButton", (ImTextureID)(intptr_t)EditorTextureManager::GetInstance().GetFrameByFrameButtonTexture()->GetTextureID(), ImVec2(15, 15)))
 		{
-			if (GUIWinMain::IsPlaying() && GUIWinMain::IsPaused())
+			if (GUIEditorManager::IsPlaying() && GUIEditorManager::IsPaused())
 			{
-				GUIWinMain::SetIsFrameByFrame(true);
-				GUIWinMain::SetIsPaused(false);
+				GUIEditorManager::SetIsFrameByFrame(true);
+				GUIEditorManager::SetIsPaused(false);
 			}
 		}
 	}

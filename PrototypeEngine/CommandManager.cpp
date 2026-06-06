@@ -5,7 +5,7 @@ void CommandManager::Execute(std::unique_ptr<ICommand> command)
 	command->Execute();
 
 	// 新しい操作が行われたらRedoスタックはクリアする（Unityと同じ挙動）
-	if (!GUIWinMain::IsPlaying()) {
+	if (!GUIEditorManager::IsPlaying()) {
 		Get().mRedoStack.clear();
 		Get().mUndoStack.push_back(std::move(command));
 
@@ -24,7 +24,7 @@ void CommandManager::NoHistoryExecute(std::unique_ptr<ICommand> command)
 	command->NoHistoryExecute();
 
 	// 新しい操作が行われたらRedoスタックはクリアする（Unityと同じ挙動）
-	if (!GUIWinMain::IsPlaying()) {
+	if (!GUIEditorManager::IsPlaying()) {
 		// 編集操作の変更を記録する
 		string startupScenePath = EditorSettingsManager::GetInstance().GetLastOpenedScene();
 		SceneSerializer::WriteEditorData(startupScenePath, SceneManager::GetNowScene());
@@ -33,7 +33,7 @@ void CommandManager::NoHistoryExecute(std::unique_ptr<ICommand> command)
 }
 
 void CommandManager::Undo() {
-	if (GUIWinMain::IsPlaying()) { return; }
+	if (GUIEditorManager::IsPlaying()) { return; }
 	if (Get().mUndoStack.empty())return;
 
 	auto command = std::move(Get().mUndoStack.back());
@@ -49,7 +49,7 @@ void CommandManager::Undo() {
 }
 
 void CommandManager::Redo() {
-	if (GUIWinMain::IsPlaying()) { return; }
+	if (GUIEditorManager::IsPlaying()) { return; }
 	if (Get().mRedoStack.empty())return;
 
 	auto command = std::move(Get().mRedoStack.back());

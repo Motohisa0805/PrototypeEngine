@@ -145,7 +145,7 @@ bool Renderer::Initialize(float screenWidth, float screenHeight)
 	mGameSceneViewEditor = new SceneViewEditor();
 	mGameSceneViewEditor->CreateSceneFBO(width, height);
 	
-	GUIWinMain::SetRenderer(this);
+	GUIEditorManager::SetRenderer(this);
 	return true;
 }
 
@@ -544,7 +544,7 @@ void Renderer::EditorDraw3DScene(unsigned int framebuffer, const Matrix4& view, 
 	glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
 
 	// スケールに基づいてビューポートサイズを設定します
-	Vector2 sceneWinSize = GUIWinMain::GetSceneWinSize();
+	Vector2 sceneWinSize = GUIEditorManager::GetSceneWinSize();
 	glViewport(0,0, (int)sceneWinSize.x * viewPortScale,(int)sceneWinSize.y * viewPortScale);
 
 	// カラー バッファ/深度バッファをクリア
@@ -562,7 +562,7 @@ void Renderer::EditorDraw3DScene(unsigned int framebuffer, const Matrix4& view, 
 	mMeshShader->SetMatrixUniform("uViewProj", view * proj);
 	SetLightUniforms(mMeshShader, view);
 
-	if (GUIWinMain::IsPlaying())
+	if (GUIEditorManager::IsPlaying())
 	{
 		// Staticバッチの描画 (1回のDrawCall)
 		for(auto& pair : mAntiTransparentBatches) {
@@ -607,7 +607,7 @@ void Renderer::EditorDraw3DScene(unsigned int framebuffer, const Matrix4& view, 
 	for (auto mc : mMeshComps)
 	{
 		//静的オブジェクトは実行中のみ描画する
-		if (GUIWinMain::IsPlaying())
+		if (GUIEditorManager::IsPlaying())
 		{
 			if (mc->GetVisible() && mc->GetOwner()->GetStatic() != ActorInformation::StaticTag::Occluder_Static)
 			{
@@ -745,7 +745,7 @@ void Renderer::Draw3DScene(unsigned int framebuffer, const Matrix4& view, const 
 	mMeshShader->SetMatrixUniform("uViewProj", view * proj);
 	SetLightUniforms(mMeshShader, view);
 
-	if (GUIWinMain::IsPlaying())
+	if (GUIEditorManager::IsPlaying())
 	{
 		for (auto& pair : mAntiTransparentBatches) {
 			StaticMeshBatch& batch = pair.second;
@@ -789,7 +789,7 @@ void Renderer::Draw3DScene(unsigned int framebuffer, const Matrix4& view, const 
 	for (auto mc : mMeshComps)
 	{
 		//静的オブジェクトは実行中のみ描画する
-		if (GUIWinMain::IsPlaying())
+		if (GUIEditorManager::IsPlaying())
 		{
 			if (mc->GetVisible()&&mc->GetOwner()->GetStatic() != ActorInformation::StaticTag::Occluder_Static)
 			{
@@ -909,8 +909,8 @@ void Renderer::DrawFromGBufferForEditor()
 
 	// 深度バッファをコピー（必要に応じて）
 	glBindFramebuffer(GL_READ_FRAMEBUFFER, mSceneBuffer->GetBufferID());
-	int width = (int)GUIWinMain::GetSceneWinSize().x;
-	int height = (int)GUIWinMain::GetSceneWinSize().y;
+	int width = (int)GUIEditorManager::GetSceneWinSize().x;
+	int height = (int)GUIEditorManager::GetSceneWinSize().y;
 	glBlitFramebuffer(0, 0, width, height, 0, 0, width, height,GL_DEPTH_BUFFER_BIT, GL_NEAREST);
 
 	glEnable(GL_DEPTH_TEST);
