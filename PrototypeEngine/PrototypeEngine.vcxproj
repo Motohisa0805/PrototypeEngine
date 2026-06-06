@@ -177,6 +177,7 @@
     <ClCompile Include="CreateNewCanvasCommand.cpp" />
     <ClCompile Include="CreateNewUIActorCommand.cpp" />
     <ClCompile Include="DuplicateCommand.cpp" />
+    <ClCompile Include="EditorWindowFactory.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="BaseCamera.cpp" />
     <ClCompile Include="BaseScene.cpp" />
@@ -219,8 +220,8 @@
     <ClCompile Include="GameWinMain.cpp" />
     <ClCompile Include="GBuffer.cpp" />
     <ClCompile Include="GUIMainMenu.cpp" />
-    <ClCompile Include="GUIPanel.cpp" />
-    <ClCompile Include="GUIWinMain.cpp" />
+    <ClCompile Include="EditorWindow.cpp" />
+    <ClCompile Include="GUIEditorManager.cpp" />
     <ClCompile Include="HierarchyPanel.cpp" />
     <ClCompile Include="Image.cpp" />
     <ClCompile Include="ImGuiHelper.cpp" />
@@ -281,6 +282,7 @@
     <ClInclude Include="CreateNewCanvasCommand.h" />
     <ClInclude Include="CreateNewUIActorCommand.h" />
     <ClInclude Include="DuplicateCommand.h" />
+    <ClInclude Include="EditorWindowFactory.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="BaseCamera.h" />
     <ClInclude Include="BaseScene.h" />
@@ -328,8 +330,8 @@
     <ClInclude Include="GameWinMain.h" />
     <ClInclude Include="GBuffer.h" />
     <ClInclude Include="GUIMainMenu.h" />
-    <ClInclude Include="GUIPanel.h" />
-    <ClInclude Include="GUIWinMain.h" />
+    <ClInclude Include="EditorWindow.h" />
+    <ClInclude Include="GUIEditorManager.h" />
     <ClInclude Include="HierarchyPanel.h" />
     <ClInclude Include="Image.h" />
     <ClInclude Include="ImGuiHelper.h" />

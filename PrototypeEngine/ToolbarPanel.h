@@ -1,8 +1,8 @@
 #pragma once
-#include "GUIPanel.h"
+#include "EditorWindow.h"
 
 //ゲームの再生、停止、一時停止、コマ送りなど画面の上部分のGUIの描画処理クラス
-class ToolbarPanel : public GUIPanel
+class ToolbarPanel : public EditorWindow
 {
 private:
 public:

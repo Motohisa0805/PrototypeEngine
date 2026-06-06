@@ -4,8 +4,9 @@
 #include "EngineWindow.h"
 
 SceneViewPanel::SceneViewPanel(Renderer* renderer)
-	:GUIPanel(renderer)
+	:EditorWindow(renderer)
 {
+	mID = "SceneView";
 }
 
 void SceneViewPanel::Initialize(float width, float height, ImTextureRef ref)
@@ -14,7 +15,7 @@ void SceneViewPanel::Initialize(float width, float height, ImTextureRef ref)
 	mHeightPos = 55.0f;
 	mWidthSize = (width * 0.5f) - mWidthPos;
 	mHeightSize = (height * 0.5f) - mHeightPos;
-	GUIPanel::Initialize(width, height, ref);
+	EditorWindow::Initialize(width, height, ref);
 }
 
 bool SceneViewPanel::MouseHoveredDisble()
@@ -27,7 +28,7 @@ void SceneViewPanel::Draw(float width, float height, ImTextureRef ref)
 {
 	ResetLayoutFunction();
 	ImVec2 winsize = ImVec2(mWidthSize, mHeightSize);
-	if(ImGui::Begin(GetName(), nullptr, ImGuiWindowFlags_NoCollapse))
+	if(ImGui::Begin(GetName(), &mIsShow, ImGuiWindowFlags_NoCollapse))
 	{
 		//デバッグモード切り替えボタン
 		ImGuiHelper::FragTextButton("Grid:", ImVec2(0.0f, 0.0f), GameStateClass::gDebugGridFrag);
@@ -41,7 +42,7 @@ void SceneViewPanel::Draw(float width, float height, ImTextureRef ref)
 		{
 			mRenderer->GetSceneViewEditor()->CreateSceneFBO((int)winsize.x, (int)winsize.y);
 			mRenderer->GetSceneBuffer()->Resize((int)winsize.x, (int)winsize.y);
-			GUIWinMain::SetSceneWinSize(Vector2(winsize.x, winsize.y));
+			GUIEditorManager::SetSceneWinSize(Vector2(winsize.x, winsize.y));
 		}
 
 		MouseHoveredDisble();

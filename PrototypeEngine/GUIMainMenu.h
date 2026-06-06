@@ -1,8 +1,8 @@
 #pragma once
-#include "GUIPanel.h"
+#include "EditorWindow.h"
 #include "FileOperationManager.h"
 
-class GUIMainMenu : public GUIPanel
+class GUIMainMenu : public EditorWindow
 {
 private:
 
@@ -26,6 +26,8 @@ public:
 	void ComponentMenuDraw();
 	//表示メニューの描画
 	void WindowMenuDraw();
+	//ヘルプメニューの描画
+	void HelpMenuDraw();
 
 	void SetPopupColorTheme()override;
 	void ResetPopupColorTheme()override;

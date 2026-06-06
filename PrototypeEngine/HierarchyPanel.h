@@ -1,6 +1,6 @@
 #pragma once
-#include "GUIWinMain.h"
-#include "GUIPanel.h"
+#include "GUIEditorManager.h"
+#include "EditorWindow.h"
 #include "SelectionManager.h"
 #include "CommandManager.h"
 
@@ -8,7 +8,7 @@ class ActorObject;
 class UIActorObject;
 //ゲームのシーン内のオブジェクトを描画する予定のクラス
 //本格的な描画処理は未実装
-class HierarchyPanel : public GUIPanel
+class HierarchyPanel : public EditorWindow
 {
 private:
 

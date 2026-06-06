@@ -4,7 +4,7 @@
 #include "EditorSettingsManager.h"
 #include "EngineWindow.h"
 #include "Renderer.h"
-#include "GUIWinMain.h"
+#include "GUIEditorManager.h"
 
 BaseScene* SceneManager::mNowScene = nullptr;
 
@@ -70,7 +70,7 @@ void SceneManager::ChangeScene()
 	{
 		if (mNowScene)
 		{
-			GUIWinMain::ResetPointer();
+			GUIEditorManager::ResetPointer();
 			EngineWindow::GetRenderer()->UnloadData();
 			mNowScene->UnloadData();
 			//最重要：古いシーンのメモリ解放
@@ -81,7 +81,7 @@ void SceneManager::ChangeScene()
 		mNowScene = SceneSerializer::LoadScene(mNextSceneFilePath);
 		mNowScene->Initialize();
 		EngineWindow::GetRenderer()->SetBaseScene(mNowScene);
-		if (GUIWinMain::IsPlaying())
+		if (GUIEditorManager::IsPlaying())
 		{
 			//実行中なら静的バッチの構築も行う
 			EngineWindow::GetRenderer()->BuildStaticBatch();
@@ -94,7 +94,7 @@ void SceneManager::GamePlayEndInitilaizeScene()
 {
 	if (mNowScene)
 	{
-		GUIWinMain::ResetPointer();
+		GUIEditorManager::ResetPointer();
 		EngineWindow::GetRenderer()->UnloadData();
 		mNowScene->UnloadData();
 		//最重要：古いシーンのメモリ解放
@@ -105,7 +105,7 @@ void SceneManager::GamePlayEndInitilaizeScene()
 	mNowScene = SceneSerializer::LoadScene(SceneSerializer::GetTempPath().string());
 	mNowScene->Initialize();
 	EngineWindow::GetRenderer()->SetBaseScene(mNowScene);
-	if (GUIWinMain::IsPlaying())
+	if (GUIEditorManager::IsPlaying())
 	{
 		//実行中なら静的バッチの構築も行う
 		EngineWindow::GetRenderer()->BuildStaticBatch();

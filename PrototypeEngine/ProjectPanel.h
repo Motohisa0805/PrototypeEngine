@@ -1,10 +1,10 @@
 #pragma once
-#include "GUIWinMain.h"
-#include "GUIPanel.h"
+#include "GUIEditorManager.h"
+#include "EditorWindow.h"
 
 //プロジェクトのファイルパスを描画するクラス
 //本格的な描画処理は未実装
-class ProjectPanel : public GUIPanel
+class ProjectPanel : public EditorWindow
 {
 private:
 	//名前変更関係の変数

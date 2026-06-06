@@ -1,9 +1,9 @@
 #pragma once
-#include "GUIWinMain.h"
-#include "GUIPanel.h"
+#include "GUIEditorManager.h"
+#include "EditorWindow.h"
 
 //GUIのゲームパネルの処理をまとめたクラス
-class GameViewPanel : public GUIPanel
+class GameViewPanel : public EditorWindow
 {
 private:
 public:

@@ -1,10 +1,10 @@
 #pragma once
-#include "GUIWinMain.h"
-#include "GUIPanel.h"
+#include "GUIEditorManager.h"
+#include "EditorWindow.h"
 
 //エディターシーンの描画処理クラス
 //
-class SceneViewPanel : public GUIPanel
+class SceneViewPanel : public EditorWindow
 {
 private:
 public:

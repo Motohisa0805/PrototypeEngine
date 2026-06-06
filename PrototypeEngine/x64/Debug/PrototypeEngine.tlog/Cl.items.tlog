@@ -8,6 +8,7 @@ C:\C++Files\PrototypeEngine\PrototypeEngine\BaseTransform.cpp;C:\C++Files\Protot
 C:\C++Files\PrototypeEngine\PrototypeEngine\CreateNewCanvasCommand.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\CreateNewCanvasCommand.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\CreateNewUIActorCommand.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\CreateNewUIActorCommand.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\DuplicateCommand.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\DuplicateCommand.obj
+C:\C++Files\PrototypeEngine\PrototypeEngine\EditorWindowFactory.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\EditorWindowFactory.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\Entity.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\Entity.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\BaseCamera.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\BaseCamera.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\BaseScene.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\BaseScene.obj
@@ -50,8 +51,8 @@ C:\C++Files\PrototypeEngine\PrototypeEngine\GameViewPanel.cpp;C:\C++Files\Protot
 C:\C++Files\PrototypeEngine\PrototypeEngine\GameWinMain.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\GameWinMain.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\GBuffer.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\GBuffer.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\GUIMainMenu.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\GUIMainMenu.obj
-C:\C++Files\PrototypeEngine\PrototypeEngine\GUIPanel.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\GUIPanel.obj
-C:\C++Files\PrototypeEngine\PrototypeEngine\GUIWinMain.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\GUIWinMain.obj
+C:\C++Files\PrototypeEngine\PrototypeEngine\EditorWindow.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\EditorWindow.obj
+C:\C++Files\PrototypeEngine\PrototypeEngine\GUIEditorManager.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\GUIEditorManager.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\HierarchyPanel.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\HierarchyPanel.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\Image.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\Image.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\ImGuiHelper.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\ImGuiHelper.obj
