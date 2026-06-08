@@ -95,6 +95,18 @@ void GUIEditorManager::ResetPointer()
 
 void GUIEditorManager::RenderImGui()
 {
+	// ここでImGuiの描画を行う
+	// 画面サイズ（SDLで取得したウィンドウ幅/高さ）
+	int windowWidth = WindowRenderProperty::GetWidth();
+	int windowHeight = WindowRenderProperty::GetHeight();
+
+	if (mGUIMainMenu) {
+		mGUIMainMenu->Draw(windowWidth, windowHeight);
+	}
+	if (mToolbarPanel) {
+		mToolbarPanel->Draw(windowWidth, windowHeight);
+	}
+
 	//エンジン全体に共通する入力処理
 	if (ImGui::IsKeyDown(ImGuiMod_Ctrl) && ImGui::IsKeyPressed(ImGuiKey_Z)) {
 		CommandManager::Undo();
@@ -103,28 +115,24 @@ void GUIEditorManager::RenderImGui()
 		CommandManager::Redo();
 	}
 
-	// ここでImGuiの描画を行う
-	// 画面サイズ（SDLで取得したウィンドウ幅/高さ）
-	int windowWidth = WindowRenderProperty::GetWidth();
-	int windowHeight = WindowRenderProperty::GetHeight();
 
 	// 1. 画面全体を覆うためのフラグを設定（枠線やタイトルバー、移動を無効化）
-	ImGuiWindowFlags window_flags = ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoDocking;
+	ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoTitleBar |
+		ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize |
+		ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoBringToFrontOnFocus |
+		ImGuiWindowFlags_NoNavFocus;
 
 	// メインメニュー（GUIMainMenu）を表示するため、フルスクリーン化の計算を行う
 	const ImGuiViewport* viewport = ImGui::GetMainViewport();
-	ImGui::SetNextWindowPos(viewport->WorkPos);
-	ImGui::SetNextWindowSize(viewport->WorkSize);
+
+	ImGui::SetNextWindowPos(ImVec2(viewport->WorkPos.x, viewport->WorkPos.y + 50.0f));
+	ImGui::SetNextWindowSize(ImVec2(viewport->WorkSize.x, viewport->WorkSize.y - 50.0f));
 	ImGui::SetNextWindowViewport(viewport->ID);
 
 	ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
 	ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0.0f);
 	ImGui::PushStyleVar(ImGuiStyleVar_WindowMinSize, ImVec2(0.0f, 0.0f));
 	ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
-
-	// パネルの見た目を邪魔しない透明なウインドウを開始
-	window_flags |= ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove;
-	window_flags |= ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoNavFocus;
 
 	// 背景を透明にする
 	ImGui::PushStyleColor(ImGuiCol_WindowBg, ImVec4(0.1f, 0.1f, 0.1f, 1.0f));
@@ -138,42 +146,6 @@ void GUIEditorManager::RenderImGui()
 	// 2. DockSpace 本体の生成
 	ImGuiID dockspace_id = ImGui::GetID("MyEngineDockSpace");
 	ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), ImGuiDockNodeFlags_None);
-	/*
-	// 初回起動時（または ini ファイルがない時）にデフォルト配置を組む
-	static bool first_time = true;
-	if (first_time)
-	{
-		first_time = false;
-
-		// 既存の自動保存レイアウトを一度クリアして再構築する場合
-		ImGui::DockBuilderRemoveNode(dockspace_id);
-		ImGui::DockBuilderAddNode(dockspace_id, ImGuiDockNodeFlags_DockSpace);
-		ImGui::DockBuilderSetNodeSize(dockspace_id, viewport->WorkSize);
-
-		// 画面を左右に分割 (左に 25% の領域を確保)
-		ImGuiID dock_id_left;
-		ImGuiID dock_id_right = ImGui::DockBuilderSplitNode(dockspace_id, ImGuiDir_Left, 0.25f, nullptr, &dock_id_left);
-
-		// 右側の領域をさらに上下に分割 (上に 60% の領域を確保)
-		ImGuiID dock_id_right_top;
-		ImGuiID dock_id_right_bottom = ImGui::DockBuilderSplitNode(dock_id_right, ImGuiDir_Up, 0.60f, nullptr, &dock_id_right_top);
-
-		//各ウィンドウの「ID（文字列）」を指定して、分割したスペースにドッキングさせる
-		ImGui::DockBuilderDockWindow("Hierarchy", dock_id_left);
-		ImGui::DockBuilderDockWindow("GameView", dock_id_right_bottom);
-		ImGui::DockBuilderDockWindow("SceneView", dock_id_right_top);
-		ImGui::DockBuilderDockWindow("Inspector", dock_id_right); // 例：さらに右など
-
-		ImGui::DockBuilderFinish(dockspace_id);
-	}
-	*/
-
-	if (mGUIMainMenu) {
-		mGUIMainMenu->Draw(windowWidth, windowHeight);
-	}
-	if (mToolbarPanel) {
-		mToolbarPanel->Draw(windowWidth, windowHeight);
-	}
 
 	ImGui::End();
 
@@ -204,6 +176,59 @@ void GUIEditorManager::RenderImGui()
 
 	ImGui::Render();
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+}
+
+void GUIEditorManager::SaveCurrentLayout(const char* filePath)
+{
+	ImGui::SaveIniSettingsToDisk(filePath);
+}
+
+void GUIEditorManager::LoadCustomLayout(const char* filePath)
+{
+	ImGui::LoadIniSettingsFromDisk(filePath);
+}
+
+void GUIEditorManager::ApplyDefaultLayout_2by3()
+{
+	/*
+	ImGuiID dockspace_id = ImGui::GetID("MyEngineDockSpace");
+
+	// 1. 既存のレイアウトを完全にクリア
+	ImGui::DockBuilderRemoveNode(dockspace_id);
+	ImGui::DockBuilderAddNode(dockspace_id, ImGuiDockNodeFlags_None);
+ 
+	const ImGuiViewport* viewport = ImGui::GetMainViewport();
+
+	ImVec2 customSize = viewport->WorkSize;
+	customSize.y -= 50.0f; // タスクバーの高さ50px分、ドッキング領域を縦に縮める
+
+	ImVec2 customPos = viewport->WorkPos;
+	customPos.y += 50.0f;  // ドッキング領域の開始位置を50px下にずらす
+
+	// サイズと位置を確定
+	ImGui::DockBuilderSetNodeSize(dockspace_id, customSize);
+	ImGui::DockBuilderSetNodePos(dockspace_id, customPos);
+
+	// 3. 確定したルートサイズを基準に「分割（ハサミ入れ）」を開始する
+	// 方向（Dir）と親ノードの指定を間違えないようにリレーします
+	ImGuiID dock_id_hierarchy;
+	ImGuiID dock_id_remaining = ImGui::DockBuilderSplitNode(dockspace_id, ImGuiDir_Left, 0.2f, nullptr, &dock_id_hierarchy);
+
+	ImGuiID dock_id_inspector;
+	ImGuiID dock_id_center = ImGui::DockBuilderSplitNode(dock_id_remaining, ImGuiDir_Right, 0.25f, nullptr, &dock_id_inspector);
+
+	ImGuiID dock_id_scene;
+	ImGuiID dock_id_game = ImGui::DockBuilderSplitNode(dockspace_id, ImGuiDir_Down, 0.5f, nullptr, &dock_id_scene);
+
+	// 4. ウィンドウを割り当て
+	ImGui::DockBuilderDockWindow("Hierarchy", dock_id_hierarchy);
+	ImGui::DockBuilderDockWindow("Inspector", dock_id_inspector);
+	ImGui::DockBuilderDockWindow("SceneView", dock_id_scene);
+	ImGui::DockBuilderDockWindow("GameView", dock_id_game);
+
+	// 4. レイアウト確定
+	ImGui::DockBuilderFinish(dockspace_id);
+	*/
 }
 
 void GUIEditorManager::ShutdownImGui()

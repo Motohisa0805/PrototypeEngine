@@ -93,7 +93,12 @@ bool EditorWindow::WindowHoveredConfirmation()
 
 void EditorWindow::Draw(float width, float height)
 {
-
+	/*
+	// ドッキングの設定を定義
+	ImGuiWindowClass window_class;
+	window_class.DockingAllowUnclassed = true;
+	ImGui::SetNextWindowClass(&window_class);
+	*/
 }
 
 void EditorWindow::AddEditorWindow(EditorWindow* window)

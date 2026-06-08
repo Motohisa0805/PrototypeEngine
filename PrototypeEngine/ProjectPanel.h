@@ -44,6 +44,9 @@ public:
 	void							DrawPickUpFolderView();
 	// 1つのファイル/フォルダを描画
 	void							DrawFileSystemEntry(const filesystem::directory_entry& entry);
+	//タブのドッキング設定時に呼び出す
+	static void						SetDockWindow(ImGuiID id, ImGuiID& outID);
+
 	// 右クリックメニュー
 	bool							RightClickMenu();
 	static void						CreateNewFolder();

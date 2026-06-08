@@ -62,6 +62,13 @@ public:
 	static void				 ResetPointer();
 	// Render ImGui			 
 	static void				 RenderImGui();
+
+	static void				 SaveCurrentLayout(const char* filePath);
+
+	static void				 LoadCustomLayout(const char* filePath);
+
+	static void				 ApplyDefaultLayout_2by3();
+
 	// Shutdown ImGui		 
 	static void				 ShutdownImGui();
 							 
@@ -75,11 +82,8 @@ public:
 	static void				 SetIsPushEnd(bool pushEnd) { isPushEnd = pushEnd; }
 	static bool				 IsFrameByFrame() { return isFrameByFrame; }
 	static void				 SetIsFrameByFrame(bool frameByFrame) { isFrameByFrame = frameByFrame; }
-							 
 	static void				 SetRenderer(class Renderer* renderer) { mRenderer = renderer; }
-
 	static Vector2			 GetSceneWinSize() { return mSceneWinSize; }
 	static void				 SetSceneWinSize(const Vector2& size) { mSceneWinSize = size; }
-
 	static EditorWindow*	 GetRootMainWindow() { return mRootMainWindow; }
 };
