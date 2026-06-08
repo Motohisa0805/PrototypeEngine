@@ -7,13 +7,12 @@ class GUIMainMenu : public EditorWindow
 private:
 
 public:
-	const char* GetName()override { return "MainMenu"; }
 	GUIMainMenu(class Renderer* renderer);
 	~GUIMainMenu();
 	//GUIの初期化
 	void Initialize(float width, float height, ImTextureRef ref = nullptr)override;
 	//GUIの描画
-	void Draw(float width, float height, ImTextureRef ref = nullptr)override;
+	void Draw(float width, float height)override;
 	//ファイルメニューの描画
 	void FileMenuDraw();
 	//エディターメニューの描画

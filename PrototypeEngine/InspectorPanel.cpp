@@ -25,11 +25,10 @@ void InspectorPanel::Initialize(float width, float height, ImTextureRef ref)
 	EditorWindow::Initialize(width, height, ref);
 }
 
-void InspectorPanel::Draw(float width, float height, ImTextureRef ref)
+void InspectorPanel::Draw(float width, float height)
 {
-	ResetLayoutFunction();
 	//  新しいウィンドウの作成
-	if(ImGui::Begin("Inspector", &mIsShow, ImGuiWindowFlags_NoCollapse))
+	if(ImGui::Begin(GetID().c_str(), &mIsShow, ImGuiWindowFlags_NoCollapse))
 	{
 		BaseGUIPanelPopupMenu();
 

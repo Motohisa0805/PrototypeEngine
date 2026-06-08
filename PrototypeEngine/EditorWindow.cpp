@@ -91,9 +91,41 @@ bool EditorWindow::WindowHoveredConfirmation()
 	return false;
 }
 
-void EditorWindow::Draw(float width, float height, ImTextureRef ref)
+void EditorWindow::Draw(float width, float height)
 {
 
+}
+
+void EditorWindow::AddEditorWindow(EditorWindow* window)
+{
+	auto it = std::find(mChildren.begin(),mChildren.end(), window);
+	if (it == mChildren.end()) {
+		mChildren.push_back(window);
+		window->Initialize(WindowRenderProperty::GetWidth(), WindowRenderProperty::GetHeight());
+		window->Enabled();
+	}
+	else {
+		Debug::Log("This Window already created");
+	}
+}
+
+void EditorWindow::RemoveEditorWindow(EditorWindow* window)
+{
+	auto it = std::find(mChildren.begin(), mChildren.end(), window);
+	if (it != mChildren.end()) {
+		mChildren.erase(it);
+	}
+	else {
+		Debug::Log("Not founded this window");
+	}
+}
+
+EditorWindow* EditorWindow::GetEditorWindowChild(int index)
+{
+	if (index < 0 || index >= mChildren.size()) {
+		return nullptr;
+	}
+	return mChildren[index];
 }
 
 void EditorWindow::BaseGUIPanelPopupMenu()

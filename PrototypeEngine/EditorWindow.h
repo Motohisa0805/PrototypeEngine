@@ -12,27 +12,39 @@ class EditorWindow
 {
 protected:
 	//ウィンドウのID
-	string				mID;
+	string						mID;
 	//描画情報
-	Renderer*			mRenderer;
+	Renderer*					mRenderer;
 	//カーソル判定
-	bool				isMouseHovered;
+	bool						isMouseHovered;
 	//左上を0基準の矩形情報と同じ
-	float				mWidthPos;
-	float				mHeightPos;
-	float				mWidthSize;
-	float				mHeightSize;
+	float						mWidthPos;
+	float						mHeightPos;
+	float						mWidthSize;
+	float						mHeightSize;
 	//GUIのレイアウトを初期位置に戻すフラグ
-	bool				isResetLayout;
+	bool						isResetLayout;
 	//表示/非表示フラグ
-	bool				mIsShow;
+	bool						mIsShow;
+
+	vector<EditorWindow*>		mChildren;
 public:
+								EditorWindow(Renderer* renderer);
+	virtual						~EditorWindow(){
+		mChildren.clear();
+	}
+
+	virtual void				Draw(float width, float height);
+	
+	void						AddEditorWindow(EditorWindow* window);
+
+	void						RemoveEditorWindow(EditorWindow* window);
+
+	EditorWindow*				GetEditorWindowChild(int index);
+
+	vector<EditorWindow*>		GetChildren() { return mChildren; }
 
 	const string				GetID() { return mID; }
-
-	virtual const char*			GetName() { return "BasePanel"; }
-								EditorWindow(Renderer* renderer);
-	virtual						~EditorWindow() = default;
 
 	virtual void				Initialize(float width, float height, ImTextureRef ref = nullptr);
 	//GUIパネルのレイアウトを初期化
@@ -46,7 +58,6 @@ public:
 
 	bool						WindowHoveredConfirmation();
 
-	virtual void				Draw(float width, float height, ImTextureRef ref = nullptr);
 
 	virtual void				BaseGUIPanelPopupMenu();
 

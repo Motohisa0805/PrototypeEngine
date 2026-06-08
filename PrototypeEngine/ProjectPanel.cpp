@@ -29,9 +29,10 @@ void ProjectPanel::Initialize(float width, float height, ImTextureRef ref)
     EditorWindow::Initialize(width, height, ref);
 }
 
-void ProjectPanel::Draw(float width, float height, ImTextureRef ref)
+void ProjectPanel::Draw(float width, float height)
 {
     float panel1_SizeWidth = mWidthSize / 2.0f;
+    /*
     // ウインドウ位置とサイズを固定
     if (isResetLayout)
     {
@@ -43,6 +44,7 @@ void ProjectPanel::Draw(float width, float height, ImTextureRef ref)
         ImGui::SetNextWindowPos(ImVec2(mWidthPos, mHeightPos), ImGuiCond_Once);
         ImGui::SetNextWindowSize(ImVec2(panel1_SizeWidth, mHeightSize), ImGuiCond_Once);
     }
+    */
 	//フォルダツリー表示用のウィンドウ
     if (ImGui::Begin("FolderTree", &mIsShow, ImGuiWindowFlags_NoCollapse))
     {
@@ -69,7 +71,7 @@ void ProjectPanel::Draw(float width, float height, ImTextureRef ref)
         }
     }
     ImGui::End();
-
+    /*
     // ウインドウ位置とサイズを固定
     if (isResetLayout)
     {
@@ -82,8 +84,9 @@ void ProjectPanel::Draw(float width, float height, ImTextureRef ref)
         ImGui::SetNextWindowPos(ImVec2(mWidthPos + panel1_SizeWidth, mHeightPos), ImGuiCond_Once);
         ImGui::SetNextWindowSize(ImVec2(panel1_SizeWidth, mHeightSize), ImGuiCond_Once);
     }
+    */
 	// 右カラム = 選択中フォルダの中身
-    if (ImGui::Begin(EditorSettingsManager::GetCurrentFolder().string().c_str(), &mIsShow, ImGuiWindowFlags_NoCollapse))
+    if (ImGui::Begin("Assets", &mIsShow, ImGuiWindowFlags_NoCollapse))
     {
         //選択中フォルダの中身表示
         DrawPickUpFolderView();

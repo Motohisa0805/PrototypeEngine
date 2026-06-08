@@ -28,8 +28,6 @@ private:
 
 	static EngineState						mEngineState;
 
-	static SceneEditorCamera*				mSceneEditorCamera;
-
 
 	std::unique_ptr<ScriptHotReloadManager> mHotReloadManager;
 public:
@@ -51,7 +49,5 @@ public:
 
 	static EngineState			GetEngineState() { return mEngineState; }
 	static void					SetEngineState(EngineState state) { mEngineState = state; }
-
-	static SceneEditorCamera*	GetSceneEditorCamera() { return mSceneEditorCamera; }
 };
 

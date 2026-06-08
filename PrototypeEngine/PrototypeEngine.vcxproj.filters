@@ -151,6 +151,12 @@
     <Filter Include="SourceCodes\C_OutsideLibrary\stb">
       <UniqueIdentifier>{96ff0061-94a7-432f-9124-6efbad3538f5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="SourceCodes\A_Editor\Function\GUIs\Panels\Base">
+      <UniqueIdentifier>{d9b878b3-5417-40e2-88c9-3fe9b38f1592}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceCodes\A_Editor\Function\GUIs\Panels\Factory">
+      <UniqueIdentifier>{0989e630-11b9-4292-ad9c-03739f7e3923}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Shaders\Arrow.frag">
@@ -376,9 +382,6 @@
     <ClCompile Include="ProjectPanel.cpp">
       <Filter>SourceCodes\A_Editor\Function\GUIs\Panels</Filter>
     </ClCompile>
-    <ClCompile Include="EditorWindow.cpp">
-      <Filter>SourceCodes\A_Editor\Function\GUIs\Panels</Filter>
-    </ClCompile>
     <ClCompile Include="GameViewPanel.cpp">
       <Filter>SourceCodes\A_Editor\Function\GUIs\Panels</Filter>
     </ClCompile>
@@ -514,14 +517,17 @@
     <ClCompile Include="ComponentFactory.cpp">
       <Filter>SourceCodes\A_Editor\Function\Components\Factory</Filter>
     </ClCompile>
-    <ClCompile Include="FileOperationManager.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="DuplicateCommand.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>SourceCodes\A_Editor\Function\GUIs\Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="EditorWindow.cpp">
+      <Filter>SourceCodes\A_Editor\Function\GUIs\Panels\Base</Filter>
     </ClCompile>
     <ClCompile Include="EditorWindowFactory.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>SourceCodes\A_Editor\Function\GUIs\Panels\Factory</Filter>
+    </ClCompile>
+    <ClCompile Include="FileOperationManager.cpp">
+      <Filter>SourceCodes\A_Editor\Function\GUIs</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -720,9 +726,6 @@
     <ClInclude Include="GameViewPanel.h">
       <Filter>SourceCodes\A_Editor\Function\GUIs\Panels</Filter>
     </ClInclude>
-    <ClInclude Include="EditorWindow.h">
-      <Filter>SourceCodes\A_Editor\Function\GUIs\Panels</Filter>
-    </ClInclude>
     <ClInclude Include="HierarchyPanel.h">
       <Filter>SourceCodes\A_Editor\Function\GUIs\Panels</Filter>
     </ClInclude>
@@ -870,14 +873,17 @@
     <ClInclude Include="ComponentFactory.h">
       <Filter>SourceCodes\A_Editor\Function\Components\Factory</Filter>
     </ClInclude>
-    <ClInclude Include="FileOperationManager.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="DuplicateCommand.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>SourceCodes\A_Editor\Function\GUIs\Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="EditorWindow.h">
+      <Filter>SourceCodes\A_Editor\Function\GUIs\Panels\Base</Filter>
     </ClInclude>
     <ClInclude Include="EditorWindowFactory.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>SourceCodes\A_Editor\Function\GUIs\Panels\Factory</Filter>
+    </ClInclude>
+    <ClInclude Include="FileOperationManager.h">
+      <Filter>SourceCodes\A_Editor\Function\GUIs</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

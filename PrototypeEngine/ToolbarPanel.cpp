@@ -19,21 +19,20 @@ void ToolbarPanel::Initialize(float width, float height, ImTextureRef ref)
 	mWidthSize = width;
 	mHeightSize = 25.0f;
 	EditorWindow::Initialize(width, height, ref);
-	
+	// ウインドウ位置とサイズを固定
+	ImGui::SetNextWindowPos(ImVec2(mWidthPos, mHeightPos), ImGuiCond_Once);
+	ImGui::SetNextWindowSize(ImVec2(mWidthSize, mHeightSize), ImGuiCond_Once);
 }
 
 void ToolbarPanel::ResetWindowPos(float width, float height)
 {
 }
 
-void ToolbarPanel::Draw(float width, float height, ImTextureRef ref)
+void ToolbarPanel::Draw(float width, float height)
 {
-
-	// ウインドウ位置とサイズを固定
 	ImGui::SetNextWindowPos(ImVec2(mWidthPos, mHeightPos), ImGuiCond_Once);
 	ImGui::SetNextWindowSize(ImVec2(mWidthSize, mHeightSize), ImGuiCond_Once);
-
-	if (ImGui::Begin(GetName(),
+	if (ImGui::Begin(mID.c_str(),
 		nullptr,
 		ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize |
 		ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoScrollbar))

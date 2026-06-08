@@ -26,13 +26,15 @@ void GUIMainMenu::Initialize(float width, float height, ImTextureRef ref)
 	mWidthSize = width;
 	mHeightSize = 25.0f;
 	EditorWindow::Initialize(width, height, ref);
-}
-
-void GUIMainMenu::Draw(float width, float height, ImTextureRef ref)
-{
-	SetPopupColorTheme();
 	ImGui::SetNextWindowPos(ImVec2(mWidthPos, mHeightPos), ImGuiCond_Once);
 	ImGui::SetNextWindowSize(ImVec2(mWidthSize, mHeightSize), ImGuiCond_Once);
+}
+
+void GUIMainMenu::Draw(float width, float height)
+{
+	ImGui::SetNextWindowPos(ImVec2(mWidthPos, mHeightPos), ImGuiCond_Once);
+	ImGui::SetNextWindowSize(ImVec2(mWidthSize, mHeightSize), ImGuiCond_Once);
+	SetPopupColorTheme();
 	ImGui::Begin("MainMenu", nullptr, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize |
 									  ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoTitleBar);
 	// メインメニューバーの開始
@@ -184,29 +186,26 @@ void GUIMainMenu::WindowMenuDraw()
 	{
 		if (ImGui::BeginMenu("Show")) {
 			if (ImGui::MenuItem("GameViewEditor")) {
-				GUIEditorManager::AddEditorWindow(EditorWindowFactory::CreateEditorWindow("GameView"));
+				GUIEditorManager::GetRootMainWindow()->AddEditorWindow(EditorWindowFactory::CreateEditorWindow("GameView"));
 			}
 			if (ImGui::MenuItem("SceneViewEditor")) {
-				GUIEditorManager::AddEditorWindow(EditorWindowFactory::CreateEditorWindow("SceneView"));
+				GUIEditorManager::GetRootMainWindow()->AddEditorWindow(EditorWindowFactory::CreateEditorWindow("SceneView"));
 			}
 			if (ImGui::MenuItem("HierarchyEditor")) {
-				GUIEditorManager::AddEditorWindow(EditorWindowFactory::CreateEditorWindow("Hierarchy"));
+				GUIEditorManager::GetRootMainWindow()->AddEditorWindow(EditorWindowFactory::CreateEditorWindow("Hierarchy"));
 			}
 			if (ImGui::MenuItem("ProjectEditor")) {
-				GUIEditorManager::AddEditorWindow(EditorWindowFactory::CreateEditorWindow("Project"));
+				GUIEditorManager::GetRootMainWindow()->AddEditorWindow(EditorWindowFactory::CreateEditorWindow("Project"));
 			}
 			if (ImGui::MenuItem("InspectorEditor")) {
-				GUIEditorManager::AddEditorWindow(EditorWindowFactory::CreateEditorWindow("Inspector"));
+				GUIEditorManager::GetRootMainWindow()->AddEditorWindow(EditorWindowFactory::CreateEditorWindow("Inspector"));
 			}
 			ImGui::EndMenu();
 		}
 
-		if (ImGui::MenuItem("All GUI Initialization of position"))
+		if (ImGui::MenuItem("2 by 3(2×3) Layuot(Incomplete)"))
 		{
-			// 全てのGUIのレイアウトを初期位置に戻す処理
-			for (auto window : GUIEditorManager::GetEditorWindows()) {
-				window.second->EnableResetLayout();
-			}
+
 		}
 		ImGui::EndMenu();
 	}

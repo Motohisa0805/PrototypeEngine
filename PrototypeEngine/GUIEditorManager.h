@@ -5,6 +5,7 @@
 #include "EditorWindowFactory.h"
 #include "EditorWindow.h"
 #include "CommandManager.h"
+
 //前方宣言
 //描画クラス
 class Renderer;
@@ -25,6 +26,7 @@ class ProjectPanel;
 //アイテム選択用のパネル
 class InspectorPanel;
 
+
 class GUIEditorManager
 {
 private:
@@ -42,15 +44,13 @@ private:
 
 	static bool											isFrameByFrame;
 
-	//ゲームウィンドウのサイズ(横)
-	static Vector2 										mGameWinPos;
-	//ゲームウィンドウのサイズ(横)
-	static Vector2 										mGameWinSize;
-
 	static Vector2 										mSceneWinSize;
 
-	static std::unordered_map<string, EditorWindow*>	mEditorWindows;
-
+	static ToolbarPanel*								mToolbarPanel;
+	
+	static GUIMainMenu*									mGUIMainMenu;
+	//エンジンの画面全体のパネルと見立てたWindow
+	static EditorWindow*								mRootMainWindow;
 public:
 							GUIEditorManager() = default;
 							~GUIEditorManager() = default;
@@ -77,24 +77,9 @@ public:
 	static void				 SetIsFrameByFrame(bool frameByFrame) { isFrameByFrame = frameByFrame; }
 							 
 	static void				 SetRenderer(class Renderer* renderer) { mRenderer = renderer; }
-							 
-	static Vector2			 GetGameWinPos() { return mGameWinPos; }
-	static void				 SetGameWinPos(const Vector2& pos) { mGameWinPos = pos; }
-	static Vector2			 GetGameWinSize() { return mGameWinSize; }
-	static void				 SetGameWinSize(const Vector2& size) { mGameWinSize = size; }
 
 	static Vector2			 GetSceneWinSize() { return mSceneWinSize; }
-	static void				 SetSceneWinSize(const Vector2& size) { mSceneWinSize = size; }    
+	static void				 SetSceneWinSize(const Vector2& size) { mSceneWinSize = size; }
 
-	static std::unordered_map<string, EditorWindow*> GetEditorWindows() { return mEditorWindows; }
-
-
-
-	static void				 AddEditorWindow(EditorWindow* window);
-
-	static void				 RemoveEditorWindow(EditorWindow* window);
-
-	static void				 DeleteEditorWindow(EditorWindow* window);
-
-	static EditorWindow*	 GetEditorWindow(string key);
+	static EditorWindow*	 GetRootMainWindow() { return mRootMainWindow; }
 };
