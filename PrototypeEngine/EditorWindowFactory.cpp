@@ -54,8 +54,8 @@ void EditorWindowFactory::UnregisterAllEditorWindows()
 }
 
 void RegisterAllEditorWindows(Renderer* renderer) {
-	EditorWindowFactory::RegisterEditorWindow(new GUIMainMenu(renderer));
-	EditorWindowFactory::RegisterEditorWindow(new ToolbarPanel(renderer));
+	//EditorWindowFactory::RegisterEditorWindow(new GUIMainMenu(renderer));
+	//EditorWindowFactory::RegisterEditorWindow(new ToolbarPanel(renderer));
 	EditorWindowFactory::RegisterEditorWindow(new GameViewPanel(renderer));
 	EditorWindowFactory::RegisterEditorWindow(new SceneViewPanel(renderer));
 	EditorWindowFactory::RegisterEditorWindow(new HierarchyPanel(renderer));

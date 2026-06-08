@@ -20,6 +20,7 @@
 #include "GameWinMain.h"
 #include "EngineWindow.h"
 #include "EditorSettingsManager.h"
+#include "SceneViewPanel.h"
 
 Renderer::Renderer()
 	: mWindowTitle("PrototypeEngine - Windows - Ver0.01 <OpenGL 2.2.0,SDL3>")
@@ -443,7 +444,7 @@ void Renderer::StartDraw()
 
 	//***SceneViewEditorのSceneFBOに描画
 	// G-bufferに3Dシーンを描画します。
-	EditorDraw3DScene(mSceneBuffer->GetBufferID(), EngineWindow::GetSceneEditorCamera()->GetViewMatrix(), mProjection, 1.0f, true);
+	EditorDraw3DScene(mSceneBuffer->GetBufferID(), SceneViewPanel::GetSceneEditorCamera()->GetViewMatrix(), mProjection, 1.0f, true);
 	// Gバッファから描画する
 	DrawFromGBufferForEditor();
 
@@ -671,7 +672,7 @@ void Renderer::EditorDraw3DScene(unsigned int framebuffer, const Matrix4& view, 
 	if (actor != nullptr && actor->GetState() == ActorObject::EActive)
 	{
 		//1.カメラとオブジェクトの位置を取得
-		Vector3 cameraPos = EngineWindow::GetSceneEditorCamera()->GetTransform()->GetPosition();
+		Vector3 cameraPos = SceneViewPanel::GetSceneEditorCamera()->GetTransform()->GetPosition();
 		Vector3 actorPos = actor->GetBaseTransform()->GetPosition();
 
 		//2.カメラとオブジェクトの距離を計算
@@ -711,9 +712,9 @@ void Renderer::EditorDraw3DScene(unsigned int framebuffer, const Matrix4& view, 
 	//デバッググリッド描画
 	if (GameStateClass::gDebugGridFrag)
 	{
-		if (mGridShader && EngineWindow::GetSceneEditorCamera())
+		if (mGridShader && SceneViewPanel::GetSceneEditorCamera())
 		{
-			mDebugGrid->Draw(mGridShader, view * proj,EngineWindow::GetSceneEditorCamera()->GetTransform()->GetPosition());
+			mDebugGrid->Draw(mGridShader, view * proj,SceneViewPanel::GetSceneEditorCamera()->GetTransform()->GetPosition());
 		}
 	}
 

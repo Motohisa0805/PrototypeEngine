@@ -22,15 +22,14 @@ void GameViewPanel::Initialize(float width, float height, ImTextureRef ref)
 	EditorWindow::Initialize(width, height, ref);
 }
 
-void GameViewPanel::Draw(float width, float height, ImTextureRef ref)
+void GameViewPanel::Draw(float width, float height)
 {
-	ResetLayoutFunction();
 	ImGuiBackendFlags flag = ImGuiWindowFlags_NoCollapse;
 	if (InputContextManager::IsGameInputActive())
 	{
 		flag |= ImGuiWindowFlags_NoMove;
 	}
-	if(ImGui::Begin(GetName(), &mIsShow, flag))
+	if(ImGui::Begin(GetID().c_str(), &mIsShow, flag))
 	{
 		//デバッグモード切り替えボタン
 		ImGuiHelper::FragTextButton("State:", ImVec2(0.0f, 0.0f), GameStateClass::gDebugStatesFrag);
@@ -56,8 +55,6 @@ void GameViewPanel::Draw(float width, float height, ImTextureRef ref)
 		{
 
 		}
-		GUIEditorManager::SetGameWinPos(Vector2(winPos.x, winPos.y));
-		GUIEditorManager::SetGameWinSize(Vector2(winSize.x, winSize.y));
 
 
 		//描画処理

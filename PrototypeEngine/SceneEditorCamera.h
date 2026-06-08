@@ -4,7 +4,7 @@
 #define MAX_YAW_SPEED 50
 
 class BaseScene;
-
+class SceneViewPanel;
 //GUIのエディターシーンのカメラの処理を行うクラス
 class SceneEditorCamera : public ActorObject
 {
@@ -17,33 +17,35 @@ public:
 	};
 private:
 
-	EditCameraMode mMode;
+	EditCameraMode	mMode;
 
-	Matrix4	mViewMatrix;
+	Matrix4			mViewMatrix;
 
-	float	mYawSpeed;
+	float			mYawSpeed;
 	// ピッチの回転/秒速度。
-	float	mPitchSpeed;
+	float			mPitchSpeed;
 	// 前方からの最大ピッチ偏差。
-	float	mMaxPitch;
+	float			mMaxPitch;
 	// 現在のピッチ。
-	float	mPitch;
+	float			mPitch;
 	//マウススピード
-	float	mMouseSensitivityX;
-	float	mMouseSensitivityY;
+	float			mMouseSensitivityX;
+	float			mMouseSensitivityY;
 	//前後移動スピード
-	float	mForwardSpeed;
+	float			mForwardSpeed;
 	//左右移動スピード
-	float	mStrafeSpeed;
+	float			mStrafeSpeed;
 	//上下移動スピード
-	float   mUpSpeed;
+	float			mUpSpeed;
 	//最大スピード
-	float   mMaxSpeed;
+	float			mMaxSpeed;
 	//最少スピード
-	float   mMinSpeed;
+	float			mMinSpeed;
 	//スピード
-	float	mSpeed;
+	float			mSpeed;
 
+
+	SceneViewPanel* mSceneViewPanel;
 public:
 	SceneEditorCamera(class BaseScene* scene);
 
@@ -73,5 +75,7 @@ public:
 	void	SetVertextMouseSpeed(float speed) { mMouseSensitivityY = speed; }
 
 	Matrix4 GetViewMatrix() { return mViewMatrix; }
+
+	void	SetSceneViewPanel(SceneViewPanel* panel) { mSceneViewPanel = panel; }
 };
 

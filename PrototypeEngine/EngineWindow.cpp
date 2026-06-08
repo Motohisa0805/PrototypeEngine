@@ -7,14 +7,14 @@
 #include "ComponentFactory.h"
 #include "ScriptHotReloadManager.h"
 #include "PhysWorld.h"
+#include "SceneViewPanel.h"
+
 
 EngineState EngineWindow::mEngineState = EngineState::Run;
 
 Renderer* EngineWindow::mRenderer = nullptr;
 
 PhysWorld* EngineWindow::mPhysWorld = nullptr;
-
-SceneEditorCamera* EngineWindow::mSceneEditorCamera = nullptr;
 
 EngineWindow::EngineWindow()
 	:mGameWindow(nullptr)
@@ -67,8 +67,6 @@ bool EngineWindow::EngineInitialize()
 	GUIEditorManager::InitializeImGui(mRenderer->GetWindow(), mRenderer->GetContext());
 	//仮で一回更新を行う
 	mGameWindow->GameRunLoop();
-	//エディター用カメラの生成
-	mSceneEditorCamera = new SceneEditorCamera(nullptr);
 	//デバッグ用グリッドを表示するフラグを立てる
 	GameStateClass::gDebugGridFrag = true;
 	//スクリプトのホットリロードマネージャーを生成
@@ -105,8 +103,8 @@ void EngineWindow::EngineProcessInput()
 	// ゲームエンジン内の入力処理
 	//-------------------------------------------------------
 	//ESCキーを押してゲーム入力を解除
-	auto window = GUIEditorManager::GetEditorWindow("GameView");
-	if (state.Keyboard.GetKeyDown(KEY_ESCAPE)||(window != nullptr && !window->IsMouseHovered()))
+	//auto window = GUIEditorManager::GetEditorWindow("GameView");
+	if (state.Keyboard.GetKeyDown(KEY_ESCAPE))//||(window != nullptr && !window->IsMouseHovered()))
 	{
 		if (InputContextManager::IsGameInputActive())
 		{
@@ -115,7 +113,7 @@ void EngineWindow::EngineProcessInput()
 	}
 
 	//シーンビューのエディターカメラ入力
-	mSceneEditorCamera->ProcessInput(state);
+	SceneViewPanel::InputCameraUpdate();
 	//シーンの入力処理
 	if (GUIEditorManager::IsPlaying()&& !GUIEditorManager::IsPaused())
 	{
@@ -145,8 +143,7 @@ void EngineWindow::EngineRunLoop()
 		//ImGuiの状態更新
 		GUIEditorManager::UpdateImGuiState();
 		//エディター用カメラの更新
-		mSceneEditorCamera->Update();
-
+		SceneViewPanel::CameraUpdate();
 		//ここからゲーム内の更新開始
 		//ゲームが開始したら
 		if (GUIEditorManager::IsPlaying())
@@ -200,12 +197,6 @@ void EngineWindow::EngineRender()
 void EngineWindow::EngineShutdown()
 {
 	//エンジンのシャットダウン処理
-	//編集用カメラの削除
-	if (mSceneEditorCamera)
-	{
-		delete mSceneEditorCamera;
-		mSceneEditorCamera = nullptr;
-	}
 	if (mHotReloadManager)
 	{
 		mHotReloadManager.get()->UnloadScripts();
