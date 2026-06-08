@@ -24,6 +24,7 @@ void GameViewPanel::Initialize(float width, float height, ImTextureRef ref)
 
 void GameViewPanel::Draw(float width, float height)
 {
+	EditorWindow::Draw(width, height);
 	ImGuiBackendFlags flag = ImGuiWindowFlags_NoCollapse;
 	if (InputContextManager::IsGameInputActive())
 	{

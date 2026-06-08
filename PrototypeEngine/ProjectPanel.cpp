@@ -1,4 +1,5 @@
 #include "ProjectPanel.h"
+#include "imgui_internal.h"
 #include "EditorSettingsManager.h"
 #include "ScriptEditManager.h"
 #include "SceneManager.h"
@@ -45,6 +46,7 @@ void ProjectPanel::Draw(float width, float height)
         ImGui::SetNextWindowSize(ImVec2(panel1_SizeWidth, mHeightSize), ImGuiCond_Once);
     }
     */
+    EditorWindow::Draw(width, height);
 	//フォルダツリー表示用のウィンドウ
     if (ImGui::Begin("FolderTree", &mIsShow, ImGuiWindowFlags_NoCollapse))
     {
@@ -265,6 +267,16 @@ void ProjectPanel::DrawFileSystemEntry(const filesystem::directory_entry& entry)
 
         ImGui::PopID(); // IDの破棄
     }
+}
+
+void ProjectPanel::SetDockWindow(ImGuiID id,ImGuiID& outID)
+{
+
+    ImGuiID dock_id_folderTree = ImGui::DockBuilderSplitNode(id, ImGuiDir_Right, 0.5f, NULL, NULL);
+    ImGui::DockBuilderDockWindow("FolderTree", dock_id_folderTree);
+    ImGuiID dock_id_assets = ImGui::DockBuilderSplitNode(id, ImGuiDir_Right, 0.5f, NULL, NULL);
+    ImGui::DockBuilderDockWindow("Assets", dock_id_assets);
+    outID = dock_id_assets;
 }
 
 bool ProjectPanel::RightClickMenu()

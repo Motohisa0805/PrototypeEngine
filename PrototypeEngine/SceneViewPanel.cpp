@@ -40,6 +40,7 @@ bool SceneViewPanel::MouseHoveredDisble()
 
 void SceneViewPanel::Draw(float width, float height)
 {
+	EditorWindow::Draw(width, height);
 	if(ImGui::Begin(GetID().c_str(), &mIsShow, ImGuiWindowFlags_NoCollapse))
 	{
 		//デバッグモード切り替えボタン

@@ -24,6 +24,7 @@ void HierarchyPanel::Initialize(float width, float height, ImTextureRef ref)
 
 void HierarchyPanel::Draw(float width, float height)
 {
+	EditorWindow::Draw(width, height);
 	//  新しいウィンドウの作成
 	if(ImGui::Begin(GetID().c_str(), &mIsShow, ImGuiWindowFlags_NoCollapse))
 	{

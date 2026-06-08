@@ -203,10 +203,20 @@ void GUIMainMenu::WindowMenuDraw()
 			ImGui::EndMenu();
 		}
 
-		if (ImGui::MenuItem("2 by 3(2Å~3) Layuot(Incomplete)"))
-		{
-
+		if (ImGui::MenuItem("Save Layout")) {
+			GUIEditorManager::SaveCurrentLayout("Library/myLayout.ini");
 		}
+
+		if (ImGui::MenuItem("Load Layout")) {
+			GUIEditorManager::LoadCustomLayout("Library/myLayout.ini");
+		}
+		//TODO : ç°å„í«â¡ó\íËèàóù
+		/*
+		if (ImGui::MenuItem("2 by 3(2 * 3) Layuot"))
+		{
+			GUIEditorManager::ApplyDefaultLayout_2by3();
+		}
+		*/
 		ImGui::EndMenu();
 	}
 }
