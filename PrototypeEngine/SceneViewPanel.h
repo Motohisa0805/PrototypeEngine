@@ -8,16 +8,16 @@
 class SceneViewPanel : public EditorWindow
 {
 private:
-	SceneEditorCamera*	mSceneEditorCamera;
+	SceneEditorCamera*			mSceneEditorCamera;
 
-	SceneViewEditor*	mSceneViewEditor;
-	GBuffer*			mSceneBuffer;
+	SceneViewEditor*			mSceneViewEditor;
+	GBuffer*					mSceneBuffer;
 
-	Vector2 			mSceneWinSize;
+	Vector2 					mSceneWinSize;
 public:
 
-	SceneViewPanel(class Renderer* renderer);
-	~SceneViewPanel();
+								SceneViewPanel(class Renderer* renderer);
+								~SceneViewPanel();
 
 	void						Initialize(float width, float height, ImTextureRef ref = nullptr)override;
 

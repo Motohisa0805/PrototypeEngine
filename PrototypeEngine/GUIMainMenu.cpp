@@ -52,7 +52,8 @@ void GUIMainMenu::Draw(float width, float height)
 		ComponentMenuDraw();
 		// "Window" メニューの開始
 		WindowMenuDraw();
-
+		//"Help"メニューの開始
+		HelpMenuDraw();
 		// メインメニューバーの終了
 		ImGui::EndMainMenuBar();
 	}
@@ -144,20 +145,20 @@ void GUIMainMenu::GameObjectMenuDraw()
 {
 	if (ImGui::BeginMenu("GameObject"))
 	{
-		if (ImGui::MenuItem("Create 3D Empty"))
+		if (ImGui::MenuItem("Create Game Empty"))
 		{
 			auto cmd = std::make_unique<CreateNewActorCommand>();
 			CommandManager::Execute(std::move(cmd));
 			EditorSettingsManager::SetRenameInputBuffer(SelectionManager::GetSelectedActor()->GetName());
 			EditorSettingsManager::SetRenaming(true);
 		}
-		if (ImGui::MenuItem("Create Empty Canvas")) {
+		if (ImGui::MenuItem("Create UI Canvas")) {
 			auto cmd = std::make_unique<CreateNewCanvasCommand>();
 			CommandManager::Execute(std::move(cmd));
 			EditorSettingsManager::SetRenameInputBuffer(SelectionManager::GetSelectedActor()->GetName());
 			EditorSettingsManager::SetRenaming(true);
 		}
-		if (ImGui::MenuItem("Create 2D Empty"))
+		if (ImGui::MenuItem("Create UI Empty"))
 		{
 			auto cmd = std::make_unique<CreateNewUIActorCommand>();
 			CommandManager::Execute(std::move(cmd));
@@ -226,11 +227,14 @@ void GUIMainMenu::HelpMenuDraw()
 	if (ImGui::BeginMenu("Help"))
 	{
 		if (ImGui::MenuItem("About PrototypeEngine")){
-
+			GUIEditorManager::GetRootMainWindow()->AddEditorWindow(EditorWindowFactory::CreateEditorWindow("AboutEngine", mRenderer));
 		}
 
-		if (ImGui::MenuItem("Tutorial")) {
-
+		if (ImGui::BeginMenu("Tutorial")) {
+			if (ImGui::MenuItem("HierarchyExplanation")) {
+				GUIEditorManager::GetRootMainWindow()->AddEditorWindow(EditorWindowFactory::CreateEditorWindow("HierarchyExplanation", mRenderer));
+			}
+			ImGui::EndMenu();
 		}
 
 		ImGui::EndMenu();

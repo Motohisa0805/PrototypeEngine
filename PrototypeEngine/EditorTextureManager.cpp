@@ -113,6 +113,21 @@ void EditorTextureManager::AllLoad()
 	mExtensionTextureMap[".cpp"] = mCPPFileTexture; 
 	mExtensionTextureMap[".bank"] = mTestImage; 
 	mExtensionTextureMap[".ttf"] = mTTFFontFileTexture; 
+
+
+	mOpenGLLogo = new Texture();
+	if (!mOpenGLLogo->Load("Editor/opengl_logo.png")) {
+		Debug::ErrorLog("Failed to load opengl_logo file texture");
+		delete mOpenGLLogo;
+		mOpenGLLogo = nullptr;
+	}
+
+	mSDL3Logo = new Texture();
+	if (!mSDL3Logo->Load("Editor/sdl3_logo.png")) {
+		Debug::ErrorLog("Failed to load opengl_logo file texture");
+		delete mSDL3Logo;
+		mSDL3Logo = nullptr;
+	}
 }
 
 void EditorTextureManager::AllRelease()
@@ -191,6 +206,18 @@ void EditorTextureManager::AllRelease()
 		}
 	}
 	mThumbnailCacheMap.clear();
+
+	if (mOpenGLLogo) {
+		mOpenGLLogo->Unload();
+		delete mOpenGLLogo;
+		mOpenGLLogo = nullptr;
+	}
+
+	if (mSDL3Logo) {
+		mSDL3Logo->Unload();
+		delete mSDL3Logo;
+		mSDL3Logo = nullptr;
+	}
 }
 
 Texture* EditorTextureManager::GetFileExtensionTexture(const std::string& extension) const
