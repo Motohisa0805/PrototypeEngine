@@ -167,6 +167,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AboutEnginePanel.cpp" />
     <ClCompile Include="Actor.cpp" />
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="Animator.cpp" />
@@ -204,6 +205,7 @@
     <ClCompile Include="EditorSettingsManager.cpp" />
     <ClCompile Include="EditorTextureManager.cpp" />
     <ClCompile Include="FileOperationManager.cpp" />
+    <ClCompile Include="HierarchyExplanationPanel.cpp" />
     <ClCompile Include="IsLandPhysic.cpp" />
     <ClCompile Include="PasteActorCommand.cpp" />
     <ClCompile Include="RectTransform.cpp" />
@@ -271,6 +273,7 @@
     <ClCompile Include="WindowRenderProperty.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AboutEnginePanel.h" />
     <ClInclude Include="Actor.h" />
     <ClInclude Include="Animation.h" />
     <ClInclude Include="Animator.h" />
@@ -311,6 +314,7 @@
     <ClInclude Include="EditorSettingsManager.h" />
     <ClInclude Include="EditorTextureManager.h" />
     <ClInclude Include="FileOperationManager.h" />
+    <ClInclude Include="HierarchyExplanationPanel.h" />
     <ClInclude Include="ICommand.h" />
     <ClInclude Include="IsLandPhysic.h" />
     <ClInclude Include="PasteActorCommand.h" />

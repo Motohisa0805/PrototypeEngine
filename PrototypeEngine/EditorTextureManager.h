@@ -28,6 +28,10 @@ private:
 	std::map<std::string, Texture*>				mExtensionTextureMap; 
 	// 固定アイコン用のマップとは別に、ファイルごとのサムネイルを管理するマップを用意
 	std::unordered_map<std::string, Texture*>	mThumbnailCacheMap;
+
+	Texture*									mOpenGLLogo;
+
+	Texture*									mSDL3Logo;
 public:
 	static EditorTextureManager& GetInstance()
 	{
@@ -51,5 +55,8 @@ public:
 	Texture*	GetStopButtonTexture()const { return mStopButtonTexture; }
 	Texture*	GetFrameByFrameButtonTexture()const { return mFrameByFrameButtonTexture; }
 	Texture*	GetTestImage()const { return mTestImage; }
+
+	Texture*	GetOpenGLLogo()const { return mOpenGLLogo; }
+	Texture*	GetSDL3Logo()const { return mSDL3Logo; }
 };
 

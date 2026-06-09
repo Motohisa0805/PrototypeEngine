@@ -529,6 +529,12 @@
     <ClCompile Include="FileOperationManager.cpp">
       <Filter>SourceCodes\A_Editor\Function\GUIs</Filter>
     </ClCompile>
+    <ClCompile Include="AboutEnginePanel.cpp">
+      <Filter>SourceCodes\A_Editor\Function\GUIs\Panels</Filter>
+    </ClCompile>
+    <ClCompile Include="HierarchyExplanationPanel.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Actor.h">
@@ -884,6 +890,12 @@
     </ClInclude>
     <ClInclude Include="FileOperationManager.h">
       <Filter>SourceCodes\A_Editor\Function\GUIs</Filter>
+    </ClInclude>
+    <ClInclude Include="AboutEnginePanel.h">
+      <Filter>SourceCodes\A_Editor\Function\GUIs\Panels</Filter>
+    </ClInclude>
+    <ClInclude Include="HierarchyExplanationPanel.h">
+      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
