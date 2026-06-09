@@ -4,6 +4,7 @@
 #include "Renderer.h"
 #include "ImGuiHelper.h"
 
+
 //前方宣言
 class Renderer;
 //GUIのパネルの継承元クラス
@@ -13,6 +14,7 @@ class EditorWindow
 protected:
 	//ウィンドウのID
 	string						mID;
+	int							mInstanceID;
 	//描画情報
 	Renderer*					mRenderer;
 	//カーソル判定
@@ -30,9 +32,11 @@ protected:
 	vector<EditorWindow*>		mChildren;
 public:
 								EditorWindow(Renderer* renderer);
-	virtual						~EditorWindow(){
-		mChildren.clear();
-	}
+	virtual						~EditorWindow();
+
+	virtual void				InputUpdate(){}
+
+	virtual void				Update(){}
 
 	virtual void				Draw(float width, float height);
 	
@@ -44,7 +48,13 @@ public:
 
 	vector<EditorWindow*>		GetChildren() { return mChildren; }
 
-	const string				GetID() { return mID; }
+	const std::string&			GetID() const { return mID; }
+
+	void						SetInstanceID(int id) { mInstanceID = id; }
+
+	int							GetInstanceID()const { return mInstanceID; }
+
+	string						GetImGuiWindowID()const;
 
 	virtual void				Initialize(float width, float height, ImTextureRef ref = nullptr);
 	//GUIパネルのレイアウトを初期化

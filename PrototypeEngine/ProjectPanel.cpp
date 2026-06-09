@@ -33,67 +33,47 @@ void ProjectPanel::Initialize(float width, float height, ImTextureRef ref)
 void ProjectPanel::Draw(float width, float height)
 {
     float panel1_SizeWidth = mWidthSize / 2.0f;
-    /*
-    // ウインドウ位置とサイズを固定
-    if (isResetLayout)
-    {
-        ImGui::SetNextWindowPos(ImVec2(mWidthPos, mHeightPos));
-        ImGui::SetNextWindowSize(ImVec2(panel1_SizeWidth, mHeightSize));
-    }
-    else
-    {
-        ImGui::SetNextWindowPos(ImVec2(mWidthPos, mHeightPos), ImGuiCond_Once);
-        ImGui::SetNextWindowSize(ImVec2(panel1_SizeWidth, mHeightSize), ImGuiCond_Once);
-    }
-    */
     EditorWindow::Draw(width, height);
-	//フォルダツリー表示用のウィンドウ
-    if (ImGui::Begin("FolderTree", &mIsShow, ImGuiWindowFlags_NoCollapse))
-    {
-        ImGui::SameLine();
-        ImGui::TextDisabled("(?)");
-        if (ImGui::IsItemHovered()) {
-            ImGui::SetTooltip("Right-click or [Assets] Menu click for options.");
-        }
-        ImGui::SetNextItemOpen(true, ImGuiCond_Once);
-        // 左カラム = フォルダツリー
-        if (ImGui::TreeNode("Assets"))
-        {
-            // 左クリックで選択中フォルダを更新(Assetsフォルダ用)
-            if (ImGui::IsItemClicked(ImGuiMouseButton_Left) || ImGui::IsItemClicked(ImGuiMouseButton_Right))
-            {
-				EditorSettingsManager::SetCurrentFolder("Assets");
-				mSelectedPath = "Assets"; // 選択パスを更新
-            }
+    if (ImGui::Begin(GetImGuiWindowID().c_str(), &mIsShow, ImGuiWindowFlags_NoCollapse)) {
+        // パネル全体の横幅を取得
+        float totalWidth = ImGui::GetContentRegionAvail().x;
 
-            //フォルダツリー表示
-            DrawFolderTree("Assets");
-            RightClickMenu();
-            ImGui::TreePop();
+        float leftColumnWidth = totalWidth * 0.30f;
+        float rightColumnWidth = totalWidth * 0.70f - ImGui::GetStyle().ItemSpacing.x;
+        //フォルダツリー表示用のウィンドウ
+        if (ImGui::BeginChild("FolderTree_Child", ImVec2(leftColumnWidth, 0.0f), ImGuiChildFlags_Border | ImGuiChildFlags_ResizeX)) {
+            ImGui::TextDisabled("(?)");
+            if (ImGui::IsItemHovered()) {
+                ImGui::SetTooltip("Right-click or [Assets] Menu click for options.");
+            }
+            ImGui::SetNextItemOpen(true, ImGuiCond_Once);
+            // 左カラム = フォルダツリー
+            if (ImGui::TreeNode("Assets"))
+            {
+                // 左クリックで選択中フォルダを更新(Assetsフォルダ用)
+                if (ImGui::IsItemClicked(ImGuiMouseButton_Left) || ImGui::IsItemClicked(ImGuiMouseButton_Right))
+                {
+                    EditorSettingsManager::SetCurrentFolder("Assets");
+                    mSelectedPath = "Assets"; // 選択パスを更新
+                }
+
+                //フォルダツリー表示
+                DrawFolderTree("Assets");
+                RightClickMenu();
+                ImGui::TreePop();
+            }
         }
-    }
-    ImGui::End();
-    /*
-    // ウインドウ位置とサイズを固定
-    if (isResetLayout)
-    {
-        ImGui::SetNextWindowPos(ImVec2(mWidthPos + panel1_SizeWidth, mHeightPos));
-        ImGui::SetNextWindowSize(ImVec2(mWidthSize, mHeightSize));
-        isResetLayout = false;
-    }
-    else
-    {
-        ImGui::SetNextWindowPos(ImVec2(mWidthPos + panel1_SizeWidth, mHeightPos), ImGuiCond_Once);
-        ImGui::SetNextWindowSize(ImVec2(panel1_SizeWidth, mHeightSize), ImGuiCond_Once);
-    }
-    */
-	// 右カラム = 選択中フォルダの中身
-    if (ImGui::Begin("Assets", &mIsShow, ImGuiWindowFlags_NoCollapse))
-    {
-        //選択中フォルダの中身表示
-        DrawPickUpFolderView();
-        //右クリック処理
-        RightClickMenu();
+        ImGui::EndChild();
+
+        ImGui::SameLine();
+
+        if (ImGui::BeginChild("Assets_Child", ImVec2(0.0f, 0.0f), ImGuiChildFlags_Border)) {
+            //選択中フォルダの中身表示
+            DrawPickUpFolderView();
+            //右クリック処理
+            RightClickMenu();
+        }
+        ImGui::EndChild();
     }
     ImGui::End();
 

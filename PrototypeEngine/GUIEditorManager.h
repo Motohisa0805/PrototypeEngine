@@ -17,6 +17,7 @@ class GUIMainMenu;
 class ToolbarPanel;
 //シーンビューのパネル
 class SceneViewPanel;
+class SceneEditorCamera;
 //ゲームビューのパネル
 class GameViewPanel;
 //ヒエラルキーパネル
@@ -44,18 +45,20 @@ private:
 
 	static bool											isFrameByFrame;
 
-	static Vector2 										mSceneWinSize;
-
 	static ToolbarPanel*								mToolbarPanel;
 	
 	static GUIMainMenu*									mGUIMainMenu;
 	//エンジンの画面全体のパネルと見立てたWindow
 	static EditorWindow*								mRootMainWindow;
+
+	//パネル全体で数えるSceneEditorCamera配列
+	static vector<SceneViewPanel*>						mSceneViewPanels;
 public:
 							GUIEditorManager() = default;
 							~GUIEditorManager() = default;
 	// Initialize ImGui
 	static bool				 InitializeImGui(SDL_Window* window, SDL_GLContext glContext);
+	static void				 InputUpdateImGuiState();
 	// Update ImGui state	 
 	static void				 UpdateImGuiState();
 	//GUIパネルのゲームシーン内のポインターをリセット
@@ -83,7 +86,9 @@ public:
 	static bool				 IsFrameByFrame() { return isFrameByFrame; }
 	static void				 SetIsFrameByFrame(bool frameByFrame) { isFrameByFrame = frameByFrame; }
 	static void				 SetRenderer(class Renderer* renderer) { mRenderer = renderer; }
-	static Vector2			 GetSceneWinSize() { return mSceneWinSize; }
-	static void				 SetSceneWinSize(const Vector2& size) { mSceneWinSize = size; }
 	static EditorWindow*	 GetRootMainWindow() { return mRootMainWindow; }
+
+	static vector<SceneViewPanel*>		GetSceneViewPanels() { return mSceneViewPanels; }
+	static void							AddSceneViewPanel(SceneViewPanel* panel);
+	static void							RemoveSceneViewPanel(SceneViewPanel* panel);
 };

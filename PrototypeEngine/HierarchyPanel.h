@@ -10,8 +10,6 @@ class UIActorObject;
 //–{Ši“I‚È•`‰æˆ—‚Í–¢À‘•
 class HierarchyPanel : public EditorWindow
 {
-private:
-
 public:
 				HierarchyPanel(class Renderer* renderer);
 				~HierarchyPanel();

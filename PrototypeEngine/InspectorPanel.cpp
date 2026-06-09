@@ -5,6 +5,7 @@
 #include "UIActor.h"
 #include "Math.h"
 
+
 InspectorPanel::InspectorPanel(Renderer* renderer)
 	:EditorWindow(renderer)
 {
@@ -29,7 +30,7 @@ void InspectorPanel::Draw(float width, float height)
 {
 	EditorWindow::Draw(width, height);
 	//  新しいウィンドウの作成
-	if(ImGui::Begin(GetID().c_str(), &mIsShow, ImGuiWindowFlags_NoCollapse))
+	if(ImGui::Begin(GetImGuiWindowID().c_str(), &mIsShow, ImGuiWindowFlags_NoCollapse))
 	{
 		BaseGUIPanelPopupMenu();
 

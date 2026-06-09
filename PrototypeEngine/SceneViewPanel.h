@@ -8,7 +8,12 @@
 class SceneViewPanel : public EditorWindow
 {
 private:
-	static SceneEditorCamera*	mSceneEditorCamera;
+	SceneEditorCamera*	mSceneEditorCamera;
+
+	SceneViewEditor*	mSceneViewEditor;
+	GBuffer*			mSceneBuffer;
+
+	Vector2 			mSceneWinSize;
 public:
 
 	SceneViewPanel(class Renderer* renderer);
@@ -20,10 +25,14 @@ public:
 
 	void						Draw(float width, float height)override;
 
-	static void					InputCameraUpdate();
+	void						InputUpdate()override;
 
-	static void					CameraUpdate();
+	void						Update()override;
 
-	static SceneEditorCamera*	GetSceneEditorCamera() { return mSceneEditorCamera; }
+	SceneEditorCamera*			GetSceneEditorCamera() { return mSceneEditorCamera; }
+
+	SceneViewEditor*			GetSceneViewEditor() { return mSceneViewEditor; }
+	GBuffer*					GetSceneBuffer() { return mSceneBuffer; }
+	Vector2						GetSceneWinSize() { return mSceneWinSize; }
+	void						SetSceneWinSize(const Vector2& size) { mSceneWinSize = size; }
 };
-

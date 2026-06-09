@@ -113,7 +113,7 @@ void EngineWindow::EngineProcessInput()
 	}
 
 	//シーンビューのエディターカメラ入力
-	SceneViewPanel::InputCameraUpdate();
+	GUIEditorManager::InputUpdateImGuiState();
 	//シーンの入力処理
 	if (GUIEditorManager::IsPlaying()&& !GUIEditorManager::IsPaused())
 	{
@@ -142,8 +142,6 @@ void EngineWindow::EngineRunLoop()
 		EngineProcessInput();
 		//ImGuiの状態更新
 		GUIEditorManager::UpdateImGuiState();
-		//エディター用カメラの更新
-		SceneViewPanel::CameraUpdate();
 		//ここからゲーム内の更新開始
 		//ゲームが開始したら
 		if (GUIEditorManager::IsPlaying())

@@ -29,7 +29,6 @@ Renderer::Renderer()
 	, mMeshShader(nullptr)
 	, mSkinnedShader(nullptr)
 	, mGBuffer(nullptr)
-	, mSceneBuffer(nullptr)
 	, mGGlobalShader(nullptr)
 	, mShadowMap(nullptr)
 	, mShadowShader(nullptr)
@@ -119,12 +118,7 @@ bool Renderer::Initialize(float screenWidth, float screenHeight)
 		SDL_Log("Failed to create G-buffer.");
 		return false;
 	}
-	mSceneBuffer = new GBuffer();
-	if (!mSceneBuffer->Create(width, height))
-	{
-		SDL_Log("Failed to create mSceneBuffer.");
-		return false;
-	}
+
 	//シャドウマップを作成する
 	mShadowMap = new ShadowMap();
 	if(!mShadowMap->Initialize(width, height))
@@ -138,10 +132,6 @@ bool Renderer::Initialize(float screenWidth, float screenHeight)
 		SDL_Log("Failed to load shaders.");
 		return false;
 	}
-	//エディターとゲームのシーンビューのFBOを作成
-	//エディターシーンのFBOを作成
-	mSceneViewEditor = new SceneViewEditor();
-	mSceneViewEditor->CreateSceneFBO(width, height);
 	//ゲームシーンのFBOを作成
 	mGameSceneViewEditor = new SceneViewEditor();
 	mGameSceneViewEditor->CreateSceneFBO(width, height);
@@ -444,9 +434,11 @@ void Renderer::StartDraw()
 
 	//***SceneViewEditorのSceneFBOに描画
 	// G-bufferに3Dシーンを描画します。
-	EditorDraw3DScene(mSceneBuffer->GetBufferID(), SceneViewPanel::GetSceneEditorCamera()->GetViewMatrix(), mProjection, 1.0f, true);
-	// Gバッファから描画する
-	DrawFromGBufferForEditor();
+	for (SceneViewPanel* scene : GUIEditorManager::GetSceneViewPanels()) {
+		EditorDraw3DScene(scene,scene->GetSceneBuffer()->GetBufferID(), scene->GetSceneEditorCamera()->GetViewMatrix(), mProjection, 1.0f, true);
+		// Gバッファから描画する
+		DrawFromGBufferForEditor(scene);
+	}
 
 	//描画呼び出しのカウンターをリセット
 	mDrawCalls = 0;
@@ -539,13 +531,13 @@ void Renderer::EndDraw()
 	SDL_GL_SwapWindow(mWindow);
 }
 
-void Renderer::EditorDraw3DScene(unsigned int framebuffer, const Matrix4& view, const Matrix4& proj, float viewPortScale, bool lit)
+void Renderer::EditorDraw3DScene(SceneViewPanel* scene,unsigned int framebuffer, const Matrix4& view, const Matrix4& proj, float viewPortScale, bool lit)
 {
 	// 現在のフレームバッファを設定する
 	glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
 
 	// スケールに基づいてビューポートサイズを設定します
-	Vector2 sceneWinSize = GUIEditorManager::GetSceneWinSize();
+	Vector2 sceneWinSize = scene->GetSceneWinSize();
 	glViewport(0,0, (int)sceneWinSize.x * viewPortScale,(int)sceneWinSize.y * viewPortScale);
 
 	// カラー バッファ/深度バッファをクリア
@@ -664,57 +656,59 @@ void Renderer::EditorDraw3DScene(unsigned int framebuffer, const Matrix4& view, 
 			p->Draw(mParticleShader);
 		}
 	}
-	//デバッグ描画
+	for (SceneViewPanel* scene : GUIEditorManager::GetSceneViewPanels()) {
+		//デバッグ描画
 	//オブジェクトの矢印描画
-	mArrowShader->SetActive();
-	mArrowShader->SetMatrixUniform("uViewProj", view * proj);
-	Entity* actor = SelectionManager::GetSelectedActor();
-	if (actor != nullptr && actor->GetState() == ActorObject::EActive)
-	{
-		//1.カメラとオブジェクトの位置を取得
-		Vector3 cameraPos = SceneViewPanel::GetSceneEditorCamera()->GetTransform()->GetPosition();
-		Vector3 actorPos = actor->GetBaseTransform()->GetPosition();
-
-		//2.カメラとオブジェクトの距離を計算
-		float distance = (actorPos - cameraPos).Length();
-
-		//3.画面サイズ固定のためのスケール定数を設定
-		// この値を調整することで、ギズモの見かけのサイズを変更できます。
-		const float GIZMO_SCREEN_SIZE_FACTOR = 0.15f; // 値が大きいほど画面上で大きく見える
-
-		//4. 距離に比例したワールドスケールを算出
-		// ギズモの長さを0.5mで定義しているため、それを基準に距離に応じてスケールを調整
-		float baseLength = 1.0f; // CreateAxisVertsで定義された各軸の長さ(1.0f)を基準とする
-		float scale = distance * GIZMO_SCREEN_SIZE_FACTOR;
-
-		//5. 最小スケールを設定 (オブジェクトがカメラに近すぎる場合のサイズ制御)
-		// オブジェクトにめり込むほど近づいても、ギズモが小さくなりすぎないようにする
-		if (scale < baseLength * 1.0f)
+		mArrowShader->SetActive();
+		mArrowShader->SetMatrixUniform("uViewProj", view* proj);
+		Entity* actor = SelectionManager::GetSelectedActor();
+		if (actor != nullptr && actor->GetState() == ActorObject::EActive)
 		{
-			scale = baseLength * 1.0f;
+			//1.カメラとオブジェクトの位置を取得
+			Vector3 cameraPos = scene->GetSceneEditorCamera()->GetTransform()->GetPosition();
+			Vector3 actorPos = actor->GetBaseTransform()->GetPosition();
+
+			//2.カメラとオブジェクトの距離を計算
+			float distance = (actorPos - cameraPos).Length();
+
+			//3.画面サイズ固定のためのスケール定数を設定
+			// この値を調整することで、ギズモの見かけのサイズを変更できます。
+			const float GIZMO_SCREEN_SIZE_FACTOR = 0.15f; // 値が大きいほど画面上で大きく見える
+
+			//4. 距離に比例したワールドスケールを算出
+			// ギズモの長さを0.5mで定義しているため、それを基準に距離に応じてスケールを調整
+			float baseLength = 1.0f; // CreateAxisVertsで定義された各軸の長さ(1.0f)を基準とする
+			float scale = distance * GIZMO_SCREEN_SIZE_FACTOR;
+
+			//5. 最小スケールを設定 (オブジェクトがカメラに近すぎる場合のサイズ制御)
+			// オブジェクトにめり込むほど近づいても、ギズモが小さくなりすぎないようにする
+			if (scale < baseLength * 1.0f)
+			{
+				scale = baseLength * 1.0f;
+			}
+
+
+			// 6. 新しいモデル行列を作成
+			// Scale -> Rotation -> Translation の順で適用
+			Matrix4 gizmoModel = Matrix4::CreateScale(scale);
+			gizmoModel *= Matrix4::CreateFromQuaternion(actor->GetBaseTransform()->GetRotation());
+			gizmoModel *= Matrix4::CreateTranslation(actorPos);
+
+			// オブジェクトのデバッグ描画
+			mArrowShader->SetMatrixUniform("uModel", gizmoModel);
+			// 6頂点（3軸 × 2点）
+			mAxisVAO->SetActive();
+			// 線の太さを3ピクセルに設定
+			glLineWidth(3.0f);
+			glDrawArrays(GL_LINES, 0, 6);
 		}
-
-
-		// 6. 新しいモデル行列を作成
-		// Scale -> Rotation -> Translation の順で適用
-		Matrix4 gizmoModel = Matrix4::CreateScale(scale);
-		gizmoModel *= Matrix4::CreateFromQuaternion(actor->GetBaseTransform()->GetRotation());
-		gizmoModel *= Matrix4::CreateTranslation(actorPos);
-
-		// オブジェクトのデバッグ描画
-		mArrowShader->SetMatrixUniform("uModel", gizmoModel);
-		// 6頂点（3軸 × 2点）
-		mAxisVAO->SetActive();
-		// 線の太さを3ピクセルに設定
-		glLineWidth(3.0f);
-		glDrawArrays(GL_LINES, 0, 6);
-	}
-	//デバッググリッド描画
-	if (GameStateClass::gDebugGridFrag)
-	{
-		if (mGridShader && SceneViewPanel::GetSceneEditorCamera())
+		//デバッググリッド描画
+		if (GameStateClass::gDebugGridFrag)
 		{
-			mDebugGrid->Draw(mGridShader, view * proj,SceneViewPanel::GetSceneEditorCamera()->GetTransform()->GetPosition());
+			if (mGridShader && scene->GetSceneEditorCamera())
+			{
+				mDebugGrid->Draw(mGridShader, view * proj, scene->GetSceneEditorCamera()->GetTransform()->GetPosition());
+			}
 		}
 	}
 
@@ -891,16 +885,16 @@ void Renderer::DrawShadow3DScene()
 	mShadowMap->EndRender(); 
 }
 
-void Renderer::DrawFromGBufferForEditor()
+void Renderer::DrawFromGBufferForEditor(SceneViewPanel* scene)
 {
 	//描画先を指定されたフレームバッファに切り替える
-	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, mSceneViewEditor->GetBufferID());
+	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, scene->GetSceneViewEditor()->GetBufferID());
 
 	glDisable(GL_DEPTH_TEST);
 
 	mGGlobalShader->SetActive();
 	mSpriteVerts->SetActive();
-	mSceneBuffer->SetTexturesActive();
+	scene->GetSceneBuffer()->SetTexturesActive();
 	// シャドウマップを無効にする
 	mGGlobalShader->SetBoolUniform("uEnableShadow", GameStateClass::gShadowFrag); // withShadow = true/false
 	
@@ -909,9 +903,9 @@ void Renderer::DrawFromGBufferForEditor()
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 
 	// 深度バッファをコピー（必要に応じて）
-	glBindFramebuffer(GL_READ_FRAMEBUFFER, mSceneBuffer->GetBufferID());
-	int width = (int)GUIEditorManager::GetSceneWinSize().x;
-	int height = (int)GUIEditorManager::GetSceneWinSize().y;
+	glBindFramebuffer(GL_READ_FRAMEBUFFER, scene->GetSceneBuffer()->GetBufferID());
+	int width = (int)scene->GetSceneWinSize().x;
+	int height = (int)scene->GetSceneWinSize().y;
 	glBlitFramebuffer(0, 0, width, height, 0, 0, width, height,GL_DEPTH_BUFFER_BIT, GL_NEAREST);
 
 	glEnable(GL_DEPTH_TEST);
@@ -992,12 +986,7 @@ void Renderer::Shutdown()
 		delete mGBuffer;
 		mGBuffer = nullptr;
 	}
-	if (mSceneBuffer)
-	{
-		mSceneBuffer->Destroy();
-		delete mSceneBuffer;
-		mSceneBuffer = nullptr;
-	}
+
 	// シャドウマップを取り除く
 	if (mShadowMap)
 	{
@@ -1005,11 +994,7 @@ void Renderer::Shutdown()
 		mShadowMap = nullptr;
 	}
 
-	if(mSceneViewEditor)
-	{
-		delete mSceneViewEditor;
-		mSceneViewEditor = nullptr;
-	}
+
 	if (mGameSceneViewEditor)
 	{
 		delete mGameSceneViewEditor;

@@ -2,8 +2,6 @@
 #include "SceneViewEditor.h"
 #include "GBuffer.h"
 
-SceneEditorCamera* SceneViewPanel::mSceneEditorCamera = nullptr;
-
 SceneViewPanel::SceneViewPanel(Renderer* renderer)
 	:EditorWindow(renderer)
 {
@@ -11,14 +9,30 @@ SceneViewPanel::SceneViewPanel(Renderer* renderer)
 	//エディター用カメラの生成
 	mSceneEditorCamera = new SceneEditorCamera(nullptr);
 	mSceneEditorCamera->SetSceneViewPanel(this);
+
+	GUIEditorManager::AddSceneViewPanel(this);
 }
 
 SceneViewPanel::~SceneViewPanel()
 {
+	GUIEditorManager::RemoveSceneViewPanel(this);
 	if (mSceneEditorCamera)
 	{
 		delete mSceneEditorCamera;
 		mSceneEditorCamera = nullptr;
+	}
+
+	if (mSceneBuffer)
+	{
+		mSceneBuffer->Destroy();
+		delete mSceneBuffer;
+		mSceneBuffer = nullptr;
+	}
+
+	if (mSceneViewEditor)
+	{
+		delete mSceneViewEditor;
+		mSceneViewEditor = nullptr;
 	}
 }
 
@@ -30,6 +44,17 @@ void SceneViewPanel::Initialize(float width, float height, ImTextureRef ref)
 	mHeightSize = (height * 0.5f) - mHeightPos;
 	EditorWindow::Initialize(width, height, ref);
 	ResetLayoutFunction();
+
+	mSceneBuffer = new GBuffer();
+	if (!mSceneBuffer->Create(width, height))
+	{
+		SDL_Log("Failed to create mSceneBuffer.");
+	}
+
+	//エディターとゲームのシーンビューのFBOを作成
+	//エディターシーンのFBOを作成
+	mSceneViewEditor = new SceneViewEditor();
+	mSceneViewEditor->CreateSceneFBO(width, height);
 }
 
 bool SceneViewPanel::MouseHoveredDisble()
@@ -41,7 +66,7 @@ bool SceneViewPanel::MouseHoveredDisble()
 void SceneViewPanel::Draw(float width, float height)
 {
 	EditorWindow::Draw(width, height);
-	if(ImGui::Begin(GetID().c_str(), &mIsShow, ImGuiWindowFlags_NoCollapse))
+	if(ImGui::Begin(GetImGuiWindowID().c_str(), &mIsShow, ImGuiWindowFlags_NoCollapse))
 	{
 		//デバッグモード切り替えボタン
 		ImGuiHelper::FragTextButton("Grid:", ImVec2(0.0f, 0.0f), GameStateClass::gDebugGridFrag);
@@ -52,11 +77,11 @@ void SceneViewPanel::Draw(float width, float height)
 
 		ImVec2 winsize = ImVec2(mWidthSize, mHeightSize);
 		// SceneView のサイズが変わったら FBO をリサイズ
-		if (mRenderer->GetSceneViewEditor()->NeedsResize(Vector2((int)winsize.x, (int)winsize.y)))
+		if (mSceneViewEditor->NeedsResize(Vector2((int)winsize.x, (int)winsize.y)))
 		{
-			mRenderer->GetSceneViewEditor()->CreateSceneFBO((int)winsize.x, (int)winsize.y);
-			mRenderer->GetSceneBuffer()->Resize((int)winsize.x, (int)winsize.y);
-			GUIEditorManager::SetSceneWinSize(Vector2(winsize.x, winsize.y));
+			mSceneViewEditor->CreateSceneFBO((int)winsize.x, (int)winsize.y);
+			mSceneBuffer->Resize((int)winsize.x, (int)winsize.y);
+			mSceneWinSize = Vector2(winsize.x, winsize.y);
 		}
 
 		MouseHoveredDisble();
@@ -65,7 +90,7 @@ void SceneViewPanel::Draw(float width, float height)
 
 		ImVec2 size = GetAspectRatio();
 		// SceneView のテクスチャを貼る
-		ImGui::Image(mRenderer->GetSceneViewEditor()->GetSceneColorTex(),
+		ImGui::Image(mSceneViewEditor->GetSceneColorTex(),
 					 size,
 					 ImVec2(0, 1),
 					 ImVec2(1, 0));
@@ -73,7 +98,7 @@ void SceneViewPanel::Draw(float width, float height)
 	ImGui::End();
 }
 
-void SceneViewPanel::InputCameraUpdate()
+void SceneViewPanel::InputUpdate()
 {
 	if (!mSceneEditorCamera)return;
 
@@ -82,7 +107,7 @@ void SceneViewPanel::InputCameraUpdate()
 	mSceneEditorCamera->ProcessInput(state);
 }
 
-void SceneViewPanel::CameraUpdate()
+void SceneViewPanel::Update()
 {
 	if (!mSceneEditorCamera)return;
 
