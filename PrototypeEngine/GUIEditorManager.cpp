@@ -10,6 +10,7 @@
 #include "HierarchyPanel.h"
 #include "ProjectPanel.h"
 #include "InspectorPanel.h"
+#include "SceneEditorCamera.h"
 
 bool GUIEditorManager::isPaused = false;
 
@@ -22,15 +23,14 @@ bool GUIEditorManager::isPushEnd = false;
 bool GUIEditorManager::isFrameByFrame = false;
 
 Renderer* GUIEditorManager::mRenderer = nullptr;
-
-
-Vector2 GUIEditorManager::mSceneWinSize = Vector2::Zero;
 	
 ToolbarPanel* GUIEditorManager::mToolbarPanel = nullptr;
 
 GUIMainMenu* GUIEditorManager::mGUIMainMenu = nullptr;
 
 EditorWindow* GUIEditorManager::mRootMainWindow = nullptr;
+
+vector<SceneViewPanel*> GUIEditorManager::mSceneViewPanels;
 
 bool GUIEditorManager::InitializeImGui(SDL_Window* window, SDL_GLContext glContext)
 {
@@ -62,15 +62,15 @@ bool GUIEditorManager::InitializeImGui(SDL_Window* window, SDL_GLContext glConte
 	mToolbarPanel->Initialize(windowWidth, windowHeight);
 
 	//パネルの事前定義
-	RegisterAllEditorWindows(mRenderer);
+	RegisterAllEditorWindows();
 	//ルートパネル追加
 	mRootMainWindow = new EditorWindow(mRenderer);
 	
-	mRootMainWindow->AddEditorWindow(EditorWindowFactory::CreateEditorWindow("GameView"));
-	mRootMainWindow->AddEditorWindow(EditorWindowFactory::CreateEditorWindow("SceneView"));
-	mRootMainWindow->AddEditorWindow(EditorWindowFactory::CreateEditorWindow("Hierarchy"));
-	mRootMainWindow->AddEditorWindow(EditorWindowFactory::CreateEditorWindow("Project"));
-	mRootMainWindow->AddEditorWindow(EditorWindowFactory::CreateEditorWindow("Inspector"));
+	mRootMainWindow->AddEditorWindow(EditorWindowFactory::CreateEditorWindow("GameView", mRenderer));
+	mRootMainWindow->AddEditorWindow(EditorWindowFactory::CreateEditorWindow("SceneView", mRenderer));
+	mRootMainWindow->AddEditorWindow(EditorWindowFactory::CreateEditorWindow("Hierarchy", mRenderer));
+	mRootMainWindow->AddEditorWindow(EditorWindowFactory::CreateEditorWindow("Project", mRenderer));
+	mRootMainWindow->AddEditorWindow(EditorWindowFactory::CreateEditorWindow("Inspector", mRenderer));
 
 	SelectionManager::SetSelectedActor(nullptr);
 
@@ -79,11 +79,22 @@ bool GUIEditorManager::InitializeImGui(SDL_Window* window, SDL_GLContext glConte
 	return true;
 }
 
+void GUIEditorManager::InputUpdateImGuiState()
+{
+	for (auto window : mRootMainWindow->GetChildren()) {
+		window->InputUpdate();
+	}
+}
+
 void GUIEditorManager::UpdateImGuiState()
 {
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplSDL3_NewFrame();
 	ImGui::NewFrame();
+
+	for (auto window : mRootMainWindow->GetChildren()) {
+		window->Update();
+	}
 }
 
 void GUIEditorManager::ResetPointer()
@@ -163,6 +174,8 @@ void GUIEditorManager::RenderImGui()
 	for (auto window : mRootMainWindow->GetChildren()) {
 		if (!window->IsShow()) { // パネルが閉じられていたら
 			toDelete.push_back(window);
+			delete window;
+			window = nullptr;
 		}
 	}
 
@@ -259,4 +272,20 @@ void GUIEditorManager::ShutdownImGui()
 	}
 
 	EditorTextureManager::GetInstance().AllRelease();
+}
+
+void GUIEditorManager::AddSceneViewPanel(SceneViewPanel* panel)
+{
+	mSceneViewPanels.push_back(panel);
+}
+
+void GUIEditorManager::RemoveSceneViewPanel(SceneViewPanel* panel)
+{
+	auto it = std::find(mSceneViewPanels.begin(), mSceneViewPanels.end(), panel);
+	if (it != mSceneViewPanels.end()) {
+		mSceneViewPanels.erase(it);
+	}
+	else {
+		Debug::Log("Not Found this camera ");
+	}
 }

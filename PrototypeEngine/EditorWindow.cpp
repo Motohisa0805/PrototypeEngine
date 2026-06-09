@@ -5,9 +5,27 @@ EditorWindow::EditorWindow(Renderer* renderer)
 	: mRenderer(renderer)
 	, isMouseHovered(false)
 	, isResetLayout(false)
-	, mID("")
+	, mID("EditorWindow")
+	, mInstanceID(0)
 {
-	mID = "BaseWindow";
+}
+
+EditorWindow::~EditorWindow()
+{
+	for (auto window : mChildren) {
+		delete window;
+		window = nullptr;
+	}
+	mChildren.clear();
+}
+
+string EditorWindow::GetImGuiWindowID() const
+{
+	if (mInstanceID == 0) {
+		return mID;
+	}
+	// "WindowView###WindowView_1" のように ### を使って見た目と内部IDを分離する
+	return mID + "###" + mID + "_" + std::to_string(mInstanceID);
 }
 
 void EditorWindow::Initialize(float width, float height, ImTextureRef ref)
@@ -93,25 +111,13 @@ bool EditorWindow::WindowHoveredConfirmation()
 
 void EditorWindow::Draw(float width, float height)
 {
-	/*
-	// ドッキングの設定を定義
-	ImGuiWindowClass window_class;
-	window_class.DockingAllowUnclassed = true;
-	ImGui::SetNextWindowClass(&window_class);
-	*/
 }
 
 void EditorWindow::AddEditorWindow(EditorWindow* window)
 {
-	auto it = std::find(mChildren.begin(),mChildren.end(), window);
-	if (it == mChildren.end()) {
-		mChildren.push_back(window);
-		window->Initialize(WindowRenderProperty::GetWidth(), WindowRenderProperty::GetHeight());
-		window->Enabled();
-	}
-	else {
-		Debug::Log("This Window already created");
-	}
+	mChildren.push_back(window);
+	window->Initialize(WindowRenderProperty::GetWidth(), WindowRenderProperty::GetHeight());
+	window->Enabled();
 }
 
 void EditorWindow::RemoveEditorWindow(EditorWindow* window)

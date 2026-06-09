@@ -5,7 +5,6 @@
 //GUIのゲームパネルの処理をまとめたクラス
 class GameViewPanel : public EditorWindow
 {
-private:
 public:
 	GameViewPanel(class Renderer* renderer);
 
@@ -13,4 +12,3 @@ public:
 
 	void		Draw(float width,float height)override;
 };
-

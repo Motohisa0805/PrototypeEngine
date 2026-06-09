@@ -30,7 +30,7 @@ void GameViewPanel::Draw(float width, float height)
 	{
 		flag |= ImGuiWindowFlags_NoMove;
 	}
-	if(ImGui::Begin(GetID().c_str(), &mIsShow, flag))
+	if(ImGui::Begin(GetImGuiWindowID().c_str(), &mIsShow, flag))
 	{
 		//デバッグモード切り替えボタン
 		ImGuiHelper::FragTextButton("State:", ImVec2(0.0f, 0.0f), GameStateClass::gDebugStatesFrag);

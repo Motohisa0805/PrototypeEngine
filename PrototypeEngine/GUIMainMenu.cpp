@@ -186,19 +186,19 @@ void GUIMainMenu::WindowMenuDraw()
 	{
 		if (ImGui::BeginMenu("Show")) {
 			if (ImGui::MenuItem("GameViewEditor")) {
-				GUIEditorManager::GetRootMainWindow()->AddEditorWindow(EditorWindowFactory::CreateEditorWindow("GameView"));
+				GUIEditorManager::GetRootMainWindow()->AddEditorWindow(EditorWindowFactory::CreateEditorWindow("GameView", mRenderer));
 			}
 			if (ImGui::MenuItem("SceneViewEditor")) {
-				GUIEditorManager::GetRootMainWindow()->AddEditorWindow(EditorWindowFactory::CreateEditorWindow("SceneView"));
+				GUIEditorManager::GetRootMainWindow()->AddEditorWindow(EditorWindowFactory::CreateEditorWindow("SceneView", mRenderer));
 			}
 			if (ImGui::MenuItem("HierarchyEditor")) {
-				GUIEditorManager::GetRootMainWindow()->AddEditorWindow(EditorWindowFactory::CreateEditorWindow("Hierarchy"));
+				GUIEditorManager::GetRootMainWindow()->AddEditorWindow(EditorWindowFactory::CreateEditorWindow("Hierarchy", mRenderer));
 			}
 			if (ImGui::MenuItem("ProjectEditor")) {
-				GUIEditorManager::GetRootMainWindow()->AddEditorWindow(EditorWindowFactory::CreateEditorWindow("Project"));
+				GUIEditorManager::GetRootMainWindow()->AddEditorWindow(EditorWindowFactory::CreateEditorWindow("Project", mRenderer));
 			}
 			if (ImGui::MenuItem("InspectorEditor")) {
-				GUIEditorManager::GetRootMainWindow()->AddEditorWindow(EditorWindowFactory::CreateEditorWindow("Inspector"));
+				GUIEditorManager::GetRootMainWindow()->AddEditorWindow(EditorWindowFactory::CreateEditorWindow("Inspector", mRenderer));
 			}
 			ImGui::EndMenu();
 		}

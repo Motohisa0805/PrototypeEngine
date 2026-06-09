@@ -10,28 +10,30 @@
 #include "ProjectPanel.h"
 #include "InspectorPanel.h"
 
-std::unordered_map<string, EditorWindow*> EditorWindowFactory::sCreators;
+std::unordered_map<string, WindowCreator> EditorWindowFactory::sCreators;
 
-void EditorWindowFactory::RegisterEditorWindow(EditorWindow* creator)
+std::unordered_map<string, int>	EditorWindowFactory::sInstanceCounters;
+
+void EditorWindowFactory::RegisterEditorWindow(const string& id, WindowCreator creator)
 {
-	auto it = sCreators.find(creator->GetID());
-	if (it == sCreators.end()) {
-		sCreators.emplace(creator->GetID(), creator);
-	}
-	else {
-		Debug::Log("This Window already created");
-	}
+	sCreators[id] = creator;
 }
 
-EditorWindow* EditorWindowFactory::CreateEditorWindow(const string& type)
+EditorWindow* EditorWindowFactory::CreateEditorWindow(const string& type,Renderer* renderer)
 {
 	auto it = sCreators.find(type);
-	if (it != sCreators.end())
-	{
-		//¶¬ŠÖ”‚ðŽÀs
-		return it->second;
+	if (it == sCreators.end()) return nullptr;
+
+	EditorWindow* newWindow = it->second(renderer);
+
+	if (newWindow) {
+		sInstanceCounters[type]++;
+		int currentCount = sInstanceCounters[type];
+
+		newWindow->SetInstanceID(currentCount);
 	}
-	return nullptr;
+
+	return newWindow;
 }
 
 std::vector<string> EditorWindowFactory::GetRegisteredEditorWindowNames()
@@ -46,19 +48,13 @@ std::vector<string> EditorWindowFactory::GetRegisteredEditorWindowNames()
 
 void EditorWindowFactory::UnregisterAllEditorWindows()
 {
-	for (auto& pair : sCreators) {
-		delete pair.second;
-		pair.second = nullptr;
-	}
 	sCreators.clear();
 }
 
-void RegisterAllEditorWindows(Renderer* renderer) {
-	//EditorWindowFactory::RegisterEditorWindow(new GUIMainMenu(renderer));
-	//EditorWindowFactory::RegisterEditorWindow(new ToolbarPanel(renderer));
-	EditorWindowFactory::RegisterEditorWindow(new GameViewPanel(renderer));
-	EditorWindowFactory::RegisterEditorWindow(new SceneViewPanel(renderer));
-	EditorWindowFactory::RegisterEditorWindow(new HierarchyPanel(renderer));
-	EditorWindowFactory::RegisterEditorWindow(new ProjectPanel(renderer));
-	EditorWindowFactory::RegisterEditorWindow(new InspectorPanel(renderer));
+void RegisterAllEditorWindows() {
+	EditorWindowFactory::RegisterEditorWindow("GameView", [](Renderer* r) -> EditorWindow* { return new GameViewPanel(r);});
+	EditorWindowFactory::RegisterEditorWindow("SceneView", [](Renderer* r) -> EditorWindow* { return new SceneViewPanel(r);});
+	EditorWindowFactory::RegisterEditorWindow("Hierarchy", [](Renderer* r) -> EditorWindow* { return new HierarchyPanel(r);});
+	EditorWindowFactory::RegisterEditorWindow("Project", [](Renderer* r) -> EditorWindow* { return new ProjectPanel(r);});
+	EditorWindowFactory::RegisterEditorWindow("Inspector", [](Renderer* r) -> EditorWindow* { return new InspectorPanel(r);});
 }

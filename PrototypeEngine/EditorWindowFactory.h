@@ -25,20 +25,26 @@ class ProjectPanel;
 //アイテム選択用のパネル
 class InspectorPanel;
 
+using WindowCreator = std::function<EditorWindow* (Renderer*)>;
+
 class EditorWindowFactory
 {
 private:
 	//EditorWindow名と、それを生成する関数のマップ
-	static std::unordered_map<string, EditorWindow*>	sCreators;
+	static std::unordered_map<string, WindowCreator>	sCreators;
+
+	static std::unordered_map<string, int>				sInstanceCounters;
+
+	static Renderer*									mRenderer;
 public:
 	//ファクトリーの登録処理
-	static void					RegisterEditorWindow(EditorWindow* creator);
+	static void					RegisterEditorWindow(const string& id, WindowCreator creator);
 
-	static EditorWindow*		CreateEditorWindow(const string& type);
+	static EditorWindow*		CreateEditorWindow(const string& type, Renderer* renderer);
 
 	//登録されているコンポーネントの一覧を取得
 	static std::vector<string>	GetRegisteredEditorWindowNames();
 	static void					UnregisterAllEditorWindows();
 };
 
-extern void RegisterAllEditorWindows(Renderer* renderer);
+extern void RegisterAllEditorWindows();

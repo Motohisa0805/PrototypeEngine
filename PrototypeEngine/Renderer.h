@@ -87,7 +87,7 @@ private:
 	SDL_GLContext										mContext;
 	//GBufferクラス
 	GBuffer*											mGBuffer;
-	GBuffer*											mSceneBuffer;
+
 	// GBuffer shader
 	Shader*												mGGlobalShader;
 	//シャドウマップのクラス
@@ -108,8 +108,7 @@ private:
 	Shader*												mArrowShader;
 	//オブジェクトの方向矢印用の頂点配列
 	VertexArray*										mAxisVAO;
-	//エディターシーンのデータ
-	SceneViewEditor*									mSceneViewEditor;
+
 	//ゲームシーンのデータ
 	SceneViewEditor*									mGameSceneViewEditor;
 	//シーンごとに保存しているオブジェクトのバッチ
@@ -122,14 +121,14 @@ private:
 	int													mDrawCalls;
 
 	//3D描画処理
-	void												EditorDraw3DScene(unsigned int framebuffer, const Matrix4& view, const Matrix4& proj,
+	void												EditorDraw3DScene(class SceneViewPanel* scene,unsigned int framebuffer, const Matrix4& view, const Matrix4& proj,
 		float viewPortScale = 1.0f, bool lit = true);
 	//3D描画処理
 	void												Draw3DScene(unsigned int framebuffer, const Matrix4& view, const Matrix4& proj,
 		float viewPortScale = 1.0f, bool lit = true);
 	void												DrawShadow3DScene();
 
-	void												DrawFromGBufferForEditor();
+	void												DrawFromGBufferForEditor(class SceneViewPanel* scene);
 	//ライト描画処理
 	void												DrawFromGBuffer();
 	//Shaderの読み込み
@@ -211,7 +210,6 @@ public:
 	void												GetScreenDirection(Vector3& outStart, Vector3& outDir) const;
 	//GBufferのGetter
 	GBuffer*											GetGBuffer() { return mGBuffer; }
-	GBuffer*											GetSceneBuffer() { return mSceneBuffer; }
 	// Mesh shader
 	Shader*												GetMeshShader() { return mMeshShader; }
 	// Skinned shader
@@ -225,8 +223,6 @@ public:
 
 	ShadowMap*											GetShadowMap() { return mShadowMap; }
 
-	// mSceneViewEditorのGetter
-	SceneViewEditor*									GetSceneViewEditor() { return mSceneViewEditor; }
 	// mGameSceneViewEditorのGetter
 	SceneViewEditor*									GetGameSceneViewEditor() { return mGameSceneViewEditor; }
 
