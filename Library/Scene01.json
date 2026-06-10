@@ -1,0 +1,700 @@
+{
+  "Actors": [
+    {
+      "Components": [
+        {
+          "Type": "FreeCamera"
+        }
+      ],
+      "ID": 1,
+      "LocalPosition": [
+        0.0,
+        1.0,
+        -5.0
+      ],
+      "LocalRotation": [
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "LocalScale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "Name": "MainCamera",
+      "ParentActorID": -1,
+      "State": 0,
+      "Static": 0,
+      "Tag": 0,
+      "Type": "Transform"
+    },
+    {
+      "Components": [
+        {
+          "AmbientColor": [
+            0.699999988079071,
+            0.699999988079071,
+            0.6000000238418579
+          ],
+          "DiffuseColor": [
+            1.0,
+            0.949999988079071,
+            0.800000011920929
+          ],
+          "Direction": [
+            0.7071067094802856,
+            -0.7071068286895752,
+            0.0
+          ],
+          "SpecularColor": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "Type": "DirectionalLightComponent"
+        }
+      ],
+      "ID": 2,
+      "LocalPosition": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "LocalRotation": [
+        0.9238795042037964,
+        -0.0,
+        -0.0,
+        -0.3826834559440613
+      ],
+      "LocalScale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "Name": "Directional Light",
+      "ParentActorID": -1,
+      "State": 0,
+      "Static": 0,
+      "Tag": 0,
+      "Type": "Transform"
+    },
+    {
+      "Components": [
+        {
+          "Alpha": 1.0,
+          "FilePath": "Assets\\Models\\DebugStage.fbx",
+          "IsSkeletal": false,
+          "ShadowFrag": true,
+          "Type": "MeshRenderer",
+          "Visible": true
+        },
+        {
+          "Type": "BoxCollider",
+          "mContactOffset": 0.0010000000474974513,
+          "mIsCollider": true,
+          "mObjectOBB.mOffset": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "ID": 3,
+      "LocalPosition": [
+        0.0,
+        -1.0,
+        0.0
+      ],
+      "LocalRotation": [
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "LocalScale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "Name": "Ground",
+      "ParentActorID": -1,
+      "State": 0,
+      "Static": 1,
+      "Tag": 0,
+      "Type": "Transform"
+    },
+    {
+      "Components": [
+        {
+          "Alpha": 1.0,
+          "FilePath": "Assets\\Models\\DebugStage.fbx",
+          "IsSkeletal": false,
+          "ShadowFrag": true,
+          "Type": "MeshRenderer",
+          "Visible": true
+        },
+        {
+          "Type": "BoxCollider",
+          "mContactOffset": 0.0010000000474974513,
+          "mIsCollider": true,
+          "mObjectOBB.mOffset": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "ID": 4,
+      "LocalPosition": [
+        0.0,
+        5.699999809265137,
+        15.5
+      ],
+      "LocalRotation": [
+        0.9238797426223755,
+        -0.3826829493045807,
+        -4.032215450422427e-09,
+        -9.734643313663582e-09
+      ],
+      "LocalScale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "Name": "Wall",
+      "ParentActorID": -1,
+      "State": 0,
+      "Static": 1,
+      "Tag": 0,
+      "Type": "Transform"
+    },
+    {
+      "Components": [
+        {
+          "Alpha": 1.0,
+          "FilePath": "Assets\\Models\\Cube.fbx",
+          "IsSkeletal": false,
+          "ShadowFrag": true,
+          "Type": "MeshRenderer",
+          "Visible": true
+        },
+        {
+          "Type": "BoxCollider",
+          "mContactOffset": 0.0010000000474974513,
+          "mIsCollider": true,
+          "mObjectOBB.mOffset": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "Bounciness": 0.10000000149011612,
+          "Friction": 0.30000001192092896,
+          "GravityScale": 1.0,
+          "IsPrivateUseGravityScale": false,
+          "Mass": 10.0,
+          "Type": "Rigidbody",
+          "UseGravity": true
+        }
+      ],
+      "ID": 5,
+      "LocalPosition": [
+        0.0,
+        0.0,
+        5.0
+      ],
+      "LocalRotation": [
+        0.9762960076332092,
+        0.0,
+        0.2164396196603775,
+        0.0
+      ],
+      "LocalScale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "Name": "RigidbodyCube2",
+      "ParentActorID": -1,
+      "State": 0,
+      "Static": 0,
+      "Tag": 0,
+      "Type": "Transform"
+    },
+    {
+      "Components": [
+        {
+          "Alpha": 1.0,
+          "FilePath": "Assets\\Models\\Cube.fbx",
+          "IsSkeletal": false,
+          "ShadowFrag": true,
+          "Type": "MeshRenderer",
+          "Visible": true
+        },
+        {
+          "Type": "BoxCollider",
+          "mContactOffset": 0.0010000000474974513,
+          "mIsCollider": true,
+          "mObjectOBB.mOffset": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "Bounciness": 0.10000000149011612,
+          "Friction": 0.30000001192092896,
+          "GravityScale": 1.0,
+          "IsPrivateUseGravityScale": false,
+          "Mass": 1.0,
+          "Type": "Rigidbody",
+          "UseGravity": true
+        }
+      ],
+      "ID": 6,
+      "LocalPosition": [
+        0.0,
+        3.0,
+        5.0
+      ],
+      "LocalRotation": [
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "LocalScale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "Name": "RigidbodyCube1",
+      "ParentActorID": -1,
+      "State": 0,
+      "Static": 0,
+      "Tag": 0,
+      "Type": "Transform"
+    },
+    {
+      "Components": [
+        {
+          "Alpha": 1.0,
+          "FilePath": "Assets\\Models\\Sphere.fbx",
+          "IsSkeletal": false,
+          "ShadowFrag": true,
+          "Type": "MeshRenderer",
+          "Visible": true
+        },
+        {
+          "Type": "SphereCollider",
+          "mContactOffset": 0.0010000000474974513,
+          "mIsCollider": true
+        },
+        {
+          "Bounciness": 1.0,
+          "Friction": 0.30000001192092896,
+          "GravityScale": 10.0,
+          "IsPrivateUseGravityScale": false,
+          "Mass": 100.0,
+          "Type": "Rigidbody",
+          "UseGravity": true
+        }
+      ],
+      "ID": 7,
+      "LocalPosition": [
+        0.0,
+        8.5,
+        14.0
+      ],
+      "LocalRotation": [
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "LocalScale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "Name": "RigidbodySphere",
+      "ParentActorID": -1,
+      "State": 0,
+      "Static": 0,
+      "Tag": 0,
+      "Type": "Transform"
+    },
+    {
+      "Components": [
+        {
+          "Alpha": 0.6700000166893005,
+          "FilePath": "Assets\\Models\\Portal.fbx",
+          "IsSkeletal": false,
+          "ShadowFrag": false,
+          "Type": "MeshRenderer",
+          "Visible": true
+        }
+      ],
+      "ID": 8,
+      "LocalPosition": [
+        4.0,
+        1.0,
+        5.0
+      ],
+      "LocalRotation": [
+        0.008743965066969395,
+        0.0,
+        -0.999961793422699,
+        0.0
+      ],
+      "LocalScale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "Name": "Portal",
+      "ParentActorID": -1,
+      "State": 0,
+      "Static": 0,
+      "Tag": 0,
+      "Type": "Transform"
+    },
+    {
+      "Components": [
+        {
+          "Alpha": 1.0,
+          "FilePath": "Assets\\Models\\Capsule.fbx",
+          "IsSkeletal": false,
+          "ShadowFrag": true,
+          "Type": "MeshRenderer",
+          "Visible": true
+        },
+        {
+          "Type": "CapsuleCollider",
+          "mContactOffset": 0.0010000000474974513,
+          "mIsCollider": true
+        },
+        {
+          "Bounciness": 0.10000000149011612,
+          "Friction": 0.30000001192092896,
+          "GravityScale": 1.0,
+          "IsPrivateUseGravityScale": false,
+          "Mass": 1.0,
+          "Type": "Rigidbody",
+          "UseGravity": true
+        }
+      ],
+      "ID": 9,
+      "LocalPosition": [
+        -5.0,
+        5.0,
+        5.0
+      ],
+      "LocalRotation": [
+        0.9762960076332092,
+        0.2164396196603775,
+        0.0,
+        0.0
+      ],
+      "LocalScale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "Name": "RigidbodyCapsule",
+      "ParentActorID": -1,
+      "State": 0,
+      "Static": 0,
+      "Tag": 0,
+      "Type": "Transform"
+    },
+    {
+      "Components": [
+        {
+          "Alpha": 1.0,
+          "FilePath": "Assets\\Models\\TestCube.fbx",
+          "IsSkeletal": false,
+          "ShadowFrag": true,
+          "Type": "MeshRenderer",
+          "Visible": true
+        }
+      ],
+      "ID": 10,
+      "LocalPosition": [
+        -3.0999999046325684,
+        2.4000000953674316,
+        0.0
+      ],
+      "LocalRotation": [
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "LocalScale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "Name": "Dice",
+      "ParentActorID": -1,
+      "State": 0,
+      "Static": 0,
+      "Tag": 0,
+      "Type": "Transform"
+    },
+    {
+      "Components": [
+        {
+          "Alpha": 1.0,
+          "FilePath": "Assets\\Models\\Cube.fbx",
+          "IsSkeletal": false,
+          "ShadowFrag": true,
+          "Type": "MeshRenderer",
+          "Visible": true
+        },
+        {
+          "Type": "BoxCollider",
+          "mContactOffset": 0.0010000000474974513,
+          "mIsCollider": true,
+          "mObjectOBB.mOffset": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "Bounciness": 1.0,
+          "Friction": 0.30000001192092896,
+          "GravityScale": 2.0,
+          "IsPrivateUseGravityScale": true,
+          "Mass": 100.0,
+          "Type": "Rigidbody",
+          "UseGravity": true
+        }
+      ],
+      "ID": 11,
+      "LocalPosition": [
+        5.0,
+        8.5,
+        14.0
+      ],
+      "LocalRotation": [
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "LocalScale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "Name": "RigidbodyCube3",
+      "ParentActorID": -1,
+      "State": 0,
+      "Static": 0,
+      "Tag": 0,
+      "Type": "Transform"
+    },
+    {
+      "Components": [
+        {
+          "Alpha": 1.0,
+          "FilePath": "Assets\\Models\\Cube.fbx",
+          "IsSkeletal": false,
+          "ShadowFrag": true,
+          "Type": "MeshRenderer",
+          "Visible": true
+        },
+        {
+          "Type": "BoxCollider",
+          "mContactOffset": 0.0010000000474974513,
+          "mIsCollider": true,
+          "mObjectOBB.mOffset": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "Bounciness": 0.10000000149011612,
+          "Friction": 0.30000001192092896,
+          "GravityScale": 1.0,
+          "IsPrivateUseGravityScale": false,
+          "Mass": 1.0,
+          "Type": "Rigidbody",
+          "UseGravity": true
+        }
+      ],
+      "ID": 12,
+      "LocalPosition": [
+        0.0,
+        6.0,
+        5.0
+      ],
+      "LocalRotation": [
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "LocalScale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "Name": "RigidbodyCube4",
+      "ParentActorID": -1,
+      "State": 0,
+      "Static": 0,
+      "Tag": 0,
+      "Type": "Transform"
+    },
+    {
+      "Components": [
+        {
+          "Alpha": 1.0,
+          "FilePath": "Assets\\Models\\TestCube.fbx",
+          "IsSkeletal": false,
+          "ShadowFrag": true,
+          "Type": "MeshRenderer",
+          "Visible": true
+        }
+      ],
+      "ID": 13,
+      "LocalPosition": [
+        -2.299999952316284,
+        0.0,
+        0.0
+      ],
+      "LocalRotation": [
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "LocalScale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "Name": "Dice (Copy)",
+      "ParentActorID": 10,
+      "State": 0,
+      "Static": 0,
+      "Tag": 0,
+      "Type": "Transform"
+    },
+    {
+      "Components": [
+        {
+          "Alpha": 1.0,
+          "FilePath": "Assets\\Models\\Target.fbx",
+          "IsSkeletal": false,
+          "ShadowFrag": true,
+          "Type": "MeshRenderer",
+          "Visible": true
+        }
+      ],
+      "ID": 16,
+      "LocalPosition": [
+        -6.599999904632568,
+        7.300000190734863,
+        0.0
+      ],
+      "LocalRotation": [
+        0.7771459221839905,
+        0.0,
+        -0.6293203830718994,
+        0.0
+      ],
+      "LocalScale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "Name": "Target",
+      "ParentActorID": -1,
+      "State": 0,
+      "Static": 0,
+      "Tag": 0,
+      "Type": "Transform"
+    }
+  ],
+  "SceneName": "Scene01",
+  "UIActors": [
+    {
+      "CanvasFrag": true,
+      "Components": [],
+      "ID": 14,
+      "LocalPosition": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "LocalRotation": [
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "LocalScale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "Name": "Canvas",
+      "ParentActorID": -1,
+      "State": 0,
+      "Static": 0,
+      "Tag": 0,
+      "Type": "RecrTransform"
+    },
+    {
+      "CanvasFrag": false,
+      "Components": [
+        {
+          "FilePath": "Assets\\Texture\\Radar.png",
+          "FillAmount": 1.0,
+          "FillMethod": 0,
+          "FillType": 0,
+          "Type": "Image",
+          "UVTransform": [
+            0.0,
+            0.0,
+            1.0,
+            1.0
+          ],
+          "VerticesCount": 6
+        }
+      ],
+      "ID": 15,
+      "LocalPosition": [
+        700.0,
+        327.70001220703125,
+        0.0
+      ],
+      "LocalRotation": [
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "LocalScale": [
+        2.0,
+        2.0,
+        1.0
+      ],
+      "Name": "UIActor1",
+      "ParentActorID": 14,
+      "State": 0,
+      "Static": 0,
+      "Tag": 0,
+      "Type": "RecrTransform"
+    }
+  ]
+}
