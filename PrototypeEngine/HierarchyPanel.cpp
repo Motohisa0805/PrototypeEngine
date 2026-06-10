@@ -2,6 +2,7 @@
 #include "SceneManager.h" // SceneManager::GetNowScene() を使うために必要
 #include "Actor.h"        // new ActorObject() を使うために必要
 #include "UIActor.h"
+#include "imgui_internal.h"
 
 HierarchyPanel::HierarchyPanel(Renderer* renderer)
 	:EditorWindow(renderer)
@@ -31,7 +32,20 @@ void HierarchyPanel::Draw(float width, float height)
 
 		if (ImGui::IsMouseClicked(ImGuiMouseButton_Left) &&
 			!ImGui::IsWindowHovered(ImGuiHoveredFlags_RootAndChildWindows)) {
-			if (!ImGui::IsPopupOpen(nullptr, ImGuiPopupFlags_AnyPopupId)) {
+			
+			ImGuiContext& g = *GImGui;
+			bool skipClear = true;
+
+			if (g.HoveredWindow) {
+				string hoveredWindowName = g.HoveredWindow->Name;
+
+				if (hoveredWindowName.find("Project") != string::npos) {
+					skipClear = false;
+				}
+
+			}
+
+			if (!skipClear && !ImGui::IsPopupOpen(nullptr, ImGuiPopupFlags_AnyPopupId)) {
 				SelectionManager::SetSelectedActor(nullptr);
 			}
 		}
