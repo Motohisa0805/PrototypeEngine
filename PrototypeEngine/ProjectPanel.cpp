@@ -35,6 +35,14 @@ void ProjectPanel::Draw(float width, float height)
     float panel1_SizeWidth = mWidthSize / 2.0f;
     EditorWindow::Draw(width, height);
     if (ImGui::Begin(GetImGuiWindowID().c_str(), &mIsShow, ImGuiWindowFlags_NoCollapse)) {
+       
+        if (ImGui::IsMouseClicked(ImGuiMouseButton_Left) &&
+            !ImGui::IsWindowHovered(ImGuiHoveredFlags_RootAndChildWindows)) {
+            if (!ImGui::IsPopupOpen(nullptr, ImGuiPopupFlags_AnyPopupId)) {
+                mSelectedPath.clear();
+            }
+        }
+
         // パネル全体の横幅を取得
         float totalWidth = ImGui::GetContentRegionAvail().x;
 
@@ -75,8 +83,16 @@ void ProjectPanel::Draw(float width, float height)
         }
         ImGui::EndChild();
     }
-    ImGui::End();
 
+    ImGui::Separator();
+    if (!mSelectedPath.empty()) {
+        ImGui::Text("Selection: %s", mSelectedPath.string().c_str());
+    }
+    else {
+        ImGui::Text("Selection: None");
+    }
+
+    ImGui::End();
     DrawOverwritePopup();
 }
 
@@ -98,9 +114,21 @@ void ProjectPanel::DrawFolderTree(const filesystem::path& path)
             // ツリーノードの表示
             // ImGuiTreeNodeFlags_Selected: mSelectedPathと一致する場合にハイライト表示させる
             ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_SpanAvailWidth;
-            if (path == mSelectedPath)
+            if (entry.path() == mSelectedPath)
             {
                 flags |= ImGuiTreeNodeFlags_Selected;
+            }
+            bool pushedColor = false;
+            if (entry.path() == mSelectedPath)
+            {
+                // 現在のテーマの「ホバー時の色」をベースとして取得する
+                ImVec4 color = ImGui::GetStyle().Colors[ImGuiCol_HeaderHovered];
+
+                // アルファ値（透明度）を 1.0f 
+                color.w = 1.0f;
+
+                ImGui::PushStyleColor(ImGuiCol_Header, color);
+                pushedColor = true;
             }
 
             bool open = ImGui::TreeNodeEx(name.c_str(), flags); 
@@ -110,6 +138,11 @@ void ProjectPanel::DrawFolderTree(const filesystem::path& path)
             {
 				EditorSettingsManager::SetCurrentFolder(entry.path());
                 mSelectedPath = entry.path(); // 選択パスを更新
+            }
+
+            if (pushedColor)
+            {
+                ImGui::PopStyleColor();
             }
 
             // 通常のフォルダ用メニュー（削除・リネーム可）
