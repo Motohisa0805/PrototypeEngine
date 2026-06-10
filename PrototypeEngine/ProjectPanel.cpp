@@ -15,6 +15,10 @@ bool ProjectPanel::mRenaming = false;
 
 filesystem::path ProjectPanel::mSelectedPath = "Assets";
 
+char ProjectPanel::mScriptCreateBuffer[256] = "";
+
+bool ProjectPanel::mShowScriptPopup = false;
+
 ProjectPanel::ProjectPanel(Renderer* renderer)
 	:EditorWindow(renderer)
 {
@@ -36,6 +40,14 @@ void ProjectPanel::Draw(float width, float height)
     EditorWindow::Draw(width, height);
     if (ImGui::Begin(GetImGuiWindowID().c_str(), &mIsShow, ImGuiWindowFlags_NoCollapse)) {
        
+        if (mShowScriptPopup) {
+            ImGui::OpenPopup("Create New Script");
+            mShowScriptPopup = false;
+        }
+
+        DrawOverwritePopup();
+        DrawScriptCreatePopup();
+
         if (ImGui::IsMouseClicked(ImGuiMouseButton_Left) &&
             !ImGui::IsWindowHovered(ImGuiHoveredFlags_RootAndChildWindows)) {
             if (!ImGui::IsPopupOpen(nullptr, ImGuiPopupFlags_AnyPopupId)) {
@@ -93,7 +105,6 @@ void ProjectPanel::Draw(float width, float height)
     }
 
     ImGui::End();
-    DrawOverwritePopup();
 }
 
 void ProjectPanel::DrawFolderTree(const filesystem::path& path)
@@ -388,14 +399,9 @@ void ProjectPanel::CreateNewScript()
     //Script作成
     if (ImGui::MenuItem("Script (C++)"))
     {
-        // 1. 一時的な名前でリネームモードを開始する
-        // （この"PendingNewScript"はファイル名ではなく、UI上の状態を示すID）
-        filesystem::path tempPath = mSelectedPath / "PendingNewScript.h";
+        mScriptCreateBuffer[0] = '\0';
 
-        mSelectedPath = tempPath;
-        mPathToRename = tempPath;
-        mRenameInputBuffer = "New Script"; // デフォルトの入力文字列
-        mRenaming = true;
+        mShowScriptPopup = true;
     }
 }
 
@@ -627,6 +633,49 @@ void ProjectPanel::DrawOverwritePopup()
             ImGui::CloseCurrentPopup();
         }
 
+        ImGui::EndPopup();
+    }
+}
+
+void ProjectPanel::DrawScriptCreatePopup()
+{
+    if (ImGui::BeginPopupModal("Create New Script", nullptr, ImGuiWindowFlags_AlwaysAutoResize)) {
+        ImGui::Text("Enter Script Name (Do not include extension):");
+
+        // ポップアップが開いた瞬間に、入力欄に自動でフォーカスを当てる
+        if (ImGui::IsWindowAppearing() && !ImGui::IsAnyItemActive()) {
+            ImGui::SetKeyboardFocusHere();
+        }
+
+        bool isSubmitted = ImGui::InputText("##scriptName", mScriptCreateBuffer, sizeof(mScriptCreateBuffer), ImGuiInputTextFlags_EnterReturnsTrue);
+
+        ImGui::Spacing();
+        ImGui::Separator();
+        ImGui::Spacing();
+
+        if (ImGui::Button("Create", ImVec2(120, 0)) || isSubmitted) {
+            string scriptName = mScriptCreateBuffer;
+            if (!scriptName.empty()) {
+                bool success = ScriptEditManager::GetInstance().CreateScriptFile(mSelectedPath, scriptName);
+
+                if (success) {
+                    Debug::Log("Successfully created script: %s\n", scriptName.c_str());
+
+                    string hPath = scriptName + "h";
+                    ScriptEditManager::GetInstance().AddScriptFileToVcxProj(mSelectedPath / hPath, scriptName);
+                }
+                else {
+                    Debug::Log("Failed to create script: %s\n", scriptName.c_str());
+                }
+                ImGui::CloseCurrentPopup();
+            }
+        }
+
+        ImGui::SameLine();
+
+        if (ImGui::Button("Cancel", ImVec2(120, 0))) {
+            ImGui::CloseCurrentPopup();
+        }
         ImGui::EndPopup();
     }
 }

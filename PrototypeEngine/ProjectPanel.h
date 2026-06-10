@@ -26,6 +26,10 @@ private:
 
 
 	static filesystem::path			mCopyPathBuffer; // コピー用のパスバッファ
+
+	static char						mScriptCreateBuffer[256];
+
+	static bool						mShowScriptPopup;
 public:
 
 	static void 					SetRenameInputBuffer(const string& input) { mRenameInputBuffer = input; }
@@ -68,4 +72,6 @@ public:
 	void							RenameFunction(const filesystem::directory_entry entry);
 	//上書き確認ポップアップ
 	void							DrawOverwritePopup();
+
+	void							DrawScriptCreatePopup();
 };
