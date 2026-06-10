@@ -29,7 +29,7 @@ void HierarchyPanel::Draw(float width, float height)
 	//  新しいウィンドウの作成
 	if(ImGui::Begin(GetImGuiWindowID().c_str(), &mIsShow, ImGuiWindowFlags_NoCollapse))
 	{
-
+		/*
 		if (ImGui::IsMouseClicked(ImGuiMouseButton_Left) &&
 			!ImGui::IsWindowHovered(ImGuiHoveredFlags_RootAndChildWindows)) {
 			
@@ -49,6 +49,7 @@ void HierarchyPanel::Draw(float width, float height)
 				SelectionManager::SetSelectedActor(nullptr);
 			}
 		}
+		*/
 
 		ImGui::SameLine();
 		ImGui::TextDisabled("(?)");
