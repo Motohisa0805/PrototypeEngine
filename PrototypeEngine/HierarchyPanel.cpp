@@ -28,6 +28,14 @@ void HierarchyPanel::Draw(float width, float height)
 	//  新しいウィンドウの作成
 	if(ImGui::Begin(GetImGuiWindowID().c_str(), &mIsShow, ImGuiWindowFlags_NoCollapse))
 	{
+
+		if (ImGui::IsMouseClicked(ImGuiMouseButton_Left) &&
+			!ImGui::IsWindowHovered(ImGuiHoveredFlags_RootAndChildWindows)) {
+			if (!ImGui::IsPopupOpen(nullptr, ImGuiPopupFlags_AnyPopupId)) {
+				SelectionManager::SetSelectedActor(nullptr);
+			}
+		}
+
 		ImGui::SameLine();
 		ImGui::TextDisabled("(?)");
 		if (ImGui::IsItemHovered()) {
@@ -524,6 +532,7 @@ bool HierarchyPanel::RightClickMenu()
 
 void HierarchyPanel::EditorCommandPopupMenu()
 {
+	ImGui::BeginDisabled(!SelectionManager::GetSelectedActor());
 	if (ImGui::MenuItem("Cut", "Ctrl + X"))
 	{
 		if (SelectionManager::GetSelectedActor())
@@ -581,6 +590,7 @@ void HierarchyPanel::EditorCommandPopupMenu()
 			CommandManager::Execute(std::move(cmd));
 		}
 	}
+	ImGui::EndDisabled();
 }
 
 void HierarchyPanel::ClearPointer()
