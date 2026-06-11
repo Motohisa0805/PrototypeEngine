@@ -38,6 +38,12 @@ bool GUIEditorManager::InitializeImGui(SDL_Window* window, SDL_GLContext glConte
 	ImGui::CreateContext();
 	//ImGuiIOを参照
 	ImGuiIO& io = ImGui::GetIO();
+	// フォントの設定オブジェクトを作成
+	ImFontConfig config;
+	config.MergeMode = false;// 他のフォントと結合しない
+	//日本語の文字コード範囲を取得
+	const ImWchar* glyphRanges = io.Fonts->GetGlyphRangesJapanese();
+
 	//ドッキング機能の有効化
 	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 	ImGui_ImplSDL3_InitForOpenGL(window, glContext);
@@ -46,7 +52,7 @@ bool GUIEditorManager::InitializeImGui(SDL_Window* window, SDL_GLContext glConte
 	//フォントパス(Libraryフォルダーにアクセス)
 	string fontpath = "Library/Noto_Sans_JP/static/NotoSansJP-Bold.ttf";
 	//新しいフォントを読み込み
-	ImFont* font = io.Fonts->AddFontFromFileTTF(fontpath.c_str(), 20.0f);
+	ImFont* font = io.Fonts->AddFontFromFileTTF(fontpath.c_str(), 20.0f,&config,glyphRanges);
 	if (font)
 	{
 		io.FontDefault = font;

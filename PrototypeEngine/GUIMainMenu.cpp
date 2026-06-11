@@ -234,6 +234,12 @@ void GUIMainMenu::HelpMenuDraw()
 			if (ImGui::MenuItem("HierarchyExplanation")) {
 				GUIEditorManager::GetRootMainWindow()->AddEditorWindow(EditorWindowFactory::CreateEditorWindow("HierarchyExplanation", mRenderer));
 			}
+			if (ImGui::MenuItem("ProjectExplanation")) {
+				GUIEditorManager::GetRootMainWindow()->AddEditorWindow(EditorWindowFactory::CreateEditorWindow("ProjectExplanation", mRenderer));
+			}
+			if (ImGui::MenuItem("InspectorExplanation")) {
+				GUIEditorManager::GetRootMainWindow()->AddEditorWindow(EditorWindowFactory::CreateEditorWindow("InspectorExplanation", mRenderer));
+			}
 			ImGui::EndMenu();
 		}
 
