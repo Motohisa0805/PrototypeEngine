@@ -11,6 +11,8 @@
 #include "InspectorPanel.h"
 #include "AboutEnginePanel.h"
 #include "HierarchyExplanationPanel.h"
+#include "ProjectExplanationPanel.h"
+#include "InspectorExplanationPanel.h"
 
 std::unordered_map<string, WindowCreator> EditorWindowFactory::sCreators;
 
@@ -61,4 +63,6 @@ void RegisterAllEditorWindows() {
 	EditorWindowFactory::RegisterEditorWindow("Inspector", [](Renderer* r) -> EditorWindow* { return new InspectorPanel(r);});
 	EditorWindowFactory::RegisterEditorWindow("AboutEngine", [](Renderer* r) -> EditorWindow* { return new AboutEnginePanel(r);});
 	EditorWindowFactory::RegisterEditorWindow("HierarchyExplanation", [](Renderer* r) -> EditorWindow* { return new HierarchyExplanationPanel(r);});
+	EditorWindowFactory::RegisterEditorWindow("ProjectExplanation", [](Renderer* r) -> EditorWindow* { return new ProjectExplanationPanel(r);});
+	EditorWindowFactory::RegisterEditorWindow("InspectorExplanation", [](Renderer* r) -> EditorWindow* { return new InspectorExplanationPanel(r);});
 }

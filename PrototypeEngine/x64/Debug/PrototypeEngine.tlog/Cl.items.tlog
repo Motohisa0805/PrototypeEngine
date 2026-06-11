@@ -37,8 +37,10 @@ C:\C++Files\PrototypeEngine\PrototypeEngine\EditorSettingsManager.cpp;C:\C++File
 C:\C++Files\PrototypeEngine\PrototypeEngine\EditorTextureManager.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\EditorTextureManager.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\FileOperationManager.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\FileOperationManager.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\HierarchyExplanationPanel.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\HierarchyExplanationPanel.obj
+C:\C++Files\PrototypeEngine\PrototypeEngine\InspectorExplanationPanel.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\InspectorExplanationPanel.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\IsLandPhysic.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\IsLandPhysic.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\PasteActorCommand.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\PasteActorCommand.obj
+C:\C++Files\PrototypeEngine\PrototypeEngine\ProjectExplanationPanel.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\ProjectExplanationPanel.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\RectTransform.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\RectTransform.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\RenameCommand.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\RenameCommand.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\ReparentAndReorderCommand.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\ReparentAndReorderCommand.obj
