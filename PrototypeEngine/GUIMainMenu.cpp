@@ -8,6 +8,7 @@
 #include "BaseScene.h"
 #include "ProjectPanel.h"
 #include "HierarchyPanel.h"
+#include "InspectorPanel.h"
 
 GUIMainMenu::GUIMainMenu(Renderer* renderer)
 	:EditorWindow(renderer)
@@ -173,10 +174,9 @@ void GUIMainMenu::ComponentMenuDraw()
 {
 	if (ImGui::BeginMenu("Component"))
 	{
-		if (ImGui::MenuItem("Incomplete"))
-		{
-
-		}
+		ImGui::BeginDisabled(!SelectionManager::GetSelectedActor());
+		InspectorPanel::ComponentSelectorDraw(SelectionManager::GetSelectedActor());
+		ImGui::EndDisabled();
 		ImGui::EndMenu();
 	}
 }
