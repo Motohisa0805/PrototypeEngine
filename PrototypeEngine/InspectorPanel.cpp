@@ -181,29 +181,8 @@ void InspectorPanel::Draw(float width, float height)
 			{
 				ImGui::OpenPopup("ComponentSelector");
 			}
-
-			if (ImGui::BeginPopup("ComponentSelector"))
-			{
-				//ファクトリーから登録されたコンポーネント名リストを取得
-				vector<string> componentNames = ComponentFactory::GetRegisteredComponentNames();
-
-				for (const string& compName : componentNames)
-				{
-					//既にActorにアタッチされているコンポーネントは表示しない(Transformは除く)
-					if (ImGui::MenuItem(compName.c_str()))
-					{
-						//ファクトリーを使ってコンポーネントを生成
-						Component* newComp = ComponentFactory::CreateComponent(compName, selectedActor);
-						if (newComp)
-						{
-							selectedActor->AddComponent(newComp);
-							// メッシュとコライダーの依存性が解決したら処理
-							selectedActor->OnComponentAdded(newComp); // ← ActorObject側で実装する
-							selectedActor->GetBaseTransform()->SetDirty();
-						}
-						ImGui::CloseCurrentPopup();
-					}
-				}
+			if (ImGui::BeginPopup("ComponentSelector")) {
+				ComponentSelectorDraw(selectedActor);
 				ImGui::EndPopup();
 			}
 		}
@@ -213,6 +192,30 @@ void InspectorPanel::Draw(float width, float height)
 		}
 	}
 	ImGui::End();
+}
+
+void InspectorPanel::ComponentSelectorDraw(Entity* selectedActor)
+{
+	//ファクトリーから登録されたコンポーネント名リストを取得
+	vector<string> componentNames = ComponentFactory::GetRegisteredComponentNames();
+
+	for (const string& compName : componentNames)
+	{
+		//既にActorにアタッチされているコンポーネントは表示しない(Transformは除く)
+		if (ImGui::MenuItem(compName.c_str()))
+		{
+			//ファクトリーを使ってコンポーネントを生成
+			Component* newComp = ComponentFactory::CreateComponent(compName, selectedActor);
+			if (newComp)
+			{
+				selectedActor->AddComponent(newComp);
+				// メッシュとコライダーの依存性が解決したら処理
+				selectedActor->OnComponentAdded(newComp); // ← ActorObject側で実装する
+				selectedActor->GetBaseTransform()->SetDirty();
+			}
+			ImGui::CloseCurrentPopup();
+		}
+	}
 }
 
 void InspectorPanel::DrawTransformProperties(Entity* transform)
