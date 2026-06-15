@@ -1,5 +1,5 @@
 #include "Skeleton.h"
-#include "ConvertNumToString.h"
+#include "StringConvertOperation.h"
 #include "FilePath.h"
 #include "BoneActor.h"
 
@@ -23,8 +23,8 @@ bool Skeleton::Load(const string& fileName)
 //ƒoƒCƒiƒŠŒÀ’è‚Ì“Ç‚İ‚İ
 bool Skeleton::LoadFromSkeletonBin(const string& fileName)
 {
-	string name = StringConverter::RemoveString(fileName, File_P::ModelPath);
-	name = StringConverter::RemoveExtension(name);
+	string name = Sco::RemoveString(fileName, File_P::ModelPath);
+	name = Sco::RemoveExtension(name);
 	std::ifstream in(File_P::BinaryFilePath + name + File_P::BinarySkelPath, std::ios::binary);
 	if (!in)
 	{
@@ -161,8 +161,8 @@ bool Skeleton::LoadFromFBX(const string& fileName)
 	SetParentBones(scene->mRootNode, -1);
 
 	//fileName‚©‚çPath•”•ª‚¾‚¯æ‚èœ‚­
-	string result = StringConverter::RemoveString(fileName, File_P::ModelPath);
-	result = StringConverter::RemoveExtension(result);
+	string result = Sco::RemoveString(fileName, File_P::ModelPath);
+	result = Sco::RemoveExtension(result);
 	std::ofstream out(File_P::BinaryFilePath + result + File_P::BinarySkelPath, std::ios::binary);
 	if (!out)
 	{

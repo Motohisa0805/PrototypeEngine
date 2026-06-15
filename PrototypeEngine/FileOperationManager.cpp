@@ -1,7 +1,9 @@
 #include "FileOperationManager.h"
 #include "SceneManager.h"
+#include "BaseScene.h"
 #include "DebugManager.h"
 #include "ScriptEditManager.h"
+#include "SceneSerializer.h"
 
 void FileOperationManager::Initialize()
 {
@@ -86,6 +88,9 @@ void FileOperationManager::ExecuteRename(const std::filesystem::path& oldPath, c
 	}
 	else
 	{
+		if (ext == ".json") {
+			RenameRunSceneName(oldPath, newName);
+		}
 		RenameNormalFileOrFolder(oldPath, newName);
 	}
 }
@@ -203,6 +208,15 @@ void FileOperationManager::RenameScriptPair(const std::filesystem::path& oldPath
 	catch (const std::exception& e) {
 		Debug::Log("Script Rename Error: %s\n", e.what());
 	}
+}
+
+void FileOperationManager::RenameRunSceneName(const std::filesystem::path& oldPath, const std::string& newName)
+{
+	//SceneSerializer::
+	if (oldPath.filename().stem().string() != SceneManager::GetNowScene()->GetName()) {
+		return;
+	}
+	SceneSerializer::RenameRunScene(oldPath,newName);
 }
 
 void FileOperationManager::RenameNormalFileOrFolder(const std::filesystem::path& oldPath, const std::string& newName)

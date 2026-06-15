@@ -72,8 +72,8 @@ bool Animation::ReLoad()
 bool Animation::LoadFromBinary(const std::string& filePath)
 {
 	string file = filePath;
-	file = StringConverter::RemoveString(file,File_P::AssetPath);
-	file = StringConverter::RemoveExtension(file);
+	file = Sco::RemoveString(file,File_P::AssetPath);
+	file = Sco::RemoveExtension(file);
 	std::ifstream in(File_P::BinaryFilePath + file + File_P::BinaryAnimPath, std::ios::binary);
 	if (!in) 
 	{
@@ -379,8 +379,8 @@ bool Animation::LoadFromFBX(const string& fileName)
 	SaveToBinary(Model::BinaryFilePath + result + Model::BinaryAnimPath);
 	*/
 	//ファイル名から拡張子を除いてアニメーション名として登録
-	mAnimationName = StringConverter::RemoveString(fileName, File_P::AnimationFilePath);
-	mAnimationName = StringConverter::RemoveExtension(mAnimationName);
+	mAnimationName = Sco::RemoveString(fileName, File_P::AnimationFilePath);
+	mAnimationName = Sco::RemoveExtension(mAnimationName);
 	return true;
 }
 

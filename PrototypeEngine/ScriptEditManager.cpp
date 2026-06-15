@@ -1,6 +1,6 @@
 #include "ScriptEditManager.h"
 #include "DebugManager.h"
-#include "ConvertNumToString.h"
+#include "StringConvertOperation.h"
 
 ScriptEditManager::ScriptEditManager()
 {
@@ -13,12 +13,12 @@ bool ScriptEditManager::CreateScriptFile(const std::filesystem::path& folderPath
     //現在は仮でコード内で記述
     //1.ヘッダーファイル(.h)テンプレート
     filesystem::path hPath = "Library/HeaderTemplate.txt";
-    string headerTemplate = StringConverter::Read_entire_file_binary(hPath.string());
-    StringConverter::Convert_crlf_to_lf(headerTemplate);
+    string headerTemplate = Sco::Read_entire_file_binary(hPath.string());
+    Sco::Convert_crlf_to_lf(headerTemplate);
 
     filesystem::path cppPath = "Library/CppTemplate.txt";
-    string cppTemplate = StringConverter::Read_entire_file_binary(cppPath.string());
-    StringConverter::Convert_crlf_to_lf(cppTemplate);
+    string cppTemplate = Sco::Read_entire_file_binary(cppPath.string());
+    Sco::Convert_crlf_to_lf(cppTemplate);
 
     //クラス名置換処理
     auto replaceClassName = [](string& content, const string& name) {
@@ -133,7 +133,7 @@ bool ScriptEditManager::AddScriptFileToVcxProj(const filesystem::path& path, con
         return false;
     }
 
-    string rootPath = StringConverter::RemoveString(path.string(), path.filename().string());
+    string rootPath = Sco::RemoveString(path.string(), path.filename().string());
 
     // .cpp と .h のパスを構築
     string cppPath = "..\\" + rootPath + scriptClassName + ".cpp";

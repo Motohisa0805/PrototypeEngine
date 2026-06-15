@@ -7,18 +7,14 @@
 /*
 * ===ƒGƒ“ƒWƒ““à•”ˆ—/Engine internal processing===
 */
-
-namespace FloatToString 
+//StringConvertOperation‚Ì—ªÌ‚Æ‚µ‚Äİ’è
+namespace Sco
 {
 	inline string ToStringWithoutDecimal(float value) {
         std::ostringstream oss;
         oss << std::fixed << std::setprecision(0) << value;
         return oss.str();
     }
-};
-
-namespace StringConverter
-{
 	//Šg’£q‚¾‚¯‚ğæ‚èœ‚­ŠÖ”
 	inline string RemoveExtension(const std::string& filename) {
 		size_t dotPos = filename.rfind('.');

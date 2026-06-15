@@ -1102,7 +1102,7 @@ public:
 		return Matrix3(temp);
 	}
 
-	// xy平面上に翻訳行列を作成
+	// xy平面上に列行列を作成
 	inline static Matrix3 CreateTranslation(const Vector2& trans)
 	{
 		float temp[3][3] =
@@ -1456,7 +1456,7 @@ public:
 		};
 		return Matrix4(mat);
 	}
-	// Positionを取得(行優先)
+	// Positionを取得(列優先)
 	inline static Matrix4 CreateTranslation(const Vector3& trans)
 	{
 		float temp[4][4] =

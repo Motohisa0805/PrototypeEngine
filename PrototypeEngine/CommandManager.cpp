@@ -14,7 +14,7 @@ void CommandManager::Execute(std::unique_ptr<ICommand> command)
 		}
 		// 編集操作の変更を記録する
 		string startupScenePath = EditorSettingsManager::GetInstance().GetLastOpenedScene();
-		SceneSerializer::WriteEditorData(startupScenePath, SceneManager::GetNowScene());
+		SceneSerializer::WriteEditingSceneData(startupScenePath, SceneManager::GetNowScene());
 		EditorSettingsManager::SetSaveFlag(true);
 	}
 }
@@ -27,7 +27,7 @@ void CommandManager::NoHistoryExecute(std::unique_ptr<ICommand> command)
 	if (!GUIEditorManager::IsPlaying()) {
 		// 編集操作の変更を記録する
 		string startupScenePath = EditorSettingsManager::GetInstance().GetLastOpenedScene();
-		SceneSerializer::WriteEditorData(startupScenePath, SceneManager::GetNowScene());
+		SceneSerializer::WriteEditingSceneData(startupScenePath, SceneManager::GetNowScene());
 		EditorSettingsManager::SetSaveFlag(true);
 	}
 }
@@ -44,7 +44,7 @@ void CommandManager::Undo() {
 
 	// 編集操作の変更を記録する
 	string startupScenePath = EditorSettingsManager::GetInstance().GetLastOpenedScene();
-	SceneSerializer::WriteEditorData(startupScenePath, SceneManager::GetNowScene());
+	SceneSerializer::WriteEditingSceneData(startupScenePath, SceneManager::GetNowScene());
 	EditorSettingsManager::SetSaveFlag(true);
 }
 
@@ -60,7 +60,7 @@ void CommandManager::Redo() {
 
 	// 編集操作の変更を記録する
 	string startupScenePath = EditorSettingsManager::GetInstance().GetLastOpenedScene();
-	SceneSerializer::WriteEditorData(startupScenePath, SceneManager::GetNowScene());
+	SceneSerializer::WriteEditingSceneData(startupScenePath, SceneManager::GetNowScene());
 	EditorSettingsManager::SetSaveFlag(true);
 }
 

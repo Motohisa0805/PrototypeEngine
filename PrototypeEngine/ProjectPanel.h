@@ -22,7 +22,9 @@ private:
 
 	filesystem::path				mCurrentFile;
 	// ユーザーが左クリックでハイライトしたファイル/フォルダ
-	static filesystem::path			mSelectedPath;
+	static filesystem::path			mSelectedFilePath;
+
+	static filesystem::path			mSelectedFolderPath;
 
 
 	static filesystem::path			mCopyPathBuffer; // コピー用のパスバッファ
@@ -36,7 +38,8 @@ public:
 	
 	static void 					SetRenaming(bool renaming) { mRenaming = renaming; }
 
-	static filesystem::path			GetSelectedPath() { return mSelectedPath; }
+	static filesystem::path			GetSelectedFilePath() { return mSelectedFilePath; }
+	static filesystem::path			GetSelectedFolderPath() { return mSelectedFolderPath; }
 	//コンストラクタ
 									ProjectPanel(class Renderer* renderer);
 	//GUIの初期化
@@ -54,7 +57,7 @@ public:
 	// 右クリックメニュー
 	bool							RightClickMenu();
 	static void						CreateNewFolder();
-	static void						CreateNewScene(const string& name);
+	static void						CreateNewScene(const string& name,bool loadScene = false);
 	static void						CreateNewScript();
 	static void						ShowInExplorer();
 	static void						OpenFile();

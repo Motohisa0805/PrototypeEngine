@@ -25,7 +25,7 @@ C:\C++Files\PrototypeEngine\PrototypeEngine\Collision.cpp;C:\C++Files\PrototypeE
 C:\C++Files\PrototypeEngine\PrototypeEngine\CommandManager.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\CommandManager.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\Component.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\Component.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\ComponentFactory.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\ComponentFactory.obj
-C:\C++Files\PrototypeEngine\PrototypeEngine\ConvertNumToString.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\ConvertNumToString.obj
+C:\C++Files\PrototypeEngine\PrototypeEngine\StringConvertOperation.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\StringConvertOperation.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\CreateNewActorCommand.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\CreateNewActorCommand.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\DebugGrid.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\DebugGrid.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\DeleteCommand.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\DeleteCommand.obj

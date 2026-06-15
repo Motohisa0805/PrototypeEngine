@@ -8,6 +8,7 @@ class FileOperationManager
 {
 private:
 	static void RenameScriptPair(const std::filesystem::path& oldPath, const std::string& newName);
+	static void RenameRunSceneName(const std::filesystem::path& oldPath, const std::string& newName);
 	static void RenameNormalFileOrFolder(const std::filesystem::path& oldPath, const std::string& newName);
 public:
 	static void Initialize();

@@ -35,15 +35,15 @@ private:
 	static Renderer*									mRenderer;
 	//***状態管理***
 	//再生中かどうか
-	static bool											isPlaying;
+	static bool											mIsPlaying;
 	//スタートを押した瞬間
-	static bool											isStarting;
+	static bool											mIsStarting;
 	//終わってるかどうか
-	static bool											isPaused;
+	static bool											mIsPaused;
 	//終わった瞬間かどうか
-	static bool											isPushEnd;
+	static bool											mIsPushEnd;
 
-	static bool											isFrameByFrame;
+	static bool											mIsFrameByFrame;
 
 	static ToolbarPanel*								mToolbarPanel;
 	
@@ -75,16 +75,16 @@ public:
 	// Shutdown ImGui		 
 	static void				 ShutdownImGui();
 							 
-	static bool				 IsPlaying() { return isPlaying; }
-	static void				 SetIsPlaying(bool playing) { isPlaying = playing; }
-	static bool				 IsStarting() { return isStarting; }
-	static void				 SetIsStarting(bool starting) { isStarting = starting; }
-	static bool				 IsPaused() { return isPaused; }
-	static void				 SetIsPaused(bool paused) { isPaused = paused; }
-	static bool				 IsPushEnd() { return isPushEnd; }
-	static void				 SetIsPushEnd(bool pushEnd) { isPushEnd = pushEnd; }
-	static bool				 IsFrameByFrame() { return isFrameByFrame; }
-	static void				 SetIsFrameByFrame(bool frameByFrame) { isFrameByFrame = frameByFrame; }
+	static bool				 IsPlaying() { return mIsPlaying; }
+	static void				 SetIsPlaying(bool playing) { mIsPlaying = playing; }
+	static bool				 IsStarting() { return mIsStarting; }
+	static void				 SetIsStarting(bool starting) { mIsStarting = starting; }
+	static bool				 IsPaused() { return mIsPaused; }
+	static void				 SetIsPaused(bool paused) { mIsPaused = paused; }
+	static bool				 IsPushEnd() { return mIsPushEnd; }
+	static void				 SetIsPushEnd(bool pushEnd) { mIsPushEnd = pushEnd; }
+	static bool				 IsFrameByFrame() { return mIsFrameByFrame; }
+	static void				 SetIsFrameByFrame(bool frameByFrame) { mIsFrameByFrame = frameByFrame; }
 	static void				 SetRenderer(class Renderer* renderer) { mRenderer = renderer; }
 	static EditorWindow*	 GetRootMainWindow() { return mRootMainWindow; }
 

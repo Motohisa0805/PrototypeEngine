@@ -52,13 +52,13 @@ int Mesh::CheckMeshIndex(const string& fileName, Renderer* renderer)
 
 bool Mesh::LoadFromMeshBin(const string& fileName, Renderer* renderer, int index)
 {
-	string path = StringConverter::ExtensionFileName(fileName);
-	string name = StringConverter::RemoveExtension(path);
+	string path = Sco::ExtensionFileName(fileName);
+	string name = Sco::RemoveExtension(path);
 
 	//1:バイナリ情報に変換した頂点、インデックスデータをbinファイルから取得
 	string number = std::to_string(index);
 	//fileNameからPath部分だけ取り除く
-	string result = StringConverter::RemoveString(name, File_P::ModelPath);
+	string result = Sco::RemoveString(name, File_P::ModelPath);
 
 	string binaryFilePath = File_P::BinaryFilePath + result + number + File_P::BinaryPath;
 	//バイナリファイルの確認
@@ -534,7 +534,7 @@ bool Mesh::LoadFromFBX(const string& fileName, Renderer* renderer, int index)
 
 
 	//fileNameからPath部分だけ取り除く
-	string result = StringConverter::RemoveString(fileName, File_P::ModelPath);
+	string result = Sco::RemoveString(fileName, File_P::ModelPath);
 
 
 	//バイナリに変換
@@ -548,8 +548,8 @@ bool Mesh::LoadFromFBX(const string& fileName, Renderer* renderer, int index)
 	header.max = box.mMax;
 	header.colliderRadius = radius;          // 半径計算済みと仮定
 	
-	result = StringConverter::ExtensionFileName(result);
-	result = StringConverter::RemoveExtension(result);
+	result = Sco::ExtensionFileName(result);
+	result = Sco::RemoveExtension(result);
 	string number = std::to_string(index);
 	std::ofstream out(File_P::BinaryFilePath + result + number + File_P::BinaryPath, std::ios::binary);
 	out.write((char*)&header, sizeof(header));

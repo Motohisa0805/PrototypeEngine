@@ -194,7 +194,7 @@
     <ClCompile Include="CommandManager.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="ComponentFactory.cpp" />
-    <ClCompile Include="ConvertNumToString.cpp" />
+    <ClCompile Include="StringConvertOperation.cpp" />
     <ClCompile Include="CreateNewActorCommand.cpp" />
     <ClCompile Include="DebugGrid.cpp" />
     <ClCompile Include="DeleteCommand.cpp" />
@@ -304,7 +304,7 @@
     <ClInclude Include="CommandManager.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="ComponentFactory.h" />
-    <ClInclude Include="ConvertNumToString.h" />
+    <ClInclude Include="StringConvertOperation.h" />
     <ClInclude Include="CreateNewActorCommand.h" />
     <ClInclude Include="DebugGrid.h" />
     <ClInclude Include="DebugManager.h" />

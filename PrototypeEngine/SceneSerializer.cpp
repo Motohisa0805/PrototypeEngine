@@ -12,8 +12,6 @@ bool SceneSerializer::SaveScene(const filesystem::path& filePath, BaseScene* sce
 {
 	//JSONオブジェクトの作成
     json sceneJson;
-	//SceneNameにはファイル名から拡張子を除いた部分を設定
-    sceneJson["SceneName"] = filePath.stem().string();
 
     //シーンが持つActorリストを取得
     vector<ActorObject*> actors = scene->GetActorManager()->GetActors();
@@ -41,11 +39,13 @@ bool SceneSerializer::SaveScene(const filesystem::path& filePath, BaseScene* sce
     }
     sceneJson["UIActors"] = uiactorsArray;
 
-    WriteEditorData(filePath, scene);
+    WriteEditingSceneData(filePath, scene);
+
     //ファイル書き込み
     try
     {
-        std::ofstream ofs(filePath);
+        filesystem::path newFilePath = filePath.parent_path() / (filesystem::path)(filePath.stem().string() + ".json");
+        std::ofstream ofs(newFilePath);
         if (!ofs.is_open())return false;
         ofs << sceneJson.dump(2);//2はインデント数(見やすくするため)
         ofs.close();
@@ -61,9 +61,6 @@ bool SceneSerializer::SaveEmptyScene(const filesystem::path& filePath)
 {
     //JSONオブジェクトの作成
     json sceneJson;
-
-    //SceneNameにはファイル名から拡張子を除いた部分を設定
-    sceneJson["SceneName"] = filePath.stem().string();
 
     //Actorsは空の配列として定義
     sceneJson["Actors"] = json::array();
@@ -116,7 +113,8 @@ BaseScene* SceneSerializer::LoadScene(const string& filePath)
 
     //2新しいシーンオブジェクトを作成
 	EditorScene* newScene = new EditorScene();
-    newScene->SetName(sceneJson.at("SceneName").get<std::string>());
+    filesystem::path name = filePath;
+    newScene->SetName(name.stem().string());
     if (sceneJson.contains("Actors")) {
         //3.Actorの配列を処理する
         const json& actorsJson = sceneJson.at("Actors");
@@ -172,18 +170,22 @@ BaseScene* SceneSerializer::LoadScene(const string& filePath)
         {
             uiactor->LoadParentByLoadScene();
         }
+        WriteEditingSceneData(filePath,newScene);
     }
-    WriteEditorData(filePath, newScene);
     return newScene;
 }
 
-void SceneSerializer::WriteEditorData(const filesystem::path& filePath, BaseScene* scene)
+void SceneSerializer::RenameRunScene(const filesystem::path& filePath, const string& newFileName)
 {
-    mTempParentPath = EditorFile::EditorFile_Path;
-    //JSONオブジェクトの作成
-    json editorDataJson;
-    //SceneNameにはファイル名から拡張子を除いた部分を設定
-    editorDataJson["SceneName"] = filePath.stem().string();
+    SceneManager::GetNowScene()->SetName(newFileName);
+    filesystem::path newPath = filePath.parent_path() / (filesystem::path)(newFileName + ".json");
+    EditorSettingsManager::GetInstance().SetLastOpenedScene(newPath.string());
+}
+
+void SceneSerializer::WriteEditingSceneData(const filesystem::path& filePath, BaseScene* scene)
+{
+    //現在編集中のJSONオブジェクトの作成
+    json editingDataJson;
 
     //シーンが持つActorリストを取得
     vector<ActorObject*> actors = scene->GetActorManager()->GetActors();
@@ -196,7 +198,7 @@ void SceneSerializer::WriteEditorData(const filesystem::path& filePath, BaseScen
         actor->Serialize(actorJson); // ActorObjectのSerializeメソッドを呼び出す
         actorsArray.push_back(actorJson);
     }
-    editorDataJson["Actors"] = actorsArray;
+    editingDataJson["Actors"] = actorsArray;
     
     //シーンが持つUIActorリストを取得
     vector<UIActorObject*> uiactors = scene->GetUIActorManager()->GetActors();
@@ -209,17 +211,20 @@ void SceneSerializer::WriteEditorData(const filesystem::path& filePath, BaseScen
         actor->Serialize(actorJson); // UIActorObjectのSerializeメソッドを呼び出す
         uiactorsArray.push_back(actorJson);
     }
-    editorDataJson["UIActors"] = uiactorsArray;
-
+    editingDataJson["UIActors"] = uiactorsArray;
+    filesystem::path newEditingPath = filePath.parent_path() / (filesystem::path)(scene->GetName() + ".json");
+    //以前の一時ファイルを削除(名前変更にするかは今後検討)
+    RelaseEditorData();
+    //EditorSettingファイルも編集中のシーン名を変更
+    EditorSettingsManager::GetInstance().SetLastOpenedScene(newEditingPath.string());
     // 2. 一時ファイルパスを決定（例：元のファイルパスから一時ファイル名を生成）
-    filesystem::path tempPath = mTempParentPath / filePath.filename();
-
+    filesystem::path tempPath = mTempParentPath / (filesystem::path)(scene->GetName() + ".json");
     // 3. ファイル書き出しロジックを追加
     try
     {
         std::ofstream ofs(tempPath);
         if (!ofs.is_open()) return;
-        ofs << editorDataJson.dump(2);
+        ofs << editingDataJson.dump(2);
         ofs.close();
         mTempPath = tempPath;
     }

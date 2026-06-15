@@ -9,11 +9,9 @@ bool EditorSettingsManager::mIsNoSaveFlag = false;
 
 string EditorSettingsManager::mRenameInputBuffer = "";
 
-bool EditorSettingsManager::mRenaming = false;
+bool EditorSettingsManager::mIsRenaming = false;
 
-filesystem::path EditorSettingsManager::mCurrentFolder = "Assets";
-
-vector<filesystem::path> EditorSettingsManager::mDeleteQueue;
+vector<filesystem::path> EditorSettingsManager::mDeleteDirectoryQueue;
 
 EditorSettingsManager& EditorSettingsManager::GetInstance()
 {
@@ -35,7 +33,7 @@ void EditorSettingsManager::LoadSettings()
 		try
 		{
 			std::ifstream ifs(SETTEINGS_FILE_PATH);
-			ifs >> mSettings;
+			ifs >> mEditorSettingData;
 			Debug::Log("Editor settings loaded from: %s\n", SETTEINGS_FILE_PATH.string().c_str());
 		}
 		catch (const std::exception& e)
@@ -50,7 +48,7 @@ void EditorSettingsManager::SaveEditorSettings()
 	try
 	{
 		std::ofstream ofs(SETTEINGS_FILE_PATH);
-		ofs << mSettings.dump(2); // インデント2で整形して保存
+		ofs << mEditorSettingData.dump(2); // インデント2で整形して保存
 		ofs.close();
 		Debug::Log("Editor settings saved to: %s\n", SETTEINGS_FILE_PATH.string().c_str());
 	}
@@ -64,24 +62,25 @@ void EditorSettingsManager::SaveEditorSettings()
 
 void EditorSettingsManager::SetLastOpenedScene(const string& path)
 {
-	mSettings["LastOpenedScene"] = path;
+	mEditorSettingData["LastOpenedScene"] = path;
+	SaveEditorSettings();
 }
 
 string EditorSettingsManager::GetLastOpenedScene() const
 {
 	//JSONオブジェクトから値を取得。キーが存在しないならデフォルト値を返す
-	if(mSettings.count("LastOpenedScene"))
+	if(mEditorSettingData.count("LastOpenedScene"))
 	{
-		return mSettings.at("LastOpenedScene").get<string>();
+		return mEditorSettingData.at("LastOpenedScene").get<string>();
 	}
 	//デフォルトの起動シーンのパス
 	return "Assets/Scenes/TestScene01.json";
 }
 
-void EditorSettingsManager::CreateNewScene(const filesystem::path& filePath)
+void EditorSettingsManager::CreateNewScene(const filesystem::path& filePath, const filesystem::path& selectingPath)
 {
 	string uniqueName = "NewScene.json"; // 拡張子付きで初期化
-	filesystem::path targetFolder = mCurrentFolder; // 現在右クリックしているパス（フォルダ）
+	filesystem::path targetFolder = selectingPath; // 現在右クリックしているパス（フォルダ）
 
 	// 既に存在するファイル名かチェックし、ユニークな名前に変更する
 	int counter = 1;
@@ -109,7 +108,7 @@ void EditorSettingsManager::CreateNewScene(const filesystem::path& filePath)
 void EditorSettingsManager::ProcessPendingDeletions()
 {
 	// 削除処理
-	for (const auto& p : mDeleteQueue)
+	for (const auto& p : mDeleteDirectoryQueue)
 	{
 		try
 		{
@@ -133,7 +132,7 @@ void EditorSettingsManager::ProcessPendingDeletions()
 			Debug::Log("Delete failed: %s\n", e.what());
 		}
 	}
-	mDeleteQueue.clear();
+	mDeleteDirectoryQueue.clear();
 }
 
 void EditorSettingsManager::ProcessScriptDelete(const filesystem::path& path)
@@ -144,7 +143,7 @@ void EditorSettingsManager::ProcessScriptDelete(const filesystem::path& path)
 		filesystem::path cppPath = scriptPath.parent_path() / (scriptPath.stem().string() + ".cpp");
 		if (filesystem::exists(cppPath))
 		{
-			mDeleteQueue.push_back(cppPath);
+			mDeleteDirectoryQueue.push_back(cppPath);
 		}
 	}
 	else if (scriptPath.extension() == ".cpp")
@@ -152,92 +151,7 @@ void EditorSettingsManager::ProcessScriptDelete(const filesystem::path& path)
 		filesystem::path hPath = scriptPath.parent_path() / (scriptPath.stem().string() + ".h");
 		if (filesystem::exists(hPath))
 		{
-			mDeleteQueue.push_back(hPath);
+			mDeleteDirectoryQueue.push_back(hPath);
 		}
 	}
 }
-/*
-void EditorSettingsManager::ProcessPendingRenames()
-{
-	// まずリネームを行う（リネーム後の名前衝突チェックを行う）
-	for (const auto& req : mRenameQueue)
-	{
-		try
-		{
-			if (!filesystem::exists(req.oldPath))continue;
-
-			//名前前のクラス名と名前変更後のクラス名を特定
-			string oldClassName = req.oldPath.stem().string();//例："NewScript"
-			string newClassName = req.newStem;                //例："OrignalScript"  
-
-			//C++のスクリプトファイルペアかどうかを判定
-			bool isScriptFile = (req.oldPath.extension() == ".h" || req.oldPath.extension() == ".cpp");
-			if (req.oldPath.extension().string() == ".tmp_new")
-			{
-				// 1. ダミーファイルを削除
-				if (filesystem::exists(req.oldPath))
-				{
-					filesystem::remove(req.oldPath);
-					Debug::Log("Deleted dummy file: %s\n", req.oldPath.string().c_str());
-				}
-
-				// 2. 確定した名前 (req.newStem) でスクリプトファイルを作成
-				if (ScriptEditManager::GetInstance().CreateScriptFile(req.oldPath.parent_path(), req.newStem))
-				{
-					Debug::Log("Created new script: %s\n", req.newStem.c_str());
-				}
-			}
-			// 既存のリネームの場合
-			// (oldPathが実在し、スクリプトファイルで、名前が変更されている)
-			else if (filesystem::exists(req.oldPath) && isScriptFile && oldClassName != newClassName)
-			{
-				// ----------------------------------------------------
-				// 拡張: ファイルシステム上で、対応する .h と .cpp の両方をリネームする
-				// ----------------------------------------------------
-
-				//変更前のパスを計算
-				filesystem::path oldHPath = req.oldPath.parent_path() / (oldClassName + ".h");
-				filesystem::path oldCppPath = req.oldPath.parent_path() / (oldClassName + ".cpp");
-
-				//変更後のパスを計算
-				filesystem::path newHPath = req.oldPath.parent_path() / (newClassName + ".h");
-				filesystem::path newCppPath = req.oldPath.parent_path() / (newClassName + ".cpp");
-
-				//1..hファイルのリネーム
-				if (filesystem::exists(oldHPath))
-				{
-					filesystem::rename(oldHPath, newHPath);
-					//2..hファイルの内容を書き換え
-					ScriptEditManager::GetInstance().ReplaceInFile(newHPath, oldClassName, newClassName);
-				}
-
-				//  .cppのロジックのコメントアウトを解除
-				//3..cppファイルのリネーム
-				if (filesystem::exists(oldCppPath))
-				{
-					filesystem::rename(oldCppPath, newCppPath);
-					//2..cppファイルの内容を書き換え
-					ScriptEditManager::GetInstance().ReplaceInFile(newCppPath, oldClassName, newClassName);
-				}
-			}
-			//スクリプト以外 のリネーム
-			else if (filesystem::exists(req.oldPath) && !isScriptFile)
-			{
-				// スクリプトファイルでない、または名前が変わっていない場合は、元のロジックに従い、
-				// req.oldPath のファイルのみをリネームキューの定義通りに処理する
-				filesystem::path newPath = req.oldPath.parent_path() / (req.newStem + req.oldPath.extension().string());
-				if (!filesystem::exists(newPath))
-				{
-					filesystem::rename(req.oldPath, newPath);
-					Debug::Log("Renamed: %s -> %s\\n", req.oldPath.string().c_str(), newPath.string().c_str());
-				}
-			}
-		}
-		catch (const exception& e)
-		{
-			Debug::Log("Rename failed: %s\n", e.what());
-		}
-	}
-	mRenameQueue.clear();
-}
-*/

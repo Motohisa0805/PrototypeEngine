@@ -12,15 +12,15 @@
 #include "InspectorPanel.h"
 #include "SceneEditorCamera.h"
 
-bool GUIEditorManager::isPaused = false;
+bool GUIEditorManager::mIsPaused = false;
 
-bool GUIEditorManager::isPlaying = false;
+bool GUIEditorManager::mIsPlaying = false;
 
-bool GUIEditorManager::isStarting = false;
+bool GUIEditorManager::mIsStarting = false;
 
-bool GUIEditorManager::isPushEnd = false;
+bool GUIEditorManager::mIsPushEnd = false;
 
-bool GUIEditorManager::isFrameByFrame = false;
+bool GUIEditorManager::mIsFrameByFrame = false;
 
 Renderer* GUIEditorManager::mRenderer = nullptr;
 	

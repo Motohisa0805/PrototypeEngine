@@ -9,19 +9,17 @@ private:
 	static const filesystem::path			SETTEINGS_FILE_PATH;
 
 	//現在のプロジェクト設定を保持するJSONオブジェクト
-	json									mSettings;
+	json									mEditorSettingData;
 	
 	//シーンが保存されたか
 	static bool								mIsNoSaveFlag;
 
 	static string							mRenameInputBuffer;
 
-	static bool								mRenaming;
-
-	static filesystem::path					mCurrentFolder;
+	static bool								mIsRenaming;
 
 	// 削除予約リスト
-	static vector<filesystem::path>			mDeleteQueue; 
+	static vector<filesystem::path>			mDeleteDirectoryQueue; 
 
 	EditorSettingsManager() { LoadSettings(); }
 	~EditorSettingsManager() { SaveEditorSettings(); }
@@ -48,24 +46,16 @@ public:
 	static void						SetRenameInputBuffer(const string& buffer) { mRenameInputBuffer = buffer; }
 
 	//リネームフラグのGetter/Setter
-	static bool						IsRenaming() { return mRenaming; }
-	static void						SetRenaming(bool renaming) { mRenaming = renaming; }
+	static bool						IsRenaming() { return mIsRenaming; }
+	static void						SetRenamingFlag(bool renaming) { mIsRenaming = renaming; }
 
-	//現在のフォルダのGetter/Setter
-	static filesystem::path			GetCurrentFolder() { return mCurrentFolder; }
-	static void						SetCurrentFolder(const filesystem::path& folder) { mCurrentFolder = folder; }
+	static void						SetDeleteDirectoryQueue(const filesystem::path& path) { mDeleteDirectoryQueue.push_back(path); }
 
-	static void						SetDeleteQueue(const filesystem::path& path) { mDeleteQueue.push_back(path); }
-
-	static void						CreateNewScene(const filesystem::path& filePath);
+	static void						CreateNewScene(const filesystem::path& filePath, const filesystem::path& selectingPath);
 
 	//ファイル、フォルダの削除は即実行せず、削除予約リストに追加する
 	static void 					ProcessPendingDeletions();
 
 	//スクリプトを削除する時の専用の関数
 	static 	void 					ProcessScriptDelete(const filesystem::path& path);
-	/*
-	static void 					ProcessPendingRenames();
-	*/
 };
-

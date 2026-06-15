@@ -149,7 +149,7 @@ void HierarchyPanel::Draw(float width, float height)
 		if (ImGui::IsKeyDown(ImGuiKey_F2)) {
 			if (!EditorSettingsManager::IsRenaming() && SelectionManager::GetSelectedActor()) {
 				EditorSettingsManager::SetRenameInputBuffer(SelectionManager::GetSelectedActor()->GetName());
-				EditorSettingsManager::SetRenaming(true);
+				EditorSettingsManager::SetRenamingFlag(true);
 			}
 		}
 		//複製ショートカットキー
@@ -231,13 +231,13 @@ void HierarchyPanel::DrawActorNode(ActorObject* actor)
 		{
 			auto cmd = std::make_unique<RenameCommand>(SelectionManager::GetSelectedActor(), string(buffer));
 			CommandManager::Execute(std::move(cmd));
-			EditorSettingsManager::SetRenaming(false);
+			EditorSettingsManager::SetRenamingFlag(false);
 		}
 
 		// Esc キャンセル
 		if (ImGui::IsItemDeactivated() && !ImGui::IsItemDeactivatedAfterEdit())
 		{
-			EditorSettingsManager::SetRenaming(false);
+			EditorSettingsManager::SetRenamingFlag(false);
 		}
 	}
 	//リネーム中でなければ通常のノード表示
@@ -400,13 +400,13 @@ void HierarchyPanel::DrawUIActorNode(UIActorObject* actor)
 		{
 			auto cmd = std::make_unique<RenameCommand>(SelectionManager::GetSelectedActor(), string(buffer));
 			CommandManager::Execute(std::move(cmd));
-			EditorSettingsManager::SetRenaming(false);
+			EditorSettingsManager::SetRenamingFlag(false);
 		}
 
 		// Esc キャンセル
 		if (ImGui::IsItemDeactivated() && !ImGui::IsItemDeactivatedAfterEdit())
 		{
-			EditorSettingsManager::SetRenaming(false);
+			EditorSettingsManager::SetRenamingFlag(false);
 		}
 	}
 	//リネーム中でなければ通常のノード表示
@@ -524,20 +524,20 @@ bool HierarchyPanel::RightClickMenu()
 			auto cmd = std::make_unique<CreateNewActorCommand>();
 			CommandManager::Execute(std::move(cmd));
 			EditorSettingsManager::SetRenameInputBuffer(SelectionManager::GetSelectedActor()->GetName());
-			EditorSettingsManager::SetRenaming(true);
+			EditorSettingsManager::SetRenamingFlag(true);
 		}
 		if (ImGui::MenuItem("Create UI Canvas")) {
 			auto cmd = std::make_unique<CreateNewCanvasCommand>();
 			CommandManager::Execute(std::move(cmd));
 			EditorSettingsManager::SetRenameInputBuffer(SelectionManager::GetSelectedActor()->GetName());
-			EditorSettingsManager::SetRenaming(true);
+			EditorSettingsManager::SetRenamingFlag(true);
 		}
 		if (ImGui::MenuItem("Create UI Empty"))
 		{
 			auto cmd = std::make_unique<CreateNewUIActorCommand>();
 			CommandManager::Execute(std::move(cmd));
 			EditorSettingsManager::SetRenameInputBuffer(SelectionManager::GetSelectedActor()->GetName());
-			EditorSettingsManager::SetRenaming(true);
+			EditorSettingsManager::SetRenamingFlag(true);
 		}
 		ImGui::EndPopup();
 	}
@@ -586,7 +586,7 @@ void HierarchyPanel::EditorCommandPopupMenu()
 		if (!EditorSettingsManager::IsRenaming() && SelectionManager::GetSelectedActor())
 		{
 			EditorSettingsManager::SetRenameInputBuffer(SelectionManager::GetSelectedActor()->GetName());
-			EditorSettingsManager::SetRenaming(true);
+			EditorSettingsManager::SetRenamingFlag(true);
 		}
 	}
 	if (ImGui::MenuItem("Duplicate", "Ctrl + D"))
