@@ -22,8 +22,11 @@ public:
 	static bool SaveEmptyScene(const filesystem::path& filePath);
 	//シーンを読み込む関数
 	static BaseScene* LoadScene(const string& filePath);
+
+	static void RenameRunScene(const filesystem::path& filePath,const string& newFileName);
+
 	//編集用データの保存関数
-	static void WriteEditorData(const filesystem::path& filePath, BaseScene* scene);
+	static void WriteEditingSceneData(const filesystem::path& filePath, BaseScene* scene);
 	//編集用データの解放関数
 	static void RelaseEditorData();
 };

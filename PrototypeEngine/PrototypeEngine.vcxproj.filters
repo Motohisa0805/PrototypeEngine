@@ -334,7 +334,7 @@
     <ClCompile Include="CallBackManager.cpp">
       <Filter>SourceCodes\A_Editor\Function\Utilitys</Filter>
     </ClCompile>
-    <ClCompile Include="ConvertNumToString.cpp">
+    <ClCompile Include="StringConvertOperation.cpp">
       <Filter>SourceCodes\A_Editor\Function\Utilitys</Filter>
     </ClCompile>
     <ClCompile Include="Math.cpp">
@@ -684,7 +684,7 @@
     <ClInclude Include="CallBackManager.h">
       <Filter>SourceCodes\A_Editor\Function\Utilitys</Filter>
     </ClInclude>
-    <ClInclude Include="ConvertNumToString.h">
+    <ClInclude Include="StringConvertOperation.h">
       <Filter>SourceCodes\A_Editor\Function\Utilitys</Filter>
     </ClInclude>
     <ClInclude Include="DebugManager.h">

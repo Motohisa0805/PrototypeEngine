@@ -253,7 +253,7 @@ void SkeletalMeshRenderer::DrawCustomGUI(const std::vector<PropertyInfo>& proper
 		{
 			//ペイロードがファイルパスであると仮定
 			const char* dropPath = (const char*)payload->Data;
-			string path = StringConverter::ExtensionFileName(dropPath);
+			string path = Sco::ExtensionFileName(dropPath);
 			//ファイルパスを使いロード処理を呼び出す
 			vector<class Mesh*> mesh = EngineWindow::GetRenderer()->GetMeshs(path);
 			SetMeshs(mesh);

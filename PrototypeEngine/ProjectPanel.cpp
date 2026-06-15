@@ -13,7 +13,9 @@ string ProjectPanel::mRenameInputBuffer = "";
 
 bool ProjectPanel::mRenaming = false;
 
-filesystem::path ProjectPanel::mSelectedPath = "Assets";
+filesystem::path ProjectPanel::mSelectedFilePath = "Assets";
+
+filesystem::path ProjectPanel::mSelectedFolderPath = "Assets";
 
 char ProjectPanel::mScriptCreateBuffer[256] = "";
 
@@ -51,7 +53,7 @@ void ProjectPanel::Draw(float width, float height)
         if (ImGui::IsMouseClicked(ImGuiMouseButton_Left) &&
             !ImGui::IsWindowHovered(ImGuiHoveredFlags_RootAndChildWindows)) {
             if (!ImGui::IsPopupOpen(nullptr, ImGuiPopupFlags_AnyPopupId)) {
-                mSelectedPath.clear();
+                mSelectedFilePath.clear();
             }
         }
 
@@ -73,8 +75,8 @@ void ProjectPanel::Draw(float width, float height)
                 // 左クリックで選択中フォルダを更新(Assetsフォルダ用)
                 if (ImGui::IsItemClicked(ImGuiMouseButton_Left) || ImGui::IsItemClicked(ImGuiMouseButton_Right))
                 {
-                    EditorSettingsManager::SetCurrentFolder("Assets");
-                    mSelectedPath = "Assets"; // 選択パスを更新
+                    mSelectedFilePath = "Assets"; // 選択パスを更新
+                    mSelectedFolderPath = "Assets";
                 }
 
                 //フォルダツリー表示
@@ -97,8 +99,8 @@ void ProjectPanel::Draw(float width, float height)
     }
 
     ImGui::Separator();
-    if (!mSelectedPath.empty()) {
-        ImGui::Text("Selection: %s", mSelectedPath.string().c_str());
+    if (!mSelectedFilePath.empty()) {
+        ImGui::Text("Selection: %s", mSelectedFilePath.string().c_str());
     }
     else {
         ImGui::Text("Selection: None");
@@ -125,12 +127,12 @@ void ProjectPanel::DrawFolderTree(const filesystem::path& path)
             // ツリーノードの表示
             // ImGuiTreeNodeFlags_Selected: mSelectedPathと一致する場合にハイライト表示させる
             ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_SpanAvailWidth;
-            if (entry.path() == mSelectedPath)
+            if (entry.path() == mSelectedFilePath || entry.path() == mSelectedFolderPath)
             {
                 flags |= ImGuiTreeNodeFlags_Selected;
             }
             bool pushedColor = false;
-            if (entry.path() == mSelectedPath)
+            if (entry.path() == mSelectedFilePath || entry.path() == mSelectedFolderPath)
             {
                 // 現在のテーマの「ホバー時の色」をベースとして取得する
                 ImVec4 color = ImGui::GetStyle().Colors[ImGuiCol_HeaderHovered];
@@ -147,8 +149,8 @@ void ProjectPanel::DrawFolderTree(const filesystem::path& path)
             // 左クリックで選択中フォルダを更新
             if (ImGui::IsItemClicked(ImGuiMouseButton_Left)|| ImGui::IsItemClicked(ImGuiMouseButton_Right))
             {
-				EditorSettingsManager::SetCurrentFolder(entry.path());
-                mSelectedPath = entry.path(); // 選択パスを更新
+                mSelectedFilePath = entry.path(); // 選択パスを更新
+                mSelectedFolderPath = entry.path();
             }
 
             if (pushedColor)
@@ -172,15 +174,15 @@ void ProjectPanel::DrawFolderTree(const filesystem::path& path)
 // 選択中フォルダの中身を表示(右カラム)
 void ProjectPanel::DrawPickUpFolderView()
 {
-    if (!filesystem::exists(EditorSettingsManager::GetCurrentFolder())) return;
+    if (!filesystem::exists(mSelectedFolderPath)) return;
 
     // === パンくずリスト表示 ===
-    filesystem::path root = EditorSettingsManager::GetCurrentFolder();
-    filesystem::path relative = filesystem::relative(EditorSettingsManager::GetCurrentFolder(), root);
+    filesystem::path root = mSelectedFolderPath;
+    filesystem::path relative = filesystem::relative(mSelectedFolderPath, root);
     // ルート ("Assets") を必ず表示
     if (ImGui::Button("Assets##2"))
     {
-		EditorSettingsManager::SetCurrentFolder(root);
+        mSelectedFolderPath = root;
     }
 
     filesystem::path temp = root;
@@ -193,7 +195,7 @@ void ProjectPanel::DrawPickUpFolderView()
         temp /= part;
         if (ImGui::Button(part.string().c_str()))
         {
-			EditorSettingsManager::SetCurrentFolder(temp);
+            mSelectedFolderPath = temp;
         }
     }
 
@@ -202,7 +204,7 @@ void ProjectPanel::DrawPickUpFolderView()
     float windowVisibleX2 = ImGui::GetWindowPos().x + ImGui::GetWindowContentRegionMax().x;
 	float itemWidth = 64.0f + ImGui::GetStyle().ItemSpacing.x; // アイコンの幅＋余白
 
-    for (auto& entry : filesystem::directory_iterator(EditorSettingsManager::GetCurrentFolder()))
+    for (auto& entry : filesystem::directory_iterator(mSelectedFolderPath))
     {
         DrawFileSystemEntry(entry);
 
@@ -219,7 +221,7 @@ void ProjectPanel::DrawPickUpFolderView()
 void ProjectPanel::DrawFileSystemEntry(const filesystem::directory_entry& entry)
 {
     const string name = entry.path().filename().string();
-    bool isSelected = (mSelectedPath == entry.path());
+    bool isSelected = (mSelectedFilePath == entry.path());
 
     // 1. 各アイテムをグループ化し、一意のIDで包む（これで競合とバグを完全に防ぐ）
     ImGui::PushID(entry.path().string().c_str());
@@ -235,7 +237,7 @@ void ProjectPanel::DrawFileSystemEntry(const filesystem::directory_entry& entry)
     
     if (ImGui::ImageButton("##icon", iconTextureID, ImVec2(64, 64)))
     {
-        mSelectedPath = entry.path();
+        mSelectedFilePath = entry.path();
     }
     if (isSelected) {
         ImGui::PopStyleColor();
@@ -263,8 +265,8 @@ void ProjectPanel::DrawFileSystemEntry(const filesystem::directory_entry& entry)
             {
                 if (entry.is_directory())
                 {
-                    EditorSettingsManager::SetCurrentFolder(entry.path());
-                    mSelectedPath = entry.path();
+                    mSelectedFilePath = entry.path();
+                    mSelectedFolderPath = entry.path();
                 }
                 else
                 {
@@ -282,7 +284,7 @@ void ProjectPanel::DrawFileSystemEntry(const filesystem::directory_entry& entry)
             // 右クリックされた瞬間、そのアセットを選択状態にする（Unity互換）
             if (ImGui::IsMouseClicked(ImGuiMouseButton_Right))
             {
-                mSelectedPath = entry.path();
+                mSelectedFilePath = entry.path();
             }
         }
         // コンテキストメニュー、ショートカット、ドラッグ＆ドロップ
@@ -305,7 +307,7 @@ void ProjectPanel::SetDockWindow(ImGuiID id,ImGuiID& outID)
 
 bool ProjectPanel::RightClickMenu()
 {
-	if (mSelectedPath.empty()) return false;
+	if (mSelectedFilePath.empty()) return false;
     SetPopupColorTheme();
     // コンテキストメニューは直前に描画したアイテム（TreeNode か Selectable）に紐づく
     if (ImGui::BeginPopupContextWindow("ProjectContext", ImGuiMouseButton_Right))
@@ -320,7 +322,7 @@ bool ProjectPanel::RightClickMenu()
 		// Show in Explorer（フォルダ・ファイルどちらでも可）
 		ShowInExplorer();
 		// Open（ファイルのみ）
-        if (!filesystem::is_directory(mSelectedPath))
+        if (!filesystem::is_directory(mSelectedFilePath))
         {
             OpenFile();
 		}
@@ -349,10 +351,10 @@ void ProjectPanel::CreateNewFolder()
             // 簡易的なユニーク名生成の例
             std::string uniqueName = "NewFolder";
             int counter = 1;
-            while (filesystem::exists(mSelectedPath / uniqueName)) {
+            while (filesystem::exists(mSelectedFolderPath / uniqueName)) {
                 uniqueName = "NewFolder (" + std::to_string(counter++) + ")";
             }
-            filesystem::create_directory(mSelectedPath / uniqueName);
+            filesystem::create_directory(mSelectedFolderPath / uniqueName);
 
         }
         catch (const exception& e)
@@ -362,13 +364,16 @@ void ProjectPanel::CreateNewFolder()
     }
 }
 
-void ProjectPanel::CreateNewScene(const string& name)
+void ProjectPanel::CreateNewScene(const string& name, bool loadScene)
 {
     //シーン作成
     if (ImGui::MenuItem(name.c_str()))
     {
         string uniqueName = "NewScene.json"; // 拡張子付きで初期化
-        filesystem::path targetFolder = mSelectedPath; // 現在右クリックしているパス（フォルダ）
+        filesystem::path targetFolder = mSelectedFolderPath; // 現在右クリックしているパス（フォルダ）
+        if (mSelectedFolderPath.has_extension()) {
+            targetFolder = mSelectedFolderPath.parent_path();
+        }
 
         // 既に存在するファイル名かチェックし、ユニークな名前に変更する
         int counter = 1;
@@ -385,6 +390,9 @@ void ProjectPanel::CreateNewScene(const string& name)
         {
             // 成功ログ
             Debug::Log("Created new scene: %s\n", newScenePath.string().c_str());
+            if (loadScene) {
+                SceneManager::LoadSceneGUI(newScenePath.string());
+            }
         }
         else
         {
@@ -409,11 +417,11 @@ void ProjectPanel::ShowInExplorer()
 {
     if (ImGui::MenuItem("Show in Explorer"))
     {
-        std::filesystem::path selectedPath = mSelectedPath;
+        std::filesystem::path selectedPath = mSelectedFilePath;
 
         // もし何も選択されていなければ現在のフォルダを開く（フォールバック）
         if (selectedPath.empty()) {
-            selectedPath = EditorSettingsManager::GetCurrentFolder();
+            selectedPath = mSelectedFolderPath;
         }
 
         FileOperationManager::ShowInExplorer(selectedPath.wstring());
@@ -425,18 +433,18 @@ void ProjectPanel::OpenFile()
     if (ImGui::MenuItem("Open"))
     {
         // ファイルの場合
-        if (mSelectedPath.extension().string() == ".json")
+        if (mSelectedFilePath.extension().string() == ".json")
         {
             // シーンファイルのロード処理を呼び出す
             // 実行中のシーンと切り替えるため、SceneManagerに処理を依頼します
-            SceneManager::LoadSceneGUI(mSelectedPath.string());
+            SceneManager::LoadSceneGUI(mSelectedFilePath.string());
             //EditorSettingsManager::GetInstance().SetLastOpenedScene(entry.path().string());
         }
-        else if (filesystem::is_directory(mSelectedPath)) {
-            EditorSettingsManager::SetCurrentFolder(mSelectedPath);
+        else if (filesystem::is_directory(mSelectedFilePath)) {
+            mSelectedFolderPath = mSelectedFilePath;
         }
         else {
-            FileOperationManager::OpenFile(mSelectedPath);
+            FileOperationManager::OpenFile(mSelectedFilePath);
         }
     }
 }
@@ -444,13 +452,13 @@ void ProjectPanel::OpenFile()
 void ProjectPanel::DeleteFileOrFolder()
 {
     //削除メニューはAssetsフォルダ自体を削除できないようにする
-    ImGui::BeginDisabled(mSelectedPath == "Assets");
+    ImGui::BeginDisabled(mSelectedFilePath == "Assets");
     //フォルダの削除
     if (ImGui::MenuItem("Delete"))
     {
         // 即削除はしない。遅延キューに追加する
-        EditorSettingsManager::SetDeleteQueue(mSelectedPath);
-        EditorSettingsManager::ProcessScriptDelete(mSelectedPath);
+        EditorSettingsManager::SetDeleteDirectoryQueue(mSelectedFilePath);
+        EditorSettingsManager::ProcessScriptDelete(mSelectedFilePath);
     }
     ImGui::EndDisabled();
 }
@@ -459,15 +467,15 @@ void ProjectPanel::RenameMenu()
 {
     if (ImGui::MenuItem("Rename"))
     {
-        mPathToRename = mSelectedPath;
+        mPathToRename = mSelectedFilePath;
         // ファイルなら拡張子を除いた stem を編集バッファに、フォルダは full name
-        if (filesystem::is_directory(mSelectedPath))
+        if (filesystem::is_directory(mSelectedFilePath))
         {
-            mRenameInputBuffer = mSelectedPath.filename().string();
+            mRenameInputBuffer = mSelectedFilePath.filename().string();
         }
         else
         {
-            mRenameInputBuffer = mSelectedPath.stem().string();
+            mRenameInputBuffer = mSelectedFilePath.stem().string();
         }
         mRenaming = true;
     }
@@ -477,8 +485,8 @@ void ProjectPanel::CopyPathMenu()
 {
     if (ImGui::MenuItem("Copy Path"))
     {
-        ImGui::SetClipboardText(mSelectedPath.string().c_str());
-        Debug::Log("Copied path to clipboard: %s\n", mSelectedPath.string().c_str());
+        ImGui::SetClipboardText(mSelectedFilePath.string().c_str());
+        Debug::Log("Copied path to clipboard: %s\n", mSelectedFilePath.string().c_str());
 	}
 }
 
@@ -486,24 +494,24 @@ void ProjectPanel::ShortcutKeyInputFunction(const filesystem::path& path)
 {
     if (!WindowHoveredConfirmation()) { return; }
     //削除キー
-    if (!mSelectedPath.empty() && ImGui::IsKeyPressed(ImGuiKey_Delete))
+    if (!mSelectedFilePath.empty() && ImGui::IsKeyPressed(ImGuiKey_Delete))
     {
-		EditorSettingsManager::SetDeleteQueue(mSelectedPath);
-        EditorSettingsManager::ProcessScriptDelete(mSelectedPath);
+		EditorSettingsManager::SetDeleteDirectoryQueue(mSelectedFilePath);
+        EditorSettingsManager::ProcessScriptDelete(mSelectedFilePath);
     }
     //名前変更キー
-    if (!mSelectedPath.empty() && ImGui::IsKeyPressed(ImGuiKey_F2))
+    if (!mSelectedFilePath.empty() && ImGui::IsKeyPressed(ImGuiKey_F2))
     {
-        mPathToRename = mSelectedPath; //mSelectedPath をターゲットに
+        mPathToRename = mSelectedFilePath; //mSelectedPath をターゲットに
 
         // ファイルなら拡張子を除いた stem を編集バッファに、フォルダは full name
-        if (filesystem::is_directory(mSelectedPath))
+        if (filesystem::is_directory(mSelectedFilePath))
         {
-            mRenameInputBuffer = mSelectedPath.filename().string();
+            mRenameInputBuffer = mSelectedFilePath.filename().string();
         }
         else
         {
-            mRenameInputBuffer = mSelectedPath.stem().string();
+            mRenameInputBuffer = mSelectedFilePath.stem().string();
         }
         mRenaming = true;
     }
@@ -656,13 +664,13 @@ void ProjectPanel::DrawScriptCreatePopup()
         if (ImGui::Button("Create", ImVec2(120, 0)) || isSubmitted) {
             string scriptName = mScriptCreateBuffer;
             if (!scriptName.empty()) {
-                bool success = ScriptEditManager::GetInstance().CreateScriptFile(mSelectedPath, scriptName);
+                bool success = ScriptEditManager::GetInstance().CreateScriptFile(mSelectedFilePath, scriptName);
 
                 if (success) {
                     Debug::Log("Successfully created script: %s\n", scriptName.c_str());
 
                     string hPath = scriptName + "h";
-                    ScriptEditManager::GetInstance().AddScriptFileToVcxProj(mSelectedPath / hPath, scriptName);
+                    ScriptEditManager::GetInstance().AddScriptFileToVcxProj(mSelectedFilePath / hPath, scriptName);
                 }
                 else {
                     Debug::Log("Failed to create script: %s\n", scriptName.c_str());

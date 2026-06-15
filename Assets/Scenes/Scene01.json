@@ -625,7 +625,6 @@
       "Type": "Transform"
     }
   ],
-  "SceneName": "Scene01",
   "UIActors": [
     {
       "CanvasFrag": true,

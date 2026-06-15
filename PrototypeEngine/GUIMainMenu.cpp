@@ -67,7 +67,7 @@ void GUIMainMenu::FileMenuDraw()
 	// "File" メニューの開始
 	if (ImGui::BeginMenu("File"))
 	{
-		ProjectPanel::CreateNewScene("New Scene");
+		ProjectPanel::CreateNewScene("New Scene",true);
 
 		if (ImGui::MenuItem("Open Scene", "Ctrl + O")) {
 			FileOperationManager::OpenSceneDialog();
@@ -126,7 +126,7 @@ void GUIMainMenu::AssetMenuDraw()
 		}
 		// Show in Explorer（フォルダ・ファイルどちらでも可）
 		ProjectPanel::ShowInExplorer();
-		if (!filesystem::is_directory(ProjectPanel::GetSelectedPath()))
+		if (!filesystem::is_directory(ProjectPanel::GetSelectedFilePath()))
 		{
 			// Open（ファイルのみ）
 			ProjectPanel::OpenFile();
@@ -151,20 +151,20 @@ void GUIMainMenu::GameObjectMenuDraw()
 			auto cmd = std::make_unique<CreateNewActorCommand>();
 			CommandManager::Execute(std::move(cmd));
 			EditorSettingsManager::SetRenameInputBuffer(SelectionManager::GetSelectedActor()->GetName());
-			EditorSettingsManager::SetRenaming(true);
+			EditorSettingsManager::SetRenamingFlag(true);
 		}
 		if (ImGui::MenuItem("Create UI Canvas")) {
 			auto cmd = std::make_unique<CreateNewCanvasCommand>();
 			CommandManager::Execute(std::move(cmd));
 			EditorSettingsManager::SetRenameInputBuffer(SelectionManager::GetSelectedActor()->GetName());
-			EditorSettingsManager::SetRenaming(true);
+			EditorSettingsManager::SetRenamingFlag(true);
 		}
 		if (ImGui::MenuItem("Create UI Empty"))
 		{
 			auto cmd = std::make_unique<CreateNewUIActorCommand>();
 			CommandManager::Execute(std::move(cmd));
 			EditorSettingsManager::SetRenameInputBuffer(SelectionManager::GetSelectedActor()->GetName());
-			EditorSettingsManager::SetRenaming(true);
+			EditorSettingsManager::SetRenamingFlag(true);
 		}
 		ImGui::EndMenu();
 	}
@@ -230,7 +230,7 @@ void GUIMainMenu::HelpMenuDraw()
 			GUIEditorManager::GetRootMainWindow()->AddEditorWindow(EditorWindowFactory::CreateEditorWindow("AboutEngine", mRenderer));
 		}
 
-		if (ImGui::BeginMenu("Tutorial")) {
+		if (ImGui::BeginMenu("Instructions")) {
 			if (ImGui::MenuItem("HierarchyExplanation")) {
 				GUIEditorManager::GetRootMainWindow()->AddEditorWindow(EditorWindowFactory::CreateEditorWindow("HierarchyExplanation", mRenderer));
 			}

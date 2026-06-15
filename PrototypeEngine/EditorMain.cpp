@@ -10,9 +10,9 @@ void CurrentDirectorySetting()
 #ifdef _DEBUG
 {
 	// 実行ファイルのフルパスを取得（例: C:\Users\User\Project\bin\app.exe）
-	char buf[MAX_PATH];
-	GetModuleFileNameA(NULL, buf, MAX_PATH);
-	std::string exePath(buf);
+	char outWritePath[MAX_PATH];
+	GetModuleFileNameA(NULL, outWritePath, MAX_PATH);
+	std::string exePath(outWritePath);
 
 	// 実行ファイルがあるディレクトリを抽出（例: C:\Users\User\Project\bin）
 	size_t lastSlashPos = exePath.find_last_of("\\/");
@@ -35,9 +35,9 @@ void CurrentDirectorySetting()
 #elif defined(_RELEASE)
 {
 	// 実行ファイルのフルパスを取得（例: C:\Users\User\Project\bin\app.exe）
-	wchar_t buf[MAX_PATH];
-	GetModuleFileNameW(NULL, buf, MAX_PATH);
-	std::wstring exePath(buf);
+	wchar_t outWritePath[MAX_PATH];
+	GetModuleFileNameW(NULL, outWritePath, MAX_PATH);
+	std::wstring exePath(outWritePath);
 
 	// 実行ファイルがあるディレクトリを抽出（例: C:\Users\User\Project\bin）
 	size_t lastSlashPos = exePath.find_last_of(L"\\/");
