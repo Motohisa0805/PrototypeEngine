@@ -172,6 +172,13 @@ void Rigidbody::FixedUpdate(float deltaTime)
 
 void Rigidbody::UpdateSleepState(float deltaTime)
 {
+    //重力が有効でかつ接地していない場合
+    if (mUseGravity && !mIsSleeping) {
+        mSleepTimer = 0.0f;
+        mIsSleeping = false;
+        return;
+    }
+
     // 速度と角速度がしきい値以下かチェック
     if (mVelocity.LengthSq() < 0.01f && mAngularVelocity.LengthSq() < 0.01f) {
         mSleepTimer += deltaTime;
@@ -371,9 +378,10 @@ void Rigidbody::CalculateInertiaTensor()
         float H = halfSize.y * 2.0f;
         float D = halfSize.z * 2.0f;
 
-        inertiaTensor.mat[0][0] = (1.0f / 12.0f) * mMass * (H * H + D * D);
-        inertiaTensor.mat[1][1] = (1.0f / 12.0f) * mMass * (W * W + D * D);
-        inertiaTensor.mat[2][2] = (1.0f / 12.0f) * mMass * (W * W + H * H);
+        float minInertia = 0.001f;
+        inertiaTensor.mat[0][0] = std::max((1.0f / 12.0f) * mMass * (H * H + D * D), minInertia);
+        inertiaTensor.mat[1][1] = std::max((1.0f / 12.0f) * mMass * (W * W + D * D), minInertia);
+        inertiaTensor.mat[2][2] = std::max((1.0f / 12.0f) * mMass * (W * W + H * H), minInertia);
         mShapeType = coll->GetType();
     }
     else if (coll->GetType() == Collider::CapsuleType)

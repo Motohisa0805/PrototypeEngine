@@ -68,11 +68,35 @@ AABB CapsuleCollider::GetWorldAABBFromOBB() const
 void CapsuleCollider::Serialize(json& j) const
 {
 	Collider::Serialize(j);
+    j["Radius"] = mObjectCapsule.mRadius;
+
+    j["mObjectCapsule.mSegment.mStart"] = { mObjectCapsule.mSegment.mStart.x, mObjectCapsule.mSegment.mStart.y, mObjectCapsule.mSegment.mStart.z };
+    j["mObjectCapsule.mSegment.mEnd"] = { mObjectCapsule.mSegment.mEnd.x, mObjectCapsule.mSegment.mEnd.y, mObjectCapsule.mSegment.mEnd.z };
 }
 
 void CapsuleCollider::Deserialize(const json& j)
 {
 	Collider::Deserialize(j);
+
+    if (j.contains("Radius")) {
+        mObjectCapsule.mRadius = j.at("Radius").get<float>();
+    }
+
+    if (j.contains("mObjectCapsule.mSegment.mStart")) {
+        mObjectCapsule.mSegment.mStart = Vector3(
+            j["mObjectCapsule.mSegment.mStart"][0],
+            j["mObjectCapsule.mSegment.mStart"][1],
+            j["mObjectCapsule.mSegment.mStart"][2]
+        );
+    }
+
+    if (j.contains("mObjectCapsule.mSegment.mEnd")) {
+        mObjectCapsule.mSegment.mEnd = Vector3(
+            j["mObjectCapsule.mSegment.mEnd"][0],
+            j["mObjectCapsule.mSegment.mEnd"][1],
+            j["mObjectCapsule.mSegment.mEnd"][2]
+        );
+    }
 }
 
 void CapsuleCollider::DrawCustomGUI(const std::vector<PropertyInfo>& properties)
@@ -81,6 +105,17 @@ void CapsuleCollider::DrawCustomGUI(const std::vector<PropertyInfo>& properties)
 
     ImGui::Text("Properties");
 	Collider::DrawCustomGUI(properties);
+
+    ImGui::SetNextItemWidth(50);
+    ImGui::DragFloat("Radius", &mObjectCapsule.mRadius);
+
+    ImGui::Text("Start");
+    ImGui::SameLine();
+    ImGui::DragFloat3("##start", &mObjectCapsule.mSegment.mStart.x);
+
+    ImGui::Text("End");
+    ImGui::SameLine();
+    ImGui::DragFloat3("##end", &mObjectCapsule.mSegment.mEnd.x);
 
     ImGui::Separator();
 

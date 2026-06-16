@@ -22,9 +22,7 @@ bool SceneManager::InitializeScenes()
 	if (!startupScenePath.empty())
 	{
 		//パスが有効なら、そのファイルからロードを試みる
-		mCurrentRunScene = SceneSerializer::LoadScene(startupScenePath);
-		//シーン読み込み時、一時的にシーンの全ての情報を別のJSONオブジェクトに保存
-
+		mCurrentRunScene = SceneSerializer::LoadScene(startupScenePath,true);
 	}
 
 	//ベースに最初の動的シーンを設定(空のEditorSceneを作成)
@@ -74,7 +72,7 @@ void SceneManager::ChangeScene()
 			mCurrentRunScene = nullptr;
 		}
 
-		mCurrentRunScene = SceneSerializer::LoadScene(mNextSceneFilePath);
+		mCurrentRunScene = SceneSerializer::LoadScene(mNextSceneFilePath,true);
 		mCurrentRunScene->Initialize();
 		EngineWindow::GetRenderer()->SetBaseScene(mCurrentRunScene);
 		if (GUIEditorManager::IsPlaying())

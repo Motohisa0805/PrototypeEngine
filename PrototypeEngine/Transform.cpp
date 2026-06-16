@@ -70,7 +70,7 @@ void Transform::ComputeWorldTransform()
 		mWorldTransform = mLocalTransform;
 	}
 	mPosition = mWorldTransform.GetTranslation();
-	mRotation = mWorldTransform.GetRotation();
+	mRotation = mWorldTransform.RemoveScale().GetRotation();
 	mScale = mWorldTransform.GetScale();
 
 	mIsDirty = false;

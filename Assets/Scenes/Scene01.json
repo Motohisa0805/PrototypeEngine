@@ -289,6 +289,12 @@
           "Visible": true
         },
         {
+          "Center": [
+            1.6391277313232422e-07,
+            1.7881393432617188e-07,
+            0.0
+          ],
+          "Radius": 0.5,
           "Type": "SphereCollider",
           "mContactOffset": 0.0010000000474974513,
           "mIsCollider": true
@@ -373,9 +379,20 @@
           "Visible": true
         },
         {
+          "Radius": 0.4903925657272339,
           "Type": "CapsuleCollider",
           "mContactOffset": 0.0010000000474974513,
-          "mIsCollider": true
+          "mIsCollider": true,
+          "mObjectCapsule.mSegment.mEnd": [
+            7.450580596923828e-08,
+            0.5051124691963196,
+            7.450580596923828e-08
+          ],
+          "mObjectCapsule.mSegment.mStart": [
+            7.450580596923828e-08,
+            -0.5018312931060791,
+            7.450580596923828e-08
+          ]
         },
         {
           "Bounciness": 0.10000000149011612,
@@ -489,9 +506,9 @@
         0.0
       ],
       "LocalScale": [
+        2.0,
         1.0,
-        1.0,
-        1.0
+        2.0
       ],
       "Name": "RigidbodyCube3",
       "ParentActorID": -1,

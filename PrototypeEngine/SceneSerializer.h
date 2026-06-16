@@ -21,7 +21,7 @@ public:
 	//GUIで空のシーンを生成する関数
 	static bool CreateEmptyScene(const filesystem::path& filePath);
 	//シーンを読み込む関数
-	static BaseScene* LoadScene(const string& filePath);
+	static BaseScene* LoadScene(const string& filePath,bool isWriteTempData = false);
 
 	static void RenameRunScene(const filesystem::path& filePath,const string& newFileName);
 
