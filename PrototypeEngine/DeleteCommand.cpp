@@ -25,8 +25,8 @@ void DeleteCommand::Execute()
 {
 	if (!mIsActiveInScene) return;
 
-	ActorManager* actorManager = SceneManager::GetNowScene()->GetActorManager();
-	UIActorManager* uiActorManager = SceneManager::GetNowScene()->GetUIActorManager();
+	ActorManager* actorManager = SceneManager::GetCurrentRunScene()->GetActorManager();
+	UIActorManager* uiActorManager = SceneManager::GetCurrentRunScene()->GetUIActorManager();
 	if (auto actorPtr = dynamic_cast<ActorObject*>(actorManager->FindActorByID(mTargetID))) {
 
 		// 初回実行時はコンストラクタから貰った mTarget をそのまま使う。
@@ -71,13 +71,13 @@ void DeleteCommand::Undo()
 	if (mIsActiveInScene || !mTarget) return;
 
 	if (auto actorPtr = dynamic_cast<ActorObject*>(mTarget)) {
-		ActorManager* actorManager = SceneManager::GetNowScene()->GetActorManager();
+		ActorManager* actorManager = SceneManager::GetCurrentRunScene()->GetActorManager();
 
 		actorManager->ReAddActor(actorPtr);
 	}
 	// UIActorか確認
 	else if (auto uiActorPtr = dynamic_cast<UIActorObject*>(mTarget)) {
-		UIActorManager* uiActorManager = SceneManager::GetNowScene()->GetUIActorManager();
+		UIActorManager* uiActorManager = SceneManager::GetCurrentRunScene()->GetUIActorManager();
 
 		uiActorManager->ReAddActor(uiActorPtr);
 	}

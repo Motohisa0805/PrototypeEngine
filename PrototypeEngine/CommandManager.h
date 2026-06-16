@@ -15,8 +15,8 @@
 class CommandManager
 {
 private:
-	vector<std::unique_ptr<ICommand>> mUndoStack;
-	vector<std::unique_ptr<ICommand>> mRedoStack;
+	vector<std::unique_ptr<ICommand>> mUndoStacks;
+	vector<std::unique_ptr<ICommand>> mRedoStacks;
 public:
 	//新しい操作を実行し、Undoスタッグに追加
 	static void				Execute(std::unique_ptr<ICommand> command);

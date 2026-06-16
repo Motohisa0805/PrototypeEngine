@@ -168,7 +168,7 @@ void EngineWindow::EngineRunLoop()
 				mGameWindow->GameRunLoop();
 			}
 		}
-		SceneManager::GetNowScene()->EditorUpdate(GUIEditorManager::IsPlaying());
+		SceneManager::GetCurrentRunScene()->EditorUpdate(GUIEditorManager::IsPlaying());
 		//I—¹ƒ{ƒ^ƒ“‚ª‰Ÿ‚³‚ê‚½‚ç
 		if(GUIEditorManager::IsPushEnd())
 		{

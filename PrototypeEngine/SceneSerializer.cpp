@@ -5,10 +5,10 @@
 #include "DirectionalLightComponent.h"
 #include "EditorSettingsManager.h"
 
-filesystem::path SceneSerializer::mTempParentPath = EditorFile::EditorFile_Path;
-filesystem::path SceneSerializer::mTempPath = "";
+filesystem::path SceneSerializer::mTempEditingDirectoryPath = EditorFile::EditorFile_Path;
+filesystem::path SceneSerializer::mTempEditingPath = "";
 
-bool SceneSerializer::SaveScene(const filesystem::path& filePath, BaseScene* scene)
+bool SceneSerializer::SaveRunScene(const filesystem::path& filePath, BaseScene* scene)
 {
 	//JSONオブジェクトの作成
     json sceneJson;
@@ -57,7 +57,7 @@ bool SceneSerializer::SaveScene(const filesystem::path& filePath, BaseScene* sce
     }
 }
 
-bool SceneSerializer::SaveEmptyScene(const filesystem::path& filePath)
+bool SceneSerializer::CreateEmptyScene(const filesystem::path& filePath)
 {
     //JSONオブジェクトの作成
     json sceneJson;
@@ -177,7 +177,7 @@ BaseScene* SceneSerializer::LoadScene(const string& filePath)
 
 void SceneSerializer::RenameRunScene(const filesystem::path& filePath, const string& newFileName)
 {
-    SceneManager::GetNowScene()->SetName(newFileName);
+    SceneManager::GetCurrentRunScene()->SetName(newFileName);
     filesystem::path newPath = filePath.parent_path() / (filesystem::path)(newFileName + ".json");
     EditorSettingsManager::GetInstance().SetLastOpenedScene(newPath.string());
 }
@@ -218,7 +218,7 @@ void SceneSerializer::WriteEditingSceneData(const filesystem::path& filePath, Ba
     //EditorSettingファイルも編集中のシーン名を変更
     EditorSettingsManager::GetInstance().SetLastOpenedScene(newEditingPath.string());
     // 2. 一時ファイルパスを決定（例：元のファイルパスから一時ファイル名を生成）
-    filesystem::path tempPath = mTempParentPath / (filesystem::path)(scene->GetName() + ".json");
+    filesystem::path tempPath = mTempEditingDirectoryPath / (filesystem::path)(scene->GetName() + ".json");
     // 3. ファイル書き出しロジックを追加
     try
     {
@@ -226,7 +226,7 @@ void SceneSerializer::WriteEditingSceneData(const filesystem::path& filePath, Ba
         if (!ofs.is_open()) return;
         ofs << editingDataJson.dump(2);
         ofs.close();
-        mTempPath = tempPath;
+        mTempEditingPath = tempPath;
     }
     catch (const std::exception& e)
     {
@@ -238,17 +238,17 @@ void SceneSerializer::RelaseEditorData()
 {
 
     //一時編集ファイルを削除処理
-    if (filesystem::exists(mTempPath))
+    if (filesystem::exists(mTempEditingPath))
     {
         try
         {
-            if (filesystem::remove(mTempPath))
+            if (filesystem::remove(mTempEditingPath))
             {
-                Debug::Log("Temporary editor file deleted: %s\n", mTempPath.string().c_str());
+                Debug::Log("Temporary editor file deleted: %s\n", mTempEditingPath.string().c_str());
             }
             else
             {
-                Debug::Log("Failed to delete temporary editor file: %s\n", mTempPath.string().c_str());
+                Debug::Log("Failed to delete temporary editor file: %s\n", mTempEditingPath.string().c_str());
             }
         }
         catch (const std::exception& e)

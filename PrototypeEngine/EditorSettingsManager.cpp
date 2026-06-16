@@ -93,7 +93,7 @@ void EditorSettingsManager::CreateNewScene(const filesystem::path& filePath, con
 
 	// 3. SceneSerializerを使って空のシーンデータをファイルに書き出す
 	// SceneSerializer::SaveEmptyScene()内でファイル書き込み処理を行う
-	if (SceneSerializer::SaveEmptyScene(newScenePath))
+	if (SceneSerializer::CreateEmptyScene(newScenePath))
 	{
 		// 成功ログ
 		Debug::Log("Created new scene: %s\n", newScenePath.string().c_str());

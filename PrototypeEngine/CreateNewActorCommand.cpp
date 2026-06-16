@@ -23,7 +23,7 @@ CreateNewActorCommand::~CreateNewActorCommand()
 
 void CreateNewActorCommand::Execute()
 {
-    ActorManager* actorManager = SceneManager::GetNowScene()->GetActorManager();
+    ActorManager* actorManager = SceneManager::GetCurrentRunScene()->GetActorManager();
 
     if (mTargetID == 0)
     {
@@ -63,7 +63,7 @@ void CreateNewActorCommand::Undo()
     // 安全ガード
     if (mTargetID == 0 || !mIsActiveInScene) return;
 
-    ActorManager* actorManager = SceneManager::GetNowScene()->GetActorManager();
+    ActorManager* actorManager = SceneManager::GetCurrentRunScene()->GetActorManager();
 
     // 「その瞬間」にシーンに存在しているポインタをIDから検索
     ActorObject* currentActor = actorManager->FindActorByID(mTargetID);

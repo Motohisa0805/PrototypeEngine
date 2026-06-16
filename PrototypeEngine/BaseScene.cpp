@@ -14,10 +14,9 @@ BaseScene::BaseScene()
 	: mActorManager(nullptr)
 	, mUIActorManager(nullptr)
 	, mAudioSystem(nullptr)
-	, mUpdatingActors(false)
 	, mFixed_Delta_Time(0.02f)
 	, mPlayer(nullptr)
-	, mCameras()
+	, mCameraMap()
 	, mFixedTimeAccumulator(0.0f)
 	, mName("BaseScene")
 	, mNextActorID(0)
@@ -172,16 +171,14 @@ bool BaseScene::EditorUpdate(bool isRun)
 	//‘SUIƒAƒNƒ^[‚ÌXV
 	mUIActorManager->UpdateActors(deltaTime);
 
-	/*
 	//ŽÀs’†‚¶‚á‚È‚¯‚ê‚Î
 	if (!isRun)
 	{
 		//•ÒW‚Å‚Ì•ÏX‚ª‚ ‚ê‚Î‚»‚ê‚ð‹L˜^‚·‚é
 		string startupScenePath = EditorSettingsManager::GetInstance().GetLastOpenedScene();
-		SceneSerializer::WriteEditorData(startupScenePath,this);
+		SceneSerializer::WriteEditingSceneData(startupScenePath,this);
 		EditorSettingsManager::SetSaveFlag(true);
 	}
-	*/
 	mIsDirtyFlag = false;
 	return true;
 }
@@ -194,8 +191,8 @@ void BaseScene::ClearDirtyFlag()
 Font* BaseScene::GetFont(const string& fileName)
 {
 	string filePath = FontFile::FontFilePath + fileName;
-	auto iter = mFonts.find(filePath);
-	if (iter != mFonts.end())
+	auto iter = mFontMap.find(filePath);
+	if (iter != mFontMap.end())
 	{
 		return iter->second;
 	}
@@ -210,16 +207,16 @@ Font* BaseScene::GetFont(const string& fileName)
 	}
 
 	// ¬Œ÷Žž‚Ì‚Ý map ‚É“o˜^
-	mFonts.emplace(filePath, font);
+	mFontMap.emplace(filePath, font);
 	return font;
 }
 
 Skeleton* BaseScene::GetSkeleton(const string& fileName)
 {
 	string file = File_P::ModelPath + fileName;
-	auto iter = mSkeletons.find(file);
+	auto iter = mSkeletonMap.find(file);
 	//‚·‚Å‚É‚ ‚é‚È‚ç‚»‚ê‚ðŽg‚¤
-	if (iter != mSkeletons.end())
+	if (iter != mSkeletonMap.end())
 	{
 		return iter->second;
 	}
@@ -229,11 +226,11 @@ Skeleton* BaseScene::GetSkeleton(const string& fileName)
 		Skeleton* sk = new Skeleton();
 		if (sk->LoadFromSkeletonBin(file))
 		{
-			mSkeletons.emplace(file, sk);
+			mSkeletonMap.emplace(file, sk);
 		}
 		else if (sk->Load(file))
 		{
-			mSkeletons.emplace(file, sk);
+			mSkeletonMap.emplace(file, sk);
 		}
 		else
 		{
@@ -249,7 +246,7 @@ Skeleton* BaseScene::GetSkeleton(const string& fileName)
 void BaseScene::AddCamera(BaseCamera* camera)
 {
 	// ‚·‚Å‚É“o˜^‚³‚ê‚Ä‚¢‚éê‡‚Í‰½‚à‚µ‚È‚¢
-	for(auto& cam : mCameras)
+	for(auto& cam : mCameraMap)
 	{
 		if (cam.second == camera)
 		{
@@ -257,24 +254,24 @@ void BaseScene::AddCamera(BaseCamera* camera)
 		}
 	}
 	// ƒƒCƒ“ƒJƒƒ‰‚ÉÝ’è
-	for (auto& cam : mCameras)
+	for (auto& cam : mCameraMap)
 	{
 		cam.second->SetIsMain(false);
 	}
 	camera->SetIsMain(true);
 	// –¼‘O‚ðŽ©“®¶¬‚µ‚Ä“o˜^
-	int index = mCameras.size();
+	int index = mCameraMap.size();
 	string name = "Camera" + std::to_string(index);
-	mCameras.emplace(name, camera);
+	mCameraMap.emplace(name, camera);
 }
 
 void BaseScene::RemoveCamera(BaseCamera* camera)
 {
-	for (auto iter = mCameras.begin(); iter != mCameras.end(); ++iter)
+	for (auto iter = mCameraMap.begin(); iter != mCameraMap.end(); ++iter)
 	{
 		if (iter->second == camera)
 		{
-			mCameras.erase(iter);
+			mCameraMap.erase(iter);
 			break;
 		}
 	}
@@ -282,7 +279,7 @@ void BaseScene::RemoveCamera(BaseCamera* camera)
 
 BaseCamera* BaseScene::GetCamera(const string& name)
 {
-	return mCameras[name];
+	return mCameraMap[name];
 }
 
 int BaseScene::GetSceneAllVertices()
@@ -327,7 +324,7 @@ void BaseScene::UnloadData()
 	}
 
 	// Unload fonts
-	for (auto& f : mFonts)
+	for (auto& f : mFontMap)
 	{
 		if (f.second)
 		{
@@ -336,10 +333,10 @@ void BaseScene::UnloadData()
 			f.second = nullptr;
 		}
 	}
-	mFonts.clear();
+	mFontMap.clear();
 
 	// Unload skeletons
-	for (auto s : mSkeletons)
+	for (auto s : mSkeletonMap)
 	{
 		if (s.second) 
 		{
@@ -347,9 +344,9 @@ void BaseScene::UnloadData()
 			s.second = nullptr;
 		}
 	}
-	mSkeletons.clear();
+	mSkeletonMap.clear();
 
-	for (auto c : mCameras)
+	for (auto c : mCameraMap)
 	{
 		if (c.second)
 		{
@@ -357,7 +354,7 @@ void BaseScene::UnloadData()
 			c.second = nullptr;
 		}
 	}
-	mCameras.clear();
+	mCameraMap.clear();
 
 	if (mAudioSystem)
 	{

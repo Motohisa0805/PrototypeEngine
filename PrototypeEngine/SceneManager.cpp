@@ -6,16 +6,12 @@
 #include "Renderer.h"
 #include "GUIEditorManager.h"
 
-BaseScene* SceneManager::mNowScene = nullptr;
+BaseScene* SceneManager::mCurrentRunScene = nullptr;
 
-bool SceneManager::loading = false;
-
-int SceneManager::mNowSceneIndex = 0;
+bool SceneManager::mIsLoading = false;
 
 // ロード予約されたファイルパスを保持する変数
 std::string SceneManager::mNextSceneFilePath = "";
-
-string SceneManager::mDefaultSceneFilePath = "Assets/Scenes/TestScene01.json";
 
 bool SceneManager::InitializeScenes()
 {
@@ -26,23 +22,23 @@ bool SceneManager::InitializeScenes()
 	if (!startupScenePath.empty())
 	{
 		//パスが有効なら、そのファイルからロードを試みる
-		mNowScene = SceneSerializer::LoadScene(startupScenePath);
+		mCurrentRunScene = SceneSerializer::LoadScene(startupScenePath);
 		//シーン読み込み時、一時的にシーンの全ての情報を別のJSONオブジェクトに保存
 
 	}
 
 	//ベースに最初の動的シーンを設定(空のEditorSceneを作成)
-	if (mNowScene == nullptr)
+	if (mCurrentRunScene == nullptr)
 	{
-		mNowScene = new EditorScene();
+		mCurrentRunScene = new EditorScene();
 	}
 	//シーンの初期化
-	if (!mNowScene->Initialize())
+	if (!mCurrentRunScene->Initialize())
 	{
 		return false;
 	}
 	//Rendererに現在のシーンを設定
-	EngineWindow::GetRenderer()->SetBaseScene(mNowScene);
+	EngineWindow::GetRenderer()->SetBaseScene(mCurrentRunScene);
 	return true;
 }
 
@@ -51,16 +47,16 @@ void SceneManager::LoadSceneGUI(const string& filePath)
 	// 既存のシーンリストに追加するのではなく、一時的にファイルパスを保持し、
 	// ChangeScene() のタイミングで処理を実行します。
 	mNextSceneFilePath = filePath;
-	loading = true; // ChangeScene()が呼び出されるようにフラグを立てる
+	mIsLoading = true; // ChangeScene()が呼び出されるようにフラグを立てる
 	EditorSettingsManager::GetInstance().SetLastOpenedScene(filePath);
 }
 
 void SceneManager::ReleaseAllScenes()
 {
 	SceneSerializer::RelaseEditorData();
-	mNowScene->UnloadData();
-	delete mNowScene;
-	mNowScene = nullptr;
+	mCurrentRunScene->UnloadData();
+	delete mCurrentRunScene;
+	mCurrentRunScene = nullptr;
 }
 
 void SceneManager::ChangeScene()
@@ -68,43 +64,43 @@ void SceneManager::ChangeScene()
 	//ファイルのパスがセットされている場合
 	if (!mNextSceneFilePath.empty())
 	{
-		if (mNowScene)
+		if (mCurrentRunScene)
 		{
 			GUIEditorManager::ResetPointer();
 			EngineWindow::GetRenderer()->UnloadData();
-			mNowScene->UnloadData();
+			mCurrentRunScene->UnloadData();
 			//最重要：古いシーンのメモリ解放
-			delete mNowScene;
-			mNowScene = nullptr;
+			delete mCurrentRunScene;
+			mCurrentRunScene = nullptr;
 		}
 
-		mNowScene = SceneSerializer::LoadScene(mNextSceneFilePath);
-		mNowScene->Initialize();
-		EngineWindow::GetRenderer()->SetBaseScene(mNowScene);
+		mCurrentRunScene = SceneSerializer::LoadScene(mNextSceneFilePath);
+		mCurrentRunScene->Initialize();
+		EngineWindow::GetRenderer()->SetBaseScene(mCurrentRunScene);
 		if (GUIEditorManager::IsPlaying())
 		{
 			//実行中なら静的バッチの構築も行う
 			EngineWindow::GetRenderer()->BuildStaticBatch();
 		}
 	}
-	loading = false;
+	mIsLoading = false;
 }
 
 void SceneManager::GamePlayEndInitilaizeScene()
 {
-	if (mNowScene)
+	if (mCurrentRunScene)
 	{
 		GUIEditorManager::ResetPointer();
 		EngineWindow::GetRenderer()->UnloadData();
-		mNowScene->UnloadData();
+		mCurrentRunScene->UnloadData();
 		//最重要：古いシーンのメモリ解放
-		delete mNowScene;
-		mNowScene = nullptr;
+		delete mCurrentRunScene;
+		mCurrentRunScene = nullptr;
 	}
-	//TODO : 実行終了時のシーン情報
-	mNowScene = SceneSerializer::LoadScene(SceneSerializer::GetTempPath().string());
-	mNowScene->Initialize();
-	EngineWindow::GetRenderer()->SetBaseScene(mNowScene);
+	//実行終了時のシーン情報
+	mCurrentRunScene = SceneSerializer::LoadScene(SceneSerializer::GetTempEditingPath().string());
+	mCurrentRunScene->Initialize();
+	EngineWindow::GetRenderer()->SetBaseScene(mCurrentRunScene);
 	if (GUIEditorManager::IsPlaying())
 	{
 		//実行中なら静的バッチの構築も行う
@@ -112,16 +108,11 @@ void SceneManager::GamePlayEndInitilaizeScene()
 	}
 }
 
-void SceneManager::SetCurrentEditorSceneFilePath(const string& path)
-{
-	mDefaultSceneFilePath = path;
-}
-
 const vector<ActorObject*>& SceneManager::GetAllActorsInCurrentScene()
 {
-	if (mNowScene)
+	if (mCurrentRunScene)
 	{
-		return mNowScene->GetActorManager()->GetActors();
+		return mCurrentRunScene->GetActorManager()->GetActors();
 	}
 	return vector<ActorObject*>{};
 }

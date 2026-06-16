@@ -32,8 +32,8 @@ ReparentAndReorderCommand::ReparentAndReorderCommand(Entity* target, Entity* new
 void ReparentAndReorderCommand::Execute()
 {
 	// IDから「今シーンに存在する最新のオブジェクトポインタ」を解決する
-	ActorManager* actorManager = SceneManager::GetNowScene()->GetActorManager();
-	UIActorManager* uiActorManager = SceneManager::GetNowScene()->GetUIActorManager();
+	ActorManager* actorManager = SceneManager::GetCurrentRunScene()->GetActorManager();
+	UIActorManager* uiActorManager = SceneManager::GetCurrentRunScene()->GetUIActorManager();
 
 
 	ActorObject* target = actorManager->FindActorByID(mTargetID);
@@ -63,8 +63,8 @@ void ReparentAndReorderCommand::Execute()
 
 void ReparentAndReorderCommand::Undo()
 {
-	ActorManager* actorManager = SceneManager::GetNowScene()->GetActorManager();
-	UIActorManager* uiActorManager = SceneManager::GetNowScene()->GetUIActorManager();
+	ActorManager* actorManager = SceneManager::GetCurrentRunScene()->GetActorManager();
+	UIActorManager* uiActorManager = SceneManager::GetCurrentRunScene()->GetUIActorManager();
 
 	ActorObject* target = actorManager->FindActorByID(mTargetID);
 	ActorObject* oldParent = (mOldParentID != 0) ? actorManager->FindActorByID(mOldParentID) : nullptr;
@@ -96,7 +96,7 @@ void ReparentAndReorderCommand::Redo()
 
 vector<ActorObject*>& ReparentAndReorderCommand::GetActorListMutable(uint64_t parentID)
 {
-	ActorManager* actorManager = SceneManager::GetNowScene()->GetActorManager();
+	ActorManager* actorManager = SceneManager::GetCurrentRunScene()->GetActorManager();
 
 	if (parentID == 0) {
 		// ルート階層（親なし）の場合は、ActorManager直属のリストを返す
@@ -114,7 +114,7 @@ vector<ActorObject*>& ReparentAndReorderCommand::GetActorListMutable(uint64_t pa
 
 vector<UIActorObject*>& ReparentAndReorderCommand::GetUIActorListMutable(uint64_t parentID)
 {
-	UIActorManager* actorManager = SceneManager::GetNowScene()->GetUIActorManager();
+	UIActorManager* actorManager = SceneManager::GetCurrentRunScene()->GetUIActorManager();
 
 	if (parentID == 0) {
 		// ルート階層（親なし）の場合は、ActorManager直属のリストを返す

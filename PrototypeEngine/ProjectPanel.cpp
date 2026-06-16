@@ -38,7 +38,6 @@ void ProjectPanel::Initialize(float width, float height, ImTextureRef ref)
 
 void ProjectPanel::Draw(float width, float height)
 {
-    float panel1_SizeWidth = mWidthSize / 2.0f;
     EditorWindow::Draw(width, height);
     if (ImGui::Begin(GetImGuiWindowID().c_str(), &mIsShow, ImGuiWindowFlags_NoCollapse)) {
        
@@ -115,7 +114,7 @@ void ProjectPanel::DrawFolderTree(const filesystem::path& path)
     {
         if (!entry.is_directory()) continue; // フォルダだけ表示
 
-        const string name = entry.path().filename().string();
+        const string folderName = entry.path().filename().string();
         
         //名前変更処理
         if (mRenaming && entry.path() == mPathToRename)
@@ -144,7 +143,7 @@ void ProjectPanel::DrawFolderTree(const filesystem::path& path)
                 pushedColor = true;
             }
 
-            bool open = ImGui::TreeNodeEx(name.c_str(), flags); 
+            bool open = ImGui::TreeNodeEx(folderName.c_str(), flags); 
 
             // 左クリックで選択中フォルダを更新
             if (ImGui::IsItemClicked(ImGuiMouseButton_Left)|| ImGui::IsItemClicked(ImGuiMouseButton_Right))
@@ -386,7 +385,7 @@ void ProjectPanel::CreateNewScene(const string& name, bool loadScene)
 
         // 3. SceneSerializerを使って空のシーンデータをファイルに書き出す
         // SceneSerializer::SaveEmptyScene()内でファイル書き込み処理を行う
-        if (SceneSerializer::SaveEmptyScene(newScenePath))
+        if (SceneSerializer::CreateEmptyScene(newScenePath))
         {
             // 成功ログ
             Debug::Log("Created new scene: %s\n", newScenePath.string().c_str());

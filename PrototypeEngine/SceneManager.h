@@ -15,11 +15,10 @@ class SceneManager
 private:
 
 	//現在のシーン
-	static BaseScene*									mNowScene;
+	static BaseScene*									mCurrentRunScene;
 	//ロードフラグ
-	static bool											loading;
-	//現在のシーンの数値
-	static int											mNowSceneIndex;
+	static bool											mIsLoading;
+
 	static string										mNextSceneFilePath;
 public:
 	//シーンの初期化処理
@@ -30,19 +29,13 @@ public:
 	//シーンの削除
 	static void											ReleaseAllScenes();
 	//現在のシーンの取得
-	static BaseScene*									GetNowScene() { return mNowScene; }
-	static void											SetNowScene(BaseScene* scene) { mNowScene = scene; }
+	static BaseScene*									GetCurrentRunScene() { return mCurrentRunScene; }
+	static void											SetCurrentRunScene(BaseScene* scene) { mCurrentRunScene = scene; }
 	//ゲーム用の関数
 	static void											ChangeScene();
 	static void											GamePlayEndInitilaizeScene();
 	//ロードフラグの取得
-	static bool											IsLoading() { return loading; }
-	//現在のシーンの数値のGetter
-	static int											GetNowSceneIndex() { return mNowSceneIndex; }
-	//エンジン起動時にロードすべきシーンファイルのパス
-	static string										mDefaultSceneFilePath;
-	//現在エディタで開いているシーンのファイルパスを設定する関数
-	static void											SetCurrentEditorSceneFilePath(const string& path);
+	static bool											IsLoading() { return mIsLoading; }
 	//現在のアクティブシーンのアクターリストを返す
 	static const	vector<ActorObject*>&				GetAllActorsInCurrentScene();
 };

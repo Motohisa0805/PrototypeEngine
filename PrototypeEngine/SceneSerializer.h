@@ -11,15 +11,15 @@ class SceneSerializer
 {
 private:
 
-	static filesystem::path mTempParentPath;
-	static filesystem::path mTempPath;
+	static filesystem::path mTempEditingDirectoryPath;
+	static filesystem::path mTempEditingPath;
 public:
 	//編集したシーンデータが入った復元データ
-	static filesystem::path GetTempPath() { return mTempPath; }
+	static filesystem::path GetTempEditingPath() { return mTempEditingPath; }
 	// メモリ上のアクターリストを受け取り、指定パスにシーンを保存する
-	static bool SaveScene(const filesystem::path& filePath, BaseScene* scene);
+	static bool SaveRunScene(const filesystem::path& filePath, BaseScene* scene);
 	//GUIで空のシーンを生成する関数
-	static bool SaveEmptyScene(const filesystem::path& filePath);
+	static bool CreateEmptyScene(const filesystem::path& filePath);
 	//シーンを読み込む関数
 	static BaseScene* LoadScene(const string& filePath);
 

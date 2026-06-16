@@ -13,8 +13,8 @@ void RenameCommand::Execute()
 	// アクターの名前を変更
 	if (mTargetID != 0)
 	{
-		ActorObject* actor = SceneManager::GetNowScene()->GetActorManager()->FindActorByID(mTargetID);
-		UIActorObject* uiactor = SceneManager::GetNowScene()->GetUIActorManager()->FindActorByID(mTargetID);
+		ActorObject* actor = SceneManager::GetCurrentRunScene()->GetActorManager()->FindActorByID(mTargetID);
+		UIActorObject* uiactor = SceneManager::GetCurrentRunScene()->GetUIActorManager()->FindActorByID(mTargetID);
 		if (actor) {
 			actor->SetName(mNewName);
 		}
@@ -29,8 +29,8 @@ void RenameCommand::Undo()
 	// アクターの名前を元に戻す
 	if (mTargetID != 0)
 	{
-		ActorObject* actor = SceneManager::GetNowScene()->GetActorManager()->FindActorByID(mTargetID);
-		UIActorObject* uiactor = SceneManager::GetNowScene()->GetUIActorManager()->FindActorByID(mTargetID);
+		ActorObject* actor = SceneManager::GetCurrentRunScene()->GetActorManager()->FindActorByID(mTargetID);
+		UIActorObject* uiactor = SceneManager::GetCurrentRunScene()->GetUIActorManager()->FindActorByID(mTargetID);
 		if (actor) {
 			actor->SetName(mOldName);
 		}
