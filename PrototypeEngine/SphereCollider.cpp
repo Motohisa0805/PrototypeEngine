@@ -51,11 +51,25 @@ AABB SphereCollider::GetWorldAABBFromOBB() const
 void SphereCollider::Serialize(json& j) const
 {
 	Collider::Serialize(j);
+	j["Radius"] = mObjectSphere.mRadius;
+
+	j["Center"] = { mObjectSphere.mCenter.x, mObjectSphere.mCenter.y, mObjectSphere.mCenter.z };
 }
 
 void SphereCollider::Deserialize(const json& j)
 {
 	Collider::Deserialize(j);
+	if (j.contains("Radius")) {
+		mObjectSphere.mRadius = j.at("Radius").get<float>();
+	}
+
+	if (j.contains("Center")) {
+		mObjectSphere.mCenter = Vector3(
+			j["Center"][0],
+			j["Center"][1],
+			j["Center"][2]
+		);
+	}
 }
 
 void SphereCollider::DrawCustomGUI(const std::vector<PropertyInfo>& properties)
@@ -64,6 +78,11 @@ void SphereCollider::DrawCustomGUI(const std::vector<PropertyInfo>& properties)
 
 	ImGui::Text("Properties");
 	Collider::DrawCustomGUI(properties);
+	ImGui::SetNextItemWidth(50);
+	ImGui::DragFloat("Radius", &mObjectSphere.mRadius);
+
+	ImGui::Text("Center");
+	ImGui::DragFloat3("##center", &mObjectSphere.mCenter.x);
 
 	ImGui::Separator();
 

@@ -91,7 +91,7 @@ bool SceneSerializer::CreateEmptyScene(const filesystem::path& filePath)
     return true;
 }
 
-BaseScene* SceneSerializer::LoadScene(const string& filePath)
+BaseScene* SceneSerializer::LoadScene(const string& filePath, bool isWriteTempData)
 {
 	//1.ファイルからJSONデータを読み込む
 	std::ifstream ifs(filePath);
@@ -170,7 +170,10 @@ BaseScene* SceneSerializer::LoadScene(const string& filePath)
         {
             uiactor->LoadParentByLoadScene();
         }
-        WriteEditingSceneData(filePath,newScene);
+        //一時編集データに書き込みフラグがtrueなら
+        if (isWriteTempData) {
+            WriteEditingSceneData(filePath,newScene);
+        }
     }
     return newScene;
 }

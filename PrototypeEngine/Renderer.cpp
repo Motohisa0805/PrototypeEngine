@@ -658,7 +658,7 @@ void Renderer::EditorDraw3DScene(SceneViewPanel* scene,unsigned int framebuffer,
 	}
 	for (SceneViewPanel* scene : GUIEditorManager::GetSceneViewPanels()) {
 		//デバッグ描画
-	//オブジェクトの矢印描画
+		//オブジェクトの矢印描画
 		mArrowShader->SetActive();
 		mArrowShader->SetMatrixUniform("uViewProj", view* proj);
 		Entity* actor = SelectionManager::GetSelectedActor();
@@ -699,7 +699,7 @@ void Renderer::EditorDraw3DScene(SceneViewPanel* scene,unsigned int framebuffer,
 			// 6頂点（3軸 × 2点）
 			mAxisVAO->SetActive();
 			// 線の太さを3ピクセルに設定
-			glLineWidth(3.0f);
+			glLineWidth(6.0f);
 			glDrawArrays(GL_LINES, 0, 6);
 		}
 		//デバッググリッド描画

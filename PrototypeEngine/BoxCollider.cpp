@@ -37,11 +37,24 @@ void BoxCollider::OnUpdateWorldTransform()
 	Vector3 position = mActor->GetTransform()->GetPosition();
 	Vector3 offset = mObjectOBB.mOffset;
 
-	// ワールド OBB を構築
-	mWorldOBB.mCenter = position + offset;
-	mWorldOBB.mRotation = rotation;
-	mWorldOBB.mExtents = mObjectOBB.mExtents * scale;
+	//オフセットにスケールを適用
+	Vector3 scaledOffset = Vector3(
+		mObjectOBB.mOffset.x * scale.x,
+		mObjectOBB.mOffset.y * scale.y,
+		mObjectOBB.mOffset.z * scale.z
+	);
 
+	// ワールド OBB を構築
+	//スケールされたオフセットを回転させてから、位置に加算する
+	mWorldOBB.mCenter = position + Vector3::Transform(scaledOffset, rotation);
+
+	mWorldOBB.mRotation = rotation;
+
+	mWorldOBB.mExtents = Vector3(
+		mObjectOBB.mExtents.x * std::abs(scale.x),
+		mObjectOBB.mExtents.y * std::abs(scale.y),
+		mObjectOBB.mExtents.z * std::abs(scale.z)
+	);
 	//===AABBの更新===
 	mWorldAABB = GetWorldAABBFromOBB();
 }
