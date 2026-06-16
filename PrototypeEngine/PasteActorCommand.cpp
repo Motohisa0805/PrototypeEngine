@@ -24,8 +24,8 @@ PasteActorCommand::~PasteActorCommand()
 
 void PasteActorCommand::Execute()
 {
-    ActorManager* actorManager = SceneManager::GetNowScene()->GetActorManager();
-    UIActorManager* uiActorManager = SceneManager::GetNowScene()->GetUIActorManager();
+    ActorManager* actorManager = SceneManager::GetCurrentRunScene()->GetActorManager();
+    UIActorManager* uiActorManager = SceneManager::GetCurrentRunScene()->GetUIActorManager();
     if (mTargetID == 0)
     {
         // 1. 完全なる初回実行時：クリップボードからさらに複製して生成する
@@ -82,8 +82,8 @@ void PasteActorCommand::Execute()
 
 void PasteActorCommand::NoHistoryExecute()
 {
-    ActorManager* actorManager = SceneManager::GetNowScene()->GetActorManager();
-    UIActorManager* uiActorManager = SceneManager::GetNowScene()->GetUIActorManager();
+    ActorManager* actorManager = SceneManager::GetCurrentRunScene()->GetActorManager();
+    UIActorManager* uiActorManager = SceneManager::GetCurrentRunScene()->GetUIActorManager();
     // 1. 完全なる初回実行時：クリップボードからさらに複製して生成する
     if (EditorClipboard::HasCopiedActor())
     {
@@ -113,8 +113,8 @@ void PasteActorCommand::Undo()
 {
     if (mTargetID == 0 || !mIsActiveInScene) return;
 
-    ActorManager* actorManager = SceneManager::GetNowScene()->GetActorManager();
-    UIActorManager* uiActorManager = SceneManager::GetNowScene()->GetUIActorManager();
+    ActorManager* actorManager = SceneManager::GetCurrentRunScene()->GetActorManager();
+    UIActorManager* uiActorManager = SceneManager::GetCurrentRunScene()->GetUIActorManager();
 
     // シーンに生きている最新のポインタをIDから取得
     ActorObject* currentActor = actorManager->FindActorByID(mTargetID);

@@ -191,9 +191,9 @@ void Transform::SetDirty()
 		child->GetTransform()->SetDirty();//再帰的にフラグを立てる
 	}
 	//Sceneがあるなら
-	if (SceneManager::GetNowScene() != nullptr)
+	if (SceneManager::GetCurrentRunScene() != nullptr)
 	{
-		SceneManager::GetNowScene()->SetDirtyFlag(true);
+		SceneManager::GetCurrentRunScene()->SetDirtyFlag(true);
 	}
 }
 

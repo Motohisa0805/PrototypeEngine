@@ -59,7 +59,7 @@ void HierarchyPanel::Draw(float width, float height)
 		// ----------------------------------------------------------------
 		// 1. 現在のシーンのアクター一覧を表示する
 		// ----------------------------------------------------------------
-		BaseScene* currentScene = SceneManager::GetNowScene();
+		BaseScene* currentScene = SceneManager::GetCurrentRunScene();
 		if (currentScene)
 		{
 			//シーン名を表示
@@ -287,7 +287,7 @@ void HierarchyPanel::DrawActorNode(ActorObject* actor)
 
 						// ターゲットがその親のリストの何番目にいるかを取得
 						auto& siblingList = desiredParent ? desiredParent->GetTransform()->GetChildActorListMutable()
-							: SceneManager::GetNowScene()->GetActorManager()->GetActorsMutable();
+							: SceneManager::GetCurrentRunScene()->GetActorManager()->GetActorsMutable();
 
 						auto it = std::find(siblingList.begin(), siblingList.end(), actor);
 						size_t targetIndex = std::distance(siblingList.begin(), it);
@@ -456,7 +456,7 @@ void HierarchyPanel::DrawUIActorNode(UIActorObject* actor)
 
 						// ターゲットがその親のリストの何番目にいるかを取得
 						auto& siblingList = desiredParent ? desiredParent->GetRectTransform()->GetChildActorListMutable()
-							: SceneManager::GetNowScene()->GetUIActorManager()->GetActorsMutable();
+							: SceneManager::GetCurrentRunScene()->GetUIActorManager()->GetActorsMutable();
 
 						auto it = std::find(siblingList.begin(), siblingList.end(), actor);
 						size_t targetIndex = std::distance(siblingList.begin(), it);

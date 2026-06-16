@@ -213,7 +213,7 @@ void FileOperationManager::RenameScriptPair(const std::filesystem::path& oldPath
 void FileOperationManager::RenameRunSceneName(const std::filesystem::path& oldPath, const std::string& newName)
 {
 	//SceneSerializer::
-	if (oldPath.filename().stem().string() != SceneManager::GetNowScene()->GetName()) {
+	if (oldPath.filename().stem().string() != SceneManager::GetCurrentRunScene()->GetName()) {
 		return;
 	}
 	SceneSerializer::RenameRunScene(oldPath,newName);

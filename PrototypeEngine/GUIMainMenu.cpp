@@ -76,7 +76,7 @@ void GUIMainMenu::FileMenuDraw()
 		if (ImGui::MenuItem("Save","Ctrl+S"))
 		{
 			string startupScenePath = EditorSettingsManager::GetInstance().GetLastOpenedScene();
-			SceneSerializer::SaveScene(startupScenePath, SceneManager::GetNowScene());
+			SceneSerializer::SaveRunScene(startupScenePath, SceneManager::GetCurrentRunScene());
 			EditorSettingsManager::SetSaveFlag(false);
 		}
 

@@ -23,7 +23,7 @@ CreateNewUIActorCommand::~CreateNewUIActorCommand()
 
 void CreateNewUIActorCommand::Execute()
 {
-    UIActorManager* actorManager = SceneManager::GetNowScene()->GetUIActorManager();
+    UIActorManager* actorManager = SceneManager::GetCurrentRunScene()->GetUIActorManager();
 
     if (mTargetID == 0)
     {
@@ -63,7 +63,7 @@ void CreateNewUIActorCommand::Undo()
     // 安全ガード
     if (mTargetID == 0 || !mIsActiveInScene) return;
 
-    UIActorManager* actorManager = SceneManager::GetNowScene()->GetUIActorManager();
+    UIActorManager* actorManager = SceneManager::GetCurrentRunScene()->GetUIActorManager();
 
     // 「その瞬間」にシーンに存在しているポインタをIDから検索
     UIActorObject* currentActor = actorManager->FindActorByID(mTargetID);

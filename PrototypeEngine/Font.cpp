@@ -3,7 +3,7 @@
 #include "BaseScene.h"
 
 Font::Font()
-	:mGame(SceneManager::GetNowScene())
+	:mGame(SceneManager::GetCurrentRunScene())
 {
 
 }

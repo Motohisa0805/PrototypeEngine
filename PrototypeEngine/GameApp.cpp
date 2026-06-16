@@ -20,7 +20,7 @@ bool GameApp::ProcessInput()
 {
 	const InputState& state = InputSystem::GetState();
 	//入力更新
-	SceneManager::GetNowScene()->InputUpdate(state);
+	SceneManager::GetCurrentRunScene()->InputUpdate(state);
 	return true;
 }
 
@@ -37,15 +37,15 @@ bool GameApp::LoadUpdate()
 
 bool GameApp::Update()
 {
-	SceneManager::GetNowScene()->FixedUpdate();
-	SceneManager::GetNowScene()->Update();
+	SceneManager::GetCurrentRunScene()->FixedUpdate();
+	SceneManager::GetCurrentRunScene()->Update();
 	return true;
 }
 
 bool GameApp::Release()
 {
 	//ゲームシーンの解放
-	SceneManager::GetNowScene()->UnloadData();
+	SceneManager::GetCurrentRunScene()->UnloadData();
 	//入力システムのシャットダウン
 	InputSystem::Shutdown();
 	return true;

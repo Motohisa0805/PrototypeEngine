@@ -28,8 +28,6 @@ protected:
 	//ActorObjectがコンストラクタで呼び出すための関数
 	friend class ActorObject;
 	friend class UIActorObject;
-	// Track if we're updating actors right now
-	bool											mUpdatingActors;
 
 	AudioSystem*									mAudioSystem;
 	
@@ -38,11 +36,11 @@ protected:
 	UIActorManager*									mUIActorManager;
 
 	// Map for fonts
-	std::unordered_map<string, Font*>				mFonts;
+	std::unordered_map<string, Font*>				mFontMap;
 	// Map of loaded skeletons
-	std::unordered_map<string, Skeleton*>			mSkeletons;
+	std::unordered_map<string, Skeleton*>			mSkeletonMap;
 
-	std::unordered_map<string, BaseCamera*>			mCameras;
+	std::unordered_map<string, BaseCamera*>			mCameraMap;
 	
 	//Actorに割り当てるユニークなID/カウント
 	int												mNextActorID;
@@ -84,9 +82,6 @@ public:
 
 	UIActorManager*									GetUIActorManager() { return mUIActorManager; }
 
-	//template<typename T>
-	//vector<ActorObject*>							SelectAllActorComponent();
-
 	//FontのGetter
 	Font*											GetFont(const string& fileName);
 	//スケルトンのGetter
@@ -105,7 +100,7 @@ public:
 	//Cameraの取得
 	BaseCamera*										GetCamera(const string& name = "Camera0");
 
-	std::unordered_map<string, BaseCamera*> 		GetCameras() { return mCameras; }
+	std::unordered_map<string, BaseCamera*> 		GetCameras() { return mCameraMap; }
 
 	//シーン名のGetter
 	string											GetName() { return mName; }
@@ -118,27 +113,6 @@ public:
 	//シーン内のオブジェクトの頂点数を表示
 	int												GetSceneAllVertices();
 };
-/*
-template<typename T>
-inline vector<ActorObject*> BaseScene::SelectAllActorComponent()
-{
-	std::vector<ActorObject*> result;
-
-	for (auto* actor : mActors)
-	{
-		for (auto* component : actor->GetComponents())
-		{
-			if (dynamic_cast<T*>(component)) // T型のComponentがあるか
-			{
-				result.push_back(actor);
-				break; // 一つでも見つかればそのオブジェクトは対象になる
-			}
-		}
-	}
-
-	return result;
-}
-*/
 
 // ActorObjectリストを保持するEditorSceneクラスを仮定
 class EditorScene : public BaseScene

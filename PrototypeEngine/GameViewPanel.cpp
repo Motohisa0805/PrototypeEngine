@@ -98,7 +98,7 @@ void GameViewPanel::Draw(float width, float height)
 				ImGui::Text("FPS: %.1f", time);
 				int drawCalls = mRenderer->GetDrawCalls();
 				ImGui::Text("Draw Calls: %d", drawCalls);
-				int vertices = SceneManager::GetNowScene()->GetSceneAllVertices();
+				int vertices = SceneManager::GetCurrentRunScene()->GetSceneAllVertices();
 				ImGui::Text("Vertices: %d", vertices);
 				ImGui::Text("Tris: %d", vertices / 3);
 			}

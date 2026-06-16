@@ -13,7 +13,7 @@ static uint64_t sNextEntityID = 1;
 
 Entity::Entity(uint64_t id)
 	: mComponents()
-	, mGame(SceneManager::GetNowScene())
+	, mGame(SceneManager::GetCurrentRunScene())
 	, mName("Entity")
 	, mState(EActive)
 	, mActorTag(ActorInformation::Tag::None)
