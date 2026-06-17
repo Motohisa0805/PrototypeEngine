@@ -15,19 +15,19 @@ private:
 	static filesystem::path mTempEditingPath;
 public:
 	//編集したシーンデータが入った復元データ
-	static filesystem::path GetTempEditingPath() { return mTempEditingPath; }
+	static filesystem::path		GetTempEditingPath() { return mTempEditingPath; }
 	// メモリ上のアクターリストを受け取り、指定パスにシーンを保存する
-	static bool SaveRunScene(const filesystem::path& filePath, BaseScene* scene);
+	static bool					SaveRunScene(const filesystem::path& filePath, BaseScene* scene);
 	//GUIで空のシーンを生成する関数
-	static bool CreateEmptyScene(const filesystem::path& filePath);
+	static bool					CreateEmptyScene(const filesystem::path& filePath);
 	//シーンを読み込む関数
-	static BaseScene* LoadScene(const string& filePath,bool isWriteTempData = false);
+	static BaseScene*			LoadScene(const string& filePath,bool isWriteTempData = false);
 
-	static void RenameRunScene(const filesystem::path& filePath,const string& newFileName);
+	static void					RenameRunScene(const filesystem::path& filePath,const string& newFileName);
 
 	//編集用データの保存関数
-	static void WriteEditingSceneData(const filesystem::path& filePath, BaseScene* scene);
+	static void					WriteEditingSceneData(const filesystem::path& filePath, BaseScene* scene);
 	//編集用データの解放関数
-	static void RelaseEditorData();
+	static void					RelaseEditorData();
 };
 

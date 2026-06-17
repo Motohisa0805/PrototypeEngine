@@ -11,7 +11,7 @@ filesystem::path SceneSerializer::mTempEditingPath = "";
 bool SceneSerializer::SaveRunScene(const filesystem::path& filePath, BaseScene* scene)
 {
 	//JSONオブジェクトの作成
-    json sceneJson;
+    json saveSceneData;
 
     //シーンが持つActorリストを取得
     vector<ActorObject*> actors = scene->GetActorManager()->GetActors();
@@ -24,7 +24,7 @@ bool SceneSerializer::SaveRunScene(const filesystem::path& filePath, BaseScene* 
         actor->Serialize(actorJson); // ActorObjectのSerializeメソッドを呼び出す
         actorsArray.push_back(actorJson);
 	}
-	sceneJson["Actors"] = actorsArray;
+	saveSceneData["Actors"] = actorsArray;
 
     //シーンが持つUIActorリストを取得
     vector<UIActorObject*> uiactors = scene->GetUIActorManager()->GetActors();
@@ -37,7 +37,7 @@ bool SceneSerializer::SaveRunScene(const filesystem::path& filePath, BaseScene* 
         actor->Serialize(actorJson); // UIActorObjectのSerializeメソッドを呼び出す
         uiactorsArray.push_back(actorJson);
     }
-    sceneJson["UIActors"] = uiactorsArray;
+    saveSceneData["UIActors"] = uiactorsArray;
 
     WriteEditingSceneData(filePath, scene);
 
@@ -47,12 +47,13 @@ bool SceneSerializer::SaveRunScene(const filesystem::path& filePath, BaseScene* 
         filesystem::path newFilePath = filePath.parent_path() / (filesystem::path)(filePath.stem().string() + ".json");
         std::ofstream ofs(newFilePath);
         if (!ofs.is_open())return false;
-        ofs << sceneJson.dump(2);//2はインデント数(見やすくするため)
+        ofs << saveSceneData.dump(2);//2はインデント数(見やすくするため)
         ofs.close();
         return true;
     }
-    catch (...)
+    catch (const std::exception& e)
     {
+        Debug::ErrorLog("An exception occurred while exporting the file: %s\n", e.what());
         return false;
     }
 }
@@ -60,12 +61,12 @@ bool SceneSerializer::SaveRunScene(const filesystem::path& filePath, BaseScene* 
 bool SceneSerializer::CreateEmptyScene(const filesystem::path& filePath)
 {
     //JSONオブジェクトの作成
-    json sceneJson;
+    json createSceneData;
 
     //Actorsは空の配列として定義
-    sceneJson["Actors"] = json::array();
+    createSceneData["Actors"] = json::array();
     //UIActorsは空の配列として定義
-    sceneJson["UIActors"] = json::array();
+    createSceneData["UIActors"] = json::array();
 
     try
     {
@@ -78,13 +79,14 @@ bool SceneSerializer::CreateEmptyScene(const filesystem::path& filePath)
         }
 
         //JSONデータをファイルに書き込む(インデント：２)
-        ofs << sceneJson.dump(2);
+        ofs << createSceneData.dump(2);
 
         ofs.close();
         return true;
     }
     catch (const std::exception& e)
     {
+        Debug::ErrorLog("An exception occurred while loading the file: %s\n", e.what());
         return false;
     }
 
@@ -100,14 +102,15 @@ BaseScene* SceneSerializer::LoadScene(const string& filePath, bool isWriteTempDa
         return nullptr;
     }
 
-	json sceneJson;
+	json loadSceneData;
     try
     {
-        ifs >> sceneJson;
+        ifs >> loadSceneData;
     }
     catch (const std::exception& e)
     {
         ifs.close();
+        Debug::ErrorLog("An exception occurred while loading the file: %s\n", e.what());
         return nullptr;
 	}
 
@@ -115,9 +118,9 @@ BaseScene* SceneSerializer::LoadScene(const string& filePath, bool isWriteTempDa
 	EditorScene* newScene = new EditorScene();
     filesystem::path name = filePath;
     newScene->SetName(name.stem().string());
-    if (sceneJson.contains("Actors")) {
+    if (loadSceneData.contains("Actors")) {
         //3.Actorの配列を処理する
-        const json& actorsJson = sceneJson.at("Actors");
+        const json& actorsJson = loadSceneData.at("Actors");
         for (const auto& actorData : actorsJson)
         {
             //ActorObjectの新しいインスタンスを作成
@@ -136,8 +139,8 @@ BaseScene* SceneSerializer::LoadScene(const string& filePath, bool isWriteTempDa
             actor->LoadParentByLoadScene();
         }
     }
-    if (sceneJson.contains("UIActors")) {
-        const json& uiactorsJson = sceneJson.at("UIActors");
+    if (loadSceneData.contains("UIActors")) {
+        const json& uiactorsJson = loadSceneData.at("UIActors");
         for (const auto& actorData : uiactorsJson)
         {
             if (actorData.contains("CanvasFrag")) {
@@ -234,6 +237,7 @@ void SceneSerializer::WriteEditingSceneData(const filesystem::path& filePath, Ba
     catch (const std::exception& e)
     {
         // エラー処理
+        Debug::ErrorLog("An exception occurred while exporting the file: %s\n", e.what());
     }
 }
 

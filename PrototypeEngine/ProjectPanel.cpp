@@ -11,7 +11,7 @@ filesystem::path ProjectPanel::mPathToRename = "";
 
 string ProjectPanel::mRenameInputBuffer = "";
 
-bool ProjectPanel::mRenaming = false;
+bool ProjectPanel::mIsRenaming = false;
 
 filesystem::path ProjectPanel::mSelectedFilePath = "Assets";
 
@@ -19,7 +19,7 @@ filesystem::path ProjectPanel::mSelectedFolderPath = "Assets";
 
 char ProjectPanel::mScriptCreateBuffer[256] = "";
 
-bool ProjectPanel::mShowScriptPopup = false;
+bool ProjectPanel::mIsShowScriptPopup = false;
 
 ProjectPanel::ProjectPanel(Renderer* renderer)
 	:EditorWindow(renderer)
@@ -41,9 +41,9 @@ void ProjectPanel::Draw(float width, float height)
     EditorWindow::Draw(width, height);
     if (ImGui::Begin(GetImGuiWindowID().c_str(), &mIsShow, ImGuiWindowFlags_NoCollapse)) {
        
-        if (mShowScriptPopup) {
+        if (mIsShowScriptPopup) {
             ImGui::OpenPopup("Create New Script");
-            mShowScriptPopup = false;
+            mIsShowScriptPopup = false;
         }
 
         DrawOverwritePopup();
@@ -117,7 +117,7 @@ void ProjectPanel::DrawFolderTree(const filesystem::path& path)
         const string folderName = entry.path().filename().string();
         
         //名前変更処理
-        if (mRenaming && entry.path() == mPathToRename)
+        if (mIsRenaming && entry.path() == mPathToRename)
         {
             RenameFunction(entry);
         }
@@ -244,7 +244,7 @@ void ProjectPanel::DrawFileSystemEntry(const filesystem::directory_entry& entry)
     // 4. ボタンの下にファイル名を表示（Unity風グリッド）
 	ImGui::PushItemWidth(64); // アイコンと同じ幅にする
     // リネーム処理
-    if (mRenaming && entry.path() == mPathToRename)
+    if (mIsRenaming && entry.path() == mPathToRename)
     {
         RenameFunction(entry);
         ImGui::PopItemWidth();
@@ -408,7 +408,7 @@ void ProjectPanel::CreateNewScript()
     {
         mScriptCreateBuffer[0] = '\0';
 
-        mShowScriptPopup = true;
+        mIsShowScriptPopup = true;
     }
 }
 
@@ -476,7 +476,7 @@ void ProjectPanel::RenameMenu()
         {
             mRenameInputBuffer = mSelectedFilePath.stem().string();
         }
-        mRenaming = true;
+        mIsRenaming = true;
     }
 }
 
@@ -512,7 +512,7 @@ void ProjectPanel::ShortcutKeyInputFunction(const filesystem::path& path)
         {
             mRenameInputBuffer = mSelectedFilePath.stem().string();
         }
-        mRenaming = true;
+        mIsRenaming = true;
     }
 }
 
@@ -587,24 +587,26 @@ void ProjectPanel::RenameFunction(const filesystem::directory_entry entry)
 
     buffer[sizeof(buffer) - 1] = '\0';
 
+    ImGuiID inputID = ImGui::GetID("##rename");
+
     // InputTextの設定。フォーカスを自動で当てる処理を入れておくと快適になります
-    if (ImGui::IsWindowAppearing() && !ImGui::IsAnyItemActive()) {
-        ImGui::SetKeyboardFocusHere();
+    if (!ImGui::IsAnyItemActive()) {
+        ImGui::ActivateItemByID(inputID);
     }
 
-    if (ImGui::InputText("##rename", buffer, sizeof(buffer), ImGuiInputTextFlags_EnterReturnsTrue))
+    if (ImGui::InputText("##rename", buffer, sizeof(buffer), ImGuiInputTextFlags_EnterReturnsTrue | ImGuiInputTextFlags_AutoSelectAll))
     {
         std::string newName = buffer;
 
 		FileOperationManager::ExecuteRename(entry.path(), newName);
 
-        mRenaming = false;
+        mIsRenaming = false;
     }
 
     // Esc キャンセル
     if (ImGui::IsItemDeactivated() && !ImGui::IsItemDeactivatedAfterEdit() || ImGui::IsKeyPressed(ImGuiKey_Escape))
     {
-        mRenaming = false;
+        mIsRenaming = false;
     }
 
     ImGui::PopID();

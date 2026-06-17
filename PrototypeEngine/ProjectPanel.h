@@ -12,7 +12,7 @@ private:
 	//名前変更の入力バッファ
 	static string					mRenameInputBuffer;
 	//名前変更モードかどうか
-	static bool						mRenaming;
+	static bool						mIsRenaming;
 
 
 	bool							mShowOverwritePopup = false;
@@ -20,23 +20,20 @@ private:
 	filesystem::path				mPendingSrc;
 	filesystem::path				mPendingDst;
 
-	filesystem::path				mCurrentFile;
 	// ユーザーが左クリックでハイライトしたファイル/フォルダ
 	static filesystem::path			mSelectedFilePath;
 
 	static filesystem::path			mSelectedFolderPath;
 
 
-	static filesystem::path			mCopyPathBuffer; // コピー用のパスバッファ
-
 	static char						mScriptCreateBuffer[256];
 
-	static bool						mShowScriptPopup;
+	static bool						mIsShowScriptPopup;
 public:
 
 	static void 					SetRenameInputBuffer(const string& input) { mRenameInputBuffer = input; }
 	
-	static void 					SetRenaming(bool renaming) { mRenaming = renaming; }
+	static void 					SetRenaming(bool renaming) { mIsRenaming = renaming; }
 
 	static filesystem::path			GetSelectedFilePath() { return mSelectedFilePath; }
 	static filesystem::path			GetSelectedFolderPath() { return mSelectedFolderPath; }

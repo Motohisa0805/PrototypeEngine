@@ -24,7 +24,7 @@
 
 Renderer::Renderer()
 	: mWindowTitle("PrototypeEngine - Windows - Ver0.01 <OpenGL 2.2.0,SDL3>")
-	, mNowScene(nullptr)
+	, mRunScene(nullptr)
 	, mSpriteShader(nullptr)
 	, mMeshShader(nullptr)
 	, mSkinnedShader(nullptr)
@@ -143,22 +143,22 @@ bool Renderer::Initialize(float screenWidth, float screenHeight)
 void Renderer::BuildStaticBatch()
 {
 	// 1. 古いバッチの破棄とクリア
-	for(auto& pair : mAntiTransparentBatches) {
+	for(auto& pair : mAntiTransparentBatchesMap) {
 		if (pair.second.gBatchVertexArray) {
 			delete pair.second.gBatchVertexArray;
 		}
 	}
-	for(auto& pair : mTransparentBatches) {
+	for(auto& pair : mTransparentBatchesMap) {
 		if (pair.second.gBatchVertexArray) {
 			delete pair.second.gBatchVertexArray;
 		}
 	}
 
 	//mStaticMeshBatches.clear();
-	mAntiTransparentBatches.clear();
-	mTransparentBatches.clear();
+	mAntiTransparentBatchesMap.clear();
+	mTransparentBatchesMap.clear();
 	// 2. メッシュごとの処理
-	for (auto mc : mMeshComps) {
+	for (auto mc : mMeshCompArray) {
 		if (mc->GetOwner()->GetStatic() != ActorInformation::StaticTag::Occluder_Static) continue;
 		Matrix4 world = mc->GetActor()->GetTransform()->GetLocalTransform();
 		for (auto mesh : mc->GetMeshs())
@@ -168,19 +168,19 @@ void Renderer::BuildStaticBatch()
 				if(mesh->GetMaterialInfo()[i].Color.w < 1.0f)
 				{
 					// 半透明バッチに追加
-					BuildMeshBatch(mesh, world, mTransparentBatches[&mesh->GetMaterialInfo()[i]], i);
+					BuildMeshBatch(mesh, world, mTransparentBatchesMap[&mesh->GetMaterialInfo()[i]], i);
 				}
 				else
 				{
 					// アンチ半透明バッチに追加
-					BuildMeshBatch(mesh, world, mAntiTransparentBatches[&mesh->GetMaterialInfo()[i]], i);
+					BuildMeshBatch(mesh, world, mAntiTransparentBatchesMap[&mesh->GetMaterialInfo()[i]], i);
 				}
 			}
 		}
 	}
 
 	// 3. 全てのバッチのVertexArrayを生成
-	for (auto& pair : mAntiTransparentBatches) {
+	for (auto& pair : mAntiTransparentBatchesMap) {
 		StaticMeshBatch& batch = pair.second;
 		if (!batch.gAllVertices.empty()) {
 			batch.gBatchVertexArray = new VertexArray(
@@ -193,7 +193,7 @@ void Renderer::BuildStaticBatch()
 		}
 	}
 
-	for (auto& pair : mTransparentBatches) {
+	for (auto& pair : mTransparentBatchesMap) {
 		StaticMeshBatch& batch = pair.second;
 		if (!batch.gAllVertices.empty()) {
 			batch.gBatchVertexArray = new VertexArray(
@@ -348,7 +348,7 @@ void Renderer::MeshOrderUpdate()
 	std::vector<MeshRenderer*> opaqueList;
 	std::vector<MeshRenderer*> transparentList;
 	// not透明オブジェクトと不透明オブジェクトを分ける
-	for (auto& mesh : mMeshComps)
+	for (auto& mesh : mMeshCompArray)
 	{
 		if (!mesh->GetVisible()) continue;
 
@@ -390,9 +390,9 @@ void Renderer::MeshOrderUpdate()
 		}
 	);
 	// 3. mMeshComps を再構築
-	mMeshComps.clear();
-	mMeshComps.insert(mMeshComps.end(), opaqueList.begin(), opaqueList.end());
-	mMeshComps.insert(mMeshComps.end(), transparentList.begin(), transparentList.end());
+	mMeshCompArray.clear();
+	mMeshCompArray.insert(mMeshCompArray.end(), opaqueList.begin(), opaqueList.end());
+	mMeshCompArray.insert(mMeshCompArray.end(), transparentList.begin(), transparentList.end());
 }
 
 void Renderer::DrawWindowTitle()
@@ -417,13 +417,13 @@ void Renderer::StartDraw()
 	//ウィンドウのタイトル描画
 	DrawWindowTitle();
 	//複数のカメラからメインカメラからmViewを設定
-	for(auto cam : mNowScene->GetCameras())
+	for(auto cam : mRunScene->GetCameras())
 	{
 		if(cam.second->IsMain())
 		{
 			// ビュー行列をレンダラーとオーディオシステムに渡す
 			mView = cam.second->GetViewMatrix();
-			mNowScene->GetAudioSystem()->SetListener(mView);
+			mRunScene->GetAudioSystem()->SetListener(mView);
 			break;
 		}
 	}
@@ -473,7 +473,7 @@ void Renderer::StartDraw()
 	mSpriteShader->SetMatrixUniform("uViewProj", ortho);
 
 	//UI単体で描画処理
-	for (auto ui : mImageComps)
+	for (auto ui : mImageCompArray)
 	{
 		if (ui->GetOwner()->GetState() == Entity::EActive && ui->GetUIActor()->GetRectTransform()->GetParentActor() == nullptr)
 		{
@@ -491,7 +491,7 @@ void Renderer::StartDraw()
 		}
 	}
 	//Canvasを通して描画(Unityの設計を元)
-	for (auto canvas : mCanvasActors) {
+	for (auto canvas : mCanvasActorArray) {
 		for (auto ui : canvas->GetRectTransform()->GetChildActorList()) {
 			if (auto image = ui->GetComponent<Image>()) {
 				if (ui->GetState() == Entity::EActive)
@@ -558,7 +558,7 @@ void Renderer::EditorDraw3DScene(SceneViewPanel* scene,unsigned int framebuffer,
 	if (GUIEditorManager::IsPlaying())
 	{
 		// Staticバッチの描画 (1回のDrawCall)
-		for(auto& pair : mAntiTransparentBatches) {
+		for(auto& pair : mAntiTransparentBatchesMap) {
 			StaticMeshBatch& batch = pair.second;
 			if (!batch.gBatchVertexArray) continue;
 			mMeshShader->SetMatrixUniform("uWorldTransform", Matrix4::Identity);
@@ -574,7 +574,7 @@ void Renderer::EditorDraw3DScene(SceneViewPanel* scene,unsigned int framebuffer,
 			batch.gBatchVertexArray->SetActive();
 			glDrawElements(GL_TRIANGLES, batch.gBatchVertexArray->GetNumIndices(), GL_UNSIGNED_INT, nullptr);
 		}
-		for(auto& pair : mTransparentBatches) {
+		for(auto& pair : mTransparentBatchesMap) {
 			StaticMeshBatch& batch = pair.second;
 			if (!batch.gBatchVertexArray) continue;
 			mMeshShader->SetMatrixUniform("uWorldTransform", Matrix4::Identity);
@@ -597,7 +597,7 @@ void Renderer::EditorDraw3DScene(SceneViewPanel* scene,unsigned int framebuffer,
 
 
 
-	for (auto mc : mMeshComps)
+	for (auto mc : mMeshCompArray)
 	{
 		//静的オブジェクトは実行中のみ描画する
 		if (GUIEditorManager::IsPlaying())
@@ -628,7 +628,7 @@ void Renderer::EditorDraw3DScene(SceneViewPanel* scene,unsigned int framebuffer,
 	mSkinnedShader->SetMatrixUniform("uViewProj", view * proj);
 	// 照明のユニフォームを更新する
 	SetLightUniforms(mSkinnedShader, view);
-	for (auto sk : mSkeletalMeshes)
+	for (auto sk : mSkeletalMeshArray)
 	{
 		if (sk->GetVisible())
 		{
@@ -649,7 +649,7 @@ void Renderer::EditorDraw3DScene(SceneViewPanel* scene,unsigned int framebuffer,
 	//パーティクルで使うため板ポリをアクティブに設定
 	mSpriteVerts->SetActive(); // 板ポリ
 	mParticleShader->SetMatrixUniform("uViewProj", view * proj);
-	for (auto p : mParticlesComps)
+	for (auto p : mParticlesCompArray)
 	{
 		if (p->IsVisible())
 		{
@@ -742,7 +742,7 @@ void Renderer::Draw3DScene(unsigned int framebuffer, const Matrix4& view, const 
 
 	if (GUIEditorManager::IsPlaying())
 	{
-		for (auto& pair : mAntiTransparentBatches) {
+		for (auto& pair : mAntiTransparentBatchesMap) {
 			StaticMeshBatch& batch = pair.second;
 			if (!batch.gBatchVertexArray) continue;
 			mMeshShader->SetMatrixUniform("uWorldTransform", Matrix4::Identity);
@@ -758,7 +758,7 @@ void Renderer::Draw3DScene(unsigned int framebuffer, const Matrix4& view, const 
 			batch.gBatchVertexArray->SetActive();
 			glDrawElements(GL_TRIANGLES, batch.gBatchVertexArray->GetNumIndices(), GL_UNSIGNED_INT, nullptr);
 		}
-		for (auto& pair : mTransparentBatches) {
+		for (auto& pair : mTransparentBatchesMap) {
 			StaticMeshBatch& batch = pair.second;
 			if (!batch.gBatchVertexArray) continue;
 			mMeshShader->SetMatrixUniform("uWorldTransform", Matrix4::Identity);
@@ -781,7 +781,7 @@ void Renderer::Draw3DScene(unsigned int framebuffer, const Matrix4& view, const 
 	
 
 
-	for (auto mc : mMeshComps)
+	for (auto mc : mMeshCompArray)
 	{
 		//静的オブジェクトは実行中のみ描画する
 		if (GUIEditorManager::IsPlaying())
@@ -812,7 +812,7 @@ void Renderer::Draw3DScene(unsigned int framebuffer, const Matrix4& view, const 
 	mSkinnedShader->SetMatrixUniform("uViewProj", view * proj);
 	// 照明のユニフォームを更新する
 	SetLightUniforms(mSkinnedShader, view);
-	for (auto sk : mSkeletalMeshes)
+	for (auto sk : mSkeletalMeshArray)
 	{
 		if (sk->GetVisible())
 		{
@@ -833,7 +833,7 @@ void Renderer::Draw3DScene(unsigned int framebuffer, const Matrix4& view, const 
 	//パーティクルで使うため板ポリをアクティブに設定
 	mSpriteVerts->SetActive(); // 板ポリ
 	mParticleShader->SetMatrixUniform("uViewProj", view * proj);
-	for(auto p : mParticlesComps)
+	for(auto p : mParticlesCompArray)
 	{
 		if (p->IsVisible())
 		{
@@ -863,7 +863,7 @@ void Renderer::DrawShadow3DScene()
 
 	mShadowShader->SetActive();
 	mShadowShader->SetMatrixUniform("uLightViewProj", lightViewProj);
-	for (auto mc : mMeshComps)
+	for (auto mc : mMeshCompArray)
 	{
 		if (mc->GetVisible())
 		{
@@ -874,7 +874,7 @@ void Renderer::DrawShadow3DScene()
 	mSkinnedShadowShader->SetActive();
 	// ビュー投影行列を更新する
 	mSkinnedShadowShader->SetMatrixUniform("uLightViewProj", lightViewProj);
-	for (auto sk : mSkeletalMeshes)
+	for (auto sk : mSkeletalMeshArray)
 	{
 		if (sk->GetVisible())
 		{
@@ -973,12 +973,12 @@ void Renderer::DrawFromGBuffer()
 void Renderer::Shutdown()
 {
 	// メッシュを破壊する
-	for (auto i : mMeshes)
+	for (auto i : mMeshesMap)
 	{
 		i.second->Unload();
 		delete i.second;
 	}
-	mMeshes.clear();
+	mMeshesMap.clear();
 	// Gバッファを取り除く
 	if (mGBuffer)
 	{
@@ -1131,14 +1131,14 @@ void Renderer::Shutdown()
 void Renderer::UnloadData()
 {
 	// テクスチャを破壊する
-	for (auto i : mTextures)
+	for (auto i : mTexturesMap)
 	{
 		i.second->Unload();
 		delete i.second;
 	}
-	mTextures.clear();
+	mTexturesMap.clear();
 
-	for (auto& pair : mAntiTransparentBatches)
+	for (auto& pair : mAntiTransparentBatchesMap)
 	{
 		if (pair.second.gBatchVertexArray)
 		{
@@ -1147,7 +1147,7 @@ void Renderer::UnloadData()
 		}
 	}
 
-	for (auto& pair : mTransparentBatches)
+	for (auto& pair : mTransparentBatchesMap)
 	{
 		if (pair.second.gBatchVertexArray)
 		{
@@ -1159,27 +1159,27 @@ void Renderer::UnloadData()
 
 void Renderer::AddImageComps(Image* image)
 {
-	mImageComps.emplace_back(image);
+	mImageCompArray.emplace_back(image);
 }
 
 void Renderer::RemoveImageComp(Image* image)
 {
-	auto iter = std::find(mImageComps.begin(), mImageComps.end(), image);
-	if (iter != mImageComps.end()) {
-		mImageComps.erase(iter);
+	auto iter = std::find(mImageCompArray.begin(), mImageCompArray.end(), image);
+	if (iter != mImageCompArray.end()) {
+		mImageCompArray.erase(iter);
 	}
 }
 
 void Renderer::AddCanvasActor(Canvas* canvas)
 {
-	mCanvasActors.emplace_back(canvas);
+	mCanvasActorArray.emplace_back(canvas);
 }
 
 void Renderer::RemoveCanvasActor(Canvas* canvas)
 {
-	auto iter = std::find(mCanvasActors.begin(), mCanvasActors.end(), canvas);
-	if (iter != mCanvasActors.end()) {
-		mCanvasActors.erase(iter);
+	auto iter = std::find(mCanvasActorArray.begin(), mCanvasActorArray.end(), canvas);
+	if (iter != mCanvasActorArray.end()) {
+		mCanvasActorArray.erase(iter);
 	}
 }
 
@@ -1188,11 +1188,11 @@ void Renderer::AddMeshComp(MeshRenderer* mesh)
 	if (mesh->GetIsSkeletal())
 	{
 		SkeletalMeshRenderer* sk = static_cast<SkeletalMeshRenderer*>(mesh);
-		mSkeletalMeshes.emplace_back(sk);
+		mSkeletalMeshArray.emplace_back(sk);
 	}
 	else
 	{
-		mMeshComps.emplace_back(mesh);
+		mMeshCompArray.emplace_back(mesh);
 	}
 }
 
@@ -1201,30 +1201,30 @@ void Renderer::RemoveMeshComp(MeshRenderer* mesh)
 	if (mesh->GetIsSkeletal())
 	{
 		SkeletalMeshRenderer* sk = static_cast<SkeletalMeshRenderer*>(mesh);
-		auto iter = std::find(mSkeletalMeshes.begin(), mSkeletalMeshes.end(), sk);
-		if (iter != mSkeletalMeshes.end()) {
-			mSkeletalMeshes.erase(iter);
+		auto iter = std::find(mSkeletalMeshArray.begin(), mSkeletalMeshArray.end(), sk);
+		if (iter != mSkeletalMeshArray.end()) {
+			mSkeletalMeshArray.erase(iter);
 		}
 	}
 	else
 	{
-		auto iter = std::find(mMeshComps.begin(), mMeshComps.end(), mesh);
-		if (iter != mMeshComps.end()) {
-			mMeshComps.erase(iter);
+		auto iter = std::find(mMeshCompArray.begin(), mMeshCompArray.end(), mesh);
+		if (iter != mMeshCompArray.end()) {
+			mMeshCompArray.erase(iter);
 		}
 	}
 }
 
 void Renderer::AddParticleComp(ParticleSystem* particle)
 {
-	mParticlesComps.emplace_back(particle);
+	mParticlesCompArray.emplace_back(particle);
 }
 
 void Renderer::RemoveParticleComp(ParticleSystem* particle)
 {
-	auto iter = std::find(mParticlesComps.begin(), mParticlesComps.end(), particle);
-	if (iter != mParticlesComps.end()) {
-		mParticlesComps.erase(iter);
+	auto iter = std::find(mParticlesCompArray.begin(), mParticlesCompArray.end(), particle);
+	if (iter != mParticlesCompArray.end()) {
+		mParticlesCompArray.erase(iter);
 	}
 }
 
@@ -1244,8 +1244,8 @@ void Renderer::RemovePointLight(PointLightComponent* light)
 Texture* Renderer::GetTexture(const string& fileName)
 {
 	Texture* tex = nullptr;
-	auto iter = mTextures.find(fileName);
-	if (iter != mTextures.end())
+	auto iter = mTexturesMap.find(fileName);
+	if (iter != mTexturesMap.end())
 	{
 		tex = iter->second;
 	}
@@ -1254,7 +1254,7 @@ Texture* Renderer::GetTexture(const string& fileName)
 		tex = new Texture();
 		if (tex->Load(fileName))
 		{
-			mTextures.emplace(fileName, tex);
+			mTexturesMap.emplace(fileName, tex);
 		}
 		else
 		{
@@ -1269,8 +1269,8 @@ Mesh* Renderer::GetMesh(const string& fileName)
 {
 	string file = File_P::ModelPath + fileName;
 	Mesh* m = nullptr;
-	auto iter = mMeshes.find(file);
-	if (iter != mMeshes.end())
+	auto iter = mMeshesMap.find(file);
+	if (iter != mMeshesMap.end())
 	{
 		m = iter->second;
 	}
@@ -1279,11 +1279,11 @@ Mesh* Renderer::GetMesh(const string& fileName)
 		m = new Mesh();
 		if (m->LoadFromMeshBin(file, this))
 		{
-			mMeshes.emplace(file, m);
+			mMeshesMap.emplace(file, m);
 		}
 		else if (m->Load(file, this))
 		{
-			mMeshes.emplace(file, m);
+			mMeshesMap.emplace(file, m);
 		}
 		else
 		{
@@ -1314,9 +1314,9 @@ vector<class Mesh*> Renderer::GetMeshs(const string& fileName)
 	{
 		string inTex = std::to_string(i);
 		Mesh* mesh = nullptr;
-		auto iter = mMeshes.find(filePath + inTex.c_str());
+		auto iter = mMeshesMap.find(filePath + inTex.c_str());
 		//すでに読み込んでいるものならそこから取得
-		if (iter != mMeshes.end())
+		if (iter != mMeshesMap.end())
 		{
 			mesh = iter->second;
 		}
@@ -1326,11 +1326,11 @@ vector<class Mesh*> Renderer::GetMeshs(const string& fileName)
 			//ここにLoad前にバイナリファイルがあるかを確認する
 			if (mesh->LoadFromMeshBin(filePath, this, i))
 			{
-				mMeshes.emplace(filePath + inTex.c_str(), mesh);
+				mMeshesMap.emplace(filePath + inTex.c_str(), mesh);
 			}
 			else if (mesh->Load(filePath, this , i))
 			{
-				mMeshes.emplace(filePath + inTex.c_str(), mesh);
+				mMeshesMap.emplace(filePath + inTex.c_str(), mesh);
 			}
 			else
 			{

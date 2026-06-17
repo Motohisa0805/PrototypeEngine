@@ -41,7 +41,7 @@ public:
 	//回転フラグ
 	void			SetShouldRotate(bool value) { mShouldRotate = value; }
 	//コライダーのタグ
-	ColliderType	GetType() override { return ColliderType::BoxType; }
+	ColliderType	GetColliderType() override { return ColliderType::BoxType; }
 
 	void			Serialize(json& j) const override;
 	void			Deserialize(const json& j)override;
