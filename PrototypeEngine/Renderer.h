@@ -52,11 +52,11 @@ class Renderer
 private:
 	string												mWindowTitle;
 	// BaseScene
-	BaseScene*											mNowScene;
+	BaseScene*											mRunScene;
 	// テクスチャのマップが読み込み変数
-	std::unordered_map<string,Texture*>					mTextures;
-	vector<Image*>										mImageComps;
-	vector<Canvas*>										mCanvasActors;
+	std::unordered_map<string,Texture*>					mTexturesMap;
+	vector<Image*>										mImageCompArray;
+	vector<Canvas*>										mCanvasActorArray;
 	// Sprite shader
 	Shader*												mSpriteShader;
 	// Sprite vertex array
@@ -64,14 +64,14 @@ private:
 	//2D画像用の頂点配列
 	VertexArray*										mFanSpriteVerts;
 	//パーティクルシステムの配列
-	vector<ParticleSystem*>								mParticlesComps;
+	vector<ParticleSystem*>								mParticlesCompArray;
 	//パーティクルシェーダー
 	Shader*												mParticleShader;
 	// メッシュの地図がロード
-	std::unordered_map<string,Mesh*>					mMeshes;
+	std::unordered_map<string,Mesh*>					mMeshesMap;
 	// すべての（骨格以外の）メッシュコンポーネント
-	vector<MeshRenderer*>								mMeshComps;
-	vector<SkeletalMeshRenderer*>						mSkeletalMeshes;
+	vector<MeshRenderer*>								mMeshCompArray;
+	vector<SkeletalMeshRenderer*>						mSkeletalMeshArray;
 	// Mesh shader
 	Shader*												mMeshShader;
 	// Skinned shader
@@ -113,9 +113,9 @@ private:
 	SceneViewEditor*									mGameSceneViewEditor;
 	//シーンごとに保存しているオブジェクトのバッチ
 	// アンチ半透明バッチ
-	std::map<MaterialInfo*, StaticMeshBatch>			mAntiTransparentBatches;      
+	std::map<MaterialInfo*, StaticMeshBatch>			mAntiTransparentBatchesMap;      
 	// 半透明バッチ
-	std::map<MaterialInfo*, StaticMeshBatch>			mTransparentBatches; 
+	std::map<MaterialInfo*, StaticMeshBatch>			mTransparentBatchesMap; 
 
 	//描画回数のカウンター
 	int													mDrawCalls;
@@ -215,7 +215,7 @@ public:
 	// Skinned shader
 	Shader*												GetSkinnedShader() { return mSkinnedShader; }
 	//BaseSceneのGetter
-	void												SetBaseScene(class BaseScene* scene) { mNowScene = scene; }
+	void												SetBaseScene(class BaseScene* scene) { mRunScene = scene; }
 	//mWindowのGetter
 	SDL_Window*											GetWindow() { return mWindow; }
 	// mContextのGetter

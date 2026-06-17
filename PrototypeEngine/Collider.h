@@ -33,7 +33,7 @@ public:
 		SphereType,
 		CapsuleType
 	};
-	virtual ColliderType	GetType() = 0;
+	virtual ColliderType	GetColliderType() = 0;
 
 	virtual Sphere			GetWorldSphere() const = 0;
 	virtual Capsule			GetWorldCapsule() const = 0;

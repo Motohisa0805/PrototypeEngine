@@ -18,7 +18,7 @@ class Rigidbody : public Component
 {
 private:
 	//重力フラグ
-	bool					mUseGravity;
+	bool					mIsUseGravity;
 	bool					mIsPrivateUseGravityScale;
 	//重力スケーリング
 	float					mGravityScale;
@@ -83,7 +83,7 @@ public:
 
 	//Getter
 	//重力フラグの参照
-	bool		 IsUseGravity() { return mUseGravity; }
+	bool		 IsUseGravity() { return mIsUseGravity; }
 	//力を加える関数
 	void		 AddForce(Vector3 velocity);
 
@@ -98,7 +98,7 @@ public:
 	//mVelocityのSetter
 	void		 SetVelocity(Vector3 velocity) { mVelocity = velocity; }
 	//重力フラグの切り替え
-	void		 SetUseGravity(bool active) { mUseGravity = active; }
+	void		 SetUseGravity(bool active) { mIsUseGravity = active; }
 
 	float		 GetFriction() const { return mFriction; }
 	void		 SetFriction(float f) { mFriction = f; }

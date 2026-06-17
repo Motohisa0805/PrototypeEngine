@@ -61,7 +61,7 @@ std::vector<PhysWorld::CollisionInfo> PhysWorld::RayCastAll(const LineSegment& l
 		float t = 0.0f;
 		Vector3 norm = Vector3::Zero;
 		// OBBを持つBoxColliderに対しては、RayCast(LineSegment, OBB)で判定する
-		if (collider->GetType() == Collider::BoxType)
+		if (collider->GetColliderType() == Collider::BoxType)
 		{
 			OBB obb = collider->GetWorldOBB();
 			if (OnRayCastCollision(l, obb, t, norm))
@@ -248,43 +248,43 @@ void PhysWorld::SweepAndPruneXYZ(float deltaTime)
 
 bool PhysWorld::IsOnCollision(Collider* colliderA, Collider* colliderB)
 {
-	if (colliderA->GetType() == Collider::BoxType && colliderB->GetType() == Collider::BoxType)
+	if (colliderA->GetColliderType() == Collider::BoxType && colliderB->GetColliderType() == Collider::BoxType)
 	{
 		return OnCollision(colliderA->GetWorldOBB(), colliderB->GetWorldOBB());
 	}
-	else if (colliderA->GetType() == Collider::BoxType && colliderB->GetType() == Collider::SphereType)
+	else if (colliderA->GetColliderType() == Collider::BoxType && colliderB->GetColliderType() == Collider::SphereType)
 	{
 		return OnCollision(colliderA->GetWorldOBB(),colliderB->GetWorldSphere());
 	}
-	else if (colliderA->GetType() == Collider::SphereType && colliderB->GetType() == Collider::BoxType)
+	else if (colliderA->GetColliderType() == Collider::SphereType && colliderB->GetColliderType() == Collider::BoxType)
 	{
 		return OnCollision(colliderB->GetWorldOBB(), colliderA->GetWorldSphere());
 	}
-	else if (colliderA->GetType() == Collider::BoxType && colliderB->GetType() == Collider::CapsuleType)
+	else if (colliderA->GetColliderType() == Collider::BoxType && colliderB->GetColliderType() == Collider::CapsuleType)
 	{
 		return OnCollision(colliderA->GetWorldOBB(), colliderB->GetWorldCapsule());
 	}
-	else if (colliderA->GetType() == Collider::CapsuleType && colliderB->GetType() == Collider::BoxType)
+	else if (colliderA->GetColliderType() == Collider::CapsuleType && colliderB->GetColliderType() == Collider::BoxType)
 	{
 		return OnCollision(colliderB->GetWorldOBB(), colliderA->GetWorldCapsule());
 	}
 
 
-	if (colliderA->GetType() == Collider::SphereType && colliderB->GetType() == Collider::SphereType)
+	if (colliderA->GetColliderType() == Collider::SphereType && colliderB->GetColliderType() == Collider::SphereType)
 	{
 		return OnCollision(colliderA->GetWorldSphere(), colliderB->GetWorldSphere());
 	}
-	else if (colliderA->GetType() == Collider::SphereType && colliderB->GetType() == Collider::CapsuleType)
+	else if (colliderA->GetColliderType() == Collider::SphereType && colliderB->GetColliderType() == Collider::CapsuleType)
 	{
 		return OnCollision(colliderA->GetWorldSphere(), colliderB->GetWorldCapsule());
 	}
-	else if (colliderA->GetType() == Collider::CapsuleType && colliderB->GetType() == Collider::SphereType)
+	else if (colliderA->GetColliderType() == Collider::CapsuleType && colliderB->GetColliderType() == Collider::SphereType)
 	{
 		return OnCollision(colliderA->GetWorldCapsule(), colliderB->GetWorldSphere());
 	}
 
 
-	if (colliderA->GetType() == Collider::CapsuleType && colliderB->GetType() == Collider::CapsuleType)
+	if (colliderA->GetColliderType() == Collider::CapsuleType && colliderB->GetColliderType() == Collider::CapsuleType)
 	{
 		return OnCollision(colliderA->GetWorldCapsule(),colliderB->GetWorldCapsule());
 	}
@@ -300,15 +300,15 @@ bool PhysWorld::IsCollectContactPoints(Collider* colliderA, Collider* colliderB,
 
 	// 型の順序を強制する (例: Box < Sphere < Capsule)
 	// こうすることで (Sphere, Box) という組み合わせを (Box, Sphere) として扱える
-	if (cA->GetType() > cB->GetType())
+	if (cA->GetColliderType() > cB->GetColliderType())
 	{
 		std::swap(cA, cB);
 		swapped = true;
 	}
 
 	bool result = false;
-	Collider::ColliderType typeA = cA->GetType();
-	Collider::ColliderType typeB = cB->GetType();
+	Collider::ColliderType typeA = cA->GetColliderType();
+	Collider::ColliderType typeB = cB->GetColliderType();
 
 	//Colliderの型の組み合わせに応じて、適切な接触点収集関数を呼び出す
 	if (typeA == Collider::BoxType)

@@ -32,7 +32,7 @@ public:
 
 	AABB			GetWorldAABBFromOBB() const override;
 
-	ColliderType	GetType() override { return ColliderType::SphereType; }
+	ColliderType	GetColliderType() override { return ColliderType::SphereType; }
 
 	void			Serialize(json& j) const override;
 	void			Deserialize(const json& j)override;

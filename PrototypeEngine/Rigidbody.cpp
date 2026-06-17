@@ -20,7 +20,7 @@
 // 例1: キャストを追加する場合
 Rigidbody::Rigidbody(Entity* owner, int updateOrder)
     : Component(owner)
-    , mUseGravity(false)
+    , mIsUseGravity(false)
     , mIsPrivateUseGravityScale(false)
     , mGravityScale(1.0f)
     , mMass(1.0f)
@@ -43,7 +43,7 @@ Rigidbody::Rigidbody(Entity* owner, int updateOrder)
     , mIsInActiveList(false)
 {
     mName = "Rigidbody";
-    mUseGravity = true;
+    mIsUseGravity = true;
 
     CalculateInertiaTensor();
 
@@ -68,7 +68,7 @@ void Rigidbody::FixedUpdate(float deltaTime)
 
     Vector3 gravityForce;
     //重力フラグが有効なら
-    if (mUseGravity && !mIsGrounded)
+    if (mIsUseGravity && !mIsGrounded)
     {
 		// 重力スケーリングの適用
 		// mIsPrivateUseGravityScale が true の場合は mGravityScale を使用し、そうでない場合は 1.0f を使用
@@ -173,7 +173,7 @@ void Rigidbody::FixedUpdate(float deltaTime)
 void Rigidbody::UpdateSleepState(float deltaTime)
 {
     //重力が有効でかつ接地していない場合
-    if (mUseGravity && !mIsSleeping) {
+    if (mIsUseGravity && !mIsSleeping) {
         mSleepTimer = 0.0f;
         mIsSleeping = false;
         return;
@@ -357,7 +357,7 @@ void Rigidbody::CalculateInertiaTensor()
     Matrix3 inertiaTensor = Matrix3::Identity;
     float mass = mMass;
 
-    if (coll->GetType() == Collider::SphereType)
+    if (coll->GetColliderType() == Collider::SphereType)
     {
         SphereCollider* sc = static_cast<SphereCollider*>(coll);
         float R = sc->GetWorldSphere().mRadius;
@@ -365,9 +365,9 @@ void Rigidbody::CalculateInertiaTensor()
         //球体：I = 2/5 * M * R^2.軸対象なので対角成分にスカラー値を設定
         float I_scalar = (2.0f / 5.0f) * mass * (R * R);
         inertiaTensor.mat[0][0] = inertiaTensor.mat[1][1] = inertiaTensor.mat[2][2] = I_scalar;
-        mShapeType = coll->GetType();
+        mShapeType = coll->GetColliderType();
     }
-    else if (coll->GetType() == Collider::BoxType)
+    else if (coll->GetColliderType() == Collider::BoxType)
     {
         BoxCollider* bc = static_cast<BoxCollider*>(coll);
 
@@ -382,9 +382,9 @@ void Rigidbody::CalculateInertiaTensor()
         inertiaTensor.mat[0][0] = std::max((1.0f / 12.0f) * mMass * (H * H + D * D), minInertia);
         inertiaTensor.mat[1][1] = std::max((1.0f / 12.0f) * mMass * (W * W + D * D), minInertia);
         inertiaTensor.mat[2][2] = std::max((1.0f / 12.0f) * mMass * (W * W + H * H), minInertia);
-        mShapeType = coll->GetType();
+        mShapeType = coll->GetColliderType();
     }
-    else if (coll->GetType() == Collider::CapsuleType)
+    else if (coll->GetColliderType() == Collider::CapsuleType)
     {
         CapsuleCollider* cc = static_cast<CapsuleCollider*>(coll);
         // 簡単化のため、ここでBoxと同じ構造を使う（軸対称を利用できる場合はその計算を行う）
@@ -395,7 +395,7 @@ void Rigidbody::CalculateInertiaTensor()
         inertiaTensor.mat[2][2] = I_perp;
         // Y軸周りの回転は無視するため非常に大きな値に設定 (実際にはテンソルを使わず、FixedUpdateで処理することも可能)
         inertiaTensor.mat[1][1] = 1.0e+6f;
-        mShapeType = coll->GetType();
+        mShapeType = coll->GetColliderType();
     }
     // 逆行列を計算し、ローカル逆慣性テンソルとして格納
     mInverseInertiaTensorL = inertiaTensor.Inverse();
@@ -405,7 +405,7 @@ void Rigidbody::Serialize(json& j) const
 {
 	Component::Serialize(j);
 
-	j["UseGravity"] = mUseGravity;
+	j["UseGravity"] = mIsUseGravity;
 	j["IsPrivateUseGravityScale"] = mIsPrivateUseGravityScale;
 	j["GravityScale"] = mGravityScale;
 	j["Mass"] = mMass;
@@ -419,7 +419,7 @@ void Rigidbody::Deserialize(const json& j)
 
     if (j.contains("UseGravity"))
     {
-        mUseGravity = j.at("UseGravity").get<bool>();
+        mIsUseGravity = j.at("UseGravity").get<bool>();
 	}
     if (j.contains("IsPrivateUseGravityScale"))
     {
@@ -447,7 +447,7 @@ void Rigidbody::DrawCustomGUI(const std::vector<PropertyInfo>& properties)
 {
     ImGui::Text("Rigidbody Properties");
     ImGui::NewLine();
-    ImGui::Checkbox("Use Gravity",&mUseGravity);
+    ImGui::Checkbox("Use Gravity",&mIsUseGravity);
     ImGui::NewLine();
     ImGui::SetNextItemWidth(50);
     ImGui::DragFloat("Mass", &mMass);
@@ -482,7 +482,7 @@ Component* Rigidbody::Clone(Entity* newOwner) const
 {
     Rigidbody* clone = new Rigidbody(newOwner);
 
-    clone->mUseGravity = this->mUseGravity;
+    clone->mIsUseGravity = this->mIsUseGravity;
     clone->mIsPrivateUseGravityScale = this->mIsPrivateUseGravityScale;
     clone->mGravityScale = this->mGravityScale;
     clone->mMass = this->mMass;
