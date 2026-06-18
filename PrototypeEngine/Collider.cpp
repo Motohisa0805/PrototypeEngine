@@ -36,22 +36,17 @@ void Collider::Serialize(json& j) const
 {
 	Component::Serialize(j);
 	j["mIsCollider"] = mIsCollider;
-	j["mContactOffset"] = mContactOffset;
 }
 
 void Collider::Deserialize(const json& j)
 {
 	Component::Deserialize(j);
 	mIsCollider = j.value("mIsCollider", true);
-	mContactOffset = j.value("mContactOffset", 0.001f);
 }
 
 void Collider::DrawCustomGUI(const std::vector<PropertyInfo>& properties)
 {
 	ImGui::Checkbox("Is Collider", &mIsCollider);
-	ImGui::NewLine();
-	ImGui::SetNextItemWidth(50);
-	ImGui::DragFloat("mContactOffset", &mContactOffset);
 	ImGui::NewLine();
 
 	ImGui::Separator();

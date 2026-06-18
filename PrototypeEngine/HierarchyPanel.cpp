@@ -51,6 +51,12 @@ void HierarchyPanel::Draw(float width, float height)
 		}
 		*/
 
+		if (ImGui::IsWindowHovered(ImGuiHoveredFlags_ChildWindows) && ImGui::IsMouseClicked(ImGuiMouseButton_Left)) {
+			if (!ImGui::IsAnyItemHovered() && !ImGui::IsAnyItemActive()) {
+				SelectionManager::SetSelectedActor(nullptr);
+			}
+		}
+
 		ImGui::SameLine();
 		ImGui::TextDisabled("(?)");
 		if (ImGui::IsItemHovered()) {
@@ -226,6 +232,13 @@ void HierarchyPanel::DrawActorNode(ActorObject* actor)
 		std::strncpy(buffer, EditorSettingsManager::GetRenameInputBuffer().c_str(), sizeof(buffer));
 #endif
 		buffer[sizeof(buffer) - 1] = '\0';
+
+		ImGuiID inputID = ImGui::GetID("##rename");
+
+		// InputTextの設定。フォーカスを自動で当てる処理を入れておくと快適になります
+		if (!ImGui::IsAnyItemActive()) {
+			ImGui::ActivateItemByID(inputID);
+		}
 
 		if (ImGui::InputText("##rename", buffer, sizeof(buffer), ImGuiInputTextFlags_EnterReturnsTrue))
 		{

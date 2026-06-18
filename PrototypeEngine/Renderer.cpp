@@ -703,7 +703,7 @@ void Renderer::EditorDraw3DScene(SceneViewPanel* scene,unsigned int framebuffer,
 			glDrawArrays(GL_LINES, 0, 6);
 		}
 		//デバッググリッド描画
-		if (GameStateClass::gDebugGridFrag)
+		if (scene->IsDebugGridFrag())
 		{
 			if (mGridShader && scene->GetSceneEditorCamera())
 			{
@@ -896,7 +896,7 @@ void Renderer::DrawFromGBufferForEditor(SceneViewPanel* scene)
 	mSpriteVerts->SetActive();
 	scene->GetSceneBuffer()->SetTexturesActive();
 	// シャドウマップを無効にする
-	mGGlobalShader->SetBoolUniform("uEnableShadow", GameStateClass::gShadowFrag); // withShadow = true/false
+	mGGlobalShader->SetBoolUniform("uEnableShadow", scene->IsShadowFrag()); // withShadow = true/false
 	
 	SetLightUniforms(mGGlobalShader, mView);
 

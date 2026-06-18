@@ -29,7 +29,8 @@ ParticleSystem::ParticleSystem(Entity* owner)
 	mParticleAllLifeTime = mParticleLifeTime;
 
 	//生成時に初期画像を読み込む
-	mParticleTexture = EngineWindow::GetRenderer()->GetTexture("Assets/Particle/Default.png");
+	mTextureFilePath = "Assets/Particle/Default.png";
+	mParticleTexture = EngineWindow::GetRenderer()->GetTexture(mTextureFilePath);
 
 	mHeaderColor = Vector4(0.8f, 0.4f, 0.8f, 1.0f);
 	mHeaderHoveredColor = Vector4(0.6f, 0.3f, 0.6f, 1.0f);
@@ -43,17 +44,6 @@ ParticleSystem::~ParticleSystem()
 	for (auto& p : mParticle)
 		delete p;
 	mParticle.clear();
-}
-
-void ParticleSystem::LoadTexture(string name)
-{
-	string path = File_P::AssetPath + "Particle/" + name;
-	mParticleTexture = EngineWindow::GetRenderer()->GetTexture(path);
-	if (!mParticleTexture)
-	{
-		SDL_Log("Failed to load particle texture: %s", path.c_str());
-		return;
-	}
 }
 
 Vector3 ParticleSystem::AddVelocity()
@@ -123,7 +113,7 @@ void ParticleSystem::SetEmitInterval(float interval)
 void ParticleSystem::Update(float deltaTime)
 {
 	// 全体ライフタイムが0以下なら更新しない
-	if (mParticleAllLifeTime <= 0.0f) { return; } 
+	if (mParticleAllLifeTime <= 0.0f && !mIsLoop) { return; } 
 	mParticleAllLifeTime -= deltaTime;
 	mEmitTimer += deltaTime;
 
@@ -156,7 +146,7 @@ void ParticleSystem::Update(float deltaTime)
 		{
 			mOwner->SetState(ActorObject::EDead);
 		}
-		else
+		else if(mIsLoop)
 		{
 			mParticleAllLifeTime = mParticleLifeTime;
 		}
@@ -213,6 +203,7 @@ void ParticleSystem::Draw(Shader* shader)
 void ParticleSystem::Serialize(json& j) const
 {
 	Component::Serialize(j);
+	j["TextureFilePath"] = mTextureFilePath;
 	j["IsAlphaFade"] = mIsAlphaFade;
 	j["IsLoop"] = mIsLoop;
 	j["IsDestroyed"] = mIsDestroyed;
@@ -226,6 +217,15 @@ void ParticleSystem::Serialize(json& j) const
 void ParticleSystem::Deserialize(const json& j)
 {
 	Component::Deserialize(j);
+
+	if (j.contains("TextureFilePath")) {
+		// 1. JSONからファイルパスを取得する
+		std::string filePath = j.at("TextureFilePath").get<std::string>();
+
+		// 2. メンバ変数にファイルパスを設定
+		mTextureFilePath = filePath;
+		mParticleTexture = EngineWindow::GetRenderer()->GetTexture(filePath);
+	}
 	if (j.contains("IsAlphaFade"))
 	{
 		mIsAlphaFade = j["IsAlphaFade"].get<bool>();
@@ -265,6 +265,10 @@ void ParticleSystem::DrawCustomGUI(const std::vector<PropertyInfo>& properties)
 	ImGui::PushID(this);
 
 	ImGui::Text("Properties");
+
+	ImGui::NewLine();
+
+	DrawSettingTexturePathGUI();
 	
 	ImGui::NewLine();
 	
@@ -315,10 +319,46 @@ void ParticleSystem::DrawCustomGUI(const std::vector<PropertyInfo>& properties)
 	ImGui::InputFloat("##emitInterval", &mEmitInterval);
 	
 	ImGui::NewLine();
+	/*
+	ImGui::Text("ParticleEmitSpeed");
+	ImGui::InputFloat3("##particleEmitSpeed", &mParticleEmitSpeed.x);
+	*/
+
+	ImGui::NewLine();
 
 	ImGui::Separator();
 
 	ImGui::PopID();
+}
+
+void ParticleSystem::DrawSettingTexturePathGUI()
+{
+	//1.ファイルパスの取得
+	string currentPath = mTextureFilePath;
+	static char pathBuffer[256];
+	strncpy_s(pathBuffer, currentPath.c_str(), sizeof(pathBuffer));
+	pathBuffer[sizeof(pathBuffer) - 1] = '\0';
+	ImGui::Text("FilePath DragDropTarget");
+	//2.ファイルパスの入力フィールド
+	ImGui::InputText("Texture File Path", pathBuffer, sizeof(pathBuffer), ImGuiInputTextFlags_ReadOnly);
+	//3.ファイルロードボタン(ここでファイル選択UIを開くか、ProjectPanelからのDrag&Dropを想定)
+	//Drag&Drop想定
+	if (ImGui::BeginDragDropTarget())
+	{
+		if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM"))
+		{
+			//ペイロードがファイルパスであると仮定
+			const char* dropPath = (const char*)payload->Data;
+			mParticleTexture = EngineWindow::GetRenderer()->GetTexture(dropPath);
+			mTextureFilePath = dropPath;
+		}
+		ImGui::EndDragDropTarget();
+	}
+	if (ImGui::Button("Clear Image"))
+	{
+		mParticleTexture = nullptr;
+		mTextureFilePath = "";
+	}
 }
 
 Component* ParticleSystem::Clone(Entity* newOwner) const
@@ -327,6 +367,7 @@ Component* ParticleSystem::Clone(Entity* newOwner) const
 
 	clone->mParticle = this->mParticle;
 	clone->mParticleTexture = this->mParticleTexture;
+	clone->mTextureFilePath = this->mTextureFilePath;
 	clone->mIsAlphaFade = this->mIsAlphaFade;
 	clone->mIsLoop = this->mIsLoop;
 	clone->mVisible = this->mVisible;

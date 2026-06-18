@@ -92,7 +92,6 @@
         },
         {
           "Type": "BoxCollider",
-          "mContactOffset": 0.0010000000474974513,
           "mIsCollider": true,
           "mObjectOBB.mOffset": [
             0.0,
@@ -137,7 +136,6 @@
         },
         {
           "Type": "BoxCollider",
-          "mContactOffset": 0.0010000000474974513,
           "mIsCollider": true,
           "mObjectOBB.mOffset": [
             0.0,
@@ -182,7 +180,6 @@
         },
         {
           "Type": "BoxCollider",
-          "mContactOffset": 0.0010000000474974513,
           "mIsCollider": true,
           "mObjectOBB.mOffset": [
             0.0,
@@ -236,7 +233,6 @@
         },
         {
           "Type": "BoxCollider",
-          "mContactOffset": 0.0010000000474974513,
           "mIsCollider": true,
           "mObjectOBB.mOffset": [
             0.0,
@@ -296,7 +292,6 @@
           ],
           "Radius": 0.5,
           "Type": "SphereCollider",
-          "mContactOffset": 0.0010000000474974513,
           "mIsCollider": true
         },
         {
@@ -381,7 +376,6 @@
         {
           "Radius": 0.4903925657272339,
           "Type": "CapsuleCollider",
-          "mContactOffset": 0.0010000000474974513,
           "mIsCollider": true,
           "mObjectCapsule.mSegment.mEnd": [
             7.450580596923828e-08,
@@ -475,7 +469,6 @@
         },
         {
           "Type": "BoxCollider",
-          "mContactOffset": 0.0010000000474974513,
           "mIsCollider": true,
           "mObjectOBB.mOffset": [
             0.0,
@@ -529,7 +522,6 @@
         },
         {
           "Type": "BoxCollider",
-          "mContactOffset": 0.0010000000474974513,
           "mIsCollider": true,
           "mObjectOBB.mOffset": [
             0.0,
@@ -635,6 +627,45 @@
         1.0
       ],
       "Name": "Target",
+      "ParentActorID": -1,
+      "State": 0,
+      "Static": 0,
+      "Tag": 0,
+      "Type": "Transform"
+    },
+    {
+      "Components": [
+        {
+          "EmitInterval": 0.019999999552965164,
+          "IsAlphaFade": true,
+          "IsDestroyed": false,
+          "IsLoop": false,
+          "MaxParticleCount": 100,
+          "ParticleLifeTime": 1.0,
+          "ParticleMaxSize": 1.0,
+          "ParticleMinSize": 0.10000000149011612,
+          "TextureFilePath": "Assets\\Texture\\Heart.png",
+          "Type": "ParticleSystem"
+        }
+      ],
+      "ID": 17,
+      "LocalPosition": [
+        -4.800000190734863,
+        0.30000001192092896,
+        3.9000000953674316
+      ],
+      "LocalRotation": [
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "LocalScale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "Name": "TestParticle",
       "ParentActorID": -1,
       "State": 0,
       "Static": 0,

@@ -147,7 +147,7 @@ void InspectorPanel::Draw(float width, float height)
 					// コンポーネント削除ボタン
 					//----------------------------------------------------------------
 
-					ImGui::SameLine();
+					ImGui::NewLine();
 
 					ImGui::PushID(comp); // comp のアドレスを一時的にIDスタックに追加
 					{

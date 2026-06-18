@@ -31,6 +31,8 @@ protected:
 	vector<ParticleStruct*> mParticle;
 	// パーティクルのテクスチャ
 	Texture*				mParticleTexture;
+
+	string 					mTextureFilePath;
 	//
 	bool					mIsAlphaFade;
 	// パーティクルのループフラグ
@@ -65,8 +67,6 @@ public:
 	void						Update(float deltaTime)override;
 	// パーティクルの描画
 	virtual void				Draw(Shader* shader);
-	// テクスチャの読み込み
-	void						LoadTexture(string name);
 	//速度を与える
 	Vector3						AddVelocity();
 	// パーティクルの発射
@@ -114,6 +114,8 @@ public:
 	void						Deserialize(const json& j)override;
 
 	void						DrawCustomGUI(const std::vector<PropertyInfo>& properties)override;
+
+	void						DrawSettingTexturePathGUI();
 
 	Component*					Clone(Entity* newOwner) const override;
 };

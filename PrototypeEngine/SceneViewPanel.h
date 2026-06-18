@@ -14,6 +14,10 @@ private:
 	GBuffer*					mSceneBuffer;
 
 	Vector2 					mSceneWinSize;
+
+	bool						mIsShadowFrag;
+
+	bool						mIsDebugGridFrag;
 public:
 
 								SceneViewPanel(class Renderer* renderer);
@@ -35,4 +39,8 @@ public:
 	GBuffer*					GetSceneBuffer() { return mSceneBuffer; }
 	Vector2						GetSceneWinSize() { return mSceneWinSize; }
 	void						SetSceneWinSize(const Vector2& size) { mSceneWinSize = size; }
+
+	bool						IsShadowFrag() { return mIsShadowFrag; }
+
+	bool						IsDebugGridFrag() { return mIsDebugGridFrag; }
 };

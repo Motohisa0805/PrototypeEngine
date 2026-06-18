@@ -40,12 +40,6 @@
     <Filter Include="SourceCodes\A_Editor\Function\Audios">
       <UniqueIdentifier>{711d48cf-d36d-4299-b9af-23c756b79eb2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="SourceCodes\A_Editor\Function\Cameras">
-      <UniqueIdentifier>{20be64fd-f98f-4171-9d83-fba7b7220ffb}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="SourceCodes\A_Editor\Function\Cameras\Base">
-      <UniqueIdentifier>{0c6d264c-3ac5-4608-b8fb-a38d5f7e57b8}</UniqueIdentifier>
-    </Filter>
     <Filter Include="SourceCodes\A_Editor\Function\Components">
       <UniqueIdentifier>{2dd9561a-c978-4441-bbcd-0f29bfc6d61d}</UniqueIdentifier>
     </Filter>
@@ -157,6 +151,12 @@
     <Filter Include="SourceCodes\A_Editor\Function\GUIs\Panels\Factory">
       <UniqueIdentifier>{0989e630-11b9-4292-ad9c-03739f7e3923}</UniqueIdentifier>
     </Filter>
+    <Filter Include="SourceCodes\A_Editor\Function\Components\Cameras">
+      <UniqueIdentifier>{20be64fd-f98f-4171-9d83-fba7b7220ffb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceCodes\A_Editor\Function\Components\Cameras\Base">
+      <UniqueIdentifier>{0c6d264c-3ac5-4608-b8fb-a38d5f7e57b8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Shaders\Arrow.frag">
@@ -245,10 +245,10 @@
       <Filter>SourceCodes\A_Editor\Function\Audios</Filter>
     </ClCompile>
     <ClCompile Include="BaseCamera.cpp">
-      <Filter>SourceCodes\A_Editor\Function\Cameras\Base</Filter>
+      <Filter>SourceCodes\A_Editor\Function\Components\Cameras\Base</Filter>
     </ClCompile>
     <ClCompile Include="FreeCamera.cpp">
-      <Filter>SourceCodes\A_Editor\Function\Cameras</Filter>
+      <Filter>SourceCodes\A_Editor\Function\Components\Cameras</Filter>
     </ClCompile>
     <ClCompile Include="Collision.cpp">
       <Filter>SourceCodes\A_Editor\Function\Physics</Filter>
@@ -533,13 +533,13 @@
       <Filter>SourceCodes\A_Editor\Function\GUIs\Panels</Filter>
     </ClCompile>
     <ClCompile Include="HierarchyExplanationPanel.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="ProjectExplanationPanel.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>SourceCodes\A_Editor\Function\GUIs\Panels</Filter>
     </ClCompile>
     <ClCompile Include="InspectorExplanationPanel.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>SourceCodes\A_Editor\Function\GUIs\Panels</Filter>
+    </ClCompile>
+    <ClCompile Include="ProjectExplanationPanel.cpp">
+      <Filter>SourceCodes\A_Editor\Function\GUIs\Panels</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -565,10 +565,10 @@
       <Filter>SourceCodes\A_Editor\Function\Audios</Filter>
     </ClInclude>
     <ClInclude Include="BaseCamera.h">
-      <Filter>SourceCodes\A_Editor\Function\Cameras\Base</Filter>
+      <Filter>SourceCodes\A_Editor\Function\Components\Cameras\Base</Filter>
     </ClInclude>
     <ClInclude Include="FreeCamera.h">
-      <Filter>SourceCodes\A_Editor\Function\Cameras</Filter>
+      <Filter>SourceCodes\A_Editor\Function\Components\Cameras</Filter>
     </ClInclude>
     <ClInclude Include="Collision.h">
       <Filter>SourceCodes\A_Editor\Function\Physics</Filter>
@@ -901,13 +901,13 @@
       <Filter>SourceCodes\A_Editor\Function\GUIs\Panels</Filter>
     </ClInclude>
     <ClInclude Include="HierarchyExplanationPanel.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="ProjectExplanationPanel.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>SourceCodes\A_Editor\Function\GUIs\Panels</Filter>
     </ClInclude>
     <ClInclude Include="InspectorExplanationPanel.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>SourceCodes\A_Editor\Function\GUIs\Panels</Filter>
+    </ClInclude>
+    <ClInclude Include="ProjectExplanationPanel.h">
+      <Filter>SourceCodes\A_Editor\Function\GUIs\Panels</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

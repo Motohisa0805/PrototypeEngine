@@ -7,12 +7,6 @@ GameState GameStateClass::gGameState = GameState::GamePlay;
 
 bool GameStateClass::gGameEventFrag = false;
 
-bool GameStateClass::gDebugGridFrag = false;
-
-bool GameStateClass::gShadowFrag = false;
-
-bool GameStateClass::gDebugStatesFrag = false;
-
 
 //Renderer* GameWinMain::mRenderer = nullptr;
 
