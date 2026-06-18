@@ -146,7 +146,6 @@ Component* BoxCollider::Clone(Entity* newOwner) const
 	clone->mWorldOBB = this->mWorldOBB;
 	clone->mWorldAABB = this->mWorldAABB;
 	clone->mIsCollider = this->mIsCollider;
-	clone->mContactOffset = this->mContactOffset;
 
 	clone->mObjectAABB = this->mObjectAABB;
 	clone->mObjectOBB = this->mObjectOBB;

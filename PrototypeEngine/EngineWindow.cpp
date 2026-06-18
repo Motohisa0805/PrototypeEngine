@@ -67,8 +67,6 @@ bool EngineWindow::EngineInitialize()
 	GUIEditorManager::InitializeImGui(mRenderer->GetWindow(), mRenderer->GetContext());
 	//仮で一回更新を行う
 	mGameWindow->GameRunLoop();
-	//デバッグ用グリッドを表示するフラグを立てる
-	GameStateClass::gDebugGridFrag = true;
 	//スクリプトのホットリロードマネージャーを生成
 	mHotReloadManager = std::make_unique<ScriptHotReloadManager>();
 	//スクリプトDLLをロードする

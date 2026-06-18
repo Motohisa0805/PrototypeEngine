@@ -33,7 +33,7 @@ void GameViewPanel::Draw(float width, float height)
 	if(ImGui::Begin(GetImGuiWindowID().c_str(), &mIsShow, flag))
 	{
 		//デバッグモード切り替えボタン
-		ImGuiHelper::FragTextButton("State:", ImVec2(0.0f, 0.0f), GameStateClass::gDebugStatesFrag);
+		ImGuiHelper::FragTextButton("State:", ImVec2(0.0f, 0.0f), mIsDebugStatesFrag);
 
 		//入力処理
 		MouseHoveredDisble();
@@ -49,7 +49,6 @@ void GameViewPanel::Draw(float width, float height)
 
 		//更新処理
 		ImVec2 winSize = GetAspectRatio();
-		ImVec2 winPos = ImGui::GetCursorScreenPos();
 
 		// GameView のサイズが変わったら FBO をリサイズ
 		if (mRenderer->GetGameSceneViewEditor()->NeedsResize(Vector2((int)winSize.x, (int)winSize.y)))
@@ -67,17 +66,22 @@ void GameViewPanel::Draw(float width, float height)
 			ImVec2(1, 0)   // uv1
 		);
 		//"State"ボタンでトグルされるフラグがtrueの場合のみ描画
-		if (GameStateClass::gDebugStatesFrag)
+		if (mIsDebugStatesFrag)
 		{
 			const float padding = 10.0f;
+
+			ImVec2 currntCursorPos = ImGui::GetCursorScreenPos();
+
+			ImVec2 imageTopLeft = ImVec2(currntCursorPos.x, currntCursorPos.y - winSize.y);
+
 			//1.オーバーレイウィンドウの表示位置を計算
 			ImVec2 overlayPos = ImVec2(
-				winPos.x + winSize.x - padding,
-				winPos.y + padding
+				imageTopLeft.x + winSize.x - padding,
+				imageTopLeft.y + padding
 			);
 
 			//2.描画するウインドウの位置と「アンカー」を設定
-			ImGui::SetNextWindowPos(overlayPos, ImGuiCond_Appearing, ImVec2(1.0f, 0.0f));
+			ImGui::SetNextWindowPos(overlayPos, ImGuiCond_Always, ImVec2(1.0f, 0.0f));
 
 			//3.ウインドウのスタイルを設定
 			ImGui::SetNextWindowBgAlpha(0.35f);// 半透明にする
@@ -86,10 +90,10 @@ void GameViewPanel::Draw(float width, float height)
 			ImGuiWindowFlags overlayFlags =
 				ImGuiWindowFlags_NoDecoration |
 				ImGuiWindowFlags_AlwaysAutoResize |
-				ImGuiWindowFlags_NoSavedSettings |
-				ImGuiWindowFlags_NoMove;
+				ImGuiWindowFlags_NoMove |
+				ImGuiWindowFlags_NoSavedSettings;
 			//5.オーバーレイウインドウの描画開始
-			if (ImGui::Begin("StatesOverlay", nullptr, overlayFlags))
+			if (ImGui::Begin("StatesOverlay", &mIsDebugStatesFrag, overlayFlags))
 			{
 				//タイトル
 				ImGui::Text("Game Stats");

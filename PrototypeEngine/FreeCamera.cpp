@@ -7,6 +7,10 @@ FreeCamera::FreeCamera(Entity* owner)
 	, mUp(Vector3::UnitY)
 {
 	mName = "FreeCamera";
+
+	mHeaderColor = Vector4(0.4f, 0.4f, 0.8f, 1.0f);
+	mHeaderHoveredColor = Vector4(0.3f, 0.3f, 0.6f, 1.0f);
+	mHeaderActiveColor = Vector4(0.4f, 0.4f, 0.8f, 1.0f);
 }
 
 void FreeCamera::Initiailze()

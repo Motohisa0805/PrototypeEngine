@@ -4,6 +4,12 @@
 
 SceneViewPanel::SceneViewPanel(Renderer* renderer)
 	:EditorWindow(renderer)
+	,mSceneEditorCamera(nullptr)
+	, mSceneViewEditor(nullptr)
+	, mSceneBuffer(nullptr)
+	, mSceneWinSize(Vector2())
+	,mIsShadowFrag(false)
+	,mIsDebugGridFrag(true)
 {
 	mID = "SceneView";
 	//エディター用カメラの生成
@@ -69,11 +75,11 @@ void SceneViewPanel::Draw(float width, float height)
 	if(ImGui::Begin(GetImGuiWindowID().c_str(), &mIsShow, ImGuiWindowFlags_NoCollapse))
 	{
 		//デバッグモード切り替えボタン
-		ImGuiHelper::FragTextButton("Grid:", ImVec2(0.0f, 0.0f), GameStateClass::gDebugGridFrag);
+		ImGuiHelper::FragTextButton("Grid:", ImVec2(0.0f, 0.0f), mIsDebugGridFrag);
 		//同じ行に固定
 		ImGui::SameLine();
 		//シャドウマップの表示切り替えボタン
-		ImGuiHelper::FragTextButton("Shadow:", ImVec2(0.0f, 0.0f), GameStateClass::gShadowFrag);
+		ImGuiHelper::FragTextButton("Shadow:", ImVec2(0.0f, 0.0f), mIsShadowFrag);
 
 		ImVec2 winsize = ImVec2(mWidthSize, mHeightSize);
 		// SceneView のサイズが変わったら FBO をリサイズ

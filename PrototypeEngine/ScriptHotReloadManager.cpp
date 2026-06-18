@@ -23,7 +23,20 @@ ScriptHotReloadManager::~ScriptHotReloadManager()
 
 bool ScriptHotReloadManager::Initialize()
 {
+	//前回起動時に残ってしまった古いDLL/PDBを全削除
+	string binDir = "bin/";
+	if (std::filesystem::exists(binDir)) {
+		for (const auto& entry : filesystem::directory_iterator(binDir)) {
+			string path = entry.path().string();
 
+			if (path.find("InGameProject_") != string::npos) {
+				std::error_code ec;
+				std::filesystem::remove(entry.path(), ec);
+			}
+		}
+	}
+	// インデックスを初期化
+	mDllIndex = 0;
 	// 最初のDLLロード
 	const string& sourcePath = mSourceDllPath;
 	//初回ロードに使うコピー先のファイルパス
@@ -128,6 +141,7 @@ bool ScriptHotReloadManager::ReloadInGameProject()
 	// ----------------------------------------------------
 	// 3. 【新しいDLLのコンパイル】
 	// ----------------------------------------------------
+	/*
 	string newDllPath = mActiveDllPath;
 	
 	//開発者がビルドしたDLLを新しい名前にコピー
@@ -154,8 +168,11 @@ bool ScriptHotReloadManager::ReloadInGameProject()
 
 	// mActivePDBPathを更新 (デバッガがこのパスを参照できるように)
 	mActivePDBPath = newPDBPath;
+	*/
 
 
+	mActiveDllPath = mSourceDllPath;
+	mActivePDBPath = mSourcePDBPath;
 
 
 	// ----------------------------------------------------
@@ -471,8 +488,11 @@ bool ScriptHotReloadManager::ExecuteMsbuildAndReload()
 
 	string targetPath = "InGameProject.sln";
 
+	mDllIndex++;
+	string targetName = "InGameProject_" + std::to_string(mDllIndex);
+
 	// 2. コマンド文字列をフルパスで組み立てる
-	string msBuildCommand = msBuildPath + " " + targetPath + " /p:Configuration=Debug /p:Platform=x64";
+	string msBuildCommand = msBuildPath + " " + targetPath + " /p:Configuration=Debug /p:Platform=x64 /p:TargetName=" + targetName;
 	//コマンドの出力をログファイルにリダイレクト（ビルドエラーの詳細を確認するため）
 	//string msBuildCommand = "cmd /c " + msBuildPath + " " + targetPath + " /p:Configuration=Debug /p:Platform=x64 > build_log.txt 2>&1";
 	int buildResult = ExecuteAndWaitForProcess(msBuildCommand);
@@ -480,10 +500,13 @@ bool ScriptHotReloadManager::ExecuteMsbuildAndReload()
 	if (buildResult != 0)
 	{
 		// ビルド失敗（新しく追加したスクリプトにコンパイルエラーがないか確認）
-		Debug::ErrorLog("MSBuild failed. InGameProject.dll was NOT regenerated.");
+		Debug::ErrorLog("MSBuild failed. InGameProject.dll was NOT regenerated. : %d",buildResult);
 		// DLLが再生成されていないため、ロード処理をスキップする
 		return false;
 	}
+
+	mSourceDllPath = "bin\\" + targetName + ".dll";
+	mSourcePDBPath = "bin\\" + targetName + ".pdb";
 
 	// ビルド成功した場合のみ、DLLのロードと置き換え（ホットリロード）を実行
 	return ReloadInGameProject();
