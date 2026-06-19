@@ -150,7 +150,6 @@
         <ClInclude Include="framework.h"/>
         <ClInclude Include="InGameProject_API.h"/>
         <ClInclude Include="pch.h"/>
-        <ClInclude Include="..\Assets\ScriptFolder\HogeHoge.h"/>
     </ItemGroup>
     <ItemGroup>
         <ClCompile Include="dllmain.cpp"/>
@@ -161,7 +160,6 @@
             <PrecompiledHeader Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">Create</PrecompiledHeader>
             <PrecompiledHeader Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">Create</PrecompiledHeader>
         </ClCompile>
-        <ClCompile Include="..\Assets\ScriptFolder\HogeHoge.cpp"/>
     </ItemGroup>
     <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets"/>
     <ImportGroup Label="ExtensionTargets"/>
