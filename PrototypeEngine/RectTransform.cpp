@@ -119,7 +119,7 @@ void RectTransform::ComputeWorldTransform() {
 		mDrawTransform = localMatrixForSelf;
 	}
 	mPosition = mWorldTransform.GetTranslation();
-	mRotation = mWorldTransform.GetRotation();
+	mRotation = mWorldTransform.RemoveScale().GetRotation();
 	mScale = mWorldTransform.GetScale();
 
 	mIsDirty = false;

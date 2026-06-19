@@ -16,12 +16,6 @@ class Shader;
 class Image : public Component
 {
 public:
-	enum FillType
-	{
-		Simple,
-		Filled
-	};
-
 	enum FillMethod
 	{
 		None,
@@ -35,13 +29,13 @@ protected:
 
 	string 					mFilePath;
 
-	SDL_Rect				mTextureRect;
-
 	float					mFillAmount;
 
-	FillType				mFillType;
-
 	FillMethod				mFillMethod;
+
+	
+	SDL_Rect				mTextureRect;
+
 
 	int						mVerticesCount;
 
@@ -74,8 +68,6 @@ public:
 	virtual void			SetSDL_Rect(SDL_Rect rect) { mTextureRect = rect; }
 	virtual void			SetFillAmount(float fill);
 
-	virtual void			SetFillType(FillType type) { mFillType = type; }
-
 	virtual void			SetFillMethod(FillMethod method) { mFillMethod = method; }
 
 	virtual FillMethod		GetFillMethod() { return mFillMethod; }
@@ -91,4 +83,23 @@ public:
 	void					DrawCustomGUI(const std::vector<PropertyInfo>& properties)override;
 
 	Component*				Clone(Entity* newOwner) const override;
+};
+
+namespace ImageInformation {
+	inline string GetFillMethodName(Image::FillMethod tag)
+	{
+		switch (tag)
+		{
+		case Image::FillMethod::None:
+			return "None";
+		case Image::FillMethod::Horizontal:
+			return "Horizontal";
+		case Image::FillMethod::Vertical:
+			return "Vertical";
+		case Image::FillMethod::Radial360:
+			return "Radial360";
+		default:
+			break;
+		}
+	}
 };

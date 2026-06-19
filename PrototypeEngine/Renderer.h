@@ -21,6 +21,7 @@ struct DirectionalLightData
 	Vector3 gDiffuseColor = Vector3();
 	// Ambient color
 	Vector3 gAmbientColor = Vector3();
+	float	gAmbientIntensity = 1.0f;
 	// Specular color
 	Vector3 gSpecColor = Vector3();
 	//ˆÊ’u

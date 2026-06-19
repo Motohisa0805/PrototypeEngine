@@ -1398,6 +1398,7 @@ void Renderer::SetLightUniforms(Shader* shader, const Matrix4& view)
 	shader->SetVectorUniform("uCameraPos", invView.GetTranslation());
 	// Ambient light
 	shader->SetVectorUniform("uAmbientLight", mDirLight.gAmbientColor);
+	shader->SetFloatUniform("uAmbientIntensity", mDirLight.gAmbientIntensity);
 	// Directional light
 	shader->SetVectorUniform("uDirLight.mDirection",mDirLight.gDirection);
 	shader->SetVectorUniform("uDirLight.mDiffuseColor",mDirLight.gDiffuseColor);
