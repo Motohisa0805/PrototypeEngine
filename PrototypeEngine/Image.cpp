@@ -12,7 +12,6 @@ Image::Image(Entity* owner,int function)
 	, mFilePath("")
 	, mTextureRect()
 	, mFillAmount(0)
-	, mFillType(FillType::Simple)
 	, mFillMethod(FillMethod::None)
 	, mUVTransform(Vector4(0, 0, 1, 1))
 	, mVerticesCount(6)
@@ -92,13 +91,50 @@ void Image::DrawTexture(Shader* shader)
 {
 	//画像の描画の描画の形を設定
 	FillMethodCalculation(mUVTransform, mVerticesCount);
-
 	shader->SetVector4Uniform("uTexUV", mUVTransform);
-	
-	shader->SetMatrixUniform("uWorldTransform", mUIActor->GetRectTransform()->GetDrawTransform());
 
+	// RectTransformから「本来のサイズ」と「トランスフォーム情報」を取得
+	auto* rt = mUIActor->GetRectTransform();
+	float baseWidth = rt->GetRectScaleWidth();
+	float baseHeight = rt->GetRectScaleHeight();
+	// 描画用のサイズとオフセットの初期値
+	float drawWidth = baseWidth;
+	float drawHeight = baseHeight;
+	float offsetX = 0;
+	float offsetY = 0;
+
+	if (mFillMethod == FillMethod::Horizontal) {
+		drawWidth = baseWidth * mFillAmount;
+		// 左端を固定（中心基準の矩形なので、縮んだ分の半分だけ左にずらす）
+		offsetX = -(baseWidth - drawWidth);
+	}
+	else if (mFillMethod == FillMethod::Vertical) {
+		drawHeight = baseHeight * mFillAmount;
+		// 下端を固定（中心基準の矩形なので、縮んだ分の半分だけ下にずらす）
+		offsetY = -(baseHeight - drawHeight);
+	}
+
+
+	Matrix4 pixelScale = Matrix4::CreateScale(
+		drawWidth * rt->GetLocalScale().x,
+		drawHeight * rt->GetLocalScale().y,
+		1.0f
+	);
+
+	Matrix4 localRotate = Matrix4::CreateFromQuaternion(rt->GetLocalRotation());
+
+	Matrix4 localTranslate = Matrix4::CreateTranslation(
+		Vector3(rt->GetLocalPosition().x + offsetX, rt->GetLocalPosition().y + offsetY, 0.0f)
+	);
+
+	Matrix4 drawTransform = pixelScale * localRotate * localTranslate;
+
+	if (rt->GetParentActor()) {
+		drawTransform = drawTransform * rt->GetParentActor()->GetRectTransform()->GetWorldTransform();
+	}
+
+	shader->SetMatrixUniform("uWorldTransform", drawTransform);
 	mTexture->SetActive();
-	
 	glDrawElements(GL_TRIANGLES, mVerticesCount, GL_UNSIGNED_INT, nullptr);
 }
 
@@ -123,13 +159,6 @@ void Image::FillMethodCalculation(Vector4& uv, int& verticesCount)
 		uv.y = v1;
 		uv.z = filledU2 - u1;
 		uv.w = v2 - v1;
-
-		// 横幅をmFillAmountでスケール
-		mUIActor->GetRectTransform()->SetScaleWidth(mUIActor->GetRectTransform()->GetRectScaleWidth() * mFillAmount);
-
-		// 左端を固定して右に伸びるように位置補正（中心基準からオフセット）
-		float offsetX = (1.0f - mFillAmount) * 0.5f * mTextureRect.w * mUIActor->GetRectTransform()->GetScale().x;
-		mUIActor->GetRectTransform()->SetOffsetY(offsetX);
 	}
 	else if (mFillMethod == FillMethod::Vertical)
 	{
@@ -139,13 +168,6 @@ void Image::FillMethodCalculation(Vector4& uv, int& verticesCount)
 		uv.y = filledV1;
 		uv.z = u2 - u1;
 		uv.w = v2 - filledV1;
-
-		// スケーリング（高さをfillAmount倍）
-		mUIActor->GetRectTransform()->SetScaleHeight(mUIActor->GetRectTransform()->GetRectScaleHeight() * mFillAmount);
-
-		// Y方向の位置補正（下から上に伸びるので上にずらす）
-		float offsetY = (1.0f - mFillAmount) * 0.5f * mTexture->GetHeight();
-		mUIActor->GetRectTransform()->SetOffsetY(offsetY);
 	}
 	else if (mFillMethod == FillMethod::Radial360)
 	{
@@ -172,7 +194,6 @@ void Image::Serialize(json& j) const
 	j["FilePath"] = mFilePath;
 
 	j["FillAmount"] = mFillAmount;
-	j["FillType"] = mFillType;
 	j["FillMethod"] = mFillMethod;
 	j["VerticesCount"] = mVerticesCount;
 	j["UVTransform"] = { mUVTransform.x,mUVTransform.y,mUVTransform.z,mUVTransform.w };
@@ -192,9 +213,6 @@ void Image::Deserialize(const json& j)
 	}
 	if (j.contains("FillAmount")) {
 		mFillAmount = j.at("FillAmount").get<float>();
-	}
-	if (j.contains("FillType")) {
-		mFillType = j.at("FillType").get<FillType>();
 	}
 	if (j.contains("FillMethod")) {
 		mFillMethod = j.at("FillMethod").get<FillMethod>();
@@ -244,6 +262,32 @@ void Image::DrawCustomGUI(const std::vector<PropertyInfo>& properties)
 		mFilePath = "";
 	}
 
+	ImGui::NewLine();
+
+	//FillMethodタグのコンボUI
+	if (ImGui::BeginCombo("FillMethod", ImageInformation::GetFillMethodName(mFillMethod).c_str()))
+	{
+		for (uint32_t i = 0; i < 4; ++i) {
+			Image::FillMethod tag = static_cast<Image::FillMethod>(i);
+			bool isSelected = (mFillMethod == tag);
+
+			if (ImGui::Selectable(ImageInformation::GetFillMethodName(tag).c_str(), isSelected))
+			{
+				mFillMethod = tag;
+			}
+		}
+		ImGui::EndCombo();
+	}
+
+	ImGui::NewLine();
+
+	ImGui::Text("FillAmount");
+	ImGui::SameLine();
+	ImGui::SetNextItemWidth(50);
+	ImGui::DragFloat("##fillAmount", &mFillAmount, 0.01f, 0.0f, 1.0f);
+
+	ImGui::NewLine();
+
 	ImGui::PopID();
 }
 
@@ -255,7 +299,6 @@ Component* Image::Clone(Entity* newOwner) const
 	clone->mFilePath = this->mFilePath;
 	clone->mTextureRect = this->mTextureRect;
 	clone->mFillAmount = this->mFillAmount;
-	clone->mFillType = this->mFillType;
 	clone->mFillMethod = this->mFillMethod;
 	clone->mVerticesCount = this->mVerticesCount;
 	clone->mUVTransform = this->mUVTransform;

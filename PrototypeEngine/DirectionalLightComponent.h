@@ -8,7 +8,7 @@
 class DirectionalLightComponent : public Component
 {
 private:
-	DirectionalLightData mDirectionalLight;
+	DirectionalLightData	mDirectionalLight;
 public:
 	DirectionalLightComponent(Entity* owner);
 	~DirectionalLightComponent();

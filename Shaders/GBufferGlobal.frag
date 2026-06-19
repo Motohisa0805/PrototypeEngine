@@ -31,6 +31,8 @@ struct DirectionalLight
 uniform vec3 uCameraPos;
 // 環境ライト
 uniform vec3 uAmbientLight;
+//環境光の強さ
+uniform float uAmbientIntensity;
 // 光の方向
 uniform DirectionalLight uDirLight;
 
@@ -108,11 +110,16 @@ void main()
 	vec3 R = normalize(reflect(-L, N));
 
 	// フォン反射を計算する
-	vec3 Phong = uAmbientLight;
+	vec3 Phong = uAmbientLight * uAmbientIntensity;
 	float NdotL = dot(N, L);
 	if (NdotL > 0)
 	{
 		vec3 Diffuse = uDirLight.mDiffuseColor * NdotL;
+
+        //R(反射光)とV(視点)の向きが近いほど強く光る
+        float RdotV = max(dot(R,V),0.0);
+        //32.0はハイライトの硬さ
+        vec3 Specular = uDirLight.mSpecColor * pow(RdotV,32.0);
 
         float shadow = 1.0; // デフォルトは「影なし = 100%ライトが届く」
         
@@ -123,7 +130,7 @@ void main()
             shadow = ComputeShadow_Poisson(vec4(gbufferWorldPos, 1.0), randomRot);
             shadow = clamp(shadow, 0.0, 1.0);
         }
-        Phong += Diffuse * shadow;
+        Phong += (Diffuse + Specular) * shadow;
 	}
 
 
