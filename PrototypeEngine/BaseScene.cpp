@@ -87,6 +87,9 @@ bool BaseScene::Initialize()
 	//-----------------------------------------------------
 
 	Font* font = GetFont("NotoSansJP-Bold.ttf");
+
+	//âºì«Ç›çûÇ›
+	LoadSkyBoxTexture("SkyBox02.png");
 	return true;
 }
 

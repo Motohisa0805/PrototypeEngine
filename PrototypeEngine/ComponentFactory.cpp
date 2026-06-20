@@ -4,6 +4,7 @@
 #include "SkeletalMeshRenderer.h"
 #include "ParticleSystem.h"
 #include "DirectionalLightComponent.h"
+#include "PointLightComponent.h"
 #include "BoxCollider.h"
 #include "CapsuleCollider.h"
 #include "SphereCollider.h"
@@ -66,6 +67,8 @@ void RegisterAllComponents()
 	
 	ComponentFactory::RegisterComponent("DirectionalLightComponent",[](Entity* owner) -> Component* { return new DirectionalLightComponent(owner); });
 	
+	ComponentFactory::RegisterComponent("PointLight",[](Entity* owner) -> Component* { return new PointLightComponent(owner); });
+
 	ComponentFactory::RegisterComponent("BoxCollider",[](Entity* owner) -> Component* { return new BoxCollider(owner); });
 	
 	ComponentFactory::RegisterComponent("CapsuleCollider",[](Entity* owner) -> Component* { return new CapsuleCollider(owner); });

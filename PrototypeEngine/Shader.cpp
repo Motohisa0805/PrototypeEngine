@@ -95,6 +95,22 @@ void Shader::SetVector2Uniform(const char* name, const Vector2& vector)
 	glUniform2fv(loc, 1, vector.GetAsFloatPtr());
 }
 
+void Shader::SetVector3Array(const string& name, const Vector3* array, size_t count)
+{
+	GLuint loc = glGetUniformLocation(mShaderProgram, name.c_str());
+	if (loc != -1) {
+		glUniform3fv(loc, static_cast<GLsizei>(count), reinterpret_cast<const GLfloat*>(array));
+	}
+}
+
+void Shader::SetFloatArray(const string& name, const float* array, size_t count)
+{
+	GLuint loc = glGetUniformLocation(mShaderProgram, name.c_str());
+	if (loc != -1) {
+		glUniform1fv(loc, static_cast<GLsizei>(count), array);
+	}
+}
+
 void Shader::SetFloatUniform(const char* name, float value)
 {
 	GLuint loc = glGetUniformLocation(mShaderProgram, name);

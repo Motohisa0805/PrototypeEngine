@@ -194,6 +194,7 @@
     <ClCompile Include="CommandManager.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="ComponentFactory.cpp" />
+    <ClCompile Include="PointLightComponent.cpp" />
     <ClCompile Include="StringConvertOperation.cpp" />
     <ClCompile Include="CreateNewActorCommand.cpp" />
     <ClCompile Include="DebugGrid.cpp" />
@@ -304,6 +305,7 @@
     <ClInclude Include="CommandManager.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="ComponentFactory.h" />
+    <ClInclude Include="PointLightComponent.h" />
     <ClInclude Include="StringConvertOperation.h" />
     <ClInclude Include="CreateNewActorCommand.h" />
     <ClInclude Include="DebugGrid.h" />
