@@ -41,6 +41,16 @@ uniform mat4 uLightViewProj;
 
 uniform bool uEnableShadow;
 
+
+//ポイントライトの変数
+const int MAX_POINT_LIGHTS = 20;
+
+uniform int uNumPointLights;
+uniform vec3 uPointLightPositions[MAX_POINT_LIGHTS];
+uniform float uPointLightRanges[MAX_POINT_LIGHTS];
+uniform vec3 uPointLightColors[MAX_POINT_LIGHTS];
+
+
 // 事前に固定Poissonオフセット（正規化）を定義
 const vec2 poissonDisk[16] = vec2[](
     vec2(-0.94201624, -0.39906216),
@@ -137,6 +147,33 @@ void main()
 	// Phongスペキュラ計算
 	Phong = clamp(Phong, 0.0, 1.0);
 
+    vec3 finalColor = gbufferDiffuse * Phong;
+
+    for(int i = 0; i < uNumPointLights; ++i)
+    {
+        //ライトの方向と距離
+        vec3 lightDir = uPointLightPositions[i] - gbufferWorldPos;
+        float distance = length(lightDir);
+
+        //ライトの有効範囲内にある場合のみ計算
+        if(distance < uPointLightRanges[i]){
+            lightDir = normalize(lightDir);
+
+            //距離減衰の計算
+            float attenuation = 1.0 - (distance / uPointLightRanges[i]);
+            attenuation = clamp(attenuation,0.0,1.0);
+
+            //ディフューズ(拡散反射)の強度計算
+            float nDotL = max(dot(N,lightDir),0.0);
+
+            //このライトの色
+            vec3 lightContribution = uPointLightColors[i] * gbufferDiffuse * nDotL * attenuation;
+
+            //最終カラーに加算ブレンド
+            finalColor += lightContribution;
+        }
+    }
+
 	// 最終的なライト情報を渡す (alpha = 1)
-	outColor = vec4(gbufferDiffuse * Phong, 1.0);
+	outColor = vec4(finalColor,1.0);
 }

@@ -33,7 +33,6 @@ Renderer::Renderer()
 	, mShadowMap(nullptr)
 	, mShadowShader(nullptr)
 	, mSkinnedShadowShader(nullptr)
-	, mGPointLightShader(nullptr)
 	, mContext(nullptr)
 	, mFanSpriteVerts(nullptr)
 	, mPointLightMesh(nullptr)
@@ -320,7 +319,7 @@ bool Renderer::LoadShaders()
 	{
 		return false;
 	}
-
+	/*
 	// GBufferからポイントライト用のシェーダーを作成する
 	mGPointLightShader = new Shader();
 	if (!mGPointLightShader->Load("BasicMesh.vert","GBufferPointLight.frag"))
@@ -333,6 +332,7 @@ bool Renderer::LoadShaders()
 	mGPointLightShader->SetIntUniform("uGNormal", 1);
 	mGPointLightShader->SetIntUniform("uGWorldPos", 2);
 	mGPointLightShader->SetVector2Uniform("uScreenDimensions",Vector2(WindowRenderProperty::GetWidth(), WindowRenderProperty::GetHeight()));
+	*/
 	//グリッドを描画するためのシェーダーを作成する
 	mGridShader = new Shader();
 	if (!mGridShader->Load("Grid.vert", "Grid.frag"))
@@ -847,7 +847,7 @@ void Renderer::Draw3DScene(unsigned int framebuffer, const Matrix4& view, const 
 void Renderer::DrawShadow3DScene()
 {
 
-	mShadowMap->UpdateLightMatrix(mDirLight.gDirection.Normalized(), Vector3::Zero);
+	mShadowMap->UpdateLightMatrix(mDirLight.sDirection.Normalized(), Vector3::Zero);
 	Matrix4 lightViewProj = mShadowMap->GetLightViewProj();
 	mGGlobalShader->SetActive();
 	mGGlobalShader->SetMatrixUniform("uLightViewProj", lightViewProj);
@@ -899,7 +899,7 @@ void Renderer::DrawFromGBufferForEditor(SceneViewPanel* scene)
 	mGGlobalShader->SetBoolUniform("uEnableShadow", scene->IsShadowFrag()); // withShadow = true/false
 	
 	SetLightUniforms(mGGlobalShader, mView);
-
+	SetPointLightUniforms(mGGlobalShader);
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 
 	// 深度バッファをコピー（必要に応じて）
@@ -932,6 +932,7 @@ void Renderer::DrawFromGBuffer()
 
 	// 照明ユニフォームを設定する
 	SetLightUniforms(mGGlobalShader, mView);
+	SetPointLightUniforms(mGGlobalShader);
 	// 三角形を描画
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 
@@ -1088,13 +1089,7 @@ void Renderer::Shutdown()
 		delete mSkinnedShadowShader;
 		mSkinnedShadowShader = nullptr;
 	}
-	// Gバッファーのポイントライトシェーダーを解放
-	if (mGPointLightShader)
-	{
-		mGPointLightShader->Unload();
-		delete mGPointLightShader;
-		mGPointLightShader = nullptr;
-	}
+
 	// グリッドシェーダーを解放
 	if (mGridShader)
 	{
@@ -1390,6 +1385,33 @@ void Renderer::CreateAxisVerts()
 	mAxisVAO = new VertexArray(axisVerts);
 }
 
+void Renderer::SetPointLightUniforms(Shader* shader)
+{
+	const int MAX_POINT_LIGHTS = 20;
+	int lightCount = 0;
+
+	vector<Vector3> positions;
+	vector<float> ranges;
+	vector<Vector3> colors;
+
+	for (auto light : mPointLights) {
+		if (lightCount >= MAX_POINT_LIGHTS)break;
+
+		positions.push_back(light->GetOwner()->GetBaseTransform()->GetPosition());
+		ranges.push_back(light->GetRange());
+		colors.push_back(light->GetColor());
+		lightCount++;
+	}
+
+	shader->SetIntUniform("uNumPointLights", lightCount);
+
+	if (lightCount > 0) {
+		shader->SetVector3Array("uPointLightPositions[0]",positions.data(), lightCount);
+		shader->SetFloatArray("uPointLightRanges[0]", ranges.data(),lightCount);
+		shader->SetVector3Array("uPointLightColors[0]", colors.data(),lightCount);
+	}
+}
+
 void Renderer::SetLightUniforms(Shader* shader, const Matrix4& view)
 {
 	// カメラの位置は逆さまの視点からです
@@ -1397,12 +1419,12 @@ void Renderer::SetLightUniforms(Shader* shader, const Matrix4& view)
 	invView.Invert();
 	shader->SetVectorUniform("uCameraPos", invView.GetTranslation());
 	// Ambient light
-	shader->SetVectorUniform("uAmbientLight", mDirLight.gAmbientColor);
-	shader->SetFloatUniform("uAmbientIntensity", mDirLight.gAmbientIntensity);
+	shader->SetVectorUniform("uAmbientLight", mDirLight.sAmbientColor);
+	shader->SetFloatUniform("uAmbientIntensity", mDirLight.sAmbientIntensity);
 	// Directional light
-	shader->SetVectorUniform("uDirLight.mDirection",mDirLight.gDirection);
-	shader->SetVectorUniform("uDirLight.mDiffuseColor",mDirLight.gDiffuseColor);
-	shader->SetVectorUniform("uDirLight.mSpecColor",mDirLight.gSpecColor);
+	shader->SetVectorUniform("uDirLight.mDirection",mDirLight.sDirection);
+	shader->SetVectorUniform("uDirLight.mDiffuseColor",mDirLight.sDiffuseColor);
+	shader->SetVectorUniform("uDirLight.mSpecColor",mDirLight.sSpecColor);
 }
 
 Vector3 Renderer::Unproject(const Vector3& screenPoint) const

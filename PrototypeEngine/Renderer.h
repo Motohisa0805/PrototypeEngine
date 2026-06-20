@@ -16,16 +16,24 @@
 struct DirectionalLightData
 {
 	// Direction of light
-	Vector3 gDirection = Vector3();
+	Vector3 sDirection = Vector3();
 	// Diffuse color
-	Vector3 gDiffuseColor = Vector3();
+	Vector3 sDiffuseColor = Vector3();
 	// Ambient color
-	Vector3 gAmbientColor = Vector3();
-	float	gAmbientIntensity = 1.0f;
+	Vector3 sAmbientColor = Vector3();
+	float	sAmbientIntensity = 1.0f;
 	// Specular color
-	Vector3 gSpecColor = Vector3();
+	Vector3 sSpecColor = Vector3();
 	//位置
-	Vector3 gPosition = Vector3();
+	Vector3 sPosition = Vector3();
+};
+
+struct PointLightGPUData
+{
+	Vector3 sPosition = Vector3();
+	float sRange = 0;
+	Vector3 sColor = Vector3();
+	float sPadding = 0;
 };
 
 struct StaticMeshBatch {
@@ -91,13 +99,17 @@ private:
 
 	// GBuffer shader
 	Shader*												mGGlobalShader;
+
+	vector<PointLightGPUData>								mLightDataArray;
+
 	//シャドウマップのクラス
 	ShadowMap*											mShadowMap;
 	Shader*												mShadowShader;
 	Shader*												mSkinnedShadowShader;
+
 	//ポイントライトの配列
 	vector<PointLightComponent*>						mPointLights;
-	Shader*												mGPointLightShader;
+
 	Mesh*												mPointLightMesh;
 	//スカイボックスのレンダラー
 	SkyBoxRenderer*										mSkyBoxRenderer;
@@ -140,6 +152,8 @@ private:
 	int 												CreateFanSpriteVerts(float fillRatio /*0.0～1.0: 扇の割合*/, int segments);
 	//オブジェクトの方向矢印の頂点を作成
 	void 												CreateAxisVerts();
+
+	void												SetPointLightUniforms(Shader* shader);
 
 	//ライトのShader、マトリックスのSetter
 	void												SetLightUniforms(class Shader* shader, const Matrix4& view);

@@ -31,7 +31,7 @@ void DirectionalLightComponent::OnUpdateWorldTransform()
     lightDir.Normalize();
 
     // ライト方向を保存
-    mDirectionalLight.gDirection = lightDir;
+    mDirectionalLight.sDirection = lightDir;
 
 
     // ライトのY成分（太陽の高さ）を使って環境光を調整
@@ -40,16 +40,16 @@ void DirectionalLightComponent::OnUpdateWorldTransform()
     // Diffuse（拡散光）
     Vector3 dayDiffuse = Vector3(1.0f, 0.95f, 0.8f);
     Vector3 nightDiffuse = Vector3(0.05f, 0.05f, 0.1f);
-    mDirectionalLight.gDiffuseColor = Vector3::Lerp(nightDiffuse,dayDiffuse,dayFactor);
+    mDirectionalLight.sDiffuseColor = Vector3::Lerp(nightDiffuse,dayDiffuse,dayFactor);
 
     // Specular（鏡面反射）
     Vector3 daySpecular = Vector3(1.0f, 1.0f, 1.0f);
     Vector3 nightSpecular = Vector3(0.0f, 0.0f, 0.0f);
-    mDirectionalLight.gSpecColor = Vector3::Lerp(nightSpecular,daySpecular, dayFactor);
+    mDirectionalLight.sSpecColor = Vector3::Lerp(nightSpecular,daySpecular, dayFactor);
 
 
 
-    mDirectionalLight.gPosition = mActor->GetTransform()->GetPosition();
+    mDirectionalLight.sPosition = mActor->GetTransform()->GetPosition();
     EngineWindow::GetRenderer()->SetDirectionalLight(mDirectionalLight);
 }
 
@@ -57,11 +57,11 @@ void DirectionalLightComponent::Serialize(json& j) const
 {
 	Component::Serialize(j);
 
-	j["Direction"] = { mDirectionalLight.gDirection.x, mDirectionalLight.gDirection.y, mDirectionalLight.gDirection.z };
-	j["DiffuseColor"] = { mDirectionalLight.gDiffuseColor.x, mDirectionalLight.gDiffuseColor.y, mDirectionalLight.gDiffuseColor.z };
-	j["AmbientColor"] = { mDirectionalLight.gAmbientColor.x, mDirectionalLight.gAmbientColor.y, mDirectionalLight.gAmbientColor.z };
-    j["AmbientIntensity"] = mDirectionalLight.gAmbientIntensity;
-	j["SpecularColor"] = { mDirectionalLight.gSpecColor.x, mDirectionalLight.gSpecColor.y, mDirectionalLight.gSpecColor.z };
+	j["Direction"] = { mDirectionalLight.sDirection.x, mDirectionalLight.sDirection.y, mDirectionalLight.sDirection.z };
+	j["DiffuseColor"] = { mDirectionalLight.sDiffuseColor.x, mDirectionalLight.sDiffuseColor.y, mDirectionalLight.sDiffuseColor.z };
+	j["AmbientColor"] = { mDirectionalLight.sAmbientColor.x, mDirectionalLight.sAmbientColor.y, mDirectionalLight.sAmbientColor.z };
+    j["AmbientIntensity"] = mDirectionalLight.sAmbientIntensity;
+	j["SpecularColor"] = { mDirectionalLight.sSpecColor.x, mDirectionalLight.sSpecColor.y, mDirectionalLight.sSpecColor.z };
 }
 
 void DirectionalLightComponent::Deserialize(const json& j)
@@ -70,26 +70,26 @@ void DirectionalLightComponent::Deserialize(const json& j)
     if (j.contains("Direction"))
     {
         auto dirArray = j["Direction"];
-        mDirectionalLight.gDirection.Set(dirArray[0], dirArray[1], dirArray[2]);
+        mDirectionalLight.sDirection.Set(dirArray[0], dirArray[1], dirArray[2]);
 	}
     if (j.contains("DiffuseColor"))
     {
         auto diffArray = j["DiffuseColor"];
-        mDirectionalLight.gDiffuseColor.Set(diffArray[0], diffArray[1], diffArray[2]);
+        mDirectionalLight.sDiffuseColor.Set(diffArray[0], diffArray[1], diffArray[2]);
     }
     if (j.contains("AmbientColor"))
     {
         auto ambArray = j["AmbientColor"];
-        mDirectionalLight.gAmbientColor.Set(ambArray[0], ambArray[1], ambArray[2]);
+        mDirectionalLight.sAmbientColor.Set(ambArray[0], ambArray[1], ambArray[2]);
     }
     if (j.contains("AmbientIntensity")) {
         auto ambInt = j.at("AmbientIntensity").get<float>();
-        mDirectionalLight.gAmbientIntensity = ambInt;
+        mDirectionalLight.sAmbientIntensity = ambInt;
     }
     if (j.contains("SpecularColor"))
     {
         auto specArray = j["SpecularColor"];
-        mDirectionalLight.gSpecColor.Set(specArray[0], specArray[1], specArray[2]);
+        mDirectionalLight.sSpecColor.Set(specArray[0], specArray[1], specArray[2]);
 	}
 }
 
@@ -102,12 +102,12 @@ void DirectionalLightComponent::DrawCustomGUI(const std::vector<PropertyInfo>& p
 
     ImGui::Text("Ambient Color");
     ImGui::SetNextItemWidth(200);
-    if (ImGui::ColorEdit3("##ambientColor", &mDirectionalLight.gAmbientColor.x)) {
+    if (ImGui::ColorEdit3("##ambientColor", &mDirectionalLight.sAmbientColor.x)) {
         mActor->GetTransform()->SetDirty();
     }
 
     ImGui::Text("Ambient Intensity");
-    if (ImGui::SliderFloat("##ambientIntensity", &mDirectionalLight.gAmbientIntensity, 0.0f, 5.0f)) {
+    if (ImGui::SliderFloat("##ambientIntensity", &mDirectionalLight.sAmbientIntensity, 0.0f, 5.0f)) {
         mActor->GetTransform()->SetDirty();
     }
 	

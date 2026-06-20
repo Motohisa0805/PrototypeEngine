@@ -43,6 +43,10 @@ public:
 	void		SetVectorUniform(const char* name, const Vector3& vector);
 	void		SetVector4Uniform(const char* name, const Vector4& vector);
 	void		SetVector2Uniform(const char* name, const Vector2& vector);
+	
+	void		SetVector3Array(const string& name, const Vector3* array, size_t count);
+	void		SetFloatArray(const string& name, const float* array, size_t count);
+	
 	// 浮動小数点数のユニフォームを設定
 	void		SetFloatUniform(const char* name, float value);
 	// 整数のユニフォームを設定
