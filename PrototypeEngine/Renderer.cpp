@@ -12,7 +12,6 @@
 #include "PointLightComponent.h"
 #include "DebugGrid.h"
 #include "DirectionalLightComponent.h"
-#include "SkyBoxRenderer.h"
 #include "AudioSystem.h"
 #include "SceneViewEditor.h"
 #include "SceneEditorCamera.h"
@@ -945,15 +944,7 @@ void Renderer::DrawFromGBuffer()
 	// 深度テストを有効にしますが、深度バッファへの書き込みを無効にします。
 	glEnable(GL_DEPTH_TEST);
 	glDepthMask(GL_FALSE);
-	/*
-	// 点光源シェーダーとメッシュをアクティブに設定します。
-	mGPointLightShader->SetActive();
-	size_t size = mPointLightMesh->GetVertexArrays().size();
-	for (unsigned int i = 0; i < size; i++) 
-	{
-		mPointLightMesh->GetVertexArrays()[i]->SetActive();
-	}
-	*/
+
 	// ビュー投影行列を設定する
 	//mGPointLightShader->SetMatrixUniform("uViewProj",mView * mProjection);
 	// サンプリングのためにGバッファーのテクスチャを設定します
@@ -962,13 +953,6 @@ void Renderer::DrawFromGBuffer()
 	// 点光源の色は既存の色に追加される
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_ONE, GL_ONE);
-	/*
-	// ポイントライトを描画
-	for (PointLightComponent* p : mPointLights)
-	{
-		p->Draw(mGPointLightShader, mPointLightMesh);
-	}
-	*/
 }
 
 void Renderer::Shutdown()
@@ -1395,6 +1379,7 @@ void Renderer::SetPointLightUniforms(Shader* shader)
 	vector<Vector3> colors;
 
 	for (auto light : mPointLights) {
+		if (!light->IsRun())continue;
 		if (lightCount >= MAX_POINT_LIGHTS)break;
 
 		positions.push_back(light->GetOwner()->GetBaseTransform()->GetPosition());

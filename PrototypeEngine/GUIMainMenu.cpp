@@ -185,32 +185,36 @@ void GUIMainMenu::WindowMenuDraw()
 {
 	if (ImGui::BeginMenu("Window"))
 	{
-		if (ImGui::BeginMenu("Show")) {
-			if (ImGui::MenuItem("GameViewEditor")) {
-				GUIEditorManager::GetRootMainWindow()->AddEditorWindow(EditorWindowFactory::CreateEditorWindow("GameView", mRenderer));
+		if (ImGui::BeginMenu("Layout")) {
+			if (ImGui::BeginMenu("Show")) {
+				if (ImGui::MenuItem("GameViewEditor")) {
+					GUIEditorManager::GetRootMainWindow()->AddEditorWindow(EditorWindowFactory::CreateEditorWindow("GameView", mRenderer));
+				}
+				if (ImGui::MenuItem("SceneViewEditor")) {
+					GUIEditorManager::GetRootMainWindow()->AddEditorWindow(EditorWindowFactory::CreateEditorWindow("SceneView", mRenderer));
+				}
+				if (ImGui::MenuItem("HierarchyEditor")) {
+					GUIEditorManager::GetRootMainWindow()->AddEditorWindow(EditorWindowFactory::CreateEditorWindow("Hierarchy", mRenderer));
+				}
+				if (ImGui::MenuItem("ProjectEditor")) {
+					GUIEditorManager::GetRootMainWindow()->AddEditorWindow(EditorWindowFactory::CreateEditorWindow("Project", mRenderer));
+				}
+				if (ImGui::MenuItem("InspectorEditor")) {
+					GUIEditorManager::GetRootMainWindow()->AddEditorWindow(EditorWindowFactory::CreateEditorWindow("Inspector", mRenderer));
+				}
+				ImGui::EndMenu();
 			}
-			if (ImGui::MenuItem("SceneViewEditor")) {
-				GUIEditorManager::GetRootMainWindow()->AddEditorWindow(EditorWindowFactory::CreateEditorWindow("SceneView", mRenderer));
+
+			if (ImGui::MenuItem("Save Layout")) {
+				GUIEditorManager::SaveCurrentLayout("Library/myLayout.ini");
 			}
-			if (ImGui::MenuItem("HierarchyEditor")) {
-				GUIEditorManager::GetRootMainWindow()->AddEditorWindow(EditorWindowFactory::CreateEditorWindow("Hierarchy", mRenderer));
-			}
-			if (ImGui::MenuItem("ProjectEditor")) {
-				GUIEditorManager::GetRootMainWindow()->AddEditorWindow(EditorWindowFactory::CreateEditorWindow("Project", mRenderer));
-			}
-			if (ImGui::MenuItem("InspectorEditor")) {
-				GUIEditorManager::GetRootMainWindow()->AddEditorWindow(EditorWindowFactory::CreateEditorWindow("Inspector", mRenderer));
+
+			if (ImGui::MenuItem("Load Layout")) {
+				GUIEditorManager::LoadCustomLayout("Library/myLayout.ini");
 			}
 			ImGui::EndMenu();
 		}
 
-		if (ImGui::MenuItem("Save Layout")) {
-			GUIEditorManager::SaveCurrentLayout("Library/myLayout.ini");
-		}
-
-		if (ImGui::MenuItem("Load Layout")) {
-			GUIEditorManager::LoadCustomLayout("Library/myLayout.ini");
-		}
 		//TODO : ¡Œã’Ç‰Á—\’èˆ—
 		/*
 		if (ImGui::MenuItem("2 by 3(2 * 3) Layuot"))
@@ -218,6 +222,15 @@ void GUIMainMenu::WindowMenuDraw()
 			GUIEditorManager::ApplyDefaultLayout_2by3();
 		}
 		*/
+
+		if (ImGui::BeginMenu("Rendering")) {
+
+			if (ImGui::MenuItem("Lighting")) {
+				GUIEditorManager::GetRootMainWindow()->AddEditorWindow(EditorWindowFactory::CreateEditorWindow("LightingPanel", mRenderer));
+			}
+
+			ImGui::EndMenu();
+		}
 		ImGui::EndMenu();
 	}
 }
