@@ -1,13 +1,9 @@
 #include "SkyBoxRenderer.h"
-#include "VertexArray.h"
-#include "Texture.h"
-#include "Shader.h"
-#include "GameWinMain.h"
 
 SkyBoxRenderer::SkyBoxRenderer()
-    : mTexture(nullptr)
+    : mLoadTexture(nullptr)
+	, mLoadFilePath("")
     , mCubeVAO(nullptr)
-    , mVerticesCount(SKYBOXVERTEX_COUNT)
 {
     // キューブ頂点生成
 	float skyboxVertices[] = {
@@ -64,10 +60,10 @@ SkyBoxRenderer::~SkyBoxRenderer()
 
 void SkyBoxRenderer::Load(const std::string& file, int faceSize)
 {
-	string filePath = TexFile::TextureFilePath + file;
+	string filePath = file;
 	Texture* tex = nullptr;
-	auto iter = mTextures.find(filePath);
-	if (iter != mTextures.end())
+	auto iter = mTexturesMap.find(filePath);
+	if (iter != mTexturesMap.end())
 	{
 		tex = iter->second;
 	}
@@ -76,7 +72,7 @@ void SkyBoxRenderer::Load(const std::string& file, int faceSize)
 		tex = new Texture();
 		if (tex->LoadEquirectangularToCubemap(filePath, faceSize))
 		{
-			mTextures.emplace(filePath, tex);
+			mTexturesMap.emplace(filePath, tex);
 		}
 		else
 		{
@@ -84,12 +80,13 @@ void SkyBoxRenderer::Load(const std::string& file, int faceSize)
 			tex = nullptr;
 		}
 	}
-	mTexture = tex;
+	mLoadFilePath = file;
+	mLoadTexture = tex;
 }
 
 void SkyBoxRenderer::Draw(class Shader* shader, const Matrix4& view, const Matrix4& proj)
 {
-	if (!mTexture) return;
+	if (!mLoadTexture) return;
 
 	glDepthFunc(GL_LEQUAL);
 	glDepthMask(GL_FALSE);  // 深度バッファ書き込み禁止
@@ -109,11 +106,11 @@ void SkyBoxRenderer::Draw(class Shader* shader, const Matrix4& view, const Matri
 	shader->SetMatrixUniform("uProj", proj);
 
 	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_CUBE_MAP, mTexture->GetTextureID());
+	glBindTexture(GL_TEXTURE_CUBE_MAP, mLoadTexture->GetTextureID());
 	shader->SetIntUniform("skybox", 0);
 
 	mCubeVAO->SetActive();
-	glDrawArrays(GL_TRIANGLES, 0, mVerticesCount);
+	glDrawArrays(GL_TRIANGLES, 0, SKYBOXVERTEX_COUNT);
 
 	// 元のカリング設定を復元
 	if (cullEnabled) glEnable(GL_CULL_FACE);
@@ -131,7 +128,7 @@ void SkyBoxRenderer::UnLoad()
         mTexture = nullptr;
     }
 	*/
-	for (auto& pair : mTextures) {
+	for (auto& pair : mTexturesMap) {
 		if (pair.second) {
 			pair.second->Unload();
 			delete pair.second;

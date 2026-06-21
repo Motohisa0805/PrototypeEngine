@@ -1,12 +1,14 @@
 #pragma once
 #include "Math.h"
 #include "Typedefs.h"
+#include "VertexArray.h"
+#include "Texture.h"
+#include "Shader.h"
+#include "GameWinMain.h"
 
 #define SKYBOXVERTEX_COUNT 36
 
-class Texture;
-class VertexArray;
-class Shader;
+//TODO : シーンごとにスカイボックスをキープ・セーブ機能がないため後程追加予定
 
 //スカイボックスを描画するクラス
 // Cubemapを使って立方体のメッシュを描画する
@@ -16,12 +18,13 @@ class SkyBoxRenderer
 {
 private:
     // Cubemap用
-    Texture*                                    mTexture;
-    std::unordered_map<string,Texture*>	        mTextures;
+    Texture*                                    mLoadTexture;
+    std::unordered_map<string,Texture*>	        mTexturesMap;
+
+    string                                      mLoadFilePath;
+
     // 裏面描画用の立方体メッシュ
     VertexArray*                                mCubeVAO;  
-	// 頂点数
-    int                                         mVerticesCount;
 public:
     SkyBoxRenderer();
     ~SkyBoxRenderer();
@@ -35,6 +38,8 @@ public:
 
     void        UnLoad();
 
-    Texture*    GetTexture() const { return mTexture; }
+    Texture*    GetTexture() const { return mLoadTexture; }
+
+    string      GetLoadFilePath() { return mLoadFilePath; }
 };
 

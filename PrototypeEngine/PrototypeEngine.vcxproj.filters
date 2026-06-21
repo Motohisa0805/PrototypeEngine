@@ -544,6 +544,9 @@
     <ClCompile Include="PointLightComponent.cpp">
       <Filter>SourceCodes\A_Editor\Function\Components</Filter>
     </ClCompile>
+    <ClCompile Include="LightingPanel.cpp">
+      <Filter>SourceCodes\A_Editor\Function\GUIs\Panels</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Actor.h">
@@ -914,6 +917,9 @@
     </ClInclude>
     <ClInclude Include="PointLightComponent.h">
       <Filter>SourceCodes\A_Editor\Function\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="LightingPanel.h">
+      <Filter>SourceCodes\A_Editor\Function\GUIs\Panels</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

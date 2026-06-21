@@ -3,11 +3,10 @@
 #include "Typedefs.h"
 #include "VertexArray.h"
 #include "Texture.h"
-
 #include "BaseScene.h"
 #include "Shader.h"
-
 #include "SelectionManager.h"
+#include "SkyBoxRenderer.h"
 /*
 * ===エンジン内部処理/Engine internal processing===
 */
@@ -30,10 +29,10 @@ struct DirectionalLightData
 
 struct PointLightGPUData
 {
-	Vector3 sPosition = Vector3();
-	float sRange = 0;
-	Vector3 sColor = Vector3();
-	float sPadding = 0;
+	Vector3		sPosition = Vector3();
+	float		sRange = 0;
+	Vector3		sColor = Vector3();
+	float		sPadding = 0;
 };
 
 struct StaticMeshBatch {
@@ -100,7 +99,7 @@ private:
 	// GBuffer shader
 	Shader*												mGGlobalShader;
 
-	vector<PointLightGPUData>								mLightDataArray;
+	vector<PointLightGPUData>							mLightDataArray;
 
 	//シャドウマップのクラス
 	ShadowMap*											mShadowMap;
