@@ -1,4 +1,5 @@
 #include "SceneViewPanel.h"
+#include "SceneEditorCamera.h"
 #include "SceneViewEditor.h"
 #include "GBuffer.h"
 

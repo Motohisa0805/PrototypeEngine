@@ -5,7 +5,7 @@
 class ToolbarPanel : public EditorWindow
 {
 public:
-	ToolbarPanel(class Renderer* renderer);
+	ToolbarPanel(Renderer* renderer);
 	~ToolbarPanel();
 	void Initialize(float width, float height, ImTextureRef ref = nullptr)override;
 	void ResetWindowPos(float width, float height)override;

@@ -1,7 +1,62 @@
-﻿  SkyBoxRenderer.cpp
+﻿  BaseScene.cpp
 C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
-  (ソース ファイル 'SkyBoxRenderer.cpp' をコンパイルしています)
+  (ソース ファイル 'BaseScene.cpp' をコンパイルしています)
       C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
       'SDL_VERSION' は以前にコマンド ラインで宣言されています
   
+C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(84,12): warning C4251: 'Component::mName': 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
+  (ソース ファイル 'BaseScene.cpp' をコンパイルしています)
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(541,7):
+      'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' の宣言を確認してください
+  
+C:\C++Files\PrototypeEngine\PrototypeEngine\BaseScene.cpp(267,12): warning C4267: '初期化中': 'size_t' から 'int' に変換しました。データが失われているかもしれません。
+  Button.cpp
+C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(84,12): warning C4251: 'Component::mName': 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
+  (ソース ファイル 'Button.cpp' をコンパイルしています)
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(541,7):
+      'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' の宣言を確認してください
+  
+C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
+  (ソース ファイル 'Button.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
+      'SDL_VERSION' は以前にコマンド ラインで宣言されています
+  
+  DialogBox.cpp
+C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
+  (ソース ファイル 'DialogBox.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
+      'SDL_VERSION' は以前にコマンド ラインで宣言されています
+  
+C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(84,12): warning C4251: 'Component::mName': 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
+  (ソース ファイル 'DialogBox.cpp' をコンパイルしています)
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(541,7):
+      'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' の宣言を確認してください
+  
+  Font.cpp
+C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
+  (ソース ファイル 'Font.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
+      'SDL_VERSION' は以前にコマンド ラインで宣言されています
+  
+C:\C++Files\PrototypeEngine\PrototypeEngine\Font.cpp(32,51): warning C4244: '引数': '_Ty' から 'float' への変換です。データが失われる可能性があります。
+C:\C++Files\PrototypeEngine\PrototypeEngine\Font.cpp(32,51): warning C4244:         with
+C:\C++Files\PrototypeEngine\PrototypeEngine\Font.cpp(32,51): warning C4244:         [
+C:\C++Files\PrototypeEngine\PrototypeEngine\Font.cpp(32,51): warning C4244:             _Ty=int
+C:\C++Files\PrototypeEngine\PrototypeEngine\Font.cpp(32,51): warning C4244:         ]
+  Text.cpp
+C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(84,12): warning C4251: 'Component::mName': 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
+  (ソース ファイル 'Text.cpp' をコンパイルしています)
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(541,7):
+      'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' の宣言を確認してください
+  
+C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
+  (ソース ファイル 'Text.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
+      'SDL_VERSION' は以前にコマンド ラインで宣言されています
+  
+C:\C++Files\PrototypeEngine\PrototypeEngine\Text.cpp(33,56): warning C4244: '=': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\C++Files\PrototypeEngine\PrototypeEngine\Text.cpp(34,57): warning C4244: '=': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\C++Files\PrototypeEngine\PrototypeEngine\Text.cpp(51,56): warning C4244: '=': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\C++Files\PrototypeEngine\PrototypeEngine\Text.cpp(52,57): warning C4244: '=': 'float' から 'int' への変換です。データが失われる可能性があります。
+  コードを生成中...
   PrototypeEngine.vcxproj -> C:\C++Files\PrototypeEngine\bin\PrototypeEngine.exe

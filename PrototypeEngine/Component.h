@@ -90,33 +90,27 @@ protected:
 	//エディターで削除した場合一時的に機能停止
 	bool				mIsRun;
 public:
-	// コンストラクタ
 	// （更新順序が低いほど、コンポーネントが早く更新される）
-	Component(class Entity* owner, int updateOrder = 100);
-	// デストラクター
-	virtual				~Component();
-
-	// --------------------------------------------------
-	// 【追加】リフレクション関連の仮想関数と静的関数
-	// --------------------------------------------------
+												Component(class Entity* owner, int updateOrder = 100);
+	virtual										~Component();
 
 	//Componentの共通プロパティ関連の仮想関数と静的関数
-	static const vector<PropertyInfo>& GetPropertiesStatic();
+	static const vector<PropertyInfo>&			GetPropertiesStatic();
 
 	//インスタントのプロパティリストを取得する仮想関数
-	virtual const std::vector<PropertyInfo>& GetProperties() const;
+	virtual const std::vector<PropertyInfo>&	GetProperties() const;
 
-	virtual void		FixedUpdate(float deltaTime);
+	virtual void								FixedUpdate(float deltaTime);
 	// デルタ時間でこのコンポーネントを更新してください
-	virtual void		Update(float deltaTime);
+	virtual void								Update(float deltaTime);
 	// このコンポーネントの入力を処理する
-	virtual void		ProcessInput(const struct InputState& keyState) {}
+	virtual void								ProcessInput(const struct InputState& keyState) {}
 	// 世界の変化によって呼び出される
-	virtual void		OnUpdateWorldTransform() {}
-	virtual void		InitializeDrawCustomGUI();
+	virtual void								OnUpdateWorldTransform() {}
+	virtual void								InitializeDrawCustomGUI();
 	// GUI描画関数
-	virtual void		DrawCustomGUI(const std::vector<PropertyInfo>& properties);
-	virtual void		EndDrawCustomGUI();
+	virtual void								DrawCustomGUI(const std::vector<PropertyInfo>& properties);
+	virtual void								EndDrawCustomGUI();
 
 	//DrawCustomGUIないの動的アクセスに使用するポインタ取得マクロ
 	//baseポインタとオフセットを使って、メンバ変数へのポインタを計算する
@@ -124,24 +118,24 @@ public:
 		reinterpret_cast<Type*>(reinterpret_cast<char*>(OwnerPtr) + Offset)
 
 	//プロパティ描画用のヘルパー関数
-	void				DrawFloatProperty(const PropertyInfo& prop);
-	void				DrawIntProperty(const PropertyInfo& prop);
-	void				DrawBoolProperty(const PropertyInfo& prop);
+	void										DrawFloatProperty(const PropertyInfo& prop);
+	void										DrawIntProperty(const PropertyInfo& prop);
+	void										DrawBoolProperty(const PropertyInfo& prop);
 
-	Entity*				GetOwner() { return mOwner; }
-	ActorObject*		GetActor() { return mActor; }
-	UIActorObject*		GetUIActor() { return mUIActor; }
-	int					GetUpdateOrder() const { return mUpdateOrder; }
+	Entity*										GetOwner() { return mOwner; }
+	ActorObject*								GetActor() { return mActor; }
+	UIActorObject*								GetUIActor() { return mUIActor; }
+	int											GetUpdateOrder() const { return mUpdateOrder; }
 
-	string				GetName()const { return mName; }
+	string										GetName()const { return mName; }
 
-	bool				IsRun() { return mIsRun; }
-	virtual void		SetIsRun(bool run) { mIsRun = run; }
+	bool										IsRun() { return mIsRun; }
+	virtual void								SetIsRun(bool run) { mIsRun = run; }
 	// JSONに変換するメソッド
-	virtual void		Serialize(json& j) const;
+	virtual void								Serialize(json& j) const;
 	// JSONから復元するメソッド
-	virtual void		Deserialize(const json& j);
+	virtual void								Deserialize(const json& j);
 
 
-	virtual Component*	Clone(Entity* newOwner) const { return nullptr; }
+	virtual Component*							Clone(Entity* newOwner) const { return nullptr; }
 };

@@ -2,6 +2,7 @@
 #include "FilePath.h"
 #include "Skeleton.h"
 #include "BoneActor.h"
+#include "DebugManager.h"
 
 Animator::Animator(ActorObject* owner)
 	: Component(owner)

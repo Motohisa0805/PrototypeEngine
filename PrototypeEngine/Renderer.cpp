@@ -44,6 +44,8 @@ Renderer::Renderer()
 	, mParticleShader(nullptr)
 	, mSkyBoxRenderer(nullptr)
 	, mSkyBoxShader(nullptr)
+	, mDrawCalls(0)
+	, mGameSceneViewEditor(nullptr)
 {
 }
 

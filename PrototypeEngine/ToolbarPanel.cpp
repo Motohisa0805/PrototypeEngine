@@ -1,5 +1,4 @@
 #include "ToolbarPanel.h"
-#include "GUIEditorManager.h"
 
 ToolbarPanel::ToolbarPanel(Renderer* renderer)
 	:EditorWindow(renderer)

@@ -57,7 +57,7 @@ void AboutEnginePanel::Draw(float width, float height)
 			ImGui::TreePop();
 		}
 		if (ImGui::TreeNode("SDL3 (Simple DirectMedia Layer)")) {
-			ImVec2 size = ImVec2(EditorTextureManager::GetInstance().GetSDL3Logo()->GetWidth(), EditorTextureManager::GetInstance().GetSDL3Logo()->GetHeight());
+			ImVec2 size = ImVec2((float)EditorTextureManager::GetInstance().GetSDL3Logo()->GetWidth(), (float)EditorTextureManager::GetInstance().GetSDL3Logo()->GetHeight());
 			ImGui::Image(
 				(ImTextureID)(intptr_t)EditorTextureManager::GetInstance().GetSDL3Logo()->GetTextureID(),
 				ImVec2(size.x, size.y)
@@ -67,7 +67,7 @@ void AboutEnginePanel::Draw(float width, float height)
 			ImGui::TreePop();
 		}
 		if (ImGui::TreeNode("<OpenGL / GLEW>2.2.0")) {
-			ImVec2 size = ImVec2(EditorTextureManager::GetInstance().GetOpenGLLogo()->GetWidth(), EditorTextureManager::GetInstance().GetOpenGLLogo()->GetHeight());
+			ImVec2 size = ImVec2((float)EditorTextureManager::GetInstance().GetOpenGLLogo()->GetWidth(), (float)EditorTextureManager::GetInstance().GetOpenGLLogo()->GetHeight());
 			ImGui::Image(
 				(ImTextureID)(intptr_t)EditorTextureManager::GetInstance().GetOpenGLLogo()->GetTextureID(),
 				ImVec2(size.x, size.y)

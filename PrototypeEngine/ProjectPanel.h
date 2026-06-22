@@ -1,5 +1,4 @@
 #pragma once
-#include "GUIEditorManager.h"
 #include "EditorWindow.h"
 
 //プロジェクトのファイルパスを描画するクラス
@@ -38,7 +37,7 @@ public:
 	static filesystem::path			GetSelectedFilePath() { return mSelectedFilePath; }
 	static filesystem::path			GetSelectedFolderPath() { return mSelectedFolderPath; }
 	//コンストラクタ
-									ProjectPanel(class Renderer* renderer);
+									ProjectPanel(Renderer* renderer);
 	//GUIの初期化
 	void							Initialize(float width, float height, ImTextureRef ref = nullptr)override;
 	//GUIの描画

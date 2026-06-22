@@ -11,6 +11,7 @@
 #include "ProjectPanel.h"
 #include "InspectorPanel.h"
 #include "SceneEditorCamera.h"
+#include "DebugManager.h"
 
 bool GUIEditorManager::mIsPaused = false;
 
@@ -209,6 +210,7 @@ void GUIEditorManager::LoadCustomLayout(const char* filePath)
 
 void GUIEditorManager::ApplyDefaultLayout_2by3()
 {
+	//TODO : 現在レイアウト設定が処理されないため今後作成予定
 	/*
 	ImGuiID dockspace_id = ImGui::GetID("MyEngineDockSpace");
 
@@ -292,6 +294,6 @@ void GUIEditorManager::RemoveSceneViewPanel(SceneViewPanel* panel)
 		mSceneViewPanels.erase(it);
 	}
 	else {
-		Debug::Log("Not Found this camera ");
+		Debug::Log("Not Found this camera.");
 	}
 }

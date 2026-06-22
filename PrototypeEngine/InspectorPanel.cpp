@@ -1,9 +1,11 @@
 #include "InspectorPanel.h"
-#include "HierarchyPanel.h"//GetSelectedActor()‚ðŽg‚¤‚½‚ß‚É•K—v
+#include "GUIEditorManager.h"
+#include "Component.h"
+#include "SelectionManager.h"
+#include "CommandManager.h"
 #include "ComponentFactory.h"
 #include "Actor.h"
 #include "UIActor.h"
-#include "Math.h"
 
 
 InspectorPanel::InspectorPanel(Renderer* renderer)

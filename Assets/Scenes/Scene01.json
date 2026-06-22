@@ -711,6 +711,9 @@
       "Type": "Transform"
     }
   ],
+  "Lighting": {
+    "SkyBoxTexturePath": "Assets\\Texture\\SkyBox02.png"
+  },
   "UIActors": [
     {
       "CanvasFrag": true,

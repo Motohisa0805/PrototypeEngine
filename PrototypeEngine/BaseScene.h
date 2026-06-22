@@ -58,6 +58,9 @@ protected:
 	string											mName;
 	//シーンが変更されたかどうかのフラグ
 	bool											mIsDirtyFlag;
+
+	//スカイボックスの画像パス保存変数
+	string											mLoadSkyBoxTexturePath;
 public:
 
 	//コンストラクタ
@@ -77,6 +80,10 @@ public:
 	void											UnloadData();
 
 	void											LoadSkyBoxTexture(string file);
+
+	string											GetLoadSkyBoxTexturePath() { return mLoadSkyBoxTexturePath; }
+
+	void											SetLoadSkyBoxTexturePath(string path) { mLoadSkyBoxTexturePath = path; }
 
 	ActorManager*									GetActorManager() { return mActorManager; }
 

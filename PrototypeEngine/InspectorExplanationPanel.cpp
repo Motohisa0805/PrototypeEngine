@@ -1,7 +1,6 @@
 #include "InspectorExplanationPanel.h"
 #include "WindowRenderProperty.h"
 
-
 InspectorExplanationPanel::InspectorExplanationPanel(Renderer* renderer)
 	:EditorWindow(renderer)
 	, mPanelSize(Vector2(WindowRenderProperty::GetWidth() / 2, WindowRenderProperty::GetHeight() / 2))

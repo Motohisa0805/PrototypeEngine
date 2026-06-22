@@ -4,6 +4,7 @@
 #include "FreeCamera.h"
 #include "DirectionalLightComponent.h"
 #include "EditorSettingsManager.h"
+#include "DebugManager.h"
 
 filesystem::path SceneSerializer::mTempEditingDirectoryPath = EditorFile::EditorFile_Path;
 filesystem::path SceneSerializer::mTempEditingPath = "";
@@ -38,6 +39,10 @@ bool SceneSerializer::SaveRunScene(const filesystem::path& filePath, BaseScene* 
         uiactorsArray.push_back(actorJson);
     }
     saveSceneData["UIActors"] = uiactorsArray;
+
+    json lightingJson = json::object();
+    lightingJson["SkyBoxTexturePath"] = scene->GetLoadSkyBoxTexturePath();
+    saveSceneData["Lighting"] = lightingJson;
 
     WriteEditingSceneData(filePath, scene);
 
@@ -173,10 +178,24 @@ BaseScene* SceneSerializer::LoadScene(const string& filePath, bool isWriteTempDa
         {
             uiactor->LoadParentByLoadScene();
         }
-        //一時編集データに書き込みフラグがtrueなら
-        if (isWriteTempData) {
-            WriteEditingSceneData(filePath,newScene);
+    }
+    //Lightingデータの確認
+    if (loadSceneData.contains("Lighting")) {
+        const json& lightingJson = loadSceneData.at("Lighting");
+        if (lightingJson.contains("SkyBoxTexturePath")) {
+            string path = lightingJson.at("SkyBoxTexturePath").get<string>();
+            newScene->SetLoadSkyBoxTexturePath(path);
+            newScene->LoadSkyBoxTexture(path);
         }
+    }
+    else {
+        newScene->SetLoadSkyBoxTexturePath("Editor/SkyBox03.png");
+        newScene->LoadSkyBoxTexture("Editor/SkyBox03.png");
+    }
+
+    //一時編集データに書き込みフラグがtrueなら
+    if (isWriteTempData) {
+        WriteEditingSceneData(filePath,newScene);
     }
     return newScene;
 }
@@ -218,6 +237,11 @@ void SceneSerializer::WriteEditingSceneData(const filesystem::path& filePath, Ba
         uiactorsArray.push_back(actorJson);
     }
     editingDataJson["UIActors"] = uiactorsArray;
+
+    json lightingJson = json::object();
+    lightingJson["SkyBoxTexturePath"] = scene->GetLoadSkyBoxTexturePath();
+    editingDataJson["Lighting"] = lightingJson;
+
     filesystem::path newEditingPath = filePath.parent_path() / (filesystem::path)(scene->GetName() + ".json");
     //以前の一時ファイルを削除(名前変更にするかは今後検討)
     RelaseEditorData();

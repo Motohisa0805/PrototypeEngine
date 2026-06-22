@@ -58,7 +58,7 @@ SkyBoxRenderer::~SkyBoxRenderer()
     UnLoad();
 }
 
-void SkyBoxRenderer::Load(const std::string& file, int faceSize)
+bool SkyBoxRenderer::Load(const std::string& file, int faceSize)
 {
 	string filePath = file;
 	Texture* tex = nullptr;
@@ -82,6 +82,7 @@ void SkyBoxRenderer::Load(const std::string& file, int faceSize)
 	}
 	mLoadFilePath = file;
 	mLoadTexture = tex;
+	return mLoadTexture != nullptr;
 }
 
 void SkyBoxRenderer::Draw(class Shader* shader, const Matrix4& view, const Matrix4& proj)
