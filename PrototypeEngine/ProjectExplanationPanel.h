@@ -6,7 +6,7 @@ class ProjectExplanationPanel : public EditorWindow
 private:
 	Vector2 mPanelSize;
 public:
-	ProjectExplanationPanel(class Renderer* renderer);
+	ProjectExplanationPanel(Renderer* renderer);
 	~ProjectExplanationPanel();
 	void Initialize(float width, float height, ImTextureRef ref = nullptr)override;
 	void ResetWindowPos(float width, float height)override;

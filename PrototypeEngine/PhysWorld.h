@@ -53,7 +53,7 @@ private:
 	//島の概念の変数宣言
 	IsLandPhysic*										mLandPhysic;
 
-	vector<Vector3>										GetOBBIncidentFace(const class OBB& obb,const Vector3& normal);
+	vector<Vector3>										GetOBBIncidentFace(const OBB& obb,const Vector3& normal);
 
 	// ポリゴンを平面でカットする（クリッピング）
 	void												ClipPolygonAgainstPlane(const std::vector<Vector3>& inPoly, const Vector3& planeNormal, const Vector3& planePoint, std::vector<Vector3>& outPoly);
@@ -74,7 +74,7 @@ public:
 	//各コライダー同士の精密判定をまとめた関数
 	bool												IsOnCollision(Collider* colliderA, Collider* colliderB);
 	//各コライダー同士の押し出し処理をまとめた関数
-	bool												IsCollectContactPoints(class Collider* colliderA, class Collider* colliderB, vector<ContactPoint>& outContacts, float contactOffset);
+	bool												IsCollectContactPoints(Collider* colliderA, Collider* colliderB, vector<ContactPoint>& outContacts, float contactOffset);
 	//衝突の解決を一定数繰り返す関数
 	void												ApplyIterations(vector<ContactManifold>& manifolds, float deltaTime);
 	//衝突の解決を1回行う関数
@@ -120,7 +120,7 @@ inline Vector3 GetSupportPoint(const OBB& obb, const Vector3& dir)
 	for (int i = 0; i < 3; ++i)
 	{
 		// 軸がdirと同じ方向を向いているか判定し、その方向に符号を掛ける
-		float sign = Math::Sign(Vector3::Dot(dir, axes[i]));
+		float sign = (float)Math::Sign(Vector3::Dot(dir, axes[i]));
 		result += axes[i] * (sign * extents[i]);
 	}
 	return result;

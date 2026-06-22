@@ -1,5 +1,4 @@
 #pragma once
-#include "DebugManager.h"
 #include "SDL_Scancode.h"
 #include "Math.h"
 
@@ -58,6 +57,15 @@ private:
 	bool			mIsRelative;
 public:
 	friend class InputSystem;
+	//初期化
+	MouseState()
+		:mMousePos(Vector2())
+		, mEditorMousePos(Vector2())
+		, mScrollWheel(Vector2())
+		, mCurrButtons(0)
+		, mPrevButtons(0)
+		, mIsRelative(false)
+	{}
 
 	// マウスの位置情報
 	const Vector2&	GetPosition() const { return mMousePos; }

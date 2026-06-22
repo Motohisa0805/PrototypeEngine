@@ -1,5 +1,5 @@
 #include "LightingPanel.h"
-#include "WindowRenderProperty.h"
+#include "EngineWindow.h"
 
 LightingPanel::LightingPanel(Renderer* renderer)
 	:EditorWindow(renderer)
@@ -37,7 +37,9 @@ void LightingPanel::Draw(float width, float height)
 			{
 				//ペイロードがファイルパスであると仮定
 				const char* dropPath = (const char*)payload->Data;
-				EngineWindow::GetRenderer()->GetSkyBoxRenderer()->Load(dropPath);
+				if (EngineWindow::GetRenderer()->GetSkyBoxRenderer()->Load(dropPath)) {
+					EngineWindow::GetRenderer()->GetRunScene()->SetLoadSkyBoxTexturePath(dropPath);
+				}
 			}
 			ImGui::EndDragDropTarget();
 		}

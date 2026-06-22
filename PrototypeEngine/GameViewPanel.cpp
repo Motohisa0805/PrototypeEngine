@@ -2,13 +2,12 @@
 #include "SceneViewEditor.h"
 #include "GBuffer.h"
 #include "InputSystem.h"
-#include "EngineWindow.h"
-
 #include "SceneManager.h"
-#include "BaseScene.h"
+
 
 GameViewPanel::GameViewPanel(Renderer* renderer)
 	:EditorWindow(renderer)
+	,mIsDebugStatesFrag(false)
 {
 	mID = "GameView";
 }

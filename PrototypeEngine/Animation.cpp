@@ -484,6 +484,7 @@ size_t Animation::FindTranslation(float AnimationTime, const aiNodeAnim* pNodeAn
 	}
 
 	assert(0);
+	return 0;
 }
 void Animation::CalcInterpolatedTranslation(aiVector3D& Out, float AnimationTime, const aiNodeAnim* pNodeAnim)
 {
@@ -563,6 +564,7 @@ size_t Animation::FindRotation(float AnimationTime, const aiNodeAnim* pNodeAnim)
 	}
 
 	assert(0);
+	return 0;
 }
 
 void Animation::CalcInterpolatedScaling(aiVector3D& Out, float AnimationTime, const aiNodeAnim* pNodeAnim)
@@ -606,6 +608,6 @@ size_t Animation::FindScaling(float AnimationTime, const aiNodeAnim* pNodeAnim)
 			return i;
 		}
 	}
-
 	assert(0);
+	return 0;
 }

@@ -19,8 +19,6 @@ c:\c++files\prototypeengine\prototypeengine\x64\release\animator.obj
 c:\c++files\prototypeengine\prototypeengine\x64\release\animation.obj
 c:\c++files\prototypeengine\prototypeengine\x64\release\actor.obj
 c:\c++files\prototypeengine\prototypeengine\x64\release\aboutenginepanel.obj
-c:\c++files\prototypeengine\prototypeengine\x64\release\inspectorexplanationpanel.obj
-c:\c++files\prototypeengine\prototypeengine\x64\release\hierarchyexplanationpanel.obj
 c:\c++files\prototypeengine\prototypeengine\x64\release\fileoperationmanager.obj
 c:\c++files\prototypeengine\prototypeengine\x64\release\editortexturemanager.obj
 c:\c++files\prototypeengine\prototypeengine\x64\release\editorsettingsmanager.obj
@@ -32,6 +30,8 @@ c:\c++files\prototypeengine\prototypeengine\x64\release\deletecommand.obj
 c:\c++files\prototypeengine\prototypeengine\x64\release\debuggrid.obj
 c:\c++files\prototypeengine\prototypeengine\x64\release\createnewactorcommand.obj
 c:\c++files\prototypeengine\prototypeengine\x64\release\stringconvertoperation.obj
+c:\c++files\prototypeengine\prototypeengine\x64\release\pointlightcomponent.obj
+c:\c++files\prototypeengine\prototypeengine\x64\release\lightingpanel.obj
 c:\c++files\prototypeengine\prototypeengine\x64\release\componentfactory.obj
 c:\c++files\prototypeengine\prototypeengine\x64\release\component.obj
 c:\c++files\prototypeengine\prototypeengine\x64\release\commandmanager.obj
@@ -39,8 +39,6 @@ c:\c++files\prototypeengine\prototypeengine\x64\release\collision.obj
 c:\c++files\prototypeengine\prototypeengine\x64\release\collider.obj
 c:\c++files\prototypeengine\prototypeengine\x64\release\capsulecollider.obj
 c:\c++files\prototypeengine\prototypeengine\x64\release\canvas.obj
-c:\c++files\prototypeengine\prototypeengine\x64\release\hierarchypanel.obj
-c:\c++files\prototypeengine\prototypeengine\x64\release\guieditormanager.obj
 c:\c++files\prototypeengine\prototypeengine\x64\release\editorwindow.obj
 c:\c++files\prototypeengine\prototypeengine\x64\release\guimainmenu.obj
 c:\c++files\prototypeengine\prototypeengine\x64\release\gbuffer.obj
@@ -59,8 +57,8 @@ c:\c++files\prototypeengine\prototypeengine\x64\release\recttransform.obj
 c:\c++files\prototypeengine\prototypeengine\x64\release\projectexplanationpanel.obj
 c:\c++files\prototypeengine\prototypeengine\x64\release\pasteactorcommand.obj
 c:\c++files\prototypeengine\prototypeengine\x64\release\islandphysic.obj
-c:\c++files\prototypeengine\prototypeengine\x64\release\rigidbody.obj
-c:\c++files\prototypeengine\prototypeengine\x64\release\renderer.obj
+c:\c++files\prototypeengine\prototypeengine\x64\release\inspectorexplanationpanel.obj
+c:\c++files\prototypeengine\prototypeengine\x64\release\hierarchyexplanationpanel.obj
 c:\c++files\prototypeengine\prototypeengine\x64\release\random.obj
 c:\c++files\prototypeengine\prototypeengine\x64\release\projectpanel.obj
 c:\c++files\prototypeengine\prototypeengine\x64\release\physworld.obj
@@ -79,8 +77,8 @@ c:\c++files\prototypeengine\prototypeengine\x64\release\imgui_demo.obj
 c:\c++files\prototypeengine\prototypeengine\x64\release\imgui.obj
 c:\c++files\prototypeengine\prototypeengine\x64\release\imguihelper.obj
 c:\c++files\prototypeengine\prototypeengine\x64\release\image.obj
-c:\c++files\prototypeengine\prototypeengine\x64\release\time.obj
-c:\c++files\prototypeengine\prototypeengine\x64\release\texture.obj
+c:\c++files\prototypeengine\prototypeengine\x64\release\hierarchypanel.obj
+c:\c++files\prototypeengine\prototypeengine\x64\release\guieditormanager.obj
 c:\c++files\prototypeengine\prototypeengine\x64\release\text.obj
 c:\c++files\prototypeengine\prototypeengine\x64\release\stb_impl.obj
 c:\c++files\prototypeengine\prototypeengine\x64\release\spherecollider.obj
@@ -99,12 +97,16 @@ c:\c++files\prototypeengine\prototypeengine\x64\release\scenevieweditor.obj
 c:\c++files\prototypeengine\prototypeengine\x64\release\sceneserializer.obj
 c:\c++files\prototypeengine\prototypeengine\x64\release\scenemanager.obj
 c:\c++files\prototypeengine\prototypeengine\x64\release\sceneeditorcamera.obj
+c:\c++files\prototypeengine\prototypeengine\x64\release\rigidbody.obj
+c:\c++files\prototypeengine\prototypeengine\x64\release\renderer.obj
 c:\c++files\prototypeengine\prototypeengine\x64\release\windowrenderproperty.obj
 c:\c++files\prototypeengine\prototypeengine\x64\release\vertexarray.obj
 c:\c++files\prototypeengine\prototypeengine\x64\release\uiactormanager.obj
 c:\c++files\prototypeengine\prototypeengine\x64\release\uiactor.obj
 c:\c++files\prototypeengine\prototypeengine\x64\release\transform.obj
 c:\c++files\prototypeengine\prototypeengine\x64\release\toolbarpanel.obj
+c:\c++files\prototypeengine\prototypeengine\x64\release\time.obj
+c:\c++files\prototypeengine\prototypeengine\x64\release\texture.obj
 c:\c++files\prototypeengine\bin\prototypeengine.exe
 c:\c++files\prototypeengine\bin\prototypeengine.pdb
 c:\c++files\prototypeengine\bin\prototypeengine.lib

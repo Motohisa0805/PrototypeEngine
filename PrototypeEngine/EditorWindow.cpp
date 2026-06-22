@@ -1,5 +1,6 @@
 #include "EditorWindow.h"
 #include "WindowRenderProperty.h"
+#include "DebugManager.h"
 
 EditorWindow::EditorWindow(Renderer* renderer)
 	: mRenderer(renderer)

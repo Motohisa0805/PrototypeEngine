@@ -8,7 +8,7 @@
 #include "ScriptHotReloadManager.h"
 #include "PhysWorld.h"
 #include "SceneViewPanel.h"
-
+#include "DebugManager.h"
 
 EngineState EngineWindow::mEngineState = EngineState::Run;
 

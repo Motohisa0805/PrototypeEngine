@@ -1,6 +1,9 @@
 ﻿#include "HierarchyPanel.h"
-#include "SceneManager.h" // SceneManager::GetNowScene() を使うために必要
-#include "Actor.h"        // new ActorObject() を使うために必要
+#include "GUIEditorManager.h"
+#include "SelectionManager.h"
+#include "CommandManager.h"
+#include "SceneManager.h" 
+#include "Actor.h"        
 #include "UIActor.h"
 #include "imgui_internal.h"
 

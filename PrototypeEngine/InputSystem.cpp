@@ -1,4 +1,5 @@
 #include "InputSystem.h"
+#include "DebugManager.h"
 #include "EngineWindow.h"
 #include "Renderer.h"
 

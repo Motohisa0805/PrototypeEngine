@@ -30,7 +30,7 @@ public:
     ~SkyBoxRenderer();
 
     // Cubemapì«Ç›çûÇ›
-    void        Load(const std::string& file, int faceSize = 512);
+    bool        Load(const std::string& file, int faceSize = 512);
 
     void        Update(float deltaTime) {}
 

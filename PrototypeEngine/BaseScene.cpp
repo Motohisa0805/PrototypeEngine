@@ -33,7 +33,10 @@ BaseScene::BaseScene()
 
 void BaseScene::LoadSkyBoxTexture(string file)
 {
-	EngineWindow::GetRenderer()->GetSkyBoxRenderer()->Load(file);
+	//“Ç‚Ýž‚Ý‚ª¬Œ÷‚È‚ç
+	if (EngineWindow::GetRenderer()->GetSkyBoxRenderer()->Load(file)) {
+		mLoadSkyBoxTexturePath = file;
+	}
 }
 
 bool BaseScene::Initialize()

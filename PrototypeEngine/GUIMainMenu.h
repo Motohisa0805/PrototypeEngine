@@ -1,13 +1,12 @@
 #pragma once
 #include "EditorWindow.h"
-#include "FileOperationManager.h"
 
 class GUIMainMenu : public EditorWindow
 {
 private:
 
 public:
-	GUIMainMenu(class Renderer* renderer);
+	GUIMainMenu(Renderer* renderer);
 	~GUIMainMenu();
 	//GUI‚Ì‰Šú‰»
 	void Initialize(float width, float height, ImTextureRef ref = nullptr)override;

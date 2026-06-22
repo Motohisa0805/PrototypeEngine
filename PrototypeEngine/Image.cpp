@@ -1,10 +1,9 @@
 ﻿#include "Image.h"
-#include "SceneManager.h"
 #include "EngineWindow.h"
 #include "Renderer.h"
 #include "Texture.h"
 #include "Shader.h"
-#include "BaseScene.h"
+
 
 Image::Image(Entity* owner,int function)
 	:Component(owner)

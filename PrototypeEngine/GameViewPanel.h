@@ -8,7 +8,7 @@ class GameViewPanel : public EditorWindow
 private:
 	bool		mIsDebugStatesFrag;
 public:
-	GameViewPanel(class Renderer* renderer);
+	GameViewPanel(Renderer* renderer);
 
 	void		Initialize(float width, float height, ImTextureRef ref = nullptr)override;
 

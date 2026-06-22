@@ -2,6 +2,7 @@
 #include "StringConvertOperation.h"
 #include "FilePath.h"
 #include "BoneActor.h"
+#include "DebugManager.h"
 
 Skeleton::~Skeleton()
 {

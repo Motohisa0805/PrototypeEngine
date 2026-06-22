@@ -1,17 +1,15 @@
 #pragma once
-#include "GUIEditorManager.h"
 #include "EditorWindow.h"
-#include "SceneEditorCamera.h"
 
 //エディターシーンの描画処理クラス
 //
 class SceneViewPanel : public EditorWindow
 {
 private:
-	SceneEditorCamera*			mSceneEditorCamera;
+	class SceneEditorCamera*	mSceneEditorCamera;
 
-	SceneViewEditor*			mSceneViewEditor;
-	GBuffer*					mSceneBuffer;
+	class SceneViewEditor*		mSceneViewEditor;
+	class GBuffer*				mSceneBuffer;
 
 	Vector2 					mSceneWinSize;
 
@@ -20,7 +18,7 @@ private:
 	bool						mIsDebugGridFrag;
 public:
 
-								SceneViewPanel(class Renderer* renderer);
+								SceneViewPanel(Renderer* renderer);
 								~SceneViewPanel();
 
 	void						Initialize(float width, float height, ImTextureRef ref = nullptr)override;
@@ -33,10 +31,10 @@ public:
 
 	void						Update()override;
 
-	SceneEditorCamera*			GetSceneEditorCamera() { return mSceneEditorCamera; }
+	class SceneEditorCamera*	GetSceneEditorCamera() { return mSceneEditorCamera; }
 
-	SceneViewEditor*			GetSceneViewEditor() { return mSceneViewEditor; }
-	GBuffer*					GetSceneBuffer() { return mSceneBuffer; }
+	class SceneViewEditor*		GetSceneViewEditor() { return mSceneViewEditor; }
+	class GBuffer*				GetSceneBuffer() { return mSceneBuffer; }
 	Vector2						GetSceneWinSize() { return mSceneWinSize; }
 	void						SetSceneWinSize(const Vector2& size) { mSceneWinSize = size; }
 

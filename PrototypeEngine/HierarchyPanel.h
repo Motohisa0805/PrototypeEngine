@@ -1,8 +1,5 @@
 #pragma once
-#include "GUIEditorManager.h"
 #include "EditorWindow.h"
-#include "SelectionManager.h"
-#include "CommandManager.h"
 
 class ActorObject;
 class UIActorObject;
@@ -11,7 +8,7 @@ class UIActorObject;
 class HierarchyPanel : public EditorWindow
 {
 public:
-				HierarchyPanel(class Renderer* renderer);
+				HierarchyPanel(Renderer* renderer);
 				~HierarchyPanel();
 
 	void		Initialize(float width, float height, ImTextureRef ref = nullptr)override;

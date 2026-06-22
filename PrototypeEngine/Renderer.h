@@ -38,8 +38,8 @@ struct PointLightGPUData
 struct StaticMeshBatch {
 	vector<Vertex>			gAllVertices;
 	vector<unsigned int>	gAllIndices;
-	VertexArray*			gBatchVertexArray;
-	Texture*				gBatchTexture;
+	VertexArray*			gBatchVertexArray = nullptr;
+	Texture*				gBatchTexture = nullptr;
 	MaterialInfo 			gBatchMaterial;
 };
 
@@ -228,6 +228,8 @@ public:
 	Shader*												GetMeshShader() { return mMeshShader; }
 	// Skinned shader
 	Shader*												GetSkinnedShader() { return mSkinnedShader; }
+
+	class BaseScene*									GetRunScene() { return mRunScene; }
 	//BaseScene‚ÌGetter
 	void												SetBaseScene(class BaseScene* scene) { mRunScene = scene; }
 	//mWindow‚ÌGetter

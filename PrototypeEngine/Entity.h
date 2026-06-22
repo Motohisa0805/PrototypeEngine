@@ -43,6 +43,7 @@ namespace ActorInformation
 		case ActorInformation::StaticTag::Everything:
 			return "Everything";
 		default:
+			return "Nothing";
 			break;
 		}
 	}
