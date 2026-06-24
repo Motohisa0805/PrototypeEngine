@@ -13,8 +13,9 @@ private:
 	//更新用の配列
 	vector<UIActorObject*>			mActors;
 	//更新フラグ
-	bool							mUpdatingActors;
+	bool							mIsUpdatingActors;
 public:
+	UIActorManager();
 	//更新
 	void							UpdateActors(float time);
 	//固定更新

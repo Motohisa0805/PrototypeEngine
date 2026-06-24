@@ -10,11 +10,8 @@
 #include "SphereCollider.h"
 #include "AudioComponent.h"
 #include "Animator.h"
-
 #include "Image.h"
-
 #include "FreeCamera.h"
-
 #include "ScriptComponent.h"
 
 std::map<string, ComponentCreator> ComponentFactory::sCreators;

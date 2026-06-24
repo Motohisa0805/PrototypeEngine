@@ -12,7 +12,7 @@ namespace AnimationLayout
 	constexpr float DEFAULTTICKSPERSECOND = 25.0f;
 }
 
-//‘ĞŒ³‚ğ‰ü‘¢‚µ‚½ƒtƒ@ƒCƒ‹
+
 struct AnimationBinHeader 
 {
 	uint32_t	version = 1;

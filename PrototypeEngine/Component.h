@@ -91,7 +91,7 @@ protected:
 	bool				mIsRun;
 public:
 	// （更新順序が低いほど、コンポーネントが早く更新される）
-												Component(class Entity* owner, int updateOrder = 100);
+												Component(Entity* owner, int updateOrder = 100);
 	virtual										~Component();
 
 	//Componentの共通プロパティ関連の仮想関数と静的関数

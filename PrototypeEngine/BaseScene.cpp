@@ -174,7 +174,7 @@ bool BaseScene::EditorUpdate(bool isRun)
 
 	//全UIアクターの更新
 	mUIActorManager->UpdateActors(deltaTime);
-
+	/*
 	//実行中じゃなければ
 	if (!isRun)
 	{
@@ -183,6 +183,7 @@ bool BaseScene::EditorUpdate(bool isRun)
 		SceneSerializer::WriteEditingSceneData(startupScenePath,this);
 		EditorSettingsManager::SetSaveFlag(true);
 	}
+	*/
 	mIsDirtyFlag = false;
 	return true;
 }

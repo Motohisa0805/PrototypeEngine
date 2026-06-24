@@ -17,17 +17,10 @@ Component::Component(Entity* owner, int updateOrder)
 	, mHeaderActiveColor(0.26f, 0.59f, 0.98f, 1.00f)
 	, mIsRun(true)
 {
-	/*
-	if (mOwner->GetTransform())
-	{
-		mOwner->GetTransform()->SetDirty();
-	}
-	*/
 }
 
 Component::~Component()
 {
-	//mOwner->RemoveComponent(this);
 }
 
 const vector<PropertyInfo>& Component::GetPropertiesStatic()

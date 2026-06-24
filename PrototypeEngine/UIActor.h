@@ -1,7 +1,7 @@
 #pragma once
 #include "Entity.h"
 #include "RectTransform.h"
-#include "Shader.h"
+
 
 /*
 * ===ƒGƒ“ƒWƒ““à•”ˆ—/Engine internal processing===
