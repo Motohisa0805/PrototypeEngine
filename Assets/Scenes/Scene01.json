@@ -677,7 +677,7 @@
           "EmitInterval": 0.019999999552965164,
           "IsAlphaFade": true,
           "IsDestroyed": false,
-          "IsLoop": false,
+          "IsLoop": true,
           "MaxParticleCount": 100,
           "ParticleLifeTime": 1.0,
           "ParticleMaxSize": 1.0,
@@ -688,7 +688,7 @@
       ],
       "ID": 17,
       "LocalPosition": [
-        -4.800000190734863,
+        -7.699999809265137,
         0.30000001192092896,
         3.9000000953674316
       ],

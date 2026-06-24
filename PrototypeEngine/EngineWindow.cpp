@@ -35,6 +35,7 @@ bool EngineWindow::EngineInitialize()
 		SDL_Log("Unable to initialize SDL: %s", SDL_GetError());
 		return false;
 	}
+
 	// Rendererの生成
 	mRenderer = new Renderer();
 	if (!mRenderer->Initialize(WindowRenderProperty::GetWidth(), WindowRenderProperty::GetHeight()))
@@ -149,6 +150,10 @@ void EngineWindow::EngineRunLoop()
 				//開始した瞬間なら
 				if (GUIEditorManager::IsStarting())
 				{
+					//編集での変更があればそれを記録する
+					string startupScenePath = EditorSettingsManager::GetInstance().GetLastOpenedScene();
+					SceneSerializer::WriteEditingSceneData(startupScenePath, SceneManager::GetCurrentRunScene());
+
 					GUIEditorManager::ResetPointer();
 					GameStateClass::SetGameState(GameState::GamePlay);
 					GUIEditorManager::SetIsStarting(false);

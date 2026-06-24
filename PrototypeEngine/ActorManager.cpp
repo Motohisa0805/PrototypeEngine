@@ -1,9 +1,16 @@
 #include "ActorManager.h"
 #include "Actor.h"
 
+ActorManager::ActorManager()
+	: mPendingActors()
+	, mActors()
+	, mIsUpdatingActors(false)
+{
+}
+
 void ActorManager::UpdateActors(float time)
 {
-	mUpdatingActors = true;
+	mIsUpdatingActors = true;
 	for (int i = 0; i < mActors.size(); i++)
 	{
 		if (mActors[i]->GetState() == ActorObject::EActive)
@@ -12,7 +19,7 @@ void ActorManager::UpdateActors(float time)
 		}
 	}
 
-	mUpdatingActors = false;
+	mIsUpdatingActors = false;
 
 	// 保留中のアクターをmActorsに移動します
 	for (int i = 0; i < mPendingActors.size(); i++)
@@ -68,7 +75,7 @@ void ActorManager::UnloadActors()
 
 void ActorManager::AddActor(ActorObject* actor)
 {
-	if (mUpdatingActors)
+	if (mIsUpdatingActors)
 	{
 		// もしアクターを更新する場合、保留中に追加する必要あり
 		mPendingActors.emplace_back(actor);
@@ -108,7 +115,7 @@ void ActorManager::DeleteActor(ActorObject* actor)
 
 void ActorManager::ReAddActor(ActorObject* actor)
 {
-	if (mUpdatingActors)
+	if (mIsUpdatingActors)
 	{
 		// もしアクターを更新している場合は、保留中に追加する必要あり
 		mPendingActors.emplace_back(actor);

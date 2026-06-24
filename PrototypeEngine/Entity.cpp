@@ -12,11 +12,13 @@
 static uint64_t sNextEntityID = 1;
 
 Entity::Entity(uint64_t id)
-	: mComponents()
+	: mID(0)
+	, mComponents()
 	, mGame(SceneManager::GetCurrentRunScene())
 	, mName("Entity")
 	, mState(EActive)
 	, mActorTag(ActorInformation::Tag::None)
+	, mPreviousState(State::EActive)
 {
 	if (id == 0) {
 		// V‹K¶¬‚È‚çV‚µ‚¢”Ô†‚ğU‚é
@@ -31,10 +33,12 @@ Entity::Entity(uint64_t id)
 }
 
 Entity::Entity(BaseScene* scene)
-	: mGame(scene)
+	: mID(0)
+	, mGame(scene)
 	, mName("Entity")
 	, mState(EActive)
 	, mActorTag(ActorInformation::Tag::None)
+	, mPreviousState(State::EActive)
 {
 }
 

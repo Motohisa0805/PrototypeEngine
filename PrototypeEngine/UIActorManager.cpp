@@ -1,9 +1,16 @@
 #include "UIActorManager.h"
 #include "UIActor.h"
 
+UIActorManager::UIActorManager()
+	: mPendingActors()
+	, mActors()
+	, mIsUpdatingActors(false)
+{
+}
+
 void UIActorManager::UpdateActors(float time)
 {
-	mUpdatingActors = true;
+	mIsUpdatingActors = true;
 	for (int i = 0; i < mActors.size(); i++)
 	{
 		if (mActors[i]->GetState() == UIActorObject::EActive)
@@ -12,7 +19,7 @@ void UIActorManager::UpdateActors(float time)
 		}
 	}
 
-	mUpdatingActors = false;
+	mIsUpdatingActors = false;
 
 	// 保留中のアクターをmActorsに移動します
 	for (int i = 0; i < mPendingActors.size(); i++)
@@ -68,7 +75,7 @@ void UIActorManager::UnloadActors()
 
 void UIActorManager::AddActor(UIActorObject* actor)
 {
-	if (mUpdatingActors)
+	if (mIsUpdatingActors)
 	{
 		// If we're updating actors, need to add to pending
 		mPendingActors.emplace_back(actor);
@@ -108,7 +115,7 @@ void UIActorManager::DeleteActor(UIActorObject* actor)
 
 void UIActorManager::ReAddActor(UIActorObject* actor)
 {
-	if (mUpdatingActors)
+	if (mIsUpdatingActors)
 	{
 		// If we're updating actors, need to add to pending
 		mPendingActors.emplace_back(actor);

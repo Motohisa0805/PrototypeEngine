@@ -29,6 +29,9 @@ public:
 
 	static float		GetHeight() { return mHeight; }
 
+	static void			SetWidth(float width) { mWidth = width; }
+	static void			SetHeight(float height) { mHeight = height; }
+
 	static Vector3		GetViewEye() { return mViewEye; }
 
 	static Vector3		GetViewTarget() { return mViewTarget; }

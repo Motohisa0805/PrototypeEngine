@@ -74,7 +74,7 @@ bool Renderer::Initialize(float screenWidth, float screenHeight)
 	//動作軽減のため描画用GPUを使用するように要求
 	SDL_GL_SetAttribute(SDL_GL_ACCELERATED_VISUAL, 1);
 	//SDL_Windowを作成する
-	mWindow = SDL_CreateWindow(mWindowTitle.c_str(), static_cast<int>(WindowRenderProperty::GetWidth()), static_cast<int>(WindowRenderProperty::GetHeight()), SDL_WINDOW_OPENGL);
+	mWindow = SDL_CreateWindow(mWindowTitle.c_str(), static_cast<int>(WindowRenderProperty::GetWidth()), static_cast<int>(WindowRenderProperty::GetHeight()), SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE | SDL_WINDOW_MAXIMIZED);
 	//エラーチェック
 	if (!mWindow)
 	{
