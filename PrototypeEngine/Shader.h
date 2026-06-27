@@ -45,6 +45,8 @@ public:
 	void		SetVector2Uniform(const char* name, const Vector2& vector);
 	
 	void		SetVector3Array(const string& name, const Vector3* array, size_t count);
+	void		SetVector2Array(const string& name, const Vector2* array, size_t count);
+	void		SetIntArray(const string& name, const int* array, size_t count);
 	void		SetFloatArray(const string& name, const float* array, size_t count);
 	
 	// 浮動小数点数のユニフォームを設定

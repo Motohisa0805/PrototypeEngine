@@ -9,7 +9,7 @@
 //Vector2、Vector3、Matrix関係の計算処理を行っているnamespace
 namespace Math
 {
-	const float Pi = 3.14159274f;
+	const float Pi = 3.14159265f;
 	const float TwoPi = Pi * 2.0f;
 	const float PiOver2 = Pi / 2.0f;
 	const float Infinity = std::numeric_limits<float>::infinity();

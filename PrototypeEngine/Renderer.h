@@ -26,7 +26,7 @@ struct DirectionalLightData
 	//位置
 	Vector3 sPosition = Vector3();
 };
-
+/*
 struct PointLightGPUData
 {
 	Vector3		sPosition = Vector3();
@@ -34,6 +34,7 @@ struct PointLightGPUData
 	Vector3		sColor = Vector3();
 	float		sPadding = 0;
 };
+*/
 
 struct StaticMeshBatch {
 	vector<Vertex>			gAllVertices;
@@ -48,7 +49,7 @@ class Mesh;
 class MeshRenderer;
 class SkeletalMeshRenderer;
 class GBuffer;
-class PointLightComponent;
+class LocalLight;
 class ShadowMap;
 class SkyBoxRenderer;
 class DebugGrid;
@@ -99,15 +100,13 @@ private:
 	// GBuffer shader
 	Shader*												mGGlobalShader;
 
-	vector<PointLightGPUData>							mLightDataArray;
-
 	//シャドウマップのクラス
 	ShadowMap*											mShadowMap;
 	Shader*												mShadowShader;
 	Shader*												mSkinnedShadowShader;
 
 	//ポイントライトの配列
-	vector<PointLightComponent*>						mPointLights;
+	vector<LocalLight*>									mTypeLights;
 
 	Mesh*												mPointLightMesh;
 	//スカイボックスのレンダラー
@@ -191,9 +190,9 @@ public:
 	//Mesh削除処理
 	void												RemoveParticleComp(class ParticleSystem* particle);
 	//PointLight追加処理
-	void												AddPointLight(class PointLightComponent* light);
+	void												AddPointLight(class LocalLight* light);
 	//PointLight削除処理
-	void												RemovePointLight(class PointLightComponent* light);
+	void												RemovePointLight(class LocalLight* light);
 	// Given a screen space point, unprojects it into world space,
 	// based on the current 3D view/projection matrices
 	// Expected ranges:

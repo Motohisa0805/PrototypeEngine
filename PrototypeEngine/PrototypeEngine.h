@@ -38,6 +38,6 @@
 //UI関係のインクルード
 #include "Canvas.h"
 //ライト関係のインクルード
-#include "PointLightComponent.h"
+#include "LocalLight.h"
 // Skybox関係のインクルード
 #include "SkyBoxRenderer.h"
