@@ -10,7 +10,7 @@ DirectionalLightComponent::DirectionalLightComponent(Entity* owner)
 	: Component(owner)
 	, mDirectionalLight()
 {
-    mName = "DirectionalLightComponent";
+    mName = "DirectionalLight";
 
     mHeaderColor = Vector4(0.4f, 0.8f, 0.8f, 1.0f);
     mHeaderHoveredColor = Vector4(0.3f, 0.6f, 0.6f, 1.0f);
@@ -19,6 +19,7 @@ DirectionalLightComponent::DirectionalLightComponent(Entity* owner)
 
 DirectionalLightComponent::~DirectionalLightComponent()
 {
+
 }
 
 void DirectionalLightComponent::OnUpdateWorldTransform()
@@ -40,12 +41,12 @@ void DirectionalLightComponent::OnUpdateWorldTransform()
     // Diffuse（拡散光）
     Vector3 dayDiffuse = Vector3(1.0f, 0.95f, 0.8f);
     Vector3 nightDiffuse = Vector3(0.05f, 0.05f, 0.1f);
-    mDirectionalLight.sDiffuseColor = Vector3::Lerp(nightDiffuse,dayDiffuse,dayFactor);
+    mDirectionalLight.sDiffuseColor = Vector3::Lerp(nightDiffuse, dayDiffuse, dayFactor);
 
     // Specular（鏡面反射）
     Vector3 daySpecular = Vector3(1.0f, 1.0f, 1.0f);
     Vector3 nightSpecular = Vector3(0.0f, 0.0f, 0.0f);
-    mDirectionalLight.sSpecColor = Vector3::Lerp(nightSpecular,daySpecular, dayFactor);
+    mDirectionalLight.sSpecColor = Vector3::Lerp(nightSpecular, daySpecular, dayFactor);
 
 
 
@@ -96,7 +97,6 @@ void DirectionalLightComponent::Deserialize(const json& j)
 void DirectionalLightComponent::DrawCustomGUI(const std::vector<PropertyInfo>& properties)
 {
 	ImGui::PushID(this);
-    ImGui::Text("DirectionalLight Component");
 
     ImGui::Separator();
 
@@ -110,7 +110,7 @@ void DirectionalLightComponent::DrawCustomGUI(const std::vector<PropertyInfo>& p
     if (ImGui::SliderFloat("##ambientIntensity", &mDirectionalLight.sAmbientIntensity, 0.0f, 5.0f)) {
         mActor->GetTransform()->SetDirty();
     }
-	
+
     ImGui::Separator();
 
     ImGui::PopID();

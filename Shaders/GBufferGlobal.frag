@@ -41,14 +41,21 @@ uniform mat4 uLightViewProj;
 
 uniform bool uEnableShadow;
 
+struct LightData{
+    int     sType;      //0:Point、1:Spot、2:Area
+    vec3    sPosition;
+    vec3    sDirection;
+    vec3    sColor;
+    float   sRange;
+    vec2    sAngles;    //スポットライト用の角度
+};
 
 //ポイントライトの変数
 const int MAX_POINT_LIGHTS = 20;
 
-uniform int uNumPointLights;
-uniform vec3 uPointLightPositions[MAX_POINT_LIGHTS];
-uniform float uPointLightRanges[MAX_POINT_LIGHTS];
-uniform vec3 uPointLightColors[MAX_POINT_LIGHTS];
+uniform int uNumLights;
+
+uniform LightData uLights[MAX_POINT_LIGHTS];
 
 
 // 事前に固定Poissonオフセット（正規化）を定義
@@ -110,7 +117,14 @@ void main()
 	vec3 gbufferDiffuse = texture(uGDiffuse, fragTexCoord).xyz;
 	vec3 gbufferNorm = texture(uGNormal, fragTexCoord).xyz;
 	vec3 gbufferWorldPos = texture(uGWorldPos, fragTexCoord).xyz;
-	// 法線正規化
+	
+    if(length(gbufferNorm) < 0.01)
+    {
+        outColor = vec4(gbufferDiffuse,1.0);
+        return;
+    }
+    
+    // 法線正規化
 	vec3 N = normalize(gbufferNorm);
 	// ライトの方向（逆ベクトル）
 	vec3 L = normalize(-uDirLight.mDirection);
@@ -148,29 +162,73 @@ void main()
 	Phong = clamp(Phong, 0.0, 1.0);
 
     vec3 finalColor = gbufferDiffuse * Phong;
-
-    for(int i = 0; i < uNumPointLights; ++i)
+    //ポイントライトの処理
+    for(int i = 0; i < uNumLights; ++i)
     {
-        //ライトの方向と距離
-        vec3 lightDir = uPointLightPositions[i] - gbufferWorldPos;
-        float distance = length(lightDir);
+        if(uLights[i].sType == 0)
+        {
+            //ライトの方向と距離
+            vec3 lightDir = uLights[i].sPosition - gbufferWorldPos;
+            float distance = length(lightDir);
 
-        //ライトの有効範囲内にある場合のみ計算
-        if(distance < uPointLightRanges[i]){
-            lightDir = normalize(lightDir);
+            //ライトの有効範囲内にある場合のみ計算
+            if(distance < uLights[i].sRange)
+            {
+                lightDir = normalize(lightDir);
 
-            //距離減衰の計算
-            float attenuation = 1.0 - (distance / uPointLightRanges[i]);
-            attenuation = clamp(attenuation,0.0,1.0);
+                //距離減衰の計算
+                float attenuation = 1.0 - (distance / uLights[i].sRange);
+                attenuation = clamp(attenuation,0.0,1.0);
 
-            //ディフューズ(拡散反射)の強度計算
-            float nDotL = max(dot(N,lightDir),0.0);
+                //ディフューズ(拡散反射)の強度計算
+                float nDotL = max(dot(N,lightDir),0.0);
 
-            //このライトの色
-            vec3 lightContribution = uPointLightColors[i] * gbufferDiffuse * nDotL * attenuation;
+                //このライトの色
+                vec3 lightContribution = uLights[i].sColor * gbufferDiffuse * nDotL * attenuation;
 
-            //最終カラーに加算ブレンド
-            finalColor += lightContribution;
+                //最終カラーに加算ブレンド
+                finalColor += lightContribution;
+            }
+        }
+        else if(uLights[i].sType == 1)
+        {
+            //ライトの方向と距離
+            vec3 lightDir = uLights[i].sPosition - gbufferWorldPos;
+            float distance = length(lightDir);
+
+            if(distance < uLights[i].sRange)
+            {
+                // 正規化（ピクセルからライトへの向き）
+                vec3 L = normalize(lightDir);
+                // ライトが向いている方向（逆向きにして比較しやすくする）
+                vec3 spotDir = normalize(-uLights[i].sDirection);
+
+                //距離による減衰
+                float distAtten = 1.0 - (distance / uLights[i].sRange);
+                distAtten = clamp(distAtten, 0.0 , 1.0);
+
+                //コーン(角度)による減衰
+                //ライトの正面方向(spotDir)と、ピクセルへの方向(L)の内積 = cos(角度)
+                float theta = dot(L,spotDir);
+
+                // smoothstepを使って、外角(sAngles.y) ～ 内角(sAngles.x) の間を 0.0 ～ 1.0 に滑らかに補間
+                // thetaが外角より小さければ0.0、内角より大きければ1.0になる
+                float epsilon = uLights[i].sAngles.x - uLights[i].sAngles.y;
+                float coneAtten = clamp((theta - uLights[i].sAngles.y) / epsilon,0.0,1.0);
+
+                //最終的な光の強さは「距離減衰 × 角度減衰」
+                float finalAtten = distAtten * coneAtten;
+
+                if(finalAtten > 0.0)
+                {
+                    //ディフューズ(拡散反射)計算
+                    float nDotL = max(dot(N,L),0.0);
+                    vec3 lightContribution = uLights[i].sColor * gbufferDiffuse * nDotL * finalAtten;
+
+                    //最終カラーに加算ブレンド
+                    finalColor += lightContribution;
+                }
+            }
         }
     }
 

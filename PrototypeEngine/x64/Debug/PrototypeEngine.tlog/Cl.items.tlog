@@ -26,7 +26,7 @@ C:\C++Files\PrototypeEngine\PrototypeEngine\CommandManager.cpp;C:\C++Files\Proto
 C:\C++Files\PrototypeEngine\PrototypeEngine\Component.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\Component.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\ComponentFactory.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\ComponentFactory.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\LightingPanel.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\LightingPanel.obj
-C:\C++Files\PrototypeEngine\PrototypeEngine\PointLightComponent.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\PointLightComponent.obj
+C:\C++Files\PrototypeEngine\PrototypeEngine\LocalLight.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\LocalLight.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\StringConvertOperation.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\StringConvertOperation.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\CreateNewActorCommand.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\CreateNewActorCommand.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\DebugGrid.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\DebugGrid.obj

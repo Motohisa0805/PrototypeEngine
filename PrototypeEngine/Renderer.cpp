@@ -9,7 +9,7 @@
 #include "SkeletalMeshRenderer.h"
 #include "GBuffer.h"
 #include "ShadowMap.h"
-#include "PointLightComponent.h"
+#include "LocalLight.h"
 #include "DebugGrid.h"
 #include "DirectionalLightComponent.h"
 #include "AudioSystem.h"
@@ -989,10 +989,10 @@ void Renderer::Shutdown()
 	}
 
 	// ポイントライトを削除する
-	while (!mPointLights.empty())
+	while (!mTypeLights.empty())
 	{
-		delete mPointLights.back();
-		mPointLights.pop_back();
+		delete mTypeLights.back();
+		mTypeLights.pop_back();
 	}
 
 	// 頂点配列
@@ -1209,16 +1209,16 @@ void Renderer::RemoveParticleComp(ParticleSystem* particle)
 	}
 }
 
-void Renderer::AddPointLight(PointLightComponent* light)
+void Renderer::AddPointLight(LocalLight* light)
 {
-	mPointLights.emplace_back(light);
+	mTypeLights.emplace_back(light);
 }
 
-void Renderer::RemovePointLight(PointLightComponent* light)
+void Renderer::RemovePointLight(LocalLight* light)
 {
-	auto iter = std::find(mPointLights.begin(), mPointLights.end(), light);
-	if (iter != mPointLights.end()) {
-		mPointLights.erase(iter);
+	auto iter = std::find(mTypeLights.begin(), mTypeLights.end(), light);
+	if (iter != mTypeLights.end()) {
+		mTypeLights.erase(iter);
 	}
 }
 
@@ -1376,26 +1376,39 @@ void Renderer::SetPointLightUniforms(Shader* shader)
 	const int MAX_POINT_LIGHTS = 20;
 	int lightCount = 0;
 
+	vector<int> type;
 	vector<Vector3> positions;
-	vector<float> ranges;
+	vector<Vector3> direction;
 	vector<Vector3> colors;
+	vector<float> ranges;
+	vector<Vector2> angles;
 
-	for (auto light : mPointLights) {
+
+	for (auto light : mTypeLights) {
 		if (!light->IsRun())continue;
 		if (lightCount >= MAX_POINT_LIGHTS)break;
-
+		type.push_back((int)light->GetLightType());
 		positions.push_back(light->GetOwner()->GetBaseTransform()->GetPosition());
-		ranges.push_back(light->GetRange());
+		direction.push_back(light->GetOwner()->GetBaseTransform()->GetForward());
 		colors.push_back(light->GetColor());
+		ranges.push_back(light->GetRange());
+		angles.push_back(light->GetAngles());
+
+
 		lightCount++;
 	}
 
-	shader->SetIntUniform("uNumPointLights", lightCount);
+	shader->SetIntUniform("uNumLights", lightCount);
 
-	if (lightCount > 0) {
-		shader->SetVector3Array("uPointLightPositions[0]",positions.data(), lightCount);
-		shader->SetFloatArray("uPointLightRanges[0]", ranges.data(),lightCount);
-		shader->SetVector3Array("uPointLightColors[0]", colors.data(),lightCount);
+	for (int i = 0; i < lightCount; ++i) {
+		string baseName = "uLights[" + std::to_string(i) + "].";
+
+		shader->SetIntUniform((baseName + "sType").c_str(), type[i]);
+		shader->SetVectorUniform((baseName + "sPosition").c_str(), positions[i]);
+		shader->SetVectorUniform((baseName + "sDirection").c_str(), direction[i]);
+		shader->SetVectorUniform((baseName + "sColor").c_str(), colors[i]);
+		shader->SetFloatUniform((baseName + "sRange").c_str(), ranges[i]);
+		shader->SetVector2Uniform((baseName + "sAngles").c_str(), angles[i]);
 	}
 }
 

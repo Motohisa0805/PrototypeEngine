@@ -130,6 +130,7 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <SupportJustMyCode>true</SupportJustMyCode>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -195,7 +196,7 @@
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="ComponentFactory.cpp" />
     <ClCompile Include="LightingPanel.cpp" />
-    <ClCompile Include="PointLightComponent.cpp" />
+    <ClCompile Include="LocalLight.cpp" />
     <ClCompile Include="StringConvertOperation.cpp" />
     <ClCompile Include="CreateNewActorCommand.cpp" />
     <ClCompile Include="DebugGrid.cpp" />
@@ -307,7 +308,7 @@
     <ClInclude Include="Component.h" />
     <ClInclude Include="ComponentFactory.h" />
     <ClInclude Include="LightingPanel.h" />
-    <ClInclude Include="PointLightComponent.h" />
+    <ClInclude Include="LocalLight.h" />
     <ClInclude Include="StringConvertOperation.h" />
     <ClInclude Include="CreateNewActorCommand.h" />
     <ClInclude Include="DebugGrid.h" />

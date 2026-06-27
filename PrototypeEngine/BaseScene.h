@@ -79,7 +79,7 @@ public:
 	//‰ð•ú
 	void											UnloadData();
 
-	void											LoadSkyBoxTexture(string file);
+	void											LoadSkyBoxTexture(const string& file);
 
 	string											GetLoadSkyBoxTexturePath() { return mLoadSkyBoxTexturePath; }
 

@@ -535,20 +535,20 @@ bool HierarchyPanel::RightClickMenu()
 	{
 		EditorCommandPopupMenu();
 		ImGui::Separator();
-		if (ImGui::MenuItem("Create Game Empty"))
+		if (ImGui::MenuItem("Create New Actor"))
 		{
 			auto cmd = std::make_unique<CreateNewActorCommand>();
 			CommandManager::Execute(std::move(cmd));
 			EditorSettingsManager::SetRenameInputBuffer(SelectionManager::GetSelectedActor()->GetName());
 			EditorSettingsManager::SetRenamingFlag(true);
 		}
-		if (ImGui::MenuItem("Create UI Canvas")) {
+		if (ImGui::MenuItem("Create New UI Canvas")) {
 			auto cmd = std::make_unique<CreateNewCanvasCommand>();
 			CommandManager::Execute(std::move(cmd));
 			EditorSettingsManager::SetRenameInputBuffer(SelectionManager::GetSelectedActor()->GetName());
 			EditorSettingsManager::SetRenamingFlag(true);
 		}
-		if (ImGui::MenuItem("Create UI Empty"))
+		if (ImGui::MenuItem("Create New UI Actor"))
 		{
 			auto cmd = std::make_unique<CreateNewUIActorCommand>();
 			CommandManager::Execute(std::move(cmd));

@@ -541,7 +541,7 @@
     <ClCompile Include="ProjectExplanationPanel.cpp">
       <Filter>SourceCodes\A_Editor\Function\GUIs\Panels</Filter>
     </ClCompile>
-    <ClCompile Include="PointLightComponent.cpp">
+    <ClCompile Include="LocalLight.cpp">
       <Filter>SourceCodes\A_Editor\Function\Components</Filter>
     </ClCompile>
     <ClCompile Include="LightingPanel.cpp">
@@ -915,7 +915,7 @@
     <ClInclude Include="ProjectExplanationPanel.h">
       <Filter>SourceCodes\A_Editor\Function\GUIs\Panels</Filter>
     </ClInclude>
-    <ClInclude Include="PointLightComponent.h">
+    <ClInclude Include="LocalLight.h">
       <Filter>SourceCodes\A_Editor\Function\Components</Filter>
     </ClInclude>
     <ClInclude Include="LightingPanel.h">

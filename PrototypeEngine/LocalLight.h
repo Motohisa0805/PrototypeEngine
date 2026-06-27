@@ -8,27 +8,43 @@
 * ===エンジン内部処理/Engine internal processing===
 */
 
-//書籍部分
 //ポイントライトの処理を行うクラス
-class PointLightComponent : public Component
+class LocalLight : public Component
 {
+public:
+	enum LightType {
+		Point = 0,
+		Spot,
+		Area,
+		Count
+	};
 private:
+	LightType				mLightType;
+
+	//ポイントライトの変数
 	// Diffuse color
 	Vector3 mColor;
 	// Radius of light
 	float	mRange;
 
-	float	mIntensity;
+	float	mIntensity;	
+	//スポットライトの変数
+	float	mAngles;
+	//エリアライトの変数
 public:
-			PointLightComponent(Entity* owner);
-			~PointLightComponent();
+			LocalLight(Entity* owner);
+			~LocalLight();
 
-	// このポイントライトを描画
-	void					Draw(class Shader* shader, class Mesh* mesh);
+	void					SetLightComponentName(LightType type);
+	string					GetLightComponentName(LightType type);
+	
+	LightType				GetLightType() { return mLightType; }
 
 	Vector3					GetColor() { return mColor * mIntensity; }
 
 	float					GetRange() { return mRange; }
+
+	Vector2					GetAngles();
 
 	void					Serialize(json& j) const override;
 	void					Deserialize(const json& j)override;

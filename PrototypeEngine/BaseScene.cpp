@@ -31,7 +31,7 @@ BaseScene::BaseScene()
 	}
 }
 
-void BaseScene::LoadSkyBoxTexture(string file)
+void BaseScene::LoadSkyBoxTexture(const string& file)
 {
 	//“Ç‚Ýž‚Ý‚ª¬Œ÷‚È‚ç
 	if (EngineWindow::GetRenderer()->GetSkyBoxRenderer()->Load(file)) {

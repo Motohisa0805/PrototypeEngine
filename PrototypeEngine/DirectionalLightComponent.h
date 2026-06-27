@@ -5,21 +5,23 @@
 #include "Renderer.h"
 
 //環境光の機能
+//光を扱ったコンポーネント
 class DirectionalLightComponent : public Component
 {
-private:
+private:	
+	//環境光の変数
 	DirectionalLightData	mDirectionalLight;
 public:
 	DirectionalLightComponent(Entity* owner);
 	~DirectionalLightComponent();
 	void OnUpdateWorldTransform()override;
 
-	DirectionalLightData GetDirectionalLight() const { return mDirectionalLight; } 
+	DirectionalLightData	GetDirectionalLight() const { return mDirectionalLight; } 
 
-	void			Serialize(json& j) const override;
-	void			Deserialize(const json& j)override;
+	void					Serialize(json& j) const override;
+	void					Deserialize(const json& j)override;
 
-	void			DrawCustomGUI(const std::vector<PropertyInfo>& properties)override;
+	void					DrawCustomGUI(const std::vector<PropertyInfo>& properties)override;
 
-	Component*		Clone(Entity* newOwner) const override;
+	Component*				Clone(Entity* newOwner) const override;
 };
