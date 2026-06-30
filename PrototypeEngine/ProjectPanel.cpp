@@ -1,11 +1,11 @@
 #include "ProjectPanel.h"
-#include "imgui_internal.h"
+#include "DebugManager.h"
 #include "EditorSettingsManager.h"
-#include "ScriptEditManager.h"
+#include "FileOperationManager.h"
 #include "SceneManager.h"
 #include "SceneSerializer.h"
-#include "DebugManager.h"
-#include "FileOperationManager.h"
+#include "ScriptEditManager.h"
+#include "imgui_internal.h"
 
 filesystem::path ProjectPanel::mPathToRename = "";
 
@@ -21,17 +21,16 @@ char ProjectPanel::mScriptCreateBuffer[256] = "";
 
 bool ProjectPanel::mIsShowScriptPopup = false;
 
-ProjectPanel::ProjectPanel(Renderer* renderer)
-	:EditorWindow(renderer)
+ProjectPanel::ProjectPanel(Renderer* renderer) : EditorWindow(renderer)
 {
     mID = "Project";
 }
 
 void ProjectPanel::Initialize(float width, float height, ImTextureRef ref)
 {
-    mWidthPos = width * 0.65f;
-    mHeightPos = 55.0f;
-    mWidthSize = width * 0.15f;
+    mWidthPos   = width * 0.65f;
+    mHeightPos  = 55.0f;
+    mWidthSize  = width * 0.15f;
     mHeightSize = height - 55.0f;
     EditorWindow::Initialize(width, height, ref);
 }
@@ -39,9 +38,12 @@ void ProjectPanel::Initialize(float width, float height, ImTextureRef ref)
 void ProjectPanel::Draw(float width, float height)
 {
     EditorWindow::Draw(width, height);
-    if (ImGui::Begin(GetImGuiWindowID().c_str(), &mIsShow, ImGuiWindowFlags_NoCollapse)) {
-       
-        if (mIsShowScriptPopup) {
+    if (ImGui::Begin(GetImGuiWindowID().c_str(), &mIsShow,
+                     ImGuiWindowFlags_NoCollapse))
+    {
+
+        if (mIsShowScriptPopup)
+        {
             ImGui::OpenPopup("Create New Script");
             mIsShowScriptPopup = false;
         }
@@ -50,8 +52,10 @@ void ProjectPanel::Draw(float width, float height)
         DrawScriptCreatePopup();
 
         if (ImGui::IsMouseClicked(ImGuiMouseButton_Left) &&
-            !ImGui::IsWindowHovered(ImGuiHoveredFlags_RootAndChildWindows)) {
-            if (!ImGui::IsPopupOpen(nullptr, ImGuiPopupFlags_AnyPopupId)) {
+            !ImGui::IsWindowHovered(ImGuiHoveredFlags_RootAndChildWindows))
+        {
+            if (!ImGui::IsPopupOpen(nullptr, ImGuiPopupFlags_AnyPopupId))
+            {
                 mSelectedFilePath.clear();
             }
         }
@@ -60,25 +64,31 @@ void ProjectPanel::Draw(float width, float height)
         float totalWidth = ImGui::GetContentRegionAvail().x;
 
         float leftColumnWidth = totalWidth * 0.30f;
-        float rightColumnWidth = totalWidth * 0.70f - ImGui::GetStyle().ItemSpacing.x;
-        //フォルダツリー表示用のウィンドウ
-        if (ImGui::BeginChild("FolderTree_Child", ImVec2(leftColumnWidth, 0.0f), ImGuiChildFlags_Border | ImGuiChildFlags_ResizeX)) {
+        float rightColumnWidth =
+            totalWidth * 0.70f - ImGui::GetStyle().ItemSpacing.x;
+        // フォルダツリー表示用のウィンドウ
+        if (ImGui::BeginChild("FolderTree_Child", ImVec2(leftColumnWidth, 0.0f),
+                              ImGuiChildFlags_Border | ImGuiChildFlags_ResizeX))
+        {
             ImGui::TextDisabled("(?)");
-            if (ImGui::IsItemHovered()) {
-                ImGui::SetTooltip("Right-click or [Assets] Menu click for options.");
+            if (ImGui::IsItemHovered())
+            {
+                ImGui::SetTooltip(
+                    "Right-click or [Assets] Menu click for options.");
             }
             ImGui::SetNextItemOpen(true, ImGuiCond_Once);
             // 左カラム = フォルダツリー
             if (ImGui::TreeNode("Assets"))
             {
                 // 左クリックで選択中フォルダを更新(Assetsフォルダ用)
-                if (ImGui::IsItemClicked(ImGuiMouseButton_Left) || ImGui::IsItemClicked(ImGuiMouseButton_Right))
+                if (ImGui::IsItemClicked(ImGuiMouseButton_Left) ||
+                    ImGui::IsItemClicked(ImGuiMouseButton_Right))
                 {
-                    mSelectedFilePath = "Assets"; // 選択パスを更新
+                    mSelectedFilePath   = "Assets"; // 選択パスを更新
                     mSelectedFolderPath = "Assets";
                 }
 
-                //フォルダツリー表示
+                // フォルダツリー表示
                 DrawFolderTree("Assets");
                 RightClickMenu();
                 ImGui::TreePop();
@@ -88,20 +98,24 @@ void ProjectPanel::Draw(float width, float height)
 
         ImGui::SameLine();
 
-        if (ImGui::BeginChild("Assets_Child", ImVec2(0.0f, 0.0f), ImGuiChildFlags_Border)) {
-            //選択中フォルダの中身表示
+        if (ImGui::BeginChild("Assets_Child", ImVec2(0.0f, 0.0f),
+                              ImGuiChildFlags_Border))
+        {
+            // 選択中フォルダの中身表示
             DrawPickUpFolderView();
-            //右クリック処理
+            // 右クリック処理
             RightClickMenu();
         }
         ImGui::EndChild();
     }
 
     ImGui::Separator();
-    if (!mSelectedFilePath.empty()) {
+    if (!mSelectedFilePath.empty())
+    {
         ImGui::Text("Selection: %s", mSelectedFilePath.string().c_str());
     }
-    else {
+    else
+    {
         ImGui::Text("Selection: None");
     }
 
@@ -112,11 +126,12 @@ void ProjectPanel::DrawFolderTree(const filesystem::path& path)
 {
     for (auto& entry : filesystem::directory_iterator(path))
     {
-        if (!entry.is_directory()) continue; // フォルダだけ表示
+        if (!entry.is_directory())
+            continue; // フォルダだけ表示
 
         const string folderName = entry.path().filename().string();
-        
-        //名前変更処理
+
+        // 名前変更処理
         if (mIsRenaming && entry.path() == mPathToRename)
         {
             RenameFunction(entry);
@@ -124,31 +139,36 @@ void ProjectPanel::DrawFolderTree(const filesystem::path& path)
         else
         {
             // ツリーノードの表示
-            // ImGuiTreeNodeFlags_Selected: mSelectedPathと一致する場合にハイライト表示させる
-            ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_SpanAvailWidth;
-            if (entry.path() == mSelectedFilePath || entry.path() == mSelectedFolderPath)
+            // ImGuiTreeNodeFlags_Selected:
+            // mSelectedPathと一致する場合にハイライト表示させる
+            ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_OpenOnArrow |
+                                       ImGuiTreeNodeFlags_SpanAvailWidth;
+            if (entry.path() == mSelectedFilePath ||
+                entry.path() == mSelectedFolderPath)
             {
                 flags |= ImGuiTreeNodeFlags_Selected;
             }
             bool pushedColor = false;
-            if (entry.path() == mSelectedFilePath || entry.path() == mSelectedFolderPath)
+            if (entry.path() == mSelectedFilePath ||
+                entry.path() == mSelectedFolderPath)
             {
                 // 現在のテーマの「ホバー時の色」をベースとして取得する
                 ImVec4 color = ImGui::GetStyle().Colors[ImGuiCol_HeaderHovered];
 
-                // アルファ値（透明度）を 1.0f 
+                // アルファ値（透明度）を 1.0f
                 color.w = 1.0f;
 
                 ImGui::PushStyleColor(ImGuiCol_Header, color);
                 pushedColor = true;
             }
 
-            bool open = ImGui::TreeNodeEx(folderName.c_str(), flags); 
+            bool open = ImGui::TreeNodeEx(folderName.c_str(), flags);
 
             // 左クリックで選択中フォルダを更新
-            if (ImGui::IsItemClicked(ImGuiMouseButton_Left)|| ImGui::IsItemClicked(ImGuiMouseButton_Right))
+            if (ImGui::IsItemClicked(ImGuiMouseButton_Left) ||
+                ImGui::IsItemClicked(ImGuiMouseButton_Right))
             {
-                mSelectedFilePath = entry.path(); // 選択パスを更新
+                mSelectedFilePath   = entry.path(); // 選択パスを更新
                 mSelectedFolderPath = entry.path();
             }
 
@@ -173,10 +193,11 @@ void ProjectPanel::DrawFolderTree(const filesystem::path& path)
 // 選択中フォルダの中身を表示(右カラム)
 void ProjectPanel::DrawPickUpFolderView()
 {
-    if (!filesystem::exists(mSelectedFolderPath)) return;
+    if (!filesystem::exists(mSelectedFolderPath))
+        return;
 
     // === パンくずリスト表示 ===
-    filesystem::path root = mSelectedFolderPath;
+    filesystem::path root     = mSelectedFolderPath;
     filesystem::path relative = filesystem::relative(mSelectedFolderPath, root);
     // ルート ("Assets") を必ず表示
     if (ImGui::Button("Assets##2"))
@@ -200,8 +221,10 @@ void ProjectPanel::DrawPickUpFolderView()
 
     ImGui::Separator(); // パンくずとファイルリストを区切る
 
-    float windowVisibleX2 = ImGui::GetWindowPos().x + ImGui::GetWindowContentRegionMax().x;
-	float itemWidth = 64.0f + ImGui::GetStyle().ItemSpacing.x; // アイコンの幅＋余白
+    float windowVisibleX2 =
+        ImGui::GetWindowPos().x + ImGui::GetWindowContentRegionMax().x;
+    float itemWidth =
+        64.0f + ImGui::GetStyle().ItemSpacing.x; // アイコンの幅＋余白
 
     for (auto& entry : filesystem::directory_iterator(mSelectedFolderPath))
     {
@@ -219,39 +242,47 @@ void ProjectPanel::DrawPickUpFolderView()
 
 void ProjectPanel::DrawFileSystemEntry(const filesystem::directory_entry& entry)
 {
-    const string name = entry.path().filename().string();
-    bool isSelected = (mSelectedFilePath == entry.path());
+    const string name       = entry.path().filename().string();
+    bool         isSelected = (mSelectedFilePath == entry.path());
 
-    // 1. 各アイテムをグループ化し、一意のIDで包む（これで競合とバグを完全に防ぐ）
+    // 1.
+    // 各アイテムをグループ化し、一意のIDで包む（これで競合とバグを完全に防ぐ）
     ImGui::PushID(entry.path().string().c_str());
     ImGui::BeginGroup();
 
     // 選択中のアセットはボタンの背景色を変える（Unityの青背景を選択風に再現）
-    if (isSelected) {
+    if (isSelected)
+    {
         ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.2f, 0.4f, 0.6f, 1.0f));
     }
 
     // 1. ファイルの拡張子などに応じて、表示するテクスチャ（ID）を切り替える
-	ImTextureID iconTextureID = (ImTextureID)(uintptr_t)EditorTextureManager::GetInstance().GetFileIconTexture(entry.path().string(), entry.path().extension().string())->GetTextureID();
-    
+    ImTextureID iconTextureID =
+        (ImTextureID)(uintptr_t)EditorTextureManager::GetInstance()
+            .GetFileIconTexture(entry.path().string(),
+                                entry.path().extension().string())
+            ->GetTextureID();
+
     if (ImGui::ImageButton("##icon", iconTextureID, ImVec2(64, 64)))
     {
         mSelectedFilePath = entry.path();
     }
-    if (isSelected) {
+    if (isSelected)
+    {
         ImGui::PopStyleColor();
     }
     // 4. ボタンの下にファイル名を表示（Unity風グリッド）
-	ImGui::PushItemWidth(64); // アイコンと同じ幅にする
+    ImGui::PushItemWidth(64); // アイコンと同じ幅にする
     // リネーム処理
     if (mIsRenaming && entry.path() == mPathToRename)
     {
         RenameFunction(entry);
         ImGui::PopItemWidth();
         ImGui::EndGroup(); // 一旦グループを閉じる
-        ImGui::PopID(); // IDの破棄
+        ImGui::PopID();    // IDの破棄
     }
-    else {
+    else
+    {
         ImGui::TextWrapped(name.c_str()); // 長い名前は折り返す
         ImGui::PopItemWidth();
 
@@ -264,7 +295,7 @@ void ProjectPanel::DrawFileSystemEntry(const filesystem::directory_entry& entry)
             {
                 if (entry.is_directory())
                 {
-                    mSelectedFilePath = entry.path();
+                    mSelectedFilePath   = entry.path();
                     mSelectedFolderPath = entry.path();
                 }
                 else
@@ -287,61 +318,67 @@ void ProjectPanel::DrawFileSystemEntry(const filesystem::directory_entry& entry)
             }
         }
         // コンテキストメニュー、ショートカット、ドラッグ＆ドロップ
-        //DragDropFunction(entry.path());
+        // DragDropFunction(entry.path());
         ShortcutKeyInputFunction(entry.path());
 
         ImGui::PopID(); // IDの破棄
     }
 }
 
-void ProjectPanel::SetDockWindow(ImGuiID id,ImGuiID& outID)
+void ProjectPanel::SetDockWindow(ImGuiID id, ImGuiID& outID)
 {
 
-    ImGuiID dock_id_folderTree = ImGui::DockBuilderSplitNode(id, ImGuiDir_Right, 0.5f, NULL, NULL);
+    ImGuiID dock_id_folderTree =
+        ImGui::DockBuilderSplitNode(id, ImGuiDir_Right, 0.5f, NULL, NULL);
     ImGui::DockBuilderDockWindow("FolderTree", dock_id_folderTree);
-    ImGuiID dock_id_assets = ImGui::DockBuilderSplitNode(id, ImGuiDir_Right, 0.5f, NULL, NULL);
+    ImGuiID dock_id_assets =
+        ImGui::DockBuilderSplitNode(id, ImGuiDir_Right, 0.5f, NULL, NULL);
     ImGui::DockBuilderDockWindow("Assets", dock_id_assets);
     outID = dock_id_assets;
 }
 
 bool ProjectPanel::RightClickMenu()
 {
-	if (mSelectedFilePath.empty()) return false;
+    if (mSelectedFilePath.empty())
+        return false;
     SetPopupColorTheme();
-    // コンテキストメニューは直前に描画したアイテム（TreeNode か Selectable）に紐づく
-    if (ImGui::BeginPopupContextWindow("ProjectContext", ImGuiMouseButton_Right))
+    // コンテキストメニューは直前に描画したアイテム（TreeNode か
+    // Selectable）に紐づく
+    if (ImGui::BeginPopupContextWindow("ProjectContext",
+                                       ImGuiMouseButton_Right))
     {
-        if (ImGui::BeginMenu("Create")) {
-			//フォルダ、シーン、スクリプトの作成
+        if (ImGui::BeginMenu("Create"))
+        {
+            // フォルダ、シーン、スクリプトの作成
             CreateNewFolder();
-			CreateNewScene("Scene");
-			CreateNewScript();
+            CreateNewScene("Scene");
+            CreateNewScript();
             ImGui::EndMenu();
         }
-		// Show in Explorer（フォルダ・ファイルどちらでも可）
-		ShowInExplorer();
-		// Open（ファイルのみ）
+        // Show in Explorer（フォルダ・ファイルどちらでも可）
+        ShowInExplorer();
+        // Open（ファイルのみ）
         if (!filesystem::is_directory(mSelectedFilePath))
         {
             OpenFile();
-		}
-		// Delete（フォルダ・ファイルどちらでも可。ただしAssetsフォルダ自体は削除できない）
-		DeleteFileOrFolder();
+        }
+        // Delete（フォルダ・ファイルどちらでも可。ただしAssetsフォルダ自体は削除できない）
+        DeleteFileOrFolder();
         // Rename（フォルダ・ファイルどちらでも可）
         RenameMenu();
-		// Copy Path（フォルダ・ファイルどちらでも可）
+        // Copy Path（フォルダ・ファイルどちらでも可）
         CopyPathMenu();
         ImGui::Separator();
 
         ImGui::EndPopup();
     }
-	ResetPopupColorTheme();
+    ResetPopupColorTheme();
     return true;
 }
 
 void ProjectPanel::CreateNewFolder()
 {
-    //フォルダ
+    // フォルダ
     if (ImGui::MenuItem("Folder"))
     {
         // 簡易的に NewFolder を作る (衝突は考慮していない)
@@ -349,12 +386,12 @@ void ProjectPanel::CreateNewFolder()
         {
             // 簡易的なユニーク名生成の例
             std::string uniqueName = "NewFolder";
-            int counter = 1;
-            while (filesystem::exists(mSelectedFolderPath / uniqueName)) {
+            int         counter    = 1;
+            while (filesystem::exists(mSelectedFolderPath / uniqueName))
+            {
                 uniqueName = "NewFolder (" + std::to_string(counter++) + ")";
             }
             filesystem::create_directory(mSelectedFolderPath / uniqueName);
-
         }
         catch (const exception& e)
         {
@@ -365,18 +402,21 @@ void ProjectPanel::CreateNewFolder()
 
 void ProjectPanel::CreateNewScene(const string& name, bool loadScene)
 {
-    //シーン作成
+    // シーン作成
     if (ImGui::MenuItem(name.c_str()))
     {
-        string uniqueName = "NewScene.json"; // 拡張子付きで初期化
-        filesystem::path targetFolder = mSelectedFolderPath; // 現在右クリックしているパス（フォルダ）
-        if (mSelectedFolderPath.has_extension()) {
+        string           uniqueName = "NewScene.json"; // 拡張子付きで初期化
+        filesystem::path targetFolder =
+            mSelectedFolderPath; // 現在右クリックしているパス（フォルダ）
+        if (mSelectedFolderPath.has_extension())
+        {
             targetFolder = mSelectedFolderPath.parent_path();
         }
 
         // 既に存在するファイル名かチェックし、ユニークな名前に変更する
         int counter = 1;
-        while (filesystem::exists(targetFolder / uniqueName)) {
+        while (filesystem::exists(targetFolder / uniqueName))
+        {
             // NewScene(1).json, NewScene(2).json のように生成
             uniqueName = "NewScene (" + std::to_string(counter++) + ").json";
         }
@@ -388,22 +428,25 @@ void ProjectPanel::CreateNewScene(const string& name, bool loadScene)
         if (SceneSerializer::CreateEmptyScene(newScenePath))
         {
             // 成功ログ
-            Debug::Log("Created new scene: %s\n", newScenePath.string().c_str());
-            if (loadScene) {
+            Debug::Log("Created new scene: %s\n",
+                       newScenePath.string().c_str());
+            if (loadScene)
+            {
                 SceneManager::LoadSceneGUI(newScenePath.string());
             }
         }
         else
         {
             // 失敗ログ
-            Debug::Log("Failed to create scene file: %s\n", newScenePath.string().c_str());
+            Debug::Log("Failed to create scene file: %s\n",
+                       newScenePath.string().c_str());
         }
     }
 }
 
 void ProjectPanel::CreateNewScript()
 {
-    //Script作成
+    // Script作成
     if (ImGui::MenuItem("Script (C++)"))
     {
         mScriptCreateBuffer[0] = '\0';
@@ -419,7 +462,8 @@ void ProjectPanel::ShowInExplorer()
         std::filesystem::path selectedPath = mSelectedFilePath;
 
         // もし何も選択されていなければ現在のフォルダを開く（フォールバック）
-        if (selectedPath.empty()) {
+        if (selectedPath.empty())
+        {
             selectedPath = mSelectedFolderPath;
         }
 
@@ -437,12 +481,14 @@ void ProjectPanel::OpenFile()
             // シーンファイルのロード処理を呼び出す
             // 実行中のシーンと切り替えるため、SceneManagerに処理を依頼します
             SceneManager::LoadSceneGUI(mSelectedFilePath.string());
-            //EditorSettingsManager::GetInstance().SetLastOpenedScene(entry.path().string());
+            // EditorSettingsManager::GetInstance().SetLastOpenedScene(entry.path().string());
         }
-        else if (filesystem::is_directory(mSelectedFilePath)) {
+        else if (filesystem::is_directory(mSelectedFilePath))
+        {
             mSelectedFolderPath = mSelectedFilePath;
         }
-        else {
+        else
+        {
             FileOperationManager::OpenFile(mSelectedFilePath);
         }
     }
@@ -450,9 +496,9 @@ void ProjectPanel::OpenFile()
 
 void ProjectPanel::DeleteFileOrFolder()
 {
-    //削除メニューはAssetsフォルダ自体を削除できないようにする
+    // 削除メニューはAssetsフォルダ自体を削除できないようにする
     ImGui::BeginDisabled(mSelectedFilePath == "Assets");
-    //フォルダの削除
+    // フォルダの削除
     if (ImGui::MenuItem("Delete"))
     {
         // 即削除はしない。遅延キューに追加する
@@ -467,7 +513,8 @@ void ProjectPanel::RenameMenu()
     if (ImGui::MenuItem("Rename"))
     {
         mPathToRename = mSelectedFilePath;
-        // ファイルなら拡張子を除いた stem を編集バッファに、フォルダは full name
+        // ファイルなら拡張子を除いた stem を編集バッファに、フォルダは full
+        // name
         if (filesystem::is_directory(mSelectedFilePath))
         {
             mRenameInputBuffer = mSelectedFilePath.filename().string();
@@ -485,25 +532,30 @@ void ProjectPanel::CopyPathMenu()
     if (ImGui::MenuItem("Copy Path"))
     {
         ImGui::SetClipboardText(mSelectedFilePath.string().c_str());
-        Debug::Log("Copied path to clipboard: %s\n", mSelectedFilePath.string().c_str());
-	}
+        Debug::Log("Copied path to clipboard: %s\n",
+                   mSelectedFilePath.string().c_str());
+    }
 }
 
 void ProjectPanel::ShortcutKeyInputFunction(const filesystem::path& path)
 {
-    if (!WindowHoveredConfirmation()) { return; }
-    //削除キー
+    if (!WindowHoveredConfirmation())
+    {
+        return;
+    }
+    // 削除キー
     if (!mSelectedFilePath.empty() && ImGui::IsKeyPressed(ImGuiKey_Delete))
     {
-		EditorSettingsManager::SetDeleteDirectoryQueue(mSelectedFilePath);
+        EditorSettingsManager::SetDeleteDirectoryQueue(mSelectedFilePath);
         EditorSettingsManager::ProcessScriptDelete(mSelectedFilePath);
     }
-    //名前変更キー
+    // 名前変更キー
     if (!mSelectedFilePath.empty() && ImGui::IsKeyPressed(ImGuiKey_F2))
     {
-        mPathToRename = mSelectedFilePath; //mSelectedPath をターゲットに
+        mPathToRename = mSelectedFilePath; // mSelectedPath をターゲットに
 
-        // ファイルなら拡張子を除いた stem を編集バッファに、フォルダは full name
+        // ファイルなら拡張子を除いた stem を編集バッファに、フォルダは full
+        // name
         if (filesystem::is_directory(mSelectedFilePath))
         {
             mRenameInputBuffer = mSelectedFilePath.filename().string();
@@ -522,19 +574,22 @@ void ProjectPanel::DragDropFunction(const filesystem::path& path)
     // ドラッグ開始処理（Selectable の近くに置く）
     if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_SourceAllowNullID))
     {
-        ImGui::SetDragDropPayload("CONTENT_BROWSER_ITEM", filePath.c_str(), filePath.size() + 1);
+        ImGui::SetDragDropPayload("CONTENT_BROWSER_ITEM", filePath.c_str(),
+                                  filePath.size() + 1);
         // ドラッグ中の表示
         ImGui::Text("%s", path.filename().string().c_str());
         ImGui::EndDragDropSource();
     }
-    //ドラッグ終了処理
+    // ドラッグ終了処理
     if (ImGui::BeginDragDropTarget())
     {
-        if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM"))
+        if (const ImGuiPayload* payload =
+                ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM"))
         {
-            if (payload->Data == nullptr || payload->DataSize <= 1) return;
+            if (payload->Data == nullptr || payload->DataSize <= 1)
+                return;
             const char* srcPathC = (const char*)payload->Data;
-            string srcStr(srcPathC, payload->DataSize - 1);
+            string      srcStr(srcPathC, payload->DataSize - 1);
 
             filesystem::path src(srcStr);
             filesystem::path dst;
@@ -555,8 +610,8 @@ void ProjectPanel::DragDropFunction(const filesystem::path& path)
                 if (filesystem::exists(dst))
                 {
                     // すでに存在 → 上書き確認ダイアログへ
-                    mPendingSrc = src;
-                    mPendingDst = dst;
+                    mPendingSrc         = src;
+                    mPendingDst         = dst;
                     mShowOverwritePopup = true;
                     ImGui::OpenPopup("Overwrite?");
                 }
@@ -582,7 +637,7 @@ void ProjectPanel::RenameFunction(const filesystem::directory_entry entry)
     ImGui::PushID(entry.path().string().c_str());
 
     char buffer[256];
-    //ここで入力を行っている
+    // ここで入力を行っている
     strncpy_s(buffer, mRenameInputBuffer.c_str(), sizeof(buffer));
 
     buffer[sizeof(buffer) - 1] = '\0';
@@ -590,21 +645,25 @@ void ProjectPanel::RenameFunction(const filesystem::directory_entry entry)
     ImGuiID inputID = ImGui::GetID("##rename");
 
     // InputTextの設定。フォーカスを自動で当てる処理を入れておくと快適になります
-    if (!ImGui::IsAnyItemActive()) {
+    if (!ImGui::IsAnyItemActive())
+    {
         ImGui::ActivateItemByID(inputID);
     }
 
-    if (ImGui::InputText("##rename", buffer, sizeof(buffer), ImGuiInputTextFlags_EnterReturnsTrue | ImGuiInputTextFlags_AutoSelectAll))
+    if (ImGui::InputText("##rename", buffer, sizeof(buffer),
+                         ImGuiInputTextFlags_EnterReturnsTrue |
+                             ImGuiInputTextFlags_AutoSelectAll))
     {
         std::string newName = buffer;
 
-		FileOperationManager::ExecuteRename(entry.path(), newName);
+        FileOperationManager::ExecuteRename(entry.path(), newName);
 
         mIsRenaming = false;
     }
 
     // Esc キャンセル
-    if (ImGui::IsItemDeactivated() && !ImGui::IsItemDeactivatedAfterEdit() || ImGui::IsKeyPressed(ImGuiKey_Escape))
+    if (ImGui::IsItemDeactivated() && !ImGui::IsItemDeactivatedAfterEdit() ||
+        ImGui::IsKeyPressed(ImGuiKey_Escape))
     {
         mIsRenaming = false;
     }
@@ -614,17 +673,21 @@ void ProjectPanel::RenameFunction(const filesystem::directory_entry entry)
 
 void ProjectPanel::DrawOverwritePopup()
 {
-    if (ImGui::BeginPopupModal("Overwrite?", nullptr, ImGuiWindowFlags_AlwaysAutoResize))
+    if (ImGui::BeginPopupModal("Overwrite?", nullptr,
+                               ImGuiWindowFlags_AlwaysAutoResize))
     {
-        ImGui::Text("File already exists:\n%s\n\nOverwrite?", mPendingDst.string().c_str());
+        ImGui::Text("File already exists:\n%s\n\nOverwrite?",
+                    mPendingDst.string().c_str());
 
         if (ImGui::Button("Yes", ImVec2(120, 0)))
         {
             try
             {
-                filesystem::remove(mPendingDst);            // 既存を消す
+                filesystem::remove(mPendingDst);              // 既存を消す
                 filesystem::rename(mPendingSrc, mPendingDst); // 移動
-                Debug::Log("Overwritten: %s -> %s\n", mPendingSrc.string().c_str(), mPendingDst.string().c_str());
+                Debug::Log("Overwritten: %s -> %s\n",
+                           mPendingSrc.string().c_str(),
+                           mPendingDst.string().c_str());
             }
             catch (const exception& e)
             {
@@ -648,33 +711,47 @@ void ProjectPanel::DrawOverwritePopup()
 
 void ProjectPanel::DrawScriptCreatePopup()
 {
-    if (ImGui::BeginPopupModal("Create New Script", nullptr, ImGuiWindowFlags_AlwaysAutoResize)) {
+    if (ImGui::BeginPopupModal("Create New Script", nullptr,
+                               ImGuiWindowFlags_AlwaysAutoResize))
+    {
         ImGui::Text("Enter Script Name (Do not include extension):");
 
         // ポップアップが開いた瞬間に、入力欄に自動でフォーカスを当てる
-        if (ImGui::IsWindowAppearing() && !ImGui::IsAnyItemActive()) {
+        if (ImGui::IsWindowAppearing() && !ImGui::IsAnyItemActive())
+        {
             ImGui::SetKeyboardFocusHere();
         }
 
-        bool isSubmitted = ImGui::InputText("##scriptName", mScriptCreateBuffer, sizeof(mScriptCreateBuffer), ImGuiInputTextFlags_EnterReturnsTrue);
+        bool isSubmitted = ImGui::InputText(
+            "##scriptName", mScriptCreateBuffer, sizeof(mScriptCreateBuffer),
+            ImGuiInputTextFlags_EnterReturnsTrue);
 
         ImGui::Spacing();
         ImGui::Separator();
         ImGui::Spacing();
 
-        if (ImGui::Button("Create", ImVec2(120, 0)) || isSubmitted) {
+        if (ImGui::Button("Create", ImVec2(120, 0)) || isSubmitted)
+        {
             string scriptName = mScriptCreateBuffer;
-            if (!scriptName.empty()) {
-                bool success = ScriptEditManager::GetInstance().CreateScriptFile(mSelectedFilePath, scriptName);
+            if (!scriptName.empty())
+            {
+                bool success =
+                    ScriptEditManager::GetInstance().CreateScriptFile(
+                        mSelectedFilePath, scriptName);
 
-                if (success) {
-                    Debug::Log("Successfully created script: %s\n", scriptName.c_str());
+                if (success)
+                {
+                    Debug::Log("Successfully created script: %s\n",
+                               scriptName.c_str());
 
                     string hPath = scriptName + "h";
-                    ScriptEditManager::GetInstance().AddScriptFileToVcxProj(mSelectedFilePath / hPath, scriptName);
+                    ScriptEditManager::GetInstance().AddScriptFileToVcxProj(
+                        mSelectedFilePath / hPath, scriptName);
                 }
-                else {
-                    Debug::Log("Failed to create script: %s\n", scriptName.c_str());
+                else
+                {
+                    Debug::Log("Failed to create script: %s\n",
+                               scriptName.c_str());
                 }
                 ImGui::CloseCurrentPopup();
             }
@@ -682,7 +759,8 @@ void ProjectPanel::DrawScriptCreatePopup()
 
         ImGui::SameLine();
 
-        if (ImGui::Button("Cancel", ImVec2(120, 0))) {
+        if (ImGui::Button("Cancel", ImVec2(120, 0)))
+        {
             ImGui::CloseCurrentPopup();
         }
         ImGui::EndPopup();

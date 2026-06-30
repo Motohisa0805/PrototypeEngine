@@ -3,51 +3,50 @@
 #include "BaseScene.h"
 #include "EngineWindow.h"
 #include "imgui.h"
-#include "imgui_impl_sdl3.h"
 #include "imgui_impl_opengl3.h"
+#include "imgui_impl_sdl3.h"
 
 Collider::Collider(Entity* owner, int updateOrder)
-	: Component(owner,updateOrder)
-	, mWorldAABB(Vector3::Zero, Vector3::Zero)
-	, mIsCollider(true)
-	, mContactOffset(0.001f)
-	, mWorldOBB(Vector3::Zero, Quaternion::Identity, Vector3::Zero)
+    : Component(owner, updateOrder)
+    , mWorldAABB(Vector3::Zero, Vector3::Zero)
+    , mIsCollider(true)
+    , mContactOffset(0.001f)
+    , mWorldOBB(Vector3::Zero, Quaternion::Identity, Vector3::Zero)
 {
-	EngineWindow::GetPhysWorld()->AddCollider(this);
+    EngineWindow::GetPhysWorld()->AddCollider(this);
 }
 
-Collider::~Collider()
-{
-	EngineWindow::GetPhysWorld()->RemoveCollider(this);
-}
+Collider::~Collider() { EngineWindow::GetPhysWorld()->RemoveCollider(this); }
 
 void Collider::SetIsRun(bool run)
 {
-	Component::SetIsRun(run);
-	if (run) {
-		EngineWindow::GetPhysWorld()->AddCollider(this);
-	}
-	else {
-		EngineWindow::GetPhysWorld()->RemoveCollider(this);
-	}
+    Component::SetIsRun(run);
+    if (run)
+    {
+        EngineWindow::GetPhysWorld()->AddCollider(this);
+    }
+    else
+    {
+        EngineWindow::GetPhysWorld()->RemoveCollider(this);
+    }
 }
 
 void Collider::Serialize(json& j) const
 {
-	Component::Serialize(j);
-	j["mIsCollider"] = mIsCollider;
+    Component::Serialize(j);
+    j["mIsCollider"] = mIsCollider;
 }
 
 void Collider::Deserialize(const json& j)
 {
-	Component::Deserialize(j);
-	mIsCollider = j.value("mIsCollider", true);
+    Component::Deserialize(j);
+    mIsCollider = j.value("mIsCollider", true);
 }
 
 void Collider::DrawCustomGUI(const std::vector<PropertyInfo>& properties)
 {
-	ImGui::Checkbox("Is Collider", &mIsCollider);
-	ImGui::NewLine();
+    ImGui::Checkbox("Is Collider", &mIsCollider);
+    ImGui::NewLine();
 
-	ImGui::Separator();
+    ImGui::Separator();
 }

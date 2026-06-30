@@ -3,382 +3,392 @@
 #include "Renderer.h"
 
 #include "imgui.h"
-#include "imgui_impl_sdl3.h"
 #include "imgui_impl_opengl3.h"
+#include "imgui_impl_sdl3.h"
 
 ParticleSystem::ParticleSystem(Entity* owner)
-	: Component(owner)
-	, mVisible(true)
-	, mIsAlphaFade(false)
-	, mIsLoop(false)
-	, mIsDestroyed(false)
-	, mParticleLifeTime(1.0f) // デフォルトのパーティクルライフタイム
-	, mParticleAllLifeTime(1.0f) // デフォルトの最大パーティクルライフタイム
-	, mMaxParticleCount(50) // デフォルトの最大パーティクル数
-	, mParticleEmitSpeed(Vector3(1.0f, 2.0f, 1.0f)) // デフォルトのパーティクル発射速度
-	, mParticleMaxSize(1.0f) // デフォルトのパーティクルサイズ
-	, mParticleMinSize(0.1f) // デフォルトの最小パーティクルサイズ
-	, mEmitInterval(0.02f) // 50個/秒
-	, mEmitTimer(0.0f)
-	, mDefaultColor(Vector4(1.0f, 1.0f, 1.0f, 1.0f)) // デフォルトの色（白）
-	, mParticleTexture(nullptr) // 初期化時はテクスチャなし
+    : Component(owner)
+    , mVisible(true)
+    , mIsAlphaFade(false)
+    , mIsLoop(false)
+    , mIsDestroyed(false)
+    , mParticleLifeTime(1.0f)    // デフォルトのパーティクルライフタイム
+    , mParticleAllLifeTime(1.0f) // デフォルトの最大パーティクルライフタイム
+    , mMaxParticleCount(50)      // デフォルトの最大パーティクル数
+    , mParticleEmitSpeed(
+          Vector3(1.0f, 2.0f, 1.0f)) // デフォルトのパーティクル発射速度
+    , mParticleMaxSize(1.0f)         // デフォルトのパーティクルサイズ
+    , mParticleMinSize(0.1f)         // デフォルトの最小パーティクルサイズ
+    , mEmitInterval(0.02f)           // 50個/秒
+    , mEmitTimer(0.0f)
+    , mDefaultColor(Vector4(1.0f, 1.0f, 1.0f, 1.0f)) // デフォルトの色（白）
+    , mParticleTexture(nullptr)                      // 初期化時はテクスチャなし
 {
-	mName = "ParticleSystem";
-	EngineWindow::GetRenderer()->AddParticleComp(this);
+    mName = "ParticleSystem";
+    EngineWindow::GetRenderer()->AddParticleComp(this);
 
-	mParticleAllLifeTime = mParticleLifeTime;
+    mParticleAllLifeTime = mParticleLifeTime;
 
-	//生成時に初期画像を読み込む
-	mTextureFilePath = "Assets/Particle/Default.png";
-	mParticleTexture = EngineWindow::GetRenderer()->GetTexture(mTextureFilePath);
+    // 生成時に初期画像を読み込む
+    mTextureFilePath = "Assets/Particle/Default.png";
+    mParticleTexture =
+        EngineWindow::GetRenderer()->GetTexture(mTextureFilePath);
 
-	mHeaderColor = Vector4(0.8f, 0.4f, 0.8f, 1.0f);
-	mHeaderHoveredColor = Vector4(0.6f, 0.3f, 0.6f, 1.0f);
-	mHeaderActiveColor = Vector4(0.8f, 0.4f, 0.8f, 1.0f);
+    mHeaderColor        = Vector4(0.8f, 0.4f, 0.8f, 1.0f);
+    mHeaderHoveredColor = Vector4(0.6f, 0.3f, 0.6f, 1.0f);
+    mHeaderActiveColor  = Vector4(0.8f, 0.4f, 0.8f, 1.0f);
 }
 
 ParticleSystem::~ParticleSystem()
 {
-	EngineWindow::GetRenderer()->RemoveParticleComp(this);
+    EngineWindow::GetRenderer()->RemoveParticleComp(this);
 
-	for (auto& p : mParticle)
-		delete p;
-	mParticle.clear();
+    for (auto& p : mParticle)
+        delete p;
+    mParticle.clear();
 }
 
 Vector3 ParticleSystem::AddVelocity()
 {
-	Vector3 velocity = Vector3(1.0f,1.0f,1.0f);
+    Vector3 velocity = Vector3(1.0f, 1.0f, 1.0f);
 
-	// Emit関数の中
-	velocity = Random::GetVector(
-		Vector3(-0.2f, 1.5f, -0.2f), // 最小値：Yに強い上昇
-		Vector3(0.2f, 2.5f, 0.2f)    // 最大値：揺らぎを出す
-	) * Random::GetFloatRange(0.8f, 1.2f); // ばらつき
+    // Emit関数の中
+    velocity =
+        Random::GetVector(Vector3(-0.2f, 1.5f, -0.2f), // 最小値：Yに強い上昇
+                          Vector3(0.2f, 2.5f, 0.2f)    // 最大値：揺らぎを出す
+                          ) *
+        Random::GetFloatRange(0.8f, 1.2f); // ばらつき
 
-	return velocity;
+    return velocity;
 }
 
 void ParticleSystem::Emit()
 {
-	ParticleStruct* p = GetInactiveParticleOrCreateNew(); // 再利用 or 新規作成
-	if (!p) return; // 最大数ならEmitしない
-	p->mActive = true;
-	p->mLifetime = p->mMaxLifetime = Random::GetFloatRange(0.5f, 1.0f);
-	p->mPosition = mActor->GetTransform()->GetLocalPosition(); // ← 毎回初期位置から
-	p->mVelocity = AddVelocity();
-	p->mSize = Random::GetFloatRange(mParticleMinSize, mParticleMaxSize);
-	p->mColor = mDefaultColor;
+    ParticleStruct* p = GetInactiveParticleOrCreateNew(); // 再利用 or 新規作成
+    if (!p)
+        return; // 最大数ならEmitしない
+    p->mActive   = true;
+    p->mLifetime = p->mMaxLifetime = Random::GetFloatRange(0.5f, 1.0f);
+    p->mPosition =
+        mActor->GetTransform()->GetLocalPosition(); // ← 毎回初期位置から
+    p->mVelocity = AddVelocity();
+    p->mSize     = Random::GetFloatRange(mParticleMinSize, mParticleMaxSize);
+    p->mColor    = mDefaultColor;
 }
 
 void ParticleSystem::SetParticleSpeed(Vector3 speed)
 {
-	mParticleEmitSpeed = speed;
+    mParticleEmitSpeed = speed;
 }
 
 void ParticleSystem::SetColor(Vector4 color)
 {
-	mDefaultColor = color; // 新規パーティクルに反映されるように
-	for (auto& p : mParticle)
-	{
-		if (p->mActive)
-			p->mColor = color;
-	}
+    mDefaultColor = color; // 新規パーティクルに反映されるように
+    for (auto& p : mParticle)
+    {
+        if (p->mActive)
+            p->mColor = color;
+    }
 }
 
 ParticleStruct* ParticleSystem::GetInactiveParticleOrCreateNew()
 {
-	if (mParticle.size() >= mMaxParticleCount)
-		return nullptr;
+    if (mParticle.size() >= mMaxParticleCount)
+        return nullptr;
 
-	for (auto& p : mParticle)
-	{
-		if (!p->mActive)
-		{
-			return p; // 非アクティブなパーティクルを再利用
-		}
-	}
-	// すべてアクティブなら新規作成して追加
-	ParticleStruct* newParticle = new ParticleStruct();
-	mParticle.push_back(newParticle);
-	return newParticle;
+    for (auto& p : mParticle)
+    {
+        if (!p->mActive)
+        {
+            return p; // 非アクティブなパーティクルを再利用
+        }
+    }
+    // すべてアクティブなら新規作成して追加
+    ParticleStruct* newParticle = new ParticleStruct();
+    mParticle.push_back(newParticle);
+    return newParticle;
 }
 
 void ParticleSystem::SetEmitInterval(float interval)
 {
-	mEmitInterval = interval;
-	mEmitTimer = 0.0f; // タイマーをリセット
+    mEmitInterval = interval;
+    mEmitTimer    = 0.0f; // タイマーをリセット
 }
 
 void ParticleSystem::Update(float deltaTime)
 {
-	// 全体ライフタイムが0以下なら更新しない
-	if (mParticleAllLifeTime <= 0.0f && !mIsLoop) { return; } 
-	mParticleAllLifeTime -= deltaTime;
-	mEmitTimer += deltaTime;
+    // 全体ライフタイムが0以下なら更新しない
+    if (mParticleAllLifeTime <= 0.0f && !mIsLoop)
+    {
+        return;
+    }
+    mParticleAllLifeTime -= deltaTime;
+    mEmitTimer += deltaTime;
 
-	// 一定間隔で1粒ずつ Emit
-	while (mEmitTimer >= mEmitInterval)
-	{
-		Emit();
-		mEmitTimer -= mEmitInterval;
-	}
+    // 一定間隔で1粒ずつ Emit
+    while (mEmitTimer >= mEmitInterval)
+    {
+        Emit();
+        mEmitTimer -= mEmitInterval;
+    }
 
-	// 各パーティクル更新
-	for (auto& p : mParticle)
-	{
-		if (!p->mActive) continue;
+    // 各パーティクル更新
+    for (auto& p : mParticle)
+    {
+        if (!p->mActive)
+            continue;
 
-		p->mLifetime -= deltaTime;
-		if (p->mLifetime <= 0.0f)
-		{
-			p->mActive = false;
-			continue;
-		}
+        p->mLifetime -= deltaTime;
+        if (p->mLifetime <= 0.0f)
+        {
+            p->mActive = false;
+            continue;
+        }
 
-		// 移動
-		p->mPosition += p->mVelocity * deltaTime;
-	}
-	// パーティクルの全体ライフタイムが0以下なら、ループしない場合は破棄
-	if( mParticleAllLifeTime <= 0.0f)
-	{
-		if(!mIsLoop && mIsDestroyed)
-		{
-			mOwner->SetState(ActorObject::EDead);
-		}
-		else if(mIsLoop)
-		{
-			mParticleAllLifeTime = mParticleLifeTime;
-		}
-	}
+        // 移動
+        p->mPosition += p->mVelocity * deltaTime;
+    }
+    // パーティクルの全体ライフタイムが0以下なら、ループしない場合は破棄
+    if (mParticleAllLifeTime <= 0.0f)
+    {
+        if (!mIsLoop && mIsDestroyed)
+        {
+            mOwner->SetState(ActorObject::EDead);
+        }
+        else if (mIsLoop)
+        {
+            mParticleAllLifeTime = mParticleLifeTime;
+        }
+    }
 }
 
 void ParticleSystem::Draw(Shader* shader)
 {
-	// カメラのビュー行列の逆行列を取得（ワールド変換行列）
-	Matrix4 viewMatrix = EngineWindow::GetRenderer()->GetView();
-	viewMatrix.Invert(); // カメラのワールド空間情報
+    // カメラのビュー行列の逆行列を取得（ワールド変換行列）
+    Matrix4 viewMatrix = EngineWindow::GetRenderer()->GetView();
+    viewMatrix.Invert(); // カメラのワールド空間情報
 
-	// カメラの向きを取得
-	Vector3 camRight = viewMatrix.GetXAxis(); // X方向（右）
-	Vector3 camUp = viewMatrix.GetYAxis(); // Y方向（上）
-	Vector3 camForward = viewMatrix.GetZAxis(); // Z方向（前）
+    // カメラの向きを取得
+    Vector3 camRight   = viewMatrix.GetXAxis(); // X方向（右）
+    Vector3 camUp      = viewMatrix.GetYAxis(); // Y方向（上）
+    Vector3 camForward = viewMatrix.GetZAxis(); // Z方向（前）
 
-	for(int i = 0; i < mParticle.size(); ++i)
-	{
-		if (mParticle[i]->mActive)
-		{
-			ParticleStruct* p = mParticle[i];
+    for (int i = 0; i < mParticle.size(); ++i)
+    {
+        if (mParticle[i]->mActive)
+        {
+            ParticleStruct* p = mParticle[i];
 
-			// モデル行列
-			// === ビルボード用ワールド行列を作成 ===
-			Matrix4 world = Matrix4::Billboard(
-				p->mPosition, 
-				p->mSize, 
-				camRight, 
-				camUp, 
-				camForward
-			);
-			// ここでワールド行列を設定
-			shader->SetMatrixUniform("uWorldTransform", world);
-			shader->SetVector4Uniform("uTexUV", Vector4(0.0f, 0.0f, 1.0f, 1.0f));
-			// ここでパーティクルの色を設定
-			// mColorは元の色で、アルファフェードが有効な場合は透明度を調整
-			Vector4 drawColor = p->mColor;
-			if (mIsAlphaFade)
-			{
-				float alpha = p->mLifetime / p->mMaxLifetime;
-				drawColor.w *= alpha; // 元の mColor.w に影響しない
-			}
-			shader->SetVector4Uniform("uColor", drawColor);
+            // モデル行列
+            // === ビルボード用ワールド行列を作成 ===
+            Matrix4 world = Matrix4::Billboard(p->mPosition, p->mSize, camRight,
+                                               camUp, camForward);
+            // ここでワールド行列を設定
+            shader->SetMatrixUniform("uWorldTransform", world);
+            shader->SetVector4Uniform("uTexUV",
+                                      Vector4(0.0f, 0.0f, 1.0f, 1.0f));
+            // ここでパーティクルの色を設定
+            // mColorは元の色で、アルファフェードが有効な場合は透明度を調整
+            Vector4 drawColor = p->mColor;
+            if (mIsAlphaFade)
+            {
+                float alpha = p->mLifetime / p->mMaxLifetime;
+                drawColor.w *= alpha; // 元の mColor.w に影響しない
+            }
+            shader->SetVector4Uniform("uColor", drawColor);
 
-			//画像をテクスチャとして使用する場合は、ここでバインドします
-			if (!mParticleTexture) return;
-			mParticleTexture->SetActive();
-			glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
-		}
-	}
+            // 画像をテクスチャとして使用する場合は、ここでバインドします
+            if (!mParticleTexture)
+                return;
+            mParticleTexture->SetActive();
+            glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+        }
+    }
 }
 
 void ParticleSystem::Serialize(json& j) const
 {
-	Component::Serialize(j);
-	j["TextureFilePath"] = mTextureFilePath;
-	j["IsAlphaFade"] = mIsAlphaFade;
-	j["IsLoop"] = mIsLoop;
-	j["IsDestroyed"] = mIsDestroyed;
-	j["MaxParticleCount"] = mMaxParticleCount;
-	j["ParticleLifeTime"] = mParticleLifeTime;
-	j["ParticleMinSize"] = mParticleMinSize;
-	j["ParticleMaxSize"] = mParticleMaxSize;
-	j["EmitInterval"] = mEmitInterval;
+    Component::Serialize(j);
+    j["TextureFilePath"]  = mTextureFilePath;
+    j["IsAlphaFade"]      = mIsAlphaFade;
+    j["IsLoop"]           = mIsLoop;
+    j["IsDestroyed"]      = mIsDestroyed;
+    j["MaxParticleCount"] = mMaxParticleCount;
+    j["ParticleLifeTime"] = mParticleLifeTime;
+    j["ParticleMinSize"]  = mParticleMinSize;
+    j["ParticleMaxSize"]  = mParticleMaxSize;
+    j["EmitInterval"]     = mEmitInterval;
 }
 
 void ParticleSystem::Deserialize(const json& j)
 {
-	Component::Deserialize(j);
+    Component::Deserialize(j);
 
-	if (j.contains("TextureFilePath")) {
-		// 1. JSONからファイルパスを取得する
-		std::string filePath = j.at("TextureFilePath").get<std::string>();
+    if (j.contains("TextureFilePath"))
+    {
+        // 1. JSONからファイルパスを取得する
+        std::string filePath = j.at("TextureFilePath").get<std::string>();
 
-		// 2. メンバ変数にファイルパスを設定
-		mTextureFilePath = filePath;
-		mParticleTexture = EngineWindow::GetRenderer()->GetTexture(filePath);
-	}
-	if (j.contains("IsAlphaFade"))
-	{
-		mIsAlphaFade = j["IsAlphaFade"].get<bool>();
-	}
-	if (j.contains("IsLoop"))
-	{
-		mIsLoop = j["IsLoop"].get<bool>();
-	}
-	if (j.contains("IsDestroyed"))
-	{
-		mIsDestroyed = j["IsDestroyed"].get<bool>();
-	}
-	if (j.contains("MaxParticleCount"))
-	{
-		mMaxParticleCount = j["MaxParticleCount"].get<int>();
-	}
-	if (j.contains("ParticleLifeTime"))
-	{
-		mParticleLifeTime = j["ParticleLifeTime"].get<float>();
-	}
-	if (j.contains("ParticleMinSize"))
-	{
-		mParticleMinSize = j["ParticleMinSize"].get<float>();
-	}
-	if (j.contains("ParticleMaxSize"))
-	{
-		mParticleMaxSize = j["ParticleMaxSize"].get<float>();
-	}
-	if (j.contains("EmitInterval"))
-	{
-		mEmitInterval = j["EmitInterval"].get<float>();
-	}
+        // 2. メンバ変数にファイルパスを設定
+        mTextureFilePath = filePath;
+        mParticleTexture = EngineWindow::GetRenderer()->GetTexture(filePath);
+    }
+    if (j.contains("IsAlphaFade"))
+    {
+        mIsAlphaFade = j["IsAlphaFade"].get<bool>();
+    }
+    if (j.contains("IsLoop"))
+    {
+        mIsLoop = j["IsLoop"].get<bool>();
+    }
+    if (j.contains("IsDestroyed"))
+    {
+        mIsDestroyed = j["IsDestroyed"].get<bool>();
+    }
+    if (j.contains("MaxParticleCount"))
+    {
+        mMaxParticleCount = j["MaxParticleCount"].get<int>();
+    }
+    if (j.contains("ParticleLifeTime"))
+    {
+        mParticleLifeTime = j["ParticleLifeTime"].get<float>();
+    }
+    if (j.contains("ParticleMinSize"))
+    {
+        mParticleMinSize = j["ParticleMinSize"].get<float>();
+    }
+    if (j.contains("ParticleMaxSize"))
+    {
+        mParticleMaxSize = j["ParticleMaxSize"].get<float>();
+    }
+    if (j.contains("EmitInterval"))
+    {
+        mEmitInterval = j["EmitInterval"].get<float>();
+    }
 }
 
 void ParticleSystem::DrawCustomGUI(const std::vector<PropertyInfo>& properties)
 {
-	ImGui::PushID(this);
+    ImGui::PushID(this);
 
-	ImGui::Text("Properties");
+    ImGui::Text("Properties");
 
-	ImGui::NewLine();
+    ImGui::NewLine();
 
-	DrawSettingTexturePathGUI();
-	
-	ImGui::NewLine();
-	
-	ImGui::Text("AlphaFade");
-	ImGui::SameLine();
-	ImGui::Checkbox("##alphaFade", &mIsAlphaFade);
+    DrawSettingTexturePathGUI();
 
-	ImGui::NewLine();
+    ImGui::NewLine();
 
-	ImGui::Text("Loop");
-	ImGui::SameLine();
-	ImGui::Checkbox("##loop", &mIsLoop);
-	
-	ImGui::NewLine();
-	
-	ImGui::Text("Destroyed");
-	ImGui::SameLine();
-	ImGui::Checkbox("##destroyed", &mIsDestroyed);
-	
-	ImGui::NewLine();
-	
-	ImGui::Text("MaxParticleCount");
-	ImGui::SameLine();
-	ImGui::InputInt("##maxParticleCount", &mMaxParticleCount);
-	
-	ImGui::NewLine();
-	
-	ImGui::Text("ParticleLifeTime");
-	ImGui::SameLine();
-	ImGui::InputFloat("##particleLifeTime", &mParticleLifeTime);
-	
-	ImGui::NewLine();
-	
-	ImGui::Text("ParticleMinSize");
-	ImGui::SameLine();
-	ImGui::InputFloat("##particleMinSize", &mParticleMinSize);
-	
-	ImGui::NewLine();
-	
-	ImGui::Text("ParticleMaxSize");
-	ImGui::SameLine();
-	ImGui::InputFloat("##particleMaxSize", &mParticleMaxSize);
-	
-	ImGui::NewLine();
-	
-	ImGui::Text("EmitInterval");
-	ImGui::SameLine();
-	ImGui::InputFloat("##emitInterval", &mEmitInterval);
-	
-	ImGui::NewLine();
-	/*
-	ImGui::Text("ParticleEmitSpeed");
-	ImGui::InputFloat3("##particleEmitSpeed", &mParticleEmitSpeed.x);
-	*/
+    ImGui::Text("AlphaFade");
+    ImGui::SameLine();
+    ImGui::Checkbox("##alphaFade", &mIsAlphaFade);
 
-	ImGui::NewLine();
+    ImGui::NewLine();
 
-	ImGui::Separator();
+    ImGui::Text("Loop");
+    ImGui::SameLine();
+    ImGui::Checkbox("##loop", &mIsLoop);
 
-	ImGui::PopID();
+    ImGui::NewLine();
+
+    ImGui::Text("Destroyed");
+    ImGui::SameLine();
+    ImGui::Checkbox("##destroyed", &mIsDestroyed);
+
+    ImGui::NewLine();
+
+    ImGui::Text("MaxParticleCount");
+    ImGui::SameLine();
+    ImGui::InputInt("##maxParticleCount", &mMaxParticleCount);
+
+    ImGui::NewLine();
+
+    ImGui::Text("ParticleLifeTime");
+    ImGui::SameLine();
+    ImGui::InputFloat("##particleLifeTime", &mParticleLifeTime);
+
+    ImGui::NewLine();
+
+    ImGui::Text("ParticleMinSize");
+    ImGui::SameLine();
+    ImGui::InputFloat("##particleMinSize", &mParticleMinSize);
+
+    ImGui::NewLine();
+
+    ImGui::Text("ParticleMaxSize");
+    ImGui::SameLine();
+    ImGui::InputFloat("##particleMaxSize", &mParticleMaxSize);
+
+    ImGui::NewLine();
+
+    ImGui::Text("EmitInterval");
+    ImGui::SameLine();
+    ImGui::InputFloat("##emitInterval", &mEmitInterval);
+
+    ImGui::NewLine();
+    /*
+    ImGui::Text("ParticleEmitSpeed");
+    ImGui::InputFloat3("##particleEmitSpeed", &mParticleEmitSpeed.x);
+    */
+
+    ImGui::NewLine();
+
+    ImGui::Separator();
+
+    ImGui::PopID();
 }
 
 void ParticleSystem::DrawSettingTexturePathGUI()
 {
-	//1.ファイルパスの取得
-	string currentPath = mTextureFilePath;
-	static char pathBuffer[256];
-	strncpy_s(pathBuffer, currentPath.c_str(), sizeof(pathBuffer));
-	pathBuffer[sizeof(pathBuffer) - 1] = '\0';
-	ImGui::Text("FilePath DragDropTarget");
-	//2.ファイルパスの入力フィールド
-	ImGui::InputText("Texture File Path", pathBuffer, sizeof(pathBuffer), ImGuiInputTextFlags_ReadOnly);
-	//3.ファイルロードボタン(ここでファイル選択UIを開くか、ProjectPanelからのDrag&Dropを想定)
-	//Drag&Drop想定
-	if (ImGui::BeginDragDropTarget())
-	{
-		if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM"))
-		{
-			//ペイロードがファイルパスであると仮定
-			const char* dropPath = (const char*)payload->Data;
-			mParticleTexture = EngineWindow::GetRenderer()->GetTexture(dropPath);
-			mTextureFilePath = dropPath;
-		}
-		ImGui::EndDragDropTarget();
-	}
-	if (ImGui::Button("Clear Image"))
-	{
-		mParticleTexture = nullptr;
-		mTextureFilePath = "";
-	}
+    // 1.ファイルパスの取得
+    string      currentPath = mTextureFilePath;
+    static char pathBuffer[256];
+    strncpy_s(pathBuffer, currentPath.c_str(), sizeof(pathBuffer));
+    pathBuffer[sizeof(pathBuffer) - 1] = '\0';
+    ImGui::Text("FilePath DragDropTarget");
+    // 2.ファイルパスの入力フィールド
+    ImGui::InputText("Texture File Path", pathBuffer, sizeof(pathBuffer),
+                     ImGuiInputTextFlags_ReadOnly);
+    // 3.ファイルロードボタン(ここでファイル選択UIを開くか、ProjectPanelからのDrag&Dropを想定)
+    // Drag&Drop想定
+    if (ImGui::BeginDragDropTarget())
+    {
+        if (const ImGuiPayload* payload =
+                ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM"))
+        {
+            // ペイロードがファイルパスであると仮定
+            const char* dropPath = (const char*)payload->Data;
+            mParticleTexture =
+                EngineWindow::GetRenderer()->GetTexture(dropPath);
+            mTextureFilePath = dropPath;
+        }
+        ImGui::EndDragDropTarget();
+    }
+    if (ImGui::Button("Clear Image"))
+    {
+        mParticleTexture = nullptr;
+        mTextureFilePath = "";
+    }
 }
 
 Component* ParticleSystem::Clone(Entity* newOwner) const
 {
-	ParticleSystem* clone = new ParticleSystem(newOwner);
+    ParticleSystem* clone = new ParticleSystem(newOwner);
 
-	clone->mParticle = this->mParticle;
-	clone->mParticleTexture = this->mParticleTexture;
-	clone->mTextureFilePath = this->mTextureFilePath;
-	clone->mIsAlphaFade = this->mIsAlphaFade;
-	clone->mIsLoop = this->mIsLoop;
-	clone->mVisible = this->mVisible;
-	clone->mIsDestroyed = this->mIsDestroyed;
-	clone->mMaxParticleCount = this->mMaxParticleCount;
-	clone->mParticleLifeTime = this->mParticleLifeTime;
-	clone->mParticleAllLifeTime = this->mParticleAllLifeTime;
-	clone->mParticleEmitSpeed = this->mParticleEmitSpeed;
-	clone->mParticleMaxSize = this->mParticleMaxSize;
-	clone->mEmitInterval = this->mEmitInterval;
-	clone->mEmitTimer = this->mEmitTimer;
+    clone->mParticle            = this->mParticle;
+    clone->mParticleTexture     = this->mParticleTexture;
+    clone->mTextureFilePath     = this->mTextureFilePath;
+    clone->mIsAlphaFade         = this->mIsAlphaFade;
+    clone->mIsLoop              = this->mIsLoop;
+    clone->mVisible             = this->mVisible;
+    clone->mIsDestroyed         = this->mIsDestroyed;
+    clone->mMaxParticleCount    = this->mMaxParticleCount;
+    clone->mParticleLifeTime    = this->mParticleLifeTime;
+    clone->mParticleAllLifeTime = this->mParticleAllLifeTime;
+    clone->mParticleEmitSpeed   = this->mParticleEmitSpeed;
+    clone->mParticleMaxSize     = this->mParticleMaxSize;
+    clone->mEmitInterval        = this->mEmitInterval;
+    clone->mEmitTimer           = this->mEmitTimer;
 
-	return clone;
+    return clone;
 }

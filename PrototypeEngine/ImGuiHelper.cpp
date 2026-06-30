@@ -1,47 +1,56 @@
 #include "ImGuiHelper.h"
 
-void ImGuiHelper::FragTextButton(const char* lable, const ImVec2& size, bool& frag)
+void ImGuiHelper::FragTextButton(const char* lable, const ImVec2& size,
+                                 bool& frag)
 {
-	string flag = "Off";
-	if (frag)
-	{
-		flag = "On";
-	}
-	string buttonText = lable + flag;
-	if (ImGui::Button(buttonText.c_str(), ImVec2(0.0f, 0.0f)))
-	{
-		frag = !frag;
-	}
+    string flag = "Off";
+    if (frag)
+    {
+        flag = "On";
+    }
+    string buttonText = lable + flag;
+    if (ImGui::Button(buttonText.c_str(), ImVec2(0.0f, 0.0f)))
+    {
+        frag = !frag;
+    }
 }
 
-bool ImGuiHelper::IsAncestorOf(ActorObject* potentialAncestor, ActorObject* target)
+bool ImGuiHelper::IsAncestorOf(ActorObject* potentialAncestor,
+                               ActorObject* target)
 {
-	if (!target || !potentialAncestor)return false;
-	if (target == potentialAncestor)return true;
+    if (!target || !potentialAncestor)
+        return false;
+    if (target == potentialAncestor)
+        return true;
 
-	//targetの親を上に沿っていく
-	ActorObject* current = target->GetTransform()->GetParentActor();
-	while (current != nullptr)
-	{
-		if (current == potentialAncestor)return true;
-		current = current->GetTransform()->GetParentActor();
-	}
+    // targetの親を上に沿っていく
+    ActorObject* current = target->GetTransform()->GetParentActor();
+    while (current != nullptr)
+    {
+        if (current == potentialAncestor)
+            return true;
+        current = current->GetTransform()->GetParentActor();
+    }
 
-	return false;
+    return false;
 }
 
-bool ImGuiHelper::IsAncestorOf_UIActor(UIActorObject* potentialAncestor, UIActorObject* target)
+bool ImGuiHelper::IsAncestorOf_UIActor(UIActorObject* potentialAncestor,
+                                       UIActorObject* target)
 {
-	if (!target || !potentialAncestor)return false;
-	if (target == potentialAncestor)return true;
+    if (!target || !potentialAncestor)
+        return false;
+    if (target == potentialAncestor)
+        return true;
 
-	//targetの親を上に沿っていく
-	UIActorObject* current = target->GetRectTransform()->GetParentActor();
-	while (current != nullptr)
-	{
-		if (current == potentialAncestor)return true;
-		current = current->GetRectTransform()->GetParentActor();
-	}
+    // targetの親を上に沿っていく
+    UIActorObject* current = target->GetRectTransform()->GetParentActor();
+    while (current != nullptr)
+    {
+        if (current == potentialAncestor)
+            return true;
+        current = current->GetRectTransform()->GetParentActor();
+    }
 
-	return false;
+    return false;
 }

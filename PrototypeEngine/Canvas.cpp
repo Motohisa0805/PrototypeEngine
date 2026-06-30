@@ -1,42 +1,39 @@
 #include "Canvas.h"
-#include "ScriptComponent.h"
-#include "Component.h"
 #include "BaseScene.h"
+#include "Component.h"
 #include "EngineWindow.h"
 #include "Renderer.h"
+#include "ScriptComponent.h"
 #include "WindowRenderProperty.h"
 
-Canvas::Canvas(uint64_t id)
-	:UIActorObject(id)
+Canvas::Canvas(uint64_t id) : UIActorObject(id)
 {
-	mIsCanvas = true;
-	mName = "Canvas";
+    mIsCanvas = true;
+    mName     = "Canvas";
 
-	mRectTransform->SetScaleWidthAndHeight(WindowRenderProperty::GetWidth(), WindowRenderProperty::GetHeight());
+    mRectTransform->SetScaleWidthAndHeight(WindowRenderProperty::GetWidth(),
+                                           WindowRenderProperty::GetHeight());
 
-	EngineWindow::GetRenderer()->AddCanvasActor(this);
+    EngineWindow::GetRenderer()->AddCanvasActor(this);
 }
 
-Canvas::Canvas(BaseScene* scene)
-	:UIActorObject(scene)
+Canvas::Canvas(BaseScene* scene) : UIActorObject(scene)
 {
-	mIsCanvas = true;
-	mName = "Canvas";
+    mIsCanvas = true;
+    mName     = "Canvas";
 
-	mRectTransform->SetScaleWidthAndHeight(WindowRenderProperty::GetWidth(), WindowRenderProperty::GetHeight());
+    mRectTransform->SetScaleWidthAndHeight(WindowRenderProperty::GetWidth(),
+                                           WindowRenderProperty::GetHeight());
 
-	EngineWindow::GetRenderer()->AddCanvasActor(this);
+    EngineWindow::GetRenderer()->AddCanvasActor(this);
 }
 
-Canvas::~Canvas()
-{
-	EngineWindow::GetRenderer()->RemoveCanvasActor(this);
-}
+Canvas::~Canvas() { EngineWindow::GetRenderer()->RemoveCanvasActor(this); }
 
 void Canvas::Update(float deltaTime)
 {
-	if (mState != EActive)return;
+    if (mState != EActive)
+        return;
 
-	UIActorObject::Update(deltaTime);
-
+    UIActorObject::Update(deltaTime);
 }

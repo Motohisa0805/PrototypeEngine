@@ -1,9 +1,7 @@
 #include "CreateNewActorCommand.h"
 
 CreateNewActorCommand::CreateNewActorCommand()
-    : mTargetID(0)
-    , mTarget(nullptr)
-    , mIsActiveInScene(false)
+    : mTargetID(0), mTarget(nullptr), mIsActiveInScene(false)
 {
 }
 
@@ -11,11 +9,13 @@ CreateNewActorCommand::~CreateNewActorCommand()
 {
     if (!mIsActiveInScene && mTarget)
     {
-        if (auto actorPtr = dynamic_cast<ActorObject*>(mTarget)) {
+        if (auto actorPtr = dynamic_cast<ActorObject*>(mTarget))
+        {
             delete actorPtr;
         }
         // UIActorか確認
-        else if (auto uiActorPtr = dynamic_cast<UIActorObject*>(mTarget)) {
+        else if (auto uiActorPtr = dynamic_cast<UIActorObject*>(mTarget))
+        {
             delete uiActorPtr;
         }
     }
@@ -23,16 +23,17 @@ CreateNewActorCommand::~CreateNewActorCommand()
 
 void CreateNewActorCommand::Execute()
 {
-    ActorManager* actorManager = SceneManager::GetCurrentRunScene()->GetActorManager();
+    ActorManager* actorManager =
+        SceneManager::GetCurrentRunScene()->GetActorManager();
 
     if (mTargetID == 0)
     {
         // 1. 完全なる初回実行時：新しくアクターを生成してシーンに登録する
-        mTarget = new ActorObject();
+        mTarget   = new ActorObject();
         mTargetID = mTarget->GetID();
 
         // シーンに所有権を渡したため、コマンド側のポインタは安全にクリアする
-        mTarget = nullptr;
+        mTarget          = nullptr;
         mIsActiveInScene = true;
     }
     else
@@ -42,7 +43,7 @@ void CreateNewActorCommand::Execute()
         if (!mIsActiveInScene && mTarget)
         {
             actorManager->AddActor(dynamic_cast<ActorObject*>(mTarget));
-            mTarget = nullptr; // 所有権を再度シーンに渡す
+            mTarget          = nullptr; // 所有権を再度シーンに渡す
             mIsActiveInScene = true;
         }
     }
@@ -61,9 +62,11 @@ void CreateNewActorCommand::Execute()
 void CreateNewActorCommand::Undo()
 {
     // 安全ガード
-    if (mTargetID == 0 || !mIsActiveInScene) return;
+    if (mTargetID == 0 || !mIsActiveInScene)
+        return;
 
-    ActorManager* actorManager = SceneManager::GetCurrentRunScene()->GetActorManager();
+    ActorManager* actorManager =
+        SceneManager::GetCurrentRunScene()->GetActorManager();
 
     // 「その瞬間」にシーンに存在しているポインタをIDから検索
     ActorObject* currentActor = actorManager->FindActorByID(mTargetID);
@@ -79,13 +82,11 @@ void CreateNewActorCommand::Undo()
     mIsActiveInScene = false;
 
     // もし現在生成したアクターが選択されていたら、安全に解除
-    if (SelectionManager::GetSelectedActor() == currentActor || SelectionManager::GetSelectedActor() == mTarget)
+    if (SelectionManager::GetSelectedActor() == currentActor ||
+        SelectionManager::GetSelectedActor() == mTarget)
     {
         SelectionManager::SetSelectedActor(nullptr);
     }
 }
 
-void CreateNewActorCommand::Redo()
-{
-	Execute();
-}
+void CreateNewActorCommand::Redo() { Execute(); }
