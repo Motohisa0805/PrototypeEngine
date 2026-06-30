@@ -7,74 +7,64 @@ GameState GameStateClass::gGameState = GameState::GamePlay;
 
 bool GameStateClass::gGameEventFrag = false;
 
+// Renderer* GameWinMain::mRenderer = nullptr;
 
-//Renderer* GameWinMain::mRenderer = nullptr;
+GameWinMain::GameWinMain() : mGameApp(nullptr) {}
 
-GameWinMain::GameWinMain()
-	:mGameApp(nullptr)
-{
-
-}
-
-GameWinMain::~GameWinMain()
-{
-	
-}
+GameWinMain::~GameWinMain() {}
 
 bool GameWinMain::Initialize()
 {
-	mGameApp = new GameApp(this);
-	if (!mGameApp->Initialize())
-	{
-		Debug::ErrorLog("Failed to initialize GameScenes");
-		return false;
-	}
-	return true;
+    mGameApp = new GameApp(this);
+    if (!mGameApp->Initialize())
+    {
+        Debug::ErrorLog("Failed to initialize GameScenes");
+        return false;
+    }
+    return true;
 }
 
 void GameWinMain::InputUpdate()
 {
-	//入力処理
-	mGameApp->ProcessInput();
+    // 入力処理
+    mGameApp->ProcessInput();
 }
 
 void GameWinMain::RunLoop()
 {
-	while (GameStateClass::gGameState != GameState::GameEnd)
-	{
-		Time::UpdateDeltaTime();
-		//ロード処理
-		mGameApp->LoadUpdate();
-		//座標更新処理
-		mGameApp->Update();
-	}
+    while (GameStateClass::gGameState != GameState::GameEnd)
+    {
+        Time::UpdateDeltaTime();
+        // ロード処理
+        mGameApp->LoadUpdate();
+        // 座標更新処理
+        mGameApp->Update();
+    }
 }
 
 void GameWinMain::GameRunLoop()
 {
-	//ロード処理
-	mGameApp->LoadUpdate();
+    // ロード処理
+    mGameApp->LoadUpdate();
 
-	//座標更新処理
-	mGameApp->Update();
+    // 座標更新処理
+    mGameApp->Update();
 }
 
 bool GameWinMain::LoadGame_Engine()
 {
-	if (mGameApp->LoadUpdate()) {
-		return true;
-	}
-	return false;
+    if (mGameApp->LoadUpdate())
+    {
+        return true;
+    }
+    return false;
 }
 
 void GameWinMain::Shutdown()
 {
-	mGameApp->Release();
-	delete mGameApp;
-	mGameApp = nullptr;
+    mGameApp->Release();
+    delete mGameApp;
+    mGameApp = nullptr;
 }
 
-void GameWinMain::UnloadData()
-{
-	mGameApp->Release();
-}
+void GameWinMain::UnloadData() { mGameApp->Release(); }

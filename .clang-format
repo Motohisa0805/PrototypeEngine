@@ -1,0 +1,13 @@
+BasedOnStyle: LLVM
+IndentWidth: 4
+TabWidth: 4
+AccessModifierOffset: -4
+BreakBeforeBraces: Allman
+PointerAlignment: Left
+BreakConstructorInitializers: BeforeComma
+ConstructorInitializerAllOnOneLineOrOnePerLine: true
+ConstructorInitializerIndentWidth: 4
+AlignConsecutiveDeclarations: true
+AlignConsecutiveAssignments: true
+AlignAfterOpenBracket: Align
+SpaceBeforeInheritanceColon: true

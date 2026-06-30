@@ -1,9 +1,9 @@
 #include "PasteActorCommand.h"
 
 PasteActorCommand::PasteActorCommand()
-    : mTargetID(0)       
-    , mTarget(nullptr)   // 一時的にアクターをホールドするポインタ
-    , mIsActiveInScene(false) 
+    : mTargetID(0)
+    , mTarget(nullptr) // 一時的にアクターをホールドするポインタ
+    , mIsActiveInScene(false)
 {
 }
 
@@ -12,11 +12,13 @@ PasteActorCommand::~PasteActorCommand()
     // メモリを解放（メモリリーク防止）
     if (!mIsActiveInScene && mTarget)
     {
-        if (auto actorPtr = dynamic_cast<ActorObject*>(mTarget)) {
+        if (auto actorPtr = dynamic_cast<ActorObject*>(mTarget))
+        {
             delete actorPtr;
         }
         // UIActorか確認
-        else if (auto uiActorPtr = dynamic_cast<UIActorObject*>(mTarget)) {
+        else if (auto uiActorPtr = dynamic_cast<UIActorObject*>(mTarget))
+        {
             delete uiActorPtr;
         }
     }
@@ -24,18 +26,26 @@ PasteActorCommand::~PasteActorCommand()
 
 void PasteActorCommand::Execute()
 {
-    ActorManager* actorManager = SceneManager::GetCurrentRunScene()->GetActorManager();
-    UIActorManager* uiActorManager = SceneManager::GetCurrentRunScene()->GetUIActorManager();
+    ActorManager* actorManager =
+        SceneManager::GetCurrentRunScene()->GetActorManager();
+    UIActorManager* uiActorManager =
+        SceneManager::GetCurrentRunScene()->GetUIActorManager();
     if (mTargetID == 0)
     {
         // 1. 完全なる初回実行時：クリップボードからさらに複製して生成する
         if (EditorClipboard::HasCopiedActor())
         {
-            if (auto actorPtr = dynamic_cast<ActorObject*>(actorManager->FindActorByID(EditorClipboard::GetCopiedActor()))) {
+            if (auto actorPtr =
+                    dynamic_cast<ActorObject*>(actorManager->FindActorByID(
+                        EditorClipboard::GetCopiedActor())))
+            {
                 mTarget = actorPtr->Clone();
             }
             // UIActorか確認
-            else if (auto uiActorPtr = dynamic_cast<UIActorObject*>(uiActorManager->FindActorByID(EditorClipboard::GetCopiedActor()))) {
+            else if (auto uiActorPtr = dynamic_cast<UIActorObject*>(
+                         uiActorManager->FindActorByID(
+                             EditorClipboard::GetCopiedActor())))
+            {
                 mTarget = uiActorPtr->Clone();
             }
             mTarget->SetName(mTarget->GetName() + " (Copy)");
@@ -53,14 +63,16 @@ void PasteActorCommand::Execute()
         if (!mIsActiveInScene && mTarget)
         {
             // コマンドが安全にホールドしていたインスタンスをシーンに戻す
-            if (auto actorPtr = dynamic_cast<ActorObject*>(mTarget)) {
+            if (auto actorPtr = dynamic_cast<ActorObject*>(mTarget))
+            {
                 actorManager->AddActor(actorPtr);
             }
             // UIActorか確認
-            else if (auto uiActorPtr = dynamic_cast<UIActorObject*>(mTarget)) {
+            else if (auto uiActorPtr = dynamic_cast<UIActorObject*>(mTarget))
+            {
                 uiActorManager->AddActor(uiActorPtr);
             }
-            mTarget = nullptr;
+            mTarget          = nullptr;
             mIsActiveInScene = true;
         }
     }
@@ -68,13 +80,15 @@ void PasteActorCommand::Execute()
     // 実行完了後、IDから最新のオブジェクトを検索して選択状態にする
     if (mTargetID != 0)
     {
-        ActorObject* currentActor = actorManager->FindActorByID(mTargetID);
-        UIActorObject* currentUIActor = uiActorManager->FindActorByID(mTargetID);
+        ActorObject*   currentActor = actorManager->FindActorByID(mTargetID);
+        UIActorObject* currentUIActor =
+            uiActorManager->FindActorByID(mTargetID);
         if (currentActor)
         {
             SelectionManager::SetSelectedActor(currentActor);
         }
-        else if (currentUIActor) {
+        else if (currentUIActor)
+        {
             SelectionManager::SetSelectedActor(currentUIActor);
         }
     }
@@ -82,21 +96,30 @@ void PasteActorCommand::Execute()
 
 void PasteActorCommand::NoHistoryExecute()
 {
-    ActorManager* actorManager = SceneManager::GetCurrentRunScene()->GetActorManager();
-    UIActorManager* uiActorManager = SceneManager::GetCurrentRunScene()->GetUIActorManager();
+    ActorManager* actorManager =
+        SceneManager::GetCurrentRunScene()->GetActorManager();
+    UIActorManager* uiActorManager =
+        SceneManager::GetCurrentRunScene()->GetUIActorManager();
     // 1. 完全なる初回実行時：クリップボードからさらに複製して生成する
     if (EditorClipboard::HasCopiedActor())
     {
-        if (auto actorPtr = dynamic_cast<ActorObject*>(actorManager->FindActorByID(EditorClipboard::GetCopiedActor()))) {
-			actorManager->RemoveActor(actorPtr); // コピー元はシーンから削除（カット操作のように振る舞う）
+        if (auto actorPtr = dynamic_cast<ActorObject*>(
+                actorManager->FindActorByID(EditorClipboard::GetCopiedActor())))
+        {
+            actorManager->RemoveActor(
+                actorPtr); // コピー元はシーンから削除（カット操作のように振る舞う）
             mTarget = actorPtr->Clone();
-			delete actorPtr; // コピー元のメモリを解放
+            delete actorPtr; // コピー元のメモリを解放
         }
         // UIActorか確認
-        else if (auto uiActorPtr = dynamic_cast<UIActorObject*>(uiActorManager->FindActorByID(EditorClipboard::GetCopiedActor()))) {
-			uiActorManager->RemoveActor(uiActorPtr); // コピー元はシーンから削除（カット操作のように振る舞う）
+        else if (auto uiActorPtr =
+                     dynamic_cast<UIActorObject*>(uiActorManager->FindActorByID(
+                         EditorClipboard::GetCopiedActor())))
+        {
+            uiActorManager->RemoveActor(
+                uiActorPtr); // コピー元はシーンから削除（カット操作のように振る舞う）
             mTarget = uiActorPtr->Clone();
-			delete uiActorPtr; // コピー元のメモリを解放
+            delete uiActorPtr; // コピー元のメモリを解放
         }
         mTarget->SetName(mTarget->GetName());
         // 生成された新しいアクターのユニークIDをコマンドに記憶する
@@ -104,20 +127,23 @@ void PasteActorCommand::NoHistoryExecute()
         // 所有権をシーン側に渡したため、コマンド側のポインタはクリアする
         mIsActiveInScene = true;
         // クリップボードをクリア
-		EditorClipboard::ClearClipboard(); 
+        EditorClipboard::ClearClipboard();
         SelectionManager::SetSelectedActor(nullptr);
     }
 }
 
 void PasteActorCommand::Undo()
 {
-    if (mTargetID == 0 || !mIsActiveInScene) return;
+    if (mTargetID == 0 || !mIsActiveInScene)
+        return;
 
-    ActorManager* actorManager = SceneManager::GetCurrentRunScene()->GetActorManager();
-    UIActorManager* uiActorManager = SceneManager::GetCurrentRunScene()->GetUIActorManager();
+    ActorManager* actorManager =
+        SceneManager::GetCurrentRunScene()->GetActorManager();
+    UIActorManager* uiActorManager =
+        SceneManager::GetCurrentRunScene()->GetUIActorManager();
 
     // シーンに生きている最新のポインタをIDから取得
-    ActorObject* currentActor = actorManager->FindActorByID(mTargetID);
+    ActorObject*   currentActor   = actorManager->FindActorByID(mTargetID);
     UIActorObject* currentUIActor = uiActorManager->FindActorByID(mTargetID);
     if (currentActor)
     {
@@ -126,7 +152,8 @@ void PasteActorCommand::Undo()
 
         mTarget = currentActor;
     }
-    else if (currentUIActor) {
+    else if (currentUIActor)
+    {
         // シーンのリストから除外する（メモリは delete しない）
         uiActorManager->RemoveActor(currentUIActor);
 
@@ -136,13 +163,12 @@ void PasteActorCommand::Undo()
     mIsActiveInScene = false;
 
     // 選択解除処理
-    if (SelectionManager::GetSelectedActor() == currentActor || SelectionManager::GetSelectedActor() == currentUIActor || SelectionManager::GetSelectedActor() == mTarget)
+    if (SelectionManager::GetSelectedActor() == currentActor ||
+        SelectionManager::GetSelectedActor() == currentUIActor ||
+        SelectionManager::GetSelectedActor() == mTarget)
     {
         SelectionManager::SetSelectedActor(nullptr);
     }
 }
 
-void PasteActorCommand::Redo()
-{
-    Execute();
-}
+void PasteActorCommand::Redo() { Execute(); }

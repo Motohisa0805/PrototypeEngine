@@ -1,9 +1,7 @@
 #include "CreateNewCanvasCommand.h"
 
 CreateNewCanvasCommand::CreateNewCanvasCommand()
-    : mTargetID(0)
-    , mTarget(nullptr)
-    , mIsActiveInScene(false)
+    : mTargetID(0), mTarget(nullptr), mIsActiveInScene(false)
 {
 }
 
@@ -11,11 +9,13 @@ CreateNewCanvasCommand::~CreateNewCanvasCommand()
 {
     if (!mIsActiveInScene && mTarget)
     {
-        if (auto actorPtr = dynamic_cast<ActorObject*>(mTarget)) {
+        if (auto actorPtr = dynamic_cast<ActorObject*>(mTarget))
+        {
             delete actorPtr;
         }
         // UIActorか確認
-        else if (auto uiActorPtr = dynamic_cast<UIActorObject*>(mTarget)) {
+        else if (auto uiActorPtr = dynamic_cast<UIActorObject*>(mTarget))
+        {
             delete uiActorPtr;
         }
     }
@@ -23,16 +23,17 @@ CreateNewCanvasCommand::~CreateNewCanvasCommand()
 
 void CreateNewCanvasCommand::Execute()
 {
-    UIActorManager* actorManager = SceneManager::GetCurrentRunScene()->GetUIActorManager();
+    UIActorManager* actorManager =
+        SceneManager::GetCurrentRunScene()->GetUIActorManager();
 
     if (mTargetID == 0)
     {
         // 1. 完全なる初回実行時：新しくアクターを生成してシーンに登録する
-        mTarget = new Canvas();
+        mTarget   = new Canvas();
         mTargetID = mTarget->GetID();
 
         // シーンに所有権を渡したため、コマンド側のポインタは安全にクリアする
-        mTarget = nullptr;
+        mTarget          = nullptr;
         mIsActiveInScene = true;
     }
     else
@@ -42,7 +43,7 @@ void CreateNewCanvasCommand::Execute()
         if (!mIsActiveInScene && mTarget)
         {
             actorManager->AddActor(mTarget);
-            mTarget = nullptr; // 所有権を再度シーンに渡す
+            mTarget          = nullptr; // 所有権を再度シーンに渡す
             mIsActiveInScene = true;
         }
     }
@@ -61,12 +62,15 @@ void CreateNewCanvasCommand::Execute()
 void CreateNewCanvasCommand::Undo()
 {
     // 安全ガード
-    if (mTargetID == 0 || !mIsActiveInScene) return;
+    if (mTargetID == 0 || !mIsActiveInScene)
+        return;
 
-    UIActorManager* actorManager = SceneManager::GetCurrentRunScene()->GetUIActorManager();
+    UIActorManager* actorManager =
+        SceneManager::GetCurrentRunScene()->GetUIActorManager();
 
     // 「その瞬間」にシーンに存在しているポインタをIDから検索
-    Canvas* currentActor = static_cast<Canvas*>(actorManager->FindActorByID(mTargetID));
+    Canvas* currentActor =
+        static_cast<Canvas*>(actorManager->FindActorByID(mTargetID));
 
     if (currentActor)
     {
@@ -79,13 +83,11 @@ void CreateNewCanvasCommand::Undo()
     mIsActiveInScene = false;
 
     // もし現在生成したアクターが選択されていたら、安全に解除
-    if (SelectionManager::GetSelectedActor() == currentActor || SelectionManager::GetSelectedActor() == mTarget)
+    if (SelectionManager::GetSelectedActor() == currentActor ||
+        SelectionManager::GetSelectedActor() == mTarget)
     {
         SelectionManager::SetSelectedActor(nullptr);
     }
 }
 
-void CreateNewCanvasCommand::Redo()
-{
-    Execute();
-}
+void CreateNewCanvasCommand::Redo() { Execute(); }

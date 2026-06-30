@@ -1,6 +1,3 @@
 #include "BoneActor.h"
 
-BoneActor::BoneActor()
-	: ActorObject()
-{
-}
+BoneActor::BoneActor() : ActorObject() {}

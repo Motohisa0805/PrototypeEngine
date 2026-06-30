@@ -18,25 +18,25 @@ float Time::mAccumTime = 0.0f;
 
 int Time::mFrameCount = 0;
 
-void Time::InitializeDeltaTime()
-{
-	gTicksCount = SDL_GetTicksNS();
-}
+void Time::InitializeDeltaTime() { gTicksCount = SDL_GetTicksNS(); }
 
 void Time::UpdateDeltaTime()
 {
-	Uint64 targetTicks = gTicksCount + mMaxTicksCount;
-	Uint64 currentTicks = SDL_GetTicksNS();
+    Uint64 targetTicks  = gTicksCount + mMaxTicksCount;
+    Uint64 currentTicks = SDL_GetTicksNS();
 
-    if (currentTicks < targetTicks) {
+    if (currentTicks < targetTicks)
+    {
         Uint64 waitTime = targetTicks - currentTicks;
-		
-        if(waitTime > 1'000'000) // 1ms以上待つ必要がある場合はSDL_DelayPreciseを使用
+
+        if (waitTime >
+            1'000'000) // 1ms以上待つ必要がある場合はSDL_DelayPreciseを使用
         {
             SDL_DelayNS(waitTime - 500'000); // 5ms前に目覚める
-		}
+        }
         // 最後の微調整は精度のためにビジーウェイトで行う
-        while (SDL_GetTicksNS() < targetTicks);
+        while (SDL_GetTicksNS() < targetTicks)
+            ;
         currentTicks = SDL_GetTicksNS();
     }
 
@@ -56,10 +56,11 @@ void Time::UpdateDeltaTime()
     mAccumTime += gUnscaledDeltaTime;
     mFrameCount++;
     // 0.5秒（あるいは1.0f）経過したら表示用FPS（mFrameRate）を更新
-    if (mAccumTime >= 0.5f) {
+    if (mAccumTime >= 0.5f)
+    {
         mFrameRate = static_cast<float>(mFrameCount) / mAccumTime;
 
-        mAccumTime = 0.0f;
+        mAccumTime  = 0.0f;
         mFrameCount = 0;
     }
 
@@ -69,7 +70,8 @@ void Time::UpdateDeltaTime()
 
 void Time::SetMaxDeltaTime(float time)
 {
-    float result = Math::Clamp(time, TimeLayout::MIN_DELTATIME, TimeLayout::MAX_DELTATIME);
+    float result =
+        Math::Clamp(time, TimeLayout::MIN_DELTATIME, TimeLayout::MAX_DELTATIME);
     mMaxDeltaTime = result;
 }
 
