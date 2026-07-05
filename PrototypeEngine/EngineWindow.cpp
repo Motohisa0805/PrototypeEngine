@@ -9,6 +9,7 @@
 #include "SceneViewPanel.h"
 #include "ScriptHotReloadManager.h"
 #include "WindowRenderProperty.h"
+#include "FileOperationManager.h"
 
 EngineState EngineWindow::mEngineState = EngineState::Run;
 
@@ -92,6 +93,11 @@ void EngineWindow::EngineProcessInput()
                 mEngineState = EngineState::End;
             }
             break;
+        }
+
+        if (event.type == SDL_EVENT_DROP_FILE)
+        {
+            FileOperationManager::AddDroppedFile(event.drop.data);
         }
     }
     //-------------------------------------------------------

@@ -2,6 +2,7 @@ C:\C++Files\PrototypeEngine\PrototypeEngine\AboutEnginePanel.cpp;C:\C++Files\Pro
 C:\C++Files\PrototypeEngine\PrototypeEngine\Actor.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\Actor.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\Animation.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\Animation.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\Animator.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\Animator.obj
+C:\C++Files\PrototypeEngine\PrototypeEngine\AssetImporter.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\AssetImporter.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\AudioBankProperty.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\AudioBankProperty.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\AudioComponent.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\AudioComponent.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\AudioSystem.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\AudioSystem.obj
