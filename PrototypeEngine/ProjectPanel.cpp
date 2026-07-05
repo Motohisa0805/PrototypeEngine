@@ -6,6 +6,7 @@
 #include "SceneSerializer.h"
 #include "ScriptEditManager.h"
 #include "imgui_internal.h"
+#include "AssetImporter.h"
 
 filesystem::path ProjectPanel::mPathToRename = "";
 
@@ -107,6 +108,52 @@ void ProjectPanel::Draw(float width, float height)
             RightClickMenu();
         }
         ImGui::EndChild();
+
+        //外部ファイルドロップのインポート処理
+        //現在のProjectパネル状にマウスがあるか判定
+        if (ImGui::IsWindowHovered(ImGuiHoveredFlags_RootAndChildWindows))
+        {
+            if (!FileOperationManager::GetDroppedFiles().empty())
+            {
+                for (const auto& filePath :
+                    FileOperationManager::GetDroppedFiles())
+                {
+                    // コピー元のパスを作成
+                    filesystem::path srcPath = filePath;
+                    // コピー先のパスを作成
+                    filesystem::path dstPath =
+                        mSelectedFolderPath / srcPath.filename();
+
+                    try
+                    {
+                        // コピー先に同名のファイルがある場合は上書きする
+                        filesystem::rename(srcPath, dstPath);
+                        Debug::Log("Imported external file: %s\n",
+                                   dstPath.string().c_str());
+                        AssetImporter::OneFileCheckAndImportAssets(dstPath);
+                    }
+                    catch (const std::exception& e)
+                    {
+                        // Driveが異なる場合はコピー＆削除で対応する
+                        try
+                        {
+                            // コピー先に同名のファイルがある場合は上書きする
+                            filesystem::copy(srcPath, dstPath,filesystem::copy_options::overwrite_existing);
+                            //コピーが成功したら元のファイルを削除する
+                            filesystem::remove(srcPath);
+                            Debug::Log("Imported (Copy & Delete) external file: %s\n",
+                                dstPath.string().c_str());
+                            AssetImporter::OneFileCheckAndImportAssets(dstPath);
+                        }
+                        catch (const std::exception& e)
+                        {
+                            Debug::Log("Import failed: %s\n", e.what());
+                        }
+                        Debug::Log("Import failed: %s\n", e.what());
+                    }
+                }
+            }
+        }
     }
 
     ImGui::Separator();
@@ -120,6 +167,7 @@ void ProjectPanel::Draw(float width, float height)
     }
 
     ImGui::End();
+    FileOperationManager::ClearDroppedFiles();
 }
 
 void ProjectPanel::DrawFolderTree(const filesystem::path& path)

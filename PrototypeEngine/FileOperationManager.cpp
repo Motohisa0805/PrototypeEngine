@@ -5,6 +5,8 @@
 #include "SceneSerializer.h"
 #include "ScriptEditManager.h"
 
+vector<string> FileOperationManager::mDroppedFiles;
+
 void FileOperationManager::Initialize()
 {
     // 初期化処理が必要な場合はここに記述
@@ -199,6 +201,20 @@ void FileOperationManager::OpenSceneDialog()
     else
     {
         Debug::Log("Failed to create FileOpenDialog instance.\n");
+    }
+}
+
+void FileOperationManager::AddDroppedFile(const std::string& filePath) 
+{
+    mDroppedFiles.push_back(filePath);
+}
+
+void FileOperationManager::RemoveDroppedFile(const std::string& filePath)
+{
+    auto it = std::find(mDroppedFiles.begin(), mDroppedFiles.end(), filePath);
+    if (it != mDroppedFiles.end())
+    {
+        mDroppedFiles.erase(it);
     }
 }
 

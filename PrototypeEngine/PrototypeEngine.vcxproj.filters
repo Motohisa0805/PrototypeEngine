@@ -157,6 +157,9 @@
     <Filter Include="SourceCodes\A_Editor\Function\Components\Cameras\Base">
       <UniqueIdentifier>{0c6d264c-3ac5-4608-b8fb-a38d5f7e57b8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="SourceCodes\A_Editor\Function\GUIs\Systems">
+      <UniqueIdentifier>{730b7c0f-744c-4625-a8ac-7e6e08c6af54}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Shaders\Arrow.frag">
@@ -547,6 +550,9 @@
     <ClCompile Include="LightingPanel.cpp">
       <Filter>SourceCodes\A_Editor\Function\GUIs\Panels</Filter>
     </ClCompile>
+    <ClCompile Include="AssetImporter.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Actor.h">
@@ -920,6 +926,9 @@
     </ClInclude>
     <ClInclude Include="LightingPanel.h">
       <Filter>SourceCodes\A_Editor\Function\GUIs\Panels</Filter>
+    </ClInclude>
+    <ClInclude Include="AssetImporter.h">
+      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
