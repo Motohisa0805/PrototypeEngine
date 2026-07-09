@@ -165,5 +165,5 @@ public:
 
 	// 指定されたアニメーションの時間における各ボーンのグローバル（現在の）ポーズ行列を提供されたベクターに充填。
 	// 時間は0.0f以上でmDuration以下であること。
-	void									GetGlobalPoseAtTime(vector<Matrix4>& outPoses, const Skeleton* inSkeleton, float inTime) const;
+	void									GetLocalPoseAtTime(vector<Matrix4>& outPoses, const Skeleton* inSkeleton, float inTime) const;
 };

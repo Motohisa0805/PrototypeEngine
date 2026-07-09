@@ -14,6 +14,10 @@ DirectionalLightComponent::DirectionalLightComponent(Entity* owner)
     mHeaderColor        = Vector4(0.4f, 0.8f, 0.8f, 1.0f);
     mHeaderHoveredColor = Vector4(0.3f, 0.6f, 0.6f, 1.0f);
     mHeaderActiveColor  = Vector4(0.4f, 0.8f, 0.8f, 1.0f);
+
+    //初期のライトの色、強度を設定
+    mDirectionalLight.sAmbientColor = Vector3(0.7f, 0.7f, 0.7f);
+    mDirectionalLight.sAmbientIntensity = 1.0f;
 }
 
 DirectionalLightComponent::~DirectionalLightComponent() {}

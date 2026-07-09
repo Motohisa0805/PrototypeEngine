@@ -149,14 +149,14 @@ void SkeletalMeshRenderer::SetSkeleton(Skeleton* sk, ActorObject* actor)
     // 1.mParentIndex を使って親子関係を構築
     for (size_t i = 0; i < bones.size(); i++)
     {
-        const Skeleton::Bone& bone       = bones[i];
+        const BoneActor*      bone       = bones[i];
         BoneActor*            childActor = mSkeleton->GetBoneActor()[i];
 
         // mParentIndexは親ボーンのインデックス
-        if (bone.mParent != -1)
+        if (bone->GetParentIndex() != -1)
         {
             // 親ボーンのActorを取得
-            BoneActor* parentActor = mSkeleton->GetBoneActor()[bone.mParent];
+            BoneActor* parentActor = mSkeleton->GetBoneActor()[bone->GetParentIndex()];
 
             // Transform::AddChildActor() を呼び出して親子関係を結ぶ
             // Transform.cpp に実装されている AddChildActor を利用

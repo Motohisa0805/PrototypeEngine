@@ -41,38 +41,36 @@ bool Skeleton::LoadFromSkeletonBin(const string& fileName)
         return false;
     }
 
-    mBones.clear();
-    mBones.reserve(boneCount);
+    mBoneActors.clear();
+    mBoneActors.reserve(boneCount);
 
     for (uint32_t i = 0; i < boneCount; ++i)
     {
         SkeletonBinBone bin{};
         in.read((char*)&bin, sizeof(SkeletonBinBone));
 
-        Bone b;
-        b.mName      = bin.name;
-        b.mShortName = bin.shortName;
-        b.mParent    = bin.parentIndex;
-        b.mLocalBindPose.SetPosition(bin.position);
-        b.mLocalBindPose.SetRotation(bin.rotation);
-        b.mLocalBindPose.SetScale(bin.scale);
+        BoneActor* b = new BoneActor();
+        b->SetBoneIndex(static_cast<int>(mBoneActors.size()));
+        b->SetBoneName(bin.name);
+        b->SetParentIndex(bin.parentIndex);
+        b->GetTransform()->SetPosition(bin.position);
+        b->GetTransform()->SetRotation(bin.rotation);
+        b->GetTransform()->SetScale(bin.scale);
 
         // boneNameToIndexにボーン名をキーにボーン番号を格納
-        mBoneNameToIndex[b.mName] = static_cast<int>(mBones.size());
-        // 同じくmBoneTransformにボーンの番号を格納
-        mBoneTransform[b.mShortName] = static_cast<int>(mBones.size());
+        mBoneNameToIndex[b->GetName()] = static_cast<int>(mBoneActors.size());
 
         // ボーンベクターに格納
-        mBones.push_back(b);
+        mBoneActors.push_back(b);
 
         // assimpではオフセット行列をそのまま利用
-        mGlobalInvBindPoses.push_back(b.mLocalBindPose.ToMatrix());
+        mBoneActors[i]->SetGlobalInvBindPose(b->GetGlobalInvBindPose());
 
-        // ボーンのオブジェクトを生成
-        BoneActor* boneActor = new BoneActor();
-        boneActor->SetBoneIndex(static_cast<int>(mBones.size()));
-        boneActor->SetBoneName(b.mShortName);
-        mBoneActors.push_back(boneActor);
+        if (bin.parentIndex != -1 && bin.parentIndex < static_cast<int>(mBoneActors.size()))
+        {
+            BoneActor* parentBone = mBoneActors[bin.parentIndex];
+            b->GetTransform()->AddParentActor(parentBone);
+        }
     }
 
     ComputeGlobalInvBindPose();
@@ -96,7 +94,7 @@ bool Skeleton::LoadFromFBX(const string& fileName)
         return false;
     }
     // ボーンの初期化
-    mBones.clear();
+    mBoneActors.clear();
     // メッシュの数でfor文
     for (unsigned int i = 0; i < scene->mNumMeshes; i++)
     {
@@ -108,21 +106,20 @@ bool Skeleton::LoadFromFBX(const string& fileName)
             aiBone* bone = mesh->mBones[j];
             // ボーン名を取得
             string boneName = bone->mName.C_Str();
-            // 取得したボーン名から短縮した名前に変換したものを取得
-            string boneShortName = ConvertSimpleBoneName(bone->mName.C_Str());
             // boneNameToIndexにすでに同じボーンがないかチェック
             if (mBoneNameToIndex.find(boneName) != mBoneNameToIndex.end())
                 continue;
+
             // ボーンの構造体
-            Bone boneStruct;
+            BoneActor* b = new BoneActor();
             // ボーンのmOffsetMatrixをvectorに格納
             mOffsetMatrix.push_back(bone->mOffsetMatrix);
+
+            b->SetBoneIndex(static_cast<int>(mBoneActors.size()));
             // ボーン本来の名前を代入
-            boneStruct.mName = boneName;
-            // ボーンの短縮名を代入
-            boneStruct.mShortName = boneShortName;
+            b->SetBoneName(boneName);
             // 後で SetParentBones() で設定する
-            boneStruct.mParent = -1;
+            b->SetParentIndex(-1);
 
             // バインドポーズの変換
             // ボーンのmOffsetMatrix取得
@@ -133,34 +130,29 @@ bool Skeleton::LoadFromFBX(const string& fileName)
             // ボーンのバインドポーズを各値に分解
             bindPose.Decompose(scale, rot, pos);
 
-            // rot.x = -rot.x;
-            // pos.x = -pos.x;
             // ローカルのバインドポーズに回転、平行移動、スケーリングを格納
-            boneStruct.mLocalBindPose.SetRotation(
+            b->GetTransform()->SetRotation(
                 Quaternion(rot.x, rot.y, rot.z, rot.w));
-            boneStruct.mLocalBindPose.SetPosition(Vector3(pos.x, pos.y, pos.z));
-            boneStruct.mLocalBindPose.SetScale(
+            b->GetTransform()->SetPosition(Vector3(pos.x, pos.y, pos.z));
+            b->GetTransform()->SetScale(
                 Vector3(scale.x, scale.y, scale.z));
             // boneNameToIndexにボーン名をキーにボーン番号を格納
-            mBoneNameToIndex[boneName] = static_cast<int>(mBones.size());
+            mBoneNameToIndex[boneName] = static_cast<int>(mBoneActors.size());
             // 同じくmBoneTransformにボーンの番号を格納
-            mBoneTransform[boneStruct.mShortName] =
-                static_cast<int>(mBones.size());
+            mBoneTransform[b->GetName()] =
+                static_cast<int>(mBoneActors.size());
             // ボーンベクターに格納
-            mBones.push_back(boneStruct);
+            mBoneActors.push_back(b);
 
             // assimpではオフセット行列をそのまま利用
-            mGlobalInvBindPoses.push_back(boneStruct.mLocalBindPose.ToMatrix());
-            // ボーンのオブジェクトを生成
-            BoneActor* boneActor = new BoneActor();
-            boneActor->SetBoneIndex(static_cast<int>(mBones.size()));
-            boneActor->SetBoneName(boneShortName);
-            mBoneActors.push_back(boneActor);
+            mBoneActors[i]->SetGlobalInvBindPose(b->GetGlobalInvBindPose());
         }
     }
-
-    // 親子関係を設定
-    SetParentBones(scene->mRootNode, -1);
+    if (scene->mRootNode != nullptr)
+    {
+        // 親子関係を設定
+        SetParentBones(scene->mRootNode, -1);
+    }
 
     // fileNameからPath部分だけ取り除く
     string result = Sco::RemoveString(fileName, File_P::ModelPath);
@@ -173,20 +165,18 @@ bool Skeleton::LoadFromFBX(const string& fileName)
         return false;
     }
 
-    uint32_t boneCount = static_cast<uint32_t>(mBones.size());
+    uint32_t boneCount = static_cast<uint32_t>(mBoneActors.size());
     out.write((char*)&boneCount, sizeof(uint32_t));
 
-    for (Bone& b : mBones)
+    for (BoneActor* b : mBoneActors)
     {
         SkeletonBinBone bin{};
-        strncpy_s(bin.name, b.mName.c_str(),
+        strncpy_s(bin.name, b->GetName().c_str(),
                   SkeletonLayout::MAX_SKELETONBINBONE);
-        strncpy_s(bin.shortName, b.mShortName.c_str(),
-                  SkeletonLayout::MAX_SKELETONBINBONE);
-        bin.parentIndex = b.mParent;
-        bin.position    = b.mLocalBindPose.GetPosition();
-        bin.rotation    = b.mLocalBindPose.GetRotation();
-        bin.scale       = b.mLocalBindPose.GetScale();
+        bin.parentIndex = b->GetParentIndex();
+        bin.position    = b->GetTransform()->GetPosition();
+        bin.rotation    = b->GetTransform()->GetRotation();
+        bin.scale       = b->GetTransform()->GetScale();
 
         out.write((char*)&bin, sizeof(SkeletonBinBone));
     }
@@ -197,116 +187,100 @@ bool Skeleton::LoadFromFBX(const string& fileName)
 void Skeleton::SetParentBones(aiNode* node, int parentIndex)
 {
     // 不明なボーンの場合に次にそのまま再起するための処理を追加
-    string nodeName  = node->mName.data;
-    int    nextIndex = parentIndex;
+    string nodeName  = node->mName.C_Str();
+    int    currentIndex = parentIndex;
 
     // このノードがボーンとして登録されているか確認
-    if (mBoneNameToIndex.find(nodeName) != mBoneNameToIndex.end())
+    if (mBoneTransform.find(nodeName) != mBoneTransform.end())
     {
-        int boneIndex             = mBoneNameToIndex[nodeName];
-        mBones[boneIndex].mParent = parentIndex;
-        mBoneActors[boneIndex]->SetParentIndex(parentIndex);
-        nextIndex = boneIndex;
+        currentIndex = mBoneTransform[nodeName];
 
-        // バインドポーズをローカル情報に変換
-        aiMatrix4x4 localMatrix = mOffsetMatrix[boneIndex];
-        localMatrix             = localMatrix.Inverse();
+        BoneActor* currentBoneActor = mBoneActors[currentIndex];
 
-        if (parentIndex >= 0)
+        currentBoneActor->SetParentIndex(parentIndex);
+
+        if (parentIndex != -1 && parentIndex < mBoneActors.size())
         {
+            BoneActor*  parentBoneActor = mBoneActors[parentIndex];
+            currentBoneActor->GetTransform()->AddParentActor(parentBoneActor);
+            /*
             aiMatrix4x4 parentMatrixInv = mOffsetMatrix[parentIndex];
             localMatrix                 = parentMatrixInv * localMatrix;
+            */
         }
-
+        /*
         aiVector3D   pos;
         aiQuaternion rot;
         aiVector3D   scale;
         localMatrix.Decompose(scale, rot, pos);
 
-        mBones[boneIndex].mLocalBindPose.SetRotation(
+        mBoneActors[boneIndex]->GetTransform()->SetRotation(
             Quaternion(rot.x, rot.y, rot.z, rot.w));
-        mBones[boneIndex].mLocalBindPose.SetPosition(
+        mBoneActors[boneIndex]->GetTransform()->SetPosition(
             Vector3(pos.x, pos.y, pos.z));
-        mBones[boneIndex].mLocalBindPose.SetScale(
+        mBoneActors[boneIndex]->GetTransform()->SetScale(
             Vector3(scale.x, scale.y, scale.z));
+        */
     }
 
     // 子ノードを再帰的に処理
     for (unsigned int i = 0; i < node->mNumChildren; i++)
     {
-        SetParentBones(node->mChildren[i], nextIndex);
+        SetParentBones(node->mChildren[i], currentIndex);
     }
-}
-
-string Skeleton::ConvertSimpleBoneName(string boneName)
-{
-    string bone = boneName;
-    // 各ボーンの部位の名前の配列
-    vector<string> boneNames = {
-        "Hips",       "Spine",         "Chest",     "Neck",
-        "Head",       "LeftShoulder",  "LeftArm",   "LeftForeArm",
-        "LeftHand",   "RightShoulder", "RightArm",  "RightForeArm",
-        "RightHand",  "LeftUpLeg",     "LeftLeg",   "LeftFoot",
-        "RightUpLeg", "RightLeg",      "RightFoot",
-    };
-    for (string bonename : boneNames)
-    {
-        if (bone.find(bonename) != string::npos && EndsWith(bone, bonename))
-        {
-            bone = bonename;
-        }
-    }
-    return bone;
-}
-
-Matrix4 Skeleton::GetBonePosition(string boneName)
-{
-    Matrix4 boneMatrix;
-    int     index = 0;
-    if (mBoneTransform.find(boneName) != mBoneTransform.end())
-    {
-        index = mBoneTransform[boneName];
-    }
-    boneMatrix = mGlobalCurrentPoses[index];
-
-    return boneMatrix;
 }
 
 void Skeleton::AddBoneChildActor(string boneName, class ActorObject* actor)
 {
+    auto iter  = mBoneTransform.find(boneName);
     int index = 0;
-    if (mBoneTransform.find(boneName) != mBoneTransform.end())
+    if (iter != mBoneTransform.end())
     {
-        index = mBoneTransform[boneName];
+        index = iter->second;
+        mBoneActors[index]->GetTransform()->AddChildActor(actor);
     }
-    mBoneActors[index]->GetTransform()->AddChildActor(actor);
 }
 
-void Skeleton::SetParentActor(ActorObject* parent)
+void Skeleton::SetParentActor(ActorObject* parent) 
 {
-    for (unsigned int i = 0; i < mBoneActors.size(); i++)
+    if (!mBoneActors.empty())
     {
-        mBoneActors[i]->GetTransform()->AddParentActor(parent);
+        mBoneActors[0]->GetTransform()->AddParentActor(parent);
     }
 }
 
 void Skeleton::ComputeGlobalInvBindPose()
 {
+    if (mBoneActors.empty())
+        return;
+    //ルートボーンから順にワールド行列(バインドポーズ)を強制計算させる
+    for (size_t i = 0; i < mBoneActors.size(); ++i)
+    {
+        mBoneActors[i]->GetTransform()->SetDirty();
+        mBoneActors[i]->GetTransform()->ComputeWorldTransform();
+
+        // 計算されたワールド行列をグローバルバインドポーズとして保存
+        Matrix4 bindPoseMat =
+            mBoneActors[i]->GetTransform()->GetWorldTransform();
+        bindPoseMat.Invert();
+        mBoneActors[i]->SetGlobalInvBindPose(bindPoseMat);
+    }
+    /*
     // Resize to number of bones, which automatically fills identity
     mGlobalInvBindPoses.resize(GetNumBones());
 
     // Step 1: Compute global bind pose for each bone
 
     // The global bind pose for root is just the local bind pose
-    mGlobalInvBindPoses[0] = mBones[0].mLocalBindPose.ToMatrix();
+    mGlobalInvBindPoses[0] = mBoneActors[0]->GetTransform()->GetLocalTransform();
 
     // Each remaining bone's global bind pose is its local pose
     // multiplied by the parent's global bind pose
     for (size_t i = 1; i < mGlobalInvBindPoses.size(); i++)
     {
-        Matrix4 localMat = mBones[i].mLocalBindPose.ToMatrix();
+        Matrix4 localMat = mBoneActors[i]->GetTransform()->GetLocalTransform();
         mGlobalInvBindPoses[i] =
-            localMat * mGlobalInvBindPoses[mBones[i].mParent];
+            localMat * mGlobalInvBindPoses[mBoneActors[i]->GetParentIndex()];
     }
 
     // Step 2: Invert
@@ -314,4 +288,5 @@ void Skeleton::ComputeGlobalInvBindPose()
     {
         mGlobalInvBindPoses[i].Invert();
     }
+    */
 }

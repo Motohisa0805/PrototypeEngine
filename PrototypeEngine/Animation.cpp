@@ -1,6 +1,7 @@
 #include "Animation.h"
 #include "FilePath.h"
 #include "Skeleton.h"
+#include "BoneActor.h"
 
 Animation::Animation(Skeleton* skeleton)
     : mSkeleton(skeleton)
@@ -309,14 +310,21 @@ bool Animation::LoadFromFBX(const string& fileName)
     }
 
     mFrameDuration = mDuration / (mNumFrames - 1);
-    mNumBones      = mSkeleton->GetBones().size();
+    mNumBones      = mSkeleton->GetNumBones();
     mTracks.resize(mNumBones);
+    mRootPositionOffset.resize(mNumFrames);
 
     // アニメーションに含まれていないボーンのためにバインドポーズをそのまま利用
     for (unsigned int i = 0; i < mNumBones; i++)
     {
         mTracks[i].resize(mNumFrames);
-        auto& localBindPose = mSkeleton->GetBone(i).mLocalBindPose;
+
+        BoneActor*    bone          = mSkeleton->GetBoneActor()[i];
+        BoneTransform localBindPose;
+        localBindPose.SetPosition(bone->GetTransform()->GetLocalPosition());
+        localBindPose.SetRotation(bone->GetTransform()->GetLocalRotation());
+        localBindPose.SetScale(bone->GetTransform()->GetLocalScale());
+
         for (size_t j = 0; j < mNumFrames; j++)
         {
             mTracks[i][j] = localBindPose;
@@ -343,8 +351,11 @@ bool Animation::LoadFromFBX(const string& fileName)
         //  フレームごとに `BoneTransform` を作成
         for (size_t j = 0; j < mNumFrames; j++)
         {
-            BoneTransform temp = mSkeleton->GetBone(boneIndex).mLocalBindPose;
-
+            BoneActor*    bone = mSkeleton->GetBoneActor()[boneIndex];
+            BoneTransform temp;
+            temp.SetPosition(bone->GetTransform()->GetLocalPosition());
+            temp.SetRotation(bone->GetTransform()->GetLocalRotation());
+            temp.SetScale(bone->GetTransform()->GetLocalScale());
             // 位置キーの適用
             aiVector3D pos;
             CalcInterpolatedTranslation(pos, j, channel);
@@ -352,7 +363,7 @@ bool Animation::LoadFromFBX(const string& fileName)
             Vector3    finalPos = Vector3();
             aiVector3D basePos  = channel->mPositionKeys[0].mValue;
             // ルートモーションの座標を値で持っておいて後で適用、不適用にする
-            if (mSkeleton->GetBone(boneIndex).mParent < 0)
+            if (bone->GetParentIndex() < 0)
             {
                 // 位置の違うモデルのために変化量を計算して利用
                 // このままだと初期状態で移動している場合は適用されない！
@@ -360,54 +371,46 @@ bool Animation::LoadFromFBX(const string& fileName)
                 // ※現状はまだ未修整
                 finalPos = Vector3(pos.x - basePos.x, pos.y - basePos.y,
                                    pos.z - basePos.z);
-                mRootPositionOffset.push_back(finalPos);
+
+                mRootPositionOffset[j] = finalPos;
             }
-            temp.SetPosition(temp.GetPosition() += finalPos);
-            // temp.mPosition += finalPos;
+            temp.SetPosition(temp.GetPosition() + finalPos);
 
             // 回転キーの適用
             aiQuaternion rot;
             CalcInterpolatedRotation(rot, j, channel);
 
             temp.SetRotation(Quaternion(rot.x, rot.y, rot.z, rot.w));
-            // temp.mRotation = Quaternion(rot.x, rot.y, rot.z, rot.w);
 
             // スケールキーの適用
             aiVector3D scale;
             CalcInterpolatedScaling(scale, j, channel);
             temp.SetScale(Vector3(scale.x, scale.y, scale.z));
-            // temp.mScale = Vector3(scale.x, scale.y, scale.z);
 
             // `emplace_back()` ではなく、インデックス代入
             mTracks[boneIndex][j] = temp;
         }
     }
-    /*
-    string result = StringConverter::RemoveString(fileName, Model::AssetPath);
-    result = StringConverter::removeExtension(result);
-    SaveToBinary(Model::BinaryFilePath + result + Model::BinaryAnimPath);
-    */
+
     // ファイル名から拡張子を除いてアニメーション名として登録
     mAnimationName = Sco::RemoveString(fileName, File_P::AnimationFilePath);
     mAnimationName = Sco::RemoveExtension(mAnimationName);
     return true;
 }
 
-void Animation::GetGlobalPoseAtTime(vector<Matrix4>& outPoses,
+void Animation::GetLocalPoseAtTime(vector<Matrix4>& outPoses,
                                     const Skeleton*  inSkeleton,
                                     float            inTime) const
 {
-    if (outPoses.size() != mNumBones)
-    {
-        outPoses.resize(mNumBones);
-    }
+    outPoses.resize(inSkeleton->GetNumBones());
+
     // 現在のフレームインデックスと次のフレームを特定します
     // （これは、inTimeが[0, AnimDuration]に制約されていると仮定しています）
     size_t frame     = static_cast<size_t>(inTime / mFrameDuration);
     size_t nextFrame = frame + 1;
     // フレームと次のフレームの間の分数値を計算する
     float pct = inTime / mFrameDuration - frame;
-
+    /*
     // ルートのポーズを設定する
     if (mTracks[0].size() > 0)
     {
@@ -428,40 +431,43 @@ void Animation::GetGlobalPoseAtTime(vector<Matrix4>& outPoses,
     {
         outPoses[0] = Matrix4::Identity;
     }
+    */
 
-    const vector<Skeleton::Bone>& bones = inSkeleton->GetBones();
+    const vector<BoneActor*> bones = inSkeleton->GetBoneActor();
     // 残りのポーズを設定。
     for (size_t bone = 0; bone < mNumBones; bone++)
     {
-        Matrix4 localMat; // (Defaults to identity)
         if (mTracks[bone].size() > 0)
         {
+            BoneTransform currentBone;
+            BoneTransform nextBone;
+
+
             // nextFrameが最大数を超えていることがあるため対策
             if (frame >= mTracks[bone].size() ||
                 nextFrame >= mTracks[bone].size())
             {
-                BoneTransform currentBone =
-                    mTracks[bone][mTracks[bone].size() - 1];
-                if (bones[bone].mParent < 0)
+                currentBone = mTracks[bone].back();
+                nextBone    = currentBone;
+                /*
+                if (bones[bone]->GetParentIndex() < 0)
                 {
                     if (!isRootMotion)
                     {
-                        // currentBone.mPosition -=
-                        // mRootPositionOffset[mTracks[bone].size() - 1];
-                        // currentBone.GetPosition() -=
-                        // mRootPositionOffset[mTracks[bone].size() - 1];
                         currentBone.SetPosition(
                             currentBone.GetPosition() -=
                             mRootPositionOffset[mTracks[bone].size() - 1]);
                     }
                 }
                 localMat = currentBone.ToMatrix();
+                */
             }
             else
             {
-                BoneTransform currentBone = mTracks[bone][frame];
-                BoneTransform nextBone    = mTracks[bone][nextFrame];
-                if (bones[bone].mParent < 0)
+                currentBone = mTracks[bone][frame];
+                nextBone    = mTracks[bone][nextFrame];
+                /*
+                if (bones[bone]->GetParentIndex() < 0)
                 {
                     if (!isRootMotion)
                     {
@@ -476,17 +482,34 @@ void Animation::GetGlobalPoseAtTime(vector<Matrix4>& outPoses,
                 BoneTransform interp =
                     BoneTransform::Interpolate(currentBone, nextBone, pct);
                 localMat = interp.ToMatrix();
+                */
             }
-        }
 
+            if (bones[bone]->GetParentIndex() < 0 && !isRootMotion)
+            {
+                currentBone.SetPosition(currentBone.GetPosition() - mRootPositionOffset[frame]);
+                nextBone.SetPosition(nextBone.GetPosition() - mRootPositionOffset[nextFrame]);
+            }
+
+            BoneTransform interp =
+                BoneTransform::Interpolate(currentBone, nextBone, pct);
+
+            outPoses[bone] = interp.ToMatrix();
+        }
+        else
+        {
+            outPoses[bone] = Matrix4::Identity;
+        }
+        /*
         // 親がいない場合の対処
-        if (bones[bone].mParent < 0)
+        if (bones[bone]->GetParentIndex() < 0)
         {
             outPoses[bone] = localMat;
             continue;
         }
 
-        outPoses[bone] = localMat * outPoses[bones[bone].mParent];
+        outPoses[bone] = localMat * outPoses[bones[bone]->GetParentIndex()];
+        */
     }
 }
 

@@ -163,14 +163,36 @@ float Animator::PlayBlendAnimation(Animation* anim)
 
 void Animator::ComputeMatrixPalette()
 {
+    if (!mSkeleton || !mAnimation)
+    {
+        return;
+    }
+
+    vector<Matrix4> localPoses;
+    mAnimation->GetLocalPoseAtTime(localPoses, mSkeleton, mAnimTime);
+    /*
     const vector<Matrix4>& globalInvBindPoses =
         mSkeleton->GetGlobalInvBindPoses();
     vector<Matrix4> currentPoses;
-    mAnimation->GetGlobalPoseAtTime(currentPoses, mSkeleton, mAnimTime);
+    mAnimation->GetLocalPoseAtTime(currentPoses, mSkeleton, mAnimTime);
     mSkeleton->SetGlobalCurrentPoses(currentPoses);
+    */
     // Setup the palette for each bone
     for (size_t i = 0; i < mSkeleton->GetNumBones(); i++)
     {
+        BoneActor* boneActor = mSkeleton->GetBoneActor()[i];
+        
+        Vector3 pos = localPoses[i].GetTranslation();
+        Quaternion rot = localPoses[i].GetRotation();
+        Vector3    scale = localPoses[i].GetScale();
+
+        boneActor->GetTransform()->SetLocalPosition(pos);
+        boneActor->GetTransform()->SetLocalRotation(rot);
+        boneActor->GetTransform()->SetLocalScale(scale);
+
+        boneActor->GetTransform()->ActiveDirty();
+        
+        /*
         Matrix4 pose = currentPoses[i];
         // Global inverse bind pose matrix times current pose matrix
         mPalette.mEntry[i] = globalInvBindPoses[i] * pose;
@@ -189,24 +211,70 @@ void Animator::ComputeMatrixPalette()
             transform.GetRotation());
         mSkeleton->GetBoneActor()[i]->GetTransform()->SetLocalPosition(
             transform.GetTranslation());
+        */
+    }
+
+    for (size_t i = 0; i < mSkeleton->GetNumBones(); i++)
+    {
+        mSkeleton->GetBoneActor()[i]->GetTransform()->ComputeWorldTransform();
+    }
+
+    for (size_t i = 0; i < mSkeleton->GetNumBones(); i++)
+    {
+        BoneActor* boneActor = mSkeleton->GetBoneActor()[i];
+        Matrix4 currentWorld = boneActor->GetTransform()->GetWorldTransform();
+        Matrix4 invBind      = boneActor->GetGlobalInvBindPose();
+
+        mPalette.mEntry[i] = invBind * currentWorld;
     }
 }
 
 void Animator::BlendComputeMatrixPalette()
 {
-    const vector<Matrix4>& globalInvBindPoses =
-        mSkeleton->GetGlobalInvBindPoses();
+    if (!mSkeleton || !mAnimation || !mBlendAnimation)
+    {
+        return;
+    }
+
     vector<Matrix4> nowPose;
     vector<Matrix4> nextPose;
-    vector<Matrix4> goalPose;
-
+        // アニメーションタイムを使ってそれぞれのポーズを取得
+    mAnimation->GetLocalPoseAtTime(nowPose, mSkeleton, mAnimTime);
+    // 進行具合に応じて取得
+    mBlendAnimation->GetLocalPoseAtTime(nextPose, mSkeleton, mBlendAnimTime);
     // 経過時間に対する補間率
     float t = Math::Clamp(mBlendAnimTime / mBlendElapsed, 0.0f, 1.0f);
 
-    // アニメーションタイムを使ってそれぞれのポーズを取得
-    mAnimation->GetGlobalPoseAtTime(nowPose, mSkeleton, mAnimTime);
-    // 進行具合に応じて取得
-    mBlendAnimation->GetGlobalPoseAtTime(nextPose, mSkeleton, mBlendAnimTime);
+    for (size_t i = 0; i < mSkeleton->GetNumBones(); i++)
+    {
+        BoneTransform transformA, transformB;
+        transformA.FromMatrix(nowPose[i]);
+        transformB.FromMatrix(nextPose[i]);
+
+        BoneTransform blended =
+            BoneTransform::Interpolate(transformA, transformB, t);
+
+        BoneActor* bone = mSkeleton->GetBoneActor()[i];
+        bone->GetTransform()->SetLocalPosition(blended.GetPosition());
+        bone->GetTransform()->SetLocalRotation(blended.GetRotation());
+        bone->GetTransform()->SetLocalScale(blended.GetScale());
+        bone->GetTransform()->ActiveDirty();
+    }
+
+    for (size_t i = 0; i < mSkeleton->GetNumBones(); i++)
+    {
+        mSkeleton->GetBoneActor()[i]->GetTransform()->ComputeWorldTransform();
+    }
+
+    for (size_t i = 0; i < mSkeleton->GetNumBones(); i++)
+    {
+        BoneActor* bone = mSkeleton->GetBoneActor()[i];
+        mPalette.mEntry[i] = bone->GetGlobalInvBindPose() *
+                             bone->GetTransform()->GetWorldTransform();
+    }
+    /*
+    vector<Matrix4> goalPose;
+
 
     goalPose.resize(nowPose.size());
 
@@ -221,7 +289,7 @@ void Animator::BlendComputeMatrixPalette()
             BoneTransform::Interpolate(transformA, transformB, t);
 
         goalPose[i] = blended.ToMatrix();
-        mSkeleton->GetBoneActor()[i]->SetBoneMatrix(goalPose[i]);
+        mSkeleton->GetBoneActor()[i]->SetGlobalInvBindPose(goalPose[i]);
     }
 
     mSkeleton->SetGlobalCurrentPoses(goalPose);
@@ -246,6 +314,7 @@ void Animator::BlendComputeMatrixPalette()
         mSkeleton->GetBoneActor()[i]->GetTransform()->SetLocalPosition(
             transform.GetTranslation());
     }
+    */
 }
 
 float Animator::GetNormalizedTime()

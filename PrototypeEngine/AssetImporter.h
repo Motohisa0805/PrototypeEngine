@@ -1,4 +1,5 @@
-#pragma once
+#pragma comment(lib, "Rpcrt4.lib")
+#include <windows.h>
 #include <filesystem>
 #include "Typedefs.h"
 
@@ -14,7 +15,10 @@ public:
     // GUIから呼ばれる用の関数。1つのファイルをチェックして、必要であればインポートする
 	static void OneFileCheckAndImportAssets(const filesystem::path& filePath);
 
-	static string GeneratedCustomPath(const string& path);
+	static string GenerateUUID();
 
-	static void ConvertFBXToCustomFormat(const string& fbxPath,const string& customPath);
+	static fs::path GeneratedCustomPath(const fs::path& path);
+
+	static void ConvertFBXToCustomFormat(const fs::path& fbxPath,
+                                         const fs::path& customPath);
 };

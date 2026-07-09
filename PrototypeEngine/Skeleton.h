@@ -3,7 +3,7 @@
 #include "Typedefs.h"
 #include "Assimp.h"
 #include "MatrixPalette.h"
-
+#include "BoneActor.h"
 
 /*
 * ===エンジン内部処理/Engine internal processing===
@@ -39,28 +39,15 @@ public:
 		Humanoid,
 		Generic
 	};
-	// 骨格の各骨の定義
-	struct Bone
-	{
-		BoneTransform	mLocalBindPose;
-		string			mName;
-		string			mShortName;
-		int				mParent;
-	};
 protected:
 	// スケルトンがロードされると自動的に呼び出され、
 	// 各ボーンのグローバルインバインドポーズを計算。
 	void									ComputeGlobalInvBindPose();
 private:
-	// 骨格の骨
-	vector<Bone>							mBones;
+    // 各骨の情報を格納するアクター
 	vector<BoneActor*>						mBoneActors;
 	//計算用のオフセット変数
 	vector<aiMatrix4x4>						mOffsetMatrix;
-	// 各Boneに対するグローバル逆束縛ポーズ
-	vector<Matrix4>							mGlobalInvBindPoses;
-	//スケルトンのボーンのアニメーション適用後の座標を持つマトリックス
-	vector<Matrix4>							mGlobalCurrentPoses;
 	//文字列とint型の連想配列
 	std::unordered_map<string, int>			mBoneNameToIndex;
 	//文字列とint型の連想配列
@@ -79,8 +66,6 @@ public:
 	bool									LoadFromFBX(const string& fileName);
 	//ボーンの親を設定
 	void									SetParentBones(aiNode* node, int parentIndex);
-	//ボーンの名前を短縮して出力
-	string									ConvertSimpleBoneName(string boneName);
 
 	bool EndsWith(const std::string& str, const std::string& suffix)
 	{
@@ -92,23 +77,27 @@ public:
 	}
 
 	// ボーン数のGetter
-	size_t									GetNumBones() const { return mBones.size(); }
+	size_t									GetNumBones() const { return mBoneActors.size(); }
 	//ボーンのGetter Ver.1
-	const Bone&								GetBone(size_t idx) const { return mBones[idx]; }
+	const BoneActor&						GetBone(size_t idx) const { return *mBoneActors[idx]; }
 	//ボーンGetter Ver.2
-	const vector<Bone>&						GetBones() const { return mBones; }
+	const vector<BoneActor*>&				GetBones() const { return mBoneActors; }
 	//ボーンオブジェクトのGetter
 	vector<BoneActor*>						GetBoneActor() const { return mBoneActors; }
-	//ボーンのグローバルバインドポーズのGetter
-	const vector<Matrix4>&					GetGlobalInvBindPoses() const { return mGlobalInvBindPoses; }
-	//アニメーション適用後のボーンの行列変数のGetter
-	const vector<Matrix4>&					GetGlobalCurrentPoses() const { return mGlobalCurrentPoses; }
-	//アニメーション適用語の各ボーンの行列をセットするSetter
-	void									SetGlobalCurrentPoses(vector<Matrix4>& poses) { mGlobalCurrentPoses = poses; }
+
+	// ボーンのグローバルバインドポーズのGetter
+    Matrix4 GetGlobalInvBindPose(size_t idx) const
+    {
+        return mBoneActors[idx]->GetGlobalInvBindPose();
+    }
+    // アニメーション適用後のボーンの行列変数のGetter
+    Matrix4 GetGlobalCurrentPose(size_t idx) const
+    {
+        return mBoneActors[idx]->GetTransform()->GetWorldTransform();
+    }
+
 	//ボーンの連想配列のGetter
 	const std::unordered_map<string, int>&	GetBoneNameToIndex() const { return mBoneNameToIndex; }
-	//ボーン名からそのボーンのマトリックスの取得
-	Matrix4									GetBonePosition(string boneName);
 	//指定したボーンにオブジェクトを子オブジェクトとして設定
 	void									AddBoneChildActor(string boneName,class ActorObject* actor);
 	//ActorObjectの親を設定
