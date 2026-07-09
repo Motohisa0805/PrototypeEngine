@@ -209,8 +209,8 @@ BaseScene* SceneSerializer::LoadScene(const string& filePath,
     }
     else
     {
-        newScene->SetLoadSkyBoxTexturePath("Editor/SkyBox03.png");
-        newScene->LoadSkyBoxTexture("Editor/SkyBox03.png");
+        newScene->SetLoadSkyBoxTexturePath("Editor/SkyBox01.png");
+        newScene->LoadSkyBoxTexture("Editor/SkyBox01.png");
     }
 
     // 一時編集データに書き込みフラグがtrueなら
