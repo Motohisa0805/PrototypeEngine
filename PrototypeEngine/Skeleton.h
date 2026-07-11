@@ -9,22 +9,6 @@
 * ===エンジン内部処理/Engine internal processing===
 */
 
-//スケルトンのバイナリデータ構造体
-struct SkeletonBinBone
-{
-	// ボーン名（固定長）
-	char		name[SkeletonLayout::MAX_SKELETONBINBONE];
-	// 短縮版ボーン名
-	char		shortName[SkeletonLayout::MAX_SKELETONBINBONE];
-	// 親ボーンインデックス（-1 なら root）
-	int32_t		parentIndex;      
-	// バインドポーズの位置
-	Vector3		position;         
-	// バインドポーズの回転
-	Quaternion	rotation;      
-	// バインドポーズのスケール（オプション）
-	Vector3		scale;            
-};
 
 class BoneTransform;
 class BoneActor;
@@ -33,6 +17,22 @@ class BoneActor;
 class Skeleton
 {
 public:
+	//スケルトンのバイナリデータ構造体
+	struct SkeletonBinBone
+	{
+		// ボーン名（固定長）
+		char		name[SkeletonLayout::MAX_SKELETONBINBONE];
+		// 短縮版ボーン名
+		char		shortName[SkeletonLayout::MAX_SKELETONBINBONE];
+		// 親ボーンインデックス（-1 なら root）
+		int32_t		parentIndex;      
+		// バインドポーズの位置
+		Vector3		position;         
+		// バインドポーズの回転
+		Quaternion	rotation;      
+		// バインドポーズのスケール（オプション）
+		Vector3		scale;            
+	};
 	//スケルトンのタイプのタグ
 	enum SkeletonType
 	{
