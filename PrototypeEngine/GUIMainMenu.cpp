@@ -127,7 +127,7 @@ void GUIMainMenu::AssetMenuDraw()
         }
         // Show in Explorer（フォルダ・ファイルどちらでも可）
         ProjectPanel::ShowInExplorer();
-        if (!filesystem::is_directory(ProjectPanel::GetSelectedFilePath()))
+        if (!filesystem::is_directory(SelectionManager::GetSelectedFilePath()))
         {
             // Open（ファイルのみ）
             ProjectPanel::OpenFile();

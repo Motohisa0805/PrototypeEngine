@@ -12,22 +12,6 @@ namespace AnimationLayout
 	constexpr float DEFAULTTICKSPERSECOND = 25.0f;
 }
 
-
-struct AnimationBinHeader 
-{
-	uint32_t	version = 1;
-	float		duration = 0;
-	uint32_t	numFrames = 0;
-	uint32_t	numBones = 0;
-};
-
-struct AnimationBinTransform 
-{
-	Vector3		position = Vector3();
-	Quaternion	rotation = Quaternion();
-	Vector3		scale = Vector3();
-};
-
 //前方宣言
 class Skeleton;
 
@@ -36,6 +20,22 @@ class Skeleton;
 //アニメーションの読み込みはAssimpを使用
 class Animation
 {
+public:
+    struct AnimationBinHeader
+    {
+        uint32_t version   = 1;
+        float    duration  = 0;
+        uint32_t numFrames = 0;
+        uint32_t numBones  = 0;
+    };
+
+	struct AnimationBinTransform
+    {
+        Vector3    position = Vector3();
+        Quaternion rotation = Quaternion();
+        Vector3    scale    = Vector3();
+    };
+
 private:
 	//bool									LoadFromJSON(const string& fileName);
 

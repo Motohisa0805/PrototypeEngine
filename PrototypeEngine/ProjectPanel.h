@@ -20,7 +20,6 @@ private:
 	filesystem::path				mPendingDst;
 
 	// ユーザーが左クリックでハイライトしたファイル/フォルダ
-	static filesystem::path			mSelectedFilePath;
 
 	static filesystem::path			mSelectedFolderPath;
 
@@ -34,7 +33,6 @@ public:
 	
 	static void 					SetRenaming(bool renaming) { mIsRenaming = renaming; }
 
-	static filesystem::path			GetSelectedFilePath() { return mSelectedFilePath; }
 	static filesystem::path			GetSelectedFolderPath() { return mSelectedFolderPath; }
 	//コンストラクタ
 									ProjectPanel(Renderer* renderer);
@@ -45,7 +43,7 @@ public:
 	// 指定されたディレクトリを再帰的に表示
 	void							DrawFolderTree(const filesystem::path& path);
 	void							DrawPickUpFolderView();
-	// 1つのファイル/フォルダを描画
+	// 1つのファイルを描画
 	void							DrawFileSystemEntry(const filesystem::directory_entry& entry);
 	//タブのドッキング設定時に呼び出す
 	static void						SetDockWindow(ImGuiID id, ImGuiID& outID);

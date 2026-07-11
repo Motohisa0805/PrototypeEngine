@@ -27,15 +27,6 @@ struct MaterialInfo
 	float		Shininess;
 };
 
-struct MeshBinHeader {
-	uint32_t	layoutType;
-	uint32_t	vertexCount;
-	uint32_t	indexCount;
-	Vector3		min;
-	Vector3		max;
-	float		colliderRadius;
-};
-
 //前方宣言
 class Renderer;
 class Texture;
@@ -45,6 +36,17 @@ class VertexArray;
 //FBXファイルを読み込んでメッシュ情報を管理するクラス
 class Mesh
 {
+public:
+    struct MeshBinHeader
+    {
+        uint32_t layoutType;
+        uint32_t vertexCount;
+        uint32_t indexCount;
+        Vector3  min;
+        Vector3  max;
+        float    colliderRadius;
+    };
+
 private:
 	//JSONファイルの読み込み処理
 	//bool						LoadFromJSON(const string& fileName, class Renderer* renderer, int index);

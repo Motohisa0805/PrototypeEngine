@@ -1,0 +1,24 @@
+{
+    "cached_data": {
+        "animations": [],
+        "meshes": [
+            {
+                "binary_path": "Box_01_mesh0.meshbin",
+                "has_bones": false,
+                "name": "立方体.009",
+                "vertex_count": 96
+            }
+        ]
+    },
+    "fileFormatVersion": 1,
+    "guid": "65064952-99ac-42e0-b042-e1cd7d0f66b2",
+    "import_settings": {
+        "import_animation": false,
+        "import_mesh": true,
+        "import_skeleton": false,
+        "scale_factor": 1.0
+    },
+    "skeleton_settings": {
+        "skeleton_type": 0
+    }
+}

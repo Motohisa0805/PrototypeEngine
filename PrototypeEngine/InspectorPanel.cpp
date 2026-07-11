@@ -34,7 +34,7 @@ void InspectorPanel::Draw(float width, float height)
 
         // 1.‘I‘ð’†‚ÌActor‚ðŽæ“¾
         Entity* selectedActor = SelectionManager::GetSelectedActor();
-
+        filesystem::path selectedFilePath = SelectionManager::GetSelectedFilePath();
         if (selectedActor)
         {
             // ----------------------------------------------------------------
@@ -208,6 +208,10 @@ void InspectorPanel::Draw(float width, float height)
                 ComponentSelectorDraw(selectedActor);
                 ImGui::EndPopup();
             }
+        }
+        else if (selectedFilePath != "")
+        {
+            ImGui::Text("Selected File: %s", selectedFilePath.string().c_str());
         }
         else
         {
