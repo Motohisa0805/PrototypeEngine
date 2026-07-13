@@ -5,6 +5,16 @@
 //本格的な描画処理は未実装
 class InspectorPanel : public EditorWindow
 {
+public:
+    struct ModelImportSettings
+    {
+        float sGlobalScale = 1.0f;
+        bool  sFlipUVs     = true;
+        bool  sRecalculateNormals = false;
+        bool  sImportMaterials    = true;
+        bool  sImportAnimations   = true;
+    };
+
 private:
 
 	//Transformプロパティを描画するためのヘルパー関数を宣言
@@ -19,6 +29,12 @@ public:
 	void		Initialize(float width, float height, ImTextureRef ref = nullptr)override;
 
 	void		Draw(float width, float height)override;
+
+	void		ActorInspection(Entity* selectedActor);
+
+	void		FileInspection(const filesystem::path& selectedFilePath);
+
+	void		DrawFBXImportSettings(const filesystem::path& fbxPath);
 
 	static void	ComponentSelectorDraw(Entity* selectedActor);
 };

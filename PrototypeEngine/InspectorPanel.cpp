@@ -37,181 +37,11 @@ void InspectorPanel::Draw(float width, float height)
         filesystem::path selectedFilePath = SelectionManager::GetSelectedFilePath();
         if (selectedActor)
         {
-            // ----------------------------------------------------------------
-            // 1.Actorの名前を表示・編集
-            // ----------------------------------------------------------------
-            // C++ std::stringを直接 ImGui::InputText に渡すための処理が必要
-            // ここでは簡易的に、Actor::mName を公開メンバーとして扱う
-
-            // Actor名の編集(一時バッファを使うの安全だけど、ここでは簡略化)
-            char nameBuffer[128];
-            strncpy_s(nameBuffer, selectedActor->GetName().c_str(),
-                      sizeof(nameBuffer) - 1);
-            nameBuffer[sizeof(nameBuffer) - 1] = '\0'; // 念のためヌル終端
-            // アクターの名前入力UI
-            if (ImGui::InputText("Name", nameBuffer, sizeof(nameBuffer)))
-            {
-                auto cmd = std::make_unique<RenameCommand>(
-                    SelectionManager::GetSelectedActor(), string(nameBuffer));
-                CommandManager::Execute(std::move(cmd));
-            }
-            ImGui::SameLine();
-            // StaticタグのコンボUI
-            if (ImGui::BeginCombo("Static", ActorInformation::GetStateName(
-                                                selectedActor->GetStatic())
-                                                .c_str()))
-            {
-                for (uint32_t i = 0; i < 4; ++i)
-                {
-                    ActorInformation::StaticTag tag =
-                        static_cast<ActorInformation::StaticTag>(i);
-                    bool isSelected = (selectedActor->GetStatic() == tag);
-
-                    if (ImGui::Selectable(
-                            ActorInformation::GetStateName(tag).c_str(),
-                            isSelected))
-                    {
-                        selectedActor->SetStaticTag(tag);
-                    }
-                }
-                ImGui::EndCombo();
-            }
-
-            ImGui::Separator();
-
-            // ----------------------------------------------------------------
-            // 2.Transformコンポーネントの表示・編集(ActorObjectはActorObjectの基底クラス)
-            // ----------------------------------------------------------------
-            bool isStatic =
-                selectedActor->IsStatic() && GUIEditorManager::IsPlaying();
-            if (auto actor = dynamic_cast<ActorObject*>(selectedActor))
-            {
-                if (ImGui::CollapsingHeader("Transform",
-                                            ImGuiTreeNodeFlags_DefaultOpen))
-                {
-                    // Staticならこれ以降のUI入力を無効化（グレーアウト）する
-                    ImGui::BeginDisabled(isStatic);
-
-                    // DrawTransformProperties(selectedActor);
-                    actor->GetTransform()->DrawCustomGUI(
-                        actor->GetTransform()->GetProperties());
-
-                    // 無効化範囲の終了
-                    ImGui::EndDisabled();
-
-                    // 補足：なぜ動かせないかのヒントテキスト出力
-                    if (isStatic)
-                    {
-                        ImGui::TextDisabled("(?)");
-                        if (ImGui::IsItemHovered())
-                        {
-                            ImGui::SetTooltip(
-                                "Static Objects can't be moved while running.");
-                        }
-                    }
-                }
-            }
-            else if (auto uiactor = dynamic_cast<UIActorObject*>(selectedActor))
-            {
-                if (ImGui::CollapsingHeader("RectTransform",
-                                            ImGuiTreeNodeFlags_DefaultOpen))
-                {
-                    // Staticならこれ以降のUI入力を無効化（グレーアウト）する
-                    ImGui::BeginDisabled(isStatic);
-
-                    // DrawTransformProperties(selectedActor);
-                    uiactor->GetRectTransform()->DrawCustomGUI(
-                        uiactor->GetRectTransform()->GetProperties());
-
-                    // 無効化範囲の終了
-                    ImGui::EndDisabled();
-
-                    // 補足：なぜ動かせないかのヒントテキスト出力
-                    if (isStatic)
-                    {
-                        ImGui::TextDisabled("(?)");
-                        if (ImGui::IsItemHovered())
-                        {
-                            ImGui::SetTooltip(
-                                "Static Objects can't be moved while running.");
-                        }
-                    }
-                }
-            }
-
-            //----------------------------------------------------------------
-            // コンポーネントのリスト表示
-            //----------------------------------------------------------------
-            const vector<Component*>& components =
-                selectedActor->GetComponents();
-
-            // 削除対象のコンポーネントを保持するポインタ
-            Component* compToDelete = nullptr;
-            // コンポーネントラベルにユニークIDを追加するためのインデックス
-            int index = 0;
-            for (Component* comp : components)
-            {
-                comp->InitializeDrawCustomGUI();
-                // 各コンポーネントのプロパティ編集UI
-                if (ImGui::CollapsingHeader(
-                        (comp->GetName() + std::to_string(index)).c_str(),
-                        ImGuiTreeNodeFlags_DefaultOpen))
-                {
-                    // ここに各コンポーネント固有のプロパティ編集ロジックを実装
-
-                    // --------------------------------------------------
-                    // 【重要】リフレクション情報に基づいてプロパティを描画
-                    // --------------------------------------------------
-                    comp->DrawCustomGUI(comp->GetProperties());
-
-                    //----------------------------------------------------------------
-                    // コンポーネント削除ボタン
-                    //----------------------------------------------------------------
-
-                    ImGui::NewLine();
-
-                    ImGui::PushID(
-                        comp); // comp のアドレスを一時的にIDスタックに追加
-                    {
-                        // 削除ボタンの処理
-                        if (comp->GetName() != "Transform" &&
-                            ImGui::Button("Remove"))
-                        {
-                            compToDelete = comp;
-                        }
-                    }
-                    ImGui::PopID(); // IDスタックから comp のアドレスを削除
-                }
-                comp->EndDrawCustomGUI();
-                index++;
-            }
-            ImGui::Separator();
-
-            // ループ処理後に削除を実行
-            if (compToDelete)
-            {
-                selectedActor->RemoveComponent(compToDelete);
-                delete compToDelete;
-                compToDelete = nullptr;
-            }
-
-            // ----------------------------------------------------------------
-            // 2. 新規コンポーネントの追加ボタン
-            // ----------------------------------------------------------------
-            // ウィンドウ全体に広がる大きなボタン
-            if (ImGui::Button("Add Component", ImVec2(-1.0f, 0.0f)))
-            {
-                ImGui::OpenPopup("ComponentSelector");
-            }
-            if (ImGui::BeginPopup("ComponentSelector"))
-            {
-                ComponentSelectorDraw(selectedActor);
-                ImGui::EndPopup();
-            }
+            ActorInspection(selectedActor);
         }
-        else if (selectedFilePath != "")
+        else if (selectedFilePath != "Assets")
         {
-            ImGui::Text("Selected File: %s", selectedFilePath.string().c_str());
+            FileInspection(selectedFilePath);
         }
         else
         {
@@ -219,6 +49,217 @@ void InspectorPanel::Draw(float width, float height)
         }
     }
     ImGui::End();
+}
+
+void InspectorPanel::ActorInspection(Entity* selectedActor) 
+{
+    // ----------------------------------------------------------------
+    // 1.Actorの名前を表示・編集
+    // ----------------------------------------------------------------
+    // C++ std::stringを直接 ImGui::InputText に渡すための処理が必要
+    // ここでは簡易的に、Actor::mName を公開メンバーとして扱う
+
+    // Actor名の編集(一時バッファを使うの安全だけど、ここでは簡略化)
+    char nameBuffer[128];
+    strncpy_s(nameBuffer, selectedActor->GetName().c_str(),
+              sizeof(nameBuffer) - 1);
+    nameBuffer[sizeof(nameBuffer) - 1] = '\0'; // 念のためヌル終端
+    // アクターの名前入力UI
+    if (ImGui::InputText("Name", nameBuffer, sizeof(nameBuffer)))
+    {
+        auto cmd = std::make_unique<RenameCommand>(
+            SelectionManager::GetSelectedActor(), string(nameBuffer));
+        CommandManager::Execute(std::move(cmd));
+    }
+    ImGui::SameLine();
+    // StaticタグのコンボUI
+    if (ImGui::BeginCombo(
+            "Static",
+            ActorInformation::GetStateName(selectedActor->GetStatic()).c_str()))
+    {
+        for (uint32_t i = 0; i < 4; ++i)
+        {
+            ActorInformation::StaticTag tag =
+                static_cast<ActorInformation::StaticTag>(i);
+            bool isSelected = (selectedActor->GetStatic() == tag);
+
+            if (ImGui::Selectable(ActorInformation::GetStateName(tag).c_str(),
+                                  isSelected))
+            {
+                selectedActor->SetStaticTag(tag);
+            }
+        }
+        ImGui::EndCombo();
+    }
+
+    ImGui::Separator();
+
+    // ----------------------------------------------------------------
+    // 2.Transformコンポーネントの表示・編集(ActorObjectはActorObjectの基底クラス)
+    // ----------------------------------------------------------------
+    bool isStatic = selectedActor->IsStatic() && GUIEditorManager::IsPlaying();
+    if (auto actor = dynamic_cast<ActorObject*>(selectedActor))
+    {
+        if (ImGui::CollapsingHeader("Transform",
+                                    ImGuiTreeNodeFlags_DefaultOpen))
+        {
+            // Staticならこれ以降のUI入力を無効化（グレーアウト）する
+            ImGui::BeginDisabled(isStatic);
+
+            // DrawTransformProperties(selectedActor);
+            actor->GetTransform()->DrawCustomGUI(
+                actor->GetTransform()->GetProperties());
+
+            // 無効化範囲の終了
+            ImGui::EndDisabled();
+
+            // 補足：なぜ動かせないかのヒントテキスト出力
+            if (isStatic)
+            {
+                ImGui::TextDisabled("(?)");
+                if (ImGui::IsItemHovered())
+                {
+                    ImGui::SetTooltip(
+                        "Static Objects can't be moved while running.");
+                }
+            }
+        }
+    }
+    else if (auto uiactor = dynamic_cast<UIActorObject*>(selectedActor))
+    {
+        if (ImGui::CollapsingHeader("RectTransform",
+                                    ImGuiTreeNodeFlags_DefaultOpen))
+        {
+            // Staticならこれ以降のUI入力を無効化（グレーアウト）する
+            ImGui::BeginDisabled(isStatic);
+
+            // DrawTransformProperties(selectedActor);
+            uiactor->GetRectTransform()->DrawCustomGUI(
+                uiactor->GetRectTransform()->GetProperties());
+
+            // 無効化範囲の終了
+            ImGui::EndDisabled();
+
+            // 補足：なぜ動かせないかのヒントテキスト出力
+            if (isStatic)
+            {
+                ImGui::TextDisabled("(?)");
+                if (ImGui::IsItemHovered())
+                {
+                    ImGui::SetTooltip(
+                        "Static Objects can't be moved while running.");
+                }
+            }
+        }
+    }
+
+    //----------------------------------------------------------------
+    // コンポーネントのリスト表示
+    //----------------------------------------------------------------
+    const vector<Component*>& components = selectedActor->GetComponents();
+
+    // 削除対象のコンポーネントを保持するポインタ
+    Component* compToDelete = nullptr;
+    // コンポーネントラベルにユニークIDを追加するためのインデックス
+    int index = 0;
+    for (Component* comp : components)
+    {
+        comp->InitializeDrawCustomGUI();
+        // 各コンポーネントのプロパティ編集UI
+        if (ImGui::CollapsingHeader(
+                (comp->GetName() + std::to_string(index)).c_str(),
+                ImGuiTreeNodeFlags_DefaultOpen))
+        {
+            // ここに各コンポーネント固有のプロパティ編集ロジックを実装
+
+            // --------------------------------------------------
+            // 【重要】リフレクション情報に基づいてプロパティを描画
+            // --------------------------------------------------
+            comp->DrawCustomGUI(comp->GetProperties());
+
+            //----------------------------------------------------------------
+            // コンポーネント削除ボタン
+            //----------------------------------------------------------------
+
+            ImGui::NewLine();
+
+            ImGui::PushID(comp); // comp のアドレスを一時的にIDスタックに追加
+            {
+                // 削除ボタンの処理
+                if (comp->GetName() != "Transform" && ImGui::Button("Remove"))
+                {
+                    compToDelete = comp;
+                }
+            }
+            ImGui::PopID(); // IDスタックから comp のアドレスを削除
+        }
+        comp->EndDrawCustomGUI();
+        index++;
+    }
+    ImGui::Separator();
+
+    // ループ処理後に削除を実行
+    if (compToDelete)
+    {
+        selectedActor->RemoveComponent(compToDelete);
+        delete compToDelete;
+        compToDelete = nullptr;
+    }
+
+    // ----------------------------------------------------------------
+    // 2. 新規コンポーネントの追加ボタン
+    // ----------------------------------------------------------------
+    // ウィンドウ全体に広がる大きなボタン
+    if (ImGui::Button("Add Component", ImVec2(-1.0f, 0.0f)))
+    {
+        ImGui::OpenPopup("ComponentSelector");
+    }
+    if (ImGui::BeginPopup("ComponentSelector"))
+    {
+        ComponentSelectorDraw(selectedActor);
+        ImGui::EndPopup();
+    }
+}
+
+void InspectorPanel::FileInspection(const filesystem::path& selectedFilePath) 
+{
+    ImGui::Text("Selected File: %s", selectedFilePath.string().c_str());
+
+    string ext = selectedFilePath.extension().string();
+    if (ext == ".fbx")
+    {
+        ImGui::Separator();
+        DrawFBXImportSettings(selectedFilePath);
+    }
+}
+
+void InspectorPanel::DrawFBXImportSettings(const filesystem::path& fbxPath) 
+{
+    static ModelImportSettings settings;
+    ImGui::Text((fbxPath.filename().string() + " Import Settings").c_str());
+    ImGui::Spacing();
+
+    if (ImGui::CollapsingHeader("Geometry", ImGuiTreeNodeFlags_DefaultOpen))
+    {
+        ImGui::DragFloat("Global Scale",&settings.sGlobalScale,0.01f,0.001f,1000.0f);
+        ImGui::Checkbox("Flip UVs", &settings.sFlipUVs);
+        ImGui::Checkbox("Recalculate Normals", &settings.sRecalculateNormals);
+    }
+
+    if (ImGui::CollapsingHeader("Misc", ImGuiTreeNodeFlags_DefaultOpen))
+    {
+        ImGui::Checkbox("Import Materials", &settings.sImportMaterials);
+        ImGui::Checkbox("Import Animations", &settings.sImportAnimations);
+    }
+
+    ImGui::Spacing();
+    ImGui::Separator();
+    ImGui::Spacing();
+
+    if (ImGui::Button("Apply", ImVec2(-1.0f, 30.0f)))
+    {
+
+    }
 }
 
 void InspectorPanel::ComponentSelectorDraw(Entity* selectedActor)
