@@ -13,9 +13,17 @@ private:
 
 public:
 	static Entity* GetSelectedActor() { return mSelectedActor; }
-	static void SetSelectedActor(Entity* actor) { mSelectedActor = actor; }
+	static void SetSelectedActor(Entity* actor) 
+	{
+		mSelectedActor = actor; 
+		mSelectedFilePath = "Assets";
+	}
 
 	static filesystem::path GetSelectedFilePath() { return mSelectedFilePath; }
-	static void SetSelectedFilePath(const filesystem::path& path) { mSelectedFilePath = path; }
+	static void SetSelectedFilePath(const filesystem::path& path) 
+	{
+		mSelectedFilePath = path; 
+		mSelectedActor    = nullptr;
+	}
 };
 
