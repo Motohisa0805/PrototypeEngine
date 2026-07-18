@@ -6,6 +6,7 @@
 #include "GUIEditorManager.h"
 #include "SelectionManager.h"
 #include "UIActor.h"
+#include "ImportSettingsItem.h"
 
 InspectorPanel::InspectorPanel(Renderer* renderer) : EditorWindow(renderer)
 {
@@ -229,38 +230,10 @@ void InspectorPanel::FileInspection(const filesystem::path& selectedFilePath)
     if (ext == ".fbx")
     {
         ImGui::Separator();
-        DrawFBXImportSettings(selectedFilePath);
+        ImportSettingsItem::DrawFBXImportSettings(selectedFilePath);
     }
 }
 
-void InspectorPanel::DrawFBXImportSettings(const filesystem::path& fbxPath) 
-{
-    static ModelImportSettings settings;
-    ImGui::Text((fbxPath.filename().string() + " Import Settings").c_str());
-    ImGui::Spacing();
-
-    if (ImGui::CollapsingHeader("Geometry", ImGuiTreeNodeFlags_DefaultOpen))
-    {
-        ImGui::DragFloat("Global Scale",&settings.sGlobalScale,0.01f,0.001f,1000.0f);
-        ImGui::Checkbox("Flip UVs", &settings.sFlipUVs);
-        ImGui::Checkbox("Recalculate Normals", &settings.sRecalculateNormals);
-    }
-
-    if (ImGui::CollapsingHeader("Misc", ImGuiTreeNodeFlags_DefaultOpen))
-    {
-        ImGui::Checkbox("Import Materials", &settings.sImportMaterials);
-        ImGui::Checkbox("Import Animations", &settings.sImportAnimations);
-    }
-
-    ImGui::Spacing();
-    ImGui::Separator();
-    ImGui::Spacing();
-
-    if (ImGui::Button("Apply", ImVec2(-1.0f, 30.0f)))
-    {
-
-    }
-}
 
 void InspectorPanel::ComponentSelectorDraw(Entity* selectedActor)
 {

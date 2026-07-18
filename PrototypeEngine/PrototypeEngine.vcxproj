@@ -177,6 +177,7 @@
     <ClCompile Include="AudioComponent.cpp" />
     <ClCompile Include="AudioSystem.cpp" />
     <ClCompile Include="BaseTransform.cpp" />
+    <ClCompile Include="CreateActorFromAssetCommand.cpp" />
     <ClCompile Include="CreateNewCanvasCommand.cpp" />
     <ClCompile Include="CreateNewUIActorCommand.cpp" />
     <ClCompile Include="DuplicateCommand.cpp" />
@@ -196,6 +197,7 @@
     <ClCompile Include="CommandManager.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="ComponentFactory.cpp" />
+    <ClCompile Include="ImportSettingsItem.cpp" />
     <ClCompile Include="LightingPanel.cpp" />
     <ClCompile Include="LocalLight.cpp" />
     <ClCompile Include="StringConvertOperation.cpp" />
@@ -289,6 +291,7 @@
     <ClInclude Include="AudioComponent.h" />
     <ClInclude Include="AudioSystem.h" />
     <ClInclude Include="BaseTransform.h" />
+    <ClInclude Include="CreateActorFromAssetCommand.h" />
     <ClInclude Include="CreateNewCanvasCommand.h" />
     <ClInclude Include="CreateNewUIActorCommand.h" />
     <ClInclude Include="DuplicateCommand.h" />
@@ -309,8 +312,10 @@
     <ClInclude Include="CommandManager.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="ComponentFactory.h" />
+    <ClInclude Include="ImportSettingsItem.h" />
     <ClInclude Include="LightingPanel.h" />
     <ClInclude Include="LocalLight.h" />
+    <ClInclude Include="FBXImportSettings.h" />
     <ClInclude Include="StringConvertOperation.h" />
     <ClInclude Include="CreateNewActorCommand.h" />
     <ClInclude Include="DebugGrid.h" />

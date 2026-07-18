@@ -355,6 +355,21 @@ void HierarchyPanel::DrawActorNode(ActorObject* actor)
                     }
                 }
             }
+
+            if (const ImGuiPayload* payload =
+                ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM"))
+            {
+                const char* pathStr = (const char*)payload->Data;
+                std::filesystem::path assetPath(
+                    string(pathStr, payload->DataSize - 1));
+
+                if (assetPath.extension() == ".fbx")
+                {
+                    auto cmd = std::make_unique<CreateActorFromAssetCommand>(assetPath,actor);
+                    CommandManager::Execute(std::move(cmd));
+                }
+            }
+
             ImGui::EndDragDropTarget();
         }
         // ノードが開かれた場合、子オブジェクトを再帰的に描画
