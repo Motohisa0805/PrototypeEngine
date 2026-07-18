@@ -34,8 +34,6 @@ public:
 
 	void		FileInspection(const filesystem::path& selectedFilePath);
 
-	void		DrawFBXImportSettings(const filesystem::path& fbxPath);
-
 	static void	ComponentSelectorDraw(Entity* selectedActor);
 };
 

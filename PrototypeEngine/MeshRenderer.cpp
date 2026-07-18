@@ -201,6 +201,14 @@ void MeshRenderer::Deserialize(const json& j)
     }
 }
 
+void MeshRenderer::LoadFilePath(const char* path) 
+{
+    vector<class Mesh*> mesh = EngineWindow::GetRenderer()->GetMeshs(path);
+    SetMeshs(mesh);
+    mAlpha    = mesh[0]->GetMaterialInfo()[0].Color.w;
+    mFilePath = path;
+}
+
 void MeshRenderer::DrawCustomGUI(const std::vector<PropertyInfo>& properties)
 {
     ImGui::PushID(this);
@@ -229,13 +237,8 @@ void MeshRenderer::DrawCustomGUI(const std::vector<PropertyInfo>& properties)
         {
             // ペイロードがファイルパスであると仮定
             const char* dropPath = (const char*)payload->Data;
-            // string path = StringConverter::ExtensionFileName(dropPath);
             // ファイルパスを使いロード処理を呼び出す
-            vector<class Mesh*> mesh =
-                EngineWindow::GetRenderer()->GetMeshs(dropPath);
-            SetMeshs(mesh);
-            mAlpha    = mesh[0]->GetMaterialInfo()[0].Color.w;
-            mFilePath = dropPath;
+            LoadFilePath(dropPath);
         }
         ImGui::EndDragDropTarget();
     }

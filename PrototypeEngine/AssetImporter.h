@@ -4,6 +4,7 @@
 #include "Typedefs.h"
 #include <assimp/scene.h>
 #include "Math.h"
+#include "FBXImportSettings.h"
 
 namespace fs = std::filesystem;
 
@@ -86,4 +87,6 @@ public:
 	static void ExportMeshBinary(const fs::path& fbxPath,const fs::path& meshBinPath, int index);
 	static void ExportSkeletonBinary(const aiScene* scene,const fs::path& skelBinPath);
 	static void ExportAnimationBinary(const fs::path& fbxPath,const fs::path& animBinPath, int index);
+
+    static AllImportSettings OutputFBXMetaFile(const fs::path& fbxPath);
 };

@@ -576,6 +576,35 @@ void AssetImporter::ExportAnimationBinary(const fs::path& fbxPath,
     Debug::Log("Successfully exported animation binary: %s",animBinPath.string().c_str());
 }
 
+AllImportSettings AssetImporter::OutputFBXMetaFile(const fs::path& fbxPath)
+{
+    // 対応する独自ファイル
+    fs::path customPath = GeneratedCustomPath(fbxPath);
+
+    nlohmann::json metaJson;
+    bool           isActive = fs::exists(customPath);
+
+    if (!isActive) return AllImportSettings();
+
+    std::ifstream inFile(customPath);
+    if (inFile.is_open())
+    {
+        inFile >> metaJson;
+        inFile.close();
+    }
+
+    //各データを読み込み
+    AllImportSettings importData;
+
+    if (metaJson.contains("import_settings"))
+    {
+        auto& settings = metaJson["import_settings"];
+        importData.sModel.sScaleFactory = settings.value("import_settings",1.0f);
+    }
+
+    return importData;
+}
+
 // 補間情報の計算、チュートリアルから引用
 //  https://ogldev.org/www/tutorial38/tutorial38.html
 size_t AssetImporter::FindTranslation(float             AnimationTime,

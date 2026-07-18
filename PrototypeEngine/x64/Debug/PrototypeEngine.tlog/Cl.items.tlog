@@ -7,6 +7,7 @@ C:\C++Files\PrototypeEngine\PrototypeEngine\AudioBankProperty.cpp;C:\C++Files\Pr
 C:\C++Files\PrototypeEngine\PrototypeEngine\AudioComponent.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\AudioComponent.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\AudioSystem.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\AudioSystem.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\BaseTransform.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\BaseTransform.obj
+C:\C++Files\PrototypeEngine\PrototypeEngine\CreateActorFromAssetCommand.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\CreateActorFromAssetCommand.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\CreateNewCanvasCommand.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\CreateNewCanvasCommand.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\CreateNewUIActorCommand.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\CreateNewUIActorCommand.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\DuplicateCommand.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\DuplicateCommand.obj
@@ -26,6 +27,7 @@ C:\C++Files\PrototypeEngine\PrototypeEngine\Collision.cpp;C:\C++Files\PrototypeE
 C:\C++Files\PrototypeEngine\PrototypeEngine\CommandManager.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\CommandManager.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\Component.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\Component.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\ComponentFactory.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\ComponentFactory.obj
+C:\C++Files\PrototypeEngine\PrototypeEngine\ImportSettingsItem.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\ImportSettingsItem.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\LightingPanel.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\LightingPanel.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\LocalLight.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\LocalLight.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\StringConvertOperation.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\StringConvertOperation.obj

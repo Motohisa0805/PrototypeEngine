@@ -71,6 +71,8 @@ public:
 	void						Serialize(json& j) const override;
 	void						Deserialize(const json& j)override;
 
+	void						LoadFilePath(const char* path);
+
 	void						DrawCustomGUI(const std::vector<PropertyInfo>& properties)override;
 
 	Component*					Clone(Entity* newOwner) const override;

@@ -553,6 +553,12 @@
     <ClCompile Include="AssetImporter.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="ImportSettingsItem.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="CreateActorFromAssetCommand.cpp">
+      <Filter>SourceCodes\A_Editor\Function\GUIs\Commands</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Actor.h">
@@ -929,6 +935,15 @@
     </ClInclude>
     <ClInclude Include="AssetImporter.h">
       <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="ImportSettingsItem.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="FBXImportSettings.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="CreateActorFromAssetCommand.h">
+      <Filter>SourceCodes\A_Editor\Function\GUIs\Commands</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
