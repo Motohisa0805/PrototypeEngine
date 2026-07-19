@@ -1,0 +1,87 @@
+{
+    "cached_data": {
+        "animations": [],
+        "hierarchy": {
+            "children": [
+                {
+                    "mesh_indices": [
+                        0
+                    ],
+                    "name": "Sword",
+                    "rotation": [
+                        -3.0908619663705394e-08,
+                        0.70710688829422,
+                        -0.7071066498756409,
+                        3.0908616110991716e-08
+                    ],
+                    "scale": [
+                        100.0,
+                        99.99999237060547,
+                        99.99999237060547
+                    ],
+                    "translation": [
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                }
+            ],
+            "name": "RootNode",
+            "rotation": [
+                0.0,
+                1.0,
+                0.0,
+                0.0
+            ],
+            "scale": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "translation": [
+                0.0,
+                0.0,
+                0.0
+            ]
+        },
+        "materials": [
+            {
+                "albedo_map": "Sword.fbm\\SwordTex.png",
+                "name": "MainTecColor"
+            }
+        ],
+        "meshes": [
+            {
+                "aabb_max": [
+                    0.048956625163555145,
+                    0.39476901292800903,
+                    0.01755501516163349
+                ],
+                "aabb_min": [
+                    -0.048956625163555145,
+                    -0.05795750394463539,
+                    -0.01755499839782715
+                ],
+                "binary_path": "Sword_mesh0.meshbin",
+                "bounding_radius": 0.3947690725326538,
+                "has_bones": false,
+                "index_count": 2070,
+                "localID": "b252446b-2d10-412e-948b-fad2b3c5d7af",
+                "material_index": 0,
+                "name": "円柱",
+                "vertex_count": 1392
+            }
+        ]
+    },
+    "fileFormatVersion": 1,
+    "guid": "5081b662-ce43-4ead-a765-0bdf4ab9fe7c",
+    "import_settings": {
+        "import_animation": false,
+        "import_mesh": true,
+        "import_skeleton": false,
+        "scale_factor": 1.0
+    },
+    "skeleton_settings": {
+        "skeleton_type": 0
+    }
+}

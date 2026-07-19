@@ -1,0 +1,87 @@
+{
+    "cached_data": {
+        "animations": [],
+        "hierarchy": {
+            "children": [
+                {
+                    "mesh_indices": [
+                        0
+                    ],
+                    "name": "Wall_00",
+                    "rotation": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        1.0
+                    ],
+                    "scale": [
+                        1.0,
+                        1.0,
+                        1.0
+                    ],
+                    "translation": [
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                }
+            ],
+            "name": "RootNode",
+            "rotation": [
+                0.0,
+                1.0,
+                0.0,
+                0.0
+            ],
+            "scale": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "translation": [
+                0.0,
+                0.0,
+                0.0
+            ]
+        },
+        "materials": [
+            {
+                "albedo_map": "StageObjectFile.fbm\\BrickSkinTexture.png",
+                "name": "WallMaterial"
+            }
+        ],
+        "meshes": [
+            {
+                "aabb_max": [
+                    1.0,
+                    5.0,
+                    10.0
+                ],
+                "aabb_min": [
+                    -1.0,
+                    -5.0,
+                    -10.0
+                ],
+                "binary_path": "Wall_00_mesh0.meshbin",
+                "bounding_radius": 11.224971771240234,
+                "has_bones": false,
+                "index_count": 36,
+                "localID": "5e7c726a-112a-4953-9b06-e26698822bb6",
+                "material_index": 0,
+                "name": "立方体",
+                "vertex_count": 24
+            }
+        ]
+    },
+    "fileFormatVersion": 1,
+    "guid": "4d903c7f-cb81-4d33-8d21-90bd76b2ee4f",
+    "import_settings": {
+        "import_animation": false,
+        "import_mesh": true,
+        "import_skeleton": false,
+        "scale_factor": 1.0
+    },
+    "skeleton_settings": {
+        "skeleton_type": 0
+    }
+}

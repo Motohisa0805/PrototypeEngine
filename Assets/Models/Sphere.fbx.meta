@@ -1,0 +1,87 @@
+{
+    "cached_data": {
+        "animations": [],
+        "hierarchy": {
+            "children": [
+                {
+                    "mesh_indices": [
+                        0
+                    ],
+                    "name": "Sphere",
+                    "rotation": [
+                        0.7071066498756409,
+                        0.0,
+                        0.0,
+                        0.70710688829422
+                    ],
+                    "scale": [
+                        100.0,
+                        99.99999237060547,
+                        99.99999237060547
+                    ],
+                    "translation": [
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                }
+            ],
+            "name": "RootNode",
+            "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "scale": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "translation": [
+                0.0,
+                0.0,
+                0.0
+            ]
+        },
+        "materials": [
+            {
+                "albedo_map": "",
+                "name": "Material"
+            }
+        ],
+        "meshes": [
+            {
+                "aabb_max": [
+                    0.49999985098838806,
+                    0.5,
+                    0.5
+                ],
+                "aabb_min": [
+                    -0.4999995231628418,
+                    -0.49999964237213135,
+                    -0.5
+                ],
+                "binary_path": "Sphere_mesh0.meshbin",
+                "bounding_radius": 0.5,
+                "has_bones": false,
+                "index_count": 2880,
+                "localID": "60a262e4-3ce5-48d3-b625-cd4a10a2ae76",
+                "material_index": 0,
+                "name": "球",
+                "vertex_count": 1984
+            }
+        ]
+    },
+    "fileFormatVersion": 1,
+    "guid": "67187f3b-3c40-4ea4-bb48-246dc17a4d4c",
+    "import_settings": {
+        "import_animation": false,
+        "import_mesh": true,
+        "import_skeleton": false,
+        "scale_factor": 1.0
+    },
+    "skeleton_settings": {
+        "skeleton_type": 0
+    }
+}

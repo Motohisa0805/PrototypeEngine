@@ -1,0 +1,87 @@
+{
+    "cached_data": {
+        "animations": [],
+        "hierarchy": {
+            "children": [
+                {
+                    "mesh_indices": [
+                        0
+                    ],
+                    "name": "Target",
+                    "rotation": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        1.0
+                    ],
+                    "scale": [
+                        1.0,
+                        1.0,
+                        1.0
+                    ],
+                    "translation": [
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                }
+            ],
+            "name": "RootNode",
+            "rotation": [
+                0.0,
+                1.0,
+                0.0,
+                0.0
+            ],
+            "scale": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "translation": [
+                0.0,
+                0.0,
+                0.0
+            ]
+        },
+        "materials": [
+            {
+                "albedo_map": "Target.fbm\\TargetTexture.png",
+                "name": "Material.001"
+            }
+        ],
+        "meshes": [
+            {
+                "aabb_max": [
+                    1.25,
+                    1.2500001192092896,
+                    0.3266189992427826
+                ],
+                "aabb_min": [
+                    -1.25,
+                    -1.2500001192092896,
+                    -0.3266189992427826
+                ],
+                "binary_path": "Target_mesh0.meshbin",
+                "bounding_radius": 1.291967511177063,
+                "has_bones": false,
+                "index_count": 372,
+                "localID": "f185b41c-2a83-4d5b-8a09-262d616dc7cc",
+                "material_index": 0,
+                "name": "円柱",
+                "vertex_count": 192
+            }
+        ]
+    },
+    "fileFormatVersion": 1,
+    "guid": "6d6a6acc-e128-46ae-a51b-5c1d21d23fd8",
+    "import_settings": {
+        "import_animation": false,
+        "import_mesh": true,
+        "import_skeleton": false,
+        "scale_factor": 1.0
+    },
+    "skeleton_settings": {
+        "skeleton_type": 0
+    }
+}

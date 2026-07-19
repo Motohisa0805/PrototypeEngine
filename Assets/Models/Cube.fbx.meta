@@ -1,0 +1,87 @@
+{
+    "cached_data": {
+        "animations": [],
+        "hierarchy": {
+            "children": [
+                {
+                    "mesh_indices": [
+                        0
+                    ],
+                    "name": "Cube",
+                    "rotation": [
+                        -3.0908619663705394e-08,
+                        0.70710688829422,
+                        -0.7071066498756409,
+                        3.0908616110991716e-08
+                    ],
+                    "scale": [
+                        100.0,
+                        99.99999237060547,
+                        99.99999237060547
+                    ],
+                    "translation": [
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                }
+            ],
+            "name": "RootNode",
+            "rotation": [
+                0.0,
+                1.0,
+                0.0,
+                0.0
+            ],
+            "scale": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "translation": [
+                0.0,
+                0.0,
+                0.0
+            ]
+        },
+        "materials": [
+            {
+                "albedo_map": "",
+                "name": "DefaultMaterial"
+            }
+        ],
+        "meshes": [
+            {
+                "aabb_max": [
+                    0.5,
+                    0.5,
+                    0.5
+                ],
+                "aabb_min": [
+                    -0.5,
+                    -0.5,
+                    -0.5
+                ],
+                "binary_path": "Cube_mesh0.meshbin",
+                "bounding_radius": 0.8660253882408142,
+                "has_bones": false,
+                "index_count": 36,
+                "localID": "4b8eab3a-6858-4760-a257-f68d9340b27c",
+                "material_index": 0,
+                "name": "立方体.001",
+                "vertex_count": 24
+            }
+        ]
+    },
+    "fileFormatVersion": 1,
+    "guid": "420f712a-5752-426b-836e-468dd25d2dbc",
+    "import_settings": {
+        "import_animation": false,
+        "import_mesh": true,
+        "import_skeleton": false,
+        "scale_factor": 1.0
+    },
+    "skeleton_settings": {
+        "skeleton_type": 0
+    }
+}

@@ -1,0 +1,129 @@
+{
+    "cached_data": {
+        "animations": [],
+        "hierarchy": {
+            "children": [
+                {
+                    "mesh_indices": [
+                        0
+                    ],
+                    "name": "Cube",
+                    "rotation": [
+                        0.70710688829422,
+                        0.0,
+                        0.0,
+                        0.7071066498756409
+                    ],
+                    "scale": [
+                        100.0,
+                        99.99999237060547,
+                        99.99999237060547
+                    ],
+                    "translation": [
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "mesh_indices": [
+                        1
+                    ],
+                    "name": "Cube.001",
+                    "rotation": [
+                        0.6557628512382507,
+                        0.2645280063152313,
+                        -0.2645280361175537,
+                        0.6557628512382507
+                    ],
+                    "scale": [
+                        100.0,
+                        100.0,
+                        16.58729362487793
+                    ],
+                    "translation": [
+                        0.0,
+                        1.2520281076431274,
+                        1.6194714307785034
+                    ]
+                }
+            ],
+            "name": "RootNode",
+            "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "scale": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "translation": [
+                0.0,
+                0.0,
+                0.0
+            ]
+        },
+        "materials": [
+            {
+                "albedo_map": "TwoCube.fbm\\Tex.png",
+                "name": "Material.001"
+            }
+        ],
+        "meshes": [
+            {
+                "aabb_max": [
+                    0.009999999776482582,
+                    0.009999999776482582,
+                    0.009999999776482582
+                ],
+                "aabb_min": [
+                    -0.009999999776482582,
+                    -0.009999999776482582,
+                    -0.009999999776482582
+                ],
+                "binary_path": "TwoCube_mesh0.meshbin",
+                "bounding_radius": 0.017320508137345314,
+                "has_bones": false,
+                "index_count": 36,
+                "localID": "c5b1dfa4-ff84-434e-92ee-67ac0c5fdfe4",
+                "material_index": 0,
+                "name": "Cube.001",
+                "vertex_count": 24
+            },
+            {
+                "aabb_max": [
+                    0.009999999776482582,
+                    0.009999999776482582,
+                    0.009999999776482582
+                ],
+                "aabb_min": [
+                    -0.009999999776482582,
+                    -0.009999999776482582,
+                    -0.009999999776482582
+                ],
+                "binary_path": "TwoCube_mesh1.meshbin",
+                "bounding_radius": 0.017320508137345314,
+                "has_bones": false,
+                "index_count": 36,
+                "localID": "3ace8af4-46ee-48fc-8e64-908240f64e13",
+                "material_index": 0,
+                "name": "Cube.002",
+                "vertex_count": 24
+            }
+        ]
+    },
+    "fileFormatVersion": 1,
+    "guid": "21683642-0987-4744-b6b4-cfb3e727ac2b",
+    "import_settings": {
+        "import_animation": false,
+        "import_mesh": true,
+        "import_skeleton": false,
+        "scale_factor": 1.0
+    },
+    "skeleton_settings": {
+        "skeleton_type": 0
+    }
+}

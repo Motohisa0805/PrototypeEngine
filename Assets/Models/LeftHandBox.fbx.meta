@@ -1,0 +1,87 @@
+{
+    "cached_data": {
+        "animations": [],
+        "hierarchy": {
+            "children": [
+                {
+                    "mesh_indices": [
+                        0
+                    ],
+                    "name": "Cube",
+                    "rotation": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        1.0
+                    ],
+                    "scale": [
+                        1.0,
+                        1.0,
+                        1.0
+                    ],
+                    "translation": [
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                }
+            ],
+            "name": "RootNode",
+            "rotation": [
+                0.0,
+                1.0,
+                0.0,
+                0.0
+            ],
+            "scale": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "translation": [
+                0.0,
+                0.0,
+                0.0
+            ]
+        },
+        "materials": [
+            {
+                "albedo_map": "LeftHandBox.fbm\\SkinTex.png",
+                "name": "Material"
+            }
+        ],
+        "meshes": [
+            {
+                "aabb_max": [
+                    1.0749512910842896,
+                    1.082436442375183,
+                    1.120416522026062
+                ],
+                "aabb_min": [
+                    -1.0790350437164307,
+                    -1.0796153545379639,
+                    -1.1179304122924805
+                ],
+                "binary_path": "LeftHandBox_mesh0.meshbin",
+                "bounding_radius": 1.7374193668365479,
+                "has_bones": false,
+                "index_count": 1290,
+                "localID": "3f975792-84dd-43c5-89ca-e8a2f9f4e3c5",
+                "material_index": 0,
+                "name": "Cube",
+                "vertex_count": 726
+            }
+        ]
+    },
+    "fileFormatVersion": 1,
+    "guid": "b849a8bb-eb30-4a74-b063-d36095e238ca",
+    "import_settings": {
+        "import_animation": false,
+        "import_mesh": true,
+        "import_skeleton": false,
+        "scale_factor": 1.0
+    },
+    "skeleton_settings": {
+        "skeleton_type": 0
+    }
+}

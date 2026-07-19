@@ -1,0 +1,87 @@
+{
+    "cached_data": {
+        "animations": [],
+        "hierarchy": {
+            "children": [
+                {
+                    "mesh_indices": [
+                        0
+                    ],
+                    "name": "Helth",
+                    "rotation": [
+                        -3.0908619663705394e-08,
+                        0.70710688829422,
+                        -0.7071066498756409,
+                        3.0908616110991716e-08
+                    ],
+                    "scale": [
+                        100.0,
+                        99.99999237060547,
+                        99.99999237060547
+                    ],
+                    "translation": [
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                }
+            ],
+            "name": "RootNode",
+            "rotation": [
+                0.0,
+                1.0,
+                0.0,
+                0.0
+            ],
+            "scale": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "translation": [
+                0.0,
+                0.0,
+                0.0
+            ]
+        },
+        "materials": [
+            {
+                "albedo_map": "",
+                "name": "Material"
+            }
+        ],
+        "meshes": [
+            {
+                "aabb_max": [
+                    0.5,
+                    1.5,
+                    1.5
+                ],
+                "aabb_min": [
+                    -0.5,
+                    -1.5,
+                    -1.5
+                ],
+                "binary_path": "Health_mesh0.meshbin",
+                "bounding_radius": 1.658312439918518,
+                "has_bones": false,
+                "index_count": 132,
+                "localID": "ba3293c7-abe0-4bc3-ba63-350621f34af0",
+                "material_index": 0,
+                "name": "Cube",
+                "vertex_count": 88
+            }
+        ]
+    },
+    "fileFormatVersion": 1,
+    "guid": "6457435d-d2d0-4037-ac2f-8ec2477da2a7",
+    "import_settings": {
+        "import_animation": false,
+        "import_mesh": true,
+        "import_skeleton": false,
+        "scale_factor": 1.0
+    },
+    "skeleton_settings": {
+        "skeleton_type": 0
+    }
+}
