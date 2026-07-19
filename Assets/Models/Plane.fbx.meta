@@ -1,0 +1,87 @@
+{
+    "cached_data": {
+        "animations": [],
+        "hierarchy": {
+            "children": [
+                {
+                    "mesh_indices": [
+                        0
+                    ],
+                    "name": "Plane",
+                    "rotation": [
+                        -3.0908619663705394e-08,
+                        0.70710688829422,
+                        -0.7071066498756409,
+                        3.0908616110991716e-08
+                    ],
+                    "scale": [
+                        100.0,
+                        99.99999237060547,
+                        99.99999237060547
+                    ],
+                    "translation": [
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                }
+            ],
+            "name": "RootNode",
+            "rotation": [
+                0.0,
+                1.0,
+                0.0,
+                0.0
+            ],
+            "scale": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "translation": [
+                0.0,
+                0.0,
+                0.0
+            ]
+        },
+        "materials": [
+            {
+                "albedo_map": "",
+                "name": "DefaultMaterial"
+            }
+        ],
+        "meshes": [
+            {
+                "aabb_max": [
+                    4.999999523162842,
+                    2.1855692011740757e-07,
+                    4.999999523162842
+                ],
+                "aabb_min": [
+                    -4.999999523162842,
+                    -2.1855692011740757e-07,
+                    -4.999999523162842
+                ],
+                "binary_path": "Plane_mesh0.meshbin",
+                "bounding_radius": 7.0710673332214355,
+                "has_bones": false,
+                "index_count": 6,
+                "localID": "a788b149-412a-432b-a40c-c7968cb32852",
+                "material_index": 0,
+                "name": "平面",
+                "vertex_count": 4
+            }
+        ]
+    },
+    "fileFormatVersion": 1,
+    "guid": "4239dfc3-dc72-427a-9acf-582a1bade0d0",
+    "import_settings": {
+        "import_animation": false,
+        "import_mesh": true,
+        "import_skeleton": false,
+        "scale_factor": 1.0
+    },
+    "skeleton_settings": {
+        "skeleton_type": 0
+    }
+}

@@ -275,6 +275,12 @@ void ProjectPanel::DrawPickUpFolderView()
 
     for (auto& entry : filesystem::directory_iterator(mSelectedFolderPath))
     {
+        //ファイルを表示するかしないかチェックする
+        if (entry.path().extension() == ".meta")
+        {
+            continue;
+        }
+
         //ファイル表示処理
         DrawFileSystemEntry(entry);
 
@@ -365,6 +371,39 @@ void ProjectPanel::DrawFileSystemEntry(const filesystem::directory_entry& entry)
                 SelectionManager::SetSelectedFilePath(entry.path());
             }
         }
+
+        //FBXファイルの場合、中身を展開表示するドロップダウン
+        if (entry.path().extension() == ".fbx")
+        {
+            //ツリーノードで展開できるようにする
+            if (ImGui::TreeNodeEx("##fbx_contents", ImGuiTreeNodeFlags_SpanAvailWidth, "Contents"))
+            {
+                vector<string> subMeshes = AssetImporter::GetSubMeshNames(entry.path());
+
+                for (size_t i = 0; i < subMeshes.size(); ++i)
+                {
+                    ImGui::PushID(static_cast<int>(i));
+
+                    //サブアイテムの描画
+                    ImGui::Selectable(subMeshes[i].c_str());
+
+                    //個別のメッシュ用のドラッグ&ドロップ元
+                    if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_SourceAllowNullID))
+                    {
+                        //パスとメッシュ名の両方をペイロードに含める
+                        string payloadData = entry.path().string() + "?" + subMeshes[i];
+                        ImGui::SetDragDropPayload("SUB_MESH_ITEM",payloadData.c_str(),payloadData.size() + 1);
+                        ImGui::Text("Mesh: %s", subMeshes[i].c_str());
+                        ImGui::EndDragDropSource();
+                    }
+
+                    ImGui::PopID();
+                }
+                ImGui::TreePop();
+            }
+        }
+
+
         // コンテキストメニュー、ショートカット、ドラッグ＆ドロップ
         // DragDropFunction(entry.path());
         ShortcutKeyInputFunction(entry.path());

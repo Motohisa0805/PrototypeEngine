@@ -95,7 +95,11 @@ void AssetImporter::ConvertFBXToCustomFormat(const fs::path& fbxPath,
     //AssimpでFBXの構造だけを軽くスキャンする
     Assimp::Importer importer;
     //頂点データなどは重いため、構造だけを読むフラグで読み込み
-    const aiScene* scene = importer.ReadFile(fbxPath.string(), 0);
+    const aiScene* scene = importer.ReadFile(
+        fbxPath.string(),
+        aiProcess_Triangulate | aiProcess_FlipUVs |
+        aiProcess_GenNormals | aiProcess_GlobalScale |
+        aiProcess_MakeLeftHanded | aiProcess_FlipWindingOrder);
 
     bool hasMesh = scene && scene->HasMeshes();
     bool hasAnim = scene && scene->HasAnimations();
@@ -123,10 +127,35 @@ void AssetImporter::ConvertFBXToCustomFormat(const fs::path& fbxPath,
         {
             aiMesh* mesh = scene->mMeshes[i];
             nlohmann::json meshInfo;
+            meshInfo["localID"]      = GenerateUUID();
             meshInfo["name"] = mesh->mName.C_Str();
             meshInfo["vertex_count"] = mesh->mNumVertices;
             meshInfo["has_bones"]    = mesh->HasBones();
-            
+
+            //マテリアルインデックス
+            meshInfo["material_index"] = mesh->mMaterialIndex;
+
+            //インデックス(ポリゴン)数の計算
+            uint32_t indexCount = 0;
+            for (unsigned int f = 0; f < mesh->mNumFaces; f++)
+            {
+                indexCount += mesh->mFaces[i].mNumIndices;
+            }
+            meshInfo["index_count"] = indexCount;
+
+            //AABBとバウンディング半径の計算
+            float radiusSq = 0.0f;
+            AABB  box      = AABB(Vector3::Infinity, Vector3::NegInfinity);
+            for (unsigned int v = 0; v < mesh->mNumVertices; v++)
+            {
+                Vector3 pos(mesh->mVertices[v].x, mesh->mVertices[v].y,mesh->mVertices[v].z);
+                box.UpdateMinMax(pos);
+                radiusSq = Math::Max(radiusSq, pos.LengthSq());
+            }
+            meshInfo["aabb_min"] = {box.mMin.x, box.mMin.y, box.mMin.z};
+            meshInfo["aabb_max"] = {box.mMax.x, box.mMax.y, box.mMax.z};
+            meshInfo["bounding_radius"] = Math::Sqrt(radiusSq);
+
             string meshBinName = fbxPath.stem().string() + "_mesh" + std::to_string(i) + ".meshbin";
             meshInfo["binary_path"] = meshBinName;
 
@@ -140,6 +169,76 @@ void AssetImporter::ConvertFBXToCustomFormat(const fs::path& fbxPath,
         }
     }
     metaJson["cached_data"]["meshes"] = meshsJson;
+
+    nlohmann::json materialsJson = nlohmann::json::array();
+    if (scene && scene->HasMaterials())
+    {
+        for (unsigned int i = 0; i < scene->mNumMaterials; i++)
+        {
+            aiMaterial* mat = scene->mMaterials[i];
+            nlohmann::json matInfo;
+
+            //マテリアル名の取得
+            matInfo["name"] = mat->GetName().C_Str();
+
+            //ディフューズ(アルベド)テクスチャのパスを取得
+            aiString texPath;
+            if (mat->GetTexture(aiTextureType_DIFFUSE, 0, &texPath) == AI_SUCCESS)
+            {
+                matInfo["albedo_map"] = texPath.C_Str();
+            }
+            else
+            {
+                matInfo["albedo_map"] = "";
+            }
+
+            //TODO : ノーマルマップ等の取得処理追加予定
+
+            materialsJson.push_back(matInfo);
+        }
+    }
+    metaJson["cached_data"]["materials"] = materialsJson;
+
+    //ノード階層(ヒエラルキー)と初期トランスフォームの記録
+    auto ParseNodeHierarchy = [&](auto& self, aiNode* node) -> nlohmann::json
+    {
+        nlohmann::json nodeJson;
+        nodeJson["name"] = node->mName.C_Str();
+
+        //ローカルトランスフォームの分解
+        aiVector3D pos, scale;
+        aiQuaternion rot;
+        node->mTransformation.Decompose(scale, rot, pos);
+
+        nodeJson["translation"] = {pos.x, pos.y, pos.z};
+        nodeJson["rotation"]    = {rot.x, rot.y, rot.z, rot.w};
+        nodeJson["scale"]       = {scale.x, scale.y, scale.z};
+
+        //このノードに紐ずくメッシュのインデックス
+        if (node->mNumMeshes > 0)
+        {
+            nodeJson["mesh_indices"] = nlohmann::json::array();
+            for (unsigned int i = 0; i < node->mNumMeshes; i++)
+            {
+                nodeJson["mesh_indices"].push_back(node->mMeshes[i]);
+            }
+        }
+        //子ノードの再帰処理
+        if (node->mNumChildren > 0)
+        {
+            nodeJson["children"] = nlohmann::json::array();
+            for (unsigned int i = 0; i < node->mNumChildren; i++)
+            {
+                nodeJson["children"].push_back(self(self, node->mChildren[i]));
+            }
+        }
+        return nodeJson;
+    };
+
+    if (scene && scene->mRootNode)
+    {
+        metaJson["cached_data"]["hierarchy"] = ParseNodeHierarchy(ParseNodeHierarchy,scene->mRootNode);
+    }
 
     //アニメーション情報の記録
     nlohmann::json animsJson = nlohmann::json::array();
@@ -603,6 +702,42 @@ AllImportSettings AssetImporter::OutputFBXMetaFile(const fs::path& fbxPath)
     }
 
     return importData;
+}
+
+vector<string> AssetImporter::GetSubMeshNames(const fs::path& fbxPath)
+{
+    vector<string> meshNames;
+    //FBXパスから対応する.metaファイルのパスを取得
+    fs::path customPath = GeneratedCustomPath(fbxPath);
+    //.metaファイルが存在しない場合は空のリストを返す
+    if (!fs::exists(customPath))
+    {
+        return meshNames;
+    }
+    //.metaファイルを読み込む
+    std::ifstream inFile(customPath);
+    if (!inFile.is_open())
+    {
+        return meshNames;
+    }
+
+    nlohmann::json metaJson;
+    inFile >> metaJson;
+    inFile.close();
+
+    if (metaJson.contains("cached_data") && metaJson["cached_data"].contains("meshes"))
+    {
+        const auto& meshs = metaJson["cached_data"]["meshes"];
+        for (const auto& mesh : meshs)
+        {
+            if (mesh.contains("name"))
+            {
+                meshNames.push_back(mesh["name"].get<string>());
+            }
+        }
+    }
+
+    return meshNames;
 }
 
 // 補間情報の計算、チュートリアルから引用

@@ -1,0 +1,87 @@
+{
+    "cached_data": {
+        "animations": [],
+        "hierarchy": {
+            "children": [
+                {
+                    "mesh_indices": [
+                        0
+                    ],
+                    "name": "Gun",
+                    "rotation": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        1.0
+                    ],
+                    "scale": [
+                        1.0,
+                        1.0,
+                        1.0
+                    ],
+                    "translation": [
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                }
+            ],
+            "name": "RootNode",
+            "rotation": [
+                0.0,
+                1.0,
+                0.0,
+                0.0
+            ],
+            "scale": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "translation": [
+                0.0,
+                0.0,
+                0.0
+            ]
+        },
+        "materials": [
+            {
+                "albedo_map": "TestGun.fbm\\GunTex.png",
+                "name": "Material"
+            }
+        ],
+        "meshes": [
+            {
+                "aabb_max": [
+                    0.47083818912506104,
+                    1.150887370109558,
+                    2.568126678466797
+                ],
+                "aabb_min": [
+                    -0.4708384573459625,
+                    -2.026608467102051,
+                    -2.035470724105835
+                ],
+                "binary_path": "TestGun_mesh0.meshbin",
+                "bounding_radius": 2.745779275894165,
+                "has_bones": false,
+                "index_count": 3354,
+                "localID": "f6a419a3-5e3f-4f95-a34a-db60f0374255",
+                "material_index": 0,
+                "name": "Cube",
+                "vertex_count": 2142
+            }
+        ]
+    },
+    "fileFormatVersion": 1,
+    "guid": "6efb07fa-fea1-4ed7-ab57-bc44b13322e5",
+    "import_settings": {
+        "import_animation": false,
+        "import_mesh": true,
+        "import_skeleton": false,
+        "scale_factor": 1.0
+    },
+    "skeleton_settings": {
+        "skeleton_type": 0
+    }
+}

@@ -89,4 +89,6 @@ public:
 	static void ExportAnimationBinary(const fs::path& fbxPath,const fs::path& animBinPath, int index);
 
     static AllImportSettings OutputFBXMetaFile(const fs::path& fbxPath);
+
+    static vector<string> GetSubMeshNames(const fs::path& fbxPath);
 };

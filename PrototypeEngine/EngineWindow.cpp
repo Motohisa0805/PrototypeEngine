@@ -10,6 +10,7 @@
 #include "ScriptHotReloadManager.h"
 #include "WindowRenderProperty.h"
 #include "FileOperationManager.h"
+#include "AssetImporter.h"
 
 EngineState EngineWindow::mEngineState = EngineState::Run;
 
@@ -60,6 +61,8 @@ bool EngineWindow::EngineInitialize()
     mGameWindow->Initialize();
     // 起動時に最初のシーンを初期化
     SceneManager::InitializeScenes();
+    //Assetsフォルダ内のファイルを確認
+    AssetImporter::CheckAndImportAssets();
     //  ImGuiの初期化処理
     GUIEditorManager::InitializeImGui(mRenderer->GetWindow(),
                                       mRenderer->GetContext());

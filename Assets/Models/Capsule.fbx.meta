@@ -1,0 +1,87 @@
+{
+    "cached_data": {
+        "animations": [],
+        "hierarchy": {
+            "children": [
+                {
+                    "mesh_indices": [
+                        0
+                    ],
+                    "name": "Capsule",
+                    "rotation": [
+                        -1.3767878215276141e-07,
+                        0.7071069478988647,
+                        -0.7071065902709961,
+                        1.3767875373105198e-07
+                    ],
+                    "scale": [
+                        100.0,
+                        99.99999237060547,
+                        99.99999237060547
+                    ],
+                    "translation": [
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                }
+            ],
+            "name": "RootNode",
+            "rotation": [
+                0.0,
+                1.0,
+                0.0,
+                0.0
+            ],
+            "scale": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "translation": [
+                0.0,
+                0.0,
+                0.0
+            ]
+        },
+        "materials": [
+            {
+                "albedo_map": "",
+                "name": "DefaultMaterial"
+            }
+        ],
+        "meshes": [
+            {
+                "aabb_max": [
+                    0.4903925657272339,
+                    0.9955050349235535,
+                    0.49039262533187866
+                ],
+                "aabb_min": [
+                    -0.49039241671562195,
+                    -0.992223858833313,
+                    -0.4903924763202667
+                ],
+                "binary_path": "Capsule_mesh0.meshbin",
+                "bounding_radius": 0.9955050349235535,
+                "has_bones": false,
+                "index_count": 2688,
+                "localID": "79cfb6cd-27a5-476d-bd17-0d94f362b38c",
+                "material_index": 0,
+                "name": "球.002",
+                "vertex_count": 1856
+            }
+        ]
+    },
+    "fileFormatVersion": 1,
+    "guid": "b9a82306-a6c7-44e3-ad05-5a4c97d78648",
+    "import_settings": {
+        "import_animation": false,
+        "import_mesh": true,
+        "import_skeleton": false,
+        "scale_factor": 1.0
+    },
+    "skeleton_settings": {
+        "skeleton_type": 0
+    }
+}

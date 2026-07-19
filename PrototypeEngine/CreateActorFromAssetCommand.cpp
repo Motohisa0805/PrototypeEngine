@@ -1,5 +1,9 @@
 #include "CreateActorFromAssetCommand.h"
 #include "MeshRenderer.h"
+#include "imgui.h"
+#include "imgui_impl_sdl3.h"
+#include "imgui_impl_opengl3.h"
+#include "AssetImporter.h"
 
 CreateActorFromAssetCommand::CreateActorFromAssetCommand(
     const std::filesystem::path& assetPath, ActorObject* parentActor)

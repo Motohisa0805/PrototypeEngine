@@ -1,0 +1,87 @@
+{
+    "cached_data": {
+        "animations": [],
+        "hierarchy": {
+            "children": [
+                {
+                    "mesh_indices": [
+                        0
+                    ],
+                    "name": "DamageObject",
+                    "rotation": [
+                        -3.0908619663705394e-08,
+                        0.70710688829422,
+                        -0.7071066498756409,
+                        3.0908616110991716e-08
+                    ],
+                    "scale": [
+                        100.0,
+                        99.99999237060547,
+                        99.99999237060547
+                    ],
+                    "translation": [
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                }
+            ],
+            "name": "RootNode",
+            "rotation": [
+                0.0,
+                1.0,
+                0.0,
+                0.0
+            ],
+            "scale": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "translation": [
+                0.0,
+                0.0,
+                0.0
+            ]
+        },
+        "materials": [
+            {
+                "albedo_map": "",
+                "name": "Material"
+            }
+        ],
+        "meshes": [
+            {
+                "aabb_max": [
+                    0.742173969745636,
+                    0.7461118102073669,
+                    0.7441428899765015
+                ],
+                "aabb_min": [
+                    -0.7461117506027222,
+                    -0.7441428899765015,
+                    -0.7500495910644531
+                ],
+                "binary_path": "DamageTrap_mesh0.meshbin",
+                "bounding_radius": 0.8213520050048828,
+                "has_bones": false,
+                "index_count": 216,
+                "localID": "2cdfbaa7-fc18-4b87-9456-dc3fa448e539",
+                "material_index": 0,
+                "name": "Cube",
+                "vertex_count": 192
+            }
+        ]
+    },
+    "fileFormatVersion": 1,
+    "guid": "5ce53d2e-622c-43f6-8320-f51dfb145e29",
+    "import_settings": {
+        "import_animation": false,
+        "import_mesh": true,
+        "import_skeleton": false,
+        "scale_factor": 1.0
+    },
+    "skeleton_settings": {
+        "skeleton_type": 0
+    }
+}

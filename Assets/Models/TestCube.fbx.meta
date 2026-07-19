@@ -1,0 +1,87 @@
+{
+    "cached_data": {
+        "animations": [],
+        "hierarchy": {
+            "children": [
+                {
+                    "mesh_indices": [
+                        0
+                    ],
+                    "name": "TestCube",
+                    "rotation": [
+                        0.70710688829422,
+                        0.0,
+                        0.0,
+                        0.7071066498756409
+                    ],
+                    "scale": [
+                        100.0,
+                        99.99999237060547,
+                        99.99999237060547
+                    ],
+                    "translation": [
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                }
+            ],
+            "name": "RootNode",
+            "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "scale": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "translation": [
+                0.0,
+                0.0,
+                0.0
+            ]
+        },
+        "materials": [
+            {
+                "albedo_map": "TestCube.fbm\\SkinTex.png",
+                "name": "Material"
+            }
+        ],
+        "meshes": [
+            {
+                "aabb_max": [
+                    0.5,
+                    0.5,
+                    0.5
+                ],
+                "aabb_min": [
+                    -0.5,
+                    -0.5,
+                    -0.5
+                ],
+                "binary_path": "TestCube_mesh0.meshbin",
+                "bounding_radius": 0.8660253882408142,
+                "has_bones": false,
+                "index_count": 36,
+                "localID": "8b9012e1-f201-4b7b-a137-2c6db72446d3",
+                "material_index": 0,
+                "name": "Cube.001",
+                "vertex_count": 24
+            }
+        ]
+    },
+    "fileFormatVersion": 1,
+    "guid": "1f746493-f455-4fef-9220-f6ce040a4795",
+    "import_settings": {
+        "import_animation": false,
+        "import_mesh": true,
+        "import_skeleton": false,
+        "scale_factor": 1.0
+    },
+    "skeleton_settings": {
+        "skeleton_type": 0
+    }
+}

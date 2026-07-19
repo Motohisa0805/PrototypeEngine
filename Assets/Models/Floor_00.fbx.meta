@@ -1,0 +1,87 @@
+{
+    "cached_data": {
+        "animations": [],
+        "hierarchy": {
+            "children": [
+                {
+                    "mesh_indices": [
+                        0
+                    ],
+                    "name": "Ground_01",
+                    "rotation": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        1.0
+                    ],
+                    "scale": [
+                        1.0,
+                        1.0,
+                        1.0
+                    ],
+                    "translation": [
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                }
+            ],
+            "name": "RootNode",
+            "rotation": [
+                0.0,
+                1.0,
+                0.0,
+                0.0
+            ],
+            "scale": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "translation": [
+                0.0,
+                0.0,
+                0.0
+            ]
+        },
+        "materials": [
+            {
+                "albedo_map": "Floor_00.fbm\\FloorTexture.png",
+                "name": "Material"
+            }
+        ],
+        "meshes": [
+            {
+                "aabb_max": [
+                    10.0,
+                    1.0,
+                    10.0
+                ],
+                "aabb_min": [
+                    -10.0,
+                    -1.0,
+                    -10.0
+                ],
+                "binary_path": "Floor_00_mesh0.meshbin",
+                "bounding_radius": 14.177447319030762,
+                "has_bones": false,
+                "index_count": 36,
+                "localID": "b593eb1d-3e55-45b1-9291-8ca07fb87ce3",
+                "material_index": 0,
+                "name": "Cube",
+                "vertex_count": 24
+            }
+        ]
+    },
+    "fileFormatVersion": 1,
+    "guid": "679a43d0-827a-4479-a347-3685304bd117",
+    "import_settings": {
+        "import_animation": false,
+        "import_mesh": true,
+        "import_skeleton": false,
+        "scale_factor": 1.0
+    },
+    "skeleton_settings": {
+        "skeleton_type": 0
+    }
+}
