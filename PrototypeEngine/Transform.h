@@ -21,7 +21,7 @@ protected:
 	//子オブジェクトの配列
 	vector<ActorObject*>				mChildActor;
 
-	// これらのヘルパー関数は private にして SetParent からのみ呼び出すようにすると設計が綺麗になります
+	// これらのヘルパー関数は private にして SetParent からのみ呼び出す
 	void								AddChild(ActorObject* child);
 	void								RemoveChild(ActorObject* child);
 public:

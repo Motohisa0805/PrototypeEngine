@@ -100,12 +100,6 @@
     <Filter Include="SourceCodes\A_Editor\Function\GUIs\EditorClipboard">
       <UniqueIdentifier>{732ce46f-9e3b-436d-a71b-03f760d93d27}</UniqueIdentifier>
     </Filter>
-    <Filter Include="SourceCodes\A_Editor\Function\Actors\Actor">
-      <UniqueIdentifier>{b986ca08-3d79-483e-af95-545594904a40}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="SourceCodes\A_Editor\Function\Actors\Actor\Entity">
-      <UniqueIdentifier>{f8c7ea3d-f2d6-4b44-b575-9e5a4cfd522a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="SourceCodes\A_Editor\Function\Actors\Manager">
       <UniqueIdentifier>{8dbc75de-6df1-4747-a83d-5f6ec63e96cc}</UniqueIdentifier>
     </Filter>
@@ -159,6 +153,9 @@
     </Filter>
     <Filter Include="SourceCodes\A_Editor\Function\GUIs\Systems">
       <UniqueIdentifier>{730b7c0f-744c-4625-a8ac-7e6e08c6af54}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceCodes\A_Editor\Function\Actors\Entity">
+      <UniqueIdentifier>{f8c7ea3d-f2d6-4b44-b575-9e5a4cfd522a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -226,9 +223,6 @@
     <None Include="cpp.hint" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Actor.cpp">
-      <Filter>SourceCodes\A_Editor\Function\Actors\Actor</Filter>
-    </ClCompile>
     <ClCompile Include="BoneActor.cpp">
       <Filter>SourceCodes\A_Editor\Function\Actors\Bones</Filter>
     </ClCompile>
@@ -496,9 +490,6 @@
     <ClCompile Include="RectTransform.cpp">
       <Filter>SourceCodes\A_Editor\Function\Actors\Transform</Filter>
     </ClCompile>
-    <ClCompile Include="UIActor.cpp">
-      <Filter>SourceCodes\A_Editor\Function\Actors\Actor</Filter>
-    </ClCompile>
     <ClCompile Include="CreateNewCanvasCommand.cpp">
       <Filter>SourceCodes\A_Editor\Function\GUIs\Commands</Filter>
     </ClCompile>
@@ -506,7 +497,7 @@
       <Filter>SourceCodes\A_Editor\Function\GUIs\Commands</Filter>
     </ClCompile>
     <ClCompile Include="Entity.cpp">
-      <Filter>SourceCodes\A_Editor\Function\Actors\Actor\Entity</Filter>
+      <Filter>SourceCodes\A_Editor\Function\Actors\Entity</Filter>
     </ClCompile>
     <ClCompile Include="ActorManager.cpp">
       <Filter>SourceCodes\A_Editor\Function\Actors\Manager</Filter>
@@ -559,11 +550,14 @@
     <ClCompile Include="CreateActorFromAssetCommand.cpp">
       <Filter>SourceCodes\A_Editor\Function\GUIs\Commands</Filter>
     </ClCompile>
+    <ClCompile Include="Actor.cpp">
+      <Filter>SourceCodes\A_Editor\Function\Actors</Filter>
+    </ClCompile>
+    <ClCompile Include="UIActor.cpp">
+      <Filter>SourceCodes\A_Editor\Function\Actors</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Actor.h">
-      <Filter>SourceCodes\A_Editor\Function\Actors\Actor</Filter>
-    </ClInclude>
     <ClInclude Include="BoneActor.h">
       <Filter>SourceCodes\A_Editor\Function\Actors\Bones</Filter>
     </ClInclude>
@@ -879,9 +873,6 @@
     <ClInclude Include="RectTransform.h">
       <Filter>SourceCodes\A_Editor\Function\Actors\Transform</Filter>
     </ClInclude>
-    <ClInclude Include="UIActor.h">
-      <Filter>SourceCodes\A_Editor\Function\Actors\Actor</Filter>
-    </ClInclude>
     <ClInclude Include="CreateNewUIActorCommand.h">
       <Filter>SourceCodes\A_Editor\Function\GUIs\Commands</Filter>
     </ClInclude>
@@ -889,7 +880,7 @@
       <Filter>SourceCodes\A_Editor\Function\GUIs\Commands</Filter>
     </ClInclude>
     <ClInclude Include="Entity.h">
-      <Filter>SourceCodes\A_Editor\Function\Actors\Actor\Entity</Filter>
+      <Filter>SourceCodes\A_Editor\Function\Actors\Entity</Filter>
     </ClInclude>
     <ClInclude Include="UIActorManager.h">
       <Filter>SourceCodes\A_Editor\Function\Actors\Manager</Filter>
@@ -944,6 +935,12 @@
     </ClInclude>
     <ClInclude Include="CreateActorFromAssetCommand.h">
       <Filter>SourceCodes\A_Editor\Function\GUIs\Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="UIActor.h">
+      <Filter>SourceCodes\A_Editor\Function\Actors</Filter>
+    </ClInclude>
+    <ClInclude Include="Actor.h">
+      <Filter>SourceCodes\A_Editor\Function\Actors</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
