@@ -47,6 +47,12 @@
         "materials": [
             {
                 "albedo_map": "Floor_00.fbm\\FloorTexture.png",
+                "diffuse_color": [
+                    0.800000011920929,
+                    0.800000011920929,
+                    0.800000011920929,
+                    1.0
+                ],
                 "name": "Material"
             }
         ],
@@ -66,7 +72,7 @@
                 "bounding_radius": 14.177447319030762,
                 "has_bones": false,
                 "index_count": 36,
-                "localID": "b593eb1d-3e55-45b1-9291-8ca07fb87ce3",
+                "localID": "2a342ffa-af29-4d9d-bc44-3ccd489dd49d",
                 "material_index": 0,
                 "name": "Cube",
                 "vertex_count": 24
@@ -74,13 +80,20 @@
         ]
     },
     "fileFormatVersion": 1,
-    "guid": "679a43d0-827a-4479-a347-3685304bd117",
+    "guid": "ac40a754-574c-45f4-976c-fd26272c7efa",
     "import_settings": {
         "import_animation": false,
         "import_mesh": true,
         "import_skeleton": false,
         "scale_factor": 1.0
     },
+    "material_slots": [
+        {
+            "assigned_material": "",
+            "name": "Material",
+            "slot_index": 0
+        }
+    ],
     "skeleton_settings": {
         "skeleton_type": 0
     }

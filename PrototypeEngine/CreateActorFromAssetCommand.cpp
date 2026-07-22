@@ -6,10 +6,12 @@
 #include "AssetImporter.h"
 
 CreateActorFromAssetCommand::CreateActorFromAssetCommand(
-    const std::filesystem::path& assetPath, ActorObject* parentActor)
+    const std::filesystem::path& assetPath, const string& localID,
+    ActorObject* parentActor)
     : mTargetID(0)
     , mTarget(nullptr)
     , mAssetPath(assetPath)
+    , mLocalID(localID)
     , mParentActor(parentActor)
     , mIsActiveInScene(false)
 {
@@ -70,7 +72,7 @@ void CreateActorFromAssetCommand::AddComponent(ActorObject* actor)
         //TODO : ここでスケルトンかただのモデルか判断する必要あり
 
         MeshRenderer* mesh = new MeshRenderer(actor);
-        mesh->LoadFilePath(mAssetPath.string().c_str());
+        mesh->LoadFilePathAndID(mAssetPath.string().c_str(),mLocalID.c_str());
         actor->AddComponent(mesh);
     }
 }

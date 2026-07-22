@@ -334,7 +334,8 @@ void Entity::OnComponentAdded(Component* newComp)
         if (meshRenderer != nullptr)
         {
             // MeshRendererが既にいるので、コライダーのサイズを初期設定する
-            if (!meshRenderer->GetMeshs().empty())
+            if (!meshRenderer->GetMeshs().empty() &&
+                meshRenderer->GetMeshs()[0] != nullptr)
             {
                 collider->SetObjectAABB(
                     meshRenderer->GetMeshs()[0]->GetBoxs()[0]);
@@ -350,7 +351,8 @@ void Entity::OnComponentAdded(Component* newComp)
         if (meshRenderer != nullptr)
         {
             // MeshRendererが既にいるので、コライダーのサイズを初期設定する
-            if (!meshRenderer->GetMeshs().empty())
+            if (!meshRenderer->GetMeshs().empty() &&
+                meshRenderer->GetMeshs()[0] != nullptr)
             {
                 sphere->SetObjectSphere(
                     meshRenderer->GetMeshs()[0]->GetAABBFromSphere());
@@ -364,7 +366,8 @@ void Entity::OnComponentAdded(Component* newComp)
         if (meshRenderer != nullptr)
         {
             // MeshRendererが既にいるので、コライダーのサイズを初期設定する
-            if (!meshRenderer->GetMeshs().empty())
+            if (!meshRenderer->GetMeshs().empty() &&
+                meshRenderer->GetMeshs()[0] != nullptr)
             {
                 capsule->SetObjectCapsule(
                     meshRenderer->GetMeshs()[0]->GetAABBFromCapsule());

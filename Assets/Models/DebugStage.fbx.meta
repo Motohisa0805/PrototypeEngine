@@ -47,6 +47,12 @@
         "materials": [
             {
                 "albedo_map": "DebugStage.fbm\\DebugStage.png",
+                "diffuse_color": [
+                    0.800000011920929,
+                    0.800000011920929,
+                    0.800000011920929,
+                    1.0
+                ],
                 "name": "Material"
             }
         ],
@@ -66,7 +72,7 @@
                 "bounding_radius": 14.150971412658691,
                 "has_bones": false,
                 "index_count": 36,
-                "localID": "4947af87-7c77-4dc2-8889-a1c127ae3e65",
+                "localID": "2fdf2bd8-7468-4e4e-9122-fdeaaa6819b1",
                 "material_index": 0,
                 "name": "立方体",
                 "vertex_count": 24
@@ -74,13 +80,20 @@
         ]
     },
     "fileFormatVersion": 1,
-    "guid": "f8412d9b-a7c4-4757-b4e1-259cb24bf63c",
+    "guid": "5f825f15-b81b-4c2d-b1e9-d224cd72e03a",
     "import_settings": {
         "import_animation": false,
         "import_mesh": true,
         "import_skeleton": false,
         "scale_factor": 1.0
     },
+    "material_slots": [
+        {
+            "assigned_material": "",
+            "name": "Material",
+            "slot_index": 0
+        }
+    ],
     "skeleton_settings": {
         "skeleton_type": 0
     }

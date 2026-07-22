@@ -15,6 +15,9 @@ class Mesh;
 class MeshRenderer : public Component
 {
 protected:
+	//描画するメッシュのUUID
+	string						mLocalID;
+
 	//表示か非表示か
 	bool						mVisible;
 	//メッシュファイルパス
@@ -39,6 +42,7 @@ public:
 	// メッシュコンポーネントで使用されるメッシュ/テクスチャインデックスを設定する
 	virtual void				SetMesh(Mesh* mesh) 
 	{
+        mMeshs.clear();
 		mMeshs.push_back(mesh);
 	}
 	//既にセットされているメッシュにプラスで追加する形で設定
@@ -71,7 +75,7 @@ public:
 	void						Serialize(json& j) const override;
 	void						Deserialize(const json& j)override;
 
-	void						LoadFilePath(const char* path);
+	void						LoadFilePathAndID(const char* path,const char* localID);
 
 	void						DrawCustomGUI(const std::vector<PropertyInfo>& properties)override;
 

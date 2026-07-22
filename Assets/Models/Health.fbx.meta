@@ -47,6 +47,12 @@
         "materials": [
             {
                 "albedo_map": "",
+                "diffuse_color": [
+                    0.8002356290817261,
+                    0.0,
+                    0.0013952282024547458,
+                    1.0
+                ],
                 "name": "Material"
             }
         ],
@@ -66,7 +72,7 @@
                 "bounding_radius": 1.658312439918518,
                 "has_bones": false,
                 "index_count": 132,
-                "localID": "ba3293c7-abe0-4bc3-ba63-350621f34af0",
+                "localID": "ae49d7e9-674b-4ec5-9fc3-786a5df4ad2d",
                 "material_index": 0,
                 "name": "Cube",
                 "vertex_count": 88
@@ -74,13 +80,20 @@
         ]
     },
     "fileFormatVersion": 1,
-    "guid": "6457435d-d2d0-4037-ac2f-8ec2477da2a7",
+    "guid": "4337e9c5-28b1-4209-83ec-bded59787cf4",
     "import_settings": {
         "import_animation": false,
         "import_mesh": true,
         "import_skeleton": false,
         "scale_factor": 1.0
     },
+    "material_slots": [
+        {
+            "assigned_material": "",
+            "name": "Material",
+            "slot_index": 0
+        }
+    ],
     "skeleton_settings": {
         "skeleton_type": 0
     }

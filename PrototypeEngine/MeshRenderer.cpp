@@ -124,6 +124,9 @@ void MeshRenderer::SetMaterialAlpha(float alpha)
     {
         for (auto& mesh : mMeshs)
         {
+            if (mesh == nullptr)
+                continue;
+
             vector<MaterialInfo> info = mesh->GetMaterialInfo();
             for (int i = 0; i < info.size(); ++i)
             {
@@ -153,6 +156,7 @@ void MeshRenderer::Serialize(json& j) const
     Component::Serialize(j);
     // ロード元のファイルパスをそのままJSONに書き込む
     j["FilePath"] = mFilePath;
+    j["LocalID"]  = mLocalID;
 
     // メッシュレンダラー固有の他のプロパティも追加
     j["Visible"]    = mVisible;
@@ -165,19 +169,22 @@ void MeshRenderer::Deserialize(const json& j)
 {
     Component::Deserialize(j);
     // モデルパスがあるなら
-    if (j.contains("FilePath"))
+    if (j.contains("FilePath") && j.contains("LocalID"))
     {
         // 1. JSONからファイルパスを取得する
         std::string filePath = j.at("FilePath").get<std::string>();
 
         // 2. メンバ変数にファイルパスを設定
         mFilePath = filePath;
+        mLocalID  = j.at("LocalID").get<std::string>();
 
         // 3. ファイルパスを使って、Rendererからメッシュをロードし、設定する
         //    元のコードにあった処理をここで実行します
-        vector<class Mesh*> mesh =
-            EngineWindow::GetRenderer()->GetMeshs(mFilePath);
-        AddMeshs(mesh);
+        Mesh* mesh = EngineWindow::GetRenderer()->GetSubMesh(mFilePath,mLocalID);
+        if (mesh)
+        {
+            SetMesh({mesh});
+        }
     }
 
     // 4. その他のプロパティも読み込む
@@ -200,12 +207,15 @@ void MeshRenderer::Deserialize(const json& j)
     }
 }
 
-void MeshRenderer::LoadFilePath(const char* path) 
+void MeshRenderer::LoadFilePathAndID(const char* path, const char* localID)
 {
-    vector<class Mesh*> mesh = EngineWindow::GetRenderer()->GetMeshs(path);
-    SetMeshs(mesh);
-    mAlpha    = mesh[0]->GetMaterialInfo()[0].Color.w;
-    mFilePath = path;
+    Mesh* mesh = EngineWindow::GetRenderer()->GetSubMesh(path,localID);
+    if (mesh)
+    {
+        SetMesh({mesh});
+        mAlpha    = mesh->GetMaterialInfo()[0].Color.w;
+        mFilePath = path;
+    }
 }
 
 void MeshRenderer::DrawCustomGUI(const std::vector<PropertyInfo>& properties)
@@ -218,11 +228,11 @@ void MeshRenderer::DrawCustomGUI(const std::vector<PropertyInfo>& properties)
     ImGui::NewLine();
 
     // 1.ファイルパスの取得
-    string      currentPath = mFilePath;
+    filesystem::path currentPath = mFilePath;
     static char pathBuffer[256];
-    strncpy_s(pathBuffer, currentPath.c_str(), sizeof(pathBuffer));
+    strncpy_s(pathBuffer, currentPath.filename().stem().string().c_str(),sizeof(pathBuffer));
     pathBuffer[sizeof(pathBuffer) - 1] = '\0';
-    ImGui::Text("FilePath DragDropTarget");
+    ImGui::Text("Mesh");
     // 2.ファイルパスの入力フィールド
     ImGui::InputText("Mesh File Path", pathBuffer, sizeof(pathBuffer),
                      ImGuiInputTextFlags_ReadOnly);
@@ -232,12 +242,13 @@ void MeshRenderer::DrawCustomGUI(const std::vector<PropertyInfo>& properties)
     if (ImGui::BeginDragDropTarget())
     {
         if (const ImGuiPayload* payload =
-                ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM"))
+                ImGui::AcceptDragDropPayload("SUB_MESH_ITEM"))
         {
             // ペイロードがファイルパスであると仮定
-            const char* dropPath = (const char*)payload->Data;
+            const SubMeshPayload* data = (const SubMeshPayload*)payload->Data;
             // ファイルパスを使いロード処理を呼び出す
-            LoadFilePath(dropPath);
+            LoadFilePathAndID(data->sFilePath,data->sLocalID);
+            mLocalID = data->sLocalID;
         }
         ImGui::EndDragDropTarget();
     }

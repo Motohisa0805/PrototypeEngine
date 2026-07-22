@@ -47,6 +47,12 @@
         "materials": [
             {
                 "albedo_map": "Portal.fbm\\SkinTex.png",
+                "diffuse_color": [
+                    0.800000011920929,
+                    0.800000011920929,
+                    0.800000011920929,
+                    1.0
+                ],
                 "name": "Material"
             }
         ],
@@ -66,7 +72,7 @@
                 "bounding_radius": 1.661170482635498,
                 "has_bones": false,
                 "index_count": 24,
-                "localID": "3ce3957c-502b-4a71-a360-9b29f59a9217",
+                "localID": "e6c92a09-b1c0-4cf7-9dda-5e72d99fc948",
                 "material_index": 0,
                 "name": "Cube.001",
                 "vertex_count": 24
@@ -74,13 +80,20 @@
         ]
     },
     "fileFormatVersion": 1,
-    "guid": "c3fb0fc3-f12a-47c2-ad9f-4c6c58519ce8",
+    "guid": "14928c1d-bd2c-46ac-8fa8-a9dd8ee9a614",
     "import_settings": {
         "import_animation": false,
         "import_mesh": true,
         "import_skeleton": false,
         "scale_factor": 1.0
     },
+    "material_slots": [
+        {
+            "assigned_material": "",
+            "name": "Material",
+            "slot_index": 0
+        }
+    ],
     "skeleton_settings": {
         "skeleton_type": 0
     }

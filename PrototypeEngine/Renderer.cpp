@@ -1347,7 +1347,7 @@ Texture* Renderer::GetTexture(const string& fileName)
     }
     return tex;
 }
-
+/*
 Mesh* Renderer::GetMesh(const string& fileName)
 {
     string file = File_P::ModelPath + fileName;
@@ -1428,6 +1428,35 @@ vector<class Mesh*> Renderer::GetMeshs(const string& fileName)
         }
     }
     return ms;
+}
+*/
+
+Mesh* Renderer::GetSubMesh(const filesystem::path& fileName, const string& localID)
+{
+    // キャッシュマップ用のキー(ファイルパス＋localID)
+    string cacheKey = fileName.filename().string() + "_" + localID;
+
+    //すでに読み込み済みの場合はキャッシュから返す
+    auto iter = mMeshesMap.find(cacheKey);
+    if (iter != mMeshesMap.end())
+    {
+        return iter->second;
+    }
+
+    //新規メッシュの作成と読みこみ
+    Mesh* mesh = new Mesh();
+    //単一サブメッシュ用のロード関数を呼ぶ
+    if (mesh->LoadFromSubMesh(fileName.string(), localID))
+    {
+        mMeshesMap.emplace(cacheKey, mesh);
+        return mesh;
+    }
+    else
+    {
+        mesh->Unload();
+        delete mesh;
+        return nullptr;
+    }
 }
 
 void Renderer::CreateSpriteVerts()

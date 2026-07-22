@@ -47,6 +47,12 @@
         "materials": [
             {
                 "albedo_map": "",
+                "diffuse_color": [
+                    0.800000011920929,
+                    0.800000011920929,
+                    0.800000011920929,
+                    1.0
+                ],
                 "name": "DefaultMaterial"
             }
         ],
@@ -66,7 +72,7 @@
                 "bounding_radius": 0.9955050349235535,
                 "has_bones": false,
                 "index_count": 2688,
-                "localID": "79cfb6cd-27a5-476d-bd17-0d94f362b38c",
+                "localID": "fea8a395-9547-4c1f-bbd5-1ce311fbde4f",
                 "material_index": 0,
                 "name": "球.002",
                 "vertex_count": 1856
@@ -74,13 +80,20 @@
         ]
     },
     "fileFormatVersion": 1,
-    "guid": "b9a82306-a6c7-44e3-ad05-5a4c97d78648",
+    "guid": "6f4ae1c9-9926-4a09-ad17-2d71fbd7d2f4",
     "import_settings": {
         "import_animation": false,
         "import_mesh": true,
         "import_skeleton": false,
         "scale_factor": 1.0
     },
+    "material_slots": [
+        {
+            "assigned_material": "",
+            "name": "DefaultMaterial",
+            "slot_index": 0
+        }
+    ],
     "skeleton_settings": {
         "skeleton_type": 0
     }

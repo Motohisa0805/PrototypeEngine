@@ -378,25 +378,43 @@ void ProjectPanel::DrawFileSystemEntry(const filesystem::directory_entry& entry)
             //ツリーノードで展開できるようにする
             if (ImGui::TreeNodeEx("##fbx_contents", ImGuiTreeNodeFlags_SpanAvailWidth, "Contents"))
             {
-                vector<string> subMeshes = AssetImporter::GetSubMeshNames(entry.path());
+                vector<SubMeshPayload> subMeshes = AssetImporter::GetSubMeshPayload(entry.path());
 
                 for (size_t i = 0; i < subMeshes.size(); ++i)
                 {
                     ImGui::PushID(static_cast<int>(i));
+                    ImGui::BeginGroup();
+                    ImTextureID fbxItemIconID =
+                        (ImTextureID)(uintptr_t)EditorTextureManager::GetInstance().GetFileIconTexture(entry.path().string(), ".bank")->GetTextureID();
 
+                    ImGui::ImageButton("##fbxItemIcon", fbxItemIconID, ImVec2(54, 54));
                     //サブアイテムの描画
-                    ImGui::Selectable(subMeshes[i].c_str());
+                    ImGui::TextWrapped(subMeshes[i].sFilePath);
+                    ImGui::EndGroup();
 
-                    //個別のメッシュ用のドラッグ&ドロップ元
+                    //メッシュ用のドラッグ&ドロップ元
                     if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_SourceAllowNullID))
                     {
                         //パスとメッシュ名の両方をペイロードに含める
-                        string payloadData = entry.path().string() + "?" + subMeshes[i];
-                        ImGui::SetDragDropPayload("SUB_MESH_ITEM",payloadData.c_str(),payloadData.size() + 1);
-                        ImGui::Text("Mesh: %s", subMeshes[i].c_str());
+                        string payloadData = entry.path().string() + "?" + subMeshes[i].sFilePath;
+                        ImGui::SetDragDropPayload("CONTENT_BROWSER_ITEM",payloadData.c_str(),payloadData.size() + 1);
+                        ImGui::Text("Mesh: %s", subMeshes[i].sFilePath);
                         ImGui::EndDragDropSource();
                     }
 
+                    //サブメッシュ用のドラッグ&ドロップ元
+                    if (ImGui::BeginDragDropSource(
+                            ImGuiDragDropFlags_SourceAllowNullID))
+                    {
+                        SubMeshPayload payloadData = {};
+                        // パスとサブメッシュ名を安全にコピー
+                        strncpy_s(payloadData.sFilePath,sizeof(payloadData.sFilePath),entry.path().string().c_str(), _TRUNCATE);
+                        strncpy_s(payloadData.sLocalID,sizeof(payloadData.sLocalID),subMeshes[i].sLocalID, _TRUNCATE);
+                        ImGui::SetDragDropPayload("SUB_MESH_ITEM", &payloadData,
+                                                  sizeof(payloadData));
+                        ImGui::Text("Mesh: %s", subMeshes[i].sFilePath);
+                        ImGui::EndDragDropSource();
+                    }
                     ImGui::PopID();
                 }
                 ImGui::TreePop();

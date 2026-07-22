@@ -69,6 +69,12 @@
         "materials": [
             {
                 "albedo_map": "TwoCube.fbm\\Tex.png",
+                "diffuse_color": [
+                    0.800000011920929,
+                    0.800000011920929,
+                    0.800000011920929,
+                    1.0
+                ],
                 "name": "Material.001"
             }
         ],
@@ -88,7 +94,7 @@
                 "bounding_radius": 0.017320508137345314,
                 "has_bones": false,
                 "index_count": 36,
-                "localID": "c5b1dfa4-ff84-434e-92ee-67ac0c5fdfe4",
+                "localID": "78ca6789-d539-4cad-b441-3f353b4d38aa",
                 "material_index": 0,
                 "name": "Cube.001",
                 "vertex_count": 24
@@ -108,7 +114,7 @@
                 "bounding_radius": 0.017320508137345314,
                 "has_bones": false,
                 "index_count": 36,
-                "localID": "3ace8af4-46ee-48fc-8e64-908240f64e13",
+                "localID": "0aadb318-d7b3-4a75-8342-14956b0ab296",
                 "material_index": 0,
                 "name": "Cube.002",
                 "vertex_count": 24
@@ -116,13 +122,20 @@
         ]
     },
     "fileFormatVersion": 1,
-    "guid": "21683642-0987-4744-b6b4-cfb3e727ac2b",
+    "guid": "f0808b6f-0c27-46ca-9e19-4f28cc27ec67",
     "import_settings": {
         "import_animation": false,
         "import_mesh": true,
         "import_skeleton": false,
         "scale_factor": 1.0
     },
+    "material_slots": [
+        {
+            "assigned_material": "",
+            "name": "Material.001",
+            "slot_index": 0
+        }
+    ],
     "skeleton_settings": {
         "skeleton_type": 0
     }
