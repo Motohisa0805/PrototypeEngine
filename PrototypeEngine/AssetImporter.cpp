@@ -14,7 +14,7 @@ void AssetImporter::CheckAndImportAssets()
 		if (entry.is_regular_file() && entry.path().extension() == ".fbx") {
             fs::path fbxPath = entry.path();
 			//対応する独自ファイル
-            fs::path customPath = GeneratedCustomPath(fbxPath);
+            fs::path customPath = GeneratedMetaFilePath(fbxPath);
 			//独自ファイルが存在しない、またはFBXファイルの方が新しく更新されている場合
 			if (!fs::exists(customPath) || fs::last_write_time(entry) > fs::last_write_time(customPath)){
 				//ここでFBXを読み込み、独自ファイルへ書き出す処理を呼ぶ
@@ -35,7 +35,7 @@ void AssetImporter::OneFileCheckAndImportAssets(
         {
             fs::path fbxPath = entry.path();
             // 対応する独自ファイル
-            fs::path customPath = GeneratedCustomPath(fbxPath);
+            fs::path customPath = GeneratedMetaFilePath(fbxPath);
             // 独自ファイルが存在しない、またはFBXファイルの方が新しく更新されている場合
             if (!fs::exists(customPath) ||
                 fs::last_write_time(entry) > fs::last_write_time(customPath))
@@ -71,9 +71,14 @@ string AssetImporter::GenerateUUID()
     return result; 
 }
 
-fs::path AssetImporter::GeneratedCustomPath(const fs::path& path)
+fs::path AssetImporter::GeneratedMetaFilePath(const fs::path& path)
 {
     return path.parent_path() / (path.filename().string() + ".meta");
+}
+
+fs::path AssetImporter::GeneratedMatFilePath(const fs::path& path)
+{
+    return path.parent_path() / (path.filename().string() + ".mat");
 }
 
 void AssetImporter::ConvertFBXToCustomFormat(const fs::path& fbxPath,
@@ -171,16 +176,17 @@ void AssetImporter::ConvertFBXToCustomFormat(const fs::path& fbxPath,
     metaJson["cached_data"]["meshes"] = meshsJson;
 
     nlohmann::json materialsJson = nlohmann::json::array();
+    nlohmann::json materialSlotsJson = nlohmann::json::array();
     if (scene && scene->HasMaterials())
     {
         for (unsigned int i = 0; i < scene->mNumMaterials; i++)
         {
             aiMaterial* mat = scene->mMaterials[i];
             nlohmann::json matInfo;
+            nlohmann::json slotInfo;
 
             //マテリアル名の取得
             matInfo["name"] = mat->GetName().C_Str();
-
             //ディフューズ(アルベド)テクスチャのパスを取得
             aiString texPath;
             if (mat->GetTexture(aiTextureType_DIFFUSE, 0, &texPath) == AI_SUCCESS)
@@ -192,12 +198,37 @@ void AssetImporter::ConvertFBXToCustomFormat(const fs::path& fbxPath,
                 matInfo["albedo_map"] = "";
             }
 
-            //TODO : ノーマルマップ等の取得処理追加予定
+            aiColor4D diffuseColor;
+            if (AI_SUCCESS == aiGetMaterialColor(mat, AI_MATKEY_COLOR_DIFFUSE, &diffuseColor))
+            {
+                matInfo["diffuse_color"] = 
+                {
+                 diffuseColor.r,
+                 diffuseColor.g,
+                 diffuseColor.b,
+                 diffuseColor.a
+                };
+            }
 
             materialsJson.push_back(matInfo);
+
+            slotInfo["slot_index"] = i;
+            slotInfo["name"]       = mat->GetName().C_Str();
+
+            //すでに.metaが存在し、assigned_materialが設定されている場合は上書きしない
+            if (!isNewFile && metaJson.contains("material_slots") && metaJson["material_slots"].size() > i)
+            {
+                slotInfo["assigned_material"] = metaJson["material_slots"][i].value("assigned_material","");
+            }
+            else
+            {
+                slotInfo["assigned_material"] = "";
+            }
+            materialSlotsJson.push_back(slotInfo);
         }
     }
     metaJson["cached_data"]["materials"] = materialsJson;
+    metaJson["material_slots"]           = materialSlotsJson;
 
     //ノード階層(ヒエラルキー)と初期トランスフォームの記録
     auto ParseNodeHierarchy = [&](auto& self, aiNode* node) -> nlohmann::json
@@ -678,7 +709,7 @@ void AssetImporter::ExportAnimationBinary(const fs::path& fbxPath,
 AllImportSettings AssetImporter::OutputFBXMetaFile(const fs::path& fbxPath)
 {
     // 対応する独自ファイル
-    fs::path customPath = GeneratedCustomPath(fbxPath);
+    fs::path customPath = GeneratedMetaFilePath(fbxPath);
 
     nlohmann::json metaJson;
     bool           isActive = fs::exists(customPath);
@@ -708,7 +739,7 @@ vector<string> AssetImporter::GetSubMeshNames(const fs::path& fbxPath)
 {
     vector<string> meshNames;
     //FBXパスから対応する.metaファイルのパスを取得
-    fs::path customPath = GeneratedCustomPath(fbxPath);
+    fs::path customPath = GeneratedMetaFilePath(fbxPath);
     //.metaファイルが存在しない場合は空のリストを返す
     if (!fs::exists(customPath))
     {
@@ -738,6 +769,88 @@ vector<string> AssetImporter::GetSubMeshNames(const fs::path& fbxPath)
     }
 
     return meshNames;
+}
+
+vector<string> AssetImporter::GetSubMeshLocalID(const fs::path& fbxPath)
+{
+    vector<string> meshLocalIDs;
+    // FBXパスから対応する.metaファイルのパスを取得
+    fs::path customPath = GeneratedMetaFilePath(fbxPath);
+    //.metaファイルが存在しない場合は空のリストを返す
+    if (!fs::exists(customPath))
+    {
+        return meshLocalIDs;
+    }
+    //.metaファイルを読み込む
+    std::ifstream inFile(customPath);
+    if (!inFile.is_open())
+    {
+        return meshLocalIDs;
+    }
+
+    nlohmann::json metaJson;
+    inFile >> metaJson;
+    inFile.close();
+
+    if (metaJson.contains("cached_data") &&
+        metaJson["cached_data"].contains("meshes"))
+    {
+        const auto& meshs = metaJson["cached_data"]["meshes"];
+        for (const auto& mesh : meshs)
+        {
+            if (mesh.contains("localID"))
+            {
+                meshLocalIDs.push_back(mesh["localID"].get<string>());
+            }
+        }
+    }
+
+    return meshLocalIDs;
+}
+
+vector<SubMeshPayload> AssetImporter::GetSubMeshPayload(const fs::path& fbxPath)
+{
+    vector<SubMeshPayload> payloads;
+    // FBXパスから対応する.metaファイルのパスを取得
+    fs::path customPath = GeneratedMetaFilePath(fbxPath);
+    //.metaファイルが存在しない場合は空のリストを返す
+    if (!fs::exists(customPath))
+    {
+        return payloads;
+    }
+    //.metaファイルを読み込む
+    std::ifstream inFile(customPath);
+    if (!inFile.is_open())
+    {
+        return payloads;
+    }
+
+    nlohmann::json metaJson;
+    inFile >> metaJson;
+    inFile.close();
+
+    if (metaJson.contains("cached_data") &&
+        metaJson["cached_data"].contains("meshes"))
+    {
+        const auto& meshs = metaJson["cached_data"]["meshes"];
+        for (const auto& mesh : meshs)
+        {
+            SubMeshPayload info = {};
+            if (mesh.contains("localID"))
+            {
+                strncpy_s(info.sLocalID, sizeof(info.sLocalID),
+                          mesh["localID"].get<string>().c_str(), _TRUNCATE);
+            }
+            if (mesh.contains("name"))
+            {
+                strncpy_s(info.sFilePath, sizeof(info.sFilePath),
+                          mesh["name"].get<string>().c_str(), _TRUNCATE);
+            }
+            payloads.push_back(info);
+        }
+    }
+
+    return payloads;
 }
 
 // 補間情報の計算、チュートリアルから引用

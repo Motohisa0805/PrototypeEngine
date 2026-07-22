@@ -121,9 +121,11 @@ void SkeletalMeshRenderer::Update(float deltaTime)
 void SkeletalMeshRenderer::LoadSkeletonMesh(const string& fileName,
                                             ActorObject*  actor)
 {
+    /*
     const vector<class Mesh*>& mesh =
         EngineWindow::GetRenderer()->GetMeshs(fileName);
     mMeshs.insert(mMeshs.end(), mesh.begin(), mesh.end());
+    */
 
     Skeleton* sk = mGame->GetSkeleton(fileName);
     mSkeleton    = sk;
@@ -266,9 +268,11 @@ void SkeletalMeshRenderer::DrawCustomGUI(
             const char* dropPath = (const char*)payload->Data;
             string      path     = Sco::ExtensionFileName(dropPath);
             // ファイルパスを使いロード処理を呼び出す
-            vector<class Mesh*> mesh =
-                EngineWindow::GetRenderer()->GetMeshs(path);
+            /*
+            vector<class Mesh*> mesh;// =
+                //EngineWindow::GetRenderer()->GetMeshs(path);
             SetMeshs(mesh);
+            */
             mFilePath = path;
 
             Skeleton* sk = mGame->GetSkeleton(path);

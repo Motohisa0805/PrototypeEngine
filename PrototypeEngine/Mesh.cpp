@@ -8,6 +8,7 @@ Mesh::Mesh() {}
 
 Mesh::~Mesh() {}
 
+/*
 bool Mesh::Load(const string& fileName, Renderer* renderer, int index)
 {
     // ファイルの拡張子を取得
@@ -21,6 +22,7 @@ bool Mesh::Load(const string& fileName, Renderer* renderer, int index)
 
     return false;
 }
+*/
 
 int Mesh::CheckMeshIndex(const string& fileName, Renderer* renderer)
 {
@@ -256,6 +258,186 @@ bool Mesh::LoadFromMeshBin(const string& fileName, Renderer* renderer,
     }
 
     // 読み込み成功
+    return true;
+}
+
+bool Mesh::LoadFromSubMesh(const string& fbxPath, const string& localID)
+{
+    //.metaファイル(JSON)を読み込む
+    filesystem::path metaPath = fbxPath + ".meta";
+
+    if (!filesystem::exists(metaPath))
+    {
+        return false;
+    }
+
+    std::ifstream    metaFile(metaPath);
+    if (!metaFile.is_open())return false;
+    nlohmann::json   metaJson;
+    try
+    {
+        metaFile >> metaJson;
+    }
+    catch (...)
+    {
+        return false;
+    }
+    metaFile.close();
+    //先に親パスを指定
+    filesystem::path binPath = "Binary/mesh";
+    //localIDに一致するメッシュの情報をJSONから探す
+    int targetIndex = -1;
+    
+    if (!metaJson.contains("cached_data") || !metaJson["cached_data"].contains("meshes"))return false;
+    
+    auto meshes      = metaJson["cached_data"]["meshes"];
+    
+    for (int i = 0; i < meshes.size(); i++)
+    {
+        if (meshes[i]["localID"] == localID)
+        {
+            binPath     = binPath / meshes[i]["binary_path"].get<string>();
+            targetIndex = i;
+            break;
+        }
+    }
+
+    if (targetIndex == -1 || (binPath.empty() && !filesystem::exists(binPath)))return false;
+
+    //.meshbinファイルをバイナリとして読み込む
+    std::ifstream in(binPath, std::ios::binary);
+    if (!in)
+    {
+        SDL_Log("Failed to open mesh binary: %s", binPath.c_str());
+        return false;
+    }
+
+    //ヘッダー情報の読み込み
+    //  バイナリデータの構造体宣言
+    MeshBinHeader header;
+    // 宣言した構造体に読み込んだファイルの情報を読み込む
+    in.read((char*)&header, sizeof(header));
+    // Textureのタイプを代入
+    VertexArray::Layout layout = (header.layoutType == 0)
+                                     ? VertexArray::PosNormTex
+                                     : VertexArray::PosNormSkinTex;
+    // 頂点とインデックスの数を計算
+    mVertices.resize(header.vertexCount);
+    mIndices.resize(header.indexCount);
+
+    in.read((char*)mVertices.data(), sizeof(Vertex) * mVertices.size());
+    in.read((char*)mIndices.data(), sizeof(uint32_t) * mIndices.size());
+    in.close();
+
+    // 中心位置や半径を再利用したい場合
+    AABB box = AABB(Vector3::Infinity, Vector3::NegInfinity);
+    box.mMin = header.min;
+    box.mMax = header.max;
+
+    // AABBの中心とサイズからOBBを作る（回転なし）
+    Vector3    center   = (box.mMin + box.mMax) * 0.5f;
+    Vector3    extents  = (box.mMax - box.mMin) * 0.5f;
+    Quaternion rotation = Quaternion::Identity; // 方向なし
+    OBB        obbBox = OBB(Vector3::Zero, Quaternion::Identity, Vector3::Zero);
+    obbBox            = OBB(center, rotation, extents);
+
+    mBoxs.push_back(box); // AABB中心などに使える
+    mOBBBoxs.push_back(obbBox);
+    mRadiusArray.push_back(header.colliderRadius);
+
+    VertexArray* va =
+        new VertexArray(mVertices.data(), header.vertexCount, layout,
+                        mIndices.data(), header.indexCount);
+    mVertexArrays.push_back(va);
+
+
+    MaterialInfo info{Vector4(0, 0, 0, 0), Vector3(0, 0, 0), Vector3(0, 0, 0),
+                      Vector3(0, 0, 0), 0};
+    if (metaJson.contains("material_slots"))
+    {
+        int materialIndex = meshes[targetIndex].value("material_index", 0);
+
+        if (materialIndex < metaJson["material_slots"].size())
+        {
+            auto slot = metaJson["material_slots"][materialIndex];
+            string assignedMatPath = slot.value("assigned_material", "");
+
+            if (assignedMatPath.empty())
+            {
+                //.meta内のcached_dataから直接マテリアル情報を生成する
+                auto cachedMat = metaJson["cached_data"]["materials"][materialIndex];
+
+                //色の読み込み
+                if (cachedMat.contains("diffuse_color"))
+                {
+                    auto color = cachedMat["diffuse_color"];
+                    info.Color = Vector4(color[0], color[1], color[2], color[3]);
+                }
+                else
+                {
+                    info.Color = Vector4(1, 1, 1, 1);
+                }
+
+                //一時的に設定
+                //  拡散色（Diffuse Color）の取得
+                aiColor3D diffuse(1.0f, 1.0f, 1.0f);
+                // 環境光（Ambient Color）の取得
+                aiColor3D ambient(0.2f, 0.2f, 0.2f);
+                // 鏡面反射（Specular Color）の取得
+                aiColor3D specular(0.5f, 0.5f, 0.5f);
+                // シェーダーに値を送る（glUniform3f を使用）
+                info.Ambient    = Vector3(ambient.r, ambient.g, ambient.b);
+                info.Diffuse    = Vector3(diffuse.r, diffuse.g, diffuse.b);
+                info.Specular   = Vector3(specular.r, specular.g, specular.b);
+                /*
+                float shininess = 0.0f;
+                // デフォルト値を設定
+                shininess = 50.0f;
+                shininess = shininess / 128.0f;
+                info.Shininess = shininess;
+                */
+
+                //テクスチャの読み込み
+                string texMap = cachedMat.value("albedo_map", "");
+                if (!texMap.empty())
+                {
+                    Texture* newTex = new Texture();
+                    newTex->Load(File_P::ModelTexturePath + texMap);
+                    mTextures.push_back(newTex);
+                }
+            }
+            else
+            {
+                //マテリアル抽出済み状態(後々設計)
+            }
+        }
+    }
+    else
+    {
+        // マテリアルがないor取得出来なかった時の初期化マテリアル
+        aiColor4D diffuseColor(0.5f, 0.5f, 0.5f, 1.0f);
+        info.Color = Vector4(diffuseColor.r, diffuseColor.g, diffuseColor.b,
+                             diffuseColor.a);
+        // 拡散色（Diffuse Color）の取得
+        aiColor3D diffuse(1.0f, 1.0f, 1.0f);
+        // 環境光（Ambient Color）の取得
+        aiColor3D ambient(0.2f, 0.2f, 0.2f);
+        // 鏡面反射（Specular Color）の取得
+        aiColor3D specular(0.5f, 0.5f, 0.5f);
+        // シェーダーに値を送る（glUniform3f を使用）
+        info.Ambient    = Vector3(ambient.r, ambient.g, ambient.b);
+        info.Diffuse    = Vector3(diffuse.r, diffuse.g, diffuse.b);
+        info.Specular   = Vector3(specular.r, specular.g, specular.b);
+        /*
+        float shininess = 0.0f;
+        // デフォルト値を設定
+        shininess      = 100.0f;
+        shininess      = shininess / 128.0f;
+        info.Shininess = shininess;
+        */
+    }
+    mMaterialInfo.push_back(info);
+
     return true;
 }
 

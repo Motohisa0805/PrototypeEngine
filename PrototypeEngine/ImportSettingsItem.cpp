@@ -37,7 +37,15 @@ void ImportSettingsItem::DrawRigSettings() {}
 
 void ImportSettingsItem::DrawAnimationSettings() {}
 
-void ImportSettingsItem::DrawMaterialsSettings() {}
+void ImportSettingsItem::DrawMaterialsSettings() 
+{
+    ImGui::Text("Materials");
+    ImGui::SameLine();
+    if (ImGui::Button("Extract Materials...", ImVec2(-1.0f, 30.0f)))
+    {
+        //モデルのマテリアルを取り出す処理
+    }
+}
 
 void ImportSettingsItem::DrawFBXImportSettings(const filesystem::path& fbxPath)
 {

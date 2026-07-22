@@ -26,15 +26,12 @@ struct DirectionalLightData
 	//位置
 	Vector3 sPosition = Vector3();
 };
-/*
-struct PointLightGPUData
+
+struct SubMeshPayload
 {
-	Vector3		sPosition = Vector3();
-	float		sRange = 0;
-	Vector3		sColor = Vector3();
-	float		sPadding = 0;
+    char sFilePath[256];
+    char sLocalID[64];
 };
-*/
 
 struct StaticMeshBatch {
 	vector<Vertex>			gAllVertices;
@@ -207,10 +204,12 @@ public:
 	void												SetPointLightMesh(class Mesh* mesh) { mPointLightMesh = mesh; }
 	//TextureのGetter
 	Texture*											GetTexture(const string& fileName);
-	//MeshのGetter
-	Mesh*												GetMesh(const string& fileName);
+	//MeshのGetter(今は使っていない)
+	//Mesh*												GetMesh(const string& fileName);
 	//Mesh配列のGetter
-	vector<class Mesh*>									GetMeshs(const string& fileName);
+	//vector<Mesh*>										GetMeshs(const string& fileName);
+
+	Mesh*												GetSubMesh(const filesystem::path& fileName, const string& localID);
 
 	Matrix4												GetView() { return mView; }
 	//カメラのビュー行列のSetter

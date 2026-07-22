@@ -5,8 +5,10 @@
 #include <assimp/scene.h>
 #include "Math.h"
 #include "FBXImportSettings.h"
+#include "Renderer.h"
 
 namespace fs = std::filesystem;
+
 
 class AssetImporter
 {
@@ -79,7 +81,9 @@ public:
 
 	static string GenerateUUID();
 
-	static fs::path GeneratedCustomPath(const fs::path& path);
+	static fs::path GeneratedMetaFilePath(const fs::path& path);
+
+	static fs::path GeneratedMatFilePath(const fs::path& path);
 
 	static void ConvertFBXToCustomFormat(const fs::path& fbxPath,
                                          const fs::path& customPath);
@@ -91,4 +95,6 @@ public:
     static AllImportSettings OutputFBXMetaFile(const fs::path& fbxPath);
 
     static vector<string> GetSubMeshNames(const fs::path& fbxPath);
+    static vector<string> GetSubMeshLocalID(const fs::path& fbxPath);
+    static vector<SubMeshPayload> GetSubMeshPayload(const fs::path& fbxPath);
 };

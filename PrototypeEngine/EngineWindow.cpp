@@ -59,10 +59,10 @@ bool EngineWindow::EngineInitialize()
     // ゲームウィンドウの生成と初期化
     mGameWindow = new GameWinMain();
     mGameWindow->Initialize();
-    // 起動時に最初のシーンを初期化
-    SceneManager::InitializeScenes();
     //Assetsフォルダ内のファイルを確認
     AssetImporter::CheckAndImportAssets();
+    // 起動時に最初のシーンを初期化
+    SceneManager::InitializeScenes();
     //  ImGuiの初期化処理
     GUIEditorManager::InitializeImGui(mRenderer->GetWindow(),
                                       mRenderer->GetContext());

@@ -16,7 +16,6 @@ namespace MeshLayout
 	constexpr int SKINMESH_VERTEXCOUNT = 13;
 }
 
-//書籍元を改造したファイル
 //マテリアル情報の構造体
 struct MaterialInfo
 {
@@ -48,8 +47,6 @@ public:
     };
 
 private:
-	//JSONファイルの読み込み処理
-	//bool						LoadFromJSON(const string& fileName, class Renderer* renderer, int index);
 	// FBXファイルからJSONに変換処理
 	bool						LoadFromFBX(const string& fileName, Renderer* renderer, int index);
 	// AABBの当たり判定を配列で取得
@@ -72,9 +69,12 @@ public:
 								Mesh();
 								~Mesh();
 	// Load
-	bool						Load(const string& fileName, Renderer* renderer,int index = 0);
+	//bool						Load(const string& fileName, Renderer* renderer,int index = 0);
 	// バイナリファイルからの読み込み処理
 	bool						LoadFromMeshBin(const string& fileName, Renderer* renderer, int index = 0);
+
+	bool						LoadFromSubMesh(const string& fbxPath, const string& localID);
+
 	//Meshの数を取得
 	int							CheckMeshIndex(const string& fileName, Renderer* renderer);
 	// Unload mesh
@@ -97,7 +97,7 @@ public:
 	Sphere						GetAABBFromSphere();
 	Capsule						GetAABBFromCapsule();
 	//マテリアル情報取得
-	vector<MaterialInfo>	GetMaterialInfo() { return mMaterialInfo; }
+	vector<MaterialInfo>		GetMaterialInfo() { return mMaterialInfo; }
 	void  SetMaterialInfo(const vector<MaterialInfo>& info) 
 	{ 
 		mMaterialInfo = info; 

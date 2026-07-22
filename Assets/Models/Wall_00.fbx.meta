@@ -47,6 +47,12 @@
         "materials": [
             {
                 "albedo_map": "StageObjectFile.fbm\\BrickSkinTexture.png",
+                "diffuse_color": [
+                    0.800000011920929,
+                    0.800000011920929,
+                    0.800000011920929,
+                    1.0
+                ],
                 "name": "WallMaterial"
             }
         ],
@@ -66,7 +72,7 @@
                 "bounding_radius": 11.224971771240234,
                 "has_bones": false,
                 "index_count": 36,
-                "localID": "5e7c726a-112a-4953-9b06-e26698822bb6",
+                "localID": "a85b8673-49e2-4da0-b48a-9a292cd66a59",
                 "material_index": 0,
                 "name": "立方体",
                 "vertex_count": 24
@@ -74,13 +80,20 @@
         ]
     },
     "fileFormatVersion": 1,
-    "guid": "4d903c7f-cb81-4d33-8d21-90bd76b2ee4f",
+    "guid": "86aa6a73-81ae-49de-b1a2-6837feed734d",
     "import_settings": {
         "import_animation": false,
         "import_mesh": true,
         "import_skeleton": false,
         "scale_factor": 1.0
     },
+    "material_slots": [
+        {
+            "assigned_material": "",
+            "name": "WallMaterial",
+            "slot_index": 0
+        }
+    ],
     "skeleton_settings": {
         "skeleton_type": 0
     }

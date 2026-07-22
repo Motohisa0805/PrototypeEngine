@@ -47,6 +47,12 @@
         "materials": [
             {
                 "albedo_map": "TestGun.fbm\\GunTex.png",
+                "diffuse_color": [
+                    0.800000011920929,
+                    0.800000011920929,
+                    0.800000011920929,
+                    1.0
+                ],
                 "name": "Material"
             }
         ],
@@ -66,7 +72,7 @@
                 "bounding_radius": 2.745779275894165,
                 "has_bones": false,
                 "index_count": 3354,
-                "localID": "f6a419a3-5e3f-4f95-a34a-db60f0374255",
+                "localID": "3898322d-2af4-4fe5-8ad5-effef5b157f9",
                 "material_index": 0,
                 "name": "Cube",
                 "vertex_count": 2142
@@ -74,13 +80,20 @@
         ]
     },
     "fileFormatVersion": 1,
-    "guid": "6efb07fa-fea1-4ed7-ab57-bc44b13322e5",
+    "guid": "745ea03e-bab3-4958-8892-4e154043df51",
     "import_settings": {
         "import_animation": false,
         "import_mesh": true,
         "import_skeleton": false,
         "scale_factor": 1.0
     },
+    "material_slots": [
+        {
+            "assigned_material": "",
+            "name": "Material",
+            "slot_index": 0
+        }
+    ],
     "skeleton_settings": {
         "skeleton_type": 0
     }

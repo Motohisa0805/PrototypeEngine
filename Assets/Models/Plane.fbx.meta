@@ -47,6 +47,12 @@
         "materials": [
             {
                 "albedo_map": "",
+                "diffuse_color": [
+                    0.800000011920929,
+                    0.800000011920929,
+                    0.800000011920929,
+                    1.0
+                ],
                 "name": "DefaultMaterial"
             }
         ],
@@ -66,7 +72,7 @@
                 "bounding_radius": 7.0710673332214355,
                 "has_bones": false,
                 "index_count": 6,
-                "localID": "a788b149-412a-432b-a40c-c7968cb32852",
+                "localID": "a637a58f-367f-4a07-a75c-5eac9cddd1ae",
                 "material_index": 0,
                 "name": "平面",
                 "vertex_count": 4
@@ -74,13 +80,20 @@
         ]
     },
     "fileFormatVersion": 1,
-    "guid": "4239dfc3-dc72-427a-9acf-582a1bade0d0",
+    "guid": "d43696c2-e4e7-4ee4-9dda-d4ac6134a7f4",
     "import_settings": {
         "import_animation": false,
         "import_mesh": true,
         "import_skeleton": false,
         "scale_factor": 1.0
     },
+    "material_slots": [
+        {
+            "assigned_material": "",
+            "name": "DefaultMaterial",
+            "slot_index": 0
+        }
+    ],
     "skeleton_settings": {
         "skeleton_type": 0
     }

@@ -47,6 +47,12 @@
         "materials": [
             {
                 "albedo_map": "Sword.fbm\\SwordTex.png",
+                "diffuse_color": [
+                    0.800000011920929,
+                    0.800000011920929,
+                    0.800000011920929,
+                    1.0
+                ],
                 "name": "MainTecColor"
             }
         ],
@@ -66,7 +72,7 @@
                 "bounding_radius": 0.3947690725326538,
                 "has_bones": false,
                 "index_count": 2070,
-                "localID": "b252446b-2d10-412e-948b-fad2b3c5d7af",
+                "localID": "1eccca6b-c2cb-44fa-9458-1598041c5053",
                 "material_index": 0,
                 "name": "円柱",
                 "vertex_count": 1392
@@ -74,13 +80,20 @@
         ]
     },
     "fileFormatVersion": 1,
-    "guid": "5081b662-ce43-4ead-a765-0bdf4ab9fe7c",
+    "guid": "de5d4db1-d1ba-4574-9a3f-454d6c390cda",
     "import_settings": {
         "import_animation": false,
         "import_mesh": true,
         "import_skeleton": false,
         "scale_factor": 1.0
     },
+    "material_slots": [
+        {
+            "assigned_material": "",
+            "name": "MainTecColor",
+            "slot_index": 0
+        }
+    ],
     "skeleton_settings": {
         "skeleton_type": 0
     }
