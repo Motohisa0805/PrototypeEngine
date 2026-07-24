@@ -389,13 +389,11 @@ bool Mesh::LoadFromSubMesh(const string& fbxPath, const string& localID)
                 info.Ambient    = Vector3(ambient.r, ambient.g, ambient.b);
                 info.Diffuse    = Vector3(diffuse.r, diffuse.g, diffuse.b);
                 info.Specular   = Vector3(specular.r, specular.g, specular.b);
-                /*
                 float shininess = 0.0f;
                 // デフォルト値を設定
-                shininess = 50.0f;
+                shininess = 25.0f;
                 shininess = shininess / 128.0f;
                 info.Shininess = shininess;
-                */
 
                 //テクスチャの読み込み
                 string texMap = cachedMat.value("albedo_map", "");
@@ -428,13 +426,11 @@ bool Mesh::LoadFromSubMesh(const string& fbxPath, const string& localID)
         info.Ambient    = Vector3(ambient.r, ambient.g, ambient.b);
         info.Diffuse    = Vector3(diffuse.r, diffuse.g, diffuse.b);
         info.Specular   = Vector3(specular.r, specular.g, specular.b);
-        /*
         float shininess = 0.0f;
         // デフォルト値を設定
-        shininess      = 100.0f;
+        shininess      = 25.0f;
         shininess      = shininess / 128.0f;
         info.Shininess = shininess;
-        */
     }
     mMaterialInfo.push_back(info);
 

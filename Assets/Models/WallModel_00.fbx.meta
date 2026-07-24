@@ -68,7 +68,7 @@
                     -5.0,
                     -10.0
                 ],
-                "binary_path": "Wall_00_mesh0.meshbin",
+                "binary_path": "WallModel_00_mesh0.meshbin",
                 "bounding_radius": 11.224971771240234,
                 "has_bones": false,
                 "index_count": 36,

@@ -48,6 +48,110 @@ void AssetImporter::OneFileCheckAndImportAssets(
     }
 }
 
+void AssetImporter::ReloadImportAssets(const filesystem::path& oldfilePath,
+                                       const filesystem::path& newfilePath)
+{
+    nlohmann::json metaJson;
+
+    if (!fs::exists(oldfilePath))
+    {
+        return;
+    }
+
+    std::ifstream inFile(oldfilePath);
+    if (inFile.is_open())
+    {
+        inFile >> metaJson;
+        inFile.close();
+    }
+    else
+    {
+        Debug::Log("Failed to open old meta file: %s",oldfilePath.string().c_str());
+        return;
+    }
+
+    string oldBaseName = oldfilePath.stem().stem().string();
+    string newBaseName = newfilePath.stem().stem().string();
+
+    if (metaJson.contains("cached_data"))
+    {
+        //メッシュバイナリの名前変更とJSON内のパス書き換え
+        if (metaJson["cached_data"].contains("meshes"))
+        {
+            auto& meshes = metaJson["cached_data"]["meshes"];
+            for (size_t i = 0; i < meshes.size(); i++)
+            {
+                if (meshes[i].contains("binary_path"))
+                {
+                    string   oldBinName = meshes[i]["binary_path"];
+                    fs::path oldBinPath = fs::path("Binary/mesh") / oldBinName;
+
+                    string newBinName = newBaseName + "_mesh" + std::to_string(i) + ".meshbin";
+                    fs::path newBinPath = fs::path("Binary/mesh") / newBinName;
+
+                    if (fs::exists(oldBinPath))
+                    {
+                        fs::rename(oldBinPath, newBinPath);
+                    }
+
+                    //JSON内の値を更新
+                    meshes[i]["binary_path"] = newBinName;
+                }
+            }
+        }
+
+        // アニメーションバイナリの名前変更とJSON内のパス書き換え
+        if (metaJson["cached_data"].contains("animations"))
+        {
+            auto& animations = metaJson["cached_data"]["animations"];
+            for (size_t i = 0; i < animations.size(); i++)
+            {
+                if (animations[i].contains("binary_path"))
+                {
+                    string   oldBinName = animations[i]["binary_path"];
+                    fs::path oldBinPath = fs::path("Binary/anim") / oldBinName;
+
+                    string newBinName =
+                        newBaseName + "_mesh" + std::to_string(i) + ".meshbin";
+                    fs::path newBinPath = fs::path("Binary/anim") / newBinName;
+
+                    if (fs::exists(oldBinPath))
+                    {
+                        fs::rename(oldBinPath, newBinPath);
+                    }
+
+                    // JSON内の値を更新
+                    animations[i]["binary_path"] = newBinName;
+                }
+            }
+        }
+    }
+
+    //スケルトンの名前変更
+    fs::path oldSkelPath = fs::path("Binary/skeleton") / (oldBaseName + ".skelbin");
+    fs::path newSkelPath = fs::path("Binary/skeleton") / (newBaseName + ".skelbin");
+    if (fs::exists(oldSkelPath))
+    {
+        fs::rename(oldSkelPath,newSkelPath);
+    }
+
+    //書き換えたJSONを新しい.metaファイルとして保存
+    std::ofstream outFile(newfilePath);
+    if (outFile.is_open())
+    {
+        outFile << metaJson.dump(4);
+        outFile.close();
+    }
+    else
+    {
+        Debug::Log("Failed to write updated meta file: %s",newfilePath.string().c_str());
+    }
+    //古い.metaファイルを削除
+    fs::remove(oldfilePath);
+
+    Debug::Log("Successfully renamed asset from %s to %s", oldBaseName.c_str(),newBaseName.c_str());
+}
+
 string AssetImporter::GenerateUUID()
 {
     UUID uuid;
@@ -74,11 +178,6 @@ string AssetImporter::GenerateUUID()
 fs::path AssetImporter::GeneratedMetaFilePath(const fs::path& path)
 {
     return path.parent_path() / (path.filename().string() + ".meta");
-}
-
-fs::path AssetImporter::GeneratedMatFilePath(const fs::path& path)
-{
-    return path.parent_path() / (path.filename().string() + ".mat");
 }
 
 void AssetImporter::ConvertFBXToCustomFormat(const fs::path& fbxPath,
@@ -441,12 +540,12 @@ void AssetImporter::ExportMeshBinary(const fs::path& fbxPath,
 
     // バイナリに変換
     MeshBinHeader header;
-    header.layoutType  = (layout == VertexArray::PosNormTex) ? 0 : 1;
-    header.vertexCount = static_cast<uint32_t>(vertices.size());
-    header.indexCount  = static_cast<uint32_t>(indices.size());
-    header.min            = box.mMin;
-    header.max            = box.mMax;
-    header.colliderRadius = radius; // 半径計算済みと仮定
+    header.sLayoutType  = (layout == VertexArray::PosNormTex) ? 0 : 1;
+    header.sVertexCount = static_cast<uint32_t>(vertices.size());
+    header.sIndexCount  = static_cast<uint32_t>(indices.size());
+    header.sMin            = box.mMin;
+    header.sMax            = box.mMax;
+    header.sColliderRadius = radius; // 半径計算済みと仮定
 
     std::ofstream out(meshBinPath,std::ios::binary);
     if (out.is_open())
@@ -550,11 +649,11 @@ void AssetImporter::ExportSkeletonBinary(const aiScene*  scene,
     for (const auto& b : tempBones)
     {
         SkeletonBinHeader bin{};
-        strncpy_s(bin.name, b.name.c_str(),64);
-        bin.parentIndex = b.parentIndex;
-        bin.position    = b.position;
-        bin.rotation    = b.rotation;
-        bin.scale       = b.scale;
+        strncpy_s(bin.sName, b.name.c_str(),64);
+        bin.sParentIndex = b.parentIndex;
+        bin.sPosition    = b.position;
+        bin.sRotation    = b.rotation;
+        bin.sScale       = b.scale;
 
         out.write((char*)&bin, sizeof(SkeletonBinHeader));
     }
@@ -634,9 +733,9 @@ void AssetImporter::ExportAnimationBinary(const fs::path& fbxPath,
             node->mTransformation.Decompose(scale, rot, pos);
 
             AnimationBinTransform bindTransform;
-            bindTransform.position = Vector3(pos.x, pos.y, pos.z);
-            bindTransform.rotation = Quaternion(rot.x, rot.y, rot.z, rot.w);
-            bindTransform.scale    = Vector3(scale.x, scale.y, scale.z);
+            bindTransform.sPosition = Vector3(pos.x, pos.y, pos.z);
+            bindTransform.sRotation = Quaternion(rot.x, rot.y, rot.z, rot.w);
+            bindTransform.sScale    = Vector3(scale.x, scale.y, scale.z);
 
             for (unsigned int f = 0; f < numFrames; ++f)
             {
@@ -676,9 +775,9 @@ void AssetImporter::ExportAnimationBinary(const fs::path& fbxPath,
             aiVector3D scale;
             CalcInterpolatedScaling(scale, timeInTicks, channel);
 
-            tracks[boneIndex][f].position = Vector3(pos.x, pos.y, pos.z);
-            tracks[boneIndex][f].rotation = Quaternion(rot.x, rot.y, rot.z, rot.w);
-            tracks[boneIndex][f].scale    = Vector3(scale.x, scale.y, scale.z);
+            tracks[boneIndex][f].sPosition = Vector3(pos.x, pos.y, pos.z);
+            tracks[boneIndex][f].sRotation = Quaternion(rot.x, rot.y, rot.z, rot.w);
+            tracks[boneIndex][f].sScale    = Vector3(scale.x, scale.y, scale.z);
         }
     }
 
@@ -690,9 +789,9 @@ void AssetImporter::ExportAnimationBinary(const fs::path& fbxPath,
     }
 
     AnimationBinHeader header;
-    header.duration  = duration;
-    header.numFrames = static_cast<uint32_t>(numFrames);
-    header.numBones  = static_cast<uint32_t>(numBones);
+    header.sDuration  = duration;
+    header.sNumFrames = static_cast<uint32_t>(numFrames);
+    header.sNumBones  = static_cast<uint32_t>(numBones);
     out.write((char*)&header, sizeof(header));
 
     for (size_t bone = 0; bone < numBones; ++bone)

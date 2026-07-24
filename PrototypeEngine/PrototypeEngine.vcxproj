@@ -200,6 +200,9 @@
     <ClCompile Include="ImportSettingsItem.cpp" />
     <ClCompile Include="LightingPanel.cpp" />
     <ClCompile Include="LocalLight.cpp" />
+    <ClCompile Include="Material.cpp" />
+    <ClCompile Include="MaterialGenerater.cpp" />
+    <ClCompile Include="MaterialSettingsItem.cpp" />
     <ClCompile Include="StringConvertOperation.cpp" />
     <ClCompile Include="CreateNewActorCommand.cpp" />
     <ClCompile Include="DebugGrid.cpp" />
@@ -316,6 +319,9 @@
     <ClInclude Include="LightingPanel.h" />
     <ClInclude Include="LocalLight.h" />
     <ClInclude Include="FBXImportSettings.h" />
+    <ClInclude Include="Material.h" />
+    <ClInclude Include="MaterialGenerater.h" />
+    <ClInclude Include="MaterialSettingsItem.h" />
     <ClInclude Include="StringConvertOperation.h" />
     <ClInclude Include="CreateNewActorCommand.h" />
     <ClInclude Include="DebugGrid.h" />

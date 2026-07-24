@@ -157,6 +157,24 @@
     <Filter Include="SourceCodes\A_Editor\Function\Actors\Entity">
       <UniqueIdentifier>{f8c7ea3d-f2d6-4b44-b575-9e5a4cfd522a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="SourceCodes\A_Editor\Function\GUIs\Panels\Inspector">
+      <UniqueIdentifier>{9ecd8e4d-677f-484e-b57d-04b9ddf4cda1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceCodes\A_Editor\Function\GUIs\Systems\Files">
+      <UniqueIdentifier>{ef0ed8de-832e-4af3-b17e-67407f6fa705}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceCodes\A_Editor\Function\GUIs\Systems\Files\FBX">
+      <UniqueIdentifier>{cb39664f-71b8-4045-bf30-0b3bb5e64a72}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceCodes\A_Editor\Function\GUIs\Systems\Files\Material">
+      <UniqueIdentifier>{02923f50-73fb-4004-9224-19bf6e3d55d6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceCodes\A_Editor\Function\GUIs\Systems\Files\Script">
+      <UniqueIdentifier>{dfd3d69f-7e50-4671-8616-322f2260cd84}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceCodes\A_Editor\Function\GUIs\Systems\Texture">
+      <UniqueIdentifier>{041ce2ce-3f5d-4a86-9793-41ac4bec4855}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Shaders\Arrow.frag">
@@ -370,9 +388,6 @@
     <ClCompile Include="ToolbarPanel.cpp">
       <Filter>SourceCodes\A_Editor\Function\GUIs\Panels</Filter>
     </ClCompile>
-    <ClCompile Include="InspectorPanel.cpp">
-      <Filter>SourceCodes\A_Editor\Function\GUIs\Panels</Filter>
-    </ClCompile>
     <ClCompile Include="SceneViewPanel.cpp">
       <Filter>SourceCodes\A_Editor\Function\GUIs\Panels</Filter>
     </ClCompile>
@@ -421,9 +436,6 @@
     <ClCompile Include="SceneSerializer.cpp">
       <Filter>SourceCodes\A_Editor\Function\Scenes\Load&amp;Save</Filter>
     </ClCompile>
-    <ClCompile Include="EditorTextureManager.cpp">
-      <Filter>SourceCodes\A_Editor\Function\GUIs</Filter>
-    </ClCompile>
     <ClCompile Include="WindowRenderProperty.cpp">
       <Filter>SourceCodes\A_Editor\Function\Defines</Filter>
     </ClCompile>
@@ -435,9 +447,6 @@
     </ClCompile>
     <ClCompile Include="ExternalLibrary\tinyxml2-master\tinyxml2.cpp">
       <Filter>SourceCodes\C_OutsideLibrary\tinyxml2</Filter>
-    </ClCompile>
-    <ClCompile Include="ScriptEditManager.cpp">
-      <Filter>SourceCodes\A_Editor\Function\GUIs</Filter>
     </ClCompile>
     <ClCompile Include="ScriptComponent.cpp">
       <Filter>SourceCodes\A_Editor\Function\Components</Filter>
@@ -520,9 +529,6 @@
     <ClCompile Include="EditorWindowFactory.cpp">
       <Filter>SourceCodes\A_Editor\Function\GUIs\Panels\Factory</Filter>
     </ClCompile>
-    <ClCompile Include="FileOperationManager.cpp">
-      <Filter>SourceCodes\A_Editor\Function\GUIs</Filter>
-    </ClCompile>
     <ClCompile Include="AboutEnginePanel.cpp">
       <Filter>SourceCodes\A_Editor\Function\GUIs\Panels</Filter>
     </ClCompile>
@@ -541,12 +547,6 @@
     <ClCompile Include="LightingPanel.cpp">
       <Filter>SourceCodes\A_Editor\Function\GUIs\Panels</Filter>
     </ClCompile>
-    <ClCompile Include="AssetImporter.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="ImportSettingsItem.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="CreateActorFromAssetCommand.cpp">
       <Filter>SourceCodes\A_Editor\Function\GUIs\Commands</Filter>
     </ClCompile>
@@ -555,6 +555,33 @@
     </ClCompile>
     <ClCompile Include="UIActor.cpp">
       <Filter>SourceCodes\A_Editor\Function\Actors</Filter>
+    </ClCompile>
+    <ClCompile Include="Material.cpp">
+      <Filter>SourceCodes\A_Editor\Function\Renderers</Filter>
+    </ClCompile>
+    <ClCompile Include="AssetImporter.cpp">
+      <Filter>SourceCodes\A_Editor\Function\GUIs\Systems\Files\FBX</Filter>
+    </ClCompile>
+    <ClCompile Include="MaterialGenerater.cpp">
+      <Filter>SourceCodes\A_Editor\Function\GUIs\Systems\Files\Material</Filter>
+    </ClCompile>
+    <ClCompile Include="InspectorPanel.cpp">
+      <Filter>SourceCodes\A_Editor\Function\GUIs\Panels\Inspector</Filter>
+    </ClCompile>
+    <ClCompile Include="MaterialSettingsItem.cpp">
+      <Filter>SourceCodes\A_Editor\Function\GUIs\Panels\Inspector</Filter>
+    </ClCompile>
+    <ClCompile Include="ImportSettingsItem.cpp">
+      <Filter>SourceCodes\A_Editor\Function\GUIs\Panels\Inspector</Filter>
+    </ClCompile>
+    <ClCompile Include="FileOperationManager.cpp">
+      <Filter>SourceCodes\A_Editor\Function\GUIs\Systems\Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ScriptEditManager.cpp">
+      <Filter>SourceCodes\A_Editor\Function\GUIs\Systems\Files\Script</Filter>
+    </ClCompile>
+    <ClCompile Include="EditorTextureManager.cpp">
+      <Filter>SourceCodes\A_Editor\Function\GUIs\Systems\Texture</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -759,9 +786,6 @@
     <ClInclude Include="SceneViewPanel.h">
       <Filter>SourceCodes\A_Editor\Function\GUIs\Panels</Filter>
     </ClInclude>
-    <ClInclude Include="InspectorPanel.h">
-      <Filter>SourceCodes\A_Editor\Function\GUIs\Panels</Filter>
-    </ClInclude>
     <ClInclude Include="SceneEditorCamera.h">
       <Filter>SourceCodes\A_Editor\Function\GUIs\EditorCameras</Filter>
     </ClInclude>
@@ -795,9 +819,6 @@
     <ClInclude Include="SceneSerializer.h">
       <Filter>SourceCodes\A_Editor\Function\Scenes\Load&amp;Save</Filter>
     </ClInclude>
-    <ClInclude Include="EditorTextureManager.h">
-      <Filter>SourceCodes\A_Editor\Function\GUIs</Filter>
-    </ClInclude>
     <ClInclude Include="WindowRenderProperty.h">
       <Filter>SourceCodes\A_Editor\Function\Defines</Filter>
     </ClInclude>
@@ -809,9 +830,6 @@
     </ClInclude>
     <ClInclude Include="ExternalLibrary\tinyxml2-master\tinyxml2.h">
       <Filter>SourceCodes\C_OutsideLibrary\tinyxml2</Filter>
-    </ClInclude>
-    <ClInclude Include="ScriptEditManager.h">
-      <Filter>SourceCodes\A_Editor\Function\GUIs</Filter>
     </ClInclude>
     <ClInclude Include="ScriptComponent.h">
       <Filter>SourceCodes\A_Editor\Function\Components</Filter>
@@ -903,9 +921,6 @@
     <ClInclude Include="EditorWindowFactory.h">
       <Filter>SourceCodes\A_Editor\Function\GUIs\Panels\Factory</Filter>
     </ClInclude>
-    <ClInclude Include="FileOperationManager.h">
-      <Filter>SourceCodes\A_Editor\Function\GUIs</Filter>
-    </ClInclude>
     <ClInclude Include="AboutEnginePanel.h">
       <Filter>SourceCodes\A_Editor\Function\GUIs\Panels</Filter>
     </ClInclude>
@@ -924,15 +939,6 @@
     <ClInclude Include="LightingPanel.h">
       <Filter>SourceCodes\A_Editor\Function\GUIs\Panels</Filter>
     </ClInclude>
-    <ClInclude Include="AssetImporter.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="ImportSettingsItem.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="FBXImportSettings.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="CreateActorFromAssetCommand.h">
       <Filter>SourceCodes\A_Editor\Function\GUIs\Commands</Filter>
     </ClInclude>
@@ -941,6 +947,36 @@
     </ClInclude>
     <ClInclude Include="Actor.h">
       <Filter>SourceCodes\A_Editor\Function\Actors</Filter>
+    </ClInclude>
+    <ClInclude Include="Material.h">
+      <Filter>SourceCodes\A_Editor\Function\Renderers</Filter>
+    </ClInclude>
+    <ClInclude Include="AssetImporter.h">
+      <Filter>SourceCodes\A_Editor\Function\GUIs\Systems\Files\FBX</Filter>
+    </ClInclude>
+    <ClInclude Include="FBXImportSettings.h">
+      <Filter>SourceCodes\A_Editor\Function\GUIs\Systems\Files\FBX</Filter>
+    </ClInclude>
+    <ClInclude Include="MaterialGenerater.h">
+      <Filter>SourceCodes\A_Editor\Function\GUIs\Systems\Files\Material</Filter>
+    </ClInclude>
+    <ClInclude Include="InspectorPanel.h">
+      <Filter>SourceCodes\A_Editor\Function\GUIs\Panels\Inspector</Filter>
+    </ClInclude>
+    <ClInclude Include="MaterialSettingsItem.h">
+      <Filter>SourceCodes\A_Editor\Function\GUIs\Panels\Inspector</Filter>
+    </ClInclude>
+    <ClInclude Include="ImportSettingsItem.h">
+      <Filter>SourceCodes\A_Editor\Function\GUIs\Panels\Inspector</Filter>
+    </ClInclude>
+    <ClInclude Include="FileOperationManager.h">
+      <Filter>SourceCodes\A_Editor\Function\GUIs\Systems\Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ScriptEditManager.h">
+      <Filter>SourceCodes\A_Editor\Function\GUIs\Systems\Files\Script</Filter>
+    </ClInclude>
+    <ClInclude Include="EditorTextureManager.h">
+      <Filter>SourceCodes\A_Editor\Function\GUIs\Systems\Texture</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

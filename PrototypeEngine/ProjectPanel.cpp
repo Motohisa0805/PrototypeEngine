@@ -7,6 +7,7 @@
 #include "ScriptEditManager.h"
 #include "imgui_internal.h"
 #include "AssetImporter.h"
+#include "MaterialGenerater.h"
 
 filesystem::path ProjectPanel::mPathToRename = "";
 
@@ -299,7 +300,6 @@ void ProjectPanel::DrawFileSystemEntry(const filesystem::directory_entry& entry)
     const string name       = entry.path().filename().string();
     bool         isSelected = (SelectionManager::GetSelectedFilePath() == entry.path());
 
-    // 1.
     // 各アイテムをグループ化し、一意のIDで包む（これで競合とバグを完全に防ぐ）
     ImGui::PushID(entry.path().string().c_str());
     ImGui::BeginGroup();
@@ -310,7 +310,7 @@ void ProjectPanel::DrawFileSystemEntry(const filesystem::directory_entry& entry)
         ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.2f, 0.4f, 0.6f, 1.0f));
     }
 
-    // 1. ファイルの拡張子などに応じて、表示するテクスチャ（ID）を切り替える
+    //ファイルの拡張子などに応じて、表示するテクスチャ（ID）を切り替える
     ImTextureID iconTextureID =
         (ImTextureID)(uintptr_t)EditorTextureManager::GetInstance()
             .GetFileIconTexture(entry.path().string(),
@@ -456,6 +456,7 @@ bool ProjectPanel::RightClickMenu()
         {
             // フォルダ、シーン、スクリプトの作成
             CreateNewFolder();
+            CreateNewMaterial();
             CreateNewScene("Scene");
             CreateNewScript();
             ImGui::EndMenu();
@@ -501,6 +502,45 @@ void ProjectPanel::CreateNewFolder()
         catch (const exception& e)
         {
             Debug::Log("Create folder failed: %s\n", e.what());
+        }
+    }
+}
+
+void ProjectPanel::CreateNewMaterial()
+{
+    if (ImGui::MenuItem("Material"))
+    {
+        string uniqueName = "NewMaterial.mat";
+        filesystem::path targetFolder = mSelectedFolderPath;
+        if (mSelectedFolderPath.has_extension())
+        {
+            targetFolder = mSelectedFolderPath.parent_path();
+        }
+
+        // 既に存在するファイル名かチェックし、ユニークな名前に変更する
+        int counter = 1;
+        while (filesystem::exists(targetFolder / uniqueName))
+        {
+            // NewScene(1).json, NewScene(2).json のように生成
+            uniqueName = "NewMaterial (" + std::to_string(counter++) + ").mat";
+        }
+
+        filesystem::path newMatPath = targetFolder / uniqueName;
+
+        //マテリアルファイル作成処理
+        if (MaterialGenerater::GeneratedBlankMaterial(newMatPath))
+        {
+            // 成功ログ
+            Debug::Log("Created new mat file: %s\n", newMatPath.string().c_str());
+
+            SelectionManager::SetSelectedFilePath(newMatPath);
+            RenameStart();
+        }
+        else
+        {
+            // 失敗ログ
+            Debug::Log("Failed to create mat file: %s\n",
+                       newMatPath.string().c_str());
         }
     }
 }
@@ -618,18 +658,7 @@ void ProjectPanel::RenameMenu()
 {
     if (ImGui::MenuItem("Rename"))
     {
-        mPathToRename = SelectionManager::GetSelectedFilePath();
-        // ファイルなら拡張子を除いた stem を編集バッファに、フォルダは full
-        // name
-        if (filesystem::is_directory(SelectionManager::GetSelectedFilePath()))
-        {
-            mRenameInputBuffer = SelectionManager::GetSelectedFilePath().filename().string();
-        }
-        else
-        {
-            mRenameInputBuffer = SelectionManager::GetSelectedFilePath().stem().string();
-        }
-        mIsRenaming = true;
+        RenameStart();
     }
 }
 
@@ -659,19 +688,7 @@ void ProjectPanel::ShortcutKeyInputFunction(const filesystem::path& path)
     if (!SelectionManager::GetSelectedFilePath().empty() &&
         ImGui::IsKeyPressed(ImGuiKey_F2))
     {
-        mPathToRename = SelectionManager::GetSelectedFilePath(); // mSelectedPath をターゲットに
-
-        // ファイルなら拡張子を除いた stem を編集バッファに、フォルダは full
-        // name
-        if (filesystem::is_directory(SelectionManager::GetSelectedFilePath()))
-        {
-            mRenameInputBuffer = SelectionManager::GetSelectedFilePath().filename().string();
-        }
-        else
-        {
-            mRenameInputBuffer = SelectionManager::GetSelectedFilePath().stem().string();
-        }
-        mIsRenaming = true;
+        RenameStart();
     }
 }
 
@@ -727,6 +744,13 @@ void ProjectPanel::DragDropFunction(const filesystem::path& path)
                     try
                     {
                         filesystem::rename(src, dst);
+                        //.metaファイルも移動
+                        filesystem::path srcMeta = src.string() + ".meta";
+                        filesystem::path dstMeta = dst.string() + ".meta";
+                        if (filesystem::exists(srcMeta))
+                        {
+                            filesystem::rename(srcMeta, dstMeta);
+                        }
                     }
                     catch (const exception& e)
                     {
@@ -790,8 +814,19 @@ void ProjectPanel::DrawOverwritePopup()
         {
             try
             {
-                filesystem::remove(mPendingDst);              // 既存を消す
-                filesystem::rename(mPendingSrc, mPendingDst); // 移動
+                filesystem::path srcMeta = mPendingSrc.string() + ".meta";
+                filesystem::path dstMeta = mPendingDst.string() + ".meta";
+
+                if (filesystem::exists(mPendingDst))filesystem::remove(mPendingDst);
+                filesystem::rename(mPendingSrc, mPendingDst);
+
+                //.metaファイルの上書き処理
+                if (filesystem::exists(srcMeta))
+                {
+                    if (filesystem::exists(dstMeta))filesystem::remove(dstMeta);
+                    filesystem::rename(srcMeta, dstMeta);
+                }
+
                 Debug::Log("Overwritten: %s -> %s\n",
                            mPendingSrc.string().c_str(),
                            mPendingDst.string().c_str());
@@ -872,4 +907,22 @@ void ProjectPanel::DrawScriptCreatePopup()
         }
         ImGui::EndPopup();
     }
+}
+
+void ProjectPanel::RenameStart() 
+{
+    mPathToRename = SelectionManager::GetSelectedFilePath();
+    // ファイルなら拡張子を除いた stem を編集バッファに、フォルダは full
+    // name
+    if (filesystem::is_directory(SelectionManager::GetSelectedFilePath()))
+    {
+        mRenameInputBuffer =
+            SelectionManager::GetSelectedFilePath().filename().string();
+    }
+    else
+    {
+        mRenameInputBuffer =
+            SelectionManager::GetSelectedFilePath().stem().string();
+    }
+    mIsRenaming = true;
 }

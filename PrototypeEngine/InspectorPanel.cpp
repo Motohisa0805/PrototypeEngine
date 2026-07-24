@@ -232,6 +232,11 @@ void InspectorPanel::FileInspection(const filesystem::path& selectedFilePath)
         ImGui::Separator();
         ImportSettingsItem::DrawFBXImportSettings(selectedFilePath);
     }
+    else if (ext == ".mat")
+    {
+        ImGui::Separator();
+
+    }
 }
 
 
