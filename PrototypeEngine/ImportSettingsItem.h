@@ -16,20 +16,20 @@ public:
     };
 
 private:
-    static filesystem::path mCurrentFBXPath;
+    static filesystem::path     mCurrentFBXPath;
 
-    static AllImportSettings mCurrentAllImportSettings;
+    static AllImportSettings    mCurrentAllImportSettings;
 
-    static ImportTab mCurrentTab;
+    static ImportTab            mCurrentTab;
 
-    static void DrawModelSettings();
+    static void                 DrawModelSettings();
 
-    static void DrawRigSettings();
+    static void                 DrawRigSettings();
     
-    static void DrawAnimationSettings();
+    static void                 DrawAnimationSettings();
     
-    static void DrawMaterialsSettings();
+    static void                 DrawMaterialsSettings();
 
 public:
-    static void DrawFBXImportSettings(const filesystem::path& fbxPath);
+    static void                 DrawFBXImportSettings(const filesystem::path& fbxPath);
 };

@@ -4,6 +4,7 @@
 #include "SceneManager.h"
 #include "SceneSerializer.h"
 #include "ScriptEditManager.h"
+#include "AssetImporter.h"
 
 vector<string> FileOperationManager::mDroppedFiles;
 
@@ -283,19 +284,29 @@ void FileOperationManager::RenameNormalFileOrFolder(
     try
     {
         // ファイルなら拡張子を維持、フォルダならそのまま結合
-        std::filesystem::path newPath = oldPath.parent_path() / newName;
-        if (!std::filesystem::is_directory(oldPath))
+        filesystem::path newPath = oldPath.parent_path() / newName;
+        if (!filesystem::is_directory(oldPath))
         {
             newPath += oldPath.extension().string();
         }
 
-        if (std::filesystem::exists(newPath))
+        if (filesystem::exists(newPath))
         {
             Debug::Log("Rename Failed: Target path already exists.\n");
             return;
         }
 
-        std::filesystem::rename(oldPath, newPath);
+        filesystem::rename(oldPath, newPath);
+
+        //.metaファイルの名前変更処理
+        filesystem::path newMetaPath = newPath.string() + ".meta";
+        filesystem::path oldMetaPath = oldPath.string() + ".meta";
+        //各ファイルごとに対応
+        if (newPath.extension().string() == ".fbx")
+        {
+            AssetImporter::ReloadImportAssets(oldMetaPath, newMetaPath);
+        }
+
         Debug::Log("Renamed: %s -> %s\n", oldPath.filename().string().c_str(),
                    newPath.filename().string().c_str());
     }

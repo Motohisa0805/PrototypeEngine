@@ -122,6 +122,7 @@ void EditorSettingsManager::ProcessPendingDeletions()
                 continue;
 
             // 2. ファイルシステムからの削除
+            //フォルダの場合
             if (filesystem::is_directory(p))
             {
                 // フォルダの場合、配下のすべてのファイルを削除
@@ -131,6 +132,15 @@ void EditorSettingsManager::ProcessPendingDeletions()
             else // ファイルの場合
             {
                 filesystem::remove(p);
+
+                //.metaファイルの削除
+                filesystem::path metapath = p.string() + ".meta";
+                //.metaファイルがあるなら
+                if (filesystem::exists(metapath))
+                {
+                    filesystem::remove(metapath);
+                }
+
                 Debug::Log("Deleted file: %s\n", p.string().c_str());
             }
         }

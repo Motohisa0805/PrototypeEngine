@@ -51,6 +51,7 @@ public:
 	// 右クリックメニュー
 	bool							RightClickMenu();
 	static void						CreateNewFolder();
+	static void						CreateNewMaterial();
 	static void						CreateNewScene(const string& name,bool loadScene = false);
 	static void						CreateNewScript();
 	static void						ShowInExplorer();
@@ -71,4 +72,7 @@ public:
 	void							DrawOverwritePopup();
 
 	void							DrawScriptCreatePopup();
+
+	//名前変更処理の開始
+	static void						RenameStart();
 };
