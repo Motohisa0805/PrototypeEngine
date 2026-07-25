@@ -256,6 +256,9 @@
           "FilePath": "Assets\\Models\\Cube.fbx",
           "IsSkeletal": false,
           "LocalID": "986adc77-2cf5-4b7b-afe5-453e008deaa4",
+          "MaterialPaths": [
+            "Assets\\Test123\\TestMaterial.mat"
+          ],
           "ShadowFrag": true,
           "Type": "MeshRenderer",
           "Visible": true
@@ -310,6 +313,9 @@
           "FilePath": "Assets\\Models\\Cube.fbx",
           "IsSkeletal": false,
           "LocalID": "986adc77-2cf5-4b7b-afe5-453e008deaa4",
+          "MaterialPaths": [
+            ""
+          ],
           "ShadowFrag": true,
           "Type": "MeshRenderer",
           "Visible": true
@@ -364,6 +370,9 @@
           "FilePath": "Assets\\Models\\Sphere.fbx",
           "IsSkeletal": false,
           "LocalID": "e523a7e2-d84e-4cc9-90de-1492b0c5737d",
+          "MaterialPaths": [
+            ""
+          ],
           "ShadowFrag": true,
           "Type": "MeshRenderer",
           "Visible": true

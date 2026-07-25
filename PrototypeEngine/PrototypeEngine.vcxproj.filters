@@ -583,6 +583,9 @@
     <ClCompile Include="EditorTextureManager.cpp">
       <Filter>SourceCodes\A_Editor\Function\GUIs\Systems\Texture</Filter>
     </ClCompile>
+    <ClCompile Include="MaterialManager.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BoneActor.h">
@@ -977,6 +980,9 @@
     </ClInclude>
     <ClInclude Include="EditorTextureManager.h">
       <Filter>SourceCodes\A_Editor\Function\GUIs\Systems\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="MaterialManager.h">
+      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -7,6 +7,7 @@
 #include "SelectionManager.h"
 #include "UIActor.h"
 #include "ImportSettingsItem.h"
+#include "MaterialSettingsItem.h"
 
 InspectorPanel::InspectorPanel(Renderer* renderer) : EditorWindow(renderer)
 {
@@ -235,7 +236,7 @@ void InspectorPanel::FileInspection(const filesystem::path& selectedFilePath)
     else if (ext == ".mat")
     {
         ImGui::Separator();
-
+        MaterialSettingsItem::DrawMatSettings(selectedFilePath);
     }
 }
 

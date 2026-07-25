@@ -6,6 +6,7 @@
 #include "Renderer.h"
 #include "Texture.h"
 #include "VertexArray.h"
+#include "MaterialManager.h"
 
 MeshRenderer::MeshRenderer(Entity* owner, bool isSkeletal)
     : Component(owner)
@@ -27,6 +28,8 @@ MeshRenderer::MeshRenderer(Entity* owner, bool isSkeletal)
 MeshRenderer::~MeshRenderer()
 {
     EngineWindow::GetRenderer()->RemoveMeshComp(this);
+
+    mMaterials.clear();
 }
 
 bool MeshRenderer::Draw(Shader* shader)
@@ -45,9 +48,27 @@ bool MeshRenderer::Draw(Shader* shader)
                 shader->SetMatrixUniform(
                     "uWorldTransform",
                     mActor->GetTransform()->GetWorldTransform());
-                Texture* t = nullptr;
-                // Set the active texture
-                t = mMeshs[i]->GetTexture(j);
+
+                MaterialInfo m = mMeshs[i]->GetMaterialInfo()[j];
+                Texture* t = mMeshs[i]->GetTexture(j);
+                
+                if (j < mMaterials.size() && mMaterials[j] != nullptr)
+                {
+                    MaterialData& md = mMaterials[j]->GetData();
+                    m.Color          = md.sDiffuseColor;
+                    m.Diffuse        = Vector3(md.sDiffuseColor.x, md.sDiffuseColor.y,md.sDiffuseColor.z);
+                    m.Ambient        = md.sAmbientColor;
+                    m.Specular       = md.sSpecularColor;
+                    m.Shininess      = md.sShininess;
+
+                    //テクスチャがあれば上書き
+                    if (mMaterials[j]->GetTexture() != nullptr)
+                    {
+                        t = mMaterials[j]->GetTexture();
+                    }
+                }
+                
+                
                 if (t)
                 {
                     t->SetActive();
@@ -56,7 +77,6 @@ bool MeshRenderer::Draw(Shader* shader)
                 {
                     shader->SetNoTexture();
                 }
-                MaterialInfo m = mMeshs[i]->GetMaterialInfo()[j];
 
                 // 不透明度によってブレンド設定（1回だけで済むならループの外でもOK）
                 if (m.Color.w < 1.0f)
@@ -158,6 +178,21 @@ void MeshRenderer::Serialize(json& j) const
     j["FilePath"] = mFilePath;
     j["LocalID"]  = mLocalID;
 
+    //マテリアルパス
+    json matPaths = json::array();
+    for (size_t i = 0; i < mMaterials.size(); ++i)
+    {
+        if (mMaterials[i] != nullptr)
+        {
+            matPaths.push_back(mMaterials[i]->GetFilePath());
+        }
+        else
+        {
+            matPaths.push_back("");
+        }
+        j["MaterialPaths"] = matPaths;
+    }
+
     // メッシュレンダラー固有の他のプロパティも追加
     j["Visible"]    = mVisible;
     j["IsSkeletal"] = mIsSkeletal;
@@ -184,6 +219,28 @@ void MeshRenderer::Deserialize(const json& j)
         if (mesh)
         {
             SetMesh({mesh});
+        }
+    }
+
+    //マテリアルの復元
+    if (j.contains("MaterialPaths"))
+    {
+        auto matPaths = j["MaterialPaths"];
+        //メッシュロード時の作られた初期ロットをクリア
+        for (auto* mat : mMaterials)
+        {
+            if (mat) delete mat;
+        }
+        mMaterials.clear();
+        mMaterials.resize(matPaths.size(), nullptr);
+
+        for (size_t i = 0; i < matPaths.size(); ++i)
+        {
+            string path = matPaths[i].get<string>();
+            if (!path.empty())
+            {
+                mMaterials[i] = MaterialManager::GetMaterial(path);
+            }
         }
     }
 
@@ -260,12 +317,61 @@ void MeshRenderer::DrawCustomGUI(const std::vector<PropertyInfo>& properties)
     }
 
     ImGui::NewLine();
+    ImGui::Separator();
+    ImGui::Text("Materials");
+    if (!mMeshs.empty() && mMeshs[0])
+    {
+        //メッシュが持つサブメッシュの数(=マテリアルスロット数)を取得
+        int materialCount = mMeshs[0]->GetVertexArrays().size();
+
+        //配列のサイズをスロット数に合わせる
+        if (mMaterials.size() != materialCount)
+        {
+            mMaterials.resize(materialCount, nullptr);
+        }
+
+        for (int i = 0; i < materialCount; i++)
+        {
+            ImGui::PushID(i);
+            string matLabel = "Element" + std::to_string(i);
+
+            //割り当てられているか確認してパスを表示
+            string displayPath = mMaterials[i] ? mMaterials[i]->GetFilePath() : "None (Mesh Default)";
+            filesystem::path p(displayPath);
+            displayPath = p.filename().string();//ファイル名だけ表示
+
+            char matBuffer[256];
+            strncpy_s(matBuffer, displayPath.c_str(), sizeof(matBuffer));
+            matBuffer[sizeof(matBuffer) - 1] = '\0';
+
+            ImGui::InputText(matLabel.c_str(), matBuffer, sizeof(matBuffer),
+                             ImGuiInputTextFlags_ReadOnly);
+
+            //ドラッグ&ドロップで.matを割り当てる
+            if (ImGui::BeginDragDropTarget())
+            {
+                if (const ImGuiPayload* payload =
+                    ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM"))
+                {
+                    const char* payloadPath = (const char*)payload->Data;
+                    filesystem::path droppedPath(payloadPath);
+
+                    if (droppedPath.extension() == ".mat")
+                    {
+                        mMaterials[i] = MaterialManager::GetMaterial(droppedPath.string());
+                    }
+                }
+                ImGui::EndDragDropTarget();
+            }
+            ImGui::PopID();
+        }
+    }
+
+    ImGui::NewLine();
     if (!mMeshs.empty())
     {
         ImGui::Text("Alpha Setting");
         ImGui::SliderFloat("Alpha", &mAlpha, 0.0f, 1.0f, "%.2f");
-        ImGui::SetNextItemWidth(50);
-        ImGui::DragFloat("Alpha Input", &mAlpha, 1.0f, 0.0f, 1.0f, "%.2f");
 
         if (mAlpha != mMeshs[0]->GetMaterialInfo()[0].Color.w)
         {
@@ -303,6 +409,12 @@ Component* MeshRenderer::Clone(Entity* newOwner) const
     clone->mShadowFrag = this->mShadowFrag;
     clone->mMeshs      = this->mMeshs;
     clone->mIsSkeletal = this->mIsSkeletal;
+
+    clone->mMaterials.resize(this->mMaterials.size(), nullptr);
+    for (int i = 0; i < this->mMaterials.size(); ++i)
+    {
+        clone->mMaterials[i] = this->mMaterials[i];
+    }
 
     return clone;
 }

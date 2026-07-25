@@ -1,43 +1,11 @@
-﻿  AssetImporter.cpp
+﻿  Material.cpp
 C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
-  (ソース ファイル 'AssetImporter.cpp' をコンパイルしています)
+  (ソース ファイル 'Material.cpp' をコンパイルしています)
       C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
       'SDL_VERSION' は以前にコマンド ラインで宣言されています
   
-C:\C++Files\PrototypeEngine\PrototypeEngine\SDL_Scancode.h(143,9): warning C4005: 'KEY_EXECUTE': マクロが再定義されました。
-  (ソース ファイル 'AssetImporter.cpp' をコンパイルしています)
-      C:\Program Files (x86)\Windows Kits\10\Include\10.0.26100.0\um\winnt.h(24912,9):
-      'KEY_EXECUTE' の以前の定義を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(84,12): warning C4251: 'Component::mName': 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'AssetImporter.cpp' をコンパイルしています)
-      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(541,7):
-      'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' の宣言を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\AssetImporter.cpp(385,25): warning C4244: '初期化中': 'double' から 'float' への変換です。データが失われる可能性があります。
-C:\C++Files\PrototypeEngine\PrototypeEngine\AssetImporter.cpp(682,26): warning C4244: '初期化中': 'double' から 'float' への変換です。データが失われる可能性があります。
-C:\C++Files\PrototypeEngine\PrototypeEngine\AssetImporter.cpp(683,29): warning C4244: '初期化中': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\C++Files\PrototypeEngine\PrototypeEngine\AssetImporter.cpp(764,31): warning C4244: '初期化中': 'double' から 'float' への変換です。データが失われる可能性があります。
-C:\C++Files\PrototypeEngine\PrototypeEngine\AssetImporter.cpp(792,25): warning C4244: '=': 'int' から 'float' への変換です。データが失われる可能性があります。
-C:\C++Files\PrototypeEngine\PrototypeEngine\AssetImporter.cpp(995,21): warning C4244: '初期化中': 'double' から 'float' への変換です。データが失われる可能性があります。
-C:\C++Files\PrototypeEngine\PrototypeEngine\AssetImporter.cpp(1035,21): warning C4244: '初期化中': 'double' から 'float' への変換です。データが失われる可能性があります。
-C:\C++Files\PrototypeEngine\PrototypeEngine\AssetImporter.cpp(1093,21): warning C4244: '初期化中': 'double' から 'float' への変換です。データが失われる可能性があります。
-  CreateActorFromAssetCommand.cpp
-C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
-  (ソース ファイル 'CreateActorFromAssetCommand.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
-      'SDL_VERSION' は以前にコマンド ラインで宣言されています
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(84,12): warning C4251: 'Component::mName': 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'CreateActorFromAssetCommand.cpp' をコンパイルしています)
-      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(541,7):
-      'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' の宣言を確認してください
-  
-C:\Program Files (x86)\Windows Kits\10\Include\10.0.26100.0\um\winnt.h(24912,9): warning C4005: 'KEY_EXECUTE': マクロが再定義されました。
-  (ソース ファイル 'CreateActorFromAssetCommand.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\SDL_Scancode.h(143,9):
-      'KEY_EXECUTE' の以前の定義を確認してください
-  
+  MaterialManager.cpp
+  MaterialSettingsItem.cpp
   EngineWindow.cpp
 C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(84,12): warning C4251: 'Component::mName': 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
   (ソース ファイル 'EngineWindow.cpp' をコンパイルしています)
@@ -59,71 +27,18 @@ C:\Program Files (x86)\Windows Kits\10\Include\10.0.26100.0\um\winnt.h(24912,9):
       C:\C++Files\PrototypeEngine\PrototypeEngine\SDL_Scancode.h(143,9):
       'KEY_EXECUTE' の以前の定義を確認してください
   
-  FileOperationManager.cpp
-C:\C++Files\PrototypeEngine\PrototypeEngine\SDL_Scancode.h(143,9): warning C4005: 'KEY_EXECUTE': マクロが再定義されました。
-  (ソース ファイル 'FileOperationManager.cpp' をコンパイルしています)
-      C:\Program Files (x86)\Windows Kits\10\Include\10.0.26100.0\um\winnt.h(24912,9):
-      'KEY_EXECUTE' の以前の定義を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
-  (ソース ファイル 'FileOperationManager.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
-      'SDL_VERSION' は以前にコマンド ラインで宣言されています
-  
+  MeshRenderer.cpp
 C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(84,12): warning C4251: 'Component::mName': 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'FileOperationManager.cpp' をコンパイルしています)
+  (ソース ファイル 'MeshRenderer.cpp' をコンパイルしています)
       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(541,7):
       'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' の宣言を確認してください
   
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(4813,18): warning C4244: '=': 'wchar_t' から 'char' への変換です。データが失われる可能性があります。
-  (ソース ファイル 'FileOperationManager.cpp' をコンパイルしています)
-      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(4813,18):
-      テンプレートインスタンス化コンテキスト (最初に最も古いもの) は
-          C:\C++Files\PrototypeEngine\PrototypeEngine\FileOperationManager.cpp(48,37):
-          コンパイル対象の関数 テンプレート インスタンス化 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string<std::_String_iterator<std::_String_val<std::_Simple_types<_Elem>>>,0>(_Iter,_Iter,const _Alloc &)' のリファレンスを確認してください
-          with
-          [
-              _Elem=wchar_t,
-              _Iter=std::_String_iterator<std::_String_val<std::_Simple_types<wchar_t>>>,
-              _Alloc=std::allocator<char>
-          ]
-              C:\C++Files\PrototypeEngine\PrototypeEngine\FileOperationManager.cpp(49,23):
-              'FileOperationManager::ShowInExplorer' の 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string' への最初の参照を参照してください
-          C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(812,17):
-          コンパイル対象の関数 テンプレート インスタンス化 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct_from_iter<wchar_t*,wchar_t*,_Size_type>(_Iter,const _Sent,_Size)' のリファレンスを確認してください
-          with
-          [
-              _Size_type=unsigned __int64,
-              _Iter=wchar_t *,
-              _Sent=wchar_t *,
-              _Size=unsigned __int64
-          ]
-          C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(968,18):
-          コンパイル対象の関数 テンプレート インスタンス化 '_OutIt *std::_Copy_n_unchecked4<wchar_t*,_Size,char*>(_InIt,_SizeTy,_OutIt)' のリファレンスを確認してください
-          with
-          [
-              _OutIt=char *,
-              _Size=unsigned __int64,
-              _InIt=wchar_t *,
-              _SizeTy=unsigned __int64
-          ]
-  
-  ImportSettingsItem.cpp
 C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
-  (ソース ファイル 'ImportSettingsItem.cpp' をコンパイルしています)
+  (ソース ファイル 'MeshRenderer.cpp' をコンパイルしています)
       C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
       'SDL_VERSION' は以前にコマンド ラインで宣言されています
   
-C:\C++Files\PrototypeEngine\PrototypeEngine\SDL_Scancode.h(143,9): warning C4005: 'KEY_EXECUTE': マクロが再定義されました。
-  (ソース ファイル 'ImportSettingsItem.cpp' をコンパイルしています)
-      C:\Program Files (x86)\Windows Kits\10\Include\10.0.26100.0\um\winnt.h(24912,9):
-      'KEY_EXECUTE' の以前の定義を確認してください
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(84,12): warning C4251: 'Component::mName': 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'ImportSettingsItem.cpp' をコンパイルしています)
-      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(541,7):
-      'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' の宣言を確認してください
-  
+C:\C++Files\PrototypeEngine\PrototypeEngine\MeshRenderer.cpp(325,27): warning C4267: '初期化中': 'size_t' から 'int' に変換しました。データが失われているかもしれません。
   InspectorPanel.cpp
 C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
   (ソース ファイル 'InspectorPanel.cpp' をコンパイルしています)
@@ -140,21 +55,9 @@ C:\C++Files\PrototypeEngine\PrototypeEngine\ComponentFactory.h(15,44): warning C
       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\map(72,7):
       'std::map<string,ComponentCreator,std::less<std::string>,std::allocator<std::pair<const string,ComponentCreator>>>' の宣言を確認してください
   
-  ProjectPanel.cpp
-C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
-  (ソース ファイル 'ProjectPanel.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
-      'SDL_VERSION' は以前にコマンド ラインで宣言されています
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(84,12): warning C4251: 'Component::mName': 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'ProjectPanel.cpp' をコンパイルしています)
-      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(541,7):
-      'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' の宣言を確認してください
-  
-C:\Program Files (x86)\Windows Kits\10\Include\10.0.26100.0\um\winnt.h(24912,9): warning C4005: 'KEY_EXECUTE': マクロが再定義されました。
-  (ソース ファイル 'ProjectPanel.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\SDL_Scancode.h(143,9):
-      'KEY_EXECUTE' の以前の定義を確認してください
-  
   コードを生成中...
+     ライブラリ C:\C++Files\PrototypeEngine\bin\PrototypeEngine.lib とオブジェクト C:\C++Files\PrototypeEngine\bin\PrototypeEngine.exp を作成中
+LINK : warning LNK4217: シンボル '?HasStarted@ScriptComponent@@QEBA_NXZ (public: bool __cdecl ScriptComponent::HasStarted(void)const )' ('ScriptComponent.obj' で定義) が 'Entity.obj' によって関数 '"public: virtual void __cdecl Entity::UpdateComponents(float)" (?UpdateComponents@Entity@@UEAAXM@Z)' 内でインポートされています
+LINK : warning LNK4217: シンボル '?SetStarted@ScriptComponent@@QEAAX_N@Z (public: void __cdecl ScriptComponent::SetStarted(bool))' ('ScriptComponent.obj' で定義) が 'Entity.obj' によって関数 '"public: virtual void __cdecl Entity::UpdateComponents(float)" (?UpdateComponents@Entity@@UEAAXM@Z)' 内でインポートされています
+LINK : warning LNK4286: シンボル '?SetStarted@ScriptComponent@@QEAAX_N@Z (public: void __cdecl ScriptComponent::SetStarted(bool))' ('ScriptComponent.obj' で定義) が 'ScriptHotReloadManager.obj' によってインポートされています
   PrototypeEngine.vcxproj -> C:\C++Files\PrototypeEngine\bin\PrototypeEngine.exe

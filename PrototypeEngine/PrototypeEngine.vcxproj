@@ -202,6 +202,7 @@
     <ClCompile Include="LocalLight.cpp" />
     <ClCompile Include="Material.cpp" />
     <ClCompile Include="MaterialGenerater.cpp" />
+    <ClCompile Include="MaterialManager.cpp" />
     <ClCompile Include="MaterialSettingsItem.cpp" />
     <ClCompile Include="StringConvertOperation.cpp" />
     <ClCompile Include="CreateNewActorCommand.cpp" />
@@ -321,6 +322,7 @@
     <ClInclude Include="FBXImportSettings.h" />
     <ClInclude Include="Material.h" />
     <ClInclude Include="MaterialGenerater.h" />
+    <ClInclude Include="MaterialManager.h" />
     <ClInclude Include="MaterialSettingsItem.h" />
     <ClInclude Include="StringConvertOperation.h" />
     <ClInclude Include="CreateNewActorCommand.h" />

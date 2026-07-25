@@ -32,6 +32,7 @@ C:\C++Files\PrototypeEngine\PrototypeEngine\LightingPanel.cpp;C:\C++Files\Protot
 C:\C++Files\PrototypeEngine\PrototypeEngine\LocalLight.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\LocalLight.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\Material.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\Material.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\MaterialGenerater.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\MaterialGenerater.obj
+C:\C++Files\PrototypeEngine\PrototypeEngine\MaterialManager.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\MaterialManager.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\MaterialSettingsItem.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\MaterialSettingsItem.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\StringConvertOperation.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\StringConvertOperation.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\CreateNewActorCommand.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\CreateNewActorCommand.obj

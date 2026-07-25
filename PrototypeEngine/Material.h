@@ -6,6 +6,8 @@
 /// §ì’†ƒtƒ@ƒCƒ‹
 /// </summary>
 
+class Texture;
+
 struct MaterialData
 {
     string sShaderName = "StandardPBR";
@@ -25,9 +27,17 @@ private:
 
     string          mFilePath;
 
+    Texture*        mAlbedoTexture;
 public:
-    bool LoadFromFile(const string& filePath);
-    bool SaveToFile(const string& filePath);
+    Material();
+    ~Material();
 
-    MaterialData& GetData() { return mData; }
+    bool            LoadFromFile(const string& filePath);
+    bool            SaveToFile(const string& filePath);
+
+    MaterialData&   GetData() { return mData; }
+
+    Texture*        GetTexture() { return mAlbedoTexture; }
+    const string&   GetFilePath() const { return mFilePath; }
+
 };
