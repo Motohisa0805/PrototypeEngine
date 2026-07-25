@@ -1,0 +1,25 @@
+{
+    "properties": {
+        "ambient_color": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "diffuse_color": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+        ],
+        "shininess": 0.800000011920929,
+        "specular_color": [
+            1.0,
+            1.0,
+            1.0
+        ]
+    },
+    "shader": "StandardPBR",
+    "textures": {
+        "albedo_map": ""
+    }
+}

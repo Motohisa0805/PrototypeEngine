@@ -2,7 +2,7 @@
 #include "Component.h"
 #include "Shader.h"
 #include "Actor.h"
-
+#include "Material.h"
 /*
 * ===エンジン内部処理/Engine internal processing===
 */
@@ -31,7 +31,8 @@ protected:
 	vector<Mesh*>				mMeshs;
 	//スケルタルフラグ
 	bool						mIsSkeletal;
-
+	//メッシュごとに割り当てられたマテリアルのパスの保持
+	vector<Material*>			mMaterials;
 
 public:
 								MeshRenderer(Entity* owner, bool isSkeletal = false);

@@ -11,6 +11,7 @@
 #include "WindowRenderProperty.h"
 #include "FileOperationManager.h"
 #include "AssetImporter.h"
+#include "MaterialManager.h"
 
 EngineState EngineWindow::mEngineState = EngineState::Run;
 
@@ -227,6 +228,7 @@ void EngineWindow::EngineShutdown()
         delete mPhysWorld;
         mPhysWorld = nullptr;
     }
+    MaterialManager::AllMaterialClear();
     // Renderer‚Ì‰ð•ú
     if (mRenderer)
     {

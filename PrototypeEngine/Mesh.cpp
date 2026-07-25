@@ -407,6 +407,79 @@ bool Mesh::LoadFromSubMesh(const string& fbxPath, const string& localID)
             else
             {
                 //マテリアル抽出済み状態(後々設計)
+                std::ifstream matFile(assignedMatPath);
+                if (matFile.is_open())
+                {
+                    nlohmann::json matJson;
+                    try
+                    {
+                        matFile >> matJson;
+
+                        //プロパティの読み込み
+                        if (matJson.contains("properties"))
+                        {
+                            auto props = matJson["properties"];
+
+                            //Diffuse / Color
+                            if (props.contains("diffuse_color"))
+                            {
+                                auto c = props["diffuse_color"];
+                                info.Color = Vector4(c[0], c[1], c[2], c[3]);
+                                info.Diffuse = Vector3(c[0], c[1], c[2]);
+                            }
+                            else
+                            {
+                                info.Color = Vector4(1, 1, 1, 1);
+                                info.Diffuse = Vector3(1, 1, 1);
+                            }
+
+                            //Ambient
+                            if (props.contains("ambient_color"))
+                            {
+                                auto c = props["ambient_color"];
+                                info.Ambient = Vector3(c[0], c[1], c[2]);
+                            }
+
+                            //Specular
+                            if (props.contains("specular_color"))
+                            {
+                                auto c = props["specular_color"];
+                                info.Specular = Vector3(c[0], c[1], c[2]);
+                            }
+
+                            //Shininess
+                            info.Shininess = props.value("shininess",0.390625f);
+                        }
+
+                        //テクスチャの読み込み
+                        if (matJson.contains("textures"))
+                        {
+                            string texMap = matJson["textures"].value("albedo_map","");
+                            if (!texMap.empty())
+                            {
+                                Texture* newTex = new Texture();
+                                if (newTex->Load(File_P::ModelTexturePath + texMap))
+                                {
+                                    mTextures.push_back(newTex);
+                                }
+                                else
+                                {
+                                    delete newTex;
+                                    mTextures.push_back(nullptr);
+                                }
+                            }
+                            else
+                            {
+                                mTextures.push_back(nullptr);
+                            }
+                        }
+                    }
+                    catch (...)
+                    {
+                        SDL_Log("Failed to parse .mat file: %s",assignedMatPath.c_str());
+                    }
+                    matFile.close();
+                }
             }
         }
     }
