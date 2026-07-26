@@ -63,7 +63,7 @@ bool SkeletalMeshRenderer::Draw(Shader* shader)
                     glDepthMask(GL_TRUE); // 不透明物体は通常通り
                 }
                 // マテリアルの色を設定
-                shader->SetColorUniform("uTexture", m);
+                shader->SetColorUniform(m);
                 // メッシュの頂点配列をアクティブに設定します
                 VertexArray* va = mMeshs[i]->GetVertexArrays()[j];
                 va->SetActive();

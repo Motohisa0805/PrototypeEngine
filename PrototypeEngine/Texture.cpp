@@ -1,6 +1,8 @@
 #define STB_IMAGE_RESIZE_IMPLEMENTATION
 #include "Texture.h"
 
+Texture* Texture::mWhiteTexture = nullptr;
+
 Texture::Texture() : mTextureID(0), mWidth(0), mHeight(0) {}
 
 Texture::~Texture() {}
@@ -349,6 +351,27 @@ bool Texture::LoadWeightReductionTexture(const string& fileName, int width,
     return true;
 }
 
+void Texture::LoadFromMemory(unsigned char pixel[], int width, int height) 
+{
+    mWidth = width;
+    mHeight = height;
+
+    //OpenGLのテクスチャを生成
+    glGenTextures(1, &mTextureID);
+    glBindTexture(GL_TEXTURE_2D, mTextureID);
+
+    //メモリ上のピクセルデータをVRAMに転送(フォーマットはRGBA)
+    glTexImage2D(GL_TEXTURE_2D,0,GL_RGBA,mWidth,mHeight,0,GL_RGBA,GL_UNSIGNED_BYTE,pixel);
+
+    //1×1ピクセルなので、補間フィルタはNEAREST(ニアレストネイバー)が最速
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
+    //UVが範囲外に出た時の処理
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+}
+
 void Texture::Unload() { glDeleteTextures(1, &mTextureID); }
 
 void Texture::CreateFromSurface(SDL_Surface* surface)
@@ -427,4 +450,22 @@ void Texture::SetNoActive(int index)
 {
     glActiveTexture(GL_TEXTURE0 + index);
     glBindTexture(GL_TEXTURE_2D, 0);
+}
+
+void Texture::InitializeDefaultTextures() 
+{
+    unsigned char whitePixel[] = {255, 255, 255, 255};
+
+    mWhiteTexture = new Texture();
+    mWhiteTexture->LoadFromMemory(whitePixel, 1, 1);
+}
+
+void Texture::UnloadDefaultTextures() 
+{
+    if (mWhiteTexture)
+    {
+        mWhiteTexture->Unload();
+        delete mWhiteTexture;
+        mWhiteTexture = nullptr;
+    }
 }

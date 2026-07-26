@@ -36,6 +36,10 @@ private:
 	int				mWidth;
 	
 	int				mHeight;
+
+	//静的な1×1の白い画像
+    static			Texture* mWhiteTexture;
+
 public:
 					Texture();
 					~Texture();
@@ -47,6 +51,9 @@ public:
 	bool			LoadEquirectangularToCubemap(const std::string& fileName, int faceSize);
 	//GUIのアイコン用に軽量化された画像を読み込む処理
 	bool			LoadWeightReductionTexture(const string& fileName, int width, int height);
+
+	void			LoadFromMemory(unsigned char pixel[],int width,int height);
+
 	void			Unload();
 	void			CreateFromSurface(struct SDL_Surface* surface);
 	void			CreateForRendering(int width, int height, unsigned int format);
@@ -59,4 +66,8 @@ public:
 	int				GetWidth() const { return mWidth; }
 	int				GetHeight() const { return mHeight; }
 	unsigned int	GetTextureID() const { return mTextureID; }
+
+	static void		InitializeDefaultTextures();
+    static void     UnloadDefaultTextures();
+    static Texture* GetWhiteTexture() { return mWhiteTexture; }
 };

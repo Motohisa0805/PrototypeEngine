@@ -51,7 +51,11 @@ bool MeshRenderer::Draw(Shader* shader)
 
                 MaterialInfo m = mMeshs[i]->GetMaterialInfo()[j];
                 Texture* t = mMeshs[i]->GetTexture(j);
-                
+                if (t == nullptr)
+                {
+                    t = Texture::GetWhiteTexture();
+                }
+
                 if (j < mMaterials.size() && mMaterials[j] != nullptr)
                 {
                     MaterialData& md = mMaterials[j]->GetData();
@@ -91,7 +95,8 @@ bool MeshRenderer::Draw(Shader* shader)
                     glDepthMask(GL_TRUE); // 不透明物体は通常通り
                 }
 
-                shader->SetColorUniform("uTexture", m);
+                shader->SetColorUniform(m);
+
                 // メッシュの頂点配列をアクティブに設定します
                 VertexArray* va = mMeshs[i]->GetVertexArrays()[j];
                 va->SetActive();

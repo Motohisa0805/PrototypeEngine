@@ -15,6 +15,10 @@ uniform sampler2D uGDiffuse;
 uniform sampler2D uGNormal;
 uniform sampler2D uGWorldPos;
 
+//PBR情報||エミッション情報
+uniform sampler2D uGPBR;
+uniform sampler2D uGEmissive;
+
 // ディレクショナルライトの構造体
 struct DirectionalLight
 {
@@ -118,11 +122,27 @@ void main()
 	vec3 gbufferNorm = texture(uGNormal, fragTexCoord).xyz;
 	vec3 gbufferWorldPos = texture(uGWorldPos, fragTexCoord).xyz;
 	
+    vec4 gbufferPBR = texture(uGPBR,fragTexCoord);
+    float metallic = gbufferPBR.r;
+    float roughness = gbufferPBR.g;
+    vec3 gbufferEmissive = texture(uGEmissive,fragTexCoord).rgb;
+
     if(length(gbufferNorm) < 0.01)
     {
-        outColor = vec4(gbufferDiffuse,1.0);
+        outColor = vec4(gbufferDiffuse + gbufferEmissive,1.0);
         return;
     }
+
+    //=====================================
+    //メタリックとラフネスによるディフューズ/スペキュラーの分離
+    //=====================================
+    //金属(Metallic = 1.0)は拡散反射(Diffuse)がほぼ0になり、ベースカラーがスペキュラー色になる
+    vec3 realDiffuse = mix(gbufferDiffuse,vec3(0.0),metallic);
+    vec3 realSpecular = mix(vec3(0.04),gbufferDiffuse,metallic);
+
+    //ラフネス(0.0ツルツル～1.0:ザラザラ)をフォン鏡面反射指数に返還
+    //Cook-Torrance BRDFに移行するまでの簡易変換
+    float shininess = mix(256.0,2.0,roughness);
     
     // 法線正規化
 	vec3 N = normalize(gbufferNorm);
@@ -143,7 +163,7 @@ void main()
         //R(反射光)とV(視点)の向きが近いほど強く光る
         float RdotV = max(dot(R,V),0.0);
         //32.0はハイライトの硬さ
-        vec3 Specular = uDirLight.mSpecColor * pow(RdotV,32.0);
+        vec3 Specular = uDirLight.mSpecColor * realSpecular * pow(RdotV,shininess);
 
         float shadow = 1.0; // デフォルトは「影なし = 100%ライトが届く」
         
@@ -161,7 +181,7 @@ void main()
 	// Phongスペキュラ計算
 	Phong = clamp(Phong, 0.0, 1.0);
 
-    vec3 finalColor = gbufferDiffuse * Phong;
+    vec3 finalColor = realDiffuse * Phong;
     //ポイントライトの処理
     for(int i = 0; i < uNumLights; ++i)
     {
@@ -182,9 +202,15 @@ void main()
 
                 //ディフューズ(拡散反射)の強度計算
                 float nDotL = max(dot(N,lightDir),0.0);
+                vec3 diffuse = realDiffuse * nDotL;
+
+                //スペキュラーの計算
+                vec3 R = normalize(reflect(-lightDir,N));
+                float RdotV = max(dot(R,V),0.0);
+                vec3 specular = realSpecular * pow(RdotV,shininess);
 
                 //このライトの色
-                vec3 lightContribution = uLights[i].sColor * gbufferDiffuse * nDotL * attenuation;
+                vec3 lightContribution = uLights[i].sColor * (diffuse + specular) * nDotL * attenuation;
 
                 //最終カラーに加算ブレンド
                 finalColor += lightContribution;
@@ -223,7 +249,14 @@ void main()
                 {
                     //ディフューズ(拡散反射)計算
                     float nDotL = max(dot(N,L),0.0);
-                    vec3 lightContribution = uLights[i].sColor * gbufferDiffuse * nDotL * finalAtten;
+                    vec3 diffuse = realDiffuse * nDotL;
+
+                    //スペキュラーの計算
+                    vec3 R = normalize(reflect(-L,N));
+                    float RdotV = max(dot(R,V),0.0);
+                    vec3 specular = realSpecular * pow(RdotV,shininess);
+
+                    vec3 lightContribution = uLights[i].sColor * (diffuse + specular) * finalAtten;
 
                     //最終カラーに加算ブレンド
                     finalColor += lightContribution;
@@ -231,6 +264,8 @@ void main()
             }
         }
     }
+
+    finalColor += gbufferEmissive;
 
 	// 最終的なライト情報を渡す (alpha = 1)
 	outColor = vec4(finalColor,1.0);

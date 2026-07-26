@@ -139,7 +139,7 @@ void Shader::SetIntUniform(const char* name, int value)
 
 void Shader::SetMaterialColor(const Vector4& color) { mMaterialColor = color; }
 
-void Shader::SetColorUniform(const char* name, const MaterialInfo& info)
+void Shader::SetColorUniform(const MaterialInfo& info)
 {
     GLuint loc = glGetUniformLocation(mShaderProgram, "ambientColor");
     glUniform3f(loc, info.Ambient.x, info.Ambient.y, info.Ambient.z);
@@ -156,10 +156,13 @@ void Shader::SetColorUniform(const char* name, const MaterialInfo& info)
     // uColorÅiRGBAÅjÇëóÇÈ
     loc = glGetUniformLocation(mShaderProgram, "uColor");
     glUniform4f(loc, info.Color.x, info.Color.y, info.Color.z, info.Color.w);
-    /*
-    loc = glGetUniformLocation(mShaderProgram, name);
-    glUniform4fv(loc, 1, mMaterialColor.GetAsFloatPtr());
-    */
+
+
+    SetFloatUniform("uMetallic", info.Metallic);
+
+    SetFloatUniform("uRoughness", info.Roughness);
+    
+    SetVectorUniform("uEmissive", info.Emissive);
 }
 
 void Shader::SetMaterialUniform(const char* name, const Vector3& color)

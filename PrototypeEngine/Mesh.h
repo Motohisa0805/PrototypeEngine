@@ -19,11 +19,15 @@ namespace MeshLayout
 //マテリアル情報の構造体
 struct MaterialInfo
 {
-	Vector4		Color;
-	Vector3		Diffuse;
-	Vector3		Ambient;
-	Vector3		Specular;
-	float		Shininess;
+	Vector4		Color = Vector4();
+	Vector3		Diffuse = Vector3();
+    Vector3     Ambient = Vector3();
+    Vector3     Specular = Vector3();
+	float		Shininess = 0;
+
+	float		Metallic = 0;
+	float		Roughness = 0;
+    Vector3     Emissive  = Vector3();
 };
 
 //前方宣言

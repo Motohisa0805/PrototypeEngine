@@ -1,6 +1,8 @@
 #include "Material.h"
 #include "Texture.h"
 #include "FilePath.h"
+#include "EngineWindow.h"
+#include "Renderer.h"
 #include <fstream>
 #include <nlohmann/json.hpp>
 
@@ -12,8 +14,6 @@ Material::~Material()
 {
 	if (mAlbedoTexture)
 	{
-        mAlbedoTexture->Unload();
-        delete mAlbedoTexture;
         mAlbedoTexture = nullptr;
 	}
 }
@@ -54,6 +54,14 @@ bool Material::LoadFromFile(const string& filePath)
                 mData.sSpecularColor = Vector3(c[0], c[1], c[2]);
             }
             mData.sShininess = props.value("shininess", 0.390625f);
+
+            mData.sMetallic = props.value("metallic", 0);
+            mData.sRoughness = props.value("roughness", 0);
+            if (props.contains("emissive"))
+            {
+                auto c = props["emissive"];
+                mData.sEmissive = Vector3(c[0], c[1], c[2]);
+            }
         }
 
         //テクスチャ
@@ -64,12 +72,9 @@ bool Material::LoadFromFile(const string& filePath)
             //パスがあればテクスチャをロード
             if (!mData.sAlbedoTexturePath.empty())
             {
-                if (!mAlbedoTexture)mAlbedoTexture = new Texture();
-
-                if (!mAlbedoTexture->Load(File_P::ModelTexturePath + mData.sAlbedoTexturePath))
+                if (!mAlbedoTexture)
                 {
-                    delete mAlbedoTexture;
-                    mAlbedoTexture = nullptr;
+                    mAlbedoTexture = EngineWindow::GetRenderer()->GetTexture(mData.sAlbedoTexturePath);
                 }
             }
         }
@@ -95,6 +100,10 @@ bool Material::SaveToFile(const string& filePath)
     matJson["properties"]["ambient_color"] = { mData.sAmbientColor.x, mData.sAmbientColor.y, mData.sAmbientColor.z};
     matJson["properties"]["specular_color"] = { mData.sSpecularColor.x, mData.sSpecularColor.y, mData.sSpecularColor.z};
     matJson["properties"]["shininess"] = mData.sShininess;
+
+    matJson["properties"]["metallic"] = mData.sMetallic;
+    matJson["properties"]["roughness"] = mData.sRoughness;
+    matJson["properties"]["emissive"] = { mData.sEmissive.x, mData.sEmissive.y, mData.sEmissive.z};
 
     //テクスチャ
     matJson["textures"]["albedo_map"] = mData.sAlbedoTexturePath;

@@ -1,14 +1,14 @@
 {
     "properties": {
         "ambient_color": [
-            1.0,
-            1.0,
-            1.0
+            0.20000000298023224,
+            0.20000000298023224,
+            0.20000000298023224
         ],
         "diffuse_color": [
-            1.0,
-            1.0,
-            1.0,
+            0.5124555230140686,
+            0.5124555230140686,
+            0.5124555230140686,
             1.0
         ],
         "emissive": [
@@ -18,15 +18,15 @@
         ],
         "metallic": 1.0,
         "roughness": 1.0,
-        "shininess": 0.800000011920929,
+        "shininess": 0.390625,
         "specular_color": [
-            1.0,
-            1.0,
-            1.0
+            0.5,
+            0.5,
+            0.5
         ]
     },
     "shader": "StandardPBR",
     "textures": {
-        "albedo_map": "Assets\\Models\\Textures\\DebugStage.fbm\\DebugStage.png"
+        "albedo_map": ""
     }
 }
