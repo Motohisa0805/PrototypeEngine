@@ -222,6 +222,8 @@ public:
 	void												GetScreenDirection(Vector3& outStart, Vector3& outDir) const;
 	//GBuffer‚ÌGetter
 	GBuffer*											GetGBuffer() { return mGBuffer; }
+
+	Shader*												GetGGlobalShader() { return mGGlobalShader; }
 	// Mesh shader
 	Shader*												GetMeshShader() { return mMeshShader; }
 	// Skinned shader

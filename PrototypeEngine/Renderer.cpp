@@ -135,6 +135,9 @@ bool Renderer::Initialize(float screenWidth, float screenHeight)
         SDL_Log("Failed to load shaders.");
         return false;
     }
+
+    Texture::InitializeDefaultTextures();
+
     // ゲームシーンのFBOを作成
     mGameSceneViewEditor = new SceneViewEditor();
     mGameSceneViewEditor->CreateSceneFBO(width, height);
@@ -324,6 +327,8 @@ bool Renderer::LoadShaders()
     mGGlobalShader->SetIntUniform("uGDiffuse", 0);
     mGGlobalShader->SetIntUniform("uGNormal", 1);
     mGGlobalShader->SetIntUniform("uGWorldPos", 2);
+    mGGlobalShader->SetIntUniform("uGPBR", 4);
+    mGGlobalShader->SetIntUniform("uGEmissive", 5);
     // ビュー投影はただのスプライトのものです
     mGGlobalShader->SetMatrixUniform("uViewProj", spriteViewProj);
     // 世界の変形スケールが画面に適用され、yが反転します
@@ -623,7 +628,7 @@ void Renderer::EditorDraw3DScene(SceneViewPanel* scene,
                 mMeshShader->SetNoTexture();
             }
             MaterialInfo m = batch.gBatchMaterial;
-            mMeshShader->SetColorUniform("uTexture", m);
+            mMeshShader->SetColorUniform(m);
             batch.gBatchVertexArray->SetActive();
             glDrawElements(GL_TRIANGLES,
                            batch.gBatchVertexArray->GetNumIndices(),
@@ -645,7 +650,7 @@ void Renderer::EditorDraw3DScene(SceneViewPanel* scene,
                 mMeshShader->SetNoTexture();
             }
             MaterialInfo m = batch.gBatchMaterial;
-            mMeshShader->SetColorUniform("uTexture", m);
+            mMeshShader->SetColorUniform(m);
             glEnable(GL_BLEND);
             glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
             glDepthMask(GL_FALSE); // 透明物体は深度書き込み無効（任意）
@@ -832,7 +837,7 @@ void Renderer::Draw3DScene(unsigned int framebuffer, const Matrix4& view,
                 mMeshShader->SetNoTexture();
             }
             MaterialInfo m = batch.gBatchMaterial;
-            mMeshShader->SetColorUniform("uTexture", m);
+            mMeshShader->SetColorUniform(m);
             batch.gBatchVertexArray->SetActive();
             glDrawElements(GL_TRIANGLES,
                            batch.gBatchVertexArray->GetNumIndices(),
@@ -854,7 +859,7 @@ void Renderer::Draw3DScene(unsigned int framebuffer, const Matrix4& view,
                 mMeshShader->SetNoTexture();
             }
             MaterialInfo m = batch.gBatchMaterial;
-            mMeshShader->SetColorUniform("uTexture", m);
+            mMeshShader->SetColorUniform(m);
             glEnable(GL_BLEND);
             glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
             glDepthMask(GL_FALSE); // 透明物体は深度書き込み無効（任意）
@@ -1051,6 +1056,8 @@ void Renderer::DrawFromGBuffer()
 
 void Renderer::Shutdown()
 {
+    Texture::UnloadDefaultTextures();
+
     // メッシュを破壊する
     for (auto i : mMeshesMap)
     {

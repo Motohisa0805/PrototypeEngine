@@ -17,7 +17,11 @@ struct MaterialData
     Vector3 sSpecularColor = Vector3(0.5f, 0.5f, 0.5f);
     float   sShininess     = 0.390625f;
 
-    string sAlbedoTexturePath = "";
+    float   sMetallic = 0;
+    float   sRoughness = 0;
+    Vector3 sEmissive = Vector3();
+
+    string  sAlbedoTexturePath = "";
 };
 
 class Material
@@ -30,7 +34,7 @@ private:
     Texture*        mAlbedoTexture;
 public:
     Material();
-    ~Material();
+    ~Material();    
 
     bool            LoadFromFile(const string& filePath);
     bool            SaveToFile(const string& filePath);
@@ -38,6 +42,7 @@ public:
     MaterialData&   GetData() { return mData; }
 
     Texture*        GetTexture() { return mAlbedoTexture; }
+    void            SetTexture(Texture* texture) { mAlbedoTexture = texture; }
     const string&   GetFilePath() const { return mFilePath; }
 
 };

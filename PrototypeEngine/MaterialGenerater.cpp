@@ -21,6 +21,10 @@ bool MaterialGenerater::GeneratedBlankMaterial(const fs::path& path)
         matJson["properties"]["ambient_color"] = {0.2f, 0.2f, 0.2f};
         matJson["properties"]["shininess"] = 0.390625f;
 
+        matJson["properties"]["metallic"] = 0.0f;
+        matJson["properties"]["roughness"] = 0.0f;
+        matJson["properties"]["emissive"]  = {0.0f, 0.0f, 0.0f};
+
         //テクスチャスロット(初期状態は空文字)
         matJson["textures"]["albedo_map"] = "";
         matJson["textures"]["normal_map"] = "";

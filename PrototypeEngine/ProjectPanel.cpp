@@ -85,7 +85,7 @@ void ProjectPanel::Draw(float width, float height)
                     ImGui::IsItemClicked(ImGuiMouseButton_Right))
                 {
                     // 選択パスを更新
-                    SelectionManager::SetSelectedFilePath("Assets");
+                    //SelectionManager::SetSelectedFilePath("Assets");
                     mSelectedFolderPath = "Assets";
                 }
 
@@ -216,7 +216,7 @@ void ProjectPanel::DrawFolderTree(const filesystem::path& path)
             if (ImGui::IsItemClicked(ImGuiMouseButton_Left) ||
                 ImGui::IsItemClicked(ImGuiMouseButton_Right))
             {
-                SelectionManager::SetSelectedFilePath(entry.path()); // 選択パスを更新
+               // SelectionManager::SetSelectedFilePath(entry.path()); // 選択パスを更新
                 mSelectedFolderPath = entry.path();
             }
 
@@ -349,7 +349,7 @@ void ProjectPanel::DrawFileSystemEntry(const filesystem::directory_entry& entry)
             {
                 if (entry.is_directory())
                 {
-                    SelectionManager::SetSelectedFilePath(entry.path());
+                    //SelectionManager::SetSelectedFilePath(entry.path());
                     mSelectedFolderPath = entry.path();
                 }
                 else

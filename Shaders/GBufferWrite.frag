@@ -16,42 +16,33 @@ in vec3 fragWorldPos;
 layout(location = 0) out vec4 outDiffuse;
 layout(location = 1) out vec3 outNormal;
 layout(location = 2) out vec3 outWorldPos;
-//layout(location = 3) out vec4 outPBR; // R: Metallic, G: Roughness, B: AO, A: 未使用
+layout(location = 3) out vec4 outPBR; // メタリックとラフネスを格納するターゲット
+layout(location = 4) out vec4 outEmissive; // エミッションを格納するターゲット
 
 // ユニフォーム
-uniform sampler2D uTexture;
+uniform sampler2D	uTexture;
 
-uniform vec4 uColor; // マテリアルカラー（アルファ含む）
+uniform vec4		uColor; // マテリアルカラー（アルファ含む）
 
-// ライト方向（ワールド空間、単位ベクトル）
-// 例: vec3(1, -1, 0) など。必ず normalize() されたものを送る
-uniform vec3 uLightDir;
-
-// カメラ位置（視線ベクトルの計算に必要）
-uniform vec3 uViewPos;
+uniform float		uMetallic;
+uniform float		uRoughness;
+uniform vec3		uEmissive;
 
 // ライトの色情報
-uniform vec3 ambientColor;   // 環境光
-uniform vec3 diffuseColor;   // 拡散光
-uniform vec3 specularColor;  // 鏡面反射光
-uniform float shininess;     // 鏡面反射の鋭さ
+//uniform vec3 specularColor;  // 鏡面反射光
+//uniform float shininess;     // 鏡面反射の鋭さ
 
 
 void main()
 {
 
-	vec4 texColor = texture(uTexture, fragTexCoord);
-	
-	vec3 ambient = ambientColor * texColor.rgb;
-	vec3 diffuse = diffuseColor * texColor.rgb;
-	vec3 specular = specularColor * shininess;
-	
-	vec3 finalColor = ambient + diffuse + specular;
+	vec4 albedo = texture(uTexture, fragTexCoord) * uColor;
 	
 	// 不透明度 = マテリアルカラー × テクスチャアルファ
-	outDiffuse = vec4(finalColor, uColor.a * texColor.a);
-	
+	outDiffuse = albedo;
 	// 法線とワールド座標をそのまま出力
-	outNormal = fragNormal;
+	outNormal = normalize(fragNormal);
 	outWorldPos = fragWorldPos;
+	outPBR = vec4(uMetallic,uRoughness,0.0,1.0);
+	outEmissive = vec4(uEmissive,1.0);
 }
