@@ -327,8 +327,10 @@ bool Renderer::LoadShaders()
     mGGlobalShader->SetIntUniform("uGDiffuse", 0);
     mGGlobalShader->SetIntUniform("uGNormal", 1);
     mGGlobalShader->SetIntUniform("uGWorldPos", 2);
-    mGGlobalShader->SetIntUniform("uGPBR", 4);
-    mGGlobalShader->SetIntUniform("uGEmissive", 5);
+    mGGlobalShader->SetIntUniform("uGPBR", 3);
+    mGGlobalShader->SetIntUniform("uGEmissive", 4);
+    mGGlobalShader->SetIntUniform("uSkybox", 5);
+    mGGlobalShader->SetIntUniform("uShadowMap", 6);
     // ビュー投影はただのスプライトのものです
     mGGlobalShader->SetMatrixUniform("uViewProj", spriteViewProj);
     // 世界の変形スケールが画面に適用され、yが反転します
@@ -336,9 +338,6 @@ bool Renderer::LoadShaders()
         Matrix4::CreateScale(WindowRenderProperty::GetWidth(),
                              -WindowRenderProperty::GetHeight(), 1.0f);
     mGGlobalShader->SetMatrixUniform("uWorldTransform", gbufferWorld);
-    glActiveTexture(GL_TEXTURE3); // 空いているテクスチャユニットを選択
-    glBindTexture(GL_TEXTURE_2D, mShadowMap->GetDepthTexture());
-    mGGlobalShader->SetIntUniform("uShadowMap", 3);
 
     mShadowShader = new Shader();
     if (!mShadowShader->Load("ShadowDepth.vert", "ShadowDepth.frag"))
@@ -992,6 +991,20 @@ void Renderer::DrawFromGBufferForEditor(SceneViewPanel* scene)
     mGGlobalShader->SetBoolUniform(
         "uEnableShadow", scene->IsShadowFrag()); // withShadow = true/false
 
+    if (mSkyBoxRenderer)
+    {
+
+        Texture* skyTex = mSkyBoxRenderer->GetTexture();
+        if (skyTex)
+        {
+            glActiveTexture(GL_TEXTURE5);
+            glBindTexture(GL_TEXTURE_CUBE_MAP, skyTex->GetTextureID());
+        }
+    }
+
+    glActiveTexture(GL_TEXTURE6);
+    glBindTexture(GL_TEXTURE_2D, mShadowMap->GetDepthTexture());
+
     SetLightUniforms(mGGlobalShader, mView);
     SetPointLightUniforms(mGGlobalShader);
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
@@ -1023,9 +1036,20 @@ void Renderer::DrawFromGBuffer()
     mGGlobalShader->SetBoolUniform("uEnableShadow",
                                    true); // withShadow = true/false
 
-    glActiveTexture(GL_TEXTURE3);
+    if (mSkyBoxRenderer)
+    {
+
+        Texture* skyTex = mSkyBoxRenderer->GetTexture();
+        if (skyTex)
+        {
+            glActiveTexture(GL_TEXTURE5);
+            glBindTexture(GL_TEXTURE_CUBE_MAP, skyTex->GetTextureID());
+        }
+    }
+
+    glActiveTexture(GL_TEXTURE6);
     glBindTexture(GL_TEXTURE_2D, mShadowMap->GetDepthTexture());
-    mGGlobalShader->SetIntUniform("uShadowMap", 3);
+
 
     // 照明ユニフォームを設定する
     SetLightUniforms(mGGlobalShader, mView);

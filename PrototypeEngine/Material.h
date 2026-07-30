@@ -39,6 +39,8 @@ public:
     bool            LoadFromFile(const string& filePath);
     bool            SaveToFile(const string& filePath);
 
+    bool            ClearFile();
+
     MaterialData&   GetData() { return mData; }
 
     Texture*        GetTexture() { return mAlbedoTexture; }

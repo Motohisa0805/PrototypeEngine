@@ -14,10 +14,13 @@ layout(location = 0) out vec4 outColor;
 uniform sampler2D uGDiffuse;
 uniform sampler2D uGNormal;
 uniform sampler2D uGWorldPos;
-
 //PBR情報||エミッション情報
 uniform sampler2D uGPBR;
 uniform sampler2D uGEmissive;
+//スカイボックス画像
+uniform samplerCube uSkybox;
+//シャドウマッピング
+uniform sampler2DShadow uShadowMap;
 
 // ディレクショナルライトの構造体
 struct DirectionalLight
@@ -40,7 +43,6 @@ uniform float uAmbientIntensity;
 // 光の方向
 uniform DirectionalLight uDirLight;
 
-uniform sampler2DShadow uShadowMap;
 uniform mat4 uLightViewProj;
 
 uniform bool uEnableShadow;
@@ -116,16 +118,98 @@ float ComputeShadow_Poisson(vec4 worldPos, vec2 randomRot)
     return shadow;
 }
 
+const float PI = 3.14159265359;
+
+//=================================
+//PBR用ヘルパー関数群(Cook-Torrance BRDF)
+//=================================
+
+//法線分布関数
+float DistributionGGX(vec3 N,vec3 H,float roughness)
+{
+    float a = roughness * roughness;
+    float a2 = a * a;
+    float NdotH = max(dot(N,H),0.0);
+    float NdotH2 = NdotH * NdotH;
+
+    float num = a2;
+    float denom = (NdotH2 * (a2 - 1.0) + 1.0);
+    denom = PI * denom * denom;
+
+    return num / max(denom,0.0000001);
+}
+//幾何減衰関数(Geometry Function - Schlick-GGX)
+float GeometrySchlickGGX(float NdotV,float roughness)
+{
+    float r = (roughness + 1.0);
+    float k = (r * r) / 8.0;
+
+    float num = NdotV;
+    float denom = NdotV * (1.0 - k) + k;
+
+    return num / max(denom,0.0000001);
+}
+
+//Smith方による幾何減衰(視線方向と光源方向の両方を考慮)
+float GeometrySmith(vec3 N,vec3 V,vec3 L,float roughness)
+{
+    float NdotV = max(dot(N,V),0.0);
+    float NdotL = max(dot(N,L),0.0);
+    float ggx2 = GeometrySchlickGGX(NdotV,roughness);
+    float ggx1 = GeometrySchlickGGX(NdotL,roughness);
+
+    return ggx1 * ggx2;
+}
+
+//フレネル方程式
+//F0 = 垂直に入射した時の基本反射率
+vec3 FresnelSchlick(float cosTheta,vec3 F0)
+{
+    return F0 + (1.0 - F0) * pow(clamp(1.0 - cosTheta,0.0,1.0),5.0);
+}
+
+vec3 FresnelSchlickRoughness(float cosTheta,vec3 F0,float roughness)
+{
+    return F0 + (max(vec3(1.0 - roughness),F0) - F0) * pow(clamp(1.0 - cosTheta,0.0,1.0),5.0);
+}
+
+//1つのライトに対するPBRライティング計算をまとめた関数
+vec3 CalculatePBRLight(vec3 lightDir,vec3 lightColor,vec3 N,vec3 V,vec3 albedo,vec3 F0,float roughness)
+{
+    vec3 H = normalize(V + lightDir);
+    float NdotL = max(dot(N,lightDir),0.0);
+    float NdotV = max(dot(N,V),0.0);
+
+    if(NdotL <= 0.0)return vec3(0.0);
+
+    //Cook-Torrance BRDFの各項を計算
+    float NDF = DistributionGGX(N,H,roughness);
+    float G   = GeometrySmith(N,V,lightDir,roughness);
+    vec3  F   = FresnelSchlick(max(dot(H,V),0.0),F0);
+
+    //鏡面反射(Specular)の割合 = フレネル値 F
+    vec3 kS = F;
+    //拡散反射(Diffuse)の割合 = 光の全エネルギーから鏡面反射を引いた残り
+    vec3 kD = vec3(1.0) - kS;
+
+    //スペキュラー計算式:(D * G * F)/(4 * NdotV * NdotL)
+    vec3 numerator      = NDF * G * F;
+    float denominator   = 4.0 * NdotV * NdotL;
+    vec3 specular       = numerator / max(denominator,0.0001);
+
+    //出力 = (拡散反射 + 鏡面反射) * 光の色 * 入射角減衰(NdotL)
+    return (kD * albedo / PI + specular) * lightColor * NdotL;
+}
+
 void main()
 {
-	vec3 gbufferDiffuse = texture(uGDiffuse, fragTexCoord).xyz;
-	vec3 gbufferNorm = texture(uGNormal, fragTexCoord).xyz;
-	vec3 gbufferWorldPos = texture(uGWorldPos, fragTexCoord).xyz;
-	
-    vec4 gbufferPBR = texture(uGPBR,fragTexCoord);
-    float metallic = gbufferPBR.r;
-    float roughness = gbufferPBR.g;
-    vec3 gbufferEmissive = texture(uGEmissive,fragTexCoord).rgb;
+	vec3 gbufferDiffuse     = texture(uGDiffuse, fragTexCoord).xyz;
+	vec3 gbufferNorm        = texture(uGNormal, fragTexCoord).xyz;
+	vec3 gbufferWorldPos    = texture(uGWorldPos, fragTexCoord).xyz;
+    vec4 gbufferPBR         = texture(uGPBR,fragTexCoord).rgba;
+    vec3 gbufferSpecular    = gbufferPBR.rgb;
+    float roughness         = gbufferPBR.a;
+    vec3 gbufferEmissive    = texture(uGEmissive,fragTexCoord).rgb;
 
     if(length(gbufferNorm) < 0.01)
     {
@@ -133,99 +217,83 @@ void main()
         return;
     }
 
-    //=====================================
-    //メタリックとラフネスによるディフューズ/スペキュラーの分離
-    //=====================================
-    //金属(Metallic = 1.0)は拡散反射(Diffuse)がほぼ0になり、ベースカラーがスペキュラー色になる
-    vec3 realDiffuse = mix(gbufferDiffuse,vec3(0.0),metallic);
-    vec3 realSpecular = mix(vec3(0.04),gbufferDiffuse,metallic);
-
-    //ラフネス(0.0ツルツル～1.0:ザラザラ)をフォン鏡面反射指数に返還
-    //Cook-Torrance BRDFに移行するまでの簡易変換
-    float shininess = mix(256.0,2.0,roughness);
+    //PBR計算で扱いやすいように安全なラフネスにクランプ
+    roughness = clamp(roughness,0.04,1.0);
     
     // 法線正規化
 	vec3 N = normalize(gbufferNorm);
-	// ライトの方向（逆ベクトル）
-	vec3 L = normalize(-uDirLight.mDirection);
 	// カメラの方向
 	vec3 V = normalize(uCameraPos - gbufferWorldPos);
-	// -LとNから反射ベクトルを計算
-	vec3 R = normalize(reflect(-L, N));
 
-	// フォン反射を計算する
-	vec3 Phong = uAmbientLight * uAmbientIntensity;
-	float NdotL = dot(N, L);
-	if (NdotL > 0)
-	{
-		vec3 Diffuse = uDirLight.mDiffuseColor * NdotL;
+    float NdotV = max(dot(N,V),0.0);
+    vec3 F_ambient = FresnelSchlickRoughness(NdotV,gbufferSpecular,roughness);
 
-        //R(反射光)とV(視点)の向きが近いほど強く光る
-        float RdotV = max(dot(R,V),0.0);
-        //32.0はハイライトの硬さ
-        vec3 Specular = uDirLight.mSpecColor * realSpecular * pow(RdotV,shininess);
+    vec3 kS = F_ambient;
+    vec3 kD = vec3(1.0) - kS;
 
-        float shadow = 1.0; // デフォルトは「影なし = 100%ライトが届く」
-        
-        if (uEnableShadow) 
-        {
-            // フラグがtrueのときだけ影を計算
-            vec2 randomRot = vec2(fract(sin(dot(fragTexCoord.xy ,vec2(12.9898,78.233))) * 43758.5453), 0.0);
-            shadow = ComputeShadow_Poisson(vec4(gbufferWorldPos, 1.0), randomRot);
-            shadow = clamp(shadow, 0.0, 1.0);
-        }
-        Phong += (Diffuse + Specular) * shadow;
-	}
+    //環境光のフレネル反射(視界角度での強弱)を計算
+    vec3 ambientDiffuse = kD * uAmbientLight * uAmbientIntensity * gbufferDiffuse;
+    
+    //環境光(Ambient / IBL近似)
+    vec3 envReflect = reflect(-V,N);
+    vec3 envColor = texture(uSkybox,envReflect,roughness * 5.0).rgb;
+
+	vec3 ambientSpecular = envColor * F_ambient;
+
+    vec3 finalColor = ambientDiffuse + ambientSpecular;
 
 
-	// Phongスペキュラ計算
-	Phong = clamp(Phong, 0.0, 1.0);
+    //ディレクショナルライト(平行光源)
+    vec3 lightDir = normalize(-uDirLight.mDirection);
+    vec3 dirLightColor = uDirLight.mDiffuseColor + uDirLight.mSpecColor;//カラー/強度の統合
 
-    vec3 finalColor = realDiffuse * Phong;
+    vec3 directLighting = CalculatePBRLight(lightDir,dirLightColor,N,V,gbufferDiffuse,gbufferSpecular,roughness);
+    
+    //シャドウ計算
+    float shadow = 1.0; // デフォルトは「影なし = 100%ライトが届く」
+    if (uEnableShadow) 
+    {
+        // フラグがtrueのときだけ影を計算
+        vec2 randomRot = vec2(fract(sin(dot(fragTexCoord.xy ,vec2(12.9898,78.233))) * 43758.5453), 0.0);
+        shadow = ComputeShadow_Poisson(vec4(gbufferWorldPos, 1.0), randomRot);
+        shadow = clamp(shadow, 0.0, 1.0);
+    }
+
+    finalColor += directLighting * shadow;
+    
     //ポイントライトの処理
     for(int i = 0; i < uNumLights; ++i)
     {
         if(uLights[i].sType == 0)
         {
             //ライトの方向と距離
-            vec3 lightDir = uLights[i].sPosition - gbufferWorldPos;
-            float distance = length(lightDir);
+            vec3 pointLightDir = uLights[i].sPosition - gbufferWorldPos;
+            float distance = max(length(pointLightDir),0.0001);
 
             //ライトの有効範囲内にある場合のみ計算
             if(distance < uLights[i].sRange)
             {
-                lightDir = normalize(lightDir);
-
+                pointLightDir = normalize(pointLightDir);
                 //距離減衰の計算
                 float attenuation = 1.0 - (distance / uLights[i].sRange);
                 attenuation = clamp(attenuation,0.0,1.0);
 
-                //ディフューズ(拡散反射)の強度計算
-                float nDotL = max(dot(N,lightDir),0.0);
-                vec3 diffuse = realDiffuse * nDotL;
-
-                //スペキュラーの計算
-                vec3 R = normalize(reflect(-lightDir,N));
-                float RdotV = max(dot(R,V),0.0);
-                vec3 specular = realSpecular * pow(RdotV,shininess);
-
-                //このライトの色
-                vec3 lightContribution = uLights[i].sColor * (diffuse + specular) * nDotL * attenuation;
+                vec3 lightResult = CalculatePBRLight(pointLightDir,uLights[i].sColor,N,V,gbufferDiffuse,gbufferSpecular,roughness);
 
                 //最終カラーに加算ブレンド
-                finalColor += lightContribution;
+                finalColor += lightResult * attenuation;
             }
         }
         else if(uLights[i].sType == 1)
         {
             //ライトの方向と距離
-            vec3 lightDir = uLights[i].sPosition - gbufferWorldPos;
-            float distance = length(lightDir);
+            vec3 spotLightDir = uLights[i].sPosition - gbufferWorldPos;
+            float distance = length(spotLightDir);
 
             if(distance < uLights[i].sRange)
             {
                 // 正規化（ピクセルからライトへの向き）
-                vec3 L = normalize(lightDir);
+                vec3 normalSpotLight = normalize(spotLightDir);
                 // ライトが向いている方向（逆向きにして比較しやすくする）
                 vec3 spotDir = normalize(-uLights[i].sDirection);
 
@@ -234,8 +302,8 @@ void main()
                 distAtten = clamp(distAtten, 0.0 , 1.0);
 
                 //コーン(角度)による減衰
-                //ライトの正面方向(spotDir)と、ピクセルへの方向(L)の内積 = cos(角度)
-                float theta = dot(L,spotDir);
+                //ライトの正面方向(spotDir)と、ピクセルへの方向(normalSpotLight)の内積 = cos(角度)
+                float theta = dot(normalSpotLight,spotDir);
 
                 // smoothstepを使って、外角(sAngles.y) ～ 内角(sAngles.x) の間を 0.0 ～ 1.0 に滑らかに補間
                 // thetaが外角より小さければ0.0、内角より大きければ1.0になる
@@ -247,19 +315,9 @@ void main()
 
                 if(finalAtten > 0.0)
                 {
-                    //ディフューズ(拡散反射)計算
-                    float nDotL = max(dot(N,L),0.0);
-                    vec3 diffuse = realDiffuse * nDotL;
-
-                    //スペキュラーの計算
-                    vec3 R = normalize(reflect(-L,N));
-                    float RdotV = max(dot(R,V),0.0);
-                    vec3 specular = realSpecular * pow(RdotV,shininess);
-
-                    vec3 lightContribution = uLights[i].sColor * (diffuse + specular) * finalAtten;
-
+                    vec3 lightResult = CalculatePBRLight(normalSpotLight,uLights[i].sColor,N,V,gbufferDiffuse,gbufferSpecular,roughness);
                     //最終カラーに加算ブレンド
-                    finalColor += lightContribution;
+                    finalColor += lightResult * finalAtten;
                 }
             }
         }

@@ -141,22 +141,16 @@ void Shader::SetMaterialColor(const Vector4& color) { mMaterialColor = color; }
 
 void Shader::SetColorUniform(const MaterialInfo& info)
 {
-    GLuint loc = glGetUniformLocation(mShaderProgram, "ambientColor");
-    glUniform3f(loc, info.Ambient.x, info.Ambient.y, info.Ambient.z);
 
-    loc = glGetUniformLocation(mShaderProgram, "diffuseColor");
-    glUniform3f(loc, info.Diffuse.x, info.Diffuse.y, info.Diffuse.z);
+    SetVectorUniform("ambientColor", info.Ambient);
 
-    loc = glGetUniformLocation(mShaderProgram, "specularColor");
-    glUniform3f(loc, info.Specular.x, info.Specular.y, info.Specular.z);
+    SetVectorUniform("diffuseColor", info.Diffuse);
+    
+    SetVectorUniform("specularColor", info.Specular);
 
-    loc = glGetUniformLocation(mShaderProgram, "shininess");
-    glUniform1f(loc, info.Shininess);
+    SetFloatUniform("shininess", info.Shininess);
 
-    // uColorÅiRGBAÅjÇëóÇÈ
-    loc = glGetUniformLocation(mShaderProgram, "uColor");
-    glUniform4f(loc, info.Color.x, info.Color.y, info.Color.z, info.Color.w);
-
+    SetVector4Uniform("uColor", info.Color);
 
     SetFloatUniform("uMetallic", info.Metallic);
 
