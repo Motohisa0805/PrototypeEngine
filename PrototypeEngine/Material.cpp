@@ -55,8 +55,8 @@ bool Material::LoadFromFile(const string& filePath)
             }
             mData.sShininess = props.value("shininess", 0.390625f);
 
-            mData.sMetallic = props.value("metallic", 0);
-            mData.sRoughness = props.value("roughness", 0);
+            mData.sMetallic = props.value("metallic", 0.0);
+            mData.sRoughness = props.value("roughness", 0.0);
             if (props.contains("emissive"))
             {
                 auto c = props["emissive"];

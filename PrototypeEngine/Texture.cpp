@@ -398,7 +398,7 @@ void Texture::CreateForRendering(int width, int height, unsigned int format)
     glGenTextures(1, &mTextureID);
     glBindTexture(GL_TEXTURE_2D, mTextureID);
     // Set the image width/height with null initial data
-    glTexImage2D(GL_TEXTURE_2D, 0, format, mWidth, mHeight, 0, GL_RGB, GL_FLOAT,
+    glTexImage2D(GL_TEXTURE_2D, 0, format, mWidth, mHeight, 0, GL_RGBA, GL_FLOAT,
                  nullptr);
 
     // For a texture we'll render to, just use nearest neighbor

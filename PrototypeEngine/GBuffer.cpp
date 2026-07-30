@@ -23,7 +23,7 @@ bool GBuffer::Create(int width, int height)
     {
         Texture* tex = new Texture();
         // We want three 32-bit float components for each texture
-        tex->CreateForRendering(width, height, GL_RGB32F);
+        tex->CreateForRendering(width, height, GL_RGBA32F);
         mTextures.emplace_back(tex);
         // Attach this texture to a color output
         glFramebufferTexture(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + i,
@@ -66,7 +66,7 @@ bool GBuffer::Resize(int width, int height)
     for (int i = 0; i < NUM_GBUFFER_TEXTURES; i++)
     {
         glBindTexture(GL_TEXTURE_2D, mTextures[i]->GetTextureID());
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB32F, width, height, 0, GL_RGB,
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA32F, width, height, 0, GL_RGBA,
                      GL_FLOAT, nullptr);
     }
 

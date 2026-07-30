@@ -38,11 +38,14 @@ void main()
 
 	vec4 albedo = texture(uTexture, fragTexCoord) * uColor;
 	
+	vec3 realDiffuse = mix(albedo.rgb,vec3(0.0),uMetallic);
+	vec3 realSpecular = mix(vec3(0.04),albedo.rgb,uMetallic);
+
 	// 不透明度 = マテリアルカラー × テクスチャアルファ
-	outDiffuse = albedo;
+	outDiffuse = vec4(realDiffuse,albedo.a);
 	// 法線とワールド座標をそのまま出力
 	outNormal = normalize(fragNormal);
 	outWorldPos = fragWorldPos;
-	outPBR = vec4(uMetallic,uRoughness,0.0,1.0);
+	outPBR = vec4(realSpecular,uRoughness);
 	outEmissive = vec4(uEmissive,1.0);
 }

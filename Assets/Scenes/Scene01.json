@@ -40,19 +40,19 @@
           ],
           "AmbientIntensity": 1.027999997138977,
           "DiffuseColor": [
-            0.9246607422828674,
-            0.8786259889602661,
-            0.7444868683815002
+            0.9795835614204407,
+            0.9306581020355225,
+            0.7849563360214233
           ],
           "Direction": [
-            -0.07445722073316574,
-            -0.9206955432891846,
-            -0.3831133246421814
+            0.0,
+            -0.9785090088844299,
+            0.20620425045490265
           ],
           "SpecularColor": [
-            0.9206955432891846,
-            0.9206955432891846,
-            0.9206955432891846
+            0.9785090088844299,
+            0.9785090088844299,
+            0.9785090088844299
           ],
           "Type": "DirectionalLight"
         }
@@ -64,10 +64,10 @@
         0.0
       ],
       "LocalRotation": [
-        0.5496020913124084,
-        0.829915463924408,
-        0.05288548767566681,
-        -0.07988113164901733
+        0.7765964865684509,
+        0.6299983263015747,
+        0.0,
+        0.0
       ],
       "LocalScale": [
         1.0,
@@ -90,7 +90,7 @@
             0.8185052871704102,
             1.0
           ],
-          "Intensity": 1.2929999828338623,
+          "Intensity": 5.0,
           "LightType": 0,
           "Range": 5.0,
           "Type": "LocalLight"
@@ -129,7 +129,7 @@
             1.0,
             0.0
           ],
-          "Intensity": 1.0,
+          "Intensity": 0.0,
           "LightType": 1,
           "Range": 43.0,
           "Type": "LocalLight"
@@ -142,10 +142,10 @@
         0.0
       ],
       "LocalRotation": [
-        0.7072301506996155,
-        0.7069833874702454,
-        1.9514345694915392e-10,
-        1.9514345694915392e-10
+        0.7772502899169922,
+        0.629191517829895,
+        1.3472839555106475e-07,
+        1.3472839555106475e-07
       ],
       "LocalScale": [
         1.0,
@@ -257,7 +257,7 @@
           "IsSkeletal": false,
           "LocalID": "986adc77-2cf5-4b7b-afe5-453e008deaa4",
           "MaterialPaths": [
-            "Assets\\Test123\\TestMaterial.mat"
+            "Assets\\Test123\\MetallicMaterial.mat"
           ],
           "ShadowFrag": true,
           "Type": "MeshRenderer",
@@ -371,7 +371,7 @@
           "IsSkeletal": false,
           "LocalID": "e523a7e2-d84e-4cc9-90de-1492b0c5737d",
           "MaterialPaths": [
-            "Assets\\Test123\\SphereMaterial.mat"
+            "Assets\\Test123\\MetallicMaterial.mat"
           ],
           "ShadowFrag": true,
           "Type": "MeshRenderer",

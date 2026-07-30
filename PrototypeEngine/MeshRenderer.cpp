@@ -64,6 +64,9 @@ bool MeshRenderer::Draw(Shader* shader)
                     m.Ambient        = md.sAmbientColor;
                     m.Specular       = md.sSpecularColor;
                     m.Shininess      = md.sShininess;
+                    m.Metallic       = md.sMetallic;
+                    m.Roughness      = md.sRoughness;
+                    m.Emissive       = md.sEmissive;
 
                     //テクスチャがあれば上書き
                     if (mMaterials[j]->GetTexture() != nullptr)
@@ -367,6 +370,11 @@ void MeshRenderer::DrawCustomGUI(const std::vector<PropertyInfo>& properties)
                     }
                 }
                 ImGui::EndDragDropTarget();
+            }
+            ImGui::SameLine();
+            if (ImGui::Button("*"))
+            {
+                mMaterials[i] = nullptr;
             }
             ImGui::PopID();
         }
