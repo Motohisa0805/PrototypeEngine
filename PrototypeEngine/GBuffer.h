@@ -19,6 +19,8 @@ public:
 		EDiffuse = 0,
 		ENormal,
 		EWorldPos,
+		EPBR,
+		EEmissive,
 		NUM_GBUFFER_TEXTURES
 	};
 private:

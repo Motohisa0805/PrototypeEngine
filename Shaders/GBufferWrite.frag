@@ -28,16 +28,17 @@ uniform float		uMetallic;
 uniform float		uRoughness;
 uniform vec3		uEmissive;
 
-// ƒ‰ƒCƒg‚ÌFî•ñ
-//uniform vec3 specularColor;  // ‹¾–Ê”½ËŒõ
-//uniform float shininess;     // ‹¾–Ê”½Ë‚Ì‰s‚³
-
 
 void main()
 {
 
 	vec4 albedo = texture(uTexture, fragTexCoord) * uColor;
 	
+	if(albedo.a < 0.01)
+	{
+		discard;
+	}
+
 	vec3 realDiffuse = mix(albedo.rgb,vec3(0.0),uMetallic);
 	vec3 realSpecular = mix(vec3(0.04),albedo.rgb,uMetallic);
 

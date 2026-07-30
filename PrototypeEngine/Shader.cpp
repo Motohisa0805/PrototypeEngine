@@ -142,19 +142,11 @@ void Shader::SetMaterialColor(const Vector4& color) { mMaterialColor = color; }
 void Shader::SetColorUniform(const MaterialInfo& info)
 {
 
-    SetVectorUniform("ambientColor", info.Ambient);
-
-    SetVectorUniform("diffuseColor", info.Diffuse);
-    
-    SetVectorUniform("specularColor", info.Specular);
-
-    SetFloatUniform("shininess", info.Shininess);
-
     SetVector4Uniform("uColor", info.Color);
 
     SetFloatUniform("uMetallic", info.Metallic);
-
-    SetFloatUniform("uRoughness", info.Roughness);
+    float safeRoughness = Math::Max(info.Roughness, 0.04f);
+    SetFloatUniform("uRoughness", safeRoughness);
     
     SetVectorUniform("uEmissive", info.Emissive);
 }
