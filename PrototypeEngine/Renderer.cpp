@@ -598,6 +598,9 @@ void Renderer::EditorDraw3DScene(SceneViewPanel* scene,
     glDepthMask(GL_TRUE);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+        // スカイボックス描画
+    mSkyBoxRenderer->Draw(mSkyBoxShader, view, proj);
+
     // メッシュコンポーネントを描画する深度バッファリングを有効にする
     // アルファブレンドを無効にする
     glEnable(GL_DEPTH_TEST);

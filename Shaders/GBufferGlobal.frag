@@ -228,17 +228,15 @@ void main()
     float NdotV = max(dot(N,V),0.0);
     vec3 F_ambient = FresnelSchlickRoughness(NdotV,gbufferSpecular,roughness);
 
-    vec3 kS = F_ambient;
-    vec3 kD = vec3(1.0) - kS;
 
     //環境光のフレネル反射(視界角度での強弱)を計算
-    vec3 ambientDiffuse = kD * uAmbientLight * uAmbientIntensity * gbufferDiffuse;
+    vec3 ambientDiffuse = uAmbientLight * uAmbientIntensity * gbufferDiffuse;
     
     //環境光(Ambient / IBL近似)
     vec3 envReflect = reflect(-V,N);
     vec3 envColor = texture(uSkybox,envReflect,roughness * 5.0).rgb;
 
-	vec3 ambientSpecular = envColor * F_ambient;
+	vec3 ambientSpecular = envColor * F_ambient * roughness;
 
     vec3 finalColor = ambientDiffuse + ambientSpecular;
 
@@ -322,8 +320,8 @@ void main()
             }
         }
     }
-
-    finalColor += gbufferEmissive;
+    //一時的に無効
+    //finalColor += gbufferEmissive;
 
 	// 最終的なライト情報を渡す (alpha = 1)
 	outColor = vec4(finalColor,1.0);

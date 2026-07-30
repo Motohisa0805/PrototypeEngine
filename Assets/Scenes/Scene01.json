@@ -9,12 +9,12 @@
       "ID": 1,
       "LocalPosition": [
         0.0,
-        1.0,
-        -5.0
+        2.5999999046325684,
+        -6.0
       ],
       "LocalRotation": [
-        1.0,
-        0.0,
+        0.9986295104026794,
+        0.0523359589278698,
         0.0,
         0.0
       ],
@@ -129,7 +129,7 @@
             1.0,
             0.0
           ],
-          "Intensity": 0.0,
+          "Intensity": 5.0,
           "LightType": 1,
           "Range": 43.0,
           "Type": "LocalLight"
@@ -166,6 +166,9 @@
           "FilePath": "Assets\\Models\\DebugStage.fbx",
           "IsSkeletal": false,
           "LocalID": "2fdf2bd8-7468-4e4e-9122-fdeaaa6819b1",
+          "MaterialPaths": [
+            ""
+          ],
           "ShadowFrag": true,
           "Type": "MeshRenderer",
           "Visible": true
@@ -211,6 +214,9 @@
           "FilePath": "Assets\\Models\\DebugStage.fbx",
           "IsSkeletal": false,
           "LocalID": "2fdf2bd8-7468-4e4e-9122-fdeaaa6819b1",
+          "MaterialPaths": [
+            ""
+          ],
           "ShadowFrag": true,
           "Type": "MeshRenderer",
           "Visible": true
@@ -229,13 +235,13 @@
       "LocalPosition": [
         0.0,
         5.699999809265137,
-        15.5
+        10.5
       ],
       "LocalRotation": [
-        0.9238797426223755,
-        -0.3826829493045807,
-        -4.032215450422427e-09,
-        -9.734643313663582e-09
+        0.7071067690849304,
+        -0.7071067690849304,
+        0.0,
+        0.0
       ],
       "LocalScale": [
         1.0,
@@ -400,8 +406,8 @@
       "ID": 7,
       "LocalPosition": [
         0.0,
-        8.5,
-        14.0
+        2.0,
+        0.0
       ],
       "LocalRotation": [
         1.0,
@@ -428,6 +434,9 @@
           "FilePath": "Assets\\Models\\Portal.fbx",
           "IsSkeletal": false,
           "LocalID": "e6c92a09-b1c0-4cf7-9dda-5e72d99fc948",
+          "MaterialPaths": [
+            ""
+          ],
           "ShadowFrag": false,
           "Type": "MeshRenderer",
           "Visible": true
@@ -464,6 +473,9 @@
           "FilePath": "Assets\\Models\\Capsule.fbx",
           "IsSkeletal": false,
           "LocalID": "fea8a395-9547-4c1f-bbd5-1ce311fbde4f",
+          "MaterialPaths": [
+            ""
+          ],
           "ShadowFrag": true,
           "Type": "MeshRenderer",
           "Visible": true
@@ -524,6 +536,9 @@
           "FilePath": "Assets\\Models\\TestCube.fbx",
           "IsSkeletal": false,
           "LocalID": "74e34868-35a1-4824-9008-5ee55d0a0fac",
+          "MaterialPaths": [
+            ""
+          ],
           "ShadowFrag": true,
           "Type": "MeshRenderer",
           "Visible": true
@@ -560,6 +575,9 @@
           "FilePath": "Assets\\Models\\Cube.fbx",
           "IsSkeletal": false,
           "LocalID": "986adc77-2cf5-4b7b-afe5-453e008deaa4",
+          "MaterialPaths": [
+            ""
+          ],
           "ShadowFrag": true,
           "Type": "MeshRenderer",
           "Visible": true
@@ -587,7 +605,7 @@
       "LocalPosition": [
         5.0,
         8.5,
-        14.0
+        -1.5
       ],
       "LocalRotation": [
         1.0,
@@ -614,6 +632,9 @@
           "FilePath": "Assets\\Models\\Cube.fbx",
           "IsSkeletal": false,
           "LocalID": "986adc77-2cf5-4b7b-afe5-453e008deaa4",
+          "MaterialPaths": [
+            ""
+          ],
           "ShadowFrag": true,
           "Type": "MeshRenderer",
           "Visible": true
