@@ -146,7 +146,6 @@
   <ItemGroup>
     <None Include="..\Shaders\Arrow.frag" />
     <None Include="..\Shaders\Arrow.vert" />
-    <None Include="..\Shaders\BasicMesh.vert" />
     <None Include="..\Shaders\GBufferGlobal.frag" />
     <None Include="..\Shaders\GBufferGlobal.vert" />
     <None Include="..\Shaders\GBufferPointLight.frag" />

@@ -82,6 +82,8 @@ private:
 	Shader*												mMeshShader;
 	// Skinned shader
 	Shader*												mSkinnedShader;
+    // Editor view/projection for 3D shaders
+	Matrix4												mEditorView;
 	// View/projection for 3D shaders
 	Matrix4												mView;
 	Matrix4												mProjection;
@@ -210,6 +212,10 @@ public:
 	//vector<Mesh*>										GetMeshs(const string& fileName);
 
 	Mesh*												GetSubMesh(const filesystem::path& fileName, const string& localID);
+
+	Matrix4												GetEditorView() { return mEditorView; }
+    // カメラのビュー行列のSetter
+    void												SetEditorViewMatrix(const Matrix4& view) { mEditorView = view; }
 
 	Matrix4												GetView() { return mView; }
 	//カメラのビュー行列のSetter

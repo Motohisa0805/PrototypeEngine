@@ -104,7 +104,7 @@ void UIActorObject::Deserialize(const json& j)
     rot.x = Math::ToDegrees(eulerRad.x);
     rot.y = Math::ToDegrees(eulerRad.y);
     rot.z = Math::ToDegrees(eulerRad.z);
-    mRectTransform->SetRotationEditor(rot);
+    mRectTransform->SetLocalEulerAngles(rot);
 
     mRectTransform->SetLocalScale(
         Vector3(j["LocalScale"][0], j["LocalScale"][1], j["LocalScale"][2]));

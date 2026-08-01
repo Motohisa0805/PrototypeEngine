@@ -158,7 +158,7 @@ void Rigidbody::FixedUpdate(float deltaTime)
             rotEuler.x = Math::ToDegrees(eulerRad.x);
             rotEuler.y = Math::ToDegrees(eulerRad.y);
             rotEuler.z = Math::ToDegrees(eulerRad.z);
-            mActor->GetTransform()->SetRotationEditor(rotEuler);
+            mActor->GetTransform()->SetLocalEulerAngles(rotEuler);
         }
         // 力のリセット
         // （次フレームでまたAddForceするため）
