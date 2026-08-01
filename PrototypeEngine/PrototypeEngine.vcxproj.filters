@@ -183,9 +183,6 @@
     <None Include="..\Shaders\Arrow.vert">
       <Filter>Shaders</Filter>
     </None>
-    <None Include="..\Shaders\BasicMesh.vert">
-      <Filter>Shaders</Filter>
-    </None>
     <None Include="..\Shaders\GBufferGlobal.frag">
       <Filter>Shaders</Filter>
     </None>

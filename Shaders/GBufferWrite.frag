@@ -40,7 +40,7 @@ void main()
 	}
 
 	vec3 realDiffuse = mix(albedo.rgb,vec3(0.0),uMetallic);
-	vec3 realSpecular = mix(vec3(0.04),albedo.rgb,uMetallic);
+	vec3 realSpecular = mix(vec3(0.0),albedo.rgb,uMetallic);
 
 	// 不透明度 = マテリアルカラー × テクスチャアルファ
 	outDiffuse = vec4(realDiffuse,albedo.a);

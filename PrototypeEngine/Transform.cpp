@@ -209,21 +209,11 @@ void Transform::DrawCustomGUI(const std::vector<PropertyInfo>& properties)
     }
     // 回転だけローカルで取得
     // ローカルならスケール値を含まないため
-    Vector3 eulerRad = mLocalRotation.ToEulerAngles();
-    Vector3 rot;
-    rot.x = Math::ToDegrees(eulerRad.x);
-    rot.y = Math::ToDegrees(eulerRad.y);
-    rot.z = Math::ToDegrees(eulerRad.z);
     // 度数法で表示・編集
+    Vector3 rot = GetLocalEulerAngles();
     if (ImGui::DragFloat3("Rotation(deg)", &rot.x, 1.0f))
     {
-
-        // ラジアンに変換して保存
-        Quaternion qx = Quaternion::CreateFromAxisAngle(Vector3::UnitX, rot.x);
-        Quaternion qy = Quaternion::CreateFromAxisAngle(Vector3::UnitY, rot.y);
-        Quaternion qz = Quaternion::CreateFromAxisAngle(Vector3::UnitZ, rot.z);
-        Quaternion newRotation = qy * qx * qz; // ZYX順で回転を適用
-        SetLocalRotation(newRotation);
+        SetLocalEulerAngles(rot);
     }
 
     // Scale(Vector3)の編集

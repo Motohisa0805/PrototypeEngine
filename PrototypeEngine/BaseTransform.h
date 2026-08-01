@@ -16,7 +16,7 @@ protected:
 	Vector3								mPositionOffset;
 	Quaternion							mLocalRotation;
 	//回転をVector3で保持(GUIのキャッシュ用)
-	Vector3								mRotationEditor;
+	Vector3								mLocalEulerAngles;
 
 	Vector3								mLocalScale;
 
@@ -107,13 +107,24 @@ public:
 	virtual void						SetLocalRotation(const Quaternion& rotation)
 	{
 		mLocalRotation = rotation;
+        Vector3 eulerRad = mLocalRotation.ToEulerAngles();
+        mLocalEulerAngles.x = Math::ToDegrees(eulerRad.x);
+        mLocalEulerAngles.y = Math::ToDegrees(eulerRad.y);
+        mLocalEulerAngles.z = Math::ToDegrees(eulerRad.z);
 		SetDirty();
 	}
 
-	Vector3								GetRotationEditor() { return mRotationEditor; }
-	void								SetRotationEditor(const Vector3& rotation)
+	Vector3								GetLocalEulerAngles() { return mLocalEulerAngles; }
+	void								SetLocalEulerAngles(const Vector3& angles)
 	{
-		mRotationEditor = rotation;
+        mLocalEulerAngles = angles;
+
+		Quaternion qy = Quaternion::CreateFromAxisAngle(Vector3::UnitY,mLocalEulerAngles.y);
+		Quaternion qx = Quaternion::CreateFromAxisAngle(Vector3::UnitX,mLocalEulerAngles.x);
+		Quaternion qz = Quaternion::CreateFromAxisAngle(Vector3::UnitZ,mLocalEulerAngles.z);
+
+		mLocalRotation = qy * qx * qz;
+        SetDirty();
 	}
 
 	//ワールド座標の更新		

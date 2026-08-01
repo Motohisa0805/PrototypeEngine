@@ -108,7 +108,6 @@ void InspectorPanel::ActorInspection(Entity* selectedActor)
             // Staticならこれ以降のUI入力を無効化（グレーアウト）する
             ImGui::BeginDisabled(isStatic);
 
-            // DrawTransformProperties(selectedActor);
             actor->GetTransform()->DrawCustomGUI(
                 actor->GetTransform()->GetProperties());
 
@@ -135,7 +134,6 @@ void InspectorPanel::ActorInspection(Entity* selectedActor)
             // Staticならこれ以降のUI入力を無効化（グレーアウト）する
             ImGui::BeginDisabled(isStatic);
 
-            // DrawTransformProperties(selectedActor);
             uiactor->GetRectTransform()->DrawCustomGUI(
                 uiactor->GetRectTransform()->GetProperties());
 
@@ -283,7 +281,7 @@ void InspectorPanel::DrawTransformProperties(Entity* transform)
     }
     // 回転だけローカルで取得
     // ローカルならスケール値を含まないため
-    Vector3 rot = transform->GetBaseTransform()->GetRotationEditor();
+    Vector3 rot = transform->GetBaseTransform()->GetLocalEulerAngles();
     // 度数法で表示・編集
     if (ImGui::DragFloat3("Rotation(deg)", &rot.x, 1.0f))
     {
@@ -294,7 +292,7 @@ void InspectorPanel::DrawTransformProperties(Entity* transform)
         Quaternion qz = Quaternion::CreateFromAxisAngle(Vector3::UnitZ, rot.z);
         Quaternion newRotation = qy * qx * qz; // ZXY順で回転を適用
         transform->GetBaseTransform()->SetLocalRotation(newRotation);
-        transform->GetBaseTransform()->SetRotationEditor(rot);
+        transform->GetBaseTransform()->SetLocalEulerAngles(rot);
     }
 
     // Scale(Vector3)の編集

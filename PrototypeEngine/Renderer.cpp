@@ -350,21 +350,6 @@ bool Renderer::LoadShaders()
     {
         return false;
     }
-    /*
-    // GBufferからポイントライト用のシェーダーを作成する
-    mGPointLightShader = new Shader();
-    if (!mGPointLightShader->Load("BasicMesh.vert","GBufferPointLight.frag"))
-    {
-        return false;
-    }
-    // サンプラーインデックスを設定する
-    mGPointLightShader->SetActive();
-    mGPointLightShader->SetIntUniform("uGDiffuse", 0);
-    mGPointLightShader->SetIntUniform("uGNormal", 1);
-    mGPointLightShader->SetIntUniform("uGWorldPos", 2);
-    mGPointLightShader->SetVector2Uniform("uScreenDimensions",Vector2(WindowRenderProperty::GetWidth(),
-    WindowRenderProperty::GetHeight()));
-    */
     // グリッドを描画するためのシェーダーを作成する
     mGridShader = new Shader();
     if (!mGridShader->Load("Grid.vert", "Grid.frag"))
@@ -477,9 +462,9 @@ void Renderer::StartDraw()
     // G-bufferに3Dシーンを描画します。
     for (SceneViewPanel* scene : GUIEditorManager::GetSceneViewPanels())
     {
+        mEditorView = scene->GetSceneEditorCamera()->GetViewMatrix();
         EditorDraw3DScene(scene, scene->GetSceneBuffer()->GetBufferID(),
-                          scene->GetSceneEditorCamera()->GetViewMatrix(),
-                          mProjection, 1.0f, true);
+                          mEditorView,mProjection, 1.0f, true);
         // Gバッファから描画する
         DrawFromGBufferForEditor(scene);
     }
@@ -494,6 +479,7 @@ void Renderer::StartDraw()
     // すべてのスプライトコンポーネントを描画する
     // 深度バッファリングを無効にする
     glDisable(GL_DEPTH_TEST);
+    glDisable(GL_CULL_FACE);
     // カラー バッファでアルファ ブレンディングを有効にします
     glEnable(GL_BLEND);
     glBlendEquationSeparate(GL_FUNC_ADD, GL_FUNC_ADD);
@@ -605,6 +591,11 @@ void Renderer::EditorDraw3DScene(SceneViewPanel* scene,
     // アルファブレンドを無効にする
     glEnable(GL_DEPTH_TEST);
     glDisable(GL_BLEND);
+
+    //バックフェイスカリングの処理
+    glEnable(GL_CULL_FACE);
+    glCullFace(GL_BACK);
+    glFrontFace(GL_CW);
 
     // メッシュ（静的）
     mMeshShader->SetActive();
@@ -816,6 +807,10 @@ void Renderer::Draw3DScene(unsigned int framebuffer, const Matrix4& view,
     // アルファブレンドを無効にする
     glEnable(GL_DEPTH_TEST);
     glDisable(GL_BLEND);
+    // バックフェイスカリングの処理
+    glEnable(GL_CULL_FACE);
+    glCullFace(GL_BACK);
+    glFrontFace(GL_CW);
     // メッシュ（静的）
     mMeshShader->SetActive();
     mMeshShader->SetMatrixUniform("uViewProj", view * proj);
@@ -987,6 +982,8 @@ void Renderer::DrawFromGBufferForEditor(SceneViewPanel* scene)
 
     glDisable(GL_DEPTH_TEST);
 
+    glDisable(GL_CULL_FACE);
+
     mGGlobalShader->SetActive();
     mSpriteVerts->SetActive();
     scene->GetSceneBuffer()->SetTexturesActive();
@@ -1008,7 +1005,7 @@ void Renderer::DrawFromGBufferForEditor(SceneViewPanel* scene)
     glActiveTexture(GL_TEXTURE6);
     glBindTexture(GL_TEXTURE_2D, mShadowMap->GetDepthTexture());
 
-    SetLightUniforms(mGGlobalShader, mView);
+    SetLightUniforms(mGGlobalShader, mEditorView);
     SetPointLightUniforms(mGGlobalShader);
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 
@@ -1029,6 +1026,7 @@ void Renderer::DrawFromGBuffer()
     glBindFramebuffer(GL_DRAW_FRAMEBUFFER, mGameSceneViewEditor->GetBufferID());
     // グローバルライティングパスの深度テストを無効にします
     glDisable(GL_DEPTH_TEST);
+    glDisable(GL_CULL_FACE);
     // グローバルGバッファシェーダをアクティブにする
     mGGlobalShader->SetActive();
     // スプライトの頂点クアッドを有効化する
