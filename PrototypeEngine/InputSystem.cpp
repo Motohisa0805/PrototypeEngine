@@ -251,6 +251,12 @@ void InputSystem::ProcessEvent(SDL_Event& event)
         mState.Mouse.mScrollWheel = Vector2(static_cast<float>(event.wheel.x),
                                             static_cast<float>(event.wheel.y));
         break;
+    case SDL_EVENT_WINDOW_FOCUS_LOST:
+    case SDL_EVENT_WINDOW_MINIMIZED:
+    case SDL_EVENT_WINDOW_MOUSE_LEAVE:
+        AbsoluteMouseMode();
+        mState.Mouse.mCurrButtons = 0;
+        break;
     default:
         break;
     }

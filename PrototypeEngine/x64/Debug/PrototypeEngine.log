@@ -1,18 +1,13 @@
-﻿  Renderer.cpp
+﻿  SceneEditorCamera.cpp
 C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
-  (ソース ファイル 'Renderer.cpp' をコンパイルしています)
+  (ソース ファイル 'SceneEditorCamera.cpp' をコンパイルしています)
       C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
       'SDL_VERSION' は以前にコマンド ラインで宣言されています
   
 C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(84,12): warning C4251: 'Component::mName': 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'Renderer.cpp' をコンパイルしています)
+  (ソース ファイル 'SceneEditorCamera.cpp' をコンパイルしています)
       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(541,7):
       'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' の宣言を確認してください
   
-C:\C++Files\PrototypeEngine\PrototypeEngine\Renderer.cpp(209,39): warning C4267: '引数': 'size_t' から 'unsigned int' に変換しました。データが失われているかもしれません。
-C:\C++Files\PrototypeEngine\PrototypeEngine\Renderer.cpp(207,67): warning C4267: '引数': 'size_t' から 'unsigned int' に変換しました。データが失われているかもしれません。
-C:\C++Files\PrototypeEngine\PrototypeEngine\Renderer.cpp(221,39): warning C4267: '引数': 'size_t' から 'unsigned int' に変換しました。データが失われているかもしれません。
-C:\C++Files\PrototypeEngine\PrototypeEngine\Renderer.cpp(219,67): warning C4267: '引数': 'size_t' から 'unsigned int' に変換しました。データが失われているかもしれません。
-C:\C++Files\PrototypeEngine\PrototypeEngine\Renderer.cpp(579,36): warning C4244: '引数': 'float' から 'GLsizei' への変換です。データが失われる可能性があります。
-C:\C++Files\PrototypeEngine\PrototypeEngine\Renderer.cpp(578,42): warning C4244: '引数': 'float' から 'GLsizei' への変換です。データが失われる可能性があります。
+C:\C++Files\PrototypeEngine\PrototypeEngine\SceneEditorCamera.cpp(119,24): warning C4244: '初期化中': 'SDL_WindowFlags' から 'Uint32' への変換です。データが失われる可能性があります。
   PrototypeEngine.vcxproj -> C:\C++Files\PrototypeEngine\bin\PrototypeEngine.exe

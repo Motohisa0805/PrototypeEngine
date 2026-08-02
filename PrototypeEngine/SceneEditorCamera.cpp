@@ -1,6 +1,7 @@
 #include "SceneEditorCamera.h"
 #include "SceneViewPanel.h"
 #include "WindowRenderProperty.h"
+#include "EngineWindow.h"
 
 SceneEditorCamera::SceneEditorCamera(BaseScene* scene)
     : ActorObject(scene)
@@ -113,6 +114,16 @@ void SceneEditorCamera::ProcessInput(const struct InputState& keyState)
     mUpSpeed      = 0;
     mForwardSpeed = 0;
     mMode         = EditCameraMode::Null;
+
+    SDL_Window* window = EngineWindow::GetRenderer()->GetWindow();
+    Uint32      flags  = SDL_GetWindowFlags(window);
+
+    //フォーカスがない、または最小化されている場合は処理を中断
+    if (!(flags & SDL_WINDOW_INPUT_FOCUS) || (flags & SDL_WINDOW_MINIMIZED))
+    {
+        return;
+    }
+
     // SceneViewパネルにマウスが乗っていない場合、何もしない
     if (mSceneViewPanel != nullptr && !mSceneViewPanel->IsMouseHovered())
     {
