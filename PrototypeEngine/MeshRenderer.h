@@ -40,6 +40,8 @@ public:
 	// このメッシュコンポーネントを描画
 	virtual bool				Draw(Shader* shader);
 	virtual void				DrawForShadowMap(Shader* shader);
+
+	virtual void				SetLocalID(const string& localID) { mLocalID = localID; }
 	// メッシュコンポーネントで使用されるメッシュ/テクスチャインデックスを設定する
 	virtual void				SetMesh(Mesh* mesh) 
 	{
