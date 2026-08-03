@@ -42,14 +42,14 @@ void main()
 	vec3 gbufferWorldPos = texture(uGWorldPos, gbufferCoord).xyz;
 	
 	// 法線の正規化
-	vec3 N = normalize(gbufferNorm);
+	vec3 normal = normalize(gbufferNorm);
 	// ライト方向の計算
-	vec3 L = normalize(uPointLight.mWorldPos - gbufferWorldPos);
+	vec3 lightView = normalize(uPointLight.mWorldPos - gbufferWorldPos);
 
 	// Phong照明モデル
 	vec3 Phong = vec3(0.0, 0.0, 0.0);
-	float NdotL = dot(N, L);
-	if (NdotL > 0)
+	float dotNL = dot(normal, lightView);
+	if (dotNL > 0)
 	{
 		// 光とワールドの位置との距離を取得
 		float dist = distance(uPointLight.mWorldPos, gbufferWorldPos);
@@ -59,7 +59,7 @@ void main()
 		// 光の強度を反転させる（内側が1、外側が0）
 		vec3 DiffuseColor = mix(uPointLight.mDiffuseColor,
 								vec3(0.0, 0.0, 0.0), intensity);
-		Phong = DiffuseColor * NdotL;
+		Phong = DiffuseColor * dotNL;
 	}
 
 	// 最終的なライト情報を渡す (alpha = 1)

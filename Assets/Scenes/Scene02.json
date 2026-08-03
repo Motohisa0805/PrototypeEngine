@@ -36,27 +36,28 @@
           "AmbientColor": [
             0.699999988079071,
             0.699999988079071,
-            0.6000000238418579
+            0.699999988079071
           ],
+          "AmbientIntensity": 1.0,
           "DiffuseColor": [
-            1.0,
-            0.949999988079071,
-            0.800000011920929
+            0.05000000074505806,
+            0.05000000074505806,
+            0.10000000149011612
           ],
           "Direction": [
-            0.7071067094802856,
-            -0.7071068286895752,
-            0.0
-          ],
-          "SpecularColor": [
-            1.0,
-            1.0,
+            0.0,
+            0.0,
             1.0
           ],
-          "Type": "DirectionalLightComponent"
+          "SpecularColor": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Type": "DirectionalLight"
         }
       ],
-      "ID": 18,
+      "ID": 26,
       "LocalPosition": [
         0.0,
         0.0,
@@ -81,6 +82,8 @@
       "Type": "Transform"
     }
   ],
-  "SceneName": "Scene02",
+  "Lighting": {
+    "SkyBoxTexturePath": "Editor/SkyBox01.png"
+  },
   "UIActors": []
 }

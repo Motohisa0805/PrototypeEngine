@@ -581,7 +581,7 @@
       <Filter>SourceCodes\A_Editor\Function\GUIs\Systems\Texture</Filter>
     </ClCompile>
     <ClCompile Include="MaterialManager.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>SourceCodes\A_Editor\Function\Renderers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -979,7 +979,7 @@
       <Filter>SourceCodes\A_Editor\Function\GUIs\Systems\Texture</Filter>
     </ClInclude>
     <ClInclude Include="MaterialManager.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>SourceCodes\A_Editor\Function\Renderers</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -263,7 +263,7 @@
           "IsSkeletal": false,
           "LocalID": "986adc77-2cf5-4b7b-afe5-453e008deaa4",
           "MaterialPaths": [
-            "Assets\\Test123\\MetallicMaterial.mat"
+            ""
           ],
           "ShadowFrag": true,
           "Type": "MeshRenderer",
@@ -377,7 +377,7 @@
           "IsSkeletal": false,
           "LocalID": "e523a7e2-d84e-4cc9-90de-1492b0c5737d",
           "MaterialPaths": [
-            "Assets\\Test123\\MetallicMaterial.mat"
+            "Assets\\Materials\\MetallicMaterial.mat"
           ],
           "ShadowFrag": true,
           "Type": "MeshRenderer",
@@ -787,6 +787,45 @@
         1.0
       ],
       "Name": "TestParticle",
+      "ParentActorID": -1,
+      "State": 0,
+      "Static": 0,
+      "Tag": 0,
+      "Type": "Transform"
+    },
+    {
+      "Components": [
+        {
+          "Alpha": 1.0,
+          "FilePath": "Assets\\Models\\Box_01.fbx",
+          "IsSkeletal": false,
+          "LocalID": "",
+          "MaterialPaths": [
+            "Assets\\Materials\\WoodMaterial.mat"
+          ],
+          "ShadowFrag": true,
+          "Type": "MeshRenderer",
+          "Visible": true
+        }
+      ],
+      "ID": 23,
+      "LocalPosition": [
+        0.0,
+        0.0,
+        -5.0
+      ],
+      "LocalRotation": [
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "LocalScale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "Name": "WoodBox",
       "ParentActorID": -1,
       "State": 0,
       "Static": 0,

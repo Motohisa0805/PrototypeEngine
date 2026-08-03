@@ -29,8 +29,6 @@ void MaterialSettingsItem::DrawMatSettings(const filesystem::path& matPath)
     //カラー編集
     ImGui::ColorEdit4("Base Color", &data.sDiffuseColor.x);
 
-    ImGui::ColorEdit3("Specular Color(Test)", &data.sSpecularColor.x);
-
     ImGui::DragFloat("Shininess", &data.sShininess, 0.1f, 0.0f, 128.0f);
     //数値編集
     ImGui::DragFloat("Metallic", &data.sMetallic, 0.01f, 0.0f, 1.0f);

@@ -7,7 +7,7 @@ in vec2 fragTexCoord;
 out vec4 outColor;
 
 uniform sampler2D uTexture;
-uniform vec4 uColor; // ← 追加：外部から色＋αを受け取る
+uniform vec4 uColor; // 外部から色＋αを受け取る
 
 void main()
 {

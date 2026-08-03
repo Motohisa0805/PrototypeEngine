@@ -2,14 +2,14 @@
 #version 330 core
 layout (location = 0) in vec3 aPos;
 
-out vec3 TexCoords;
+out vec3 texCoords;
 
 uniform mat4 uView;
 uniform mat4 uProj;
 
 void main()
 {
-    TexCoords = aPos;
+    texCoords = aPos;
     vec4 pos = vec4(aPos, 1.0) * uView * uProj;
     gl_Position = pos.xyww; // ê[ìxÇç≈ëÂÇ…å≈íË
 }
