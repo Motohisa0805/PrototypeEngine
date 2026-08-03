@@ -1,0 +1,100 @@
+{
+    "cached_data": {
+        "animations": [],
+        "hierarchy": {
+            "children": [
+                {
+                    "mesh_indices": [
+                        0
+                    ],
+                    "name": "WoodBox",
+                    "rotation": [
+                        0.7071068286895752,
+                        0.0,
+                        0.0,
+                        0.7071067094802856
+                    ],
+                    "scale": [
+                        1.0,
+                        1.0,
+                        1.0
+                    ],
+                    "translation": [
+                        0.0,
+                        0.0,
+                        -0.0
+                    ]
+                }
+            ],
+            "name": "RootNode",
+            "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "scale": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "translation": [
+                0.0,
+                0.0,
+                -0.0
+            ]
+        },
+        "materials": [
+            {
+                "albedo_map": "Box_01.fbm\\Box_Texture_02.png",
+                "diffuse_color": [
+                    0.800000011920929,
+                    0.800000011920929,
+                    0.800000011920929,
+                    1.0
+                ],
+                "name": "Box"
+            }
+        ],
+        "meshes": [
+            {
+                "aabb_max": [
+                    0.5,
+                    0.5,
+                    0.5
+                ],
+                "aabb_min": [
+                    -0.5,
+                    -0.5,
+                    -0.5
+                ],
+                "binary_path": "Box_01_mesh0.meshbin",
+                "bounding_radius": 0.8602616190910339,
+                "has_bones": false,
+                "index_count": 132,
+                "localID": "c5533edd-8ad9-4cff-b8ef-c3af6dfb3de0",
+                "material_index": 0,
+                "name": "立方体.009",
+                "vertex_count": 96
+            }
+        ]
+    },
+    "fileFormatVersion": 1,
+    "guid": "47340f64-4da5-4297-bd4e-dd9de8699cbc",
+    "import_settings": {
+        "import_animation": false,
+        "import_mesh": true,
+        "import_skeleton": false,
+        "scale_factor": 1.0
+    },
+    "material_slots": [
+        {
+            "assigned_material": "",
+            "name": "Box",
+            "slot_index": 0
+        }
+    ],
+    "skeleton_settings": {
+        "skeleton_type": 0
+    }
+}

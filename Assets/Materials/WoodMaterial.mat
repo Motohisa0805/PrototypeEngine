@@ -1,0 +1,32 @@
+{
+    "properties": {
+        "ambient_color": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "diffuse_color": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+        ],
+        "emissive": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "metallic": 0.0,
+        "roughness": 1.0,
+        "shininess": 8.0,
+        "specular_color": [
+            1.0,
+            1.0,
+            1.0
+        ]
+    },
+    "shader": "StandardPBR",
+    "textures": {
+        "albedo_map": "Assets\\Models\\Box_01.fbm\\Box_Texture_01.png"
+    }
+}
