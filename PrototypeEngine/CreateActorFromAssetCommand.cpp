@@ -73,6 +73,7 @@ void CreateActorFromAssetCommand::AddComponent(ActorObject* actor)
 
         MeshRenderer* mesh = new MeshRenderer(actor);
         mesh->LoadFilePathAndID(mAssetPath.string().c_str(),mLocalID.c_str());
+        mesh->SetLocalID(mLocalID);
         actor->AddComponent(mesh);
     }
 }
