@@ -8,7 +8,7 @@
 #include "CreateNewActorCommand.h"
 #include "CreateNewUIActorCommand.h"
 #include "CreateNewCanvasCommand.h"
-#include "CreateActorFromAssetCommand.h"
+#include "CreateActorFromSubMeshCommand.h"
 #include "PasteActorCommand.h"
 #include "DuplicateCommand.h"
 

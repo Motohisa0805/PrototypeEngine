@@ -185,7 +185,7 @@ void EngineWindow::EngineRunLoop()
         // 終了ボタンが押されたら
         if (GUIEditorManager::IsPushEnd())
         {
-            // TODO : 実行終了時アンロードしているがここは作業記録の物を読み込む
+            // 実行終了時アンロードしているがここは作業記録の物を読み込む
             SceneManager::GamePlayEndInitilaizeScene();
             // 仮で一回更新を行う
             mGameWindow->GameRunLoop();

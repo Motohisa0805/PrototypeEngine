@@ -23,37 +23,52 @@ void MaterialSettingsItem::DrawMatSettings(const filesystem::path& matPath)
     if (!mCurrentMaterial)return;
 
     MaterialData& data = mCurrentMaterial->GetData();
-
-    ImGui::Text("Material Properties");
-    ImGui::Separator();
-    //カラー編集
-    ImGui::ColorEdit4("Base Color", &data.sDiffuseColor.x);
-
-    ImGui::DragFloat("Shininess", &data.sShininess, 0.1f, 0.0f, 128.0f);
-    //数値編集
-    ImGui::DragFloat("Metallic", &data.sMetallic, 0.01f, 0.0f, 1.0f);
-
-    ImGui::DragFloat("Roughness", &data.sRoughness, 0.01f, 0.0f, 1.0f);
-
-    ImGui::ColorEdit3("Emissive", &data.sEmissive.x);
-    //テクスチャパス編集
-    char texBuffer[256];
-    strncpy_s(texBuffer, data.sAlbedoTexturePath.c_str(), sizeof(texBuffer));
-    texBuffer[sizeof(texBuffer) - 1] = '\0';
-    ImGui::InputText("Albedo Texture", texBuffer, sizeof(texBuffer),ImGuiInputTextFlags_ReadOnly);
-    // 3.ファイルロードボタン(ProjectPanelからのDrag&Dropを想定)
-    if (ImGui::BeginDragDropTarget())
+    if (ImGui::BeginTable("MaterialSettingsTable", 2))
+    //if (ImGui::BeginTable("Material Properties", 2))
     {
-        if (const ImGuiPayload* payload =
-                ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM"))
+        ImGui::TableSetupColumn("Label", ImGuiTableColumnFlags_WidthFixed,100.0f);
+        ImGui::TableSetupColumn("Control", ImGuiTableColumnFlags_WidthStretch);
+        //カラー編集
+        ImGuiHelper::TableColorEdit4("BaseColor", &data.sDiffuseColor.x);
+        // Shininessの編集
+        ImGuiHelper::TableDragFloatHelper("Shininess", &data.sShininess, 0.1f, 0.0f, 128.0f);
+        // Metallicの編集
+        ImGuiHelper::TableDragFloatHelper("Metallic", &data.sMetallic, 0.01f, 0.0f, 1.0f);
+        // Roughnessの編集
+        ImGuiHelper::TableDragFloatHelper("Roughness", &data.sRoughness, 0.01f, 0.0f, 1.0f);
+        // Emissiveの編集
+        ImGuiHelper::TableColorEdit3("Emissive", &data.sEmissive.x);
+
+        // テクスチャパス編集
+        ImGui::TableNextRow();
+        ImGui::TableNextColumn();
+        ImGui::Text("Albedo Texture");
+
+        ImGui::TableNextColumn();
+        char texBuffer[256];
+        strncpy_s(texBuffer, data.sAlbedoTexturePath.c_str(),
+                  sizeof(texBuffer));
+        texBuffer[sizeof(texBuffer) - 1] = '\0';
+        ImGui::InputText("##AlbedoTexture", texBuffer, sizeof(texBuffer),
+                         ImGuiInputTextFlags_ReadOnly);
+        // 3.ファイルロードボタン(ProjectPanelからのDrag&Dropを想定)
+        if (ImGui::BeginDragDropTarget())
         {
-            // ペイロードがファイルパスであると仮定
-            const char* texPath = (const char*)payload->Data;
-            // ファイルパスを使いロード処理を呼び出す
-            mCurrentMaterial->SetTexture(EngineWindow::GetRenderer()->GetTexture(texPath));
-            data.sAlbedoTexturePath = texPath;
+            if (const ImGuiPayload* payload =
+                    ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM"))
+            {
+                // ペイロードがファイルパスであると仮定
+                const char* texPath = (const char*)payload->Data;
+                // ファイルパスを使いロード処理を呼び出す
+                mCurrentMaterial->SetTexture(
+                    EngineWindow::GetRenderer()->GetTexture(texPath));
+                data.sAlbedoTexturePath = texPath;
+            }
+            ImGui::EndDragDropTarget();
         }
-        ImGui::EndDragDropTarget();
+
+
+        ImGui::EndTable();
     }
 
     ImGui::NewLine();

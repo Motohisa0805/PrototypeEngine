@@ -383,7 +383,7 @@ void HierarchyPanel::DrawActorNode(ActorObject* actor)
                     filesystem::path assetPath(payloadData->sFilePath);
                     string           subMeshName(payloadData->sLocalID);
 
-                    auto cmd = std::make_unique<CreateActorFromAssetCommand>(assetPath, subMeshName, actor);
+                    auto cmd = std::make_unique<CreateActorFromSubMeshCommand>(assetPath, subMeshName, actor);
                     CommandManager::Execute(std::move(cmd));
                 }
             }

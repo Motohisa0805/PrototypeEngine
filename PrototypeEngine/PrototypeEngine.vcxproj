@@ -176,7 +176,8 @@
     <ClCompile Include="AudioComponent.cpp" />
     <ClCompile Include="AudioSystem.cpp" />
     <ClCompile Include="BaseTransform.cpp" />
-    <ClCompile Include="CreateActorFromAssetCommand.cpp" />
+    <ClCompile Include="CreateActorFromFBXFileCommand.cpp" />
+    <ClCompile Include="CreateActorFromSubMeshCommand.cpp" />
     <ClCompile Include="CreateNewCanvasCommand.cpp" />
     <ClCompile Include="CreateNewUIActorCommand.cpp" />
     <ClCompile Include="DuplicateCommand.cpp" />
@@ -294,7 +295,8 @@
     <ClInclude Include="AudioComponent.h" />
     <ClInclude Include="AudioSystem.h" />
     <ClInclude Include="BaseTransform.h" />
-    <ClInclude Include="CreateActorFromAssetCommand.h" />
+    <ClInclude Include="CreateActorFromFBXFileCommand.h" />
+    <ClInclude Include="CreateActorFromSubMeshCommand.h" />
     <ClInclude Include="CreateNewCanvasCommand.h" />
     <ClInclude Include="CreateNewUIActorCommand.h" />
     <ClInclude Include="DuplicateCommand.h" />
