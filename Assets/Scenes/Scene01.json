@@ -799,7 +799,7 @@
           "Alpha": 1.0,
           "FilePath": "Assets\\Models\\Box_01.fbx",
           "IsSkeletal": false,
-          "LocalID": "",
+          "LocalID": "c5533edd-8ad9-4cff-b8ef-c3af6dfb3de0",
           "MaterialPaths": [
             "Assets\\Materials\\WoodMaterial.mat"
           ],
@@ -808,7 +808,7 @@
           "Visible": true
         }
       ],
-      "ID": 23,
+      "ID": 24,
       "LocalPosition": [
         0.0,
         0.0,
@@ -825,7 +825,7 @@
         1.0,
         1.0
       ],
-      "Name": "WoodBox",
+      "Name": "Box_01",
       "ParentActorID": -1,
       "State": 0,
       "Static": 0,
