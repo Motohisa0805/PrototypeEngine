@@ -1,11 +1,11 @@
 //スカイボックスのフラグメントシェーダー
 #version 330 core
-in vec3 TexCoords;
+in vec3 texCoords;
 out vec4 fragColor;
 
 uniform samplerCube skybox;
 
 void main()
 {
-    fragColor = texture(skybox, TexCoords);
+    fragColor = texture(skybox, texCoords);
 }
