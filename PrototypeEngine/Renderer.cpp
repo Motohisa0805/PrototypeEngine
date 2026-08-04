@@ -1082,6 +1082,13 @@ void Renderer::DrawFromGBuffer()
 void Renderer::Shutdown()
 {
     Texture::UnloadDefaultTextures();
+    // テクスチャを破壊する
+    for (auto i : mTexturesMap)
+    {
+        i.second->Unload();
+        delete i.second;
+    }
+    mTexturesMap.clear();
 
     // メッシュを破壊する
     for (auto i : mMeshesMap)
@@ -1234,14 +1241,6 @@ void Renderer::Shutdown()
 
 void Renderer::UnloadData()
 {
-    // テクスチャを破壊する
-    for (auto i : mTexturesMap)
-    {
-        i.second->Unload();
-        delete i.second;
-    }
-    mTexturesMap.clear();
-
     for (auto& pair : mAntiTransparentBatchesMap)
     {
         if (pair.second.gBatchVertexArray)
