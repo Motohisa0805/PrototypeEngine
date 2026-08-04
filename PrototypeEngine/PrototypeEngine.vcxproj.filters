@@ -544,7 +544,7 @@
     <ClCompile Include="LightingPanel.cpp">
       <Filter>SourceCodes\A_Editor\Function\GUIs\Panels</Filter>
     </ClCompile>
-    <ClCompile Include="CreateActorFromAssetCommand.cpp">
+    <ClCompile Include="CreateActorFromSubMeshCommand.cpp">
       <Filter>SourceCodes\A_Editor\Function\GUIs\Commands</Filter>
     </ClCompile>
     <ClCompile Include="Actor.cpp">
@@ -582,6 +582,9 @@
     </ClCompile>
     <ClCompile Include="MaterialManager.cpp">
       <Filter>SourceCodes\A_Editor\Function\Renderers</Filter>
+    </ClCompile>
+    <ClCompile Include="CreateActorFromFBXFileCommand.cpp">
+      <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -939,7 +942,7 @@
     <ClInclude Include="LightingPanel.h">
       <Filter>SourceCodes\A_Editor\Function\GUIs\Panels</Filter>
     </ClInclude>
-    <ClInclude Include="CreateActorFromAssetCommand.h">
+    <ClInclude Include="CreateActorFromSubMeshCommand.h">
       <Filter>SourceCodes\A_Editor\Function\GUIs\Commands</Filter>
     </ClInclude>
     <ClInclude Include="UIActor.h">
@@ -980,6 +983,9 @@
     </ClInclude>
     <ClInclude Include="MaterialManager.h">
       <Filter>SourceCodes\A_Editor\Function\Renderers</Filter>
+    </ClInclude>
+    <ClInclude Include="CreateActorFromFBXFileCommand.h">
+      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

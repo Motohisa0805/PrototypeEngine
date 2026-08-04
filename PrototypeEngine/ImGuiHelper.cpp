@@ -1,5 +1,51 @@
 #include "ImGuiHelper.h"
 
+bool ImGuiHelper::DragFloatHelper(const char* label, float* value,
+                                     float speed, float min, float max,
+                                     const char* format, ImGuiSliderFlags flags)
+{
+    ImGui::TextUnformatted(label);
+    ImGui::SameLine();
+
+    string id = "##" + string(label);
+    return ImGui::DragFloat(id.c_str(), value, speed, min, max, format, flags);
+}
+
+bool ImGuiHelper::TableDragFloatHelper(const char* label, float* value,
+                                       float speed, float min, float max,
+                                       const char*      format,
+                                       ImGuiSliderFlags flags)
+{
+    ImGui::TableNextRow();
+    ImGui::TableNextColumn();
+    ImGui::Text(label);
+    ImGui::TableNextColumn();
+    ImGui::SetNextItemWidth(-FLT_MIN);
+    return ImGui::DragFloat(("##" + string(label)).c_str(), value, speed, min, max, format, flags);
+}
+
+bool ImGuiHelper::TableColorEdit4(const char* label, float col[4],
+                                  ImGuiColorEditFlags flags)
+{
+    ImGui::TableNextRow();
+    ImGui::TableNextColumn();
+    ImGui::Text(label);
+    ImGui::TableNextColumn();
+    ImGui::SetNextItemWidth(-FLT_MIN);
+    return ImGui::ColorEdit4(("##" + string(label)).c_str(), col, flags);
+}
+
+bool ImGuiHelper::TableColorEdit3(const char* label, float col[3],
+                                  ImGuiColorEditFlags flags)
+{
+    ImGui::TableNextRow();
+    ImGui::TableNextColumn();
+    ImGui::Text(label);
+    ImGui::TableNextColumn();
+    ImGui::SetNextItemWidth(-FLT_MIN);
+    return ImGui::ColorEdit3(("##" + string(label)).c_str(), col, flags);
+}
+
 void ImGuiHelper::FragTextButton(const char* lable, const ImVec2& size,
                                  bool& frag)
 {

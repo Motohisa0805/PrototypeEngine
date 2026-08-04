@@ -725,6 +725,9 @@
           "FilePath": "Assets\\Models\\Target.fbx",
           "IsSkeletal": false,
           "LocalID": "c41409e4-ea2d-4731-882e-507d6ecc2ca4",
+          "MaterialPaths": [
+            ""
+          ],
           "ShadowFrag": true,
           "Type": "MeshRenderer",
           "Visible": true
@@ -765,7 +768,7 @@
           "ParticleLifeTime": 1.0,
           "ParticleMaxSize": 1.0,
           "ParticleMinSize": 0.10000000149011612,
-          "TextureFilePath": "Assets\\Texture\\Heart.png",
+          "TextureFilePath": "Assets\\Particle\\Particle.png",
           "Type": "ParticleSystem"
         }
       ],
