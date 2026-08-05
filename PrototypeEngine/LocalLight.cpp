@@ -107,41 +107,48 @@ void LocalLight::DrawCustomGUI(const std::vector<PropertyInfo>& properties)
 
     ImGui::Separator();
 
-    if (ImGui::BeginCombo("LightType",
-                          GetLightComponentName(mLightType).c_str()))
+    ImGuiTableFlags tableFlags =
+    ImGuiTableFlags_Resizable | ImGuiTableFlags_SizingStretchProp;
+
+    if (ImGui::BeginTable("LocalLightSettingsTable", 2, tableFlags))
     {
-        for (uint32_t i = 0; i < LightType::Count; ++i)
+        ImGui::TableNextRow();
+
+        if (ImGui::BeginCombo("LightType",
+                              GetLightComponentName(mLightType).c_str()))
         {
-            LightType tag        = static_cast<LightType>(i);
-            bool      isSelected = (mLightType == tag);
-
-            if (ImGui::Selectable(GetLightComponentName(tag).c_str(),
-                                  isSelected))
+            for (uint32_t i = 0; i < LightType::Count; ++i)
             {
-                mLightType = tag;
+                LightType tag        = static_cast<LightType>(i);
+                bool      isSelected = (mLightType == tag);
+
+                if (ImGui::Selectable(GetLightComponentName(tag).c_str(),
+                                      isSelected))
+                {
+                    mLightType = tag;
+                }
             }
+            ImGui::EndCombo();
         }
-        ImGui::EndCombo();
+
+        if (ImGuiHelper::TableColorEdit3("Light Color", &mColor.x))
+        {
+            mActor->GetTransform()->SetDirty();
+        }
+
+        if (ImGuiHelper::TableSliderFloat("Intensity", &mIntensity, 0.0f, 5.0f))
+        {
+            mActor->GetTransform()->SetDirty();
+        }
+
+        if (ImGuiHelper::TableDragFloatHelper("Light Range", &mRange))
+        {
+            mActor->GetTransform()->SetDirty();
+        }
+
+        ImGui::EndTable();
     }
 
-    ImGui::Text("Light Color");
-    ImGui::SetNextItemWidth(200);
-    if (ImGui::ColorEdit3("##lightColor", &mColor.x))
-    {
-        mActor->GetTransform()->SetDirty();
-    }
-
-    ImGui::Text("Intensity");
-    if (ImGui::SliderFloat("##intensity", &mIntensity, 0.0f, 5.0f))
-    {
-        mActor->GetTransform()->SetDirty();
-    }
-
-    ImGui::Text("Light Range");
-    if (ImGui::DragFloat("##lightRange", &mRange))
-    {
-        mActor->GetTransform()->SetDirty();
-    }
 
     ImGui::Separator();
 

@@ -113,18 +113,23 @@ void DirectionalLightComponent::DrawCustomGUI(
 
     ImGui::Separator();
 
-    ImGui::Text("Ambient Color");
-    ImGui::SetNextItemWidth(200);
-    if (ImGui::ColorEdit3("##ambientColor", &mDirectionalLight.sAmbientColor.x))
-    {
-        mActor->GetTransform()->SetDirty();
-    }
+    ImGuiTableFlags tableFlags = ImGuiTableFlags_Resizable | ImGuiTableFlags_SizingStretchProp;
 
-    ImGui::Text("Ambient Intensity");
-    if (ImGui::SliderFloat("##ambientIntensity",
-                           &mDirectionalLight.sAmbientIntensity, 0.0f, 5.0f))
+    if (ImGui::BeginTable("DirectionalLightSettingsTable", 2, tableFlags))
     {
-        mActor->GetTransform()->SetDirty();
+        ImGui::TableNextRow();
+
+        if(ImGuiHelper::TableColorEdit3("Ambient Color",&mDirectionalLight.sAmbientColor.x))
+        {
+            mActor->GetTransform()->SetDirty();
+        }   
+
+        if(ImGuiHelper::TableSliderFloat("Ambient Intensity", &mDirectionalLight.sAmbientIntensity, 0.0f, 5.0f))
+        {
+            mActor->GetTransform()->SetDirty();
+        }   
+
+        ImGui::EndTable();
     }
 
     ImGui::Separator();

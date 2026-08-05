@@ -1,0 +1,688 @@
+{
+    "cached_data": {
+        "animations": [],
+        "hierarchy": {
+            "children": [
+                {
+                    "mesh_indices": [
+                        "ee47a7c2-d054-4412-b863-b34d7d422826"
+                    ],
+                    "name": "Model_Head",
+                    "rotation": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        1.0
+                    ],
+                    "scale": [
+                        1.0850820541381836,
+                        1.0850820541381836,
+                        1.0850820541381836
+                    ],
+                    "translation": [
+                        0.0,
+                        0.0,
+                        -0.0
+                    ]
+                },
+                {
+                    "mesh_indices": [
+                        "1ade5785-788f-4dce-99b8-4de604d66684"
+                    ],
+                    "name": "Model_Body",
+                    "rotation": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        1.0
+                    ],
+                    "scale": [
+                        1.0,
+                        1.0,
+                        1.0
+                    ],
+                    "translation": [
+                        0.0,
+                        0.0,
+                        -0.0
+                    ]
+                },
+                {
+                    "mesh_indices": [
+                        "8e61f6e4-8788-4dd3-b085-5e04774fc0bc"
+                    ],
+                    "name": "Model_Shoulder",
+                    "rotation": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        1.0
+                    ],
+                    "scale": [
+                        1.0,
+                        1.0,
+                        1.0
+                    ],
+                    "translation": [
+                        0.0,
+                        0.0,
+                        -0.0
+                    ]
+                },
+                {
+                    "mesh_indices": [
+                        "142c49bd-44bf-4be5-947a-bc9330104168"
+                    ],
+                    "name": "Model_Arm_00",
+                    "rotation": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        1.0
+                    ],
+                    "scale": [
+                        1.0,
+                        1.0,
+                        1.0
+                    ],
+                    "translation": [
+                        0.0,
+                        0.0,
+                        -0.0
+                    ]
+                },
+                {
+                    "mesh_indices": [
+                        "b9cff21e-f8af-4a0a-a985-8857561413a1"
+                    ],
+                    "name": "Model_Arm_01",
+                    "rotation": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        1.0
+                    ],
+                    "scale": [
+                        1.0,
+                        1.0,
+                        1.0
+                    ],
+                    "translation": [
+                        0.0,
+                        0.0,
+                        -0.0
+                    ]
+                },
+                {
+                    "mesh_indices": [
+                        "c100d12c-a543-4f80-adb7-fba78ccbb2d8"
+                    ],
+                    "name": "Model_Arm_03",
+                    "rotation": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        1.0
+                    ],
+                    "scale": [
+                        1.0,
+                        1.0,
+                        1.0
+                    ],
+                    "translation": [
+                        0.0,
+                        0.0,
+                        -0.0
+                    ]
+                },
+                {
+                    "mesh_indices": [
+                        "f0570bd2-a413-4f23-b1c5-6af5321b74a2"
+                    ],
+                    "name": "Model_Arm_02",
+                    "rotation": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        1.0
+                    ],
+                    "scale": [
+                        1.0,
+                        1.0,
+                        1.0
+                    ],
+                    "translation": [
+                        0.0,
+                        0.0,
+                        -0.0
+                    ]
+                },
+                {
+                    "mesh_indices": [
+                        "04d75a3b-a268-43d4-b0f5-863462cdb3f4"
+                    ],
+                    "name": "Model_Hand",
+                    "rotation": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        1.0
+                    ],
+                    "scale": [
+                        1.0,
+                        1.0,
+                        1.0
+                    ],
+                    "translation": [
+                        0.0,
+                        0.0,
+                        -0.0
+                    ]
+                },
+                {
+                    "mesh_indices": [
+                        "f20ec36c-d15b-44a4-b379-fbce930cc978"
+                    ],
+                    "name": "Model_Hips",
+                    "rotation": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        1.0
+                    ],
+                    "scale": [
+                        1.0,
+                        1.0,
+                        1.0
+                    ],
+                    "translation": [
+                        0.0,
+                        0.0,
+                        -0.0
+                    ]
+                },
+                {
+                    "mesh_indices": [
+                        "965e7ad5-5e7c-451b-8712-51395a9ccd7a"
+                    ],
+                    "name": "Model_Leg_01",
+                    "rotation": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        1.0
+                    ],
+                    "scale": [
+                        1.0,
+                        1.0,
+                        1.0
+                    ],
+                    "translation": [
+                        0.0,
+                        0.0,
+                        -0.0
+                    ]
+                },
+                {
+                    "mesh_indices": [
+                        "8c4d8950-2a89-4a99-8256-ad0873325af4"
+                    ],
+                    "name": "Model_Foot",
+                    "rotation": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        1.0
+                    ],
+                    "scale": [
+                        1.0,
+                        1.0,
+                        1.0
+                    ],
+                    "translation": [
+                        0.0,
+                        0.0,
+                        -0.0
+                    ]
+                },
+                {
+                    "mesh_indices": [
+                        "960ff2ce-72de-422f-8ae3-7a967b249174"
+                    ],
+                    "name": "Model_Leg.004",
+                    "rotation": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        1.0
+                    ],
+                    "scale": [
+                        1.0,
+                        1.0,
+                        1.0
+                    ],
+                    "translation": [
+                        0.0,
+                        0.0,
+                        -0.0
+                    ]
+                },
+                {
+                    "mesh_indices": [
+                        "64acc597-c34e-4e4a-ad1d-ba5297f8773e"
+                    ],
+                    "name": "Model_Body_Parts_Vernier",
+                    "rotation": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        1.0
+                    ],
+                    "scale": [
+                        1.0,
+                        1.0,
+                        1.0
+                    ],
+                    "translation": [
+                        0.0,
+                        0.0,
+                        -0.0
+                    ]
+                },
+                {
+                    "mesh_indices": [
+                        "8c5bec2b-26d3-47c8-bb7e-1ade1256ecbd"
+                    ],
+                    "name": "Model_Body_Parts_Backpack",
+                    "rotation": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        1.0
+                    ],
+                    "scale": [
+                        1.0,
+                        1.0,
+                        1.0
+                    ],
+                    "translation": [
+                        0.0,
+                        0.0,
+                        -0.0
+                    ]
+                },
+                {
+                    "mesh_indices": [
+                        "f8cab9d5-710a-4f6b-8116-0324435a9b84"
+                    ],
+                    "name": "Model_Body_Parts_Neck",
+                    "rotation": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        1.0
+                    ],
+                    "scale": [
+                        1.0,
+                        1.0,
+                        1.0
+                    ],
+                    "translation": [
+                        0.0,
+                        0.0,
+                        -0.0
+                    ]
+                }
+            ],
+            "name": "RootNode",
+            "rotation": [
+                0.0,
+                1.0,
+                -0.0,
+                0.0
+            ],
+            "scale": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "translation": [
+                0.0,
+                0.0,
+                -0.0
+            ]
+        },
+        "materials": [
+            {
+                "albedo_map": "RX78-2_Model.fbm\\Body_Texture_RX_78_2.png",
+                "diffuse_color": [
+                    0.800000011920929,
+                    0.800000011920929,
+                    0.800000011920929,
+                    1.0
+                ],
+                "name": "Material_Body"
+            }
+        ],
+        "meshes": [
+            {
+                "aabb_max": [
+                    1.6474443674087524,
+                    21.82324981689453,
+                    1.6558809280395508
+                ],
+                "aabb_min": [
+                    -1.6474443674087524,
+                    18.6500244140625,
+                    -1.4787157773971558
+                ],
+                "binary_path": "Robot_Model_mesh0.meshbin",
+                "bounding_radius": 21.82684326171875,
+                "has_bones": false,
+                "index_count": 5790,
+                "localID": "ee47a7c2-d054-4412-b863-b34d7d422826",
+                "material_index": 0,
+                "name": "立方体.013",
+                "vertex_count": 3732
+            },
+            {
+                "aabb_max": [
+                    3.3618381023406982,
+                    23.3441104888916,
+                    3.327591896057129
+                ],
+                "aabb_min": [
+                    -3.3618381023406982,
+                    14.84655475616455,
+                    -2.8233416080474854
+                ],
+                "binary_path": "Robot_Model_mesh1.meshbin",
+                "bounding_radius": 23.658519744873047,
+                "has_bones": false,
+                "index_count": 2874,
+                "localID": "1ade5785-788f-4dce-99b8-4de604d66684",
+                "material_index": 0,
+                "name": "立方体.014",
+                "vertex_count": 1818
+            },
+            {
+                "aabb_max": [
+                    5.497709274291992,
+                    20.586185455322266,
+                    0.9753370881080627
+                ],
+                "aabb_min": [
+                    -5.497709274291992,
+                    17.951221466064453,
+                    -1.5460078716278076
+                ],
+                "binary_path": "Robot_Model_mesh2.meshbin",
+                "bounding_radius": 21.271696090698242,
+                "has_bones": false,
+                "index_count": 696,
+                "localID": "8e61f6e4-8788-4dd3-b085-5e04774fc0bc",
+                "material_index": 0,
+                "name": "立方体.015",
+                "vertex_count": 428
+            },
+            {
+                "aabb_max": [
+                    4.8312482833862305,
+                    19.81499481201172,
+                    0.3585926592350006
+                ],
+                "aabb_min": [
+                    -4.8312482833862305,
+                    18.317363739013672,
+                    -0.9639978408813477
+                ],
+                "binary_path": "Robot_Model_mesh3.meshbin",
+                "bounding_radius": 20.349443435668945,
+                "has_bones": false,
+                "index_count": 240,
+                "localID": "142c49bd-44bf-4be5-947a-bc9330104168",
+                "material_index": 0,
+                "name": "立方体.016",
+                "vertex_count": 160
+            },
+            {
+                "aabb_max": [
+                    5.040489196777344,
+                    18.5790958404541,
+                    0.4821157455444336
+                ],
+                "aabb_min": [
+                    -5.040489196777344,
+                    16.467517852783203,
+                    -1.0875210762023926
+                ],
+                "binary_path": "Robot_Model_mesh4.meshbin",
+                "bounding_radius": 19.204364776611328,
+                "has_bones": false,
+                "index_count": 168,
+                "localID": "b9cff21e-f8af-4a0a-a985-8857561413a1",
+                "material_index": 0,
+                "name": "立方体.018",
+                "vertex_count": 112
+            },
+            {
+                "aabb_max": [
+                    5.796473026275635,
+                    16.09515380859375,
+                    0.5542380809783936
+                ],
+                "aabb_min": [
+                    -5.796473026275635,
+                    12.578329086303711,
+                    -1.159643530845642
+                ],
+                "binary_path": "Robot_Model_mesh5.meshbin",
+                "bounding_radius": 16.920543670654297,
+                "has_bones": false,
+                "index_count": 312,
+                "localID": "c100d12c-a543-4f80-adb7-fba78ccbb2d8",
+                "material_index": 0,
+                "name": "立方体.019",
+                "vertex_count": 208
+            },
+            {
+                "aabb_max": [
+                    5.4342474937438965,
+                    16.99688148498535,
+                    0.4607323110103607
+                ],
+                "aabb_min": [
+                    -5.4342474937438965,
+                    15.535301208496094,
+                    -1.0399396419525146
+                ],
+                "binary_path": "Robot_Model_mesh6.meshbin",
+                "bounding_radius": 17.65062713623047,
+                "has_bones": false,
+                "index_count": 1608,
+                "localID": "f0570bd2-a413-4f23-b1c5-6af5321b74a2",
+                "material_index": 0,
+                "name": "立方体.020",
+                "vertex_count": 1064
+            },
+            {
+                "aabb_max": [
+                    5.583637237548828,
+                    13.346854209899902,
+                    0.8589969277381897
+                ],
+                "aabb_min": [
+                    -5.583637237548828,
+                    9.700666427612305,
+                    -0.9798908233642578
+                ],
+                "binary_path": "Robot_Model_mesh7.meshbin",
+                "bounding_radius": 14.368704795837402,
+                "has_bones": false,
+                "index_count": 13368,
+                "localID": "04d75a3b-a268-43d4-b0f5-863462cdb3f4",
+                "material_index": 0,
+                "name": "立方体.021",
+                "vertex_count": 9196
+            },
+            {
+                "aabb_max": [
+                    3.193300485610962,
+                    15.379020690917969,
+                    3.490873336791992
+                ],
+                "aabb_min": [
+                    -3.193300485610962,
+                    11.820171356201172,
+                    -2.5287985801696777
+                ],
+                "binary_path": "Robot_Model_mesh8.meshbin",
+                "bounding_radius": 15.659114837646484,
+                "has_bones": false,
+                "index_count": 1788,
+                "localID": "f20ec36c-d15b-44a4-b379-fbce930cc978",
+                "material_index": 0,
+                "name": "立方体.022",
+                "vertex_count": 1090
+            },
+            {
+                "aabb_max": [
+                    3.2615857124328613,
+                    14.32125473022461,
+                    1.3387078046798706
+                ],
+                "aabb_min": [
+                    -3.2615857124328613,
+                    8.751531600952148,
+                    -0.9777425527572632
+                ],
+                "binary_path": "Robot_Model_mesh9.meshbin",
+                "bounding_radius": 14.490498542785645,
+                "has_bones": false,
+                "index_count": 828,
+                "localID": "965e7ad5-5e7c-451b-8712-51395a9ccd7a",
+                "material_index": 0,
+                "name": "立方体.023",
+                "vertex_count": 528
+            },
+            {
+                "aabb_max": [
+                    5.471516132354736,
+                    2.980722427368164,
+                    4.103753089904785
+                ],
+                "aabb_min": [
+                    -5.471516132354736,
+                    0.0,
+                    -1.8196748495101929
+                ],
+                "binary_path": "Robot_Model_mesh10.meshbin",
+                "bounding_radius": 6.2689971923828125,
+                "has_bones": false,
+                "index_count": 4788,
+                "localID": "8c4d8950-2a89-4a99-8256-ad0873325af4",
+                "material_index": 0,
+                "name": "立方体.024",
+                "vertex_count": 2888
+            },
+            {
+                "aabb_max": [
+                    4.628592491149902,
+                    10.054183959960938,
+                    1.9578168392181396
+                ],
+                "aabb_min": [
+                    -4.628592491149902,
+                    2.423969268798828,
+                    -1.5417091846466064
+                ],
+                "binary_path": "Robot_Model_mesh11.meshbin",
+                "bounding_radius": 10.514339447021484,
+                "has_bones": false,
+                "index_count": 5592,
+                "localID": "960ff2ce-72de-422f-8ae3-7a967b249174",
+                "material_index": 0,
+                "name": "立方体.025",
+                "vertex_count": 3428
+            },
+            {
+                "aabb_max": [
+                    1.5072479248046875,
+                    17.106475830078125,
+                    -2.5850894451141357
+                ],
+                "aabb_min": [
+                    -1.5072479248046875,
+                    16.025222778320313,
+                    -3.6857120990753174
+                ],
+                "binary_path": "Robot_Model_mesh12.meshbin",
+                "bounding_radius": 17.454187393188477,
+                "has_bones": false,
+                "index_count": 1848,
+                "localID": "64acc597-c34e-4e4a-ad1d-ba5297f8773e",
+                "material_index": 0,
+                "name": "立方体.026",
+                "vertex_count": 1192
+            },
+            {
+                "aabb_max": [
+                    2.6618714332580566,
+                    20.277048110961914,
+                    -1.4193331003189087
+                ],
+                "aabb_min": [
+                    -2.6618714332580566,
+                    16.105510711669922,
+                    -3.447075843811035
+                ],
+                "binary_path": "Robot_Model_mesh13.meshbin",
+                "bounding_radius": 20.508813858032227,
+                "has_bones": false,
+                "index_count": 774,
+                "localID": "8c5bec2b-26d3-47c8-bb7e-1ade1256ecbd",
+                "material_index": 0,
+                "name": "立方体.027",
+                "vertex_count": 494
+            },
+            {
+                "aabb_max": [
+                    1.5078868865966797,
+                    20.645275115966797,
+                    1.7586629390716553
+                ],
+                "aabb_min": [
+                    -1.5078868865966797,
+                    19.50318717956543,
+                    -1.7577074766159058
+                ],
+                "binary_path": "Robot_Model_mesh14.meshbin",
+                "bounding_radius": 20.762563705444336,
+                "has_bones": false,
+                "index_count": 906,
+                "localID": "f8cab9d5-710a-4f6b-8116-0324435a9b84",
+                "material_index": 0,
+                "name": "立方体.028",
+                "vertex_count": 500
+            }
+        ]
+    },
+    "fileFormatVersion": 1,
+    "guid": "e599e713-5508-4bd3-a6a8-c8e14fd70452",
+    "import_settings": {
+        "import_animation": false,
+        "import_mesh": true,
+        "import_skeleton": false,
+        "scale_factor": 1.0
+    },
+    "material_slots": [
+        {
+            "assigned_material": "",
+            "name": "Material_Body",
+            "slot_index": 0
+        }
+    ],
+    "skeleton_settings": {
+        "skeleton_type": 0
+    }
+}
