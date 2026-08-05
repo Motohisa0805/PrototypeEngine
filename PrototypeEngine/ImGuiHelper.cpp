@@ -11,6 +11,19 @@ bool ImGuiHelper::DragFloatHelper(const char* label, float* value,
     return ImGui::DragFloat(id.c_str(), value, speed, min, max, format, flags);
 }
 
+bool ImGuiHelper::TableSliderFloat(const char* label, float* value, float min,
+                                   float max, const char* format,
+                                   ImGuiSliderFlags flags)
+{
+    ImGui::TableNextRow();
+    ImGui::TableNextColumn();
+    ImGui::Text(label);
+    ImGui::TableNextColumn();
+    ImGui::SetNextItemWidth(-FLT_MIN);
+    return ImGui::SliderFloat(("##" + string(label)).c_str(), value, min,
+                            max, format, flags);
+}
+
 bool ImGuiHelper::TableDragFloatHelper(const char* label, float* value,
                                        float speed, float min, float max,
                                        const char*      format,
@@ -44,6 +57,16 @@ bool ImGuiHelper::TableColorEdit3(const char* label, float col[3],
     ImGui::TableNextColumn();
     ImGui::SetNextItemWidth(-FLT_MIN);
     return ImGui::ColorEdit3(("##" + string(label)).c_str(), col, flags);
+}
+
+bool ImGuiHelper::TableCheckbox(const char* label, bool* v) 
+{
+    ImGui::TableNextRow();
+    ImGui::TableNextColumn();
+    ImGui::Text(label);
+    ImGui::TableNextColumn();
+    ImGui::SetNextItemWidth(-FLT_MIN);
+    return ImGui::Checkbox(("##" + string(label)).c_str(), v);
 }
 
 void ImGuiHelper::FragTextButton(const char* lable, const ImVec2& size,

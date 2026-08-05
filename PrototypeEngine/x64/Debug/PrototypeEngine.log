@@ -25,14 +25,14 @@ C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(84,12): warning C4251: '
       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(541,7):
       'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' の宣言を確認してください
   
-C:\C++Files\PrototypeEngine\PrototypeEngine\AssetImporter.cpp(385,25): warning C4244: '初期化中': 'double' から 'float' への変換です。データが失われる可能性があります。
-C:\C++Files\PrototypeEngine\PrototypeEngine\AssetImporter.cpp(682,26): warning C4244: '初期化中': 'double' から 'float' への変換です。データが失われる可能性があります。
-C:\C++Files\PrototypeEngine\PrototypeEngine\AssetImporter.cpp(683,29): warning C4244: '初期化中': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\C++Files\PrototypeEngine\PrototypeEngine\AssetImporter.cpp(764,31): warning C4244: '初期化中': 'double' から 'float' への変換です。データが失われる可能性があります。
-C:\C++Files\PrototypeEngine\PrototypeEngine\AssetImporter.cpp(792,25): warning C4244: '=': 'int' から 'float' への変換です。データが失われる可能性があります。
-C:\C++Files\PrototypeEngine\PrototypeEngine\AssetImporter.cpp(995,21): warning C4244: '初期化中': 'double' から 'float' への変換です。データが失われる可能性があります。
-C:\C++Files\PrototypeEngine\PrototypeEngine\AssetImporter.cpp(1035,21): warning C4244: '初期化中': 'double' から 'float' への変換です。データが失われる可能性があります。
+C:\C++Files\PrototypeEngine\PrototypeEngine\AssetImporter.cpp(423,25): warning C4244: '初期化中': 'double' から 'float' への変換です。データが失われる可能性があります。
+C:\C++Files\PrototypeEngine\PrototypeEngine\AssetImporter.cpp(720,26): warning C4244: '初期化中': 'double' から 'float' への変換です。データが失われる可能性があります。
+C:\C++Files\PrototypeEngine\PrototypeEngine\AssetImporter.cpp(721,29): warning C4244: '初期化中': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\C++Files\PrototypeEngine\PrototypeEngine\AssetImporter.cpp(802,31): warning C4244: '初期化中': 'double' から 'float' への変換です。データが失われる可能性があります。
+C:\C++Files\PrototypeEngine\PrototypeEngine\AssetImporter.cpp(830,25): warning C4244: '=': 'int' から 'float' への変換です。データが失われる可能性があります。
+C:\C++Files\PrototypeEngine\PrototypeEngine\AssetImporter.cpp(1053,21): warning C4244: '初期化中': 'double' から 'float' への変換です。データが失われる可能性があります。
 C:\C++Files\PrototypeEngine\PrototypeEngine\AssetImporter.cpp(1093,21): warning C4244: '初期化中': 'double' から 'float' への変換です。データが失われる可能性があります。
+C:\C++Files\PrototypeEngine\PrototypeEngine\AssetImporter.cpp(1151,21): warning C4244: '初期化中': 'double' から 'float' への変換です。データが失われる可能性があります。
   BaseCamera.cpp
 C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(84,12): warning C4251: 'Component::mName': 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
   (ソース ファイル 'BaseCamera.cpp' をコンパイルしています)
@@ -373,17 +373,6 @@ C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(84,12): warning C4251: '
       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(541,7):
       'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' の宣言を確認してください
   
-  ImGuiHelper.cpp
-C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
-  (ソース ファイル 'ImGuiHelper.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
-      'SDL_VERSION' は以前にコマンド ラインで宣言されています
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(84,12): warning C4251: 'Component::mName': 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'ImGuiHelper.cpp' をコンパイルしています)
-      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(541,7):
-      'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' の宣言を確認してください
-  
   Image.cpp
 C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(84,12): warning C4251: 'Component::mName': 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
   (ソース ファイル 'Image.cpp' をコンパイルしています)
@@ -557,7 +546,7 @@ C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\S
       C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
       'SDL_VERSION' は以前にコマンド ラインで宣言されています
   
-C:\C++Files\PrototypeEngine\PrototypeEngine\MeshRenderer.cpp(333,27): warning C4267: '初期化中': 'size_t' から 'int' に変換しました。データが失われているかもしれません。
+C:\C++Files\PrototypeEngine\PrototypeEngine\MeshRenderer.cpp(334,27): warning C4267: '初期化中': 'size_t' から 'int' に変換しました。データが失われているかもしれません。
   ParticleSystem.cpp
 C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(84,12): warning C4251: 'Component::mName': 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
   (ソース ファイル 'ParticleSystem.cpp' をコンパイルしています)
@@ -580,9 +569,6 @@ C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(84,12): warning C4251: '
       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(541,7):
       'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' の宣言を確認してください
   
-  コードを生成中...
-C:\C++Files\PrototypeEngine\PrototypeEngine\Image.h(104,1): warning C4715: 'ImageInformation::GetFillMethodName': 値を返さないコントロール パスがあります。
-  コンパイル中...
   ProjectExplanationPanel.cpp
 C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
   (ソース ファイル 'ProjectExplanationPanel.cpp' をコンパイルしています)
@@ -594,6 +580,9 @@ C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(84,12): warning C4251: '
       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(541,7):
       'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' の宣言を確認してください
   
+  コードを生成中...
+C:\C++Files\PrototypeEngine\PrototypeEngine\Image.h(104,1): warning C4715: 'ImageInformation::GetFillMethodName': 値を返さないコントロール パスがあります。
+  コンパイル中...
   ProjectPanel.cpp
 C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
   (ソース ファイル 'ProjectPanel.cpp' をコンパイルしています)

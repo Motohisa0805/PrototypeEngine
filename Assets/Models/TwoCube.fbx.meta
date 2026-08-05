@@ -5,7 +5,7 @@
             "children": [
                 {
                     "mesh_indices": [
-                        0
+                        "78ca6789-d539-4cad-b441-3f353b4d38aa"
                     ],
                     "name": "Cube",
                     "rotation": [
@@ -27,7 +27,7 @@
                 },
                 {
                     "mesh_indices": [
-                        1
+                        "0aadb318-d7b3-4a75-8342-14956b0ab296"
                     ],
                     "name": "Cube.001",
                     "rotation": [

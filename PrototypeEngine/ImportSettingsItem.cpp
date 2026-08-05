@@ -12,25 +12,25 @@ AllImportSettings ImportSettingsItem::mCurrentAllImportSettings;
 
 void ImportSettingsItem::DrawModelSettings() {
     ImGui::Text("Scene"); 
-    ImGui::DragFloat("ScaleFactor",
-                     &mCurrentAllImportSettings.sModel.sScaleFactory);
-    ImGui::Checkbox("ConvertUnits", &mCurrentAllImportSettings.sModel.sConvertUnits);
+    ImGuiHelper::TableDragFloatHelper("ScaleFactor", &mCurrentAllImportSettings.sModel.sScaleFactory, 0.01f, 0.01f, 100.0f);
+
+    ImGuiHelper::TableCheckbox("ConvertUnits", &mCurrentAllImportSettings.sModel.sConvertUnits);
     
-    ImGui::Checkbox("BakeAxisConversion", &mCurrentAllImportSettings.sModel.sBakeAxisConversion);
+    ImGuiHelper::TableCheckbox("BakeAxisConversion", &mCurrentAllImportSettings.sModel.sBakeAxisConversion);
     
-    ImGui::Checkbox("ImportBlendShapes", &mCurrentAllImportSettings.sModel.sImportBlendShapes);
+    ImGuiHelper::TableCheckbox("ImportBlendShapes", &mCurrentAllImportSettings.sModel.sImportBlendShapes);
     
-    ImGui::Checkbox("ImportDeformPercent", &mCurrentAllImportSettings.sModel.sImportDeformPercent);
+    ImGuiHelper::TableCheckbox("ImportDeformPercent", &mCurrentAllImportSettings.sModel.sImportDeformPercent);
     
-    ImGui::Checkbox("ImportVisibility", &mCurrentAllImportSettings.sModel.sImportVisibility);
+    ImGuiHelper::TableCheckbox("ImportVisibility", &mCurrentAllImportSettings.sModel.sImportVisibility);
     
-    ImGui::Checkbox("ImportCameras", &mCurrentAllImportSettings.sModel.sImportCameras);
+    ImGuiHelper::TableCheckbox("ImportCameras", &mCurrentAllImportSettings.sModel.sImportCameras);
     
-    ImGui::Checkbox("ImportLights", &mCurrentAllImportSettings.sModel.sImportLights);
+    ImGuiHelper::TableCheckbox("ImportLights", &mCurrentAllImportSettings.sModel.sImportLights);
     
-    ImGui::Checkbox("PreserveHierarchy", &mCurrentAllImportSettings.sModel.sPreserveHierarchy);
+    ImGuiHelper::TableCheckbox("PreserveHierarchy", &mCurrentAllImportSettings.sModel.sPreserveHierarchy);
     
-    ImGui::Checkbox("SortHierarchyByName", &mCurrentAllImportSettings.sModel.sSortHierarchyByName);
+    ImGuiHelper::TableCheckbox("SortHierarchyByName", &mCurrentAllImportSettings.sModel.sSortHierarchyByName);
 }
 
 void ImportSettingsItem::DrawRigSettings() {}
@@ -99,25 +99,34 @@ void ImportSettingsItem::DrawFBXImportSettings(const filesystem::path& fbxPath)
     ImGui::Separator();
     ImGui::Spacing();
 
-    switch (mCurrentTab)
+    if (ImGui::BeginTable("MaterialSettingsTable", 2))
     {
-    case ImportSettingsItem::ImportTab::Model:
-        ImGui::Text("Model Import Options");
-        DrawModelSettings();
-        break;
-    case ImportSettingsItem::ImportTab::Rig:
-        ImGui::Text("Rig Import Options");
-        DrawRigSettings();
-        break;
-    case ImportSettingsItem::ImportTab::Animation:
-        ImGui::Text("Animation Import Options");
-        DrawAnimationSettings();
-        break;
-    case ImportSettingsItem::ImportTab::Materials:
-        ImGui::Text("Material Import Options");
-        DrawMaterialsSettings();
-        break;
+        ImGui::TableSetupColumn("Label", ImGuiTableColumnFlags_WidthFixed,100.0f);
+        ImGui::TableSetupColumn("Control", ImGuiTableColumnFlags_WidthStretch);
+
+        switch (mCurrentTab)
+        {
+        case ImportSettingsItem::ImportTab::Model:
+            ImGui::Text("Model Import Options");
+            DrawModelSettings();
+            break;
+        case ImportSettingsItem::ImportTab::Rig:
+            ImGui::Text("Rig Import Options");
+            DrawRigSettings();
+            break;
+        case ImportSettingsItem::ImportTab::Animation:
+            ImGui::Text("Animation Import Options");
+            DrawAnimationSettings();
+            break;
+        case ImportSettingsItem::ImportTab::Materials:
+            ImGui::Text("Material Import Options");
+            DrawMaterialsSettings();
+            break;
+        }
+
+        ImGui::EndTable();
     }
+
 
     ImGui::Spacing();
     ImGui::Separator();

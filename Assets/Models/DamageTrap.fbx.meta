@@ -5,7 +5,7 @@
             "children": [
                 {
                     "mesh_indices": [
-                        0
+                        "929dc503-8c37-41d9-9c70-c99f140a9fbf"
                     ],
                     "name": "DamageObject",
                     "rotation": [

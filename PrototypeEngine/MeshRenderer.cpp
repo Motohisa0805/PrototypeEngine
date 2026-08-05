@@ -292,10 +292,11 @@ void MeshRenderer::DrawCustomGUI(const std::vector<PropertyInfo>& properties)
 
     ImGui::NewLine();
 
-    // 1.ファイルパスの取得
+     // 1.ファイルパスの取得
     filesystem::path currentPath = mFilePath;
-    static char pathBuffer[256];
-    strncpy_s(pathBuffer, currentPath.filename().stem().string().c_str(),sizeof(pathBuffer));
+    static char      pathBuffer[256];
+    strncpy_s(pathBuffer, currentPath.filename().stem().string().c_str(),
+              sizeof(pathBuffer));
     pathBuffer[sizeof(pathBuffer) - 1] = '\0';
     ImGui::Text("Mesh");
     // 2.ファイルパスの入力フィールド
@@ -312,7 +313,7 @@ void MeshRenderer::DrawCustomGUI(const std::vector<PropertyInfo>& properties)
             // ペイロードがファイルパスであると仮定
             const SubMeshPayload* data = (const SubMeshPayload*)payload->Data;
             // ファイルパスを使いロード処理を呼び出す
-            LoadFilePathAndID(data->sFilePath,data->sLocalID);
+            LoadFilePathAndID(data->sFilePath, data->sLocalID);
             mLocalID = data->sLocalID;
         }
         ImGui::EndDragDropTarget();
@@ -329,10 +330,10 @@ void MeshRenderer::DrawCustomGUI(const std::vector<PropertyInfo>& properties)
     ImGui::Text("Materials");
     if (!mMeshs.empty() && mMeshs[0])
     {
-        //メッシュが持つサブメッシュの数(=マテリアルスロット数)を取得
+        // メッシュが持つサブメッシュの数(=マテリアルスロット数)を取得
         int materialCount = mMeshs[0]->GetVertexArrays().size();
 
-        //配列のサイズをスロット数に合わせる
+        // 配列のサイズをスロット数に合わせる
         if (mMaterials.size() != materialCount)
         {
             mMaterials.resize(materialCount, nullptr);
@@ -343,10 +344,11 @@ void MeshRenderer::DrawCustomGUI(const std::vector<PropertyInfo>& properties)
             ImGui::PushID(i);
             string matLabel = "Element" + std::to_string(i);
 
-            //割り当てられているか確認してパスを表示
-            string displayPath = mMaterials[i] ? mMaterials[i]->GetFilePath() : "None (Mesh Default)";
+            // 割り当てられているか確認してパスを表示
+            string displayPath = mMaterials[i] ? mMaterials[i]->GetFilePath()
+                                               : "None (Mesh Default)";
             filesystem::path p(displayPath);
-            displayPath = p.filename().string();//ファイル名だけ表示
+            displayPath = p.filename().string(); // ファイル名だけ表示
 
             char matBuffer[256];
             strncpy_s(matBuffer, displayPath.c_str(), sizeof(matBuffer));
@@ -355,18 +357,19 @@ void MeshRenderer::DrawCustomGUI(const std::vector<PropertyInfo>& properties)
             ImGui::InputText(matLabel.c_str(), matBuffer, sizeof(matBuffer),
                              ImGuiInputTextFlags_ReadOnly);
 
-            //ドラッグ&ドロップで.matを割り当てる
+            // ドラッグ&ドロップで.matを割り当てる
             if (ImGui::BeginDragDropTarget())
             {
                 if (const ImGuiPayload* payload =
-                    ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM"))
+                        ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM"))
                 {
-                    const char* payloadPath = (const char*)payload->Data;
+                    const char*      payloadPath = (const char*)payload->Data;
                     filesystem::path droppedPath(payloadPath);
 
                     if (droppedPath.extension() == ".mat")
                     {
-                        mMaterials[i] = MaterialManager::GetMaterial(droppedPath.string());
+                        mMaterials[i] =
+                            MaterialManager::GetMaterial(droppedPath.string());
                     }
                 }
                 ImGui::EndDragDropTarget();
@@ -381,29 +384,37 @@ void MeshRenderer::DrawCustomGUI(const std::vector<PropertyInfo>& properties)
     }
 
     ImGui::NewLine();
-    if (!mMeshs.empty())
-    {
-        ImGui::Text("Alpha Setting");
-        ImGui::SliderFloat("Alpha", &mAlpha, 0.0f, 1.0f, "%.2f");
 
-        if (mAlpha != mMeshs[0]->GetMaterialInfo()[0].Color.w)
+    ImGuiTableFlags tableFlags =
+    ImGuiTableFlags_Resizable | ImGuiTableFlags_SizingStretchProp;
+
+    if (ImGui::BeginTable("MeshRendererSettingsTable", 2, tableFlags))
+    {
+        ImGui::TableNextRow();
+
+        if (!mMeshs.empty())
         {
-            SetMaterialAlpha(mAlpha);
+            ImGuiHelper::TableSliderFloat("Alpha Setting", &mAlpha, 0.0f, 1.0f, "%.2f");
+
+            if (mAlpha != mMeshs[0]->GetMaterialInfo()[0].Color.w)
+            {
+                SetMaterialAlpha(mAlpha);
+            }
         }
-    }
 
-    ImGui::NewLine();
+        string shadowText = "Shadow";
+        if (mShadowFrag)
+        {
+            shadowText += "/On";
+        }
+        else
+        {
+            shadowText += "/Off";
+        }
+        ImGuiHelper::TableCheckbox(shadowText.c_str(), &mShadowFrag);
 
-    string shadowText = "Shadow";
-    if (mShadowFrag)
-    {
-        shadowText += "/On";
+        ImGui::EndTable();
     }
-    else
-    {
-        shadowText += "/Off";
-    }
-    ImGui::Checkbox(shadowText.c_str(), &mShadowFrag);
 
     ImGui::Separator();
 

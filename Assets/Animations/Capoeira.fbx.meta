@@ -3923,6 +3923,7 @@
         "import_skeleton": false,
         "scale_factor": 1.0
     },
+    "material_slots": [],
     "skeleton_settings": {
         "skeleton_type": 0
     }

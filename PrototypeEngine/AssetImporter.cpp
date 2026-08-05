@@ -5,6 +5,7 @@
 #include "DebugManager.h"
 #include "VertexArray.h"
 #include "Collision.h"
+#include <stack>
 
 void AssetImporter::CheckAndImportAssets()
 { 
@@ -22,6 +23,23 @@ void AssetImporter::CheckAndImportAssets()
             }
 		}
 	}
+}
+
+void AssetImporter::ReloadAssetsFile() 
+{
+    string assetsDir = "Assets/";
+
+    for (const auto& entry : fs::recursive_directory_iterator(assetsDir))
+    {
+        if (entry.is_regular_file() && entry.path().extension() == ".fbx")
+        {
+            fs::path fbxPath = entry.path();
+            // 対応する独自ファイル
+            fs::path customPath = GeneratedMetaFilePath(fbxPath);
+            // ここでFBXを読み込み、独自ファイルへ書き出す処理を呼ぶ
+            ConvertFBXToCustomFormat(fbxPath, customPath);
+        }
+    }
 }
 
 void AssetImporter::OneFileCheckAndImportAssets(
@@ -223,19 +241,35 @@ void AssetImporter::ConvertFBXToCustomFormat(const fs::path& fbxPath,
         metaJson["skeleton_settings"] = {{"skeleton_type", 0}};
     }
 
+    vector<string> meshLocalIDs;
+
     //メッシュ情報を記録
     nlohmann::json meshsJson = nlohmann::json::array();
     if (hasMesh)
     {
+        meshLocalIDs.resize(scene->mNumMeshes);
         for (unsigned int i = 0; i < scene->mNumMeshes; i++)
         {
             aiMesh* mesh = scene->mMeshes[i];
             nlohmann::json meshInfo;
-            meshInfo["localID"]      = GenerateUUID();
+
+            // 既存の.metaファイルが存在し、LocalIDが設定されている場合はそれを使用する
+            string localID;
+            if (!isNewFile && metaJson.contains("cached_data") &&
+                metaJson["cached_data"].contains("meshes") &&
+                metaJson["cached_data"]["meshes"].size() > i)
+            {
+                localID = metaJson["cached_data"]["meshes"][i].value("localID",GenerateUUID());
+            }
+            else
+            {
+                localID = GenerateUUID();
+            }
+            meshLocalIDs[i]          = localID;
+            meshInfo["localID"]      = localID;
             meshInfo["name"] = mesh->mName.C_Str();
             meshInfo["vertex_count"] = mesh->mNumVertices;
             meshInfo["has_bones"]    = mesh->HasBones();
-
             //マテリアルインデックス
             meshInfo["material_index"] = mesh->mMaterialIndex;
 
@@ -350,7 +384,11 @@ void AssetImporter::ConvertFBXToCustomFormat(const fs::path& fbxPath,
             nodeJson["mesh_indices"] = nlohmann::json::array();
             for (unsigned int i = 0; i < node->mNumMeshes; i++)
             {
-                nodeJson["mesh_indices"].push_back(node->mMeshes[i]);
+                unsigned int meshIndex = node->mMeshes[i];
+                if (meshIndex < meshLocalIDs.size())
+                {
+                    nodeJson["mesh_indices"].push_back(meshLocalIDs[meshIndex]);
+                }
             }
         }
         //子ノードの再帰処理
@@ -928,24 +966,44 @@ vector<SubMeshPayload> AssetImporter::GetSubMeshPayload(const fs::path& fbxPath)
     inFile >> metaJson;
     inFile.close();
 
-    if (metaJson.contains("cached_data") &&
-        metaJson["cached_data"].contains("meshes"))
+    if (!metaJson.contains("cached_data") || !metaJson["cached_data"].contains("hierarchy"))
     {
-        const auto& meshs = metaJson["cached_data"]["meshes"];
-        for (const auto& mesh : meshs)
+        return payloads;
+    }
+
+    //スタック(whileループ)
+    std::stack<nlohmann::json> nodeStack;
+    nodeStack.push(metaJson["cached_data"]["hierarchy"]);
+
+    while (!nodeStack.empty())
+    {
+        //スタックから1つ取り出す
+        auto node = nodeStack.top();
+        nodeStack.pop();
+
+        if (node.contains("mesh_indices"))
         {
-            SubMeshPayload info = {};
-            if (mesh.contains("localID"))
+            string nodeName = node.value("name", "");
+
+            for (const auto& idJson : node["mesh_indices"])
             {
-                strncpy_s(info.sLocalID, sizeof(info.sLocalID),
-                          mesh["localID"].get<string>().c_str(), _TRUNCATE);
+                string localID = idJson.get<string>();
+                SubMeshPayload info    = {};
+
+                strncpy_s(info.sLocalID,sizeof(info.sLocalID), localID.c_str(), _TRUNCATE);
+
+                strncpy_s(info.sFilePath,sizeof(info.sFilePath), nodeName.c_str(), _TRUNCATE);
+
+                payloads.push_back(info);
             }
-            if (mesh.contains("name"))
+        }
+
+        if (node.contains("children"))
+        {
+            for (const auto& child : node["children"])
             {
-                strncpy_s(info.sFilePath, sizeof(info.sFilePath),
-                          mesh["name"].get<string>().c_str(), _TRUNCATE);
+                nodeStack.push(child);
             }
-            payloads.push_back(info);
         }
     }
 
