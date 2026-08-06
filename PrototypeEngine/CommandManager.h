@@ -9,6 +9,7 @@
 #include "CreateNewUIActorCommand.h"
 #include "CreateNewCanvasCommand.h"
 #include "CreateActorFromSubMeshCommand.h"
+#include "CreateActorFromFBXFileCommand.h"
 #include "PasteActorCommand.h"
 #include "DuplicateCommand.h"
 

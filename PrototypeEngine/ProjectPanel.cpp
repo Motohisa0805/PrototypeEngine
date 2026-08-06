@@ -371,6 +371,18 @@ void ProjectPanel::DrawFileSystemEntry(const filesystem::directory_entry& entry)
                 SelectionManager::SetSelectedFilePath(entry.path());
             }
         }
+        //FBXファイルをドラッグアンドドロップした時の処理
+        // メッシュ用のドラッグ&ドロップ元
+        if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_SourceAllowNullID))
+        {
+            // パスとメッシュ名の両方をペイロードに含める
+            string payloadData = entry.path().string();
+            ImGui::SetDragDropPayload("CONTENT_BROWSER_ITEM",
+                                      payloadData.c_str(),
+                                      payloadData.size() + 1);
+            ImGui::Text("%s", entry.path().string().c_str());
+            ImGui::EndDragDropSource();
+        }
 
         //FBXファイルの場合、中身を展開表示するドロップダウン
         if (entry.path().extension() == ".fbx")
@@ -391,16 +403,6 @@ void ProjectPanel::DrawFileSystemEntry(const filesystem::directory_entry& entry)
                     //サブアイテムの描画
                     ImGui::TextWrapped(subMeshes[i].sFilePath);
                     ImGui::EndGroup();
-
-                    //メッシュ用のドラッグ&ドロップ元
-                    if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_SourceAllowNullID))
-                    {
-                        //パスとメッシュ名の両方をペイロードに含める
-                        string payloadData = entry.path().string() + "?" + subMeshes[i].sFilePath;
-                        ImGui::SetDragDropPayload("CONTENT_BROWSER_ITEM",payloadData.c_str(),payloadData.size() + 1);
-                        ImGui::Text("Mesh: %s", subMeshes[i].sFilePath);
-                        ImGui::EndDragDropSource();
-                    }
 
                     //サブメッシュ用のドラッグ&ドロップ元
                     if (ImGui::BeginDragDropSource(
