@@ -357,7 +357,6 @@ void HierarchyPanel::DrawActorNode(ActorObject* actor)
             }
 
             //一度封印
-            /*
             if (const ImGuiPayload* payload =
                 ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM"))
             {
@@ -367,11 +366,10 @@ void HierarchyPanel::DrawActorNode(ActorObject* actor)
 
                 if (assetPath.extension() == ".fbx")
                 {
-                    auto cmd = std::make_unique<CreateActorFromAssetCommand>(assetPath,actor);
+                    auto cmd = std::make_unique<CreateActorFromFBXFileCommand>(assetPath,nullptr);
                     CommandManager::Execute(std::move(cmd));
                 }
             }
-            */
             // 個別のサブメッシュのドロップ処理
             if (const ImGuiPayload* payload =
                     ImGui::AcceptDragDropPayload("SUB_MESH_ITEM"))
