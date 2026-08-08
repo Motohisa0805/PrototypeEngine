@@ -7,6 +7,7 @@
 #include "ScriptEditManager.h"
 #include "imgui_internal.h"
 #include "AssetImporter.h"
+#include "AssetDataBase.h"
 #include "MaterialGenerater.h"
 
 filesystem::path ProjectPanel::mPathToRename = "";
@@ -33,6 +34,8 @@ void ProjectPanel::Initialize(float width, float height, ImTextureRef ref)
     mWidthSize  = width * 0.15f;
     mHeightSize = height - 55.0f;
     EditorWindow::Initialize(width, height, ref);
+    filesystem::path assetsPath = "Assets/";
+    AssetDataBase::GetInstance().RefreshDataBase(assetsPath);
 }
 
 void ProjectPanel::Draw(float width, float height)
@@ -390,34 +393,44 @@ void ProjectPanel::DrawFileSystemEntry(const filesystem::directory_entry& entry)
             //ツリーノードで展開できるようにする
             if (ImGui::TreeNodeEx("##fbx_contents", ImGuiTreeNodeFlags_SpanAvailWidth, "Contents"))
             {
-                vector<SubMeshPayload> subMeshes = AssetImporter::GetSubMeshPayload(entry.path());
-
-                for (size_t i = 0; i < subMeshes.size(); ++i)
+                vector<SubMeshPayload> subMeshes;
+                if (AssetDataBase::GetInstance().GetSubMeshs(entry.path(), subMeshes))
                 {
-                    ImGui::PushID(static_cast<int>(i));
-                    ImGui::BeginGroup();
-                    ImTextureID fbxItemIconID =
-                        (ImTextureID)(uintptr_t)EditorTextureManager::GetInstance().GetFileIconTexture(entry.path().string(), ".bank")->GetTextureID();
-
-                    ImGui::ImageButton("##fbxItemIcon", fbxItemIconID, ImVec2(54, 54));
-                    //サブアイテムの描画
-                    ImGui::TextWrapped(subMeshes[i].sFilePath);
-                    ImGui::EndGroup();
-
-                    //サブメッシュ用のドラッグ&ドロップ元
-                    if (ImGui::BeginDragDropSource(
-                            ImGuiDragDropFlags_SourceAllowNullID))
+                    for (size_t i = 0; i < subMeshes.size(); ++i)
                     {
-                        SubMeshPayload payloadData = {};
-                        // パスとサブメッシュ名を安全にコピー
-                        strncpy_s(payloadData.sFilePath,sizeof(payloadData.sFilePath),entry.path().string().c_str(), _TRUNCATE);
-                        strncpy_s(payloadData.sLocalID,sizeof(payloadData.sLocalID),subMeshes[i].sLocalID, _TRUNCATE);
-                        ImGui::SetDragDropPayload("SUB_MESH_ITEM", &payloadData,
-                                                  sizeof(payloadData));
-                        ImGui::Text("Mesh: %s", subMeshes[i].sFilePath);
-                        ImGui::EndDragDropSource();
+                        ImGui::PushID(static_cast<int>(i));
+                        ImGui::BeginGroup();
+                        ImTextureID fbxItemIconID =
+                            (ImTextureID)(uintptr_t)
+                                EditorTextureManager::GetInstance()
+                                    .GetFileIconTexture(entry.path().string(),".bank")->GetTextureID();
+
+                        ImGui::ImageButton("##fbxItemIcon", fbxItemIconID,
+                                           ImVec2(54, 54));
+                        // サブアイテムの描画
+                        ImGui::TextWrapped(subMeshes[i].sSubMeshName);
+                        ImGui::EndGroup();
+
+                        // サブメッシュ用のドラッグ&ドロップ元
+                        if (ImGui::BeginDragDropSource(
+                                ImGuiDragDropFlags_SourceAllowNullID))
+                        {
+                            SubMeshPayload payloadData = {};
+                            // パスとサブメッシュ名を安全にコピー
+                            strncpy_s(payloadData.sSubMeshName,
+                                      sizeof(payloadData.sSubMeshName),
+                                      entry.path().string().c_str(), _TRUNCATE);
+                            strncpy_s(payloadData.sLocalID,
+                                      sizeof(payloadData.sLocalID),
+                                      subMeshes[i].sLocalID, _TRUNCATE);
+                            ImGui::SetDragDropPayload("SUB_MESH_ITEM",
+                                                      &payloadData,
+                                                      sizeof(payloadData));
+                            ImGui::Text("Mesh: %s", subMeshes[i].sSubMeshName);
+                            ImGui::EndDragDropSource();
+                        }
+                        ImGui::PopID();
                     }
-                    ImGui::PopID();
                 }
                 ImGui::TreePop();
             }

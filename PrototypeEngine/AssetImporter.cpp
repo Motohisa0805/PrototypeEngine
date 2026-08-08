@@ -6,6 +6,7 @@
 #include "VertexArray.h"
 #include "Collision.h"
 #include <stack>
+#include "AssetDataBase.h"
 
 void AssetImporter::CheckAndImportAssets()
 { 
@@ -15,7 +16,7 @@ void AssetImporter::CheckAndImportAssets()
 		if (entry.is_regular_file() && entry.path().extension() == ".fbx") {
             fs::path fbxPath = entry.path();
 			//対応する独自ファイル
-            fs::path customPath = GeneratedMetaFilePath(fbxPath);
+            fs::path customPath = AssetDataBase::GetInstance().GeneratedMetaFilePath(fbxPath);
 			//独自ファイルが存在しない、またはFBXファイルの方が新しく更新されている場合
 			if (!fs::exists(customPath) || fs::last_write_time(entry) > fs::last_write_time(customPath)){
 				//ここでFBXを読み込み、独自ファイルへ書き出す処理を呼ぶ
@@ -35,7 +36,7 @@ void AssetImporter::ReloadAssetsFile()
         {
             fs::path fbxPath = entry.path();
             // 対応する独自ファイル
-            fs::path customPath = GeneratedMetaFilePath(fbxPath);
+            fs::path customPath = AssetDataBase::GetInstance().GeneratedMetaFilePath(fbxPath);
             // ここでFBXを読み込み、独自ファイルへ書き出す処理を呼ぶ
             ConvertFBXToCustomFormat(fbxPath, customPath);
         }
@@ -45,23 +46,16 @@ void AssetImporter::ReloadAssetsFile()
 void AssetImporter::OneFileCheckAndImportAssets(
     const filesystem::path& filePath)
 {
-    string assetsDir = "Assets/";
-
-    for (const auto& entry : fs::recursive_directory_iterator(assetsDir))
+    if (fs::exists(filePath) && filePath.extension() == ".fbx")
     {
-        if (entry.is_regular_file() && entry.path() == filePath)
+        // 対応する独自ファイル
+        fs::path customPath = AssetDataBase::GetInstance().GeneratedMetaFilePath(filePath);
+        // 独自ファイルが存在しない、またはFBXファイルの方が新しく更新されている場合
+        if (!fs::exists(customPath) ||
+            fs::last_write_time(filePath) > fs::last_write_time(customPath))
         {
-            fs::path fbxPath = entry.path();
-            // 対応する独自ファイル
-            fs::path customPath = GeneratedMetaFilePath(fbxPath);
-            // 独自ファイルが存在しない、またはFBXファイルの方が新しく更新されている場合
-            if (!fs::exists(customPath) ||
-                fs::last_write_time(entry) > fs::last_write_time(customPath))
-            {
-                // ここでFBXを読み込み、独自ファイルへ書き出す処理を呼ぶ
-                ConvertFBXToCustomFormat(fbxPath, customPath);
-
-            }
+            // ここでFBXを読み込み、独自ファイルへ書き出す処理を呼ぶ
+            ConvertFBXToCustomFormat(filePath, customPath);
         }
     }
 }
@@ -191,11 +185,6 @@ string AssetImporter::GenerateUUID()
     RpcStringFreeA(&uuidStr);
 
     return result; 
-}
-
-fs::path AssetImporter::GeneratedMetaFilePath(const fs::path& path)
-{
-    return path.parent_path() / (path.filename().string() + ".meta");
 }
 
 void AssetImporter::ConvertFBXToCustomFormat(const fs::path& fbxPath,
@@ -491,6 +480,14 @@ void AssetImporter::ConvertFBXToCustomFormat(const fs::path& fbxPath,
     {
         std::cerr << "Failed to open file for writing: " << customPath << std::endl;
     }
+    AssetMetaData metaData;
+    if (metaJson.contains("guid"))
+    {
+        metaData.sGUID = metaJson["guid"].get<string>();
+    }
+    metaData.sSubMeshs = AssetDataBase::GetInstance().GetSubMeshPayload(fbxPath);
+    //キャッシュデータの保存
+    AssetDataBase::GetInstance().UpdateAssetData(fbxPath, metaData);
 }
 
 void AssetImporter::ExportMeshBinary(const fs::path& fbxPath,
@@ -846,7 +843,7 @@ void AssetImporter::ExportAnimationBinary(const fs::path& fbxPath,
 AllImportSettings AssetImporter::OutputFBXMetaFile(const fs::path& fbxPath)
 {
     // 対応する独自ファイル
-    fs::path customPath = GeneratedMetaFilePath(fbxPath);
+    fs::path customPath = AssetDataBase::GetInstance().GeneratedMetaFilePath(fbxPath);
 
     nlohmann::json metaJson;
     bool           isActive = fs::exists(customPath);
@@ -876,7 +873,7 @@ vector<string> AssetImporter::GetSubMeshNames(const fs::path& fbxPath)
 {
     vector<string> meshNames;
     //FBXパスから対応する.metaファイルのパスを取得
-    fs::path customPath = GeneratedMetaFilePath(fbxPath);
+    fs::path customPath = AssetDataBase::GetInstance().GeneratedMetaFilePath(fbxPath);
     //.metaファイルが存在しない場合は空のリストを返す
     if (!fs::exists(customPath))
     {
@@ -912,7 +909,7 @@ vector<string> AssetImporter::GetSubMeshLocalID(const fs::path& fbxPath)
 {
     vector<string> meshLocalIDs;
     // FBXパスから対応する.metaファイルのパスを取得
-    fs::path customPath = GeneratedMetaFilePath(fbxPath);
+    fs::path customPath = AssetDataBase::GetInstance().GeneratedMetaFilePath(fbxPath);
     //.metaファイルが存在しない場合は空のリストを返す
     if (!fs::exists(customPath))
     {
@@ -943,71 +940,6 @@ vector<string> AssetImporter::GetSubMeshLocalID(const fs::path& fbxPath)
     }
 
     return meshLocalIDs;
-}
-
-vector<SubMeshPayload> AssetImporter::GetSubMeshPayload(const fs::path& fbxPath)
-{
-    vector<SubMeshPayload> payloads;
-    // FBXパスから対応する.metaファイルのパスを取得
-    fs::path customPath = GeneratedMetaFilePath(fbxPath);
-    //.metaファイルが存在しない場合は空のリストを返す
-    if (!fs::exists(customPath))
-    {
-        return payloads;
-    }
-    //.metaファイルを読み込む
-    std::ifstream inFile(customPath);
-    if (!inFile.is_open())
-    {
-        return payloads;
-    }
-
-    nlohmann::json metaJson;
-    inFile >> metaJson;
-    inFile.close();
-
-    if (!metaJson.contains("cached_data") || !metaJson["cached_data"].contains("hierarchy"))
-    {
-        return payloads;
-    }
-
-    //スタック(whileループ)
-    std::stack<nlohmann::json> nodeStack;
-    nodeStack.push(metaJson["cached_data"]["hierarchy"]);
-
-    while (!nodeStack.empty())
-    {
-        //スタックから1つ取り出す
-        auto node = nodeStack.top();
-        nodeStack.pop();
-
-        if (node.contains("mesh_indices"))
-        {
-            string nodeName = node.value("name", "");
-
-            for (const auto& idJson : node["mesh_indices"])
-            {
-                string localID = idJson.get<string>();
-                SubMeshPayload info    = {};
-
-                strncpy_s(info.sLocalID,sizeof(info.sLocalID), localID.c_str(), _TRUNCATE);
-
-                strncpy_s(info.sFilePath,sizeof(info.sFilePath), nodeName.c_str(), _TRUNCATE);
-
-                payloads.push_back(info);
-            }
-        }
-
-        if (node.contains("children"))
-        {
-            for (const auto& child : node["children"])
-            {
-                nodeStack.push(child);
-            }
-        }
-    }
-
-    return payloads;
 }
 
 // 補間情報の計算、チュートリアルから引用

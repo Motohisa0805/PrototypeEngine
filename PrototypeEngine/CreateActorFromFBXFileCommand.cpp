@@ -1,6 +1,6 @@
 #include "CreateActorFromFBXFileCommand.h"
 #include "MeshRenderer.h"
-#include "AssetImporter.h"
+#include "AssetDataBase.h"
 #include "SceneManager.h"
 #include <filesystem>
 #include <nlohmann/json.hpp>
@@ -35,7 +35,7 @@ void CreateActorFromFBXFileCommand::Execute()
     if (mTargetIDs.empty())
     {
         //.metaƒtƒ@ƒCƒ‹‚©‚çŠK‘w‚ğ“Ç‚İ‚İ
-        std::filesystem::path metaPath = AssetImporter::GeneratedMetaFilePath(mAssetPath);
+        std::filesystem::path metaPath = AssetDataBase::GetInstance().GeneratedMetaFilePath(mAssetPath);
         if (!std::filesystem::exists(metaPath))
         {
             Debug::ErrorLog("Meta file does not exist: %s", metaPath.string().c_str());

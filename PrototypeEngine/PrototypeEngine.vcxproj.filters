@@ -586,6 +586,9 @@
     <ClCompile Include="CreateActorFromFBXFileCommand.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="AssetDataBase.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BoneActor.h">
@@ -985,6 +988,9 @@
       <Filter>SourceCodes\A_Editor\Function\Renderers</Filter>
     </ClInclude>
     <ClInclude Include="CreateActorFromFBXFileCommand.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="AssetDataBase.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
