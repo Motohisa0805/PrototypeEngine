@@ -9,7 +9,6 @@
 
 namespace fs = std::filesystem;
 
-
 class AssetImporter
 {
 public:
@@ -79,8 +78,6 @@ public:
 
 	static string                   GenerateUUID();
 
-	static fs::path                 GeneratedMetaFilePath(const fs::path& path);
-
 	static void                     ConvertFBXToCustomFormat(const fs::path& fbxPath,
                                          const fs::path& customPath);
 
@@ -92,5 +89,4 @@ public:
 
     static vector<string>           GetSubMeshNames(const fs::path& fbxPath);
     static vector<string>           GetSubMeshLocalID(const fs::path& fbxPath);
-    static vector<SubMeshPayload>   GetSubMeshPayload(const fs::path& fbxPath);
 };

@@ -6,6 +6,7 @@
 #include "SelectionManager.h"
 #include "UIActor.h"
 #include "imgui_internal.h"
+#include "AssetDataBase.h"
 
 HierarchyPanel::HierarchyPanel(Renderer* renderer) : EditorWindow(renderer)
 {
@@ -356,7 +357,7 @@ void HierarchyPanel::DrawActorNode(ActorObject* actor)
                 }
             }
 
-            //一度封印
+            
             if (const ImGuiPayload* payload =
                 ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM"))
             {
@@ -378,7 +379,7 @@ void HierarchyPanel::DrawActorNode(ActorObject* actor)
                 {
                     const SubMeshPayload* payloadData =
                         (const SubMeshPayload*)payload->Data;
-                    filesystem::path assetPath(payloadData->sFilePath);
+                    filesystem::path assetPath(payloadData->sSubMeshName);
                     string           subMeshName(payloadData->sLocalID);
 
                     auto cmd = std::make_unique<CreateActorFromSubMeshCommand>(assetPath, subMeshName, actor);

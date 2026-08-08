@@ -27,12 +27,6 @@ struct DirectionalLightData
 	Vector3 sPosition = Vector3();
 };
 
-struct SubMeshPayload
-{
-    char sFilePath[256];
-    char sLocalID[64];
-};
-
 struct StaticMeshBatch {
 	vector<Vertex>			gAllVertices;
 	vector<unsigned int>	gAllIndices;
