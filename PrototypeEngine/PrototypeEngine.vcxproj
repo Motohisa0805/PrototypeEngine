@@ -106,10 +106,11 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;SDL_VERSION=SDL3-3.2.8;PROTOTYPEENGINE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;SDL_VERSION=SDL3-3.2.8;PROTOTYPEENGINE_EXPORTS;TRACY_ENABLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>Default</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)ExternalLibrary\SDL3-3.2.8\include;$(ProjectDir)ExternalLibrary\SDL3_image-3.2.4\include;$(ProjectDir)ExternalLibrary\FMOD Studio API Windows\api\lowlevel\inc;$(ProjectDir)ExternalLibrary\FMOD Studio API Windows\api\studio\inc;$(ProjectDir)ExternalLibrary\SDL3_ttf-3.1.0\include;$(ProjectDir)ExternalLibrary\rapidjson-master\rapidjson-master\include;$(ProjectDir)ImGui;$(ProjectDir)json-develop\include;$(ProjectDir)ExternalLibrary\tinyxml2-master;$(ProjectDir)..\;$(ProjectDir)ExternalLibrary\stb-master;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)ExternalLibrary\SDL3-3.2.8\include;$(ProjectDir)ExternalLibrary\SDL3_image-3.2.4\include;$(ProjectDir)ExternalLibrary\FMOD Studio API Windows\api\lowlevel\inc;$(ProjectDir)ExternalLibrary\FMOD Studio API Windows\api\studio\inc;$(ProjectDir)ExternalLibrary\SDL3_ttf-3.1.0\include;$(ProjectDir)ExternalLibrary\rapidjson-master\rapidjson-master\include;$(ProjectDir)ImGui;$(ProjectDir)json-develop\include;$(ProjectDir)ExternalLibrary\tinyxml2-master;$(ProjectDir)..\;$(ProjectDir)ExternalLibrary\stb-master;$(ProjectDir)ExternalLibrary\public;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -126,7 +127,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_RELEASE;_CONSOLE;SDL_VERSION=SDL3-3.2.8;PROTOTYPEENGINE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)ExternalLibrary\SDL3-3.2.8\include;$(ProjectDir)ExternalLibrary\SDL3_image-3.2.4\include;$(ProjectDir)ExternalLibrary\FMOD Studio API Windows\api\lowlevel\inc;$(ProjectDir)ExternalLibrary\FMOD Studio API Windows\api\studio\inc;$(ProjectDir)ExternalLibrary\SDL3_ttf-3.1.0\include;$(ProjectDir)ExternalLibrary\rapidjson-master\rapidjson-master\include;$(ProjectDir)ImGui;$(ProjectDir)json-develop\include;$(ProjectDir)ExternalLibrary\tinyxml2-master;$(ProjectDir)..\;$(ProjectDir)ExternalLibrary\stb-master;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)ExternalLibrary\SDL3-3.2.8\include;$(ProjectDir)ExternalLibrary\SDL3_image-3.2.4\include;$(ProjectDir)ExternalLibrary\FMOD Studio API Windows\api\lowlevel\inc;$(ProjectDir)ExternalLibrary\FMOD Studio API Windows\api\studio\inc;$(ProjectDir)ExternalLibrary\SDL3_ttf-3.1.0\include;$(ProjectDir)ExternalLibrary\rapidjson-master\rapidjson-master\include;$(ProjectDir)ImGui;$(ProjectDir)json-develop\include;$(ProjectDir)ExternalLibrary\tinyxml2-master;$(ProjectDir)..\;$(ProjectDir)ExternalLibrary\stb-master;$(ProjectDir)ExternalLibrary\public;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <SupportJustMyCode>true</SupportJustMyCode>
       <LanguageStandard>stdcpp20</LanguageStandard>
@@ -198,6 +199,7 @@
     <ClCompile Include="CommandManager.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="ComponentFactory.cpp" />
+    <ClCompile Include="ExternalLibrary\public\TracyClient.cpp" />
     <ClCompile Include="ImportSettingsItem.cpp" />
     <ClCompile Include="LightingPanel.cpp" />
     <ClCompile Include="LocalLight.cpp" />

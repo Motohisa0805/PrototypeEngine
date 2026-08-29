@@ -70,10 +70,9 @@ private:
 public:
     // GUIから呼ばれる用の関数。Assetsフォルダ内の全てのFBXファイルをチェックして、必要であればインポートする
 	static void                     CheckAndImportAssets();
-    static void                     ReloadAssetsFile();
     // GUIから呼ばれる用の関数。1つのファイルをチェックして、必要であればインポートする
 	static void                     OneFileCheckAndImportAssets(const filesystem::path& filePath);
-    //名前の変更を行った時に再度読み込みを行う関数
+    //名前の変更を行った時に再度読み込みを行う関数(上書き)
     static void                     ReloadImportAssets(const filesystem::path& oldfilePath,const filesystem::path& newfilePath);
 
 	static string                   GenerateUUID();

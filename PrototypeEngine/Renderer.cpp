@@ -21,6 +21,7 @@
 #include "SkeletalMeshRenderer.h"
 #include <GL/glew.h>
 
+
 Renderer::Renderer()
     : mWindowTitle("PrototypeEngine - Windows - Ver0.01 <OpenGL 2.2.0,SDL3>")
     , mRunScene(nullptr)
@@ -143,6 +144,8 @@ bool Renderer::Initialize(float screenWidth, float screenHeight)
     mGameSceneViewEditor->CreateSceneFBO(width, height);
 
     GUIEditorManager::SetRenderer(this);
+
+    SDL_GL_SetSwapInterval(0);
     return true;
 }
 
@@ -402,6 +405,19 @@ void Renderer::MeshOrderUpdate()
     view.Invert();
     // ビュー行列の逆行列からカメラ位置取得
     Vector3 cameraPos = view.GetTranslation();
+    //2-A 不透明オブジェクトを「近い順(Front-to-Back)」にソート
+    std::sort(opaqueList.begin(), opaqueList.end(),
+              [&](MeshRenderer* a, MeshRenderer* b) 
+              {
+                  float distA =
+                      (a->GetActor()->GetTransform()->GetPosition() - cameraPos)
+                          .LengthSq();
+                  float distB =
+                      (b->GetActor()->GetTransform()->GetPosition() - cameraPos)
+                          .LengthSq();
+                  return distA < distB; // 近い順に
+              });
+    //2-B 透明オブジェクトを「遠い順(Back-to-Front)」にソート
     std::sort(transparentList.begin(), transparentList.end(),
               [&](MeshRenderer* a, MeshRenderer* b)
               {
@@ -443,7 +459,7 @@ void Renderer::StartDraw()
     // ウィンドウのタイトル描画
     DrawWindowTitle();
     // 複数のカメラからメインカメラからmViewを設定
-    for (auto cam : mRunScene->GetCameras())
+    for (auto& cam : mRunScene->GetCameras())
     {
         if (cam.second->IsMain())
         {
@@ -1083,7 +1099,7 @@ void Renderer::Shutdown()
 {
     Texture::UnloadDefaultTextures();
     // テクスチャを破壊する
-    for (auto i : mTexturesMap)
+    for (auto& i : mTexturesMap)
     {
         i.second->Unload();
         delete i.second;
@@ -1091,7 +1107,7 @@ void Renderer::Shutdown()
     mTexturesMap.clear();
 
     // メッシュを破壊する
-    for (auto i : mMeshesMap)
+    for (auto& i : mMeshesMap)
     {
         i.second->Unload();
         delete i.second;

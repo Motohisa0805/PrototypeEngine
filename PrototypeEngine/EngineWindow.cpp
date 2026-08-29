@@ -139,8 +139,7 @@ void EngineWindow::EngineRunLoop()
     while (EngineWindow::mEngineState != EngineState::End)
     {
         // スクリプトDLLの変更を監視し、リロードが必要なら実行
-        mHotReloadManager.get()->CheckForChanges();
-
+        mHotReloadManager.get()->CheckForChanges(Time::gDeltaTime);
         // デルタタイム更新
         Time::UpdateDeltaTime();
         // 入力処理

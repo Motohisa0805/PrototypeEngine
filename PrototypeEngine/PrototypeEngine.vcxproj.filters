@@ -175,6 +175,9 @@
     <Filter Include="SourceCodes\A_Editor\Function\GUIs\Systems\Texture">
       <UniqueIdentifier>{041ce2ce-3f5d-4a86-9793-41ac4bec4855}</UniqueIdentifier>
     </Filter>
+    <Filter Include="SourceCodes\C_OutsideLibrary\Tracy">
+      <UniqueIdentifier>{459f2938-6ebd-43f0-bc75-7a939da69985}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Shaders\Arrow.frag">
@@ -588,6 +591,9 @@
     </ClCompile>
     <ClCompile Include="AssetDataBase.cpp">
       <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="ExternalLibrary\public\TracyClient.cpp">
+      <Filter>SourceCodes\C_OutsideLibrary\Tracy</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -1,77 +1,87 @@
-﻿  AssetDataBase.cpp
-  AssetImporter.cpp
-C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
-  (ソース ファイル 'AssetImporter.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
-      'SDL_VERSION' は以前にコマンド ラインで宣言されています
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\SDL_Scancode.h(143,9): warning C4005: 'KEY_EXECUTE': マクロが再定義されました。
-  (ソース ファイル 'AssetImporter.cpp' をコンパイルしています)
-      C:\Program Files (x86)\Windows Kits\10\Include\10.0.26100.0\um\winnt.h(24912,9):
-      'KEY_EXECUTE' の以前の定義を確認してください
-  
+﻿  EngineWindow.cpp
 C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(84,12): warning C4251: 'Component::mName': 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'AssetImporter.cpp' をコンパイルしています)
+  (ソース ファイル 'EngineWindow.cpp' をコンパイルしています)
       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(541,7):
       'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' の宣言を確認してください
   
-C:\C++Files\PrototypeEngine\PrototypeEngine\AssetImporter.cpp(412,25): warning C4244: '初期化中': 'double' から 'float' への変換です。データが失われる可能性があります。
-C:\C++Files\PrototypeEngine\PrototypeEngine\AssetImporter.cpp(717,26): warning C4244: '初期化中': 'double' から 'float' への変換です。データが失われる可能性があります。
-C:\C++Files\PrototypeEngine\PrototypeEngine\AssetImporter.cpp(718,29): warning C4244: '初期化中': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\C++Files\PrototypeEngine\PrototypeEngine\AssetImporter.cpp(799,31): warning C4244: '初期化中': 'double' から 'float' への変換です。データが失われる可能性があります。
-C:\C++Files\PrototypeEngine\PrototypeEngine\AssetImporter.cpp(827,25): warning C4244: '=': 'int' から 'float' への変換です。データが失われる可能性があります。
-C:\C++Files\PrototypeEngine\PrototypeEngine\AssetImporter.cpp(985,21): warning C4244: '初期化中': 'double' から 'float' への変換です。データが失われる可能性があります。
-C:\C++Files\PrototypeEngine\PrototypeEngine\AssetImporter.cpp(1025,21): warning C4244: '初期化中': 'double' から 'float' への変換です。データが失われる可能性があります。
-C:\C++Files\PrototypeEngine\PrototypeEngine\AssetImporter.cpp(1083,21): warning C4244: '初期化中': 'double' から 'float' への変換です。データが失われる可能性があります。
-  CreateActorFromFBXFileCommand.cpp
-C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
-  (ソース ファイル 'CreateActorFromFBXFileCommand.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
-      'SDL_VERSION' は以前にコマンド ラインで宣言されています
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(84,12): warning C4251: 'Component::mName': 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'CreateActorFromFBXFileCommand.cpp' をコンパイルしています)
-      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(541,7):
-      'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' の宣言を確認してください
-  
-  HierarchyPanel.cpp
-C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
-  (ソース ファイル 'HierarchyPanel.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
-      'SDL_VERSION' は以前にコマンド ラインで宣言されています
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(84,12): warning C4251: 'Component::mName': 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'HierarchyPanel.cpp' をコンパイルしています)
-      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(541,7):
-      'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' の宣言を確認してください
-  
-  MeshRenderer.cpp
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(84,12): warning C4251: 'Component::mName': 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'MeshRenderer.cpp' をコンパイルしています)
-      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(541,7):
-      'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' の宣言を確認してください
+C:\C++Files\PrototypeEngine\PrototypeEngine\ComponentFactory.h(15,44): warning C4251: 'ComponentFactory::sCreators': 'std::map<string,ComponentCreator,std::less<string>,std::allocator<std::pair<const string,ComponentCreator>>>' には、'ComponentFactory' のクライアントが使用する DLL インターフェイスが必要です
+  (ソース ファイル 'EngineWindow.cpp' をコンパイルしています)
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\map(72,7):
+      'std::map<string,ComponentCreator,std::less<string>,std::allocator<std::pair<const string,ComponentCreator>>>' の宣言を確認してください
   
 C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
-  (ソース ファイル 'MeshRenderer.cpp' をコンパイルしています)
+  (ソース ファイル 'EngineWindow.cpp' をコンパイルしています)
       C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
       'SDL_VERSION' は以前にコマンド ラインで宣言されています
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\MeshRenderer.cpp(335,27): warning C4267: '初期化中': 'size_t' から 'int' に変換しました。データが失われているかもしれません。
-  ProjectPanel.cpp
-C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
-  (ソース ファイル 'ProjectPanel.cpp' をコンパイルしています)
-      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
-      'SDL_VERSION' は以前にコマンド ラインで宣言されています
-  
-C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(84,12): warning C4251: 'Component::mName': 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
-  (ソース ファイル 'ProjectPanel.cpp' をコンパイルしています)
-      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(541,7):
-      'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' の宣言を確認してください
   
 C:\Program Files (x86)\Windows Kits\10\Include\10.0.26100.0\um\winnt.h(24912,9): warning C4005: 'KEY_EXECUTE': マクロが再定義されました。
-  (ソース ファイル 'ProjectPanel.cpp' をコンパイルしています)
+  (ソース ファイル 'EngineWindow.cpp' をコンパイルしています)
       C:\C++Files\PrototypeEngine\PrototypeEngine\SDL_Scancode.h(143,9):
       'KEY_EXECUTE' の以前の定義を確認してください
   
+  GUIEditorManager.cpp
+C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
+  (ソース ファイル 'GUIEditorManager.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
+      'SDL_VERSION' は以前にコマンド ラインで宣言されています
+  
+C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(84,12): warning C4251: 'Component::mName': 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
+  (ソース ファイル 'GUIEditorManager.cpp' をコンパイルしています)
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(541,7):
+      'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' の宣言を確認してください
+  
+C:\C++Files\PrototypeEngine\PrototypeEngine\GUIEditorManager.cpp(64,22): warning C4244: '初期化中': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\C++Files\PrototypeEngine\PrototypeEngine\GUIEditorManager.cpp(65,22): warning C4244: '初期化中': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\C++Files\PrototypeEngine\PrototypeEngine\GUIEditorManager.cpp(68,43): warning C4244: '引数': 'int' から 'float' への変換です。データが失われる可能性があります。
+C:\C++Files\PrototypeEngine\PrototypeEngine\GUIEditorManager.cpp(68,30): warning C4244: '引数': 'int' から 'float' への変換です。データが失われる可能性があります。
+C:\C++Files\PrototypeEngine\PrototypeEngine\GUIEditorManager.cpp(71,44): warning C4244: '引数': 'int' から 'float' への変換です。データが失われる可能性があります。
+C:\C++Files\PrototypeEngine\PrototypeEngine\GUIEditorManager.cpp(71,31): warning C4244: '引数': 'int' から 'float' への変換です。データが失われる可能性があります。
+C:\C++Files\PrototypeEngine\PrototypeEngine\GUIEditorManager.cpp(128,22): warning C4244: '初期化中': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\C++Files\PrototypeEngine\PrototypeEngine\GUIEditorManager.cpp(129,22): warning C4244: '初期化中': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\C++Files\PrototypeEngine\PrototypeEngine\GUIEditorManager.cpp(133,41): warning C4244: '引数': 'int' から 'float' への変換です。データが失われる可能性があります。
+C:\C++Files\PrototypeEngine\PrototypeEngine\GUIEditorManager.cpp(133,28): warning C4244: '引数': 'int' から 'float' への変換です。データが失われる可能性があります。
+C:\C++Files\PrototypeEngine\PrototypeEngine\GUIEditorManager.cpp(137,42): warning C4244: '引数': 'int' から 'float' への変換です。データが失われる可能性があります。
+C:\C++Files\PrototypeEngine\PrototypeEngine\GUIEditorManager.cpp(137,29): warning C4244: '引数': 'int' から 'float' への変換です。データが失われる可能性があります。
+C:\C++Files\PrototypeEngine\PrototypeEngine\GUIEditorManager.cpp(190,39): warning C4244: '引数': 'int' から 'float' への変換です。データが失われる可能性があります。
+C:\C++Files\PrototypeEngine\PrototypeEngine\GUIEditorManager.cpp(190,26): warning C4244: '引数': 'int' から 'float' への変換です。データが失われる可能性があります。
+  Renderer.cpp
+C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
+  (ソース ファイル 'Renderer.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
+      'SDL_VERSION' は以前にコマンド ラインで宣言されています
+  
+C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(84,12): warning C4251: 'Component::mName': 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
+  (ソース ファイル 'Renderer.cpp' をコンパイルしています)
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(541,7):
+      'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' の宣言を確認してください
+  
+C:\C++Files\PrototypeEngine\PrototypeEngine\Renderer.cpp(212,39): warning C4267: '引数': 'size_t' から 'unsigned int' に変換しました。データが失われているかもしれません。
+C:\C++Files\PrototypeEngine\PrototypeEngine\Renderer.cpp(210,67): warning C4267: '引数': 'size_t' から 'unsigned int' に変換しました。データが失われているかもしれません。
+C:\C++Files\PrototypeEngine\PrototypeEngine\Renderer.cpp(224,39): warning C4267: '引数': 'size_t' から 'unsigned int' に変換しました。データが失われているかもしれません。
+C:\C++Files\PrototypeEngine\PrototypeEngine\Renderer.cpp(222,67): warning C4267: '引数': 'size_t' から 'unsigned int' に変換しました。データが失われているかもしれません。
+C:\C++Files\PrototypeEngine\PrototypeEngine\Renderer.cpp(595,36): warning C4244: '引数': 'float' から 'GLsizei' への変換です。データが失われる可能性があります。
+C:\C++Files\PrototypeEngine\PrototypeEngine\Renderer.cpp(594,42): warning C4244: '引数': 'float' から 'GLsizei' への変換です。データが失われる可能性があります。
+  ScriptHotReloadManager.cpp
+C:\C++Files\PrototypeEngine\PrototypeEngine\SDL_Scancode.h(143,9): warning C4005: 'KEY_EXECUTE': マクロが再定義されました。
+  (ソース ファイル 'ScriptHotReloadManager.cpp' をコンパイルしています)
+      C:\Program Files (x86)\Windows Kits\10\Include\10.0.26100.0\um\winnt.h(24912,9):
+      'KEY_EXECUTE' の以前の定義を確認してください
+  
+C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9): warning C4005: 'SDL_VERSION': マクロが再定義されました。
+  (ソース ファイル 'ScriptHotReloadManager.cpp' をコンパイルしています)
+      C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\SDL3-3.2.8\include\SDL3\SDL_version.h(121,9):
+      'SDL_VERSION' は以前にコマンド ラインで宣言されています
+  
+C:\C++Files\PrototypeEngine\PrototypeEngine\Component.h(84,12): warning C4251: 'Component::mName': 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' には、'Component' のクライアントが使用する DLL インターフェイスが必要です
+  (ソース ファイル 'ScriptHotReloadManager.cpp' をコンパイルしています)
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(541,7):
+      'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' の宣言を確認してください
+  
+C:\C++Files\PrototypeEngine\PrototypeEngine\ComponentFactory.h(15,44): warning C4251: 'ComponentFactory::sCreators': 'std::map<string,ComponentCreator,std::less<std::string>,std::allocator<std::pair<const string,ComponentCreator>>>' には、'ComponentFactory' のクライアントが使用する DLL インターフェイスが必要です
+  (ソース ファイル 'ScriptHotReloadManager.cpp' をコンパイルしています)
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\map(72,7):
+      'std::map<string,ComponentCreator,std::less<std::string>,std::allocator<std::pair<const string,ComponentCreator>>>' の宣言を確認してください
+  
+C:\C++Files\PrototypeEngine\PrototypeEngine\ScriptHotReloadManager.cpp(453,41): warning C4267: '引数': 'size_t' から 'int' に変換しました。データが失われているかもしれません。
   コードを生成中...
   PrototypeEngine.vcxproj -> C:\C++Files\PrototypeEngine\bin\PrototypeEngine.exe
