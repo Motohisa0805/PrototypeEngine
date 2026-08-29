@@ -12,6 +12,7 @@ ScriptHotReloadManager::ScriptHotReloadManager()
     , mDllIndex(0)
     , mLastLoadTime{0}
     , mScriptsDirectory("Assets/")
+    , mCheckFileTimer(0.0f)
 {
 }
 
@@ -227,8 +228,12 @@ void ScriptHotReloadManager::UnloadScripts()
     mCurrentDll = {};
 }
 
-bool ScriptHotReloadManager::CheckForChanges()
+bool ScriptHotReloadManager::CheckForChanges(float deltaTime)
 {
+    mCheckFileTimer += deltaTime;
+    if (mCheckFileTimer < 1.0f)return false;
+    mCheckFileTimer = 0.0f;
+
     std::set<string> assetsAddedOrModified;
     std::set<string> assetsRemoved;
 

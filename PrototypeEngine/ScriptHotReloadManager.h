@@ -54,6 +54,8 @@ class ScriptHotReloadManager
 {
 private:
 
+	float												mCheckFileTimer;
+
 	std::map<std::string, FILETIME>						mKnownAssetTimestamps;
 	bool												mFirstScanComplete = false;
 	//ファイルロックされていない、ビルド出力先
@@ -90,15 +92,14 @@ public:
 	ScriptHotReloadManager();
 	~ScriptHotReloadManager();
 
-	bool Initialize();
+	bool												Initialize();
 	//DLLをロードする関数
-	bool LoadScripts();
+	bool												LoadScripts();
 	//スクリプトコードを変更した際に呼び出す関数
-	bool ReloadInGameProject();
+	bool												ReloadInGameProject();
 	//DLLをアンロードする関数
-	void UnloadScripts();
+	void												UnloadScripts();
 
-	bool CheckForChanges();
-
+	bool												CheckForChanges(float deltaTime);
 };
 

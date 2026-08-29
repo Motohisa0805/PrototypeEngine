@@ -8,6 +8,7 @@
 #include <stack>
 #include "AssetDataBase.h"
 
+//起動時に一回呼び出す
 void AssetImporter::CheckAndImportAssets()
 { 
 	string assetsDir = "Assets/";
@@ -24,23 +25,6 @@ void AssetImporter::CheckAndImportAssets()
             }
 		}
 	}
-}
-
-void AssetImporter::ReloadAssetsFile() 
-{
-    string assetsDir = "Assets/";
-
-    for (const auto& entry : fs::recursive_directory_iterator(assetsDir))
-    {
-        if (entry.is_regular_file() && entry.path().extension() == ".fbx")
-        {
-            fs::path fbxPath = entry.path();
-            // 対応する独自ファイル
-            fs::path customPath = AssetDataBase::GetInstance().GeneratedMetaFilePath(fbxPath);
-            // ここでFBXを読み込み、独自ファイルへ書き出す処理を呼ぶ
-            ConvertFBXToCustomFormat(fbxPath, customPath);
-        }
-    }
 }
 
 void AssetImporter::OneFileCheckAndImportAssets(

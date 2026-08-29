@@ -29,6 +29,7 @@ C:\C++Files\PrototypeEngine\PrototypeEngine\Collision.cpp;C:\C++Files\PrototypeE
 C:\C++Files\PrototypeEngine\PrototypeEngine\CommandManager.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\CommandManager.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\Component.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\Component.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\ComponentFactory.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\ComponentFactory.obj
+C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\public\TracyClient.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\TracyClient.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\ImportSettingsItem.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\ImportSettingsItem.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\LightingPanel.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\LightingPanel.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\LocalLight.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\LocalLight.obj
