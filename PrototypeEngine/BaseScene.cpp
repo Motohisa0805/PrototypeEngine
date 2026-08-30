@@ -220,7 +220,7 @@ Font* BaseScene::GetFont(const string& fileName)
 
 Skeleton* BaseScene::GetSkeleton(const string& fileName)
 {
-    string file = File_P::ModelPath + fileName;
+    string file = fileName;
     auto   iter = mSkeletonMap.find(file);
     // ‚·‚Å‚É‚ ‚é‚È‚ç‚»‚ê‚ðŽg‚¤
     if (iter != mSkeletonMap.end())

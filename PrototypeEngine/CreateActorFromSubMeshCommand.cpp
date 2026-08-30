@@ -68,6 +68,7 @@ void CreateActorFromSubMeshCommand::Execute()
 
 void CreateActorFromSubMeshCommand::AddComponent(ActorObject* actor)
 {
+    //TODO : メッシュかスケルタルメッシュかで処理を分ける
     if (mAssetPath.extension() == ".fbx")
     {
         MeshRenderer* mesh = new MeshRenderer(actor);

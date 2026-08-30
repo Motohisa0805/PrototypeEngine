@@ -279,6 +279,11 @@ void AssetImporter::ConvertFBXToCustomFormat(const fs::path& fbxPath,
             }
         }
     }
+    //スケルトンバイナリフラグを設定
+    if (hasBones)
+    {
+        metaJson["import_settings"]["import_skeleton"] = true;
+    }
     metaJson["cached_data"]["meshes"] = meshsJson;
 
     nlohmann::json materialsJson = nlohmann::json::array();

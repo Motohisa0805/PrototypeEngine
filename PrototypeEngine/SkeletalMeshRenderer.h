@@ -14,12 +14,25 @@ class Skeleton;
 //MeshRendererと同様スケルタルメッシュを読み込んで使用する
 class SkeletalMeshRenderer : public MeshRenderer
 {
+public:
+	struct Bounds
+	{
+        Vector3 sCenter;
+        Vector3 sExtent;
+	};
+
 protected:
 	Animator*						mAnimator;
 
 	Skeleton*						mSkeleton;
+
+	//***プロパティ変数***
+    Bounds							mBounds;
+
+	Transform*						mRootBone;
+
 public:
-									SkeletalMeshRenderer(ActorObject* owner);
+									SkeletalMeshRenderer(Entity* owner);
 									~SkeletalMeshRenderer();
 	// スケルタルモデルの描画
 	bool							Draw(Shader* shader) override;
@@ -37,6 +50,10 @@ public:
 	void							SetAnimator(Animator* animator);
 
 	Skeleton*						GetSkeleton() { return mSkeleton; }
+
+	Bounds							GetBounds() { return mBounds; }
+
+	Transform*						GetRootBone() { return mRootBone; }
 
 	void							Serialize(json& j) const override;
 	void							Deserialize(const json& j)override;
