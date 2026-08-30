@@ -174,6 +174,8 @@ public:
 	//マウスを非表示にし非表示にした場所に固定する
 	static void					RelativeMouseMode();
 	static void					AbsoluteMouseMode();
+	//マウスの何かしらの設定を強制解除関数
+    static void                 LiftMouseMode();
 };
 
 enum class InputContext {

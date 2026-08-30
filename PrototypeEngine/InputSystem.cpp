@@ -254,7 +254,7 @@ void InputSystem::ProcessEvent(SDL_Event& event)
     case SDL_EVENT_WINDOW_FOCUS_LOST:
     case SDL_EVENT_WINDOW_MINIMIZED:
     case SDL_EVENT_WINDOW_MOUSE_LEAVE:
-        AbsoluteMouseMode();
+        LiftMouseMode();
         mState.Mouse.mCurrButtons = 0;
         break;
     default:
@@ -401,6 +401,14 @@ void InputSystem::AbsoluteMouseMode()
     SDL_WarpMouseInWindow(EngineWindow::GetRenderer()->GetWindow(),
                           mState.Mouse.mMousePos.x,
                           mState.Mouse.mMousePos.y); // 元の位置に復元
+}
+
+void InputSystem::LiftMouseMode() 
+{
+    mMouseMode = MouseMode::AbsoluteMouse;
+    SDL_SetWindowRelativeMouseMode(EngineWindow::GetRenderer()->GetWindow(),
+                                   false); // 相対モードOFF
+    SDL_ShowCursor();                      // カーソル再表示
 }
 
 void InputContextManager::SetContext(InputContext ctx)

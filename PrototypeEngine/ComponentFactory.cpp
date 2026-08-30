@@ -60,8 +60,9 @@ void RegisterAllComponents()
         "MeshRenderer", [](Entity* owner) -> Component*
         { return new MeshRenderer(owner, false); });
 
-    // ComponentFactory::RegisterComponent("SkeletalMeshRenderer",[](ActorObject*
-    // owner) -> Component* { return new SkeletalMeshRenderer(owner); });
+     ComponentFactory::RegisterComponent(
+        "SkeletalMeshRenderer", [](Entity* owner) -> Component* 
+         { return new SkeletalMeshRenderer(owner); });
 
     ComponentFactory::RegisterComponent("ParticleSystem",
                                         [](Entity* owner) -> Component*
