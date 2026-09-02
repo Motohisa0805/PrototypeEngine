@@ -23,8 +23,6 @@ public:
 
     void Execute() override;
 
-    void AddComponent(ActorObject* actor);
-
     void NoHistoryExecute() override {}
 
     void Undo() override;

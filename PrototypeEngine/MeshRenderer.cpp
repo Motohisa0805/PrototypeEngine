@@ -1,7 +1,4 @@
 #include "MeshRenderer.h"
-#include "imgui.h"
-#include "imgui_impl_opengl3.h"
-#include "imgui_impl_sdl3.h"
 #include "EngineWindow.h"
 #include "Renderer.h"
 #include "Texture.h"

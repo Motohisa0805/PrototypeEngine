@@ -8,7 +8,7 @@
 
 //前方宣言
 class Animator;
-class Skeleton;
+class SkeletonData;
 
 //スケルタルメッシュの描画を行うクラス
 //MeshRendererと同様スケルタルメッシュを読み込んで使用する
@@ -22,9 +22,11 @@ public:
 	};
 
 protected:
-	Animator*						mAnimator;
+	//Animator*						mAnimator;
 
-	Skeleton*						mSkeleton;
+	SkeletonData*					mSkeletonData;
+    vector<BoneActor*>				mBones;
+    MatrixPalette                   mPalette;
 
 	//***プロパティ変数***
     Bounds							mBounds;
@@ -43,13 +45,12 @@ public:
 
 	void							LoadSkeletonMesh(const string& fileName,ActorObject* actor);
 	
+	void							LoadFilePathAndID(const char* path, const char* localID) override;
+
 	// Setters
-	void							SetSkeleton(Skeleton* sk, ActorObject* actor);
+	void							SetSkeleton(SkeletonData* sk, ActorObject* actor);
 
-
-	void							SetAnimator(Animator* animator);
-
-	Skeleton*						GetSkeleton() { return mSkeleton; }
+	SkeletonData*					GetSkeleton() { return mSkeletonData; }
 
 	Bounds							GetBounds() { return mBounds; }
 

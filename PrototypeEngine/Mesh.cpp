@@ -83,7 +83,26 @@ bool Mesh::LoadFromMeshBin(const string& fileName, Renderer* renderer,
     mVertices.resize(header.vertexCount);
     mIndices.resize(header.indexCount);
 
-    in.read((char*)mVertices.data(), sizeof(Vertex) * mVertices.size());
+if (header.layoutType == 0)
+    {
+        vector<StaticVertex> tempVerts(header.vertexCount);
+        in.read((char*)tempVerts.data(),
+                sizeof(StaticVertex) * tempVerts.size());
+
+        for (size_t i = 0; i < header.vertexCount; ++i)
+        {
+            mVertices[i].pos    = tempVerts[i].sPos;
+            mVertices[i].normal = tempVerts[i].sNormal;
+            mVertices[i].uv     = tempVerts[i].sUV;
+            // ボーンの影響を持たないように零クリア
+            memset(mVertices[i].boneIDs, 0, sizeof(mVertices[i].boneIDs));
+            memset(mVertices[i].weights, 0, sizeof(mVertices[i].weights));
+        }
+    }
+    else
+    {
+        in.read((char*)mVertices.data(), sizeof(Vertex) * mVertices.size());
+    }
     in.read((char*)mIndices.data(), sizeof(uint32_t) * mIndices.size());
 
     // 中心位置や半径を再利用したい場合
@@ -102,9 +121,25 @@ bool Mesh::LoadFromMeshBin(const string& fileName, Renderer* renderer,
     mOBBBoxs.push_back(obbBox);
     mRadiusArray.push_back(header.colliderRadius);
 
-    VertexArray* va =
-        new VertexArray(mVertices.data(), header.vertexCount, layout,
-                        mIndices.data(), header.indexCount);
+    VertexArray* va = nullptr;
+
+    if (header.layoutType == 0)
+    {
+        vector<StaticVertex> staticVerts(header.vertexCount);
+        for (size_t i = 0; i < header.vertexCount; ++i)
+        {
+            staticVerts[i].sPos    = mVertices[i].pos;
+            staticVerts[i].sNormal = mVertices[i].normal;
+            staticVerts[i].sUV     = mVertices[i].uv;
+        }
+        va = new VertexArray(staticVerts.data(), header.vertexCount, layout,
+                             mIndices.data(), header.indexCount);
+    }
+    else
+    {
+        va = new VertexArray(mVertices.data(), header.vertexCount, layout,
+                             mIndices.data(), header.indexCount);
+    }
     mVertexArrays.push_back(va);
 
     // 2:Assimpを使ってファイルからテクスチャとマテリアル情報を取得
@@ -325,7 +360,26 @@ bool Mesh::LoadFromSubMesh(const string& fbxPath, const string& localID)
     mVertices.resize(header.vertexCount);
     mIndices.resize(header.indexCount);
 
-    in.read((char*)mVertices.data(), sizeof(Vertex) * mVertices.size());
+    if (header.layoutType == 0)
+    {
+        vector<StaticVertex> tempVerts(header.vertexCount);
+        in.read((char*)tempVerts.data(), sizeof(StaticVertex) * tempVerts.size());
+
+        for (size_t i = 0; i < header.vertexCount; ++i)
+        {
+            mVertices[i].pos    = tempVerts[i].sPos;
+            mVertices[i].normal = tempVerts[i].sNormal;
+            mVertices[i].uv     = tempVerts[i].sUV;
+            //ボーンの影響を持たないように零クリア
+            memset(mVertices[i].boneIDs, 0, sizeof(mVertices[i].boneIDs));
+            memset(mVertices[i].weights, 0, sizeof(mVertices[i].weights));
+        }
+    }
+    else
+    {
+        in.read((char*)mVertices.data(), sizeof(Vertex) * mVertices.size());
+    }
+
     in.read((char*)mIndices.data(), sizeof(uint32_t) * mIndices.size());
     in.close();
 
@@ -345,9 +399,26 @@ bool Mesh::LoadFromSubMesh(const string& fbxPath, const string& localID)
     mOBBBoxs.push_back(obbBox);
     mRadiusArray.push_back(header.colliderRadius);
 
-    VertexArray* va =
-        new VertexArray(mVertices.data(), header.vertexCount, layout,
-                        mIndices.data(), header.indexCount);
+    VertexArray* va = nullptr;
+
+    if (header.layoutType == 0)
+    {
+        vector<StaticVertex> staticVerts(header.vertexCount);
+        for (size_t i = 0; i < header.vertexCount; ++i)
+        {
+            staticVerts[i].sPos    = mVertices[i].pos;
+            staticVerts[i].sNormal = mVertices[i].normal;
+            staticVerts[i].sUV     = mVertices[i].uv;
+        }
+        va = new VertexArray(staticVerts.data(), header.vertexCount, layout,
+                             mIndices.data(), header.indexCount);
+    }
+    else
+    {
+        va = new VertexArray(mVertices.data(), header.vertexCount, layout,
+                             mIndices.data(), header.indexCount);
+    }
+
     mVertexArrays.push_back(va);
 
 
@@ -812,10 +883,25 @@ bool Mesh::LoadFromFBX(const string& fileName, Renderer* renderer, int index)
     result               = Sco::RemoveExtension(result);
     string        number = std::to_string(index);
     std::ofstream out(File_P::BinaryFilePath + result + number +
-                          File_P::BinaryPath,
-                      std::ios::binary);
+                          File_P::BinaryPath,std::ios::binary);
     out.write((char*)&header, sizeof(header));
-    out.write((char*)mVertices.data(), sizeof(Vertex) * mVertices.size());
+
+    //レイアウトに応じて書き込むサイズを変更
+    if (header.layoutType == 0)
+    {
+        vector<StaticVertex> tempVerts(mVertices.size());
+        for (size_t i = 0; i < mVertices.size(); ++i)
+        {
+            tempVerts[i].sPos    = mVertices[i].pos;
+            tempVerts[i].sNormal = mVertices[i].normal;
+            tempVerts[i].sUV     = mVertices[i].uv;
+        }
+        out.write((char*)tempVerts.data(), sizeof(StaticVertex) * tempVerts.size());
+    }
+    else
+    {
+        out.write((char*)mVertices.data(), sizeof(Vertex) * mVertices.size());
+    }
     out.write((char*)mIndices.data(), sizeof(uint32_t) * mIndices.size());
 
     // 読み込み成功

@@ -91,8 +91,9 @@ void RegisterAllComponents()
     // ComponentFactory::RegisterComponent("AudioComponent",[](ActorObject*
     // owner) -> Component* { return new AudioComponent(owner); });
 
-    // ComponentFactory::RegisterComponent("Animator",[](ActorObject* owner) ->
-    // Component* { return new Animator(owner); });
+    ComponentFactory::RegisterComponent("Animator",
+                                        [](Entity* owner) -> Component* 
+                                        { return new Animator(owner); });
 
     // ComponentFactory::RegisterComponent("BasicInputAction",[](ActorObject*
     // owner) -> Component* { return new BasicInputAction(owner); });

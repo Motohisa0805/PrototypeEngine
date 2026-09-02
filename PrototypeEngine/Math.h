@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include "StandardLibrary.h"
 #include "PrototypeEngine_API.h"
+#include "Assimp.h"
 /*
 * ===エンジン内部処理/Engine internal processing===
 */
@@ -1520,6 +1521,17 @@ public:
 	static Matrix4 Billboard(const Vector3& pos, const float& size, const Vector3& camRight, const Vector3& camUp, const Vector3& camForward);
 
 	static const Matrix4 Identity;
+
+	//Assimp行列から自前Matrix4への変換ヘルパー関数
+    static Matrix4 ConvertToMatrix4(const aiMatrix4x4& from)
+	{
+		Matrix4 to;
+		to.mat[0][0] = from.a1; to.mat[0][1] = from.a2; to.mat[0][2] = from.a3; to.mat[0][3] = from.a4;
+		to.mat[1][0] = from.b1; to.mat[1][1] = from.b2; to.mat[1][2] = from.b3; to.mat[1][3] = from.b4;
+		to.mat[2][0] = from.c1; to.mat[2][1] = from.c2; to.mat[2][2] = from.c3; to.mat[2][3] = from.c4;
+		to.mat[3][0] = from.d1; to.mat[3][1] = from.d2; to.mat[3][2] = from.d3; to.mat[3][3] = from.d4;
+		return to;
+    }
 };
 
 namespace Color

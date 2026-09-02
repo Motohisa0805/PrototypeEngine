@@ -10,6 +10,7 @@ C:\C++Files\PrototypeEngine\PrototypeEngine\AudioSystem.cpp;C:\C++Files\Prototyp
 C:\C++Files\PrototypeEngine\PrototypeEngine\BaseTransform.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\BaseTransform.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\CreateActorFromFBXFileCommand.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\CreateActorFromFBXFileCommand.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\CreateActorFromSubMeshCommand.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\CreateActorFromSubMeshCommand.obj
+C:\C++Files\PrototypeEngine\PrototypeEngine\CreateActorTemplate.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\CreateActorTemplate.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\CreateNewCanvasCommand.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\CreateNewCanvasCommand.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\CreateNewUIActorCommand.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\CreateNewUIActorCommand.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\DuplicateCommand.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\DuplicateCommand.obj

@@ -4,7 +4,7 @@
 #include "imgui_impl_sdl3.h"
 #include "imgui_impl_opengl3.h"
 #include "AssetImporter.h"
-#include "CreateActorFromFBXFileCommand.h"
+#include "CreateActorTemplate.h"
 
 CreateActorFromSubMeshCommand::CreateActorFromSubMeshCommand(
     const std::filesystem::path& assetPath, const string& localID,
@@ -34,10 +34,7 @@ void CreateActorFromSubMeshCommand::Execute()
     if (mTargetID == 0)
     {
         // 1. 完全なる初回実行時：新しくアクターを生成してシーンに登録する
-        mTarget   = new ActorObject();
-        mTarget->SetName(mAssetPath.stem().filename().string());
-        mTargetID = mTarget->GetID();
-        AddComponent(mTarget);
+        CreateActorTemplate::CreateOneSubMeshActor(mTarget, mTargetID, mLocalID,mAssetPath);
 
         // シーンに所有権を渡したため、コマンド側のポインタは安全にクリアする
         mTarget          = nullptr;
@@ -63,18 +60,6 @@ void CreateActorFromSubMeshCommand::Execute()
         {
             SelectionManager::SetSelectedActor(currentActor);
         }
-    }
-}
-
-void CreateActorFromSubMeshCommand::AddComponent(ActorObject* actor)
-{
-    //TODO : メッシュかスケルタルメッシュかで処理を分ける
-    if (mAssetPath.extension() == ".fbx")
-    {
-        MeshRenderer* mesh = new MeshRenderer(actor);
-        mesh->LoadFilePathAndID(mAssetPath.string().c_str(),mLocalID.c_str());
-        mesh->SetLocalID(mLocalID);
-        actor->AddComponent(mesh);
     }
 }
 

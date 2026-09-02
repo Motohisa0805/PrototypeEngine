@@ -20,17 +20,17 @@ namespace VertexLayout
 
 	constexpr GLsizei NUM_INDEX_BUFFERS = 1;
 
-	//***glEnableVertexAttribArrayのアクセスインデックス***
+	//シェーダー(layout = X)と連動する属性インデックス
 	//位置の頂点属性のインデックス
-	constexpr size_t  POSITION_INDEX = 0;
+    constexpr GLsizei ATTRIB_POSITION = 0;
 	//法線の頂点属性のインデックス
-	constexpr size_t  NORMAL_INDEX = 1;
+    constexpr GLsizei ATTRIB_NORMAL = 1;
 	//テクスチャ座標(UV)の頂点属性のインデックス
-	constexpr size_t  MESH_TEXUV_INDEX = 2;
+    constexpr GLsizei ATTRIB_TEXCOORD = 2;
 	//ウェイトの頂点属性のインデックス
-	constexpr size_t  BONEWEIGHT_INDEX = 3;
+    constexpr GLsizei ATTRIB_BONE_IDS = 3;
 	//ボーンインデックス・ボーンのウェイト・テクスチャ情報の頂点属性のインデックス
-	constexpr size_t  SKINMESH_TEXUV_INDEX = 4;
+    constexpr GLsizei ATTRIB_BONE_WEIGHTS = 4;
 
 
 	// 属性の構成（floatサイズ前提）
@@ -76,9 +76,18 @@ struct Vertex
 	Vector3		pos;	// 12バイト
 	Vector3		normal;	// 12バイト
 	Vector2		uv;		// 8バイト
-	/*
 	uint8_t 	boneIDs[4];
+    float       weights[4];
+	/*
 	*/
+};
+
+//静的メッシュのバイナリ読み書き用の一時構造体(32バイト)
+struct StaticVertex
+{
+	Vector3		sPos;		// 12バイト
+	Vector3		sNormal;	// 12バイト
+	Vector2		sUV;		// 8バイト
 };
 
 //頂点配列オブジェクト(Vertex Array Object)を管理するクラス

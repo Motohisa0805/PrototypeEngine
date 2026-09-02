@@ -14,12 +14,12 @@ class Animator : public Component
 {
 private:
 
-	MatrixPalette					mPalette;
+	vector<Transform*>				mBoneTransforms;
 
 	//アニメーションを配列で持ってる変数
 	vector<Animation*>				mAnimations;
 
-	Skeleton*						mSkeleton;
+	SkeletonData*					mSkeleton;
 
 	Animation*						mAnimation;
 
@@ -35,7 +35,7 @@ private:
 	//アニメーションのブレンドを行うためのフラグ
 	bool							mBlending;
 public:
-	Animator(class ActorObject* owner);
+    Animator(Entity* owner);
 	~Animator();
 	//アニメーション読み込み処理
 	bool							Load(const string& fileName,bool animLoop = 0,bool rootMotion = 0);
@@ -46,18 +46,18 @@ public:
 	float							PlayAnimation(Animation* anim);
 	// ブレンドアニメーションを再生します。
 	float							PlayBlendAnimation(Animation* anim);
+    /*
 	//スケルトンとアニメーションを使ってスキニング行列（palette）とボーンの可視化更新を行う
 	void							ComputeMatrixPalette();
 	//ブレンドアニメーションのスキニング行列（palette）とボーンの可視化更新を行う
 	void							BlendComputeMatrixPalette();
-	//Getter
-	MatrixPalette&					GetPalette() { return mPalette; }
+	*/
 	//アニメーションの配列のGetter
 	vector<Animation*>				GetAnimations() { return mAnimations; }
 	//スケルトンのGetter
-	Skeleton*						GetSkeleton() { return mSkeleton; }
+	SkeletonData*					GetSkeleton() { return mSkeleton; }
 	//スケルトンのSetter
-	void							SetSkeleton(Skeleton* skeleton);
+	void							SetSkeleton(SkeletonData* skeleton);
 	//現在再生中のアニメーションのGetter
 	Animation*						GetAnimation() { return mAnimation; }
 	//ブレンドアニメーションのGetter
@@ -79,5 +79,13 @@ public:
 	//Setter
 	//アニメーションのブレンドを行うためのフラグ
 	bool							IsBlending() { return mBlending; }
+
+
+	void							Serialize(json& j) const override;
+    void							Deserialize(const json& j) override;
+
+    void							DrawCustomGUI(const std::vector<PropertyInfo>& properties) override;
+
+    Component*						Clone(Entity* newOwner) const override;
 };
 

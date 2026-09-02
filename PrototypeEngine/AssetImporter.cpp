@@ -9,7 +9,7 @@
 #include "AssetDataBase.h"
 
 //起動時に一回呼び出す
-void AssetImporter::CheckAndImportAssets()
+void AssetImporter::CheckAndImportAssets(bool versionCheck)
 { 
 	string assetsDir = "Assets/";
 
@@ -18,8 +18,39 @@ void AssetImporter::CheckAndImportAssets()
             fs::path fbxPath = entry.path();
 			//対応する独自ファイル
             fs::path customPath = AssetDataBase::GetInstance().GeneratedMetaFilePath(fbxPath);
-			//独自ファイルが存在しない、またはFBXファイルの方が新しく更新されている場合
-			if (!fs::exists(customPath) || fs::last_write_time(entry) > fs::last_write_time(customPath)){
+			
+            bool needReimport = false;
+
+            if (!fs::exists(customPath))
+            {
+                needReimport = true;
+            }
+            else if (fs::last_write_time(entry) > fs::last_write_time(customPath))
+            {
+                needReimport = true;
+            }
+            else if (versionCheck)
+            {
+                std::ifstream inFile(customPath);
+                if (inFile.is_open())
+                {
+                    nlohmann::json metaJson;
+                    inFile >> metaJson;
+                    int metaVersion = metaJson.value("fileFormatVersion", 0);
+                    if (metaVersion < CURRENT_ASSET_VERSION)
+                    {
+                        needReimport = true;
+                    }
+                }
+                else
+                {
+                    needReimport = true;
+                }
+            }
+            
+            //独自ファイルが存在しない、またはFBXファイルの方が新しく更新されている場合
+            if (needReimport)
+            {
 				//ここでFBXを読み込み、独自ファイルへ書き出す処理を呼ぶ
                 ConvertFBXToCustomFormat(fbxPath, customPath);
             }
@@ -202,7 +233,7 @@ void AssetImporter::ConvertFBXToCustomFormat(const fs::path& fbxPath,
 
     if (isNewFile)
     {
-        metaJson["fileFormatVersion"] = 1;
+        metaJson["fileFormatVersion"] = CURRENT_ASSET_VERSION;
         metaJson["guid"]              = GenerateUUID();
         // インポートスイッチ(中身の有無によって自動でON/OFFを設定)
         metaJson["import_settings"]["import_mesh"]      = hasMesh;
@@ -507,6 +538,40 @@ void AssetImporter::ExportMeshBinary(const fs::path& fbxPath,
     float radius = 0.0f;
     AABB  box    = AABB(Vector3::Infinity, Vector3::NegInfinity);
 
+    struct VertexBoneData
+    {
+        uint8_t ids[4] = {0, 0, 0, 0};
+        float   weights[4] = {0.0f, 0.0f, 0.0f, 0.0f};
+        void AddBoneData(uint8_t boneID, float weight)
+        {
+            for (int i = 0; i < 4; ++i)
+            {
+                if (weights[i] == 0.0f)
+                {
+                    ids[i]     = boneID;
+                    weights[i] = weight;
+                    return;
+                }
+            }
+            // 4つ以上のボーンがある場合は無視する
+        }
+    };
+    vector<VertexBoneData> vertexBones(mesh->mNumVertices);
+    // メッシュがボーンを持つ場合、各頂点にボーンIDとウェイトを割り当てる
+    if (mesh->HasBones())
+    {
+        for (unsigned int b = 0; b < mesh->mNumBones; ++b)
+        {
+            aiBone* bone = mesh->mBones[b];
+            for (unsigned int w = 0; w < bone->mNumWeights; ++w)
+            {
+                unsigned int vertexID = bone->mWeights[w].mVertexId;
+                float         weight   = bone->mWeights[w].mWeight;
+                vertexBones[vertexID].AddBoneData(static_cast<uint8_t>(b), weight);
+            }
+        }
+    }
+
     // 頂点データの変換
     for (unsigned int i = 0; i < mesh->mNumVertices; i++)
     {
@@ -523,6 +588,20 @@ void AssetImporter::ExportMeshBinary(const fs::path& fbxPath,
         v.pos.x = pos.x;
         v.pos.y = pos.y;
         v.pos.z = pos.z;
+
+        if (mesh->HasBones())
+        {
+            for (int j = 0; j < 4; ++j)
+            {
+                v.boneIDs[j] = vertexBones[i].ids[j];
+                v.weights[j] = vertexBones[i].weights[j];
+            }
+        }
+        else
+        {
+            memset(v.boneIDs, 0, sizeof(v.boneIDs));
+            memset(v.weights, 0, sizeof(v.weights));
+        }
 
         if (mesh->HasNormals())
         {
@@ -575,7 +654,22 @@ void AssetImporter::ExportMeshBinary(const fs::path& fbxPath,
     if (out.is_open())
     {
         out.write((char*)&header, sizeof(header));
-        out.write((char*)vertices.data(), sizeof(Vertex) * vertices.size());
+        if (layout == 0)
+        {
+            vector<StaticVertex> tempVerts(vertices.size());
+            for (size_t i = 0; i < vertices.size(); ++i)
+            {
+                tempVerts[i].sPos    = vertices[i].pos;
+                tempVerts[i].sNormal = vertices[i].normal;
+                tempVerts[i].sUV     = vertices[i].uv;
+            }
+            out.write((char*)tempVerts.data(),sizeof(StaticVertex) * tempVerts.size());
+        }
+        else
+        {
+            out.write((char*)vertices.data(), sizeof(Vertex) * vertices.size());
+        }
+
         out.write((char*)indices.data(), sizeof(uint32_t) * indices.size());
         out.close();
         Debug::Log("Successfully exported mesh binary:%s", meshBinPath);
