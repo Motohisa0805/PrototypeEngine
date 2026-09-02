@@ -834,42 +834,6 @@
       "Static": 0,
       "Tag": 0,
       "Type": "Transform"
-    },
-    {
-      "Components": [
-        {
-          "Alpha": 1.0,
-          "FilePath": "",
-          "IsSkeletal": true,
-          "LocalID": "",
-          "ShadowFrag": true,
-          "Type": "SkeletalMeshRenderer",
-          "Visible": true
-        }
-      ],
-      "ID": 25,
-      "LocalPosition": [
-        0.0,
-        0.0,
-        0.0
-      ],
-      "LocalRotation": [
-        1.0,
-        0.0,
-        0.0,
-        0.0
-      ],
-      "LocalScale": [
-        1.0,
-        1.0,
-        1.0
-      ],
-      "Name": "SkeletalMeshRendererTest",
-      "ParentActorID": -1,
-      "State": 0,
-      "Static": 0,
-      "Tag": 0,
-      "Type": "Transform"
     }
   ],
   "Lighting": {

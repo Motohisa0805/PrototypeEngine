@@ -13,7 +13,7 @@ namespace AnimationLayout
 }
 
 //前方宣言
-class Skeleton;
+class SkeletonData;
 
 //アニメーション1つの情報を持つクラス
 //アニメーションのフレーム数、持続時間、各ボーンの変形情報を持つ
@@ -67,7 +67,7 @@ private:
 
 	vector<Vector3*>						mRootPosition;
 
-	Skeleton* mSkeleton;
+	SkeletonData*							mSkeleton;
 	//アニメーションをループさせるためのフラグ
 	bool									isLoop;
 	//アニメーションが再生終了したかどうか
@@ -91,7 +91,7 @@ private:
 	vector<Vector3>							mRootPositionOffset;
 
 public:
-											Animation(Skeleton* skeleton);
+											Animation(SkeletonData* skeleton);
 
 	bool									Load(const string& fileName);
 
@@ -103,6 +103,8 @@ public:
 
 	void									Update();
 
+	void									Evaluate(size_t index, float time,Vector3& outpos, Quaternion& outrot, Vector3& outscale);
+
 	size_t									GetNumBones() const { return mNumBones; }
 	
 	size_t									GetNumFrames() const { return mNumFrames; }
@@ -111,7 +113,7 @@ public:
 	
 	float									GetFrameDuration() const { return mFrameDuration; }
 
-	void									SetSkeleton(Skeleton* skeleton) { mSkeleton = skeleton; }
+	void									SetSkeleton(SkeletonData* skeleton) { mSkeleton = skeleton; }
 
 	bool									IsLoop() const { return isLoop; }
 
@@ -165,5 +167,5 @@ public:
 
 	// 指定されたアニメーションの時間における各ボーンのグローバル（現在の）ポーズ行列を提供されたベクターに充填。
 	// 時間は0.0f以上でmDuration以下であること。
-	void									GetLocalPoseAtTime(vector<Matrix4>& outPoses, const Skeleton* inSkeleton, float inTime) const;
+	//void									GetLocalPoseAtTime(vector<Matrix4>& outPoses, const SkeletonData* inSkeleton, float inTime) const;
 };

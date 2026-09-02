@@ -9,8 +9,7 @@
 
 SkeletalMeshRenderer::SkeletalMeshRenderer(Entity* owner)
     : MeshRenderer(owner, true)
-    , mSkeleton(nullptr)
-    , mAnimator(nullptr)
+    , mSkeletonData(nullptr)
     , mBounds()
     , mRootBone(nullptr)
 {
@@ -34,16 +33,9 @@ bool SkeletalMeshRenderer::Draw(Shader* shader)
             if (mMeshs[i])
             {
                 // Set the world transform
-                shader->SetMatrixUniform(
-                    "uWorldTransform",
-                    mActor->GetTransform()->GetWorldTransform());
-                if (mAnimator)
-                {
-                    // Set the matrix palette
-                    shader->SetMatrixUniforms(
-                        "uMatrixPalette", &mAnimator->GetPalette().mEntry[0],
-                        SkeletonLayout::MAX_SKELETON_BONES);
-                }
+                shader->SetMatrixUniform("uWorldTransform",mActor->GetTransform()->GetWorldTransform());
+                // Set the matrix palette
+                shader->SetMatrixUniforms("uMatrixPalette", &mPalette.mEntry[0],SkeletonLayout::MAX_SKELETON_BONES);
                 Texture* t = nullptr;
                 // Set the active texture
                 t = mMeshs[i]->GetTexture(j);
@@ -95,13 +87,10 @@ void SkeletalMeshRenderer::DrawForShadowMap(Shader* shader)
                 shader->SetMatrixUniform(
                     "uWorldTransform",
                     mActor->GetTransform()->GetWorldTransform());
-                if (mAnimator)
-                {
-                    // Set the matrix palette
-                    shader->SetMatrixUniforms(
-                        "uMatrixPalette", &mAnimator->GetPalette().mEntry[0],
-                        SkeletonLayout::MAX_SKELETON_BONES);
-                }
+                // Set the matrix palette
+                shader->SetMatrixUniforms(
+                    "uMatrixPalette", &mPalette.mEntry[0],
+                    SkeletonLayout::MAX_SKELETON_BONES);
 
                 // ブレンドなどはシャドウマップ描画時は一切不要
                 glDisable(GL_BLEND);
@@ -120,10 +109,14 @@ void SkeletalMeshRenderer::DrawForShadowMap(Shader* shader)
 
 void SkeletalMeshRenderer::Update(float deltaTime)
 {
-    /*
-    if (!mAnimator) { return; }
-    mAnimator->Update(deltaTime);
-    */
+    if (!mSkeletonData || mBones.empty())return;
+    //パレットの計算
+    for (size_t i = 0; i < mBones.size(); i++)
+    {
+        Matrix4 currentWorld = mBones[i]->GetTransform()->GetWorldTransform();
+        Matrix4 invBind      = mSkeletonData->GetBones()[i].sInverseBindPose;
+        mPalette.mEntry[i]   = invBind * currentWorld;
+    }
 }
 void SkeletalMeshRenderer::LoadSkeletonMesh(const string& fileName,
                                             ActorObject*  actor)
@@ -134,71 +127,83 @@ void SkeletalMeshRenderer::LoadSkeletonMesh(const string& fileName,
     mMeshs.insert(mMeshs.end(), mesh.begin(), mesh.end());
     */
 
-    Skeleton* sk = mGame->GetSkeleton(fileName);
-    mSkeleton    = sk;
-    if (mSkeleton != nullptr)
+    SkeletonData* sk = mGame->GetSkeleton(fileName);
+    mSkeletonData    = sk;
+    if (mSkeletonData != nullptr)
     {
-        mSkeleton->SetParentActor(actor);
+        mSkeletonData->SetParentActor(actor);
     }
     mIsSkeletal = true;
 }
 
-void SkeletalMeshRenderer::SetSkeleton(Skeleton* sk, ActorObject* actor)
+void SkeletalMeshRenderer::LoadFilePathAndID(const char* path,
+                                             const char* localID)
 {
-    mSkeleton = nullptr;
-    mSkeleton = sk;
+    SkeletonData* sk = mGame->GetSkeleton(path);
+    SetSkeleton(sk, dynamic_cast<ActorObject*>(mOwner));
+    Mesh* mesh = EngineWindow::GetRenderer()->GetSubMesh(path, localID);
+    if (mesh)
+    {
+        SetMesh({mesh});
+        mAlpha    = mesh->GetMaterialInfo()[0].Color.w;
+        mFilePath = path;
+    }
+}
 
-    if (!mSkeleton)
+void SkeletalMeshRenderer::SetSkeleton(SkeletonData* sk, ActorObject* actor)
+{
+    for (BoneActor* b : mBones)
+    {
+        delete b;
+    }
+    mBones.clear();
+
+    mSkeletonData = sk;
+
+    if (!mSkeletonData)
     {
         return;
     }
 
-    const auto& bones = mSkeleton->GetBones();
-
-    // 1.mParentIndex を使って親子関係を構築
+    const auto& bones = mSkeletonData->GetBones();
+    mBones.reserve(bones.size());
+    // このRenderer専用のBoneActorを作成して、mBonesに格納する
     for (size_t i = 0; i < bones.size(); i++)
     {
-        const BoneActor*      bone       = bones[i];
-        BoneActor*            childActor = mSkeleton->GetBoneActor()[i];
+        const SkeletonData::BoneInfo& boneInfo = bones[i];
+
+        BoneActor* boneActor = new BoneActor();
+        boneActor->SetName(boneInfo.sName);
+
+        boneActor->GetTransform()->SetPosition(boneInfo.sLocalPos);
+        boneActor->GetTransform()->SetRotation(boneInfo.sLocalRot);
+        boneActor->GetTransform()->SetScale(boneInfo.sLocalScale);
+
+        mBones.push_back(boneActor);
+    }
+    // 親子関係を構築
+    for (size_t i = 0; i < bones.size(); i++)
+    {
+        const SkeletonData::BoneInfo& info = bones[i];
+        BoneActor* childActor = mBones[i];
 
         // mParentIndexは親ボーンのインデックス
-        if (bone->GetParentIndex() != -1)
+        if (info.sParentIndex != -1 && info.sParentIndex < static_cast<int>(mBones.size()))
         {
             // 親ボーンのActorを取得
-            BoneActor* parentActor = mSkeleton->GetBoneActor()[bone->GetParentIndex()];
-
-            // Transform::AddChildActor() を呼び出して親子関係を結ぶ
-            // Transform.cpp に実装されている AddChildActor を利用
+            BoneActor* parentActor = mBones[info.sParentIndex];
             parentActor->GetTransform()->AddChildActor(childActor);
-
-            // (オプション) SkeletalMeshRendererのオーナーActorを親にする場合
-            // childActor->SetParentActor(this->GetOwner());
         }
         else
         {
             // ルートボーンの場合
             // ルートアクターをSkeletonMeshRendererを持つオーナーのオブジェクトの子にする
-            if (mOwner)
+            if (actor)
             {
-                mActor->GetTransform()->AddChildActor(childActor);
+                actor->GetTransform()->AddChildActor(childActor);
             }
         }
-        /*
-        // ローカルバインドポーズを設定
-        // BoneActorのTransformにボーンのローカル位置と回転を設定し、
-        // ボーンオフセット（BindPose）を反映させます。
-        Matrix4 bindPose = bone.mLocalBindPose;
-        childActor->SetLocalPosition(bindPose.GetTranslation());
-        childActor->SetLocalRotation(bindPose.GetRotation());
-        childActor->SetLocalScale(bindPose.GetScale());
-        */
     }
-}
-
-void SkeletalMeshRenderer::SetAnimator(Animator* animator)
-{
-    mAnimator = nullptr;
-    mAnimator = animator;
 }
 
 void SkeletalMeshRenderer::Serialize(json& j) const
@@ -230,22 +235,10 @@ void SkeletalMeshRenderer::Deserialize(const json& j)
         GetMeshFilePath(); // GetMeshFilePath() が mMeshFilePath を返す前提
 
     // SkeletalMeshRenderer::LoadSkeletonMesh のスケルトンロード部分のロジック
-    Skeleton* sk = mOwner->GetGame()->GetSkeleton(fileName);
-    mSkeleton    = sk;
-    /*
-    if (mSkeleton != nullptr)
-    {
-        mSkeleton->SetParentActor(mOwner); // Actorにスケルトンを設定
-    }
-    */
+    SkeletonData* sk = mOwner->GetGame()->GetSkeleton(fileName);
+    mSkeletonData    = sk;
 
     mIsSkeletal = true; // スケルトンを持っていることを明示
-
-    // 3. アニメーターのリンク（Animatorが別コンポーネントの場合）
-    //    ActorObjectにアタッチされているAnimatorコンポーネントを取得し、mAnimatorに設定します。
-    //    (注: Animatorクラスがある前提)
-    //    Animator* animator = mOwner->GetComponent<Animator>();
-    //    SetAnimator(animator);
 }
 
 void SkeletalMeshRenderer::DrawCustomGUI(

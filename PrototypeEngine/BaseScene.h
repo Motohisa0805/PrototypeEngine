@@ -14,7 +14,7 @@ class UIActorObject;
 class Canvas;
 class Image;
 class Font;
-class Skeleton;
+class SkeletonData;
 class BaseCamera;
 class Text;
 
@@ -38,7 +38,7 @@ protected:
 	// Map for fonts
 	std::unordered_map<string, Font*>				mFontMap;
 	// Map of loaded skeletons
-	std::unordered_map<string, Skeleton*>			mSkeletonMap;
+	std::unordered_map<string, SkeletonData*>			mSkeletonMap;
 
 	std::unordered_map<string, BaseCamera*>			mCameraMap;
 	
@@ -92,7 +92,7 @@ public:
 	//Font‚ÌGetter
 	Font*											GetFont(const string& fileName);
 	//ƒXƒPƒ‹ƒgƒ“‚ÌGetter
-	Skeleton*										GetSkeleton(const string& fileName);
+	SkeletonData*										GetSkeleton(const string& fileName);
 	//AudioSystem‚ÌGetter
 	AudioSystem*									GetAudioSystem() { return mAudioSystem; }
 

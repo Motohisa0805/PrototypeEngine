@@ -4,7 +4,7 @@
 #include "FilePath.h"
 #include "Skeleton.h"
 
-Animator::Animator(ActorObject* owner)
+Animator::Animator(Entity* owner)
     : Component(owner)
     , mSkeleton(nullptr)
     , mAnimation(nullptr)
@@ -70,6 +70,7 @@ bool Animator::Load(const string& fileName, bool animLoop, bool rootMotion)
 
 void Animator::Update(float deltaTime)
 {
+    /*
     if (mAnimation && mSkeleton)
     {
         mAnimTime += deltaTime * mAnimPlayRate;
@@ -111,9 +112,44 @@ void Animator::Update(float deltaTime)
             mBlending       = false;
         }
     }
+    */
+
+    if (!mAnimation || mBoneTransforms.empty()) return;
+    //経過時間の更新
+    mAnimTime += deltaTime * mAnimPlayRate;
+    if (mAnimation->IsLoop())
+    {
+        if (mAnimTime > mAnimation->GetDuration())
+        {
+            mAnimTime = 0.0f;
+        }
+    }
+    else
+    {
+        if (mAnimTime > mAnimation->GetDuration())
+        {
+            mAnimTime = mAnimation->GetDuration();
+            if (!mAnimation->IsAnimationEnd())
+            {
+                mAnimation->SetIsAnimationEnd(true);
+            }
+        }
+    }
+    //対象ボーンのTransformを更新
+    for (size_t i = 0; i < mBoneTransforms.size(); i++)
+    {
+        Transform* boneTransform = mBoneTransforms[i];
+        //アニメーションから現在のローカル値を取得
+        Vector3 pos; Quaternion rot; Vector3 scale;
+        mAnimation->Evaluate(i, mAnimTime, pos, rot, scale);
+
+        boneTransform->SetLocalPosition(pos);
+        boneTransform->SetLocalRotation(rot);
+        boneTransform->SetLocalScale(scale);
+    }
 }
 
-void Animator::SetSkeleton(Skeleton* skeleton)
+void Animator::SetSkeleton(SkeletonData* skeleton)
 {
     if (skeleton == nullptr)
     {
@@ -139,7 +175,7 @@ float Animator::PlayAnimation(Animation* anim)
         return 0.0f;
     }
 
-    ComputeMatrixPalette();
+    //ComputeMatrixPalette();
 
     return mAnimation->GetDuration();
 }
@@ -160,7 +196,7 @@ float Animator::PlayBlendAnimation(Animation* anim)
 
     return mAnimation->GetDuration();
 }
-
+/*
 void Animator::ComputeMatrixPalette()
 {
     if (!mSkeleton || !mAnimation)
@@ -170,15 +206,15 @@ void Animator::ComputeMatrixPalette()
 
     vector<Matrix4> localPoses;
     mAnimation->GetLocalPoseAtTime(localPoses, mSkeleton, mAnimTime);
-    /*
-    const vector<Matrix4>& globalInvBindPoses =
-        mSkeleton->GetGlobalInvBindPoses();
-    vector<Matrix4> currentPoses;
-    mAnimation->GetLocalPoseAtTime(currentPoses, mSkeleton, mAnimTime);
-    mSkeleton->SetGlobalCurrentPoses(currentPoses);
-    */
+    
+    //const vector<Matrix4>& globalInvBindPoses =
+    //    mSkeleton->GetGlobalInvBindPoses();
+    //vector<Matrix4> currentPoses;
+    //mAnimation->GetLocalPoseAtTime(currentPoses, mSkeleton, mAnimTime);
+    //mSkeleton->SetGlobalCurrentPoses(currentPoses);
+    
     // Setup the palette for each bone
-    for (size_t i = 0; i < mSkeleton->GetNumBones(); i++)
+    for (size_t i = 0; i < mSkeleton->GetBones().size(); i++)
     {
         BoneActor* boneActor = mSkeleton->GetBoneActor()[i];
         
@@ -192,26 +228,26 @@ void Animator::ComputeMatrixPalette()
 
         boneActor->GetTransform()->ActiveDirty();
         
-        /*
-        Matrix4 pose = currentPoses[i];
-        // Global inverse bind pose matrix times current pose matrix
-        mPalette.mEntry[i] = globalInvBindPoses[i] * pose;
-        Matrix4 transform;
-        if (mActor->GetTransform()->GetParentActor() == nullptr)
-        {
-            transform = pose;
-        }
-        else
-        {
-            transform = pose * mActor->GetTransform()->GetWorldTransform();
-        }
-        mSkeleton->GetBoneActor()[i]->GetTransform()->SetLocalScale(
-            transform.GetScale());
-        mSkeleton->GetBoneActor()[i]->GetTransform()->SetLocalRotation(
-            transform.GetRotation());
-        mSkeleton->GetBoneActor()[i]->GetTransform()->SetLocalPosition(
-            transform.GetTranslation());
-        */
+        
+        //Matrix4 pose = currentPoses[i];
+        //// Global inverse bind pose matrix times current pose matrix
+        //mPalette.mEntry[i] = globalInvBindPoses[i] * pose;
+        //Matrix4 transform;
+        //if (mActor->GetTransform()->GetParentActor() == nullptr)
+        //{
+        //    transform = pose;
+        //}
+        //else
+        //{
+        //    transform = pose * mActor->GetTransform()->GetWorldTransform();
+        //}
+        //mSkeleton->GetBoneActor()[i]->GetTransform()->SetLocalScale(
+        //    transform.GetScale());
+        //mSkeleton->GetBoneActor()[i]->GetTransform()->SetLocalRotation(
+        //    transform.GetRotation());
+        //mSkeleton->GetBoneActor()[i]->GetTransform()->SetLocalPosition(
+        //    transform.GetTranslation());
+        
     }
 
     for (size_t i = 0; i < mSkeleton->GetNumBones(); i++)
@@ -272,52 +308,93 @@ void Animator::BlendComputeMatrixPalette()
         mPalette.mEntry[i] = bone->GetGlobalInvBindPose() *
                              bone->GetTransform()->GetWorldTransform();
     }
-    /*
-    vector<Matrix4> goalPose;
-
-
-    goalPose.resize(nowPose.size());
-
-    for (size_t i = 0; i < nowPose.size(); i++)
-    {
-        // BoneTransformに変換して補間（Lerp/Slerp）
-        BoneTransform transformA, transformB;
-        transformA.FromMatrix(nowPose[i]);
-        transformB.FromMatrix(nextPose[i]);
-
-        BoneTransform blended =
-            BoneTransform::Interpolate(transformA, transformB, t);
-
-        goalPose[i] = blended.ToMatrix();
-        mSkeleton->GetBoneActor()[i]->SetGlobalInvBindPose(goalPose[i]);
-    }
-
-    mSkeleton->SetGlobalCurrentPoses(goalPose);
-
-    for (size_t i = 0; i < mSkeleton->GetNumBones(); i++)
-    {
-        Matrix4 pose       = goalPose[i];
-        mPalette.mEntry[i] = globalInvBindPoses[i] * pose;
-        Matrix4 transform;
-        if (mActor->GetTransform()->GetParentActor() == nullptr)
-        {
-            transform = pose;
-        }
-        else
-        {
-            transform = pose * mActor->GetTransform()->GetWorldTransform();
-        }
-        mSkeleton->GetBoneActor()[i]->GetTransform()->SetLocalScale(
-            transform.GetScale());
-        mSkeleton->GetBoneActor()[i]->GetTransform()->SetLocalRotation(
-            transform.GetRotation());
-        mSkeleton->GetBoneActor()[i]->GetTransform()->SetLocalPosition(
-            transform.GetTranslation());
-    }
-    */
+    
+    //vector<Matrix4> goalPose;
+    //
+    //
+    //goalPose.resize(nowPose.size());
+    //
+    //for (size_t i = 0; i < nowPose.size(); i++)
+    //{
+    //    // BoneTransformに変換して補間（Lerp/Slerp）
+    //    BoneTransform transformA, transformB;
+    //    transformA.FromMatrix(nowPose[i]);
+    //    transformB.FromMatrix(nextPose[i]);
+    //
+    //    BoneTransform blended =
+    //        BoneTransform::Interpolate(transformA, transformB, t);
+    //
+    //    goalPose[i] = blended.ToMatrix();
+    //    mSkeleton->GetBoneActor()[i]->SetGlobalInvBindPose(goalPose[i]);
+    //}
+    //
+    //mSkeleton->SetGlobalCurrentPoses(goalPose);
+    //
+    //for (size_t i = 0; i < mSkeleton->GetNumBones(); i++)
+    //{
+    //    Matrix4 pose       = goalPose[i];
+    //    mPalette.mEntry[i] = globalInvBindPoses[i] * pose;
+    //    Matrix4 transform;
+    //    if (mActor->GetTransform()->GetParentActor() == nullptr)
+    //    {
+    //        transform = pose;
+    //    }
+    //    else
+    //    {
+    //        transform = pose * mActor->GetTransform()->GetWorldTransform();
+    //    }
+    //    mSkeleton->GetBoneActor()[i]->GetTransform()->SetLocalScale(
+    //        transform.GetScale());
+    //    mSkeleton->GetBoneActor()[i]->GetTransform()->SetLocalRotation(
+    //        transform.GetRotation());
+    //    mSkeleton->GetBoneActor()[i]->GetTransform()->SetLocalPosition(
+    //        transform.GetTranslation());
+    //}
 }
+*/
 
 float Animator::GetNormalizedTime()
 {
     return mAnimTime / mAnimation->GetDuration();
+}
+
+void Animator::Serialize(json& j) const 
+{
+    Component::Serialize(j);
+}
+
+void Animator::Deserialize(const json& j) 
+{
+    Component::Deserialize(j);
+}
+
+void Animator::DrawCustomGUI(const std::vector<PropertyInfo>& properties) 
+{
+    ImGui::PushID(this);
+
+    ImGui::Text("No Properties");
+
+    ImGui::PopID();
+}
+
+Component* Animator::Clone(Entity* newOwner) const 
+{
+    Animator* clone = new Animator(newOwner);
+
+    clone->mAnimations.resize(this->mAnimations.size(), nullptr);
+    for (int i = 0; i < this->mAnimations.size(); ++i)
+    {
+        clone->mAnimations[i] = this->mAnimations[i];
+    }
+
+    clone->mSkeleton   = this->mSkeleton;
+    clone->mAnimation  = this->mAnimation;
+    clone->mBlendAnimation = this->mBlendAnimation;
+    clone->mAnimPlayRate   = this->mAnimPlayRate;
+    clone->mAnimTime       = this->mAnimTime;
+    clone->mBlendAnimTime  = this->mBlendAnimTime;
+    clone->mBlendElapsed   = this->mBlendElapsed;
+    clone->mBlending       = this->mBlending;
+
+    return clone;
 }

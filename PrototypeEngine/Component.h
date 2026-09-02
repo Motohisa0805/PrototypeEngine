@@ -3,6 +3,9 @@
 #include <cstdint>
 #include "Math.h"
 #include "Typedefs.h"
+#include "imgui.h"
+#include "imgui_impl_opengl3.h"
+#include "imgui_impl_sdl3.h"
 /*
 * ===エンジン内部処理/Engine internal processing===
 */

@@ -218,7 +218,7 @@ Font* BaseScene::GetFont(const string& fileName)
     return font;
 }
 
-Skeleton* BaseScene::GetSkeleton(const string& fileName)
+SkeletonData* BaseScene::GetSkeleton(const string& fileName)
 {
     string file = fileName;
     auto   iter = mSkeletonMap.find(file);
@@ -230,7 +230,7 @@ Skeleton* BaseScene::GetSkeleton(const string& fileName)
     // V‚µ‚­“Ç‚Ýž‚Ý
     else
     {
-        Skeleton* sk = new Skeleton();
+        SkeletonData* sk = new SkeletonData();
         if (sk->LoadFromSkeletonBin(file))
         {
             mSkeletonMap.emplace(file, sk);

@@ -595,6 +595,9 @@
     <ClCompile Include="ExternalLibrary\public\TracyClient.cpp">
       <Filter>SourceCodes\C_OutsideLibrary\Tracy</Filter>
     </ClCompile>
+    <ClCompile Include="CreateActorTemplate.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BoneActor.h">
@@ -997,6 +1000,9 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="AssetDataBase.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="CreateActorTemplate.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

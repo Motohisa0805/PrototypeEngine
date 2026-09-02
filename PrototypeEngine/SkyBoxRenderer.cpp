@@ -23,8 +23,7 @@ SkyBoxRenderer::SkyBoxRenderer()
 
         -1.0f, -1.0f, -1.0f, -1.0f, -1.0f, 1.0f,  1.0f,  -1.0f, -1.0f,
         1.0f,  -1.0f, -1.0f, -1.0f, -1.0f, 1.0f,  1.0f,  -1.0f, 1.0f};
-    mCubeVAO =
-        new VertexArray(skyboxVertices, 36, VertexArray::Pos, nullptr, 0);
+    mCubeVAO = new VertexArray(skyboxVertices, 36, VertexArray::Pos, nullptr, 0);
 }
 
 SkyBoxRenderer::~SkyBoxRenderer() { UnLoad(); }

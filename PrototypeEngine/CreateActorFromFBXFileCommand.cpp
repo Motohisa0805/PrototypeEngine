@@ -1,10 +1,12 @@
 #include "CreateActorFromFBXFileCommand.h"
 #include "MeshRenderer.h"
+#include "SkeletalMeshRenderer.h"
 #include "AssetDataBase.h"
 #include "SceneManager.h"
 #include <filesystem>
 #include <nlohmann/json.hpp>
 #include "DebugManager.h"
+#include "CreateActorTemplate.h"
 
 CreateActorFromFBXFileCommand::CreateActorFromFBXFileCommand(
     const std::filesystem::path& assetPath, ActorObject* parentActor)
@@ -57,62 +59,16 @@ void CreateActorFromFBXFileCommand::Execute()
 
         const auto& hierarchyJson = metaJson["cached_data"]["hierarchy"];
 
-        //再帰的にアクターを生成し、親子関係を構築するラムダ
-        auto CreateHierarchy = [&](auto& self, const nlohmann::json& nodeJson, ActorObject* currentParent) -> void
+        bool isSkeletonImport = metaJson["import_settings"]["import_skeleton"];
+        if (isSkeletonImport)
         {
-            //アクターの生成と名前設定
-            ActorObject* newActor = new ActorObject();
-            newActor->SetName(nodeJson.value("name", "UnnamedNode"));
-
-            // 親子関係の設定
-            if (currentParent)
-            {
-                newActor->GetTransform()->SetParent(currentParent);
-            }
-
-            //Transformの初期化
-            if (nodeJson.contains("transform"))
-            {
-                auto t = nodeJson["transform"];
-                newActor->GetTransform()->SetPosition(Vector3(t[0], t[1], t[2]));
-            }
-            if (nodeJson.contains("rotation"))
-            {
-                auto r = nodeJson["rotation"];
-                newActor->GetTransform()->SetRotation(Quaternion(r[0], r[1], r[2],r[3]));
-            }
-            if (nodeJson.contains("scale"))
-            {
-                auto s = nodeJson["scale"];
-                newActor->GetTransform()->SetScale(Vector3(s[0], s[1], s[2]));
-            }
-
-            //メッシュのアタッチ
-            if (nodeJson.contains("mesh_indices"))
-            {
-                for (const auto& idJson : nodeJson["mesh_indices"])
-                {
-                    string localID = idJson.get<string>();
-                    MeshRenderer* mesh    = new MeshRenderer(newActor);
-                    mesh->LoadFilePathAndID(mAssetPath.string().c_str(),localID.c_str());
-                    mesh->SetLocalID(localID);
-                    newActor->AddComponent(mesh);
-                }
-            }
-
-            mTargetIDs.push_back(newActor->GetID());
-
-            //子ノードの再起処理
-            if (nodeJson.contains("children"))
-            {
-                for (const auto& childJson : nodeJson["children"])
-                {
-                    self(self, childJson, newActor);
-                }
-            }
-        };
-
-        CreateHierarchy(CreateHierarchy, hierarchyJson, mParentActor);
+            CreateActorTemplate::CreateSkeletonActor(hierarchyJson, mParentActor, mAssetPath, mTargetIDs);
+        }
+        else
+        {
+            //再帰的にアクターを生成し、親子関係を構築する関数
+            CreateActorTemplate::CreateFBXFileActor(hierarchyJson,mParentActor,mAssetPath,mTargetIDs);
+        }
 
         mIsActiveInScene = true;
     }
