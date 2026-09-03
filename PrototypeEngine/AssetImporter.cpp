@@ -37,7 +37,7 @@ void AssetImporter::CheckAndImportAssets(bool versionCheck)
                     nlohmann::json metaJson;
                     inFile >> metaJson;
                     int metaVersion = metaJson.value("fileFormatVersion", 0);
-                    if (metaVersion < CURRENT_ASSET_VERSION)
+                    if (metaVersion != CURRENT_ASSET_VERSION)
                     {
                         needReimport = true;
                     }
@@ -200,6 +200,11 @@ string AssetImporter::GenerateUUID()
     RpcStringFreeA(&uuidStr);
 
     return result; 
+}
+
+uint32_t AssetImporter::GenerateNameHash(const string& name) 
+{
+    return static_cast<uint32_t>(std::hash<string>{}(name));
 }
 
 void AssetImporter::ConvertFBXToCustomFormat(const fs::path& fbxPath,
@@ -376,6 +381,7 @@ void AssetImporter::ConvertFBXToCustomFormat(const fs::path& fbxPath,
     auto ParseNodeHierarchy = [&](auto& self, aiNode* node) -> nlohmann::json
     {
         nlohmann::json nodeJson;
+        nodeJson["node_hash"] = GenerateNameHash(node->mName.C_Str());
         nodeJson["name"] = node->mName.C_Str();
 
         //ローカルトランスフォームの分解
@@ -474,7 +480,11 @@ void AssetImporter::ConvertFBXToCustomFormat(const fs::path& fbxPath,
     //スケルトンバイナリの書き出し
     if (metaJson["import_settings"]["import_skeleton"] == true && hasBones)
     {
-        fs::path skelBinPath = (filesystem::path)"Binary/skeleton" / (fbxPath.stem().string() + ".skelbin");
+        string   skelBinName = fbxPath.stem().string() + ".skelbin";
+        fs::path skelBinPath = (filesystem::path)"Binary/skeleton" / skelBinName;
+        
+        metaJson["cached_data"]["skeleton"]["binary_path"] = skelBinName;
+
         ExportSkeletonBinary(scene, skelBinPath);
     }
 
@@ -683,17 +693,8 @@ void AssetImporter::ExportMeshBinary(const fs::path& fbxPath,
 void AssetImporter::ExportSkeletonBinary(const aiScene*  scene,
                                          const fs::path& skelBinPath)
 {
-    struct TempBone
-    {
-        string name;
-        int    parentIndex = -1;
-        Vector3 position;
-        Quaternion rotation;
-        Vector3    scale;
-    };
-
-    vector<TempBone> tempBones;
-    std::unordered_map<string, int> boneNameToIndex;
+    vector<SkeletonBinHeader> tempBones;
+    std::unordered_map<aiNode*, int> boneNameToIndex;
 
         // メッシュの数でfor文
     for (unsigned int i = 0; i < scene->mNumMeshes; i++)
@@ -704,14 +705,16 @@ void AssetImporter::ExportSkeletonBinary(const aiScene*  scene,
         {
             // ボーンを取得
             aiBone* bone = mesh->mBones[j];
-            // ボーン名を取得
-            string boneName = bone->mName.C_Str();
-            // boneNameToIndexにすでに同じボーンがないかチェック
-            if (boneNameToIndex.find(boneName) != boneNameToIndex.end())
-                continue;
 
-            TempBone b;
-            b.name = boneName;
+            aiNode* boneNode = scene->mRootNode->FindNode(bone->mName);
+            // boneNameToIndexにすでに同じボーンがないかチェック
+            if (!boneNode || boneNameToIndex.find(boneNode) != boneNameToIndex.end())continue;
+
+            // ボーン名を取得
+            SkeletonBinHeader b;
+            strncpy_s(b.sName, bone->mName.C_Str(), sizeof(b.sName) - 1);
+
+            b.sNameHash = GenerateNameHash(b.sName);
 
             // バインドポーズの変換
             // ボーンのmOffsetMatrix取得
@@ -722,36 +725,32 @@ void AssetImporter::ExportSkeletonBinary(const aiScene*  scene,
             // ボーンのバインドポーズを各値に分解
             bindPose.Decompose(scale, rot, pos);
 
-            b.position = Vector3(pos.x, pos.y, pos.z);
-            b.rotation = Quaternion(rot.x, rot.y, rot.z, rot.w);
-            b.scale    = Vector3(scale.x, scale.y, scale.z);
+            b.sPosition = Vector3(pos.x, pos.y, pos.z);
+            b.sRotation = Quaternion(rot.x, rot.y, rot.z, rot.w);
+            b.sScale    = Vector3(scale.x, scale.y, scale.z);
 
-            boneNameToIndex[boneName] = static_cast<int>(tempBones.size());
+            boneNameToIndex[boneNode] = static_cast<int>(tempBones.size());
             tempBones.push_back(b);
         }
     }
 
-    auto SetParentBonesLambda = [&](auto& self, aiNode* node,
-                                    int parentIndex) -> void
-    { 
-        string nodeName = node->mName.C_Str();
-        int    currentIndex = parentIndex;
-        
-        if (boneNameToIndex.find(nodeName) != boneNameToIndex.end())
-        {
-            currentIndex = boneNameToIndex[nodeName];
-            tempBones[currentIndex].parentIndex = parentIndex;
-        }
-
-        for (unsigned int i = 0; i < node->mNumChildren; i++)
-        {
-            self(self, node->mChildren[i], currentIndex);
-        }
-    };
-
-    if (scene->mRootNode != nullptr)
+    for (auto& pair : boneNameToIndex)
     {
-        SetParentBonesLambda(SetParentBonesLambda, scene->mRootNode, -1);
+        aiNode* node = pair.first;
+        int     index = pair.second;
+        
+        aiNode* parentNode = node->mParent;
+        while (parentNode)
+        {
+            //親がボーンとして登録されているかチェック
+            if (boneNameToIndex.find(parentNode) != boneNameToIndex.end())
+            {
+                tempBones[index].sParentIndex = boneNameToIndex[parentNode];
+                break;
+            }
+            // 親がボーンとして登録されていない場合はさらに上の親を探す
+            parentNode = parentNode->mParent;
+        }
     }
 
     std::ofstream out(skelBinPath,std::ios::binary);
@@ -767,12 +766,12 @@ void AssetImporter::ExportSkeletonBinary(const aiScene*  scene,
     for (const auto& b : tempBones)
     {
         SkeletonBinHeader bin{};
-        strncpy_s(bin.sName, b.name.c_str(),64);
-        bin.sParentIndex = b.parentIndex;
-        bin.sPosition    = b.position;
-        bin.sRotation    = b.rotation;
-        bin.sScale       = b.scale;
-
+        strncpy_s(bin.sName, b.sName, sizeof(bin.sName) - 1);
+        bin.sNameHash    = b.sNameHash;
+        bin.sParentIndex = b.sParentIndex;
+        bin.sPosition    = b.sPosition;
+        bin.sRotation    = b.sRotation;
+        bin.sScale       = b.sScale;
         out.write((char*)&bin, sizeof(SkeletonBinHeader));
     }
     Debug::Log("Successfully exported skeleton binary: %s",skelBinPath.string().c_str());

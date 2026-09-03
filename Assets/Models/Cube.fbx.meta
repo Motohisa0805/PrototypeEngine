@@ -8,6 +8,7 @@
                         "986adc77-2cf5-4b7b-afe5-453e008deaa4"
                     ],
                     "name": "Cube",
+                    "node_hash": 2921615456,
                     "rotation": [
                         -3.0908619663705394e-08,
                         0.70710688829422,
@@ -27,6 +28,7 @@
                 }
             ],
             "name": "RootNode",
+            "node_hash": 734592525,
             "rotation": [
                 0.0,
                 1.0,

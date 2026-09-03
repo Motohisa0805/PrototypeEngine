@@ -240,10 +240,15 @@ void Renderer::BuildMeshBatch(Mesh* mesh, Matrix4 world,
         static_cast<unsigned int>(outBatch.gAllVertices.size());
     for (const auto& v : meshVertices)
     {
-        Vertex transformed = v;
-        transformed.pos    = Vector3::Transform(v.pos, world);
-        transformed.normal = Vector3::TransformNormal(v.normal, world);
-        transformed.normal.Normalize();
+        StaticVertex transformed;
+
+        transformed.sPos = v.pos;
+        transformed.sNormal = v.normal;
+        transformed.sUV     = v.uv;
+
+        transformed.sPos    = Vector3::Transform(v.pos, world);
+        transformed.sNormal = Vector3::TransformNormal(v.normal, world);
+        transformed.sNormal.Normalize();
         outBatch.gAllVertices.push_back(transformed);
     }
 

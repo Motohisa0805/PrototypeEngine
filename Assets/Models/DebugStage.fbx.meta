@@ -8,6 +8,7 @@
                         "2fdf2bd8-7468-4e4e-9122-fdeaaa6819b1"
                     ],
                     "name": "DebugStage",
+                    "node_hash": 2244219142,
                     "rotation": [
                         -3.0908619663705394e-08,
                         0.70710688829422,
@@ -27,6 +28,7 @@
                 }
             ],
             "name": "RootNode",
+            "node_hash": 734592525,
             "rotation": [
                 0.0,
                 1.0,

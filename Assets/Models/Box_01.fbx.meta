@@ -8,6 +8,7 @@
                         "c5533edd-8ad9-4cff-b8ef-c3af6dfb3de0"
                     ],
                     "name": "WoodBox",
+                    "node_hash": 3388266273,
                     "rotation": [
                         0.7071068286895752,
                         0.0,
@@ -27,6 +28,7 @@
                 }
             ],
             "name": "RootNode",
+            "node_hash": 734592525,
             "rotation": [
                 0.0,
                 0.0,

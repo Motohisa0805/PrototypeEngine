@@ -8,6 +8,7 @@
                         "3898322d-2af4-4fe5-8ad5-effef5b157f9"
                     ],
                     "name": "Gun",
+                    "node_hash": 2559635557,
                     "rotation": [
                         0.0,
                         0.0,
@@ -27,6 +28,7 @@
                 }
             ],
             "name": "RootNode",
+            "node_hash": 734592525,
             "rotation": [
                 0.0,
                 1.0,

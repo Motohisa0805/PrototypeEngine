@@ -8,6 +8,7 @@
                         "ae49d7e9-674b-4ec5-9fc3-786a5df4ad2d"
                     ],
                     "name": "Helth",
+                    "node_hash": 4077154066,
                     "rotation": [
                         -3.0908619663705394e-08,
                         0.70710688829422,
@@ -27,6 +28,7 @@
                 }
             ],
             "name": "RootNode",
+            "node_hash": 734592525,
             "rotation": [
                 0.0,
                 1.0,

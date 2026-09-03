@@ -29,8 +29,7 @@ public:
     {
         // ボーン名（固定長）
         char        sName[64];
-        // 短縮版ボーン名
-        char        sShortName[64];
+        uint32_t    sNameHash = 0;
         // 親ボーンインデックス（-1 なら root）
         int32_t     sParentIndex = 0;
         // バインドポーズの位置
@@ -78,6 +77,8 @@ public:
     static void                     ReloadImportAssets(const filesystem::path& oldfilePath,const filesystem::path& newfilePath);
 
 	static string                   GenerateUUID();
+
+    static uint32_t                 GenerateNameHash(const string& name);
 
 	static void                     ConvertFBXToCustomFormat(const fs::path& fbxPath,
                                          const fs::path& customPath);

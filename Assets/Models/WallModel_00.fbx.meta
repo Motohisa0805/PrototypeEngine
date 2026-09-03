@@ -8,6 +8,7 @@
                         "a85b8673-49e2-4da0-b48a-9a292cd66a59"
                     ],
                     "name": "Wall_00",
+                    "node_hash": 3143677934,
                     "rotation": [
                         0.0,
                         0.0,
@@ -27,6 +28,7 @@
                 }
             ],
             "name": "RootNode",
+            "node_hash": 734592525,
             "rotation": [
                 0.0,
                 1.0,

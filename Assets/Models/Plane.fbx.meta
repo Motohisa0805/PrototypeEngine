@@ -8,6 +8,7 @@
                         "a637a58f-367f-4a07-a75c-5eac9cddd1ae"
                     ],
                     "name": "Plane",
+                    "node_hash": 2692202677,
                     "rotation": [
                         -3.0908619663705394e-08,
                         0.70710688829422,
@@ -27,6 +28,7 @@
                 }
             ],
             "name": "RootNode",
+            "node_hash": 734592525,
             "rotation": [
                 0.0,
                 1.0,

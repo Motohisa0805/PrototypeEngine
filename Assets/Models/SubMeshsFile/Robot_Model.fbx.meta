@@ -8,6 +8,7 @@
                         "ee47a7c2-d054-4412-b863-b34d7d422826"
                     ],
                     "name": "Model_Head",
+                    "node_hash": 2089490277,
                     "rotation": [
                         0.0,
                         0.0,
@@ -30,6 +31,7 @@
                         "1ade5785-788f-4dce-99b8-4de604d66684"
                     ],
                     "name": "Model_Body",
+                    "node_hash": 762442839,
                     "rotation": [
                         0.0,
                         0.0,
@@ -52,6 +54,7 @@
                         "8e61f6e4-8788-4dd3-b085-5e04774fc0bc"
                     ],
                     "name": "Model_Shoulder",
+                    "node_hash": 3624458267,
                     "rotation": [
                         0.0,
                         0.0,
@@ -74,6 +77,7 @@
                         "142c49bd-44bf-4be5-947a-bc9330104168"
                     ],
                     "name": "Model_Arm_00",
+                    "node_hash": 1069232752,
                     "rotation": [
                         0.0,
                         0.0,
@@ -96,6 +100,7 @@
                         "b9cff21e-f8af-4a0a-a985-8857561413a1"
                     ],
                     "name": "Model_Arm_01",
+                    "node_hash": 1069233187,
                     "rotation": [
                         0.0,
                         0.0,
@@ -118,6 +123,7 @@
                         "c100d12c-a543-4f80-adb7-fba78ccbb2d8"
                     ],
                     "name": "Model_Arm_03",
+                    "node_hash": 1069234057,
                     "rotation": [
                         0.0,
                         0.0,
@@ -140,6 +146,7 @@
                         "f0570bd2-a413-4f23-b1c5-6af5321b74a2"
                     ],
                     "name": "Model_Arm_02",
+                    "node_hash": 1069233622,
                     "rotation": [
                         0.0,
                         0.0,
@@ -162,6 +169,7 @@
                         "04d75a3b-a268-43d4-b0f5-863462cdb3f4"
                     ],
                     "name": "Model_Hand",
+                    "node_hash": 2440905462,
                     "rotation": [
                         0.0,
                         0.0,
@@ -184,6 +192,7 @@
                         "f20ec36c-d15b-44a4-b379-fbce930cc978"
                     ],
                     "name": "Model_Hips",
+                    "node_hash": 3086200557,
                     "rotation": [
                         0.0,
                         0.0,
@@ -206,6 +215,7 @@
                         "965e7ad5-5e7c-451b-8712-51395a9ccd7a"
                     ],
                     "name": "Model_Leg_01",
+                    "node_hash": 4110382613,
                     "rotation": [
                         0.0,
                         0.0,
@@ -228,6 +238,7 @@
                         "8c4d8950-2a89-4a99-8256-ad0873325af4"
                     ],
                     "name": "Model_Foot",
+                    "node_hash": 1530124359,
                     "rotation": [
                         0.0,
                         0.0,
@@ -250,6 +261,7 @@
                         "960ff2ce-72de-422f-8ae3-7a967b249174"
                     ],
                     "name": "Model_Leg.004",
+                    "node_hash": 1083177099,
                     "rotation": [
                         0.0,
                         0.0,
@@ -272,6 +284,7 @@
                         "64acc597-c34e-4e4a-ad1d-ba5297f8773e"
                     ],
                     "name": "Model_Body_Parts_Vernier",
+                    "node_hash": 3669648058,
                     "rotation": [
                         0.0,
                         0.0,
@@ -294,6 +307,7 @@
                         "8c5bec2b-26d3-47c8-bb7e-1ade1256ecbd"
                     ],
                     "name": "Model_Body_Parts_Backpack",
+                    "node_hash": 1307941081,
                     "rotation": [
                         0.0,
                         0.0,
@@ -316,6 +330,7 @@
                         "f8cab9d5-710a-4f6b-8116-0324435a9b84"
                     ],
                     "name": "Model_Body_Parts_Neck",
+                    "node_hash": 1835323864,
                     "rotation": [
                         0.0,
                         0.0,
@@ -335,6 +350,7 @@
                 }
             ],
             "name": "RootNode",
+            "node_hash": 734592525,
             "rotation": [
                 0.0,
                 1.0,

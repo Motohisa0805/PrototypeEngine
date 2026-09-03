@@ -3,6 +3,7 @@
 #include "DebugManager.h"
 #include "FilePath.h"
 #include "StringConvertOperation.h"
+#include "AssetImporter.h"
 
 SkeletonData::~SkeletonData() {}
 // ファイル形式で読み込み関数を変更
@@ -45,18 +46,18 @@ bool SkeletonData::LoadFromSkeletonBin(const string& fileName)
 
     for (uint32_t i = 0; i < boneCount; ++i)
     {
-        SkeletonBinBone bin{};
-        in.read((char*)&bin, sizeof(SkeletonBinBone));
+        BoneInfo bin{};
+        if(!in.read((char*)&bin, sizeof(AssetImporter::SkeletonBinHeader)))continue;
 
         BoneInfo boneInfo{};
-        boneInfo.sName        = bin.name;
-        boneInfo.sParentIndex = bin.parentIndex;
-        boneInfo.sLocalPos = bin.position;
-        boneInfo.sLocalRot = bin.rotation;
-        boneInfo.sLocalScale = bin.scale;
-
+        strncpy_s(boneInfo.sName, bin.sName, sizeof(boneInfo.sName) - 1);
+        boneInfo.sNodeHash    = bin.sNodeHash;
+        boneInfo.sParentIndex = bin.sParentIndex;
+        boneInfo.sLocalPos    = bin.sLocalPos;
+        boneInfo.sLocalRot    = bin.sLocalRot;
+        boneInfo.sLocalScale  = bin.sLocalScale;
         int boneIndex              = static_cast<int>(mBones.size());
-        mBoneNameToIndex[bin.name] = boneIndex;
+        mBoneNameToIndex[bin.sName] = boneIndex;
         mBones.push_back(boneInfo);
 
         /*
@@ -124,7 +125,7 @@ bool SkeletonData::LoadFromFBX(const string& fileName)
                 continue;
 
             BoneInfo boneInfo{};
-            boneInfo.sName = boneName;
+            strncpy_s(boneInfo.sName, boneName.c_str(), sizeof(boneInfo.sName) - 1);
             boneInfo.sParentIndex = -1;
 
             boneInfo.sInverseBindPose = Matrix4::ConvertToMatrix4(bone->mOffsetMatrix);
@@ -195,15 +196,16 @@ bool SkeletonData::LoadFromFBX(const string& fileName)
 
     for (BoneInfo b : mBones)
     {
-        SkeletonBinBone bin{};
-        strncpy_s(bin.name, b.sName.c_str(),
-                  SkeletonLayout::MAX_SKELETONBINBONE);
-        bin.parentIndex = b.sParentIndex;
-        bin.position    = b.sLocalPos;
-        bin.rotation    = b.sLocalRot;
-        bin.scale       = b.sLocalScale;
+        BoneInfo bin{};
+        strncpy_s(bin.sName, b.sName, sizeof(bin.sName) - 1);
+        //bin.sName        = b.sName;
+        bin.sNodeHash   = AssetImporter::GenerateNameHash(b.sName);
+        bin.sParentIndex = b.sParentIndex;
+        bin.sLocalPos    = b.sLocalPos;
+        bin.sLocalRot    = b.sLocalRot;
+        bin.sLocalScale  = b.sLocalScale;
 
-        out.write((char*)&bin, sizeof(SkeletonBinBone));
+        out.write((char*)&bin, sizeof(AssetImporter::SkeletonBinHeader));
     }
 
     return true;
@@ -249,6 +251,25 @@ void SkeletonData::SetParentActor(ActorObject* parent)
         mBoneActors[0]->GetTransform()->AddParentActor(parent);
     }
     */
+}
+
+ActorObject* SkeletonData::FindActorByName(ActorObject*  current,
+                                                   const string& name)
+{
+    if (!current)
+        return nullptr;
+    if (current->GetName() == name)
+        return current;
+
+    for (auto* childTransform : current->GetTransform()->GetChildActorList())
+    {
+        ActorObject* found = FindActorByName(childTransform, name);
+        if (found)
+        {
+            return found;
+        }
+    }
+    return nullptr;
 }
 
 void SkeletonData::ComputeGlobalInvBindPose()
@@ -315,4 +336,5 @@ void SkeletonData::ComputeGlobalInvBindPose()
         mGlobalInvBindPoses[i].Invert();
     }
     */
+    int test = 0;
 }

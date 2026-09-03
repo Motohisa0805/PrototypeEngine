@@ -393,6 +393,8 @@ void ProjectPanel::DrawFileSystemEntry(const filesystem::directory_entry& entry)
             //ツリーノードで展開できるようにする
             if (ImGui::TreeNodeEx("##fbx_contents", ImGuiTreeNodeFlags_SpanAvailWidth, "Contents"))
             {
+                // FBXファイルの中身を取得して表示する
+                // AssetDataBaseからサブメッシュ情報を取得
                 vector<SubMeshPayload> subMeshes;
                 if (AssetDataBase::GetInstance().GetSubMeshs(entry.path(), subMeshes))
                 {
@@ -432,6 +434,39 @@ void ProjectPanel::DrawFileSystemEntry(const filesystem::directory_entry& entry)
                         ImGui::PopID();
                     }
                 }
+                // Avatar用のサブメッシュ情報を取得して表示する
+                AvatarPayload avatarPayload;
+                if (AssetDataBase::GetInstance().GetAvatarData(entry.path(), avatarPayload))
+                {
+                    ImGui::PushID("Avatar");
+                    ImGui::BeginGroup();
+                    ImTextureID avatarIconID =
+                        (ImTextureID)(uintptr_t)
+                            EditorTextureManager::GetInstance()
+                                .GetFileIconTexture(entry.path().string(),".bank")->GetTextureID();
+                    ImGui::ImageButton("##avatarIcon", avatarIconID,
+                                       ImVec2(54, 54));
+                    // Avatarの描画
+                    string avatarName = entry.path().stem().string() + "[Avatar]";
+                    ImGui::TextWrapped(avatarName.c_str());
+                    ImGui::EndGroup();
+                    // Avatar用のドラッグ&ドロップ元
+                    if (ImGui::BeginDragDropSource(
+                            ImGuiDragDropFlags_SourceAllowNullID))
+                    {
+                        AvatarPayload payloadData = {};
+                        // パスとAvatar名を安全にコピー
+                        payloadData.sAvatarBinaryPath =
+                            avatarPayload.sAvatarBinaryPath;
+                        ImGui::SetDragDropPayload("AVATAR_ITEM",
+                                                  &payloadData,
+                                                  sizeof(payloadData));
+                        ImGui::Text("%s", avatarName.c_str());
+                        ImGui::EndDragDropSource();
+                    }
+                    ImGui::PopID();
+                }
+
                 ImGui::TreePop();
             }
         }
