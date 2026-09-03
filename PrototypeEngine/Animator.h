@@ -14,7 +14,7 @@ class Animator : public Component
 {
 private:
 
-	vector<Transform*>				mBoneTransforms;
+	vector<ActorObject*>			mBones;
 
 	//アニメーションを配列で持ってる変数
 	vector<Animation*>				mAnimations;
@@ -54,10 +54,12 @@ public:
 	*/
 	//アニメーションの配列のGetter
 	vector<Animation*>				GetAnimations() { return mAnimations; }
+    void							AddAnimation(Animation* anim);
 	//スケルトンのGetter
 	SkeletonData*					GetSkeleton() { return mSkeleton; }
 	//スケルトンのSetter
 	void							SetSkeleton(SkeletonData* skeleton);
+    void							LoadSkeletonData(const string& fileName,ActorObject* rootBone);
 	//現在再生中のアニメーションのGetter
 	Animation*						GetAnimation() { return mAnimation; }
 	//ブレンドアニメーションのGetter

@@ -8,6 +8,7 @@
                         "e6c92a09-b1c0-4cf7-9dda-5e72d99fc948"
                     ],
                     "name": "Portal",
+                    "node_hash": 3039804907,
                     "rotation": [
                         0.0,
                         0.0,
@@ -27,6 +28,7 @@
                 }
             ],
             "name": "RootNode",
+            "node_hash": 734592525,
             "rotation": [
                 0.0,
                 1.0,

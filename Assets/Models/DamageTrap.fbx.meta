@@ -8,6 +8,7 @@
                         "929dc503-8c37-41d9-9c70-c99f140a9fbf"
                     ],
                     "name": "DamageObject",
+                    "node_hash": 2194122423,
                     "rotation": [
                         -3.0908619663705394e-08,
                         0.70710688829422,
@@ -27,6 +28,7 @@
                 }
             ],
             "name": "RootNode",
+            "node_hash": 734592525,
             "rotation": [
                 0.0,
                 1.0,

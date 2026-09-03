@@ -27,55 +27,75 @@ AssetMetaData AssetDataBase::GetAssetMetaData(const filesystem::path& fbxPath)
     inFile >> metaJson;
     inFile.close();
 
+    if (metaJson.contains("guid"))
+    {
+        data.sGUID = metaJson["guid"].get<string>();
+    }
+
     if (!metaJson.contains("cached_data") ||
         !metaJson["cached_data"].contains("hierarchy"))
     {
         return data;
     }
 
-    if (metaJson.contains("guid"))
-    {
-        data.sGUID = metaJson["guid"].get<string>();
-    }
+    const auto& cachedData = metaJson["cached_data"];
 
-    // スタック(whileループ)
-    std::stack<nlohmann::json> nodeStack;
-    nodeStack.push(metaJson["cached_data"]["hierarchy"]);
-    vector<SubMeshPayload> payloads;
-    while (!nodeStack.empty())
+    //サブメッシュ解析
+    if (cachedData.contains("hierarchy"))
     {
-        // スタックから1つ取り出す
-        auto node = nodeStack.top();
-        nodeStack.pop();
-
-        if (node.contains("mesh_indices"))
+        // スタック(whileループ)
+        std::stack<nlohmann::json> nodeStack;
+        nodeStack.push(metaJson["cached_data"]["hierarchy"]);
+        vector<SubMeshPayload> payloads;
+        while (!nodeStack.empty())
         {
-            string nodeName = node.value("name", "");
+            // スタックから1つ取り出す
+            auto node = nodeStack.top();
+            nodeStack.pop();
 
-            for (const auto& idJson : node["mesh_indices"])
+            if (node.contains("mesh_indices"))
             {
-                string         localID = idJson.get<string>();
-                SubMeshPayload info    = {};
+                string nodeName = node.value("name", "");
 
-                strncpy_s(info.sLocalID, sizeof(info.sLocalID), localID.c_str(),
-                          _TRUNCATE);
+                for (const auto& idJson : node["mesh_indices"])
+                {
+                    string         localID = idJson.get<string>();
+                    SubMeshPayload info    = {};
 
-                strncpy_s(info.sSubMeshName, sizeof(info.sSubMeshName),
-                          nodeName.c_str(), _TRUNCATE);
+                    strncpy_s(info.sLocalID, sizeof(info.sLocalID),
+                              localID.c_str(), _TRUNCATE);
 
-                payloads.push_back(info);
+                    strncpy_s(info.sSubMeshName, sizeof(info.sSubMeshName),
+                              nodeName.c_str(), _TRUNCATE);
+
+                    payloads.push_back(info);
+                }
+            }
+
+            if (node.contains("children"))
+            {
+                for (const auto& child : node["children"])
+                {
+                    nodeStack.push(child);
+                }
             }
         }
-
-        if (node.contains("children"))
-        {
-            for (const auto& child : node["children"])
-            {
-                nodeStack.push(child);
-            }
-        }
+        data.sSubMeshs = payloads;
     }
-    data.sSubMeshs = payloads;
+
+    //Avater(SkeletonData)解析
+    if (cachedData.contains("skeleton"))
+    {
+        const auto& skeletonData = cachedData["skeleton"];
+        AvatarPayload avatarPayload;
+        avatarPayload.sIsAvatar = true;
+        if (skeletonData.contains("binary_path"))
+        {
+            avatarPayload.sAvatarBinaryPath =
+                skeletonData["binary_path"].get<string>();
+        }
+        data.sAvatar = avatarPayload;
+    }
     return data;
 }
 
@@ -86,71 +106,9 @@ filesystem::path AssetDataBase::GeneratedMetaFilePath(const filesystem::path& pa
 
 vector<SubMeshPayload> AssetDataBase::GetSubMeshPayload(const filesystem::path& fbxPath)
 {
-    vector<SubMeshPayload> payloads;
-    // FBXパスから対応する.metaファイルのパスを取得
-    filesystem::path customPath =
-        AssetDataBase::GetInstance().GeneratedMetaFilePath(fbxPath);
-    //.metaファイルが存在しない場合は空のリストを返す
-    if (!filesystem::exists(customPath))
-    {
-        return payloads;
-    }
-    //.metaファイルを読み込む
-    std::ifstream inFile(customPath);
-    if (!inFile.is_open())
-    {
-        return payloads;
-    }
+    AssetMetaData data = GetAssetMetaData(fbxPath);
 
-    nlohmann::json metaJson;
-    inFile >> metaJson;
-    inFile.close();
-
-    if (!metaJson.contains("cached_data") ||
-        !metaJson["cached_data"].contains("hierarchy"))
-    {
-        return payloads;
-    }
-
-    // スタック(whileループ)
-    std::stack<nlohmann::json> nodeStack;
-    nodeStack.push(metaJson["cached_data"]["hierarchy"]);
-
-    while (!nodeStack.empty())
-    {
-        // スタックから1つ取り出す
-        auto node = nodeStack.top();
-        nodeStack.pop();
-
-        if (node.contains("mesh_indices"))
-        {
-            string nodeName = node.value("name", "");
-
-            for (const auto& idJson : node["mesh_indices"])
-            {
-                string         localID = idJson.get<string>();
-                SubMeshPayload info    = {};
-
-                strncpy_s(info.sLocalID, sizeof(info.sLocalID), localID.c_str(),
-                          _TRUNCATE);
-
-                strncpy_s(info.sSubMeshName, sizeof(info.sSubMeshName),
-                          nodeName.c_str(), _TRUNCATE);
-
-                payloads.push_back(info);
-            }
-        }
-
-        if (node.contains("children"))
-        {
-            for (const auto& child : node["children"])
-            {
-                nodeStack.push(child);
-            }
-        }
-    }
-
-    return payloads;
+    return data.sSubMeshs;
 }
 
 void AssetDataBase::RefreshDataBase(

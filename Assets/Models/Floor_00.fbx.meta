@@ -8,6 +8,7 @@
                         "2a342ffa-af29-4d9d-bc44-3ccd489dd49d"
                     ],
                     "name": "Ground_01",
+                    "node_hash": 2195098744,
                     "rotation": [
                         0.0,
                         0.0,
@@ -27,6 +28,7 @@
                 }
             ],
             "name": "RootNode",
+            "node_hash": 734592525,
             "rotation": [
                 0.0,
                 1.0,

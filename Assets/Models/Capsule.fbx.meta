@@ -8,6 +8,7 @@
                         "fea8a395-9547-4c1f-bbd5-1ce311fbde4f"
                     ],
                     "name": "Capsule",
+                    "node_hash": 3097850316,
                     "rotation": [
                         -1.3767878215276141e-07,
                         0.7071069478988647,
@@ -27,6 +28,7 @@
                 }
             ],
             "name": "RootNode",
+            "node_hash": 734592525,
             "rotation": [
                 0.0,
                 1.0,

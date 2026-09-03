@@ -25,7 +25,7 @@ protected:
 	//Animator*						mAnimator;
 
 	SkeletonData*					mSkeletonData;
-    vector<BoneActor*>				mBones;
+    vector<ActorObject*>			mBones;
     MatrixPalette                   mPalette;
 
 	//***プロパティ変数***
@@ -45,7 +45,9 @@ public:
 
 	void							LoadSkeletonMesh(const string& fileName,ActorObject* actor);
 	
-	void							LoadFilePathAndID(const char* path, const char* localID) override;
+	void							LoadSkeletonMesh(const char* path, const char* localID,ActorObject* rootBone);
+
+	ActorObject*					FindActorByName(ActorObject* current, const string& name);
 
 	// Setters
 	void							SetSkeleton(SkeletonData* sk, ActorObject* actor);

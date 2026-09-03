@@ -8,6 +8,7 @@
                         "c41409e4-ea2d-4731-882e-507d6ecc2ca4"
                     ],
                     "name": "Target",
+                    "node_hash": 740857544,
                     "rotation": [
                         0.0,
                         0.0,
@@ -27,6 +28,7 @@
                 }
             ],
             "name": "RootNode",
+            "node_hash": 734592525,
             "rotation": [
                 0.0,
                 1.0,

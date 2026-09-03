@@ -42,22 +42,19 @@ Animator::~Animator()
 /// <returns></returns>
 bool Animator::Load(const string& fileName, bool animLoop, bool rootMotion)
 {
-    string     path = File_P::AnimationFilePath + fileName;
+    string     path = fileName;
     Animation* anim = new Animation(mSkeleton);
     anim->SetLoop(animLoop);
     anim->SetRootMotion(rootMotion);
 
-    /*
     if (anim->LoadFromBinary(fileName))
     {
-        mAnimations.push_back(anim);
+        AddAnimation(anim);
         return true;
     }
-    else
-    */
-    if (anim->Load(path))
+    else if (anim->Load(path))
     {
-        mAnimations.push_back(anim);
+        AddAnimation(anim);
         return true;
     }
     else
@@ -114,7 +111,7 @@ void Animator::Update(float deltaTime)
     }
     */
 
-    if (!mAnimation || mBoneTransforms.empty()) return;
+    if (!mAnimation || mBones.empty()) return;
     //経過時間の更新
     mAnimTime += deltaTime * mAnimPlayRate;
     if (mAnimation->IsLoop())
@@ -136,9 +133,9 @@ void Animator::Update(float deltaTime)
         }
     }
     //対象ボーンのTransformを更新
-    for (size_t i = 0; i < mBoneTransforms.size(); i++)
+    for (size_t i = 0; i < mBones.size(); i++)
     {
-        Transform* boneTransform = mBoneTransforms[i];
+        Transform* boneTransform = mBones[i]->GetTransform();
         //アニメーションから現在のローカル値を取得
         Vector3 pos; Quaternion rot; Vector3 scale;
         mAnimation->Evaluate(i, mAnimTime, pos, rot, scale);
@@ -146,6 +143,16 @@ void Animator::Update(float deltaTime)
         boneTransform->SetLocalPosition(pos);
         boneTransform->SetLocalRotation(rot);
         boneTransform->SetLocalScale(scale);
+    }
+}
+
+void Animator::AddAnimation(Animation* anim) 
+{ 
+    mAnimations.push_back(anim); 
+    // 1つめのアニメーションだけは自動的に再生する
+    if (mAnimations.size() == 1)
+    {
+        mAnimation = anim;
     }
 }
 
@@ -157,6 +164,27 @@ void Animator::SetSkeleton(SkeletonData* skeleton)
         return;
     }
     mSkeleton = skeleton;
+}
+
+void Animator::LoadSkeletonData(const string& fileName, ActorObject* rootBone)
+{
+    SkeletonData* sk = mGame->GetSkeleton(fileName);
+    mSkeleton = sk;
+
+    mBones.clear();
+
+    if (!mSkeleton)
+    {
+        return;
+    }
+
+    const auto& bones = mSkeleton->GetBones();
+    mBones.resize(bones.size(), nullptr);
+
+    for (size_t i = 0; i < bones.size(); ++i)
+    {
+        mBones[i] = SkeletonData::FindActorByName(rootBone, bones[i].sName);
+    }
 }
 
 float Animator::PlayAnimation(Animation* anim)

@@ -8,6 +8,7 @@
                         "74e34868-35a1-4824-9008-5ee55d0a0fac"
                     ],
                     "name": "TestCube",
+                    "node_hash": 1953765504,
                     "rotation": [
                         0.70710688829422,
                         0.0,
@@ -27,6 +28,7 @@
                 }
             ],
             "name": "RootNode",
+            "node_hash": 734592525,
             "rotation": [
                 0.0,
                 0.0,

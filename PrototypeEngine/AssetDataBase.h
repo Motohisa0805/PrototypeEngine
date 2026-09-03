@@ -7,12 +7,19 @@ struct SubMeshPayload
     char sLocalID[64];
 };
 
+struct AvatarPayload
+{
+    bool sIsAvatar = false;
+    filesystem::path sAvatarBinaryPath;
+};
+
 //キャッシュしておくための構造体
 struct AssetMetaData
 {
     string sGUID;
     vector<SubMeshPayload> sSubMeshs;//FBXの場合
     //TODO : ファイルのキャッシュデータ追加は今後ここに予定
+    AvatarPayload sAvatar; // アバターのキャッシュデータ
 };
 
 class AssetDataBase
@@ -49,6 +56,17 @@ public:
         if (it != mAssetRegistry.end())
         {
             outSubMeshs = it->second.sSubMeshs;
+            return true;
+        }
+        return false;
+    }
+
+    bool GetAvatarData(const std::filesystem::path& path, AvatarPayload& outAvatar) const
+    {
+        auto it = mAssetRegistry.find(path.generic_string());
+        if (it != mAssetRegistry.end())
+        {
+            outAvatar = it->second.sAvatar;
             return true;
         }
         return false;

@@ -16,5 +16,5 @@ namespace CreateActorTemplate
 
 	bool CreateSkinnedMeshActor(const nlohmann::json& nodeJson,ActorObject* currentParent,filesystem::path path,vector<uint64_t>& targetIDs);
 
-	bool CreateSkeletonActor(const nlohmann::json& nodeJson,ActorObject* currentParent,filesystem::path path,vector<uint64_t>& targetIDs);
+	bool CreateSkeletonActor(const nlohmann::json& metaJson,const nlohmann::json& nodeJson,ActorObject* currentParent,filesystem::path path,vector<uint64_t>& targetIDs);
 }

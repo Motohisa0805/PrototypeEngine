@@ -19,31 +19,15 @@ class SkeletonData
 public:
 	struct BoneInfo
 	{
-        string  sName;
-        int     sParentIndex;
-        Matrix4 sInverseBindPose;
+        char	   sName[SkeletonLayout::MAX_SKELETONBINBONE];
+        uint32_t   sNodeHash;
+        int		   sParentIndex;
+        Matrix4	   sInverseBindPose;
 
 		//アニメーションが適用されていない初期状態のローカルポーズ
         Vector3    sLocalPos   = Vector3::Zero;
         Quaternion sLocalRot   = Quaternion::Identity;
         Vector3    sLocalScale = Vector3::UnitXYZ;
-	};
-    // ↓古い変数群(後々消す)
-	//スケルトンのバイナリデータ構造体
-	struct SkeletonBinBone
-	{
-		// ボーン名（固定長）
-		char		name[SkeletonLayout::MAX_SKELETONBINBONE];
-		// 短縮版ボーン名
-		char		shortName[SkeletonLayout::MAX_SKELETONBINBONE];
-		// 親ボーンインデックス（-1 なら root）
-		int32_t		parentIndex;      
-		// バインドポーズの位置
-		Vector3		position;         
-		// バインドポーズの回転
-		Quaternion	rotation;      
-		// バインドポーズのスケール（オプション）
-		Vector3		scale;            
 	};
 	//スケルトンのタイプのタグ
 	enum SkeletonType
@@ -56,7 +40,7 @@ protected:
 	// 各ボーンのグローバルインバインドポーズを計算。
 	void									ComputeGlobalInvBindPose();
 private:
-    vector<BoneInfo> mBones;
+    vector<BoneInfo>						mBones;
 
 	//↓古い変数群(後々消す)
     // 各骨の情報を格納するアクター
@@ -116,4 +100,7 @@ public:
 	const std::unordered_map<string, int>&	GetBoneNameToIndex() const { return mBoneNameToIndex; }
 	//ActorObjectの親を設定
 	void									SetParentActor(ActorObject* parent);
+
+
+	static ActorObject*						FindActorByName(ActorObject* current, const string& name);
 };

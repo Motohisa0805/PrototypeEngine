@@ -62,7 +62,7 @@ void CreateActorFromFBXFileCommand::Execute()
         bool isSkeletonImport = metaJson["import_settings"]["import_skeleton"];
         if (isSkeletonImport)
         {
-            CreateActorTemplate::CreateSkeletonActor(hierarchyJson, mParentActor, mAssetPath, mTargetIDs);
+            CreateActorTemplate::CreateSkeletonActor(metaJson,hierarchyJson, mParentActor, mAssetPath, mTargetIDs);
         }
         else
         {

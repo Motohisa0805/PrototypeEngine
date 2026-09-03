@@ -121,12 +121,6 @@ void SkeletalMeshRenderer::Update(float deltaTime)
 void SkeletalMeshRenderer::LoadSkeletonMesh(const string& fileName,
                                             ActorObject*  actor)
 {
-    /*
-    const vector<class Mesh*>& mesh =
-        EngineWindow::GetRenderer()->GetMeshs(fileName);
-    mMeshs.insert(mMeshs.end(), mesh.begin(), mesh.end());
-    */
-
     SkeletonData* sk = mGame->GetSkeleton(fileName);
     mSkeletonData    = sk;
     if (mSkeletonData != nullptr)
@@ -136,11 +130,10 @@ void SkeletalMeshRenderer::LoadSkeletonMesh(const string& fileName,
     mIsSkeletal = true;
 }
 
-void SkeletalMeshRenderer::LoadFilePathAndID(const char* path,
-                                             const char* localID)
+void SkeletalMeshRenderer::LoadSkeletonMesh(const char* path,const char*  localID,ActorObject* rootBone)
 {
     SkeletonData* sk = mGame->GetSkeleton(path);
-    SetSkeleton(sk, dynamic_cast<ActorObject*>(mOwner));
+    SetSkeleton(sk, rootBone);
     Mesh* mesh = EngineWindow::GetRenderer()->GetSubMesh(path, localID);
     if (mesh)
     {
@@ -150,12 +143,25 @@ void SkeletalMeshRenderer::LoadFilePathAndID(const char* path,
     }
 }
 
+ActorObject* SkeletalMeshRenderer::FindActorByName(ActorObject*  current,
+                                                   const string& name)
+{
+    if (!current) return nullptr;
+    if (current->GetName() == name)return current;
+
+    for (auto* childTransform : current->GetTransform()->GetChildActorList())
+    {
+        ActorObject* found = FindActorByName(childTransform, name);
+        if (found)
+        {
+            return found;
+        }
+    }
+    return nullptr;
+}
+
 void SkeletalMeshRenderer::SetSkeleton(SkeletonData* sk, ActorObject* actor)
 {
-    for (BoneActor* b : mBones)
-    {
-        delete b;
-    }
     mBones.clear();
 
     mSkeletonData = sk;
@@ -166,7 +172,14 @@ void SkeletalMeshRenderer::SetSkeleton(SkeletonData* sk, ActorObject* actor)
     }
 
     const auto& bones = mSkeletonData->GetBones();
-    mBones.reserve(bones.size());
+    mBones.resize(bones.size(),nullptr);
+
+    for (size_t i = 0; i < bones.size(); ++i)
+    {
+        mBones[i] = SkeletonData::FindActorByName(actor, bones[i].sName);
+    }
+
+    /*
     // ‚±‚ÌRendererê—p‚ÌBoneActor‚ðì¬‚µ‚ÄAmBones‚ÉŠi”[‚·‚é
     for (size_t i = 0; i < bones.size(); i++)
     {
@@ -204,6 +217,7 @@ void SkeletalMeshRenderer::SetSkeleton(SkeletonData* sk, ActorObject* actor)
             }
         }
     }
+    */
 }
 
 void SkeletalMeshRenderer::Serialize(json& j) const

@@ -8,6 +8,7 @@
                         "e523a7e2-d84e-4cc9-90de-1492b0c5737d"
                     ],
                     "name": "Sphere",
+                    "node_hash": 1927803224,
                     "rotation": [
                         0.7071066498756409,
                         0.0,
@@ -27,6 +28,7 @@
                 }
             ],
             "name": "RootNode",
+            "node_hash": 734592525,
             "rotation": [
                 0.0,
                 0.0,

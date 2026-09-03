@@ -111,7 +111,7 @@ bool CreateActorTemplate::CreateSkinnedMeshActor(const nlohmann::json& nodeJson,
         {
             string        localID = idJson.get<string>();
             SkeletalMeshRenderer* mesh    = new SkeletalMeshRenderer(newActor);
-            mesh->LoadFilePathAndID(path.string().c_str(), localID.c_str());
+            mesh->LoadSkeletonMesh(path.string().c_str(), localID.c_str(), currentParent);
             mesh->SetLocalID(localID);
             newActor->AddComponent(mesh);
         }
@@ -124,16 +124,15 @@ bool CreateActorTemplate::CreateSkinnedMeshActor(const nlohmann::json& nodeJson,
     {
         for (const auto& childJson : nodeJson["children"])
         {
-            CreateFBXFileActor(childJson, newActor, path, targetIDs);
+            CreateSkinnedMeshActor(childJson, newActor, path, targetIDs);
         }
     }
 
     return true;
 }
 
-bool CreateActorTemplate::CreateSkeletonActor(const nlohmann::json& nodeJson,
-                                              ActorObject*      currentParent,
-                                              filesystem::path  path,
+bool CreateActorTemplate::CreateSkeletonActor(const nlohmann::json& metaJson,const nlohmann::json& nodeJson,
+                                              ActorObject*      currentParent,filesystem::path  path,
                                               vector<uint64_t>& targetIDs)
 {
     //親オブジェクトはファイルを元に名前を設定
@@ -160,6 +159,18 @@ bool CreateActorTemplate::CreateSkeletonActor(const nlohmann::json& nodeJson,
             CreateSkinnedMeshActor(childJson, newActor, path, targetIDs);
         }
     }
+    // AnimatorにSkeletonDataをロード
+    animator->LoadSkeletonData(path.string().c_str(), newActor);
+    // アニメーションのロード
+    if (metaJson.contains("cached_data") && metaJson["cached_data"].contains("animations"))
+    {
+        for (const auto& animJson : metaJson["cached_data"]["animations"])
+        {
+            filesystem::path binaryPath = animJson.value("binary_path", "");
+            animator->Load(binaryPath.string().c_str());
+        }
+    }
+
 
     return true;
 }

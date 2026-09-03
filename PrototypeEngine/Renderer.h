@@ -28,7 +28,7 @@ struct DirectionalLightData
 };
 
 struct StaticMeshBatch {
-	vector<Vertex>			gAllVertices;
+	vector<StaticVertex>	gAllVertices;
 	vector<unsigned int>	gAllIndices;
 	VertexArray*			gBatchVertexArray = nullptr;
 	Texture*				gBatchTexture = nullptr;

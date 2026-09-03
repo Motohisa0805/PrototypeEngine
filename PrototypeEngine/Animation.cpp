@@ -58,14 +58,12 @@ bool Animation::ReLoad()
 
 bool Animation::LoadFromBinary(const std::string& filePath)
 {
-    string file = filePath;
-    file        = Sco::RemoveString(file, File_P::AssetPath);
-    file        = Sco::RemoveExtension(file);
-    std::ifstream in(File_P::BinaryFilePath + file + File_P::BinaryAnimPath,
-                     std::ios::binary);
+    filesystem::path path(filePath);
+    filesystem::path animBinPath = "Binary/anim/" + filePath;
+    std::ifstream in(animBinPath,std::ios::binary);
     if (!in)
     {
-        SDL_Log("Failed to open animation bin: %s", filePath.c_str());
+        SDL_Log("Failed to open animation bin: %s", animBinPath.c_str());
         return false;
     }
 
