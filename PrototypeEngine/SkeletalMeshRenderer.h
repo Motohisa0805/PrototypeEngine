@@ -22,7 +22,6 @@ public:
 	};
 
 protected:
-	//Animator*						mAnimator;
 
 	SkeletonData*					mSkeletonData;
     vector<ActorObject*>			mBones;
@@ -42,8 +41,6 @@ public:
 	void							DrawForShadowMap(Shader* shader)override;
 
 	void							Update(float deltaTime) override;
-
-	void							LoadSkeletonMesh(const string& fileName,ActorObject* actor);
 	
 	void							LoadSkeletonMesh(const char* path, const char* localID,ActorObject* rootBone);
 

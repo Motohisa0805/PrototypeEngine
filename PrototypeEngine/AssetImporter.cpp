@@ -225,6 +225,8 @@ void AssetImporter::ConvertFBXToCustomFormat(const fs::path& fbxPath,
 
     //AssimpでFBXの構造だけを軽くスキャンする
     Assimp::Importer importer;
+    importer.SetPropertyBool(AI_CONFIG_IMPORT_FBX_PRESERVE_PIVOTS, false);
+    importer.SetPropertyInteger(AI_CONFIG_PP_SBP_REMOVE,aiPrimitiveType_POINT | aiPrimitiveType_LINE);
     //頂点データなどは重いため、構造だけを読むフラグで読み込み
     const aiScene* scene = importer.ReadFile(
         fbxPath.string(),
@@ -595,35 +597,35 @@ void AssetImporter::ExportMeshBinary(const fs::path& fbxPath,
         box.UpdateMinMax(vertexPos);
 
         Vertex v;
-        v.pos.x = pos.x;
-        v.pos.y = pos.y;
-        v.pos.z = pos.z;
+        v.sPos.x = pos.x;
+        v.sPos.y = pos.y;
+        v.sPos.z = pos.z;
 
         if (mesh->HasBones())
         {
             for (int j = 0; j < 4; ++j)
             {
-                v.boneIDs[j] = vertexBones[i].ids[j];
-                v.weights[j] = vertexBones[i].weights[j];
+                v.sBoneIDs[j] = vertexBones[i].ids[j];
+                v.sWeights[j] = vertexBones[i].weights[j];
             }
         }
         else
         {
-            memset(v.boneIDs, 0, sizeof(v.boneIDs));
-            memset(v.weights, 0, sizeof(v.weights));
+            memset(v.sBoneIDs, 0, sizeof(v.sBoneIDs));
+            memset(v.sWeights, 0, sizeof(v.sWeights));
         }
 
         if (mesh->HasNormals())
         {
-            v.normal.x = norm.x;
-            v.normal.y = norm.y;
-            v.normal.z = norm.z;
+            v.sNormal.x = norm.x;
+            v.sNormal.y = norm.y;
+            v.sNormal.z = norm.z;
         }
 
         if (mesh->HasTextureCoords(0))
         {
-            v.uv.x = uv.x;
-            v.uv.y = uv.y;
+            v.sUV.x = uv.x;
+            v.sUV.y = uv.y;
         }
 
         vertices.push_back(v);
@@ -669,9 +671,9 @@ void AssetImporter::ExportMeshBinary(const fs::path& fbxPath,
             vector<StaticVertex> tempVerts(vertices.size());
             for (size_t i = 0; i < vertices.size(); ++i)
             {
-                tempVerts[i].sPos    = vertices[i].pos;
-                tempVerts[i].sNormal = vertices[i].normal;
-                tempVerts[i].sUV     = vertices[i].uv;
+                tempVerts[i].sPos    = vertices[i].sPos;
+                tempVerts[i].sNormal = vertices[i].sNormal;
+                tempVerts[i].sUV     = vertices[i].sUV;
             }
             out.write((char*)tempVerts.data(),sizeof(StaticVertex) * tempVerts.size());
         }
@@ -694,9 +696,9 @@ void AssetImporter::ExportSkeletonBinary(const aiScene*  scene,
                                          const fs::path& skelBinPath)
 {
     vector<SkeletonBinHeader> tempBones;
-    std::unordered_map<aiNode*, int> boneNameToIndex;
+    std::unordered_map<string, int> boneNameToIndex;
 
-        // メッシュの数でfor文
+    // メッシュの数でfor文
     for (unsigned int i = 0; i < scene->mNumMeshes; i++)
     {
         aiMesh* mesh = scene->mMeshes[i];
@@ -706,51 +708,54 @@ void AssetImporter::ExportSkeletonBinary(const aiScene*  scene,
             // ボーンを取得
             aiBone* bone = mesh->mBones[j];
 
-            aiNode* boneNode = scene->mRootNode->FindNode(bone->mName);
+            string boneName = bone->mName.C_Str();
             // boneNameToIndexにすでに同じボーンがないかチェック
-            if (!boneNode || boneNameToIndex.find(boneNode) != boneNameToIndex.end())continue;
+            if (boneNameToIndex.find(boneName) != boneNameToIndex.end())continue;
 
             // ボーン名を取得
             SkeletonBinHeader b;
             strncpy_s(b.sName, bone->mName.C_Str(), sizeof(b.sName) - 1);
-
             b.sNameHash = GenerateNameHash(b.sName);
+            // 親ボーンのインデックスを初期化
+            b.sParentIndex = -1; 
 
-            // バインドポーズの変換
-            // ボーンのmOffsetMatrix取得
-            aiMatrix4x4  bindPose = bone->mOffsetMatrix;
-            aiVector3D   pos;
-            aiQuaternion rot;
-            aiVector3D   scale;
-            // ボーンのバインドポーズを各値に分解
-            bindPose.Decompose(scale, rot, pos);
+            b.sInverseBindPose = Matrix4::ConvertToMatrix4(bone->mOffsetMatrix);
 
-            b.sPosition = Vector3(pos.x, pos.y, pos.z);
-            b.sRotation = Quaternion(rot.x, rot.y, rot.z, rot.w);
-            b.sScale    = Vector3(scale.x, scale.y, scale.z);
-
-            boneNameToIndex[boneNode] = static_cast<int>(tempBones.size());
+            boneNameToIndex[boneName] = static_cast<int>(tempBones.size());
             tempBones.push_back(b);
         }
     }
 
     for (auto& pair : boneNameToIndex)
     {
-        aiNode* node = pair.first;
+        string boneName = pair.first;
         int     index = pair.second;
-        
-        aiNode* parentNode = node->mParent;
-        while (parentNode)
+        aiNode* node = scene->mRootNode->FindNode(boneName.c_str());
+
+        if (node)
         {
-            //親がボーンとして登録されているかチェック
-            if (boneNameToIndex.find(parentNode) != boneNameToIndex.end())
+            aiVector3D scale, pos;
+            aiQuaternion rot;
+            node->mTransformation.Decompose(scale, rot, pos);
+            tempBones[index].sPosition = Vector3(pos.x, pos.y, pos.z);
+            tempBones[index].sRotation = Quaternion(rot.x, rot.y, rot.z, rot.w);
+            tempBones[index].sScale    = Vector3(scale.x, scale.y, scale.z);
+            
+            aiNode* parentNode = node->mParent;
+            while (parentNode)
             {
-                tempBones[index].sParentIndex = boneNameToIndex[parentNode];
-                break;
+                //親がボーンとして登録されているかチェック
+                if (boneNameToIndex.find(parentNode->mName.C_Str()) != boneNameToIndex.end())
+                {
+                    tempBones[index].sParentIndex = boneNameToIndex[parentNode->mName.C_Str()];
+                    break;
+                }
+                //localTransform = parentNode->mTransformation * localTransform;
+                // 親がボーンとして登録されていない場合はさらに上の親を探す
+                parentNode = parentNode->mParent;
             }
-            // 親がボーンとして登録されていない場合はさらに上の親を探す
-            parentNode = parentNode->mParent;
         }
+
     }
 
     std::ofstream out(skelBinPath,std::ios::binary);
@@ -772,6 +777,7 @@ void AssetImporter::ExportSkeletonBinary(const aiScene*  scene,
         bin.sPosition    = b.sPosition;
         bin.sRotation    = b.sRotation;
         bin.sScale       = b.sScale;
+        bin.sInverseBindPose = b.sInverseBindPose;
         out.write((char*)&bin, sizeof(SkeletonBinHeader));
     }
     Debug::Log("Successfully exported skeleton binary: %s",skelBinPath.string().c_str());

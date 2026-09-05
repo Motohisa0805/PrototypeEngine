@@ -42,14 +42,14 @@ void main()
 	gl_Position = skinnedPos * uViewProj;
 
 	// 頂点法線のスキンニング処理
-	vec4 skinnedNormal = vec4(inNormal, 0.0f);
-	skinnedNormal = (skinnedNormal * uMatrixPalette[inSkinBones.x]) * inSkinWeights.x
-		+ (skinnedNormal * uMatrixPalette[inSkinBones.y]) * inSkinWeights.y
-		+ (skinnedNormal * uMatrixPalette[inSkinBones.z]) * inSkinWeights.z
-		+ (skinnedNormal * uMatrixPalette[inSkinBones.w]) * inSkinWeights.w;
+	vec4 normal = vec4(inNormal, 0.0f);
+	vec4 skinnedNormal = (normal * uMatrixPalette[inSkinBones.x]) * inSkinWeights.x;
+	skinnedNormal += (normal * uMatrixPalette[inSkinBones.y]) * inSkinWeights.y;
+	skinnedNormal += (normal * uMatrixPalette[inSkinBones.z]) * inSkinWeights.z;
+	skinnedNormal += (normal * uMatrixPalette[inSkinBones.w]) * inSkinWeights.w;
 	// ワールド変換に伴う法線の変換
-	mat3 normalMatrix = transpose(inverse(mat3(uWorldTransform)));
-	fragNormal = normalize(normalMatrix * inNormal);
+	//mat3 normalMatrix = transpose(inverse(mat3(uWorldTransform)));
+	fragNormal = normalize((skinnedNormal * uWorldTransform).xyz);
 
 	// フラグメントシェーダーにテクスチャ座標を渡す
 	fragTexCoord = inTexCoord;

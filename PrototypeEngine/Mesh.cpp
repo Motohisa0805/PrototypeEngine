@@ -91,12 +91,12 @@ if (header.layoutType == 0)
 
         for (size_t i = 0; i < header.vertexCount; ++i)
         {
-            mVertices[i].pos    = tempVerts[i].sPos;
-            mVertices[i].normal = tempVerts[i].sNormal;
-            mVertices[i].uv     = tempVerts[i].sUV;
+            mVertices[i].sPos    = tempVerts[i].sPos;
+            mVertices[i].sNormal = tempVerts[i].sNormal;
+            mVertices[i].sUV     = tempVerts[i].sUV;
             // ボーンの影響を持たないように零クリア
-            memset(mVertices[i].boneIDs, 0, sizeof(mVertices[i].boneIDs));
-            memset(mVertices[i].weights, 0, sizeof(mVertices[i].weights));
+            memset(mVertices[i].sBoneIDs, 0, sizeof(mVertices[i].sBoneIDs));
+            memset(mVertices[i].sWeights, 0, sizeof(mVertices[i].sWeights));
         }
     }
     else
@@ -128,9 +128,9 @@ if (header.layoutType == 0)
         vector<StaticVertex> staticVerts(header.vertexCount);
         for (size_t i = 0; i < header.vertexCount; ++i)
         {
-            staticVerts[i].sPos    = mVertices[i].pos;
-            staticVerts[i].sNormal = mVertices[i].normal;
-            staticVerts[i].sUV     = mVertices[i].uv;
+            staticVerts[i].sPos    = mVertices[i].sPos;
+            staticVerts[i].sNormal = mVertices[i].sNormal;
+            staticVerts[i].sUV     = mVertices[i].sUV;
         }
         va = new VertexArray(staticVerts.data(), header.vertexCount, layout,
                              mIndices.data(), header.indexCount);
@@ -367,12 +367,12 @@ bool Mesh::LoadFromSubMesh(const string& fbxPath, const string& localID)
 
         for (size_t i = 0; i < header.vertexCount; ++i)
         {
-            mVertices[i].pos    = tempVerts[i].sPos;
-            mVertices[i].normal = tempVerts[i].sNormal;
-            mVertices[i].uv     = tempVerts[i].sUV;
+            mVertices[i].sPos    = tempVerts[i].sPos;
+            mVertices[i].sNormal = tempVerts[i].sNormal;
+            mVertices[i].sUV     = tempVerts[i].sUV;
             //ボーンの影響を持たないように零クリア
-            memset(mVertices[i].boneIDs, 0, sizeof(mVertices[i].boneIDs));
-            memset(mVertices[i].weights, 0, sizeof(mVertices[i].weights));
+            memset(mVertices[i].sBoneIDs, 0, sizeof(mVertices[i].sBoneIDs));
+            memset(mVertices[i].sWeights, 0, sizeof(mVertices[i].sWeights));
         }
     }
     else
@@ -406,9 +406,9 @@ bool Mesh::LoadFromSubMesh(const string& fbxPath, const string& localID)
         vector<StaticVertex> staticVerts(header.vertexCount);
         for (size_t i = 0; i < header.vertexCount; ++i)
         {
-            staticVerts[i].sPos    = mVertices[i].pos;
-            staticVerts[i].sNormal = mVertices[i].normal;
-            staticVerts[i].sUV     = mVertices[i].uv;
+            staticVerts[i].sPos    = mVertices[i].sPos;
+            staticVerts[i].sNormal = mVertices[i].sNormal;
+            staticVerts[i].sUV     = mVertices[i].sUV;
         }
         va = new VertexArray(staticVerts.data(), header.vertexCount, layout,
                              mIndices.data(), header.indexCount);
@@ -628,15 +628,15 @@ bool Mesh::LoadFromFBX(const string& fileName, Renderer* renderer, int index)
         box.UpdateMinMax(vertexPos);
 
         Vertex v;
-        v.pos.x = pos.x;
-        v.pos.y = pos.y;
-        v.pos.z = pos.z;
+        v.sPos.x = pos.x;
+        v.sPos.y = pos.y;
+        v.sPos.z = pos.z;
 
         if (mesh->HasNormals())
         {
-            v.normal.x = norm.x;
-            v.normal.y = norm.y;
-            v.normal.z = norm.z;
+            v.sNormal.x = norm.x;
+            v.sNormal.y = norm.y;
+            v.sNormal.z = norm.z;
         }
         /*
         // --- ボーンウェイト処理（VertexArray の期待順に合わせて必ず4スロット分
@@ -695,8 +695,8 @@ bool Mesh::LoadFromFBX(const string& fileName, Renderer* renderer, int index)
 
         if (mesh->HasTextureCoords(0))
         {
-            v.uv.x = uv.x;
-            v.uv.y = uv.y;
+            v.sUV.x = uv.x;
+            v.sUV.y = uv.y;
         }
 
         mVertices.push_back(v);
@@ -892,9 +892,9 @@ bool Mesh::LoadFromFBX(const string& fileName, Renderer* renderer, int index)
         vector<StaticVertex> tempVerts(mVertices.size());
         for (size_t i = 0; i < mVertices.size(); ++i)
         {
-            tempVerts[i].sPos    = mVertices[i].pos;
-            tempVerts[i].sNormal = mVertices[i].normal;
-            tempVerts[i].sUV     = mVertices[i].uv;
+            tempVerts[i].sPos    = mVertices[i].sPos;
+            tempVerts[i].sNormal = mVertices[i].sNormal;
+            tempVerts[i].sUV     = mVertices[i].sUV;
         }
         out.write((char*)tempVerts.data(), sizeof(StaticVertex) * tempVerts.size());
     }

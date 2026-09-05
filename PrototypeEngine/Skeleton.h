@@ -64,7 +64,7 @@ public:
 	//FBXファイルから読み込み
 	bool									LoadFromFBX(const string& fileName);
 	//ボーンの親を設定
-	void									SetParentBones(aiNode* node, int parentIndex);
+	void									SetParentBones(aiNode* node, int parentIndex,const aiMatrix4x4& parentTransform = aiMatrix4x4());
 
 	bool EndsWith(const std::string& str, const std::string& suffix)
 	{

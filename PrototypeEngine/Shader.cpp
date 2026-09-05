@@ -62,7 +62,7 @@ void Shader::SetMatrixUniforms(const char* name, Matrix4* matrices,
     glUniformMatrix4fv(loc, count, GL_TRUE, matrices->GetAsFloatPtr());
 }
 
-void Shader::SetVectorUniform(const char* name, const Vector3& vector)
+void Shader::SetVector3Uniform(const char* name, const Vector3& vector)
 {
     GLuint loc = glGetUniformLocation(mShaderProgram, name);
     // ベクトルデータを送信
@@ -148,7 +148,7 @@ void Shader::SetColorUniform(const MaterialInfo& info)
     float safeRoughness = Math::Max(info.Roughness, 0.04f);
     SetFloatUniform("uRoughness", safeRoughness);
     
-    SetVectorUniform("uEmissive", info.Emissive);
+    SetVector3Uniform("uEmissive", info.Emissive);
 }
 
 void Shader::SetMaterialUniform(const char* name, const Vector3& color)

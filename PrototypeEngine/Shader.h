@@ -40,7 +40,7 @@ public:
 	// マトリックス uniform の配列を設定
 	void		SetMatrixUniforms(const char* name, Matrix4* matrices, unsigned count);
 	// Vector3のユニフォームを設定
-	void		SetVectorUniform(const char* name, const Vector3& vector);
+	void		SetVector3Uniform(const char* name, const Vector3& vector);
 	void		SetVector4Uniform(const char* name, const Vector4& vector);
 	void		SetVector2Uniform(const char* name, const Vector2& vector);
 	

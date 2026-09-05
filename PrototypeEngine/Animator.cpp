@@ -132,17 +132,29 @@ void Animator::Update(float deltaTime)
             }
         }
     }
+
     //対象ボーンのTransformを更新
     for (size_t i = 0; i < mBones.size(); i++)
     {
+        if (!mBones[i]) continue;
         Transform* boneTransform = mBones[i]->GetTransform();
         //アニメーションから現在のローカル値を取得
         Vector3 pos; Quaternion rot; Vector3 scale;
         mAnimation->Evaluate(i, mAnimTime, pos, rot, scale);
 
-        boneTransform->SetLocalPosition(pos);
-        boneTransform->SetLocalRotation(rot);
-        boneTransform->SetLocalScale(scale);
+        Matrix4 transform;
+        transform     = Matrix4::CreateFromQuaternion(rot);
+        transform    *= Matrix4::CreateTranslation(pos);
+        transform    *= Matrix4::CreateScale(scale);
+
+        if (mActor->GetTransform()->GetParentActor() != nullptr)
+        {
+            transform *= mActor->GetTransform()->GetWorldTransform();
+        }
+
+        boneTransform->SetLocalPosition(transform.GetTranslation());
+        boneTransform->SetLocalRotation(transform.GetRotation());
+        boneTransform->SetLocalScale(transform.GetScale());
     }
 }
 

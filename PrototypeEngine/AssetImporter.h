@@ -9,7 +9,7 @@
 
 namespace fs = std::filesystem;
 
-constexpr int CURRENT_ASSET_VERSION = 2;
+constexpr int CURRENT_ASSET_VERSION = 4;
 
 class AssetImporter
 {
@@ -38,6 +38,8 @@ public:
         Quaternion  sRotation = Quaternion();
         // バインドポーズのスケール（オプション）
         Vector3     sScale = Vector3();
+
+        Matrix4     sInverseBindPose = Matrix4();
     };
 
     struct AnimationBinHeader

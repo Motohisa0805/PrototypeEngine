@@ -24,8 +24,8 @@ SkeletalMeshRenderer::~SkeletalMeshRenderer() {}
 
 bool SkeletalMeshRenderer::Draw(Shader* shader)
 {
-    if (mMeshs.size() <= 0)
-        return false;
+    if (mMeshs.size() <= 0)return false;
+
     for (unsigned int i = 0; i < mMeshs.size(); i++)
     {
         for (unsigned int j = 0; j < mMeshs[i]->GetVertexArrays().size(); j++)
@@ -36,9 +36,34 @@ bool SkeletalMeshRenderer::Draw(Shader* shader)
                 shader->SetMatrixUniform("uWorldTransform",mActor->GetTransform()->GetWorldTransform());
                 // Set the matrix palette
                 shader->SetMatrixUniforms("uMatrixPalette", &mPalette.mEntry[0],SkeletonLayout::MAX_SKELETON_BONES);
-                Texture* t = nullptr;
+                
+                MaterialInfo m = mMeshs[i]->GetMaterialInfo()[j];
+                Texture*     t = mMeshs[i]->GetTexture(j);
                 // Set the active texture
-                t = mMeshs[i]->GetTexture(j);
+                if (t == nullptr)
+                {
+                    t = Texture::GetWhiteTexture();
+                }
+
+                if (j < mMaterials.size() && mMaterials[j] != nullptr)
+                {
+                    MaterialData& md = mMaterials[j]->GetData();
+                    m.Color          = md.sDiffuseColor;
+                    m.Diffuse  = Vector3(md.sDiffuseColor.x, md.sDiffuseColor.y,md.sDiffuseColor.z);
+                    m.Ambient  = md.sAmbientColor;
+                    m.Specular = md.sSpecularColor;
+                    m.Shininess = md.sShininess;
+                    m.Metallic  = md.sMetallic;
+                    m.Roughness = md.sRoughness;
+                    m.Emissive  = md.sEmissive;
+
+                    // テクスチャがあれば上書き
+                    if (mMaterials[j]->GetTexture() != nullptr)
+                    {
+                        t = mMaterials[j]->GetTexture();
+                    }
+                }
+
                 if (t)
                 {
                     t->SetActive();
@@ -47,7 +72,6 @@ bool SkeletalMeshRenderer::Draw(Shader* shader)
                 {
                     shader->SetNoTexture();
                 }
-                MaterialInfo m = mMeshs[i]->GetMaterialInfo()[j];
 
                 // 不透明度によってブレンド設定（1回だけで済むならループの外でもOK）
                 if (m.Color.w < 1.0f)
@@ -61,7 +85,7 @@ bool SkeletalMeshRenderer::Draw(Shader* shader)
                     glDisable(GL_BLEND);
                     glDepthMask(GL_TRUE); // 不透明物体は通常通り
                 }
-                // マテリアルの色を設定
+
                 shader->SetColorUniform(m);
                 // メッシュの頂点配列をアクティブに設定します
                 VertexArray* va = mMeshs[i]->GetVertexArrays()[j];
@@ -110,24 +134,18 @@ void SkeletalMeshRenderer::DrawForShadowMap(Shader* shader)
 void SkeletalMeshRenderer::Update(float deltaTime)
 {
     if (!mSkeletonData || mBones.empty())return;
+    Matrix4 ownerWorldInv = mOwner->GetBaseTransform()->GetWorldTransform();
+    ownerWorldInv.Invert();
     //パレットの計算
     for (size_t i = 0; i < mBones.size(); i++)
     {
         Matrix4 currentWorld = mBones[i]->GetTransform()->GetWorldTransform();
+        
+        Matrix4 boneLocal = currentWorld * ownerWorldInv;
+
         Matrix4 invBind      = mSkeletonData->GetBones()[i].sInverseBindPose;
-        mPalette.mEntry[i]   = invBind * currentWorld;
+        mPalette.mEntry[i] = invBind * boneLocal;
     }
-}
-void SkeletalMeshRenderer::LoadSkeletonMesh(const string& fileName,
-                                            ActorObject*  actor)
-{
-    SkeletonData* sk = mGame->GetSkeleton(fileName);
-    mSkeletonData    = sk;
-    if (mSkeletonData != nullptr)
-    {
-        mSkeletonData->SetParentActor(actor);
-    }
-    mIsSkeletal = true;
 }
 
 void SkeletalMeshRenderer::LoadSkeletonMesh(const char* path,const char*  localID,ActorObject* rootBone)
@@ -141,6 +159,7 @@ void SkeletalMeshRenderer::LoadSkeletonMesh(const char* path,const char*  localI
         mAlpha    = mesh->GetMaterialInfo()[0].Color.w;
         mFilePath = path;
     }
+    mIsSkeletal = true;
 }
 
 ActorObject* SkeletalMeshRenderer::FindActorByName(ActorObject*  current,

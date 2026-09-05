@@ -79,9 +79,17 @@ bool Animation::LoadFromBinary(const std::string& filePath)
     mDuration      = header.duration;
     mNumFrames     = header.numFrames;
     mNumBones      = mSkeleton->GetBones().size();
-    mFrameDuration = mDuration / (mNumFrames - 1);
+    if (mNumFrames > 1)
+    {
+        mFrameDuration = mDuration / (mNumFrames - 1);
+    }
+    else
+    {
+        mFrameDuration = 0.0f;
+    }
 
     mTracks.resize(mNumBones);
+    mRootPositionOffset.resize(mNumFrames);
     for (size_t bone = 0; bone < mNumBones; ++bone)
     {
         mTracks[bone].resize(mNumFrames);
@@ -95,6 +103,21 @@ bool Animation::LoadFromBinary(const std::string& filePath)
             bt.SetRotation(transform.rotation);
             bt.SetScale(transform.scale);
             mTracks[bone][frame] = bt;
+        }
+    }
+
+    const auto& bones = mSkeleton->GetBones();
+    for (size_t bone = 0; bone < mNumFrames; ++bone)
+    {
+        if (bones[bone].sParentIndex < 0)
+        {
+            Vector3 basePos = mTracks[bone][0].GetPosition();
+            for (size_t frame = 0; frame < mNumFrames; ++frame)
+            {
+                Vector3 currentPos = mTracks[bone][frame].GetPosition();
+                mRootPositionOffset[frame] = currentPos - basePos;
+            }
+            break;
         }
     }
 
@@ -146,9 +169,16 @@ void Animation::Evaluate(size_t index, float time, Vector3& outpos,
 {
     if (index >= mNumBones || mTracks[index].empty())return;
 
-    size_t frame = static_cast<size_t>(time / mFrameDuration);
-    size_t nextFrame = frame + 1;
-    float  pct       = time / mFrameDuration - frame;
+    size_t frame = 0;
+    size_t nextFrame = 0;
+    float  pct       = 0.0f;
+
+    if (mFrameDuration > 0.0001f)
+    {
+        frame     = static_cast<size_t>(time / mFrameDuration);
+        nextFrame = frame + 1;
+        pct       = time / mFrameDuration - frame;
+    }
 
     BoneTransform currentBone;
     BoneTransform nextBone;
@@ -177,124 +207,6 @@ void Animation::Evaluate(size_t index, float time, Vector3& outpos,
     outrot   = interp.GetRotation();
     outscale = interp.GetScale();
 }
-
-/*
-bool Animation::LoadFromJSON(const string& fileName)
-{
-    std::ifstream file(fileName);
-    if (!file.is_open())
-    {
-        SDL_Log("File not found: Animation %s", fileName.c_str());
-        return false;
-    }
-
-    stringstream fileStream;
-    fileStream << file.rdbuf();
-    string contents = fileStream.str();
-    rapidjson::StringStream jsonStr(contents.c_str());
-    rapidjson::Document doc;
-    doc.ParseStream(jsonStr);
-
-    if (!doc.IsObject())
-    {
-        SDL_Log("Animation %s is not valid json", fileName.c_str());
-        return false;
-    }
-
-    int ver = doc["version"].GetInt();
-
-    // Check the metadata
-    if (ver != 1)
-    {
-        SDL_Log("Animation %s unknown format", fileName.c_str());
-        return false;
-    }
-
-    const rapidjson::Value& sequence = doc["sequence"];
-    if (!sequence.IsObject())
-    {
-        SDL_Log("Animation %s doesn't have a sequence.", fileName.c_str());
-        return false;
-    }
-
-    const rapidjson::Value& frames = sequence["frames"];
-    const rapidjson::Value& length = sequence["length"];
-    const rapidjson::Value& bonecount = sequence["bonecount"];
-
-    if (!frames.IsUint() || !length.IsDouble() || !bonecount.IsUint())
-    {
-        SDL_Log("Sequence %s has invalid frames, length, or bone count.",
-fileName.c_str()); return false;
-    }
-
-    mNumFrames = frames.GetUint();
-    mDuration = length.GetDouble();
-    mNumBones = bonecount.GetUint();
-    mFrameDuration = mDuration / (mNumFrames - 1);
-
-    mTracks.resize(mNumBones);
-
-    const rapidjson::Value& tracks = sequence["tracks"];
-
-    if (!tracks.IsArray())
-    {
-        SDL_Log("Sequence %s missing a tracks array.", fileName.c_str());
-        return false;
-    }
-
-    for (rapidjson::SizeType i = 0; i < tracks.Size(); i++)
-    {
-        if (!tracks[i].IsObject())
-        {
-            SDL_Log("Animation %s: Track element %d is invalid.",
-fileName.c_str(), i); return false;
-        }
-
-        size_t boneIndex = tracks[i]["bone"].GetUint();
-
-        const rapidjson::Value& transforms = tracks[i]["transforms"];
-        if (!transforms.IsArray())
-        {
-            SDL_Log("Animation %s: Track element %d is missing transforms.",
-fileName.c_str(), i); return false;
-        }
-
-        BoneTransform temp;
-
-        if (transforms.Size() < mNumFrames)
-        {
-            SDL_Log("Animation %s: Track element %d has fewer frames than
-expected.", fileName.c_str(), i); return false;
-        }
-
-        for (rapidjson::SizeType j = 0; j < transforms.Size(); j++)
-        {
-            const rapidjson::Value& rot = transforms[j]["rot"];
-            const rapidjson::Value& trans = transforms[j]["trans"];
-
-            if (!rot.IsArray() || !trans.IsArray())
-            {
-                SDL_Log("Skeleton %s: Bone %d is invalid.", fileName.c_str(),
-i); return false;
-            }
-
-            Quaternion rotation(rot[0].GetDouble(), rot[1].GetDouble(),
-rot[2].GetDouble(), rot[3].GetDouble());
-
-            temp.SetRotation(rotation);
-
-            Vector3 position(trans[0].GetDouble(), trans[1].GetDouble(),
-trans[2].GetDouble());
-
-            temp.SetPosition(position);
-
-            mTracks[boneIndex].emplace_back(temp);
-        }
-    }
-
-    return true;
-}
-*/
 
 bool Animation::LoadFromFBX(const string& fileName)
 {
@@ -330,7 +242,14 @@ bool Animation::LoadFromFBX(const string& fileName)
             std::max((unsigned int)mNumFrames, channel->mNumScalingKeys);
     }
 
-    mFrameDuration = mDuration / (mNumFrames - 1);
+    if (mNumFrames > 1)
+    {
+        mFrameDuration = mDuration / (mNumFrames - 1);
+    }
+    else
+    {
+        mFrameDuration = 0.0f;
+    }
 
     const auto& bones = mSkeleton->GetBones();
     mNumBones      = bones.size();
@@ -374,9 +293,9 @@ bool Animation::LoadFromFBX(const string& fileName)
         for (size_t j = 0; j < mNumFrames; j++)
         {
             BoneTransform temp;
-            temp.SetPosition(bones[i].sLocalPos);
-            temp.SetRotation(bones[i].sLocalRot);
-            temp.SetScale(bones[i].sLocalScale);
+            temp.SetPosition(bones[boneIndex].sLocalPos);
+            temp.SetRotation(bones[boneIndex].sLocalRot);
+            temp.SetScale(bones[boneIndex].sLocalScale);
 
             // 位置キーの適用
             aiVector3D pos;
