@@ -242,12 +242,12 @@ void Renderer::BuildMeshBatch(Mesh* mesh, Matrix4 world,
     {
         StaticVertex transformed;
 
-        transformed.sPos = v.pos;
-        transformed.sNormal = v.normal;
-        transformed.sUV     = v.uv;
+        transformed.sPos = v.sPos;
+        transformed.sNormal = v.sNormal;
+        transformed.sUV     = v.sUV;
 
-        transformed.sPos    = Vector3::Transform(v.pos, world);
-        transformed.sNormal = Vector3::TransformNormal(v.normal, world);
+        transformed.sPos    = Vector3::Transform(v.sPos, world);
+        transformed.sNormal = Vector3::TransformNormal(v.sNormal, world);
         transformed.sNormal.Normalize();
         outBatch.gAllVertices.push_back(transformed);
     }
@@ -1590,11 +1590,11 @@ void Renderer::SetPointLightUniforms(Shader* shader)
         string baseName = "uLights[" + std::to_string(i) + "].";
 
         shader->SetIntUniform((baseName + "sType").c_str(), type[i]);
-        shader->SetVectorUniform((baseName + "sPosition").c_str(),
+        shader->SetVector3Uniform((baseName + "sPosition").c_str(),
                                  positions[i]);
-        shader->SetVectorUniform((baseName + "sDirection").c_str(),
+        shader->SetVector3Uniform((baseName + "sDirection").c_str(),
                                  direction[i]);
-        shader->SetVectorUniform((baseName + "sColor").c_str(), colors[i]);
+        shader->SetVector3Uniform((baseName + "sColor").c_str(), colors[i]);
         shader->SetFloatUniform((baseName + "sRange").c_str(), ranges[i]);
         shader->SetVector2Uniform((baseName + "sAngles").c_str(), angles[i]);
     }
@@ -1605,15 +1605,15 @@ void Renderer::SetLightUniforms(Shader* shader, const Matrix4& view)
     // カメラの位置は逆さまの視点からです
     Matrix4 invView = view;
     invView.Invert();
-    shader->SetVectorUniform("uCameraPos", invView.GetTranslation());
+    shader->SetVector3Uniform("uCameraPos", invView.GetTranslation());
     // Ambient light
-    shader->SetVectorUniform("uAmbientLight", mDirLight.sAmbientColor);
+    shader->SetVector3Uniform("uAmbientLight", mDirLight.sAmbientColor);
     shader->SetFloatUniform("uAmbientIntensity", mDirLight.sAmbientIntensity);
     // Directional light
-    shader->SetVectorUniform("uDirLight.mDirection", mDirLight.sDirection);
-    shader->SetVectorUniform("uDirLight.mDiffuseColor",
+    shader->SetVector3Uniform("uDirLight.mDirection", mDirLight.sDirection);
+    shader->SetVector3Uniform("uDirLight.mDiffuseColor",
                              mDirLight.sDiffuseColor);
-    shader->SetVectorUniform("uDirLight.mSpecColor", mDirLight.sSpecColor);
+    shader->SetVector3Uniform("uDirLight.mSpecColor", mDirLight.sSpecColor);
 }
 
 Vector3 Renderer::Unproject(const Vector3& screenPoint) const

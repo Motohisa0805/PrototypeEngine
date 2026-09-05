@@ -122,7 +122,7 @@ void DebugGrid::Draw(Shader* shader, const Matrix4& viewProj,
     {
         shader->SetActive();
         shader->SetMatrixUniform("uViewProj", viewProj);
-        shader->SetVectorUniform("uColor", Vector3(1.0f, 1.0f, 1.0f));
+        shader->SetVector3Uniform("uColor", Vector3(1.0f, 1.0f, 1.0f));
 
         mGridVAO->SetActive();
         glLineWidth(1.0f); // ü‚Ì‘¾‚³‚ğ3ƒsƒNƒZƒ‹‚Éİ’è

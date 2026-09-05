@@ -28,9 +28,9 @@ namespace VertexLayout
 	//テクスチャ座標(UV)の頂点属性のインデックス
     constexpr GLsizei ATTRIB_TEXCOORD = 2;
 	//ウェイトの頂点属性のインデックス
-    constexpr GLsizei ATTRIB_BONE_IDS = 3;
+    constexpr GLsizei ATTRIB_BONE_IDS = 2;
 	//ボーンインデックス・ボーンのウェイト・テクスチャ情報の頂点属性のインデックス
-    constexpr GLsizei ATTRIB_BONE_WEIGHTS = 4;
+    constexpr GLsizei ATTRIB_BONE_WEIGHTS = 3;
 
 
 	// 属性の構成（floatサイズ前提）
@@ -73,13 +73,11 @@ struct AxisVertex
 
 struct Vertex
 {
-	Vector3		pos;	// 12バイト
-	Vector3		normal;	// 12バイト
-	Vector2		uv;		// 8バイト
-	uint8_t 	boneIDs[4];
-    float       weights[4];
-	/*
-	*/
+	Vector3		sPos;		// 12バイト
+	Vector3		sNormal;	// 12バイト
+	uint8_t 	sBoneIDs[4];
+    float       sWeights[4];
+	Vector2		sUV;		// 8バイト
 };
 
 //静的メッシュのバイナリ読み書き用の一時構造体(32バイト)
