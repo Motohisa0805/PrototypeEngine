@@ -142,19 +142,10 @@ void Animator::Update(float deltaTime)
         Vector3 pos; Quaternion rot; Vector3 scale;
         mAnimation->Evaluate(i, mAnimTime, pos, rot, scale);
 
-        Matrix4 transform;
-        transform     = Matrix4::CreateFromQuaternion(rot);
-        transform    *= Matrix4::CreateTranslation(pos);
-        transform    *= Matrix4::CreateScale(scale);
-
-        if (mActor->GetTransform()->GetParentActor() != nullptr)
-        {
-            transform *= mActor->GetTransform()->GetWorldTransform();
-        }
-
-        boneTransform->SetLocalPosition(transform.GetTranslation());
-        boneTransform->SetLocalRotation(transform.GetRotation());
-        boneTransform->SetLocalScale(transform.GetScale());
+        boneTransform->SetLocalPosition(pos);
+        boneTransform->SetLocalRotation(rot);
+        boneTransform->SetLocalScale(scale);
+        boneTransform->ActiveDirty();
     }
 }
 
