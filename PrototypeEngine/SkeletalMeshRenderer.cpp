@@ -133,19 +133,67 @@ void SkeletalMeshRenderer::DrawForShadowMap(Shader* shader)
 
 void SkeletalMeshRenderer::Update(float deltaTime)
 {
-    if (!mSkeletonData || mBones.empty())return;
-    Matrix4 ownerWorldInv = mOwner->GetBaseTransform()->GetWorldTransform();
-    ownerWorldInv.Invert();
-    //パレットの計算
+    if (!mSkeletonData || mBones.empty())
+        return;
+    // メッシュ空間の基準（足元の原点）を取得
+    // この構造では、自身の親（Animatorオブジェクト）が足元基準
+    Matrix4 modelSpaceInv;
+    if (mActor->GetTransform()->GetParentActor())
+    {
+        // 親（Animator）のワールド逆行列
+        modelSpaceInv =
+            mActor->GetTransform()->GetParentActor()->GetTransform()->GetWorldTransform();
+    }
+    else
+    {
+        modelSpaceInv = mOwner->GetBaseTransform()->GetWorldTransform();
+    }
+    modelSpaceInv.Invert();
+
+    // パレットの計算
     for (size_t i = 0; i < mBones.size(); i++)
     {
-        Matrix4 currentWorld = mBones[i]->GetTransform()->GetWorldTransform();
-        
-        Matrix4 boneLocal = currentWorld * ownerWorldInv;
+        if (!mBones[i])
+            continue;
 
-        Matrix4 invBind      = mSkeletonData->GetBones()[i].sInverseBindPose;
+        Matrix4 currentWorld = mBones[i]->GetTransform()->GetWorldTransform();
+
+        // Hipボーン基準ではなく、足元(Animator)からの相対座標を算出する
+        Matrix4 boneLocal = currentWorld * modelSpaceInv;
+
+        Matrix4 invBind    = mSkeletonData->GetBones()[i].sInverseBindPose;
         mPalette.mEntry[i] = invBind * boneLocal;
     }
+    //ルートボーン(Hip)を原点にする場合
+    /*
+    if (!mSkeletonData || mBones.empty())
+    return;
+
+    Matrix4 rootWorldInv;
+    if (mRootBone)
+    {
+        rootWorldInv = mRootBone->GetWorldTransform();
+    }
+    else
+    {
+        rootWorldInv = mOwner->GetBaseTransform()->GetWorldTransform();
+    }
+    rootWorldInv.Invert();
+
+    // パレットの計算
+    for (size_t i = 0; i < mBones.size(); i++)
+    {
+        if (!mBones[i])
+            continue;
+
+        Matrix4 currentWorld = mBones[i]->GetTransform()->GetWorldTransform();
+
+        Matrix4 boneLocal = currentWorld * rootWorldInv;
+
+        Matrix4 invBind    = mSkeletonData->GetBones()[i].sInverseBindPose;
+        mPalette.mEntry[i] = invBind * boneLocal;
+    }
+    */
 }
 
 void SkeletalMeshRenderer::LoadSkeletonMesh(const char* path,const char*  localID,ActorObject* rootBone)
@@ -195,48 +243,17 @@ void SkeletalMeshRenderer::SetSkeleton(SkeletonData* sk, ActorObject* actor)
 
     for (size_t i = 0; i < bones.size(); ++i)
     {
-        mBones[i] = SkeletonData::FindActorByName(actor, bones[i].sName);
+        ActorObject* boneObject = SkeletonData::FindActorByName(actor, bones[i].sName);
+        boneObject->GetTransform()->SetLocalPosition(bones[i].sLocalPos);
+        boneObject->GetTransform()->SetLocalRotation(bones[i].sLocalRot);
+        boneObject->GetTransform()->SetLocalScale(bones[i].sLocalScale);
+        mBones[i] = boneObject;
     }
 
-    /*
-    // このRenderer専用のBoneActorを作成して、mBonesに格納する
-    for (size_t i = 0; i < bones.size(); i++)
+    if (!mBones.empty() && mBones[0] != nullptr)
     {
-        const SkeletonData::BoneInfo& boneInfo = bones[i];
-
-        BoneActor* boneActor = new BoneActor();
-        boneActor->SetName(boneInfo.sName);
-
-        boneActor->GetTransform()->SetPosition(boneInfo.sLocalPos);
-        boneActor->GetTransform()->SetRotation(boneInfo.sLocalRot);
-        boneActor->GetTransform()->SetScale(boneInfo.sLocalScale);
-
-        mBones.push_back(boneActor);
+        mRootBone = mBones[0]->GetTransform();
     }
-    // 親子関係を構築
-    for (size_t i = 0; i < bones.size(); i++)
-    {
-        const SkeletonData::BoneInfo& info = bones[i];
-        BoneActor* childActor = mBones[i];
-
-        // mParentIndexは親ボーンのインデックス
-        if (info.sParentIndex != -1 && info.sParentIndex < static_cast<int>(mBones.size()))
-        {
-            // 親ボーンのActorを取得
-            BoneActor* parentActor = mBones[info.sParentIndex];
-            parentActor->GetTransform()->AddChildActor(childActor);
-        }
-        else
-        {
-            // ルートボーンの場合
-            // ルートアクターをSkeletonMeshRendererを持つオーナーのオブジェクトの子にする
-            if (actor)
-            {
-                actor->GetTransform()->AddChildActor(childActor);
-            }
-        }
-    }
-    */
 }
 
 void SkeletalMeshRenderer::Serialize(json& j) const

@@ -46,9 +46,9 @@ public:
 	float							PlayAnimation(Animation* anim);
 	// ブレンドアニメーションを再生します。
 	float							PlayBlendAnimation(Animation* anim);
-    /*
 	//スケルトンとアニメーションを使ってスキニング行列（palette）とボーンの可視化更新を行う
 	void							ComputeMatrixPalette();
+    /*
 	//ブレンドアニメーションのスキニング行列（palette）とボーンの可視化更新を行う
 	void							BlendComputeMatrixPalette();
 	*/

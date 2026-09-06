@@ -2,6 +2,7 @@
 #include "FilePath.h"
 #include "Skeleton.h"
 #include "BoneActor.h"
+#include "AssetImporter.h"
 
 Animation::Animation(SkeletonData* skeleton)
     : mSkeleton(skeleton)
@@ -67,18 +68,12 @@ bool Animation::LoadFromBinary(const std::string& filePath)
         return false;
     }
 
-    AnimationBinHeader header;
+    AssetImporter::AnimationBinHeader header;
     in.read((char*)&header, sizeof(header));
 
-    if (header.version != 1)
-    {
-        SDL_Log("Unsupported animation version: %d", header.version);
-        return false;
-    }
-
-    mDuration      = header.duration;
-    mNumFrames     = header.numFrames;
-    mNumBones      = mSkeleton->GetBones().size();
+    mDuration      = header.sDuration;
+    mNumFrames     = header.sNumFrames;
+    mNumBones      = header.sNumBones;
     if (mNumFrames > 1)
     {
         mFrameDuration = mDuration / (mNumFrames - 1);
@@ -95,13 +90,13 @@ bool Animation::LoadFromBinary(const std::string& filePath)
         mTracks[bone].resize(mNumFrames);
         for (size_t frame = 0; frame < mNumFrames; ++frame)
         {
-            AnimationBinTransform transform;
+            AssetImporter::AnimationBinTransform transform;
             in.read((char*)&transform, sizeof(transform));
 
             BoneTransform bt;
-            bt.SetPosition(transform.position);
-            bt.SetRotation(transform.rotation);
-            bt.SetScale(transform.scale);
+            bt.SetPosition(transform.sPosition);
+            bt.SetRotation(transform.sRotation);
+            bt.SetScale(transform.sScale);
             mTracks[bone][frame] = bt;
         }
     }
@@ -134,20 +129,20 @@ bool Animation::SaveToBinary(const std::string& filePath)
         return false;
     }
 
-    AnimationBinHeader header;
-    header.duration  = mDuration;
-    header.numFrames = static_cast<uint32_t>(mNumFrames);
-    header.numBones  = static_cast<uint32_t>(mNumBones);
+    AssetImporter::AnimationBinHeader header;
+    header.sDuration  = mDuration;
+    header.sNumFrames = static_cast<uint32_t>(mNumFrames);
+    header.sNumBones  = static_cast<uint32_t>(mNumBones);
     out.write((char*)&header, sizeof(header));
 
     for (size_t bone = 0; bone < mNumBones; ++bone)
     {
         for (size_t frame = 0; frame < mNumFrames; ++frame)
         {
-            AnimationBinTransform transform;
-            transform.position = mTracks[bone][frame].GetPosition();
-            transform.rotation = mTracks[bone][frame].GetRotation();
-            transform.scale    = mTracks[bone][frame].GetScale();
+            AssetImporter::AnimationBinTransform transform;
+            transform.sPosition = mTracks[bone][frame].GetPosition();
+            transform.sRotation = mTracks[bone][frame].GetRotation();
+            transform.sScale    = mTracks[bone][frame].GetScale();
             out.write((char*)&transform, sizeof(transform));
         }
     }
@@ -235,11 +230,11 @@ bool Animation::LoadFromFBX(const string& fileName)
     {
         aiNodeAnim* channel = anim->mChannels[i];
         mNumFrames =
-            std::max((unsigned int)mNumFrames, channel->mNumPositionKeys);
+            Math::Max((unsigned int)mNumFrames, channel->mNumPositionKeys);
         mNumFrames =
-            std::max((unsigned int)mNumFrames, channel->mNumRotationKeys);
+            Math::Max((unsigned int)mNumFrames, channel->mNumRotationKeys);
         mNumFrames =
-            std::max((unsigned int)mNumFrames, channel->mNumScalingKeys);
+            Math::Max((unsigned int)mNumFrames, channel->mNumScalingKeys);
     }
 
     if (mNumFrames > 1)

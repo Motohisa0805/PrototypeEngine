@@ -805,18 +805,13 @@ void AssetImporter::ExportAnimationBinary(const fs::path& fbxPath,
     float ticksPerSecond = (anim->mTicksPerSecond != 0) ? anim->mTicksPerSecond : 25.0f;
     int duration            = static_cast<float>(anim->mDuration / ticksPerSecond);
 
-    // mNumFrames をキーの最大値に合わせる
-    unsigned int numFrames = 0;
-    for (unsigned int i = 0; i < anim->mNumChannels; i++)
-    {
-        aiNodeAnim* channel = anim->mChannels[i];
-        numFrames =
-            Math::Max((unsigned int)numFrames, channel->mNumPositionKeys);
-        numFrames =
-            Math::Max((unsigned int)numFrames, channel->mNumRotationKeys);
-        numFrames =
-            Math::Max((unsigned int)numFrames, channel->mNumScalingKeys);
-    }
+    double       durationInSeconds = anim->mDuration / ticksPerSecond;
+    //方式(A)Assimpのティック単位(1ティック = 1フレーム)で細かくベイクする場合
+    uint32_t     numFrames = static_cast<uint32_t>(anim->mDuration) + 1;
+    //方式(B)任意の固定フレームレート(例：30FPS)でサンプリングしてベイクする場合
+    //uint32_t targetFPS = 30;
+    //uint32_t numFrames = static_cast<uint32_t>(durationInSeconds * targetFPS) + 1;
+
 
     //ボーンマップの作成
     std::unordered_map<string, int> boneNameToIndex;
@@ -841,7 +836,7 @@ void AssetImporter::ExportAnimationBinary(const fs::path& fbxPath,
     vector <vector<AnimationBinTransform>> tracks(numBones);
     for (auto& track : tracks)
     {
-        track.resize(numBones);
+        track.resize(numFrames);
     }
 
     //初期ポーズ(バインドポーズ)で全フレームを埋める処理
