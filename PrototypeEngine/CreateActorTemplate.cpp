@@ -168,7 +168,7 @@ bool CreateActorTemplate::CreateSkeletonActor(const nlohmann::json& metaJson,con
         {
             filesystem::path binaryPath = animJson.value("binary_path", "");
             //animator->Load(binaryPath.string().c_str());
-            //animator->Load("Idle_anim0.animbin");
+            animator->Load("Idle_anim0.animbin");
         }
     }
 

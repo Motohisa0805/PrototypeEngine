@@ -527,6 +527,8 @@ void AssetImporter::ExportMeshBinary(const fs::path& fbxPath,
 {
     // モデル情報取得
     Assimp::Importer importer;
+    importer.SetPropertyBool(AI_CONFIG_IMPORT_FBX_PRESERVE_PIVOTS, false);
+    importer.SetPropertyInteger(AI_CONFIG_PP_SBP_REMOVE,aiPrimitiveType_POINT | aiPrimitiveType_LINE);
     const aiScene*   scene = importer.ReadFile(
         fbxPath.string(),
         aiProcess_Triangulate | aiProcess_FlipUVs |
@@ -789,6 +791,8 @@ void AssetImporter::ExportAnimationBinary(const fs::path& fbxPath,
                                           int             index)
 {
     Assimp::Importer importer;
+    importer.SetPropertyBool(AI_CONFIG_IMPORT_FBX_PRESERVE_PIVOTS, false);
+    importer.SetPropertyInteger(AI_CONFIG_PP_SBP_REMOVE,aiPrimitiveType_POINT | aiPrimitiveType_LINE);
     const aiScene*   scene = importer.ReadFile(
         fbxPath.string(), aiProcess_Triangulate | aiProcess_LimitBoneWeights |
                       aiProcess_GlobalScale | aiProcess_MakeLeftHanded |
@@ -817,19 +821,23 @@ void AssetImporter::ExportAnimationBinary(const fs::path& fbxPath,
     std::unordered_map<string, int> boneNameToIndex;
     vector<string>                  boneNames;
 
-    for (unsigned int i = 0; i < scene->mNumMeshes; i++)
+    if (scene->mRootNode != nullptr)
     {
-        aiMesh* mesh = scene->mMeshes[i];
-        for (unsigned int j = 0; j < mesh->mNumBones; j++)
+        TraverseNode(scene->mRootNode, boneNameToIndex, boneNames);
+    }
+    /*
+    //アニメーションを使ったボーンの番号と名前の登録
+    for (unsigned int i = 0; i < anim->mNumChannels; i++)
+    {
+        const aiNodeAnim* channel = anim->mChannels[i];
+        string            boneName = channel->mNodeName.C_Str();
+        if (boneNameToIndex.find(boneName) == boneNameToIndex.end())
         {
-            string boneName = mesh->mBones[j]->mName.C_Str();
-            if (boneNameToIndex.find(boneName) == boneNameToIndex.end())
-            {
-                boneNameToIndex[boneName] = static_cast<int>(boneNames.size());
-                boneNames.push_back(boneName);
-            }
+            boneNameToIndex[boneName] = static_cast<int>(boneNames.size());
+            boneNames.push_back(boneName);
         }
     }
+    */
 
     uint32_t numBones = static_cast<uint32_t>(boneNames.size());
 
@@ -912,6 +920,13 @@ void AssetImporter::ExportAnimationBinary(const fs::path& fbxPath,
     header.sNumBones  = static_cast<uint32_t>(numBones);
     out.write((char*)&header, sizeof(header));
 
+    vector<uint32_t> trackHashes(numBones);
+    for (size_t bone = 0; bone < numBones; ++bone)
+    {
+        trackHashes[bone] = GenerateNameHash(boneNames[bone]);
+    }
+    out.write((char*)trackHashes.data(), sizeof(uint32_t) * numBones);
+
     for (size_t bone = 0; bone < numBones; ++bone)
     {
         for (size_t frame = 0; frame < numFrames; ++frame)
@@ -921,6 +936,27 @@ void AssetImporter::ExportAnimationBinary(const fs::path& fbxPath,
     }
     out.close();
     Debug::Log("Successfully exported animation binary: %s",animBinPath.string().c_str());
+}
+
+void AssetImporter::TraverseNode(
+    aiNode* node, std::unordered_map<string, int>& boneNameToIndex,
+    vector<string>& boneNames)
+{
+    if (!node)return;
+
+    string nodeName = node->mName.C_Str();
+
+    if (boneNameToIndex.find(nodeName) == boneNameToIndex.end())
+    {
+        boneNameToIndex[nodeName] = static_cast<int>(boneNames.size());
+        boneNames.push_back(nodeName);
+    }
+
+    //子ノードを再帰的に処理
+    for (unsigned int i = 0; i < node->mNumChildren; i++)
+    {
+        TraverseNode(node->mChildren[i], boneNameToIndex, boneNames);
+    }
 }
 
 AllImportSettings AssetImporter::OutputFBXMetaFile(const fs::path& fbxPath)

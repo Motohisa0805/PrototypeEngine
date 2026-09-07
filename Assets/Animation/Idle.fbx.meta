@@ -928,7 +928,7 @@
         "materials": [],
         "meshes": []
     },
-    "fileFormatVersion": 4,
+    "fileFormatVersion": 1,
     "guid": "593acd1d-3c84-417a-8113-0aea4e8fed3e",
     "import_settings": {
         "import_animation": true,
