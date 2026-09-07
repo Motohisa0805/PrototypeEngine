@@ -88,7 +88,15 @@ AssetMetaData AssetDataBase::GetAssetMetaData(const filesystem::path& fbxPath)
     {
         const auto& skeletonData = cachedData["skeleton"];
         AvatarPayload avatarPayload;
-        avatarPayload.sIsAvatar = true;
+        //アバターがtrueか取得
+        if (skeletonData.contains("isAvatar"))
+        {
+            avatarPayload.sIsAvatar = skeletonData["isAvatar"].get<bool>();
+        }
+        else
+        {
+            avatarPayload.sIsAvatar = false;
+        }
         if (skeletonData.contains("binary_path"))
         {
             avatarPayload.sAvatarBinaryPath =

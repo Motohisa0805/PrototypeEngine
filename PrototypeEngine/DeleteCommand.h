@@ -7,11 +7,13 @@
 class DeleteCommand : public ICommand
 {
 private:
-	// 削除対象のアクター
-	uint64_t		mTargetID;
-	Entity*			mTarget;
+	// 削除対象のアクター配列
+    vector<CommandTargetData>	mTargets;
 	//現在シーンに存在するかどうかのフラグ
-	bool			mIsActiveInScene;
+	bool						mIsActiveInScene;
+
+	void						CollectTargets(Entity* actor);
+
 public:
 	DeleteCommand(Entity* actor);
 	~DeleteCommand();

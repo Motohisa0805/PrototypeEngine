@@ -6,6 +6,12 @@
 #include "SceneSerializer.h"
 #include "EditorSettingsManager.h"
 
+struct CommandTargetData
+{
+    uint64_t sID;
+    Entity*  ptr;
+};
+
 //コマンドパターンの基底クラス
 class ICommand
 {

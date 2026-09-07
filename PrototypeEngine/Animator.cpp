@@ -343,28 +343,30 @@ void Animator::DrawCustomGUI(const std::vector<PropertyInfo>& properties)
     ImGui::PopID();
 }
 
-Component* Animator::Clone(Entity* newOwner) const 
+Component* Animator::Clone(Entity* newOwner) const
 {
     Animator* clone = new Animator(newOwner);
 
-    clone->mBones.resize(this->mBones.size(), nullptr);
-    for (int i = 0; i < this->mBones.size(); ++i)
+    clone->mSkeletonFilePath = this->mSkeletonFilePath;
+    clone->LoadSkeletonData(mSkeletonFilePath.string(),
+                            static_cast<ActorObject*>(mOwner));
+
+    clone->mAnimationInfo.resize(this->mAnimationInfo.size());
+    for (int i = 0; i < this->mAnimationInfo.size(); ++i)
     {
-        clone->mBones[i] = this->mBones[i];
+        clone->mAnimationInfo[i] = this->mAnimationInfo[i];
     }
-    clone->mAnimations.resize(this->mAnimations.size(), nullptr);
-    for (int i = 0; i < this->mAnimations.size(); ++i)
+
+    for (const auto& anim : clone->mAnimationInfo)
     {
-        clone->mAnimations[i] = this->mAnimations[i];
+        clone->Load(anim.sPath.string(), anim.sIsLoop, anim.sRootMotion);
     }
-    clone->mSkeleton   = this->mSkeleton;
-    clone->mAnimation  = this->mAnimation;
-    clone->mBlendAnimation = this->mBlendAnimation;
-    clone->mAnimPlayRate   = this->mAnimPlayRate;
-    clone->mAnimTime       = this->mAnimTime;
-    clone->mBlendAnimTime  = this->mBlendAnimTime;
-    clone->mBlendElapsed   = this->mBlendElapsed;
-    clone->mBlending       = this->mBlending;
+
+    clone->mAnimPlayRate  = this->mAnimPlayRate;
+    clone->mAnimTime      = this->mAnimTime;
+    clone->mBlendAnimTime = this->mBlendAnimTime;
+    clone->mBlendElapsed  = this->mBlendElapsed;
+    clone->mBlending      = this->mBlending;
 
     return clone;
 }
