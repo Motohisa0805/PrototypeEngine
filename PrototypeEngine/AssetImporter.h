@@ -9,7 +9,7 @@
 
 namespace fs = std::filesystem;
 
-constexpr int CURRENT_ASSET_VERSION = 4;
+constexpr int CURRENT_ASSET_VERSION = 5;
 
 class AssetImporter
 {

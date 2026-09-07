@@ -586,17 +586,17 @@
     <ClCompile Include="MaterialManager.cpp">
       <Filter>SourceCodes\A_Editor\Function\Renderers</Filter>
     </ClCompile>
-    <ClCompile Include="CreateActorFromFBXFileCommand.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="AssetDataBase.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="ExternalLibrary\public\TracyClient.cpp">
       <Filter>SourceCodes\C_OutsideLibrary\Tracy</Filter>
     </ClCompile>
     <ClCompile Include="CreateActorTemplate.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>SourceCodes\A_Editor\Function\GUIs\Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="CreateActorFromFBXFileCommand.cpp">
+      <Filter>SourceCodes\A_Editor\Function\GUIs\Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="AssetDataBase.cpp">
+      <Filter>SourceCodes\A_Editor\Function\GUIs\Systems\Files\FBX</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -997,13 +997,13 @@
       <Filter>SourceCodes\A_Editor\Function\Renderers</Filter>
     </ClInclude>
     <ClInclude Include="CreateActorFromFBXFileCommand.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="AssetDataBase.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>SourceCodes\A_Editor\Function\GUIs\Commands</Filter>
     </ClInclude>
     <ClInclude Include="CreateActorTemplate.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>SourceCodes\A_Editor\Function\GUIs\Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="AssetDataBase.h">
+      <Filter>SourceCodes\A_Editor\Function\GUIs\Systems\Files\FBX</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

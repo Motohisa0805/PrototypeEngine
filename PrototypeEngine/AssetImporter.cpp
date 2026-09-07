@@ -486,6 +486,7 @@ void AssetImporter::ConvertFBXToCustomFormat(const fs::path& fbxPath,
         fs::path skelBinPath = (filesystem::path)"Binary/skeleton" / skelBinName;
         
         metaJson["cached_data"]["skeleton"]["binary_path"] = skelBinName;
+        metaJson["cached_data"]["skeleton"]["isAvatar"]    = hasBones;
 
         ExportSkeletonBinary(scene, skelBinPath);
     }

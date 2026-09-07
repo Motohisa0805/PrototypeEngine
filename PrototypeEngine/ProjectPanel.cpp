@@ -436,7 +436,7 @@ void ProjectPanel::DrawFileSystemEntry(const filesystem::directory_entry& entry)
                 }
                 // Avatar用のサブメッシュ情報を取得して表示する
                 AvatarPayload avatarPayload;
-                if (AssetDataBase::GetInstance().GetAvatarData(entry.path(), avatarPayload))
+                if (AssetDataBase::GetInstance().GetAvatarData(entry.path(), avatarPayload)&&avatarPayload.sIsAvatar)
                 {
                     ImGui::PushID("Avatar");
                     ImGui::BeginGroup();
