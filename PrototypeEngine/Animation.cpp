@@ -12,12 +12,11 @@ Animation::Animation(SkeletonData* skeleton)
     , mRootMotionZ(0.0f)
     , isLoop(false)
     , isAnimationEnd(false)
-    , isReLoad(false)
     , mDuration(0.0f)
     , mNumFrames(0)
     , mNumBones(0)
     , mFrameDuration(0.0f)
-    , mFileName("")
+    , mFilePath("")
     , mAnimationName("")
     , mRootPositionOffset()
     , isRootMotionX(false)
@@ -30,7 +29,7 @@ Animation::Animation(SkeletonData* skeleton)
 
 bool Animation::Load(const string& fileName)
 {
-    mFileName = fileName;
+    mFilePath = fileName;
     // ファイルの拡張子を取得
     string extension = fileName.substr(fileName.find_last_of('.') + 1);
 
@@ -38,20 +37,6 @@ bool Animation::Load(const string& fileName)
     if (extension == "fbx")
     {
         return LoadFromFBX(fileName);
-    }
-
-    return false;
-}
-
-bool Animation::ReLoad()
-{
-    // ファイルの拡張子を取得
-    string extension = mFileName.substr(mFileName.find_last_of('.') + 1);
-
-    // **FBX の場合**
-    if (extension == "fbx")
-    {
-        return LoadFromFBX(mFileName);
     }
 
     return false;
@@ -143,7 +128,7 @@ bool Animation::LoadFromBinary(const std::string& filePath)
             break;
         }
     }
-
+    mFilePath = filePath;
     return true;
 }
 
@@ -180,11 +165,6 @@ bool Animation::SaveToBinary(const std::string& filePath)
 
 void Animation::Update()
 {
-    if (isReLoad)
-    {
-        ReLoad();
-        isReLoad = false;
-    }
 }
 
 void Animation::Evaluate(size_t index, float time, Vector3& outpos,

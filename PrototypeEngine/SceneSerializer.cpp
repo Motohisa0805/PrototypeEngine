@@ -155,6 +155,12 @@ BaseScene* SceneSerializer::LoadScene(const string& filePath,
         {
             actor->LoadParentByLoadScene();
         }
+        //親子関係構築後にDeserializeが必要なものを処理
+        for (const auto& actor :
+             newScene->GetActorManager()->GetActorsMutable())
+        {
+            actor->DeserializeAfterParentChildBuild();
+        }
     }
     if (loadSceneData.contains("UIActors"))
     {

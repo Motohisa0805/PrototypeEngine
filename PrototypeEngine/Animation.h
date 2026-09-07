@@ -66,9 +66,7 @@ private:
 	float									mRootMotionY;
 	float									mRootMotionZ;
 
-	bool									isReLoad;
-
-	string									mFileName;
+	filesystem::path						mFilePath;
 
 	string									mAnimationName;
 
@@ -78,8 +76,6 @@ public:
 											Animation(SkeletonData* skeleton);
 
 	bool									Load(const string& fileName);
-
-	bool									ReLoad();
 
 	bool									LoadFromBinary(const std::string& filePath);
 
@@ -112,14 +108,12 @@ public:
 	void									SetRootMotion(bool active) 
 	{
 		isRootMotion = active; 
-		isReLoad = true;
 	}
 	void									SetIsRootMotion(bool x,bool y,bool z)
 	{
 		isRootMotionX = x;
 		isRootMotionY = y;
 		isRootMotionZ = z;
-		isReLoad = true;
 	}
 
 	float									GetRootMotionX() { return mRootMotionX; }
@@ -129,27 +123,21 @@ public:
 	void									SetRootMotionX(float num) 
 	{
 		mRootMotionX = num; 
-		isReLoad = true;
 	}
 	void									SetRootMotionY(float num) 
 	{
 		mRootMotionY = num;
-		isReLoad = true;
 	}
 	void									SetRootMotionZ(float num) 
 	{
 		mRootMotionZ = num; 
-		isReLoad = true;
 	}
 	void									SetRootMotionPosition(Vector3 pos)
 	{
 		mRootMotionX = pos.x;
 		mRootMotionY = pos.y;
 		mRootMotionZ = pos.z;
-		isReLoad = true;
 	}
 
-	// 指定されたアニメーションの時間における各ボーンのグローバル（現在の）ポーズ行列を提供されたベクターに充填。
-	// 時間は0.0f以上でmDuration以下であること。
-	//void									GetLocalPoseAtTime(vector<Matrix4>& outPoses, const SkeletonData* inSkeleton, float inTime) const;
+	filesystem::path						GetFilePath() { return mFilePath; }
 };

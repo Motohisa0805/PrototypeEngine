@@ -221,3 +221,5 @@ void Component::Deserialize(const json& j)
         }
     }
 }
+
+void Component::DeserializeAfterParentChildBuild() {}

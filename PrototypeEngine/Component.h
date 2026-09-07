@@ -139,6 +139,8 @@ public:
 	// JSONから復元するメソッド
 	virtual void								Deserialize(const json& j);
 
+	virtual void								DeserializeAfterParentChildBuild();
+
 
 	virtual Component*							Clone(Entity* newOwner) const { return nullptr; }
 };

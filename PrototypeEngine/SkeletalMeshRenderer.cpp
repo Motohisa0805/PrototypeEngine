@@ -196,10 +196,15 @@ void SkeletalMeshRenderer::Update(float deltaTime)
     */
 }
 
-void SkeletalMeshRenderer::LoadSkeletonMesh(const char* path,const char*  localID,ActorObject* rootBone)
+void SkeletalMeshRenderer::LoadSkeleton(const char* path, ActorObject* rootBone)
 {
     SkeletonData* sk = mGame->GetSkeleton(path);
     SetSkeleton(sk, rootBone);
+}
+
+void SkeletalMeshRenderer::LoadSkeletonMesh(const char* path,const char*  localID,ActorObject* rootBone)
+{
+    LoadSkeleton(path, rootBone);
     Mesh* mesh = EngineWindow::GetRenderer()->GetSubMesh(path, localID);
     if (mesh)
     {
@@ -258,37 +263,20 @@ void SkeletalMeshRenderer::SetSkeleton(SkeletonData* sk, ActorObject* actor)
 
 void SkeletalMeshRenderer::Serialize(json& j) const
 {
-    // 1. ベースクラス (MeshRenderer) のシリアライズを呼び出す
-    //    -> これにより、mMeshFilePath やその他の基本プロパティが書き込まれる
     MeshRenderer::Serialize(j);
-
-    // 2. コンポーネントの型を「SkeletalMeshRenderer」で上書き
-    //    -> ActorObject::Deserialize()のファクトリー処理で、この型を使って
-    //       SkeletalMeshRendererのインスタンスが生成されるようにする
-    // j["Type"] = "SkeletalMeshRenderer";
-
-    // 3. (必要に応じて) スケルタルメッシュ固有のプロパティを追記
-    //    mAnimatorは通常、Actorの別コンポーネントとしてシリアライズされるため、ここでは省略
 }
 
 void SkeletalMeshRenderer::Deserialize(const json& j)
 {
-    // 1. ベースクラスのデシリアライズを呼び出す (MeshRenderer::Deserialize)
-    //    -> JSONから mMeshFilePath
-    //    を読み込み、EngineWindow::GetRenderer()->GetMeshs() を呼び出して
-    //       mMeshs (メッシュ) のロードと設定を完了させる。
     MeshRenderer::Deserialize(j);
+}
 
-    // 2. ベースクラスで読み込まれたファイルパス (mMeshFilePath)
-    // を使ってスケルトンをロードする
-    std::string fileName =
-        GetMeshFilePath(); // GetMeshFilePath() が mMeshFilePath を返す前提
-
-    // SkeletalMeshRenderer::LoadSkeletonMesh のスケルトンロード部分のロジック
-    SkeletonData* sk = mOwner->GetGame()->GetSkeleton(fileName);
-    mSkeletonData    = sk;
-
-    mIsSkeletal = true; // スケルトンを持っていることを明示
+void SkeletalMeshRenderer::DeserializeAfterParentChildBuild() 
+{
+    //Deserializeで取得したデータを元に読み込み
+    LoadSkeletonMesh(
+        mFilePath.c_str(), mLocalID.c_str(),
+        dynamic_cast<ActorObject*>(mActor->GetTransform()->GetParentActor()));
 }
 
 void SkeletalMeshRenderer::DrawCustomGUI(
@@ -465,66 +453,17 @@ void SkeletalMeshRenderer::DrawCustomGUI(
     ImGui::Separator();
 
     ImGui::PopID();
-
-
-    /*
-    ImGui::PushID(this);
-
-    // MeshRendererのプロパティ
-    ImGui::Text("Properties");
-
-    ImGui::NewLine();
-
-    // 1.ファイルパスの取得
-    string      currentPath = mFilePath;
-    static char pathBuffer[256];
-    strncpy_s(pathBuffer, currentPath.c_str(), sizeof(pathBuffer));
-    pathBuffer[sizeof(pathBuffer) - 1] = '\0';
-
-    // 2.ファイルパスの入力フィールド
-    ImGui::InputText("Mesh File Path", pathBuffer, sizeof(pathBuffer),
-                     ImGuiInputTextFlags_ReadOnly);
-
-    // 3.ファイルロードボタン(ここでファイル選択UIを開くか、ProjectPanelからのDrag&Dropを想定)
-    // Drag&Drop想定
-    if (ImGui::BeginDragDropTarget())
-    {
-        if (const ImGuiPayload* payload =
-                ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM"))
-        {
-            // ペイロードがファイルパスであると仮定
-            const char* dropPath = (const char*)payload->Data;
-            string      path     = Sco::ExtensionFileName(dropPath);
-            // ファイルパスを使いロード処理を呼び出す
-            vector<class Mesh*> mesh;// =
-                //EngineWindow::GetRenderer()->GetMeshs(path);
-            SetMeshs(mesh);
-            mFilePath = path;
-
-            Skeleton* sk = mGame->GetSkeleton(path);
-            mSkeleton    = sk;
-            // ボーンの親子関係を構築
-            if (mSkeleton != nullptr)
-            {
-                SetSkeleton(mSkeleton, mActor);
-            }
-            mIsSkeletal = true;
-        }
-        ImGui::EndDragDropTarget();
-    }
-    // ボタンクリックでファイル選択ダイアログを開く実装
-    if (ImGui::Button("Load Mesh from File"))
-    {
-        // 外部のファイル選択ダイアログ (例: nativefiledialog) を開き、
-        // 選択されたファイルパスを meshRenderer->Load(...) に渡す。
-    }
-
-    ImGui::Separator();
-    */
 }
 
 Component* SkeletalMeshRenderer::Clone(Entity* newOwner) const
 {
+    SkeletalMeshRenderer* clone = new SkeletalMeshRenderer(newOwner);
 
-    return nullptr;
+    clone->mFilePath = this->mFilePath;
+    clone->mLocalID = this->mLocalID;
+
+    clone->LoadSkeletonMesh(clone->mFilePath.c_str(), clone->mLocalID.c_str(),mActor->GetTransform()->GetParentActor());
+
+    clone->mBounds = this->mBounds;
+    return clone;
 }

@@ -110,6 +110,8 @@ public:
 
 	virtual void Deserialize(const json& j);
 
+    virtual void DeserializeAfterParentChildBuild();
+
 	virtual void OnComponentAdded(Component* newComp);
 
 

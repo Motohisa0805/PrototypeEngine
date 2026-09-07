@@ -238,9 +238,9 @@ void AssetImporter::ConvertFBXToCustomFormat(const fs::path& fbxPath,
     bool hasAnim = scene && scene->HasAnimations();
     bool hasBones = false;
 
+    metaJson["fileFormatVersion"] = CURRENT_ASSET_VERSION;
     if (isNewFile)
     {
-        metaJson["fileFormatVersion"] = CURRENT_ASSET_VERSION;
         metaJson["guid"]              = GenerateUUID();
         // インポートスイッチ(中身の有無によって自動でON/OFFを設定)
         metaJson["import_settings"]["import_mesh"]      = hasMesh;
