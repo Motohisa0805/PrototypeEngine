@@ -88,6 +88,9 @@ public:
 	static void                     ExportMeshBinary(const fs::path& fbxPath,const fs::path& meshBinPath, int index);
 	static void                     ExportSkeletonBinary(const aiScene* scene,const fs::path& skelBinPath);
 	static void                     ExportAnimationBinary(const fs::path& fbxPath,const fs::path& animBinPath, int index);
+    //再帰的にノードを走査して名前を取集する関数
+    static void                     TraverseNode(aiNode* node,std::unordered_map<string,int>& boneNameToIndex,vector<string>& boneNames);
+
 
     static AllImportSettings        OutputFBXMetaFile(const fs::path& fbxPath);
 

@@ -132,7 +132,7 @@ void Animator::Update(float deltaTime)
             }
         }
     }
-
+    const auto& skeletonBones = mSkeleton->GetBones();
     //対象ボーンのTransformを更新
     for (size_t i = 0; i < mBones.size(); i++)
     {
@@ -142,7 +142,15 @@ void Animator::Update(float deltaTime)
         Vector3 pos; Quaternion rot; Vector3 scale;
         mAnimation->Evaluate(i, mAnimTime, pos, rot, scale);
 
-        boneTransform->SetLocalPosition(pos);
+        if (skeletonBones[i].sParentIndex == -1)
+        {
+            boneTransform->SetLocalPosition(pos);
+        }
+        else
+        {
+            boneTransform->SetLocalPosition(skeletonBones[i].sLocalPos);
+        }
+
         boneTransform->SetLocalRotation(rot);
         boneTransform->SetLocalScale(scale);
         boneTransform->ActiveDirty();
@@ -156,6 +164,7 @@ void Animator::AddAnimation(Animation* anim)
     if (mAnimations.size() == 1)
     {
         mAnimation = anim;
+        mAnimation->SetLoop(true);
     }
 }
 

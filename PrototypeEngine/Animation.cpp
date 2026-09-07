@@ -73,7 +73,7 @@ bool Animation::LoadFromBinary(const std::string& filePath)
 
     mDuration      = header.sDuration;
     mNumFrames     = header.sNumFrames;
-    mNumBones      = header.sNumBones;
+    uint32_t animNumBones = header.sNumBones;
     if (mNumFrames > 1)
     {
         mFrameDuration = mDuration / (mNumFrames - 1);
@@ -83,25 +83,53 @@ bool Animation::LoadFromBinary(const std::string& filePath)
         mFrameDuration = 0.0f;
     }
 
+    vector<uint32_t> trackHashes(animNumBones);
+    in.read((char*)trackHashes.data(), sizeof(uint32_t) * animNumBones);
+
+    const auto& bones = mSkeleton->GetBones();
+    mNumBones         = bones.size();
     mTracks.resize(mNumBones);
     mRootPositionOffset.resize(mNumFrames);
+
+    std::unordered_map<uint32_t, int> hashToIndex;
     for (size_t bone = 0; bone < mNumBones; ++bone)
     {
+        hashToIndex[bones[bone].sNodeHash] = static_cast<int>(bone);
+
         mTracks[bone].resize(mNumFrames);
+        BoneTransform bt;
+        bt.SetPosition(bones[bone].sLocalPos);
+        bt.SetRotation(bones[bone].sLocalRot);
+        bt.SetScale(bones[bone].sLocalScale);
+        for (size_t frame = 0; frame < mNumFrames; ++frame)
+        {
+            mTracks[bone][frame] = bt;
+        }
+    }
+
+    //データの読み込みとマッピング
+    for (size_t bone = 0; bone < animNumBones; ++bone)
+    {
+        uint32_t hash = trackHashes[bone];
+        bool foundInSkeleton = (hashToIndex.find(hash)) != hashToIndex.end();
+        int  targetIndex     = foundInSkeleton ? hashToIndex[hash] : -1;
+
         for (size_t frame = 0; frame < mNumFrames; ++frame)
         {
             AssetImporter::AnimationBinTransform transform;
             in.read((char*)&transform, sizeof(transform));
 
-            BoneTransform bt;
-            bt.SetPosition(transform.sPosition);
-            bt.SetRotation(transform.sRotation);
-            bt.SetScale(transform.sScale);
-            mTracks[bone][frame] = bt;
+            if (foundInSkeleton)
+            {
+                BoneTransform bt;
+                bt.SetPosition(transform.sPosition);
+                bt.SetRotation(transform.sRotation);
+                bt.SetScale(transform.sScale);
+                mTracks[targetIndex][frame] = bt;
+            }
         }
     }
 
-    const auto& bones = mSkeleton->GetBones();
     for (size_t bone = 0; bone < mNumFrames; ++bone)
     {
         if (bones[bone].sParentIndex < 0)
