@@ -42,6 +42,8 @@ public:
 
 	void							Update(float deltaTime) override;
 	
+	void							LoadSkeleton(const char* path,ActorObject* rootBone);
+
 	void							LoadSkeletonMesh(const char* path, const char* localID,ActorObject* rootBone);
 
 	ActorObject*					FindActorByName(ActorObject* current, const string& name);
@@ -57,6 +59,7 @@ public:
 
 	void							Serialize(json& j) const override;
 	void							Deserialize(const json& j)override;
+    void                            DeserializeAfterParentChildBuild() override;
 
 	void							DrawCustomGUI(const std::vector<PropertyInfo>& properties)override;
 

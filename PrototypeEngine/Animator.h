@@ -7,22 +7,29 @@
 * ===エンジン内部処理/Engine internal processing===
 */
 
+struct AnimInfo
+{
+    filesystem::path sPath;
+    bool             sIsLoop = false;
+    bool             sRootMotion = false;
+};
+
 //複数個あるアニメーションを管理するクラス
 //Unityの「Animator」を意識して設計
 //アニメーションの再生、ブレンドなどを行う
 class Animator : public Component
 {
 private:
+	//保存データ
+    filesystem::path				mSkeletonFilePath;
+    vector<AnimInfo>				mAnimationInfo;
 
 	vector<ActorObject*>			mBones;
-
 	//アニメーションを配列で持ってる変数
 	vector<Animation*>				mAnimations;
-
 	SkeletonData*					mSkeleton;
-
+	//非保存データ
 	Animation*						mAnimation;
-
 	Animation*						mBlendAnimation;
 	//アニメーションの倍率
 	float							mAnimPlayRate;
@@ -46,19 +53,13 @@ public:
 	float							PlayAnimation(Animation* anim);
 	// ブレンドアニメーションを再生します。
 	float							PlayBlendAnimation(Animation* anim);
-	//スケルトンとアニメーションを使ってスキニング行列（palette）とボーンの可視化更新を行う
-	void							ComputeMatrixPalette();
-    /*
-	//ブレンドアニメーションのスキニング行列（palette）とボーンの可視化更新を行う
-	void							BlendComputeMatrixPalette();
-	*/
 	//アニメーションの配列のGetter
 	vector<Animation*>				GetAnimations() { return mAnimations; }
     void							AddAnimation(Animation* anim);
 	//スケルトンのGetter
 	SkeletonData*					GetSkeleton() { return mSkeleton; }
 	//スケルトンのSetter
-	void							SetSkeleton(SkeletonData* skeleton);
+	void							ReloadBones(ActorObject* rootbone);
     void							LoadSkeletonData(const string& fileName,ActorObject* rootBone);
 	//現在再生中のアニメーションのGetter
 	Animation*						GetAnimation() { return mAnimation; }
@@ -85,6 +86,7 @@ public:
 
 	void							Serialize(json& j) const override;
     void							Deserialize(const json& j) override;
+    void                            DeserializeAfterParentChildBuild() override;
 
     void							DrawCustomGUI(const std::vector<PropertyInfo>& properties) override;
 

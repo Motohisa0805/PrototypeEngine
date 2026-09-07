@@ -81,7 +81,7 @@
             }
         ]
     },
-    "fileFormatVersion": 1,
+    "fileFormatVersion": 4,
     "guid": "aefe9bfc-8cee-4eb3-9873-1607d270ff5c",
     "import_settings": {
         "import_animation": false,

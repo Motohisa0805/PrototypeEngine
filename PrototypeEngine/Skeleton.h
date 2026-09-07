@@ -41,21 +41,20 @@ protected:
 	void									ComputeGlobalInvBindPose();
 private:
     vector<BoneInfo>						mBones;
-
-	//↓古い変数群(後々消す)
-    // 各骨の情報を格納するアクター
-	//vector<BoneActor*>						mBoneActors;
-	//計算用のオフセット変数
-	vector<aiMatrix4x4>						mOffsetMatrix;
 	//文字列とint型の連想配列
 	std::unordered_map<string, int>			mBoneNameToIndex;
 	// スケルトンのタイプ
 	// 現在は未使用
 	//SkeletonType							mSkeletonType;
+
+	filesystem::path						mSkeletonFilePath;
+
 public:
 	~SkeletonData();
 
 	vector<BoneInfo>						GetBones() const { return mBones; }
+
+	filesystem::path						GetSkeletonFilePath() { return mSkeletonFilePath; }
 	//すべてのファイル形式から読み込み
 	bool									Load(const string& fileName);
 	//バイナリデータから読み込み
@@ -74,27 +73,6 @@ public:
 		}
 		return str.substr(str.size() - suffix.size()) == suffix;
 	}
-
-    /*
-	// ボーン数のGetter
-	size_t									GetNumBones() const { return mBoneActors.size(); }
-	//ボーンのGetter Ver.1
-	const BoneActor&						GetBone(size_t idx) const { return *mBoneActors[idx]; }
-	//ボーンGetter Ver.2
-	//const vector<BoneActor*>&				GetBones() const { return mBoneActors; }
-	//ボーンオブジェクトのGetter
-	vector<BoneActor*>						GetBoneActor() const { return mBoneActors; }
-	// ボーンのグローバルバインドポーズのGetter
-    Matrix4 GetGlobalInvBindPose(size_t idx) const
-    {
-        return mBoneActors[idx]->GetGlobalInvBindPose();
-    }
-    // アニメーション適用後のボーンの行列変数のGetter
-    Matrix4 GetGlobalCurrentPose(size_t idx) const
-    {
-        return mBoneActors[idx]->GetTransform()->GetWorldTransform();
-    }
-	*/
 
 	//ボーンの連想配列のGetter
 	const std::unordered_map<string, int>&	GetBoneNameToIndex() const { return mBoneNameToIndex; }

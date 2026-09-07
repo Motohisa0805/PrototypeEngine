@@ -1555,7 +1555,7 @@
             "binary_path": "TestBot.skelbin"
         }
     },
-    "fileFormatVersion": 1,
+    "fileFormatVersion": 4,
     "guid": "e0dc1140-81f2-4f7a-a9f4-59f90cc2553f",
     "import_settings": {
         "import_animation": true,

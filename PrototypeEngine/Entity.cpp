@@ -304,6 +304,14 @@ void Entity::Deserialize(const json& j)
     }
 }
 
+void Entity::DeserializeAfterParentChildBuild()
+{
+    for (const auto& comp : mComponents)
+    {
+        comp->DeserializeAfterParentChildBuild();
+    }
+}
+
 void Entity::OnComponentAdded(Component* newComp)
 {
     MeshRenderer* meshRenderer = nullptr;

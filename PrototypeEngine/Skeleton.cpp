@@ -61,6 +61,9 @@ bool SkeletonData::LoadFromSkeletonBin(const string& fileName)
         mBoneNameToIndex[bin.sName] = boneIndex;
         mBones.push_back(boneInfo);
     }
+
+    //読み込めたらファイルパスを取得
+    mSkeletonFilePath = fileName;
     return true;
 }
 
