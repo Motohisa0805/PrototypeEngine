@@ -19,15 +19,15 @@ namespace MeshLayout
 //マテリアル情報の構造体
 struct MaterialInfo
 {
-	Vector4		Color = Vector4();
-	Vector3		Diffuse = Vector3();
-    Vector3     Ambient = Vector3();
-    Vector3     Specular = Vector3();
-	float		Shininess = 0;
+	Vector4		sColor = Vector4();
+	Vector3		sDiffuse = Vector3();
+    Vector3     sAmbient = Vector3();
+    Vector3     sSpecular = Vector3();
+	float		sShininess = 0;
 
-	float		Metallic = 0;
-	float		Roughness = 0;
-    Vector3     Emissive  = Vector3();
+	float		sMetallic = 0;
+	float		sRoughness = 0;
+    Vector3     sEmissive  = Vector3();
 };
 
 //前方宣言
@@ -39,17 +39,6 @@ class VertexArray;
 //FBXファイルを読み込んでメッシュ情報を管理するクラス
 class Mesh
 {
-public:
-    struct MeshBinHeader
-    {
-        uint32_t layoutType;
-        uint32_t vertexCount;
-        uint32_t indexCount;
-        Vector3  min;
-        Vector3  max;
-        float    colliderRadius;
-    };
-
 private:
 	// FBXファイルからJSONに変換処理
 	bool						LoadFromFBX(const string& fileName, Renderer* renderer, int index);
@@ -73,7 +62,6 @@ public:
 								Mesh();
 								~Mesh();
 	// Load
-	//bool						Load(const string& fileName, Renderer* renderer,int index = 0);
 	// バイナリファイルからの読み込み処理
 	bool						LoadFromMeshBin(const string& fileName, Renderer* renderer, int index = 0);
 

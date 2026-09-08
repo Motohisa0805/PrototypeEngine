@@ -34,10 +34,10 @@ public:
 };
 
 struct WaitForSeconds {
-    std::chrono::milliseconds duration;
+    std::chrono::milliseconds sDuration;
     bool await_ready() const noexcept { return false; }
     void await_suspend(std::coroutine_handle<> handle) const {
-        std::thread([handle, d = duration]() {
+        std::thread([handle, d = sDuration]() {
             std::this_thread::sleep_for(d);
             handle.resume();
             }).detach();

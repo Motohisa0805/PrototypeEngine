@@ -109,13 +109,13 @@ public:
 
 inline Vector3 GetSupportPoint(const OBB& obb, const Vector3& dir)
 {
-	Vector3 result = obb.mCenter;
+	Vector3 result = obb.sCenter;
 	Vector3 axes[3] = {
-		Vector3::Transform(Vector3::UnitX, obb.mRotation),
-		Vector3::Transform(Vector3::UnitY, obb.mRotation),
-		Vector3::Transform(Vector3::UnitZ, obb.mRotation)
+		Vector3::Transform(Vector3::UnitX, obb.sRotation),
+		Vector3::Transform(Vector3::UnitY, obb.sRotation),
+		Vector3::Transform(Vector3::UnitZ, obb.sRotation)
 	};
-	float extents[3] = { obb.mExtents.x, obb.mExtents.y, obb.mExtents.z };
+	float extents[3] = { obb.sExtents.x, obb.sExtents.y, obb.sExtents.z };
 
 	for (int i = 0; i < 3; ++i)
 	{

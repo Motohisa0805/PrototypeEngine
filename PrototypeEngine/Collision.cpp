@@ -1,23 +1,23 @@
 ﻿#include "Collision.h"
 
 LineSegment::LineSegment(const Vector3& start, const Vector3& end)
-    : mStart(start), mEnd(end)
+    : sStart(start), sEnd(end)
 {
 }
 
 Vector3 LineSegment::PointOnSegment(float t) const
 {
     float u = std::clamp(t, 0.0f, 1.0f);
-    return mStart + (mEnd - mStart) * u;
+    return sStart + (sEnd - sStart) * u;
 }
 
 float LineSegment::MinDistSq(const Vector3& point) const
 {
     // Construct vectors
-    Vector3 ab = mEnd - mStart;
+    Vector3 ab = sEnd - sStart;
     Vector3 ba = -1.0f * ab;
-    Vector3 ac = point - mStart;
-    Vector3 bc = point - mEnd;
+    Vector3 ac = point - sStart;
+    Vector3 bc = point - sEnd;
 
     // Case 1: C projects prior to A
     if (Vector3::Dot(ab, ac) < 0.0f)
@@ -42,9 +42,9 @@ float LineSegment::MinDistSq(const Vector3& point) const
 
 float LineSegment::MinDistSq(const LineSegment& s1, const LineSegment& s2)
 {
-    Vector3 u = s1.mEnd - s1.mStart;
-    Vector3 v = s2.mEnd - s2.mStart;
-    Vector3 w = s1.mStart - s2.mStart;
+    Vector3 u = s1.sEnd - s1.sStart;
+    Vector3 v = s2.sEnd - s2.sStart;
+    Vector3 w = s1.sStart - s2.sStart;
     float   a = Vector3::Dot(u, u); // always >= 0
     float   b = Vector3::Dot(u, v);
     float   c = Vector3::Dot(v, v); // always >= 0
@@ -118,7 +118,7 @@ float LineSegment::MinDistSq(const LineSegment& s1, const LineSegment& s2)
     return dP.LengthSq(); // return the closest distance squared
 }
 
-Plane::Plane(const Vector3& normal, float d) : mNormal(normal), mD(d) {}
+Plane::Plane(const Vector3& normal, float d) : sNormal(normal), sD(d) {}
 
 Plane::Plane(const Vector3& a, const Vector3& b, const Vector3& c)
 {
@@ -126,41 +126,41 @@ Plane::Plane(const Vector3& a, const Vector3& b, const Vector3& c)
     Vector3 ab = b - a;
     Vector3 ac = c - a;
     // Cross product and normalize to get normal
-    mNormal = Vector3::Cross(ab, ac);
-    mNormal.Normalize();
+    sNormal = Vector3::Cross(ab, ac);
+    sNormal.Normalize();
     // d = -P dot n
-    mD = -Vector3::Dot(a, mNormal);
+    sD = -Vector3::Dot(a, sNormal);
 }
 
 float Plane::SignedDist(const Vector3& point) const
 {
-    return Vector3::Dot(point, mNormal) - mD;
+    return Vector3::Dot(point, sNormal) - sD;
 }
 
 Sphere::Sphere(const Vector3& center, float radius)
-    : mCenter(center), mRadius(radius)
+    : sCenter(center), sRadius(radius)
 {
 }
 
 bool Sphere::Contains(const Vector3& point) const
 {
     // Get distance squared between center and point
-    float distSq = (mCenter - point).LengthSq();
-    return distSq <= (mRadius * mRadius);
+    float distSq = (sCenter - point).LengthSq();
+    return distSq <= (sRadius * sRadius);
 }
 
-AABB::AABB(const Vector3& min, const Vector3& max) : mMin(min), mMax(max) {}
+AABB::AABB(const Vector3& min, const Vector3& max) : sMin(min), sMax(max) {}
 
 void AABB::UpdateMinMax(const Vector3& point)
 {
     // Update each component separately
-    mMin.x = Math::Min(mMin.x, point.x);
-    mMin.y = Math::Min(mMin.y, point.y);
-    mMin.z = Math::Min(mMin.z, point.z);
+    sMin.x = Math::Min(sMin.x, point.x);
+    sMin.y = Math::Min(sMin.y, point.y);
+    sMin.z = Math::Min(sMin.z, point.z);
 
-    mMax.x = Math::Max(mMax.x, point.x);
-    mMax.y = Math::Max(mMax.y, point.y);
-    mMax.z = Math::Max(mMax.z, point.z);
+    sMax.x = Math::Max(sMax.x, point.x);
+    sMax.y = Math::Max(sMax.y, point.y);
+    sMax.z = Math::Max(sMax.z, point.z);
 }
 
 void AABB::Rotate(const Quaternion& q)
@@ -168,23 +168,23 @@ void AABB::Rotate(const Quaternion& q)
     // Construct the 8 points for the corners of the box
     std::array<Vector3, 8> points;
     // Min point is always a corner
-    points[0] = mMin;
+    points[0] = sMin;
     // Permutations with 2 min and 1 max
-    points[1] = Vector3(mMax.x, mMin.y, mMin.z);
-    points[2] = Vector3(mMin.x, mMax.y, mMin.z);
-    points[3] = Vector3(mMin.x, mMin.y, mMax.z);
+    points[1] = Vector3(sMax.x, sMin.y, sMin.z);
+    points[2] = Vector3(sMin.x, sMax.y, sMin.z);
+    points[3] = Vector3(sMin.x, sMin.y, sMax.z);
     // Permutations with 2 max and 1 min
-    points[4] = Vector3(mMin.x, mMax.y, mMax.z);
-    points[5] = Vector3(mMax.x, mMin.y, mMax.z);
-    points[6] = Vector3(mMax.x, mMax.y, mMin.z);
+    points[4] = Vector3(sMin.x, sMax.y, sMax.z);
+    points[5] = Vector3(sMax.x, sMin.y, sMax.z);
+    points[6] = Vector3(sMax.x, sMax.y, sMin.z);
     // Max point corner
-    points[7] = Vector3(mMax);
+    points[7] = Vector3(sMax);
 
     // Rotate first point
     Vector3 p = Vector3::Transform(points[0], q);
     // Reset min/max to first point rotated
-    mMin = p;
-    mMax = p;
+    sMin = p;
+    sMax = p;
     // Update min/max based on remaining points, rotated
     for (size_t i = 1; i < points.size(); i++)
     {
@@ -195,8 +195,8 @@ void AABB::Rotate(const Quaternion& q)
 
 bool AABB::Contains(const Vector3& point) const
 {
-    bool outside = point.x < mMin.x || point.y < mMin.y || point.z < mMin.z ||
-                   point.x > mMax.x || point.y > mMax.y || point.z > mMax.z;
+    bool outside = point.x < sMin.x || point.y < sMin.y || point.z < sMin.z ||
+                   point.x > sMax.x || point.y > sMax.y || point.z > sMax.z;
     // If none of these are true, the point is inside the box
     return !outside;
 }
@@ -204,17 +204,17 @@ bool AABB::Contains(const Vector3& point) const
 float AABB::MinDistSq(const Vector3& point) const
 {
     // Compute differences for each axis
-    float dx = Math::Max(mMin.x - point.x, 0.0f);
-    dx       = Math::Max(dx, point.x - mMax.x);
-    float dy = Math::Max(mMin.y - point.y, 0.0f);
-    dy       = Math::Max(dy, point.y - mMax.y);
-    float dz = Math::Max(mMin.z - point.z, 0.0f);
-    dz       = Math::Max(dy, point.z - mMax.z);
+    float dx = Math::Max(sMin.x - point.x, 0.0f);
+    dx       = Math::Max(dx, point.x - sMax.x);
+    float dy = Math::Max(sMin.y - point.y, 0.0f);
+    dy       = Math::Max(dy, point.y - sMax.y);
+    float dz = Math::Max(sMin.z - point.z, 0.0f);
+    dz       = Math::Max(dy, point.z - sMax.z);
     // Distance squared formula
     return dx * dx + dy * dy + dz * dz;
 }
 
-Vector3 AABB::GetBoxCenter() const { return (mMin + mMax) * 0.5f; }
+Vector3 AABB::GetBoxCenter() const { return (sMin + sMax) * 0.5f; }
 
 Vector3 ClosestPtSegmentAABB(const Vector3& p1, const Vector3& p2,
                              const AABB& box)
@@ -238,44 +238,44 @@ Vector3 ClosestPtSegmentAABB(const Vector3& p1, const Vector3& p2,
     Vector3 pointOnSeg = p1 + ab * t;
 
     // AABBにクランプ
-    closest.x = Math::Clamp(pointOnSeg.x, box.mMin.x, box.mMax.x);
-    closest.y = Math::Clamp(pointOnSeg.y, box.mMin.y, box.mMax.y);
-    closest.z = Math::Clamp(pointOnSeg.z, box.mMin.z, box.mMax.z);
+    closest.x = Math::Clamp(pointOnSeg.x, box.sMin.x, box.sMax.x);
+    closest.y = Math::Clamp(pointOnSeg.y, box.sMin.y, box.sMax.y);
+    closest.z = Math::Clamp(pointOnSeg.z, box.sMin.z, box.sMax.z);
 
     return closest;
 }
 
 Capsule::Capsule(const Vector3& start, const Vector3& end, float radius)
-    : mSegment(start, end), mRadius(radius)
+    : sSegment(start, end), sRadius(radius)
 {
 }
 
 Capsule::Capsule(const LineSegment& segment, float radius)
-    : mSegment(segment), mRadius(radius)
+    : sSegment(segment), sRadius(radius)
 {
 }
 
 Vector3 Capsule::PointOnSegment(float t) const
 {
-    return mSegment.PointOnSegment(t);
+    return sSegment.PointOnSegment(t);
 }
 
 bool Capsule::Contains(const Vector3& point) const
 {
     // Get minimal dist. sq. between point and line segment
-    float distSq = mSegment.MinDistSq(point);
-    return distSq <= (mRadius * mRadius);
+    float distSq = sSegment.MinDistSq(point);
+    return distSq <= (sRadius * sRadius);
 }
 
 float Capsule::SqrDistanceToSegment(const Vector3& point) const
 {
-    Vector3 ab = mSegment.mEnd - mSegment.mStart;
-    Vector3 ap = point - mSegment.mStart;
+    Vector3 ab = sSegment.sEnd - sSegment.sStart;
+    Vector3 ap = point - sSegment.sStart;
 
     float t = Vector3::Dot(ap, ab) / ab.LengthSq();
     t       = Math::Clamp(t, 0.0f, 1.0f);
 
-    Vector3 closest = mSegment.mStart + ab * t;
+    Vector3 closest = sSegment.sStart + ab * t;
     return (point - closest).LengthSq();
 }
 
@@ -283,21 +283,21 @@ bool ConvexPolygon::Contains(const Vector2& point) const
 {
     float   sum = 0.0f;
     Vector2 a, b;
-    for (size_t i = 0; i < mVertices.size() - 1; i++)
+    for (size_t i = 0; i < sVertices.size() - 1; i++)
     {
         // From point to first vertex
-        a = mVertices[i] - point;
+        a = sVertices[i] - point;
         a.Normalize();
         // From point to second vertex
-        b = mVertices[i + 1] - point;
+        b = sVertices[i + 1] - point;
         b.Normalize();
         // Add angle to sum
         sum += Math::Acos(Vector2::Dot(a, b));
     }
     // Have to add angle for last vertex and first vertex
-    a = mVertices.back() - point;
+    a = sVertices.back() - point;
     a.Normalize();
-    b = mVertices.front() - point;
+    b = sVertices.front() - point;
     b.Normalize();
     sum += Math::Acos(Vector2::Dot(a, b));
     // Return true if approximately 2pi
@@ -305,13 +305,13 @@ bool ConvexPolygon::Contains(const Vector2& point) const
 }
 bool OnCollision(const OBB& a, const OBB& b)
 {
-    Vector3 aAxes[3] = {Vector3::Transform(Vector3::UnitX, a.mRotation),
-                        Vector3::Transform(Vector3::UnitY, a.mRotation),
-                        Vector3::Transform(Vector3::UnitZ, a.mRotation)};
+    Vector3 aAxes[3] = {Vector3::Transform(Vector3::UnitX, a.sRotation),
+                        Vector3::Transform(Vector3::UnitY, a.sRotation),
+                        Vector3::Transform(Vector3::UnitZ, a.sRotation)};
 
-    Vector3 bAxes[3] = {Vector3::Transform(Vector3::UnitX, b.mRotation),
-                        Vector3::Transform(Vector3::UnitY, b.mRotation),
-                        Vector3::Transform(Vector3::UnitZ, b.mRotation)};
+    Vector3 bAxes[3] = {Vector3::Transform(Vector3::UnitX, b.sRotation),
+                        Vector3::Transform(Vector3::UnitY, b.sRotation),
+                        Vector3::Transform(Vector3::UnitZ, b.sRotation)};
 
     Vector3 axes[15];
     int     axisCount = 0;
@@ -351,12 +351,12 @@ bool OnCollision(const OBB& a, const OBB& b)
 bool OnCollision(const OBB& a, const Sphere& b)
 {
     // 1. Sphere中心をOBBのローカル座標に変換
-    Vector3 localSphereCenter = b.mCenter - a.mCenter;
+    Vector3 localSphereCenter = b.sCenter - a.sCenter;
 
     // OBBの3つの軸（基底ベクトル）
-    Vector3 axes[3] = {Vector3::Transform(Vector3::UnitX, a.mRotation),
-                       Vector3::Transform(Vector3::UnitY, a.mRotation),
-                       Vector3::Transform(Vector3::UnitZ, a.mRotation)};
+    Vector3 axes[3] = {Vector3::Transform(Vector3::UnitX, a.sRotation),
+                       Vector3::Transform(Vector3::UnitY, a.sRotation),
+                       Vector3::Transform(Vector3::UnitZ, a.sRotation)};
 
     // Sphere中心のローカル座標
     Vector3 localPoint(0, 0, 0);
@@ -365,9 +365,9 @@ bool OnCollision(const OBB& a, const Sphere& b)
     for (int i = 0; i < 3; ++i)
     {
         float dist        = Vector3::Dot(localSphereCenter, axes[i]);
-        float extent      = (i == 0)   ? a.mExtents.x
-                            : (i == 1) ? a.mExtents.y
-                                       : a.mExtents.z;
+        float extent      = (i == 0)   ? a.sExtents.x
+                            : (i == 1) ? a.sExtents.y
+                                       : a.sExtents.z;
         float clampedDist = std::max(-extent, std::min(dist, extent));
         localPoint += axes[i] * clampedDist;
     }
@@ -377,26 +377,26 @@ bool OnCollision(const OBB& a, const Sphere& b)
     float   distanceSq = difference.LengthSq();
 
     // 半径の二乗と比較
-    return distanceSq <= b.mRadius * b.mRadius;
+    return distanceSq <= b.sRadius * b.sRadius;
 }
 bool OnCollision(const OBB& a, const Capsule& b)
 {
-    float dist = ClosestDistanceSegmentToOBB(b.mSegment, a);
-    return dist <= b.mRadius;
+    float dist = ClosestDistanceSegmentToOBB(b.sSegment, a);
+    return dist <= b.sRadius;
 }
 // 球同士の当たり判定
 bool OnCollision(const Sphere& a, const Sphere& b)
 {
-    float distSq   = (a.mCenter - b.mCenter).LengthSq();
-    float sumRadii = a.mRadius + b.mRadius;
+    float distSq   = (a.sCenter - b.sCenter).LengthSq();
+    float sumRadii = a.sRadius + b.sRadius;
     return distSq <= (sumRadii * sumRadii);
 }
 
 // カプセル同士の当たり判定
 bool OnCollision(const Capsule& a, const Capsule& b)
 {
-    float distSq   = LineSegment::MinDistSq(a.mSegment, b.mSegment);
-    float sumRadii = a.mRadius + b.mRadius;
+    float distSq   = LineSegment::MinDistSq(a.sSegment, b.sSegment);
+    float sumRadii = a.sRadius + b.sRadius;
     return distSq <= (sumRadii * sumRadii);
 }
 
@@ -404,11 +404,11 @@ bool OnCollision(const Capsule& a, const Capsule& b)
 bool OnCollision(const Capsule& a, const Sphere& b)
 {
     // カプセルの線分
-    Vector3 segStart = a.mSegment.mStart;
-    Vector3 segEnd   = a.mSegment.mEnd;
+    Vector3 segStart = a.sSegment.sStart;
+    Vector3 segEnd   = a.sSegment.sEnd;
 
     // 球の中心
-    Vector3 center = b.mCenter;
+    Vector3 center = b.sCenter;
 
     // 線分と球中心の最近接点
     Vector3 ab = segEnd - segStart;
@@ -424,14 +424,14 @@ bool OnCollision(const Capsule& a, const Sphere& b)
     float sqDist = (center - closest).LengthSq();
 
     // 合計半径の距離²と比較
-    float radiusSum = a.mRadius + b.mRadius;
+    float radiusSum = a.sRadius + b.sRadius;
     return sqDist <= radiusSum * radiusSum;
 }
 // 球とカプセルの当たり判定
 bool OnCollision(const Sphere& a, const Capsule& b)
 {
-    float distSq    = b.mSegment.MinDistSq(a.mCenter);
-    float radiusSum = a.mRadius + b.mRadius;
+    float distSq    = b.sSegment.MinDistSq(a.sCenter);
+    float radiusSum = a.sRadius + b.sRadius;
     return distSq <= radiusSum * radiusSum;
 }
 
@@ -439,11 +439,11 @@ bool OnCollision(const Sphere& a, const Capsule& b)
 bool OnCollision(const LineSegment& l, const Sphere& s, float& outT)
 {
     // Compute X, Y, a, b, c as per equations
-    Vector3 X = l.mStart - s.mCenter;
-    Vector3 Y = l.mEnd - l.mStart;
+    Vector3 X = l.sStart - s.sCenter;
+    Vector3 Y = l.sEnd - l.sStart;
     float   a = Vector3::Dot(Y, Y);
     float   b = 2.0f * Vector3::Dot(X, Y);
-    float   c = Vector3::Dot(X, X) - s.mRadius * s.mRadius;
+    float   c = Vector3::Dot(X, X) - s.sRadius * s.sRadius;
     // Compute discriminant
     float disc = b * b - 4.0f * a * c;
     if (disc < 0.0f)
@@ -477,12 +477,12 @@ bool OnCollision(const LineSegment& l, const Sphere& s, float& outT)
 bool OnCollision(const LineSegment& l, const Plane& p, float& outT)
 {
     // First test if there's a solution for t
-    float denom = Vector3::Dot(l.mEnd - l.mStart, p.mNormal);
+    float denom = Vector3::Dot(l.sEnd - l.sStart, p.sNormal);
     if (Math::NearZero(denom))
     {
         // The only way they intersect is if start
         // is a point on the plane (P dot N) == d
-        if (Math::NearZero(Vector3::Dot(l.mStart, p.mNormal) - p.mD))
+        if (Math::NearZero(Vector3::Dot(l.sStart, p.sNormal) - p.sD))
         {
             return true;
         }
@@ -493,7 +493,7 @@ bool OnCollision(const LineSegment& l, const Plane& p, float& outT)
     }
     else
     {
-        float numer = -Vector3::Dot(l.mStart, p.mNormal) - p.mD;
+        float numer = -Vector3::Dot(l.sStart, p.sNormal) - p.sD;
         outT        = numer / denom;
         // Validate t is within bounds of the line segment
         if (outT >= 0.0f && outT <= 1.0f)
@@ -538,13 +538,13 @@ bool OnCollision(const LineSegment& l, const AABB& b, float& outT,
     // Vector to save all possible t values, and normals for those sides
     vector<std::pair<float, Vector3>> tValues;
     // Test the x planes
-    TestSidePlane(l.mStart.x, l.mEnd.x, b.mMin.x, Vector3::NegUnitX, tValues);
+    TestSidePlane(l.sStart.x, l.sEnd.x, b.sMin.x, Vector3::NegUnitX, tValues);
     // TestSidePlane(l.mStart.x, l.mEnd.x, b.mMax.x, Vector3::UnitX,tValues);
     //  Test the y planes
-    TestSidePlane(l.mStart.y, l.mEnd.y, b.mMin.y, Vector3::NegUnitY, tValues);
+    TestSidePlane(l.sStart.y, l.sEnd.y, b.sMin.y, Vector3::NegUnitY, tValues);
     // TestSidePlane(l.mStart.y, l.mEnd.y, b.mMax.y, Vector3::UnitY,tValues);
     //  Test the z planes
-    TestSidePlane(l.mStart.z, l.mEnd.z, b.mMin.z, Vector3::NegUnitZ, tValues);
+    TestSidePlane(l.sStart.z, l.sEnd.z, b.sMin.z, Vector3::NegUnitZ, tValues);
     // TestSidePlane(l.mStart.z, l.mEnd.z, b.mMax.z, Vector3::UnitZ,tValues);
 
     // Sort the t values in ascending order
@@ -572,7 +572,7 @@ bool OnCollision(const LineSegment& l, const AABB& b, float& outT,
 bool OnRayAABBCollision(const LineSegment& seg, const AABB& box, float& outT,
                         Vector3& outNorm)
 {
-    Vector3 dir = seg.mEnd - seg.mStart;
+    Vector3 dir = seg.sEnd - seg.sStart;
 
     float   tMin      = 0.0f;
     float   tMax      = 1.0f;
@@ -615,15 +615,15 @@ bool OnRayAABBCollision(const LineSegment& seg, const AABB& box, float& outT,
     };
 
     // X軸
-    if (!checkAxis(seg.mStart.x, dir.x, box.mMin.x, box.mMax.x,
+    if (!checkAxis(seg.sStart.x, dir.x, box.sMin.x, box.sMax.x,
                    Vector3::NegUnitX))
         return false;
     // Y軸
-    if (!checkAxis(seg.mStart.y, dir.y, box.mMin.y, box.mMax.y,
+    if (!checkAxis(seg.sStart.y, dir.y, box.sMin.y, box.sMax.y,
                    Vector3::NegUnitY))
         return false;
     // Z軸
-    if (!checkAxis(seg.mStart.z, dir.z, box.mMin.z, box.mMax.z,
+    if (!checkAxis(seg.sStart.z, dir.z, box.sMin.z, box.sMax.z,
                    Vector3::NegUnitZ))
         return false;
 
@@ -639,14 +639,14 @@ bool OnRayAABBCollision(const LineSegment& seg, const AABB& box, float& outT,
 bool OnRayCastCollision(const LineSegment& rayWorld, OBB& obb, float& outT,
                         Vector3& outNorm)
 {
-    Quaternion invRot = obb.mRotation;
+    Quaternion invRot = obb.sRotation;
     invRot.Conjugate(); // 逆回転を取得
     Vector3 localStart =
-        Vector3::Transform(rayWorld.mStart - obb.mCenter, invRot);
-    Vector3 localEnd = Vector3::Transform(rayWorld.mEnd - obb.mCenter, invRot);
+        Vector3::Transform(rayWorld.sStart - obb.sCenter, invRot);
+    Vector3 localEnd = Vector3::Transform(rayWorld.sEnd - obb.sCenter, invRot);
     LineSegment localRay(localStart, localEnd);
 
-    AABB localBox(-1.0f * obb.mExtents, obb.mExtents);
+    AABB localBox(-1.0f * obb.sExtents, obb.sExtents);
 
     float   localT;
     Vector3 localNormal;
@@ -654,7 +654,7 @@ bool OnRayCastCollision(const LineSegment& rayWorld, OBB& obb, float& outT,
     if (OnRayAABBCollision(localRay, localBox, localT, localNormal))
     {
         outT    = localT;
-        outNorm = Vector3::Transform(localNormal, obb.mRotation);
+        outNorm = Vector3::Transform(localNormal, obb.sRotation);
         outNorm.Normalize();
         return true;
     }
@@ -665,11 +665,11 @@ bool SweptSphere(const Sphere& P0, const Sphere& P1, const Sphere& Q0,
                  const Sphere& Q1, float& outT)
 {
     // Compute X, Y, a, b, and c
-    Vector3 X        = P0.mCenter - Q0.mCenter;
-    Vector3 Y        = P1.mCenter - P0.mCenter - (Q1.mCenter - Q0.mCenter);
+    Vector3 X        = P0.sCenter - Q0.sCenter;
+    Vector3 Y        = P1.sCenter - P0.sCenter - (Q1.sCenter - Q0.sCenter);
     float   a        = Vector3::Dot(Y, Y);
     float   b        = 2.0f * Vector3::Dot(X, Y);
-    float   sumRadii = P0.mRadius + Q0.mRadius;
+    float   sumRadii = P0.sRadius + Q0.sRadius;
     float   c        = Vector3::Dot(X, X) - sumRadii * sumRadii;
     // Solve discriminant
     float disc = b * b - 4.0f * a * c;
@@ -697,17 +697,17 @@ void ProjectOBB(const OBB& obb, const Vector3& axis, float& outMin,
                 float& outMax)
 {
     Vector3 x =
-        Vector3::Transform(Vector3::UnitX, obb.mRotation) * obb.mExtents.x;
+        Vector3::Transform(Vector3::UnitX, obb.sRotation) * obb.sExtents.x;
     Vector3 y =
-        Vector3::Transform(Vector3::UnitY, obb.mRotation) * obb.mExtents.y;
+        Vector3::Transform(Vector3::UnitY, obb.sRotation) * obb.sExtents.y;
     Vector3 z =
-        Vector3::Transform(Vector3::UnitZ, obb.mRotation) * obb.mExtents.z;
+        Vector3::Transform(Vector3::UnitZ, obb.sRotation) * obb.sExtents.z;
 
     Vector3 corners[8] = {
-        obb.mCenter + x + y + z, obb.mCenter + x + y - z,
-        obb.mCenter + x - y + z, obb.mCenter + x - y - z,
-        obb.mCenter - x + y + z, obb.mCenter - x + y - z,
-        obb.mCenter - x - y + z, obb.mCenter - x - y - z,
+        obb.sCenter + x + y + z, obb.sCenter + x + y - z,
+        obb.sCenter + x - y + z, obb.sCenter + x - y - z,
+        obb.sCenter - x + y + z, obb.sCenter - x + y - z,
+        obb.sCenter - x - y + z, obb.sCenter - x - y - z,
     };
 
     outMin = outMax = Vector3::Dot(axis, corners[0]);
@@ -728,7 +728,7 @@ float ClosestDistanceSegmentToOBB(const LineSegment& seg, const OBB& obb)
     for (int i = 0; i <= steps; ++i)
     {
         float   t              = i / static_cast<float>(steps);
-        Vector3 pointOnSegment = seg.mStart + (seg.mEnd - seg.mStart) * t;
+        Vector3 pointOnSegment = seg.sStart + (seg.sEnd - seg.sStart) * t;
         Vector3 closestOnOBB   = ClosestPointOnOBB(pointOnSegment, obb);
         float   distSq         = (pointOnSegment - closestOnOBB).LengthSq();
         if (distSq < minDistSq)
@@ -742,16 +742,16 @@ float ClosestDistanceSegmentToOBB(const LineSegment& seg, const OBB& obb)
 
 Vector3 ClosestPointOnOBB(const Vector3& point, const OBB& obb)
 {
-    Vector3 d       = point - obb.mCenter;
-    Vector3 closest = obb.mCenter;
+    Vector3 d       = point - obb.sCenter;
+    Vector3 closest = obb.sCenter;
 
     for (int i = 0; i < 3; ++i)
     {
-        Vector3 axis   = Vector3::Transform(Vector3::Axis(i), obb.mRotation);
+        Vector3 axis   = Vector3::Transform(Vector3::Axis(i), obb.sRotation);
         float   dist   = Vector3::Dot(d, axis);
-        float   extent = (i == 0)   ? obb.mExtents.x
-                         : (i == 1) ? obb.mExtents.y
-                                    : obb.mExtents.z;
+        float   extent = (i == 0)   ? obb.sExtents.x
+                         : (i == 1) ? obb.sExtents.y
+                                    : obb.sExtents.z;
         dist           = Math::Clamp(dist, -extent, extent);
         closest += axis * dist;
     }
@@ -762,9 +762,9 @@ Vector3 ClosestPointOnOBB(const Vector3& point, const OBB& obb)
 void ClosestPtsBetweenSegments(const LineSegment& s1, const LineSegment& s2,
                                Vector3& outPt1, Vector3& outPt2)
 {
-    Vector3 d1 = s1.mStart - s1.mEnd; // 線分1の方向ベクトル
-    Vector3 d2 = s2.mStart - s2.mEnd; // 線分2の方向ベクトル
-    Vector3 r  = s1.mStart - s2.mStart;
+    Vector3 d1 = s1.sStart - s1.sEnd; // 線分1の方向ベクトル
+    Vector3 d2 = s2.sStart - s2.sEnd; // 線分2の方向ベクトル
+    Vector3 r  = s1.sStart - s2.sStart;
 
     float a = Vector3::Dot(d1, d1); // |d1|^2
     float e = Vector3::Dot(d2, d2); // |d2|^2
@@ -777,8 +777,8 @@ void ClosestPtsBetweenSegments(const LineSegment& s1, const LineSegment& s2,
     if (a <= EPSILON && e <= EPSILON)
     {
         // 両方とも点扱い
-        outPt1 = s1.mStart;
-        outPt2 = s2.mStart;
+        outPt1 = s1.sStart;
+        outPt2 = s2.sStart;
         return;
     }
 
@@ -826,15 +826,15 @@ void ClosestPtsBetweenSegments(const LineSegment& s1, const LineSegment& s2,
         }
     }
 
-    outPt1 = s1.mStart + d1 * s;
-    outPt2 = s2.mStart + d2 * t;
+    outPt1 = s1.sStart + d1 * s;
+    outPt2 = s2.sStart + d2 * t;
 }
 
 OBB::OBB(const Vector3& center, const Quaternion& rotation,
          const Vector3& extents)
-    : mCenter(center)
-    , mRotation(rotation)
-    , mExtents(extents)
-    , mOffset(Vector3::Zero)
+    : sCenter(center)
+    , sRotation(rotation)
+    , sExtents(extents)
+    , sOffset(Vector3::Zero)
 {
 }

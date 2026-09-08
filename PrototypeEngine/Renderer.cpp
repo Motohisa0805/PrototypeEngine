@@ -181,7 +181,7 @@ void Renderer::BuildStaticBatch()
         {
             for (int i = 0; i < mesh->GetVertexArrays().size(); i++)
             {
-                if (mesh->GetMaterialInfo()[i].Color.w < 1.0f)
+                if (mesh->GetMaterialInfo()[i].sColor.w < 1.0f)
                 {
                     // 半透明バッチに追加
                     BuildMeshBatch(
@@ -389,7 +389,7 @@ void Renderer::MeshOrderUpdate()
             const auto& materials = m->GetMaterialInfo();
             for (const auto& mat : materials)
             {
-                if (mat.Color.w < 1.0f)
+                if (mat.sColor.w < 1.0f)
                 {
                     isTransparent = true;
                     break;

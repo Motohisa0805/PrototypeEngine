@@ -26,9 +26,9 @@ void SphereCollider::OnUpdateWorldTransform()
     Vector3 scale    = mActor->GetTransform()->GetLocalScale();
     float   maxScale = std::max({scale.x, scale.y, scale.z});
 
-    mWorldSphere.mRadius = mObjectSphere.mRadius * maxScale;
+    mWorldSphere.sRadius = mObjectSphere.sRadius * maxScale;
 
-    mWorldSphere.mCenter = mObjectSphere.mCenter * maxScale +
+    mWorldSphere.sCenter = mObjectSphere.sCenter * maxScale +
                            mActor->GetTransform()->GetPosition();
 }
 
@@ -36,18 +36,18 @@ OBB SphereCollider::GetWorldOBB() const { return mWorldOBB; }
 
 AABB SphereCollider::GetWorldAABBFromOBB() const
 {
-    Vector3 rVec(mWorldSphere.mRadius, mWorldSphere.mRadius,
-                 mWorldSphere.mRadius);
-    return AABB(mWorldSphere.mCenter - rVec, mWorldSphere.mCenter + rVec);
+    Vector3 rVec(mWorldSphere.sRadius, mWorldSphere.sRadius,
+                 mWorldSphere.sRadius);
+    return AABB(mWorldSphere.sCenter - rVec, mWorldSphere.sCenter + rVec);
 }
 
 void SphereCollider::Serialize(json& j) const
 {
     Collider::Serialize(j);
-    j["Radius"] = mObjectSphere.mRadius;
+    j["Radius"] = mObjectSphere.sRadius;
 
-    j["Center"] = {mObjectSphere.mCenter.x, mObjectSphere.mCenter.y,
-                   mObjectSphere.mCenter.z};
+    j["Center"] = {mObjectSphere.sCenter.x, mObjectSphere.sCenter.y,
+                   mObjectSphere.sCenter.z};
 }
 
 void SphereCollider::Deserialize(const json& j)
@@ -55,12 +55,12 @@ void SphereCollider::Deserialize(const json& j)
     Collider::Deserialize(j);
     if (j.contains("Radius"))
     {
-        mObjectSphere.mRadius = j.at("Radius").get<float>();
+        mObjectSphere.sRadius = j.at("Radius").get<float>();
     }
 
     if (j.contains("Center"))
     {
-        mObjectSphere.mCenter =
+        mObjectSphere.sCenter =
             Vector3(j["Center"][0], j["Center"][1], j["Center"][2]);
     }
 }
@@ -72,10 +72,10 @@ void SphereCollider::DrawCustomGUI(const std::vector<PropertyInfo>& properties)
     ImGui::Text("Properties");
     Collider::DrawCustomGUI(properties);
     ImGui::SetNextItemWidth(50);
-    ImGui::DragFloat("Radius", &mObjectSphere.mRadius);
+    ImGui::DragFloat("Radius", &mObjectSphere.sRadius);
 
     ImGui::Text("Center");
-    ImGui::DragFloat3("##center", &mObjectSphere.mCenter.x);
+    ImGui::DragFloat3("##center", &mObjectSphere.sCenter.x);
 
     ImGui::Separator();
 

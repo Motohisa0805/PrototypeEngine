@@ -48,14 +48,14 @@ bool SkeletalMeshRenderer::Draw(Shader* shader)
                 if (j < mMaterials.size() && mMaterials[j] != nullptr)
                 {
                     MaterialData& md = mMaterials[j]->GetData();
-                    m.Color          = md.sDiffuseColor;
-                    m.Diffuse  = Vector3(md.sDiffuseColor.x, md.sDiffuseColor.y,md.sDiffuseColor.z);
-                    m.Ambient  = md.sAmbientColor;
-                    m.Specular = md.sSpecularColor;
-                    m.Shininess = md.sShininess;
-                    m.Metallic  = md.sMetallic;
-                    m.Roughness = md.sRoughness;
-                    m.Emissive  = md.sEmissive;
+                    m.sColor          = md.sDiffuseColor;
+                    m.sDiffuse  = Vector3(md.sDiffuseColor.x, md.sDiffuseColor.y,md.sDiffuseColor.z);
+                    m.sAmbient  = md.sAmbientColor;
+                    m.sSpecular = md.sSpecularColor;
+                    m.sShininess = md.sShininess;
+                    m.sMetallic  = md.sMetallic;
+                    m.sRoughness = md.sRoughness;
+                    m.sEmissive  = md.sEmissive;
 
                     // テクスチャがあれば上書き
                     if (mMaterials[j]->GetTexture() != nullptr)
@@ -74,7 +74,7 @@ bool SkeletalMeshRenderer::Draw(Shader* shader)
                 }
 
                 // 不透明度によってブレンド設定（1回だけで済むならループの外でもOK）
-                if (m.Color.w < 1.0f)
+                if (m.sColor.w < 1.0f)
                 {
                     glEnable(GL_BLEND);
                     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -209,7 +209,7 @@ void SkeletalMeshRenderer::LoadSkeletonMesh(const char* path,const char*  localI
     if (mesh)
     {
         SetMesh({mesh});
-        mAlpha    = mesh->GetMaterialInfo()[0].Color.w;
+        mAlpha    = mesh->GetMaterialInfo()[0].sColor.w;
         mFilePath = path;
     }
     mIsSkeletal = true;
@@ -399,7 +399,7 @@ void SkeletalMeshRenderer::DrawCustomGUI(
             ImGuiHelper::TableSliderFloat("Alpha Setting", &mAlpha, 0.0f, 1.0f,
                                           "%.2f");
 
-            if (mAlpha != mMeshs[0]->GetMaterialInfo()[0].Color.w)
+            if (mAlpha != mMeshs[0]->GetMaterialInfo()[0].sColor.w)
             {
                 SetMaterialAlpha(mAlpha);
             }

@@ -142,13 +142,13 @@ void Shader::SetMaterialColor(const Vector4& color) { mMaterialColor = color; }
 void Shader::SetColorUniform(const MaterialInfo& info)
 {
 
-    SetVector4Uniform("uColor", info.Color);
+    SetVector4Uniform("uColor", info.sColor);
 
-    SetFloatUniform("uMetallic", info.Metallic);
-    float safeRoughness = Math::Max(info.Roughness, 0.04f);
+    SetFloatUniform("uMetallic", info.sMetallic);
+    float safeRoughness = Math::Max(info.sRoughness, 0.04f);
     SetFloatUniform("uRoughness", safeRoughness);
     
-    SetVector3Uniform("uEmissive", info.Emissive);
+    SetVector3Uniform("uEmissive", info.sEmissive);
 }
 
 void Shader::SetMaterialUniform(const char* name, const Vector3& color)
