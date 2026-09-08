@@ -71,7 +71,7 @@ void HierarchyPanel::Draw(float width, float height)
                 for (auto& actor : actors)
                 {
                     // 親がいないオブジェクトだけ描画
-                    if (actor->GetTransform()->GetParentActor() == nullptr)
+                    if (actor && actor->GetTransform()->GetParentActor() == nullptr)
                     {
                         DrawActorNode(actor);
                     }
@@ -101,6 +101,49 @@ void HierarchyPanel::Draw(float width, float height)
                         DrawUIActorNode(actor);
                     }
                 }
+            }
+
+            ImVec2 availSize = ImGui::GetContentRegionAvail();
+            if (availSize.y < 30.0f)availSize.y = 30.0f;
+
+            ImGui::Dummy(availSize);
+
+            if (ImGui::BeginDragDropTarget())
+            {
+                if (const ImGuiPayload* payload =
+                        ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM"))
+                {
+                    const char*           pathStr = (const char*)payload->Data;
+                    std::filesystem::path assetPath(
+                        string(pathStr, payload->DataSize - 1));
+
+                    if (assetPath.extension() == ".fbx")
+                    {
+                        auto cmd =
+                            std::make_unique<CreateActorFromFBXFileCommand>(
+                                assetPath, nullptr);
+                        CommandManager::Execute(std::move(cmd));
+                    }
+                }
+                // 個別のサブメッシュのドロップ処理
+                if (const ImGuiPayload* payload =
+                        ImGui::AcceptDragDropPayload("SUB_MESH_ITEM"))
+                {
+                    if (payload->DataSize == sizeof(SubMeshPayload))
+                    {
+                        const SubMeshPayload* payloadData =
+                            (const SubMeshPayload*)payload->Data;
+                        filesystem::path assetPath(payloadData->sSubMeshName);
+                        string           subMeshName(payloadData->sLocalID);
+
+                        auto cmd =
+                            std::make_unique<CreateActorFromSubMeshCommand>(
+                                assetPath, subMeshName, nullptr);
+                        CommandManager::Execute(std::move(cmd));
+                    }
+                }
+
+                ImGui::EndDragDropTarget();
             }
         }
         // ----------------------------------------------------------------
@@ -357,7 +400,8 @@ void HierarchyPanel::DrawActorNode(ActorObject* actor)
                 }
             }
 
-            
+            /*
+            TODO : 要素の最後尾以外にドロップするとエラーになるため一時処理を停止
             if (const ImGuiPayload* payload =
                 ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM"))
             {
@@ -387,6 +431,7 @@ void HierarchyPanel::DrawActorNode(ActorObject* actor)
                 }
             }
 
+            */
             ImGui::EndDragDropTarget();
         }
         // ノードが開かれた場合、子オブジェクトを再帰的に描画

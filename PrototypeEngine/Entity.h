@@ -153,7 +153,7 @@ public:
 
 	void 							SetName(const string& name) { mName = name; }
 
-	virtual Entity*					Clone() { return nullptr; }
+	virtual Entity*					Clone(Entity* parent = nullptr) { return nullptr; }
 };
 
 template<typename T>

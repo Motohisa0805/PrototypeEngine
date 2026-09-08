@@ -8,9 +8,10 @@
 class CreateActorFromFBXFileCommand : public ICommand
 {
 private:
-    // FBXファイルから生成されたアクターのIDを保持するための変数
-	vector<uint64_t>      mTargetIDs;
-	vector<ActorObject*>  mTargets;
+    uint64_t              mCreateParentID;
+    ActorObject*          mCreateParentActor;
+
+
 	std::filesystem::path mAssetPath;
 	ActorObject*          mParentActor;
 	// アクターが現在シーン側にいるかどうかのフラグ
@@ -19,6 +20,8 @@ private:
 public:
     CreateActorFromFBXFileCommand(const std::filesystem::path& assetPath, ActorObject* parentActor = nullptr);
     ~CreateActorFromFBXFileCommand();
+
+    void ReleasePasteActor(ActorObject* actor);
 
 	void Execute() override;
 

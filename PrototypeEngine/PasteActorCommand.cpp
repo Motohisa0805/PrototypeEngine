@@ -12,15 +12,28 @@ PasteActorCommand::~PasteActorCommand()
     // メモリを解放（メモリリーク防止）
     if (!mIsActiveInScene && mTarget)
     {
-        if (auto actorPtr = dynamic_cast<ActorObject*>(mTarget))
+        ReleasePasteActor(mTarget);
+    }
+}
+
+void PasteActorCommand::ReleasePasteActor(Entity* actor) 
+{
+    if (auto actorPtr = dynamic_cast<ActorObject*>(actor))
+    {
+        for (ActorObject* child : actorPtr->GetTransform()->GetChildActorList())
         {
-            delete actorPtr;
+            ReleasePasteActor(child);
         }
-        // UIActorか確認
-        else if (auto uiActorPtr = dynamic_cast<UIActorObject*>(mTarget))
+        delete actorPtr;
+    }
+    // UIActorか確認
+    else if (auto uiActorPtr = dynamic_cast<UIActorObject*>(actor))
+    {
+        for (UIActorObject* child : uiActorPtr->GetRectTransform()->GetChildActorList())
         {
-            delete uiActorPtr;
+            ReleasePasteActor(child);
         }
+        delete uiActorPtr;
     }
 }
 
@@ -49,10 +62,8 @@ void PasteActorCommand::Execute()
                 mTarget = uiActorPtr->Clone();
             }
             mTarget->SetName(mTarget->GetName() + " (Copy)");
-
             // 生成された新しいアクターのユニークIDをコマンドに記憶する
             mTargetID = mTarget->GetID();
-
             // 所有権をシーン側に渡したため、コマンド側のポインタはクリアする
             mIsActiveInScene = true;
         }
@@ -148,14 +159,14 @@ void PasteActorCommand::Undo()
     if (currentActor)
     {
         // シーンのリストから除外する（メモリは delete しない）
-        actorManager->RemoveActor(currentActor);
+        actorManager->DetachActor(currentActor);
 
         mTarget = currentActor;
     }
     else if (currentUIActor)
     {
         // シーンのリストから除外する（メモリは delete しない）
-        uiActorManager->RemoveActor(currentUIActor);
+        uiActorManager->DetachActor(currentUIActor);
 
         mTarget = currentUIActor;
     }

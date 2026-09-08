@@ -82,6 +82,12 @@ void UIActorManager::AddActor(UIActorObject* actor)
         // 更新中でない場合はメインリストに直接追加（エディタ操作は通常こちら）
         mActors.push_back(actor);
     }
+
+    // オブジェクトを追加する時、親子関係のオブジェクトがあれば
+    for (UIActorObject* child : actor->GetRectTransform()->GetChildActorList())
+    {
+        AddActor(child);
+    }
 }
 
 void UIActorManager::RemoveActor(UIActorObject* actor)
@@ -102,6 +108,12 @@ void UIActorManager::RemoveActor(UIActorObject* actor)
         // Swap to end of vector and pop off (avoid erase copies)
         std::iter_swap(iter, mActors.end() - 1);
         mActors.pop_back();
+    }
+
+    // オブジェクトを削除する時、親子関係のオブジェクトがあれば
+    for (UIActorObject* child : actor->GetRectTransform()->GetChildActorList())
+    {
+        RemoveActor(child);
     }
 }
 
@@ -132,6 +144,12 @@ void UIActorManager::DetachActor(UIActorObject* actor)
     {
         mActors.erase(it); // リストから削除
         actor->OnDisable();
+    }
+
+    // オブジェクトを削除する時、親子関係のオブジェクトがあれば
+    for (UIActorObject* child : actor->GetRectTransform()->GetChildActorList())
+    {
+        DetachActor(child);
     }
 }
 

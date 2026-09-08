@@ -175,6 +175,11 @@ void Animator::AddAnimation(Animation* anim)
         mAnimation = anim;
         mAnimation->SetLoop(true);
     }
+    AnimInfo info{};
+    info.sPath = anim->GetFilePath();
+    info.sIsLoop = anim->IsLoop();
+    info.sRootMotion = anim->IsRootMotion();
+    mAnimationInfo.push_back(info);
 }
 
 void Animator::ReloadBones(ActorObject* rootbone)
@@ -199,7 +204,7 @@ void Animator::LoadSkeletonData(const string& fileName, ActorObject* rootBone)
     {
         return;
     }
-
+    mSkeletonFilePath = fileName;
     ReloadBones(rootBone);
 }
 

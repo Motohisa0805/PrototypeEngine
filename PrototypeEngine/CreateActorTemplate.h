@@ -12,9 +12,9 @@ namespace CreateActorTemplate
 	//サブメッシュ1つをオブジェクト化関数
 	bool CreateOneSubMeshActor(ActorObject* target,uint64_t& id,const string& localID,filesystem::path path);
 
-	bool CreateFBXFileActor(const nlohmann::json& nodeJson,ActorObject* currentParent,filesystem::path path,vector<uint64_t>& targetIDs);
+	uint64_t CreateFBXFileActor(const nlohmann::json& nodeJson,ActorObject* currentParent,filesystem::path path);
 
-	bool CreateSkinnedMeshActor(const nlohmann::json& nodeJson,ActorObject* currentParent,filesystem::path path,vector<uint64_t>& targetIDs);
+	bool CreateSkinnedMeshActor(const nlohmann::json& nodeJson,ActorObject* currentParent,filesystem::path path);
 
-	bool CreateSkeletonActor(const nlohmann::json& metaJson,const nlohmann::json& nodeJson,ActorObject* currentParent,filesystem::path path,vector<uint64_t>& targetIDs);
+	uint64_t CreateSkeletonActor(const nlohmann::json& metaJson,const nlohmann::json& nodeJson,ActorObject* currentParent,filesystem::path path);
 }

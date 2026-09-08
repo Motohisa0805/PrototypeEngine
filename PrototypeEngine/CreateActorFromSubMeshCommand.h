@@ -8,8 +8,9 @@
 class CreateActorFromSubMeshCommand : public ICommand
 {
 private:
-    uint64_t              mTargetID;
-    ActorObject*          mTarget;
+    uint64_t              mCreateParentID;
+    ActorObject*          mCreateParentActor;
+
     std::filesystem::path mAssetPath;
     string                mLocalID;
 
@@ -20,6 +21,8 @@ private:
 public:
     CreateActorFromSubMeshCommand(const std::filesystem::path& assetPath,const string& localID,ActorObject* parentActor = nullptr);
     ~CreateActorFromSubMeshCommand();
+    
+    void ReleasePasteActor(ActorObject* actor);
 
     void Execute() override;
 

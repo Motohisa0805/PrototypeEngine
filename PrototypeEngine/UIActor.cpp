@@ -132,10 +132,15 @@ void UIActorObject::LoadParentByLoadScene()
     }
 }
 
-Entity* UIActorObject::Clone()
+Entity* UIActorObject::Clone(Entity* parent)
 {
     // 真っ新なアクターを生成
     UIActorObject* clone = new UIActorObject();
+
+    if (parent)
+    {
+        clone->GetRectTransform()->SetParent(dynamic_cast<UIActorObject*>(parent));
+    }
 
     clone->mName  = this->mName;
     clone->mState = this->mState;
@@ -154,5 +159,15 @@ Entity* UIActorObject::Clone()
         clone->AddComponent(clonedComp); // 手動でリストに加える
     }
     mGame->SetDirtyFlag(true);
+
+    // 親子関係のオブジェクトも複製処理
+    for (auto child : this->GetRectTransform()->GetChildActorList())
+    {
+        if (child)
+        {
+            UIActorObject* clonedChild =dynamic_cast<UIActorObject*>(child->Clone());
+        }
+    }
+
     return clone;
 }
