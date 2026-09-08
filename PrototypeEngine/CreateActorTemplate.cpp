@@ -17,7 +17,7 @@ bool CreateActorTemplate::CreateOneSubMeshActor(ActorObject* target,uint64_t& id
     return true;
 }
 
-bool CreateActorTemplate::CreateFBXFileActor(const nlohmann::json& nodeJson,ActorObject* currentParent,filesystem::path path,vector<uint64_t>& targetIDs)
+uint64_t CreateActorTemplate::CreateFBXFileActor(const nlohmann::json& nodeJson,ActorObject* currentParent,filesystem::path path)
 {
     ActorObject* newActor = new ActorObject();
     newActor->SetName(nodeJson.value("name", "UnnamedNode"));
@@ -59,24 +59,21 @@ bool CreateActorTemplate::CreateFBXFileActor(const nlohmann::json& nodeJson,Acto
         }
     }
 
-    targetIDs.push_back(newActor->GetID());
-
     // 子ノードの再起処理
     if (nodeJson.contains("children"))
     {
         for (const auto& childJson : nodeJson["children"])
         {
-            CreateFBXFileActor(childJson, newActor, path, targetIDs);
+            CreateFBXFileActor(childJson, newActor, path);
         }
     }
 
-    return true;
+    return newActor->GetID();
 }
 
 bool CreateActorTemplate::CreateSkinnedMeshActor(const nlohmann::json& nodeJson,
                                                  ActorObject*     currentParent,
-                                                 filesystem::path path,
-                                                 vector<uint64_t>& targetIDs)
+                                                 filesystem::path path)
 {
     ActorObject* newActor = new ActorObject();
     newActor->SetName(nodeJson.value("name", "UnnamedNode"));
@@ -117,23 +114,20 @@ bool CreateActorTemplate::CreateSkinnedMeshActor(const nlohmann::json& nodeJson,
         }
     }
 
-    targetIDs.push_back(newActor->GetID());
-
     // 子ノードの再起処理
     if (nodeJson.contains("children"))
     {
         for (const auto& childJson : nodeJson["children"])
         {
-            CreateSkinnedMeshActor(childJson, newActor, path, targetIDs);
+            CreateSkinnedMeshActor(childJson, newActor, path);
         }
     }
 
     return true;
 }
 
-bool CreateActorTemplate::CreateSkeletonActor(const nlohmann::json& metaJson,const nlohmann::json& nodeJson,
-                                              ActorObject*      currentParent,filesystem::path  path,
-                                              vector<uint64_t>& targetIDs)
+uint64_t CreateActorTemplate::CreateSkeletonActor(const nlohmann::json& metaJson,const nlohmann::json& nodeJson,
+                                              ActorObject*      currentParent,filesystem::path  path)
 {
     //親オブジェクトはファイルを元に名前を設定
     ActorObject* newActor = new ActorObject();
@@ -146,8 +140,6 @@ bool CreateActorTemplate::CreateSkeletonActor(const nlohmann::json& metaJson,con
     //親オブジェクトにはAnimatorをアタッチ
     Animator* animator = new Animator(newActor);
     newActor->AddComponent(animator);
-    //親オブジェクトのIDを追加
-    targetIDs.push_back(newActor->GetID());
 
     //ここからサブメッシュ、ボーンのヒエラルキー順にオブジェクトの親子関係を構築
     //サブメッシュを数分生成
@@ -156,7 +148,7 @@ bool CreateActorTemplate::CreateSkeletonActor(const nlohmann::json& metaJson,con
     {
         for (const auto& childJson : nodeJson["children"])
         {
-            CreateSkinnedMeshActor(childJson, newActor, path, targetIDs);
+            CreateSkinnedMeshActor(childJson, newActor, path);
         }
     }
     // AnimatorにSkeletonDataをロード
@@ -173,5 +165,5 @@ bool CreateActorTemplate::CreateSkeletonActor(const nlohmann::json& metaJson,con
     }
 
 
-    return true;
+    return newActor->GetID();
 }

@@ -82,6 +82,11 @@ void ActorManager::AddActor(ActorObject* actor)
         // 更新中でない場合はメインリストに直接追加（エディタ操作は通常こちら）
         mActors.push_back(actor);
     }
+    //複製やオブジェクト削除のコマンドを戻す時に子オブジェクトがあれば
+    for (ActorObject* child : actor->GetTransform()->GetChildActorList())
+    {
+        AddActor(child);
+    }
 }
 
 void ActorManager::RemoveActor(ActorObject* actor)
@@ -103,6 +108,11 @@ void ActorManager::RemoveActor(ActorObject* actor)
         std::iter_swap(iter, mActors.end() - 1);
         mActors.pop_back();
     }
+    //オブジェクトを削除する時、親子関係のオブジェクトがあれば
+    for (ActorObject* child : actor->GetTransform()->GetChildActorList())
+    {
+        RemoveActor(child);
+    }
 }
 
 void ActorManager::DeleteActor(ActorObject* actor)
@@ -123,6 +133,12 @@ void ActorManager::ReAddActor(ActorObject* actor)
         mActors.push_back(actor);
         actor->OnEnabled();
     }
+
+    // 複製やオブジェクト削除のコマンドを戻す時に子オブジェクトがあれば
+    for (ActorObject* child : actor->GetTransform()->GetChildActorList())
+    {
+        ReAddActor(child);
+    }
 }
 
 void ActorManager::DetachActor(ActorObject* actor)
@@ -132,6 +148,12 @@ void ActorManager::DetachActor(ActorObject* actor)
     {
         mActors.erase(it); // リストから削除
         actor->OnDisable();
+    }
+
+    // オブジェクトを削除する時、親子関係のオブジェクトがあれば
+    for (ActorObject* child : actor->GetTransform()->GetChildActorList())
+    {
+        DetachActor(child);
     }
 }
 

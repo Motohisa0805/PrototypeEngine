@@ -9,8 +9,8 @@
 CreateActorFromSubMeshCommand::CreateActorFromSubMeshCommand(
     const std::filesystem::path& assetPath, const string& localID,
     ActorObject* parentActor)
-    : mTargetID(0)
-    , mTarget(nullptr)
+    : mCreateParentID(-1)
+    , mCreateParentActor(nullptr) 
     , mAssetPath(assetPath)
     , mLocalID(localID)
     , mParentActor(parentActor)
@@ -20,10 +20,19 @@ CreateActorFromSubMeshCommand::CreateActorFromSubMeshCommand(
 
 CreateActorFromSubMeshCommand::~CreateActorFromSubMeshCommand()
 {
-    if (!mIsActiveInScene && mTarget)
+    if (mCreateParentActor && !mIsActiveInScene)
     {
-        delete mTarget;
+        ReleasePasteActor(mCreateParentActor);
     }
+}
+
+void CreateActorFromSubMeshCommand::ReleasePasteActor(ActorObject* actor)
+{
+    for (ActorObject* child : actor->GetTransform()->GetChildActorList())
+    {
+        ReleasePasteActor(child);
+    }
+    delete actor;
 }
 
 void CreateActorFromSubMeshCommand::Execute() 
@@ -31,31 +40,30 @@ void CreateActorFromSubMeshCommand::Execute()
     ActorManager* actorManager =
         SceneManager::GetCurrentRunScene()->GetActorManager();
 
-    if (mTargetID == 0)
+    if (mCreateParentID == -1)
     {
         // 1. 完全なる初回実行時：新しくアクターを生成してシーンに登録する
-        CreateActorTemplate::CreateOneSubMeshActor(mTarget, mTargetID, mLocalID,mAssetPath);
+        CreateActorTemplate::CreateOneSubMeshActor(mCreateParentActor, mCreateParentID, mLocalID,mAssetPath);
 
         // シーンに所有権を渡したため、コマンド側のポインタは安全にクリアする
-        mTarget          = nullptr;
         mIsActiveInScene = true;
     }
     else
     {
         // 2. Redo（再実行）時
         // Undo時にコマンド側（mTarget）に回収しておいたインスタンスを、もう一度シーンに戻す
-        if (!mIsActiveInScene && mTarget)
+        if (!mIsActiveInScene && mCreateParentActor)
         {
-            actorManager->ReAddActor(dynamic_cast<ActorObject*>(mTarget));
-            mTarget          = nullptr; // 所有権を再度シーンに渡す
+            actorManager->ReAddActor(mCreateParentActor);
+            mCreateParentActor = nullptr; // 所有権を再度シーンに渡す
             mIsActiveInScene = true;
         }
     }
 
     // 生成・復元された最新のオブジェクトをIDから解決して選択状態にする
-    if (mTargetID != 0)
+    if (mCreateParentID != -1)
     {
-        ActorObject* currentActor = actorManager->FindActorByID(mTargetID);
+        ActorObject* currentActor = actorManager->FindActorByID(mCreateParentID);
         if (currentActor)
         {
             SelectionManager::SetSelectedActor(currentActor);
@@ -66,28 +74,28 @@ void CreateActorFromSubMeshCommand::Execute()
 void CreateActorFromSubMeshCommand::Undo() 
 {
     // 安全ガード
-    if (mTargetID == 0 || !mIsActiveInScene)
+    if (mCreateParentID == -1 || !mIsActiveInScene)
         return;
 
     ActorManager* actorManager =
         SceneManager::GetCurrentRunScene()->GetActorManager();
 
     // 「その瞬間」にシーンに存在しているポインタをIDから検索
-    ActorObject* currentActor = actorManager->FindActorByID(mTargetID);
+    ActorObject* currentActor = actorManager->FindActorByID(mCreateParentID);
 
     if (currentActor)
     {
         // シーンからアクターを除外
         actorManager->DetachActor(currentActor);
 
-        mTarget = currentActor;
+        mCreateParentActor = currentActor;
     }
 
     mIsActiveInScene = false;
 
     // もし現在生成したアクターが選択されていたら、安全に解除
     if (SelectionManager::GetSelectedActor() == currentActor ||
-        SelectionManager::GetSelectedActor() == mTarget)
+        SelectionManager::GetSelectedActor() == mCreateParentActor)
     {
         SelectionManager::SetSelectedActor(nullptr);
     }

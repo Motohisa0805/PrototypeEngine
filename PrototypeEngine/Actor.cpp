@@ -158,10 +158,15 @@ void ActorObject::LoadParentByLoadScene()
     }
 }
 
-Entity* ActorObject::Clone()
+Entity* ActorObject::Clone(Entity* parent)
 {
     // 真っ新なアクターを生成
     ActorObject* clone = new ActorObject();
+    //親があるなら先に親子関係構築
+    if (parent)
+    {
+        clone->GetTransform()->SetParent(dynamic_cast<ActorObject*>(parent));
+    }
 
     clone->mName  = this->mName;
     clone->mState = this->mState;
@@ -172,6 +177,15 @@ Entity* ActorObject::Clone()
         this->GetTransform()->GetLocalRotation());
     clone->GetTransform()->SetLocalScale(this->GetTransform()->GetLocalScale());
 
+    //親子関係のオブジェクトも複製処理
+    for (auto child : this->GetTransform()->GetChildActorList())
+    {
+        if (child)
+        {
+            ActorObject* clonedChild = dynamic_cast<ActorObject*>(child->Clone(clone));
+        }
+    }
+
     // 4. 自身が持っているコンポーネントのディープコピー
     for (const auto& comp : this->mComponents)
     {
@@ -179,5 +193,7 @@ Entity* ActorObject::Clone()
         clone->AddComponent(clonedComp); // 手動でリストに加える
     }
     mGame->SetDirtyFlag(true);
+
+
     return clone;
 }

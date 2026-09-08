@@ -44,5 +44,5 @@ public:
 
 	void							LoadParentByLoadScene();
 
-	Entity*							Clone()override;
+	Entity*							Clone(Entity* parent = nullptr) override;
 };

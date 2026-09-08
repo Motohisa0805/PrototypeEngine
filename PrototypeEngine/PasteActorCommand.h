@@ -8,13 +8,21 @@
 class PasteActorCommand : public ICommand
 {
 private:
+    // 削除対象のアクター配列
+    vector<CommandTargetData> mTargets;
+    // 現在シーンに存在するかどうかのフラグ
+	bool			mIsActiveInScene;
+
 	// ペーストによって生成されたアクター
 	uint64_t		mTargetID; 
 	Entity*			mTarget; 
-	bool			mIsActiveInScene;
+
+	void CollectTargets(Entity* actor);
 public:
 	PasteActorCommand();
 	~PasteActorCommand();
+
+	void ReleasePasteActor(Entity* actor);
 
 	void Execute() override;
 	

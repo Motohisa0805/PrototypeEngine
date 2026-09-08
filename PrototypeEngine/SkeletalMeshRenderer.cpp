@@ -462,7 +462,8 @@ Component* SkeletalMeshRenderer::Clone(Entity* newOwner) const
     clone->mFilePath = this->mFilePath;
     clone->mLocalID = this->mLocalID;
 
-    clone->LoadSkeletonMesh(clone->mFilePath.c_str(), clone->mLocalID.c_str(),mActor->GetTransform()->GetParentActor());
+    ActorObject* actor = dynamic_cast<ActorObject*>(newOwner);
+    clone->LoadSkeletonMesh(clone->mFilePath.c_str(), clone->mLocalID.c_str(),actor->GetTransform()->GetParentActor());
 
     clone->mBounds = this->mBounds;
     return clone;

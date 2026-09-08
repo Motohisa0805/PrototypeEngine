@@ -240,7 +240,7 @@ void GUIMainMenu::WindowMenuDraw()
             ImGui::EndMenu();
         }
 
-        // TODO : 今後追加予定処理
+        // TODO : 今後追加予定レイアウト処理
         /*
         if (ImGui::MenuItem("2 by 3(2 * 3) Layuot"))
         {

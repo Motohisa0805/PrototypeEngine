@@ -34,9 +34,6 @@
     <Filter Include="SourceCodes\A_Editor\Function\Actors\Bones">
       <UniqueIdentifier>{a3150af8-6b38-4108-9f33-0efdf3cc6822}</UniqueIdentifier>
     </Filter>
-    <Filter Include="SourceCodes\A_Editor\Function\Animations">
-      <UniqueIdentifier>{3fbf1679-76d4-4f0a-89b8-0dd102a20dbe}</UniqueIdentifier>
-    </Filter>
     <Filter Include="SourceCodes\A_Editor\Function\Audios">
       <UniqueIdentifier>{711d48cf-d36d-4299-b9af-23c756b79eb2}</UniqueIdentifier>
     </Filter>
@@ -178,6 +175,9 @@
     <Filter Include="SourceCodes\C_OutsideLibrary\Tracy">
       <UniqueIdentifier>{459f2938-6ebd-43f0-bc75-7a939da69985}</UniqueIdentifier>
     </Filter>
+    <Filter Include="SourceCodes\A_Editor\Function\Components\Animations">
+      <UniqueIdentifier>{3fbf1679-76d4-4f0a-89b8-0dd102a20dbe}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Shaders\Arrow.frag">
@@ -245,10 +245,10 @@
       <Filter>SourceCodes\A_Editor\Function\Actors\Bones</Filter>
     </ClCompile>
     <ClCompile Include="Animation.cpp">
-      <Filter>SourceCodes\A_Editor\Function\Animations</Filter>
+      <Filter>SourceCodes\A_Editor\Function\Components\Animations</Filter>
     </ClCompile>
     <ClCompile Include="Animator.cpp">
-      <Filter>SourceCodes\A_Editor\Function\Animations</Filter>
+      <Filter>SourceCodes\A_Editor\Function\Components\Animations</Filter>
     </ClCompile>
     <ClCompile Include="AudioComponent.cpp">
       <Filter>SourceCodes\A_Editor\Function\Audios</Filter>
@@ -604,10 +604,10 @@
       <Filter>SourceCodes\A_Editor\Function\Actors\Bones</Filter>
     </ClInclude>
     <ClInclude Include="Animation.h">
-      <Filter>SourceCodes\A_Editor\Function\Animations</Filter>
+      <Filter>SourceCodes\A_Editor\Function\Components\Animations</Filter>
     </ClInclude>
     <ClInclude Include="Animator.h">
-      <Filter>SourceCodes\A_Editor\Function\Animations</Filter>
+      <Filter>SourceCodes\A_Editor\Function\Components\Animations</Filter>
     </ClInclude>
     <ClInclude Include="AudioComponent.h">
       <Filter>SourceCodes\A_Editor\Function\Audios</Filter>

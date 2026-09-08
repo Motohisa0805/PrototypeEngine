@@ -17,9 +17,8 @@ struct AvatarPayload
 struct AssetMetaData
 {
     string sGUID;
-    vector<SubMeshPayload> sSubMeshs;//FBXの場合
-    //TODO : ファイルのキャッシュデータ追加は今後ここに予定
-    AvatarPayload sAvatar; // アバターのキャッシュデータ
+    vector<SubMeshPayload> sSubMeshs;   //FBXの場合
+    AvatarPayload sAvatar;              // アバターのキャッシュデータ
 };
 
 class AssetDataBase

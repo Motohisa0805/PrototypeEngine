@@ -10,31 +10,36 @@
 
 CreateActorFromFBXFileCommand::CreateActorFromFBXFileCommand(
     const std::filesystem::path& assetPath, ActorObject* parentActor)
-    : mAssetPath(assetPath)
+    : mCreateParentID(-1)
+    , mCreateParentActor(nullptr)
+    , mAssetPath(assetPath)
     , mParentActor(parentActor)
     , mIsActiveInScene(false)
-    , mTargetIDs()
-    , mTargets()
 {
 }
 
 CreateActorFromFBXFileCommand::~CreateActorFromFBXFileCommand() 
 {
-    if (!mIsActiveInScene)
+    if (mCreateParentActor && !mIsActiveInScene)
     {
-        for (ActorObject* target : mTargets)
-        {
-            delete target;
-        }
-        mTargets.clear();
+        ReleasePasteActor(mCreateParentActor);
     }
+}
+
+void CreateActorFromFBXFileCommand::ReleasePasteActor(ActorObject* actor) 
+{
+    for (ActorObject* child : actor->GetTransform()->GetChildActorList())
+    {
+        ReleasePasteActor(child);
+    }
+    delete actor;
 }
 
 void CreateActorFromFBXFileCommand::Execute() 
 {
     ActorManager* actorManager = SceneManager::GetCurrentRunScene()->GetActorManager();
     //初回時
-    if (mTargetIDs.empty())
+    if (mCreateParentID == -1)
     {
         //.metaファイルから階層を読み込み
         std::filesystem::path metaPath = AssetDataBase::GetInstance().GeneratedMetaFilePath(mAssetPath);
@@ -62,12 +67,12 @@ void CreateActorFromFBXFileCommand::Execute()
         bool isSkeletonImport = metaJson["import_settings"]["import_skeleton"];
         if (isSkeletonImport)
         {
-            CreateActorTemplate::CreateSkeletonActor(metaJson,hierarchyJson, mParentActor, mAssetPath, mTargetIDs);
+            mCreateParentID = CreateActorTemplate::CreateSkeletonActor(metaJson, hierarchyJson, mParentActor, mAssetPath);
         }
         else
         {
             //再帰的にアクターを生成し、親子関係を構築する関数
-            CreateActorTemplate::CreateFBXFileActor(hierarchyJson,mParentActor,mAssetPath,mTargetIDs);
+            mCreateParentID = CreateActorTemplate::CreateFBXFileActor(hierarchyJson,mParentActor,mAssetPath);
         }
 
         mIsActiveInScene = true;
@@ -75,14 +80,11 @@ void CreateActorFromFBXFileCommand::Execute()
     //Redo時
     else
     {
-        if (!mIsActiveInScene && !mTargets.empty())
+        if (mCreateParentActor)
         {
-            for (ActorObject* actor : mTargets)
-            {
-                actorManager->ReAddActor(actor);
-            }
+            actorManager->ReAddActor(mCreateParentActor);
 
-            mTargets.clear();
+            mCreateParentActor = nullptr;
             mIsActiveInScene = true;
         }
     }
@@ -90,32 +92,19 @@ void CreateActorFromFBXFileCommand::Execute()
 
 void CreateActorFromFBXFileCommand::Undo() 
 {
-    if(mTargetIDs.empty() || !mIsActiveInScene)return;
+    if(mCreateParentID == -1 || !mIsActiveInScene)return;
 
     ActorManager* actorManager = SceneManager::GetCurrentRunScene()->GetActorManager();
-    //IDを元に消す
-    for (uint64_t id : mTargetIDs)
-    {
-        ActorObject* currentActor = actorManager->FindActorByID(id);
-        if (currentActor)
-        {
-            actorManager->DetachActor(currentActor);
-
-            mTargets.push_back(currentActor);
-        }
-    }
-
+    ActorObject* createActor = actorManager->FindActorByID(mCreateParentID);
+    actorManager->DetachActor(createActor);
+    mCreateParentActor = createActor;
     mIsActiveInScene = false;
 
     //もし生成したアクターが現在選択されていたら解除する
     Entity* selected = SelectionManager::GetSelectedActor();
-    for (ActorObject* target : mTargets)
+    if (selected == createActor)
     {
-        if (selected == target)
-        {
-            SelectionManager::SetSelectedActor(nullptr);
-            break;
-        }
+        SelectionManager::SetSelectedActor(nullptr);
     }
 }
 
