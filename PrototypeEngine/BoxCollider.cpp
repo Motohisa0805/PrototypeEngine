@@ -12,9 +12,9 @@ BoxCollider::BoxCollider(Entity* owner, int updateOrder)
 {
     mName = "BoxCollider";
     // 単位ボックスを基準とした OBB
-    mObjectOBB.mCenter   = mActor->GetTransform()->GetPosition();
-    mObjectOBB.mRotation = mActor->GetTransform()->GetRotation();
-    mObjectOBB.mExtents  = Vector3(0.5f, 0.5f, 0.5f); // 1x1x1ボックスの半分
+    mObjectOBB.sCenter   = mActor->GetTransform()->GetPosition();
+    mObjectOBB.sRotation = mActor->GetTransform()->GetRotation();
+    mObjectOBB.sExtents  = Vector3(0.5f, 0.5f, 0.5f); // 1x1x1ボックスの半分
 
     mHeaderColor        = Vector4(0.4f, 0.8f, 0.4f, 1.0f);
     mHeaderHoveredColor = Vector4(0.3f, 0.6f, 0.3f, 1.0f);
@@ -30,22 +30,22 @@ void BoxCollider::OnUpdateWorldTransform()
     Vector3    scale    = mActor->GetTransform()->GetScale();
     Quaternion rotation = mActor->GetTransform()->GetRotation();
     Vector3    position = mActor->GetTransform()->GetPosition();
-    Vector3    offset   = mObjectOBB.mOffset;
+    Vector3    offset   = mObjectOBB.sOffset;
 
     // オフセットにスケールを適用
     Vector3 scaledOffset =
-        Vector3(mObjectOBB.mOffset.x * scale.x, mObjectOBB.mOffset.y * scale.y,
-                mObjectOBB.mOffset.z * scale.z);
+        Vector3(mObjectOBB.sOffset.x * scale.x, mObjectOBB.sOffset.y * scale.y,
+                mObjectOBB.sOffset.z * scale.z);
 
     // ワールド OBB を構築
     // スケールされたオフセットを回転させてから、位置に加算する
-    mWorldOBB.mCenter = position + Vector3::Transform(scaledOffset, rotation);
+    mWorldOBB.sCenter = position + Vector3::Transform(scaledOffset, rotation);
 
-    mWorldOBB.mRotation = rotation;
+    mWorldOBB.sRotation = rotation;
 
-    mWorldOBB.mExtents = Vector3(mObjectOBB.mExtents.x * std::abs(scale.x),
-                                 mObjectOBB.mExtents.y * std::abs(scale.y),
-                                 mObjectOBB.mExtents.z * std::abs(scale.z));
+    mWorldOBB.sExtents = Vector3(mObjectOBB.sExtents.x * std::abs(scale.x),
+                                 mObjectOBB.sExtents.y * std::abs(scale.y),
+                                 mObjectOBB.sExtents.z * std::abs(scale.z));
     //===AABBの更新===
     mWorldAABB = GetWorldAABBFromOBB();
 }
@@ -55,21 +55,21 @@ AABB BoxCollider::GetWorldAABBFromOBB() const
     const OBB& obb = mWorldOBB;
 
     Vector3 x =
-        Vector3::Transform(Vector3::UnitX, obb.mRotation) * obb.mExtents.x;
+        Vector3::Transform(Vector3::UnitX, obb.sRotation) * obb.sExtents.x;
     Vector3 y =
-        Vector3::Transform(Vector3::UnitY, obb.mRotation) * obb.mExtents.y;
+        Vector3::Transform(Vector3::UnitY, obb.sRotation) * obb.sExtents.y;
     Vector3 z =
-        Vector3::Transform(Vector3::UnitZ, obb.mRotation) * obb.mExtents.z;
+        Vector3::Transform(Vector3::UnitZ, obb.sRotation) * obb.sExtents.z;
 
     Vector3 r = Vector3::Abs(x) + Vector3::Abs(y) + Vector3::Abs(z);
-    return AABB(obb.mCenter - r, obb.mCenter + r);
+    return AABB(obb.sCenter - r, obb.sCenter + r);
 }
 
 void BoxCollider::Serialize(json& j) const
 {
     Collider::Serialize(j);
-    j["mObjectOBB.mOffset"] = {mObjectOBB.mOffset.x, mObjectOBB.mOffset.y,
-                               mObjectOBB.mOffset.z};
+    j["mObjectOBB.mOffset"] = {mObjectOBB.sOffset.x, mObjectOBB.sOffset.y,
+                               mObjectOBB.sOffset.z};
 }
 
 void BoxCollider::Deserialize(const json& j)
@@ -89,9 +89,9 @@ void BoxCollider::Deserialize(const json& j)
                     offsetArray.at(1).is_number() &&
                     offsetArray.at(2).is_number())
                 {
-                    mObjectOBB.mOffset.x = offsetArray.at(0).get<float>();
-                    mObjectOBB.mOffset.y = offsetArray.at(1).get<float>();
-                    mObjectOBB.mOffset.z = offsetArray.at(2).get<float>();
+                    mObjectOBB.sOffset.x = offsetArray.at(0).get<float>();
+                    mObjectOBB.sOffset.y = offsetArray.at(1).get<float>();
+                    mObjectOBB.sOffset.z = offsetArray.at(2).get<float>();
                 }
                 else
                 {
@@ -129,10 +129,10 @@ void BoxCollider::DrawCustomGUI(const std::vector<PropertyInfo>& properties)
 
     ImGui::Text("Offset");
     ImGui::SameLine();
-    ImGui::DragFloat3("##offset", &mObjectOBB.mOffset.x);
+    ImGui::DragFloat3("##offset", &mObjectOBB.sOffset.x);
     ImGui::Text("Extents");
     ImGui::SameLine();
-    ImGui::DragFloat3("##extents", &mObjectOBB.mExtents.x);
+    ImGui::DragFloat3("##extents", &mObjectOBB.sExtents.x);
 
     ImGui::NewLine();
 

@@ -301,8 +301,8 @@ void AssetImporter::ConvertFBXToCustomFormat(const fs::path& fbxPath,
                 box.UpdateMinMax(pos);
                 radiusSq = Math::Max(radiusSq, pos.LengthSq());
             }
-            meshInfo["aabb_min"] = {box.mMin.x, box.mMin.y, box.mMin.z};
-            meshInfo["aabb_max"] = {box.mMax.x, box.mMax.y, box.mMax.z};
+            meshInfo["aabb_min"] = {box.sMin.x, box.sMin.y, box.sMin.z};
+            meshInfo["aabb_max"] = {box.sMax.x, box.sMax.y, box.sMax.z};
             meshInfo["bounding_radius"] = Math::Sqrt(radiusSq);
 
             string meshBinName = fbxPath.stem().string() + "_mesh" + std::to_string(i) + ".meshbin";
@@ -636,8 +636,8 @@ void AssetImporter::ExportMeshBinary(const fs::path& fbxPath,
     radius = Math::Sqrt(radius);
 
     // 頂点ループが終わったあと
-    Vector3    center   = (box.mMin + box.mMax) * 0.5f;
-    Vector3    extents  = (box.mMax - box.mMin) * 0.5f;
+    Vector3    center   = (box.sMin + box.sMax) * 0.5f;
+    Vector3    extents  = (box.sMax - box.sMin) * 0.5f;
     Quaternion rotation = Quaternion::Identity;
     OBB        obbBox(center, rotation, extents);
 
@@ -661,8 +661,8 @@ void AssetImporter::ExportMeshBinary(const fs::path& fbxPath,
     header.sLayoutType  = (layout == VertexArray::PosNormTex) ? 0 : 1;
     header.sVertexCount = static_cast<uint32_t>(vertices.size());
     header.sIndexCount  = static_cast<uint32_t>(indices.size());
-    header.sMin            = box.mMin;
-    header.sMax            = box.mMax;
+    header.sMin            = box.sMin;
+    header.sMax            = box.sMax;
     header.sColliderRadius = radius; // 半径計算済みと仮定
 
     std::ofstream out(meshBinPath,std::ios::binary);

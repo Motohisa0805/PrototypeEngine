@@ -57,14 +57,14 @@ bool MeshRenderer::Draw(Shader* shader)
                 if (j < mMaterials.size() && mMaterials[j] != nullptr)
                 {
                     MaterialData& md = mMaterials[j]->GetData();
-                    m.Color          = md.sDiffuseColor;
-                    m.Diffuse        = Vector3(md.sDiffuseColor.x, md.sDiffuseColor.y,md.sDiffuseColor.z);
-                    m.Ambient        = md.sAmbientColor;
-                    m.Specular       = md.sSpecularColor;
-                    m.Shininess      = md.sShininess;
-                    m.Metallic       = md.sMetallic;
-                    m.Roughness      = md.sRoughness;
-                    m.Emissive       = md.sEmissive;
+                    m.sColor          = md.sDiffuseColor;
+                    m.sDiffuse        = Vector3(md.sDiffuseColor.x, md.sDiffuseColor.y,md.sDiffuseColor.z);
+                    m.sAmbient        = md.sAmbientColor;
+                    m.sSpecular       = md.sSpecularColor;
+                    m.sShininess      = md.sShininess;
+                    m.sMetallic       = md.sMetallic;
+                    m.sRoughness      = md.sRoughness;
+                    m.sEmissive       = md.sEmissive;
 
                     //テクスチャがあれば上書き
                     if (mMaterials[j]->GetTexture() != nullptr)
@@ -84,7 +84,7 @@ bool MeshRenderer::Draw(Shader* shader)
                 }
 
                 // 不透明度によってブレンド設定（1回だけで済むならループの外でもOK）
-                if (m.Color.w < 1.0f)
+                if (m.sColor.w < 1.0f)
                 {
                     glEnable(GL_BLEND);
                     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -156,8 +156,8 @@ void MeshRenderer::SetMaterialAlpha(float alpha)
             vector<MaterialInfo> info = mesh->GetMaterialInfo();
             for (int i = 0; i < info.size(); ++i)
             {
-                info[i].Color = Vector4(info[i].Color.x, info[i].Color.y,
-                                        info[i].Color.z, a);
+                info[i].sColor = Vector4(info[i].sColor.x, info[i].sColor.y,
+                                        info[i].sColor.z, a);
             }
             mesh->SetMaterialInfo(info);
         }
@@ -276,7 +276,7 @@ void MeshRenderer::LoadFilePathAndID(const char* path, const char* localID)
     if (mesh)
     {
         SetMesh({mesh});
-        mAlpha    = mesh->GetMaterialInfo()[0].Color.w;
+        mAlpha    = mesh->GetMaterialInfo()[0].sColor.w;
         mFilePath = path;
     }
 }
@@ -394,7 +394,7 @@ void MeshRenderer::DrawCustomGUI(const std::vector<PropertyInfo>& properties)
         {
             ImGuiHelper::TableSliderFloat("Alpha Setting", &mAlpha, 0.0f, 1.0f, "%.2f");
 
-            if (mAlpha != mMeshs[0]->GetMaterialInfo()[0].Color.w)
+            if (mAlpha != mMeshs[0]->GetMaterialInfo()[0].sColor.w)
             {
                 SetMaterialAlpha(mAlpha);
             }

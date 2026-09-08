@@ -390,7 +390,7 @@ void Rigidbody::CalculateInertiaTensor()
     if (coll->GetColliderType() == Collider::SphereType)
     {
         SphereCollider* sc = static_cast<SphereCollider*>(coll);
-        float           R  = sc->GetWorldSphere().mRadius;
+        float           R  = sc->GetWorldSphere().sRadius;
 
         // 球体：I = 2/5 * M * R^2.軸対象なので対角成分にスカラー値を設定
         float I_scalar              = (2.0f / 5.0f) * mass * (R * R);
@@ -403,7 +403,7 @@ void Rigidbody::CalculateInertiaTensor()
         BoxCollider* bc = static_cast<BoxCollider*>(coll);
 
         // ローカルサイズ（回転・スケールなし）
-        Vector3 halfSize = bc->GetWorldOBB().mExtents;
+        Vector3 halfSize = bc->GetWorldOBB().sExtents;
 
         float W = halfSize.x * 2.0f;
         float H = halfSize.y * 2.0f;
@@ -422,7 +422,7 @@ void Rigidbody::CalculateInertiaTensor()
     {
         CapsuleCollider* cc = static_cast<CapsuleCollider*>(coll);
         // 簡単化のため、ここでBoxと同じ構造を使う（軸対称を利用できる場合はその計算を行う）
-        float R = cc->GetWorldCapsule().mRadius;
+        float R = cc->GetWorldCapsule().sRadius;
         // 軸に垂直な慣性モーメントとして R^2 に依存した値を設定
         float I_perp            = (2.0f / 5.0f) * mass * (R * R);
         inertiaTensor.mat[0][0] = I_perp;

@@ -3,26 +3,11 @@
 #include "Renderer.h"
 #include "Shader.h"
 #include "Texture.h"
+#include "AssetImporter.h"
 
 Mesh::Mesh() {}
 
 Mesh::~Mesh() {}
-
-/*
-bool Mesh::Load(const string& fileName, Renderer* renderer, int index)
-{
-    // ファイルの拡張子を取得
-    string extension = fileName.substr(fileName.find_last_of('.') + 1);
-
-    // **FBX の場合**
-    if (extension == "fbx")
-    {
-        return LoadFromFBX(fileName, renderer, index);
-    }
-
-    return false;
-}
-*/
 
 int Mesh::CheckMeshIndex(const string& fileName, Renderer* renderer)
 {
@@ -72,24 +57,24 @@ bool Mesh::LoadFromMeshBin(const string& fileName, Renderer* renderer,
     }
 
     // バイナリデータの構造体宣言
-    MeshBinHeader header;
+    AssetImporter::MeshBinHeader header;
     // 宣言した構造体に読み込んだファイルの情報を読み込む
     in.read((char*)&header, sizeof(header));
     // Textureのタイプを代入
-    VertexArray::Layout layout = (header.layoutType == 0)
+    VertexArray::Layout layout = (header.sLayoutType == 0)
                                      ? VertexArray::PosNormTex
                                      : VertexArray::PosNormSkinTex;
     // 頂点とインデックスの数を計算
-    mVertices.resize(header.vertexCount);
-    mIndices.resize(header.indexCount);
+    mVertices.resize(header.sVertexCount);
+    mIndices.resize(header.sIndexCount);
 
-if (header.layoutType == 0)
+if (header.sLayoutType == 0)
     {
-        vector<StaticVertex> tempVerts(header.vertexCount);
+        vector<StaticVertex> tempVerts(header.sVertexCount);
         in.read((char*)tempVerts.data(),
                 sizeof(StaticVertex) * tempVerts.size());
 
-        for (size_t i = 0; i < header.vertexCount; ++i)
+        for (size_t i = 0; i < header.sVertexCount; ++i)
         {
             mVertices[i].sPos    = tempVerts[i].sPos;
             mVertices[i].sNormal = tempVerts[i].sNormal;
@@ -107,38 +92,38 @@ if (header.layoutType == 0)
 
     // 中心位置や半径を再利用したい場合
     AABB box = AABB(Vector3::Infinity, Vector3::NegInfinity);
-    box.mMin = header.min;
-    box.mMax = header.max;
+    box.sMin = header.sMin;
+    box.sMax = header.sMax;
 
     // AABBの中心とサイズからOBBを作る（回転なし）
-    Vector3    center   = (box.mMin + box.mMax) * 0.5f;
-    Vector3    extents  = (box.mMax - box.mMin) * 0.5f;
+    Vector3    center   = (box.sMin + box.sMax) * 0.5f;
+    Vector3    extents  = (box.sMax - box.sMin) * 0.5f;
     Quaternion rotation = Quaternion::Identity; // 方向なし
     OBB        obbBox = OBB(Vector3::Zero, Quaternion::Identity, Vector3::Zero);
     obbBox            = OBB(center, rotation, extents);
 
     mBoxs.push_back(box); // AABB中心などに使える
     mOBBBoxs.push_back(obbBox);
-    mRadiusArray.push_back(header.colliderRadius);
+    mRadiusArray.push_back(header.sColliderRadius);
 
     VertexArray* va = nullptr;
 
-    if (header.layoutType == 0)
+    if (header.sLayoutType == 0)
     {
-        vector<StaticVertex> staticVerts(header.vertexCount);
-        for (size_t i = 0; i < header.vertexCount; ++i)
+        vector<StaticVertex> staticVerts(header.sVertexCount);
+        for (size_t i = 0; i < header.sVertexCount; ++i)
         {
             staticVerts[i].sPos    = mVertices[i].sPos;
             staticVerts[i].sNormal = mVertices[i].sNormal;
             staticVerts[i].sUV     = mVertices[i].sUV;
         }
-        va = new VertexArray(staticVerts.data(), header.vertexCount, layout,
-                             mIndices.data(), header.indexCount);
+        va = new VertexArray(staticVerts.data(), header.sVertexCount, layout,
+                             mIndices.data(), header.sIndexCount);
     }
     else
     {
-        va = new VertexArray(mVertices.data(), header.vertexCount, layout,
-                             mIndices.data(), header.indexCount);
+        va = new VertexArray(mVertices.data(), header.sVertexCount, layout,
+                             mIndices.data(), header.sIndexCount);
     }
     mVertexArrays.push_back(va);
 
@@ -255,7 +240,7 @@ if (header.layoutType == 0)
         aiGetMaterialColor(material, AI_MATKEY_COLOR_DIFFUSE, &diffuseColor))
     {
 
-        info.Color = Vector4(diffuseColor.r, diffuseColor.g, diffuseColor.b,
+        info.sColor = Vector4(diffuseColor.r, diffuseColor.g, diffuseColor.b,
                              diffuseColor.a);
     }
 
@@ -272,9 +257,9 @@ if (header.layoutType == 0)
     material->Get(AI_MATKEY_COLOR_SPECULAR, specular);
 
     // シェーダーに値を送る（glUniform3f を使用）
-    info.Ambient  = Vector3(ambient.r, ambient.g, ambient.b);
-    info.Diffuse  = Vector3(diffuse.r, diffuse.g, diffuse.b);
-    info.Specular = Vector3(specular.r, specular.g, specular.b);
+    info.sAmbient  = Vector3(ambient.r, ambient.g, ambient.b);
+    info.sDiffuse  = Vector3(diffuse.r, diffuse.g, diffuse.b);
+    info.sSpecular = Vector3(specular.r, specular.g, specular.b);
 
     mMaterialInfo.push_back(info);
 
@@ -289,7 +274,7 @@ if (header.layoutType == 0)
         }
         shininess = shininess / 128.0f;
 
-        info.Shininess = shininess;
+        info.sShininess = shininess;
     }
 
     // 読み込み成功
@@ -349,23 +334,23 @@ bool Mesh::LoadFromSubMesh(const string& fbxPath, const string& localID)
 
     //ヘッダー情報の読み込み
     //  バイナリデータの構造体宣言
-    MeshBinHeader header;
+    AssetImporter::MeshBinHeader header;
     // 宣言した構造体に読み込んだファイルの情報を読み込む
     in.read((char*)&header, sizeof(header));
     // Textureのタイプを代入
-    VertexArray::Layout layout = (header.layoutType == 0)
+    VertexArray::Layout layout = (header.sLayoutType == 0)
                                      ? VertexArray::PosNormTex
                                      : VertexArray::PosNormSkinTex;
     // 頂点とインデックスの数を計算
-    mVertices.resize(header.vertexCount);
-    mIndices.resize(header.indexCount);
+    mVertices.resize(header.sVertexCount);
+    mIndices.resize(header.sIndexCount);
 
-    if (header.layoutType == 0)
+    if (header.sLayoutType == 0)
     {
-        vector<StaticVertex> tempVerts(header.vertexCount);
+        vector<StaticVertex> tempVerts(header.sVertexCount);
         in.read((char*)tempVerts.data(), sizeof(StaticVertex) * tempVerts.size());
 
-        for (size_t i = 0; i < header.vertexCount; ++i)
+        for (size_t i = 0; i < header.sVertexCount; ++i)
         {
             mVertices[i].sPos    = tempVerts[i].sPos;
             mVertices[i].sNormal = tempVerts[i].sNormal;
@@ -385,38 +370,38 @@ bool Mesh::LoadFromSubMesh(const string& fbxPath, const string& localID)
 
     // 中心位置や半径を再利用したい場合
     AABB box = AABB(Vector3::Infinity, Vector3::NegInfinity);
-    box.mMin = header.min;
-    box.mMax = header.max;
+    box.sMin = header.sMin;
+    box.sMax = header.sMax;
 
     // AABBの中心とサイズからOBBを作る（回転なし）
-    Vector3    center   = (box.mMin + box.mMax) * 0.5f;
-    Vector3    extents  = (box.mMax - box.mMin) * 0.5f;
+    Vector3    center   = (box.sMin + box.sMax) * 0.5f;
+    Vector3    extents  = (box.sMax - box.sMin) * 0.5f;
     Quaternion rotation = Quaternion::Identity; // 方向なし
     OBB        obbBox = OBB(Vector3::Zero, Quaternion::Identity, Vector3::Zero);
     obbBox            = OBB(center, rotation, extents);
 
     mBoxs.push_back(box); // AABB中心などに使える
     mOBBBoxs.push_back(obbBox);
-    mRadiusArray.push_back(header.colliderRadius);
+    mRadiusArray.push_back(header.sColliderRadius);
 
     VertexArray* va = nullptr;
 
-    if (header.layoutType == 0)
+    if (header.sLayoutType == 0)
     {
-        vector<StaticVertex> staticVerts(header.vertexCount);
-        for (size_t i = 0; i < header.vertexCount; ++i)
+        vector<StaticVertex> staticVerts(header.sVertexCount);
+        for (size_t i = 0; i < header.sVertexCount; ++i)
         {
             staticVerts[i].sPos    = mVertices[i].sPos;
             staticVerts[i].sNormal = mVertices[i].sNormal;
             staticVerts[i].sUV     = mVertices[i].sUV;
         }
-        va = new VertexArray(staticVerts.data(), header.vertexCount, layout,
-                             mIndices.data(), header.indexCount);
+        va = new VertexArray(staticVerts.data(), header.sVertexCount, layout,
+                             mIndices.data(), header.sIndexCount);
     }
     else
     {
-        va = new VertexArray(mVertices.data(), header.vertexCount, layout,
-                             mIndices.data(), header.indexCount);
+        va = new VertexArray(mVertices.data(), header.sVertexCount, layout,
+                             mIndices.data(), header.sIndexCount);
     }
 
     mVertexArrays.push_back(va);
@@ -442,11 +427,11 @@ bool Mesh::LoadFromSubMesh(const string& fbxPath, const string& localID)
                 if (cachedMat.contains("diffuse_color"))
                 {
                     auto color = cachedMat["diffuse_color"];
-                    info.Color = Vector4(color[0], color[1], color[2], color[3]);
+                    info.sColor = Vector4(color[0], color[1], color[2], color[3]);
                 }
                 else
                 {
-                    info.Color = Vector4(1, 1, 1, 1);
+                    info.sColor = Vector4(1, 1, 1, 1);
                 }
 
                 //一時的に設定
@@ -457,14 +442,14 @@ bool Mesh::LoadFromSubMesh(const string& fbxPath, const string& localID)
                 // 鏡面反射（Specular Color）の取得
                 aiColor3D specular(0.5f, 0.5f, 0.5f);
                 // シェーダーに値を送る（glUniform3f を使用）
-                info.Ambient    = Vector3(ambient.r, ambient.g, ambient.b);
-                info.Diffuse    = Vector3(diffuse.r, diffuse.g, diffuse.b);
-                info.Specular   = Vector3(specular.r, specular.g, specular.b);
+                info.sAmbient    = Vector3(ambient.r, ambient.g, ambient.b);
+                info.sDiffuse    = Vector3(diffuse.r, diffuse.g, diffuse.b);
+                info.sSpecular   = Vector3(specular.r, specular.g, specular.b);
                 float shininess = 0.0f;
                 // デフォルト値を設定
                 shininess = 25.0f;
                 shininess = shininess / 128.0f;
-                info.Shininess = shininess;
+                info.sShininess = shininess;
 
                 //テクスチャの読み込み
                 string texMap = cachedMat.value("albedo_map", "");
@@ -495,31 +480,31 @@ bool Mesh::LoadFromSubMesh(const string& fbxPath, const string& localID)
                             if (props.contains("diffuse_color"))
                             {
                                 auto c = props["diffuse_color"];
-                                info.Color = Vector4(c[0], c[1], c[2], c[3]);
-                                info.Diffuse = Vector3(c[0], c[1], c[2]);
+                                info.sColor = Vector4(c[0], c[1], c[2], c[3]);
+                                info.sDiffuse = Vector3(c[0], c[1], c[2]);
                             }
                             else
                             {
-                                info.Color = Vector4(1, 1, 1, 1);
-                                info.Diffuse = Vector3(1, 1, 1);
+                                info.sColor = Vector4(1, 1, 1, 1);
+                                info.sDiffuse = Vector3(1, 1, 1);
                             }
 
                             //Ambient
                             if (props.contains("ambient_color"))
                             {
                                 auto c = props["ambient_color"];
-                                info.Ambient = Vector3(c[0], c[1], c[2]);
+                                info.sAmbient = Vector3(c[0], c[1], c[2]);
                             }
 
                             //Specular
                             if (props.contains("specular_color"))
                             {
                                 auto c = props["specular_color"];
-                                info.Specular = Vector3(c[0], c[1], c[2]);
+                                info.sSpecular = Vector3(c[0], c[1], c[2]);
                             }
 
                             //Shininess
-                            info.Shininess = props.value("shininess",0.390625f);
+                            info.sShininess = props.value("shininess",0.390625f);
                         }
 
                         //テクスチャの読み込み
@@ -558,7 +543,7 @@ bool Mesh::LoadFromSubMesh(const string& fbxPath, const string& localID)
     {
         // マテリアルがないor取得出来なかった時の初期化マテリアル
         aiColor4D diffuseColor(0.5f, 0.5f, 0.5f, 1.0f);
-        info.Color = Vector4(diffuseColor.r, diffuseColor.g, diffuseColor.b,
+        info.sColor = Vector4(diffuseColor.r, diffuseColor.g, diffuseColor.b,
                              diffuseColor.a);
         // 拡散色（Diffuse Color）の取得
         aiColor3D diffuse(1.0f, 1.0f, 1.0f);
@@ -567,14 +552,14 @@ bool Mesh::LoadFromSubMesh(const string& fbxPath, const string& localID)
         // 鏡面反射（Specular Color）の取得
         aiColor3D specular(0.5f, 0.5f, 0.5f);
         // シェーダーに値を送る（glUniform3f を使用）
-        info.Ambient    = Vector3(ambient.r, ambient.g, ambient.b);
-        info.Diffuse    = Vector3(diffuse.r, diffuse.g, diffuse.b);
-        info.Specular   = Vector3(specular.r, specular.g, specular.b);
+        info.sAmbient    = Vector3(ambient.r, ambient.g, ambient.b);
+        info.sDiffuse    = Vector3(diffuse.r, diffuse.g, diffuse.b);
+        info.sSpecular   = Vector3(specular.r, specular.g, specular.b);
         float shininess = 0.0f;
         // デフォルト値を設定
         shininess      = 25.0f;
         shininess      = shininess / 128.0f;
-        info.Shininess = shininess;
+        info.sShininess = shininess;
     }
     mMaterialInfo.push_back(info);
 
@@ -638,60 +623,6 @@ bool Mesh::LoadFromFBX(const string& fileName, Renderer* renderer, int index)
             v.sNormal.y = norm.y;
             v.sNormal.z = norm.z;
         }
-        /*
-        // --- ボーンウェイト処理（VertexArray の期待順に合わせて必ず4スロット分
-        push する） --- if (mesh->HasBones())
-        {
-            struct TmpWeight { int bone; float weight; };
-            std::vector<TmpWeight> tmp;
-            tmp.reserve(mesh->mNumBones);
-
-            // 全ウェイトを収集
-            for (unsigned int b = 0; b < mesh->mNumBones; ++b)
-            {
-                aiBone* bone = mesh->mBones[b];
-                for (unsigned int w = 0; w < bone->mNumWeights; ++w)
-                {
-                    if (bone->mWeights[w].mVertexId == i &&
-        bone->mWeights[w].mWeight > 0.0f)
-                    {
-                        tmp.push_back({ (int)b, bone->mWeights[w].mWeight });
-                    }
-                }
-            }
-
-            // 上位4つを選ぶ（存在しない分は無視）
-            int pick = std::min<size_t>(4, tmp.size());
-            if (!tmp.empty())
-            {
-                std::partial_sort(tmp.begin(), tmp.begin() + pick, tmp.end(),
-                    [](const TmpWeight& a, const TmpWeight& b) { return a.weight
-        > b.weight; });
-            }
-
-            // 上位4つの合計だけで正規化する
-            float totalTop = 0.0f;
-            for (int k = 0; k < pick; ++k) totalTop += tmp[k].weight;
-            float invTotal = (totalTop > 0.0f) ? (1.0f / totalTop) : 0.0f;
-
-            // 1) ボーンインデックス（uint8 x4）を一つの Vertex として push
-            for (int k = 0; k < 4; ++k)
-            {
-                if (k < pick)
-                    v.boneIDs[k] = static_cast<uint8_t>(tmp[k].bone); // cast
-        明示 else v.boneIDs[k] = 0;
-            }
-
-            // 2) ボーンウェイト（float x4）をそれぞれ Vertex として
-        push（順序は上位順） for (int k = 0; k < 4; ++k)
-            {
-                float wight;
-                wight = (k < pick) ? (tmp[k].weight * invTotal) : 0.0f; //
-        上位4つだけで正規化
-                //mVertices.push_back(wight);
-            }
-        }
-        */
 
         if (mesh->HasTextureCoords(0))
         {
@@ -703,8 +634,8 @@ bool Mesh::LoadFromFBX(const string& fileName, Renderer* renderer, int index)
     }
 
     // 頂点ループが終わったあと
-    Vector3    center   = (box.mMin + box.mMax) * 0.5f;
-    Vector3    extents  = (box.mMax - box.mMin) * 0.5f;
+    Vector3    center   = (box.sMin + box.sMax) * 0.5f;
+    Vector3    extents  = (box.sMax - box.sMin) * 0.5f;
     Quaternion rotation = Quaternion::Identity;
     OBB        obbBox(center, rotation, extents);
 
@@ -808,7 +739,7 @@ bool Mesh::LoadFromFBX(const string& fileName, Renderer* renderer, int index)
         aiGetMaterialColor(material, AI_MATKEY_COLOR_DIFFUSE, &diffuseColor))
     {
 
-        info.Color = Vector4(diffuseColor.r, diffuseColor.g, diffuseColor.b,
+        info.sColor = Vector4(diffuseColor.r, diffuseColor.g, diffuseColor.b,
                              diffuseColor.a);
     }
 
@@ -825,9 +756,9 @@ bool Mesh::LoadFromFBX(const string& fileName, Renderer* renderer, int index)
     material->Get(AI_MATKEY_COLOR_SPECULAR, specular);
 
     // シェーダーに値を送る（glUniform3f を使用）
-    info.Ambient  = Vector3(ambient.r, ambient.g, ambient.b);
-    info.Diffuse  = Vector3(diffuse.r, diffuse.g, diffuse.b);
-    info.Specular = Vector3(specular.r, specular.g, specular.b);
+    info.sAmbient  = Vector3(ambient.r, ambient.g, ambient.b);
+    info.sDiffuse  = Vector3(diffuse.r, diffuse.g, diffuse.b);
+    info.sSpecular = Vector3(specular.r, specular.g, specular.b);
 
     mMaterialInfo.push_back(info);
 
@@ -842,7 +773,7 @@ bool Mesh::LoadFromFBX(const string& fileName, Renderer* renderer, int index)
         }
         shininess = shininess / 128.0f;
 
-        info.Shininess = shininess;
+        info.sShininess = shininess;
     }
 
     // Skinの場合のLayout変更
@@ -870,14 +801,14 @@ bool Mesh::LoadFromFBX(const string& fileName, Renderer* renderer, int index)
     string result = Sco::RemoveString(fileName, File_P::ModelPath);
 
     // バイナリに変換
-    MeshBinHeader header;
-    header.layoutType  = (layout == VertexArray::PosNormTex) ? 0 : 1;
-    header.vertexCount = static_cast<uint32_t>(mVertices.size());
-    header.indexCount  = static_cast<uint32_t>(mIndices.size());
+    AssetImporter::MeshBinHeader header;
+    header.sLayoutType  = (layout == VertexArray::PosNormTex) ? 0 : 1;
+    header.sVertexCount = static_cast<uint32_t>(mVertices.size());
+    header.sIndexCount  = static_cast<uint32_t>(mIndices.size());
 
-    header.min            = box.mMin;
-    header.max            = box.mMax;
-    header.colliderRadius = radius; // 半径計算済みと仮定
+    header.sMin            = box.sMin;
+    header.sMax            = box.sMax;
+    header.sColliderRadius = radius; // 半径計算済みと仮定
 
     result               = Sco::ExtensionFileName(result);
     result               = Sco::RemoveExtension(result);
@@ -887,7 +818,7 @@ bool Mesh::LoadFromFBX(const string& fileName, Renderer* renderer, int index)
     out.write((char*)&header, sizeof(header));
 
     //レイアウトに応じて書き込むサイズを変更
-    if (header.layoutType == 0)
+    if (header.sLayoutType == 0)
     {
         vector<StaticVertex> tempVerts(mVertices.size());
         for (size_t i = 0; i < mVertices.size(); ++i)
@@ -955,22 +886,22 @@ Sphere Mesh::GetAABBFromSphere()
 {
     float       radius    = mRadiusArray[0];
     const AABB& localAABB = mBoxs[0];
-    Vector3     center    = (localAABB.mMin + localAABB.mMax) / 2.0f;
+    Vector3     center    = (localAABB.sMin + localAABB.sMax) / 2.0f;
     return Sphere(center, radius);
 }
 
 Capsule Mesh::GetAABBFromCapsule()
 {
     const AABB& localAABB = mBoxs[0];
-    Vector3     minP      = localAABB.mMin;
-    Vector3     maxP      = localAABB.mMax;
+    Vector3     minP      = localAABB.sMin;
+    Vector3     maxP      = localAABB.sMax;
 
     // 半径を決定
     float half_x = (maxP.x - minP.x) / 2.0f;
     float half_z = (maxP.z - minP.z) / 2.0f;
 
     // Capsuleの半径は、軸以外の断面の最大の半長とする
-    float capsuleRadius = std::max(half_x, half_z);
+    float capsuleRadius = Math::Max(half_x, half_z);
 
     // 線分の開始点と終了点 (Y軸をCapsuleの中心線とする)
     Vector3 start = Vector3(minP.x, minP.y + capsuleRadius, minP.z);

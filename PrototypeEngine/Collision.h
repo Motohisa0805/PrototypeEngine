@@ -18,8 +18,8 @@ struct LineSegment
 	// 2つの線分間の最小距離の2乗を取得する
 	static float	MinDistSq(const LineSegment& s1, const LineSegment& s2);
 
-	Vector3			mStart;
-	Vector3			mEnd;
+	Vector3			sStart;
+	Vector3			sEnd;
 };
 
 struct Plane
@@ -30,8 +30,8 @@ struct Plane
 	// 点と平面の間の符号付き距離を取得する
 	float	SignedDist(const Vector3& point) const;
 
-	Vector3 mNormal;
-	float	mD;
+	Vector3 sNormal;
+	float	sD;
 };
 
 struct Sphere
@@ -39,8 +39,8 @@ struct Sphere
 				Sphere(const Vector3& center, float radius);
 	bool		Contains(const Vector3& point) const;
 
-	Vector3		mCenter;
-	float		mRadius;
+	Vector3		sCenter;
+	float		sRadius;
 };
 
 struct AABB
@@ -56,8 +56,8 @@ struct AABB
 
 	Vector3		GetBoxCenter() const;
 
-	Vector3		mMin;
-	Vector3		mMax;
+	Vector3		sMin;
+	Vector3		sMax;
 };
 
 
@@ -66,10 +66,10 @@ struct OBB
 	OBB(const Vector3& center, const Quaternion& rotation, const Vector3& extents);
 
 
-	Vector3		mCenter;
-	Vector3		mOffset;
-	Quaternion	mRotation;
-	Vector3		mExtents;
+	Vector3		sCenter;
+	Vector3		sOffset;
+	Quaternion	sRotation;
+	Vector3		sExtents;
 };
 
 struct Capsule
@@ -83,15 +83,15 @@ struct Capsule
 
 	float		SqrDistanceToSegment(const Vector3& point) const;
 
-	LineSegment mSegment;
-	float		mRadius;
+	LineSegment sSegment;
+	float		sRadius;
 };
 
 struct ConvexPolygon
 {
 	bool				Contains(const Vector2& point) const;
 	// 頂点は時計回りに並べられています
-	vector<Vector2>		mVertices;
+	vector<Vector2>		sVertices;
 };
 
 bool	OnCollision(const OBB& a, const OBB& b);

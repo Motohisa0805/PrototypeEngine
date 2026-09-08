@@ -29,27 +29,27 @@ void CapsuleCollider::OnUpdateWorldTransform()
     Vector3    pos   = mActor->GetTransform()->GetPosition();
 
     // 回転＋スケール → 始点・終点をワールド変換
-    Vector3 localStart = mWorldCapsule.mSegment.mStart;
-    Vector3 localEnd   = mWorldCapsule.mSegment.mEnd;
+    Vector3 localStart = mWorldCapsule.sSegment.sStart;
+    Vector3 localEnd   = mWorldCapsule.sSegment.sEnd;
 
     Vector3 rotatedStart = rot.Rotate(localStart);
     Vector3 rotatedEnd   = rot.Rotate(localEnd);
 
-    mWorldCapsule.mSegment.mStart = rotatedStart + pos;
-    mWorldCapsule.mSegment.mEnd   = rotatedEnd + pos;
+    mWorldCapsule.sSegment.sStart = rotatedStart + pos;
+    mWorldCapsule.sSegment.sEnd   = rotatedEnd + pos;
 
     // 半径スケール（等方スケール想定 or 最大軸スケール使用）
     float uniformScale    = std::max({scale.x, scale.y, scale.z});
-    mWorldCapsule.mRadius = mWorldCapsule.mRadius * uniformScale;
+    mWorldCapsule.sRadius = mWorldCapsule.sRadius * uniformScale;
 }
 
 OBB CapsuleCollider::GetWorldOBB() const { return mWorldOBB; }
 
 AABB CapsuleCollider::GetWorldAABBFromOBB() const
 {
-    const Vector3& p0 = mWorldCapsule.mSegment.mStart;
-    const Vector3& p1 = mWorldCapsule.mSegment.mEnd;
-    float          r  = mWorldCapsule.mRadius;
+    const Vector3& p0 = mWorldCapsule.sSegment.sStart;
+    const Vector3& p1 = mWorldCapsule.sSegment.sEnd;
+    float          r  = mWorldCapsule.sRadius;
 
     Vector3 min = Vector3::Min(p0, p1);
     Vector3 max = Vector3::Max(p0, p1);
@@ -61,14 +61,14 @@ AABB CapsuleCollider::GetWorldAABBFromOBB() const
 void CapsuleCollider::Serialize(json& j) const
 {
     Collider::Serialize(j);
-    j["Radius"] = mObjectCapsule.mRadius;
+    j["Radius"] = mObjectCapsule.sRadius;
 
-    j["mObjectCapsule.mSegment.mStart"] = {mObjectCapsule.mSegment.mStart.x,
-                                           mObjectCapsule.mSegment.mStart.y,
-                                           mObjectCapsule.mSegment.mStart.z};
-    j["mObjectCapsule.mSegment.mEnd"]   = {mObjectCapsule.mSegment.mEnd.x,
-                                           mObjectCapsule.mSegment.mEnd.y,
-                                           mObjectCapsule.mSegment.mEnd.z};
+    j["mObjectCapsule.mSegment.mStart"] = {mObjectCapsule.sSegment.sStart.x,
+                                           mObjectCapsule.sSegment.sStart.y,
+                                           mObjectCapsule.sSegment.sStart.z};
+    j["mObjectCapsule.mSegment.mEnd"]   = {mObjectCapsule.sSegment.sEnd.x,
+                                           mObjectCapsule.sSegment.sEnd.y,
+                                           mObjectCapsule.sSegment.sEnd.z};
 }
 
 void CapsuleCollider::Deserialize(const json& j)
@@ -77,12 +77,12 @@ void CapsuleCollider::Deserialize(const json& j)
 
     if (j.contains("Radius"))
     {
-        mObjectCapsule.mRadius = j.at("Radius").get<float>();
+        mObjectCapsule.sRadius = j.at("Radius").get<float>();
     }
 
     if (j.contains("mObjectCapsule.mSegment.mStart"))
     {
-        mObjectCapsule.mSegment.mStart =
+        mObjectCapsule.sSegment.sStart =
             Vector3(j["mObjectCapsule.mSegment.mStart"][0],
                     j["mObjectCapsule.mSegment.mStart"][1],
                     j["mObjectCapsule.mSegment.mStart"][2]);
@@ -90,7 +90,7 @@ void CapsuleCollider::Deserialize(const json& j)
 
     if (j.contains("mObjectCapsule.mSegment.mEnd"))
     {
-        mObjectCapsule.mSegment.mEnd =
+        mObjectCapsule.sSegment.sEnd =
             Vector3(j["mObjectCapsule.mSegment.mEnd"][0],
                     j["mObjectCapsule.mSegment.mEnd"][1],
                     j["mObjectCapsule.mSegment.mEnd"][2]);
@@ -105,15 +105,15 @@ void CapsuleCollider::DrawCustomGUI(const std::vector<PropertyInfo>& properties)
     Collider::DrawCustomGUI(properties);
 
     ImGui::SetNextItemWidth(50);
-    ImGui::DragFloat("Radius", &mObjectCapsule.mRadius);
+    ImGui::DragFloat("Radius", &mObjectCapsule.sRadius);
 
     ImGui::Text("Start");
     ImGui::SameLine();
-    ImGui::DragFloat3("##start", &mObjectCapsule.mSegment.mStart.x);
+    ImGui::DragFloat3("##start", &mObjectCapsule.sSegment.sStart.x);
 
     ImGui::Text("End");
     ImGui::SameLine();
-    ImGui::DragFloat3("##end", &mObjectCapsule.mSegment.mEnd.x);
+    ImGui::DragFloat3("##end", &mObjectCapsule.sSegment.sEnd.x);
 
     ImGui::Separator();
 

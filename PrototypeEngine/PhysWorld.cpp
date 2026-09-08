@@ -112,8 +112,8 @@ void PhysWorld::SweepAndPruneXYZ(float deltaTime)
     std::sort(mColliderXAxis.begin(), mColliderXAxis.end(),
               [](Collider* a, Collider* b)
               {
-                  return a->GetWorldAABBFromOBB().mMin.x <
-                         b->GetWorldAABBFromOBB().mMin.x;
+                  return a->GetWorldAABBFromOBB().sMin.x <
+                         b->GetWorldAABBFromOBB().sMin.x;
               });
 
     mCurrentHitPairs.clear();
@@ -136,20 +136,20 @@ void PhysWorld::SweepAndPruneXYZ(float deltaTime)
 
             // X軸の最大と最小が交差してなかったらbreak（高速化）
             // ※ contactOffset を加味して比較
-            if (aabbB.mMin.x - contactOffsetB > aabbA.mMax.x + contactOffsetA)
+            if (aabbB.sMin.x - contactOffsetB > aabbA.sMax.x + contactOffsetA)
             {
                 break;
             }
 
             // Y軸とZ軸の交差判定にも contactOffset を考慮
-            if (aabbA.mMax.y + contactOffsetA < aabbB.mMin.y - contactOffsetB ||
-                aabbA.mMin.y - contactOffsetA > aabbB.mMax.y + contactOffsetB)
+            if (aabbA.sMax.y + contactOffsetA < aabbB.sMin.y - contactOffsetB ||
+                aabbA.sMin.y - contactOffsetA > aabbB.sMax.y + contactOffsetB)
             {
                 continue;
             }
 
-            if (aabbA.mMax.z + contactOffsetA < aabbB.mMin.z - contactOffsetB ||
-                aabbA.mMin.z - contactOffsetA > aabbB.mMax.z + contactOffsetB)
+            if (aabbA.sMax.z + contactOffsetA < aabbB.sMin.z - contactOffsetB ||
+                aabbA.sMin.z - contactOffsetA > aabbB.sMax.z + contactOffsetB)
             {
                 continue;
             }
@@ -581,12 +581,12 @@ bool PhysWorld::CollectContactPoints_OBB_OBB(
     float dotA = 0.0f, dotB = 0.0f;
     for (int i = 0; i < 3; ++i)
     {
-        Vector3 axisA = Vector3::Transform(getLocalAxis(i), a.mRotation);
+        Vector3 axisA = Vector3::Transform(getLocalAxis(i), a.sRotation);
         float   d     = std::abs(Vector3::Dot(axisA, normal));
         if (d > dotA)
             dotA = d;
 
-        Vector3 axisB = Vector3::Transform(getLocalAxis(i), b.mRotation);
+        Vector3 axisB = Vector3::Transform(getLocalAxis(i), b.sRotation);
         d             = std::abs(Vector3::Dot(axisB, normal));
         if (d > dotB)
             dotB = d;
@@ -603,9 +603,9 @@ bool PhysWorld::CollectContactPoints_OBB_OBB(
     std::vector<Vector3> incFace = GetOBBIncidentFace(incOBB, refNormal);
 
     // 4. Reference OBB のサイド4面によるクリッピング（はみ出た部分をカット）
-    Vector3 rAxes[3] = {Vector3::Transform(Vector3::UnitX, refOBB.mRotation),
-                        Vector3::Transform(Vector3::UnitY, refOBB.mRotation),
-                        Vector3::Transform(Vector3::UnitZ, refOBB.mRotation)};
+    Vector3 rAxes[3] = {Vector3::Transform(Vector3::UnitX, refOBB.sRotation),
+                        Vector3::Transform(Vector3::UnitY, refOBB.sRotation),
+                        Vector3::Transform(Vector3::UnitZ, refOBB.sRotation)};
 
     // Reference面の法線軸を特定
     int   nAxis = 0;
@@ -624,36 +624,36 @@ bool PhysWorld::CollectContactPoints_OBB_OBB(
     Vector3 axis2 = rAxes[(nAxis + 2) % 3];
     float   ext1 =
         ((nAxis + 1) % 3 == 0)
-            ? refOBB.mExtents.x
-            : (((nAxis + 1) % 3 == 1) ? refOBB.mExtents.y : refOBB.mExtents.z);
+            ? refOBB.sExtents.x
+            : (((nAxis + 1) % 3 == 1) ? refOBB.sExtents.y : refOBB.sExtents.z);
     float ext2 =
         ((nAxis + 2) % 3 == 0)
-            ? refOBB.mExtents.x
-            : (((nAxis + 2) % 3 == 1) ? refOBB.mExtents.y : refOBB.mExtents.z);
+            ? refOBB.sExtents.x
+            : (((nAxis + 2) % 3 == 1) ? refOBB.sExtents.y : refOBB.sExtents.z);
 
     std::vector<Vector3> clippedFace;
     std::vector<Vector3> inputFace = incFace;
 
     // クッキーの型抜きのように、4つの側面で順番にカットしていく
-    ClipPolygonAgainstPlane(inputFace, axis1, refOBB.mCenter + axis1 * ext1,
+    ClipPolygonAgainstPlane(inputFace, axis1, refOBB.sCenter + axis1 * ext1,
                             clippedFace);
     inputFace = clippedFace;
     ClipPolygonAgainstPlane(inputFace, -1.0f * axis1,
-                            refOBB.mCenter - axis1 * ext1, clippedFace);
+                            refOBB.sCenter - axis1 * ext1, clippedFace);
     inputFace = clippedFace;
-    ClipPolygonAgainstPlane(inputFace, axis2, refOBB.mCenter + axis2 * ext2,
+    ClipPolygonAgainstPlane(inputFace, axis2, refOBB.sCenter + axis2 * ext2,
                             clippedFace);
     inputFace = clippedFace;
     ClipPolygonAgainstPlane(inputFace, -1.0f * axis2,
-                            refOBB.mCenter - axis2 * ext2, clippedFace);
+                            refOBB.sCenter - axis2 * ext2, clippedFace);
 
     // 5.
     // カットされた頂点のうち、実際にめり込んでいる点だけをContactPointとして採用
     float extN  = (nAxis == 0)
-                      ? refOBB.mExtents.x
-                      : ((nAxis == 1) ? refOBB.mExtents.y : refOBB.mExtents.z);
+                      ? refOBB.sExtents.x
+                      : ((nAxis == 1) ? refOBB.sExtents.y : refOBB.sExtents.z);
     float signN = (Vector3::Dot(rAxes[nAxis], refNormal) > 0.0f) ? 1.0f : -1.0f;
-    Vector3 refPlanePoint = refOBB.mCenter + rAxes[nAxis] * signN * extN;
+    Vector3 refPlanePoint = refOBB.sCenter + rAxes[nAxis] * signN * extN;
 
     bool added = false;
     for (const auto& pt : clippedFace)
@@ -681,9 +681,9 @@ bool PhysWorld::CollectContactPoints_OBB_OBB(
 vector<Vector3> PhysWorld::GetOBBIncidentFace(const OBB&     obb,
                                               const Vector3& normal)
 {
-    Vector3 axes[3] = {Vector3::Transform(Vector3::UnitX, obb.mRotation),
-                       Vector3::Transform(Vector3::UnitY, obb.mRotation),
-                       Vector3::Transform(Vector3::UnitZ, obb.mRotation)};
+    Vector3 axes[3] = {Vector3::Transform(Vector3::UnitX, obb.sRotation),
+                       Vector3::Transform(Vector3::UnitY, obb.sRotation),
+                       Vector3::Transform(Vector3::UnitZ, obb.sRotation)};
 
     int   bestAxis = 0;
     float minDot   = Math::Infinity;
@@ -714,14 +714,14 @@ vector<Vector3> PhysWorld::GetOBBIncidentFace(const OBB&     obb,
     Vector3 axis2      = axes[a2];
 
     float extNormal = (bestAxis == 0)
-                          ? obb.mExtents.x
-                          : ((bestAxis == 1) ? obb.mExtents.y : obb.mExtents.z);
-    float ext1      = (a1 == 0) ? obb.mExtents.x
-                                : ((a1 == 1) ? obb.mExtents.y : obb.mExtents.z);
-    float ext2      = (a2 == 0) ? obb.mExtents.x
-                                : ((a2 == 1) ? obb.mExtents.y : obb.mExtents.z);
+                          ? obb.sExtents.x
+                          : ((bestAxis == 1) ? obb.sExtents.y : obb.sExtents.z);
+    float ext1      = (a1 == 0) ? obb.sExtents.x
+                                : ((a1 == 1) ? obb.sExtents.y : obb.sExtents.z);
+    float ext2      = (a2 == 0) ? obb.sExtents.x
+                                : ((a2 == 1) ? obb.sExtents.y : obb.sExtents.z);
 
-    Vector3 center = obb.mCenter + faceNormal * extNormal;
+    Vector3 center = obb.sCenter + faceNormal * extNormal;
 
     // 4つの頂点を生成して返す
     std::vector<Vector3> face;
@@ -767,13 +767,13 @@ bool PhysWorld::GetContactInfo_OBB(const OBB& a, const OBB& b,
                                    Vector3& outNormal, float& outDepth,
                                    Vector3& contactPoint)
 {
-    Vector3 aAxes[3] = {Vector3::Transform(Vector3::UnitX, a.mRotation),
-                        Vector3::Transform(Vector3::UnitY, a.mRotation),
-                        Vector3::Transform(Vector3::UnitZ, a.mRotation)};
+    Vector3 aAxes[3] = {Vector3::Transform(Vector3::UnitX, a.sRotation),
+                        Vector3::Transform(Vector3::UnitY, a.sRotation),
+                        Vector3::Transform(Vector3::UnitZ, a.sRotation)};
 
-    Vector3 bAxes[3] = {Vector3::Transform(Vector3::UnitX, b.mRotation),
-                        Vector3::Transform(Vector3::UnitY, b.mRotation),
-                        Vector3::Transform(Vector3::UnitZ, b.mRotation)};
+    Vector3 bAxes[3] = {Vector3::Transform(Vector3::UnitX, b.sRotation),
+                        Vector3::Transform(Vector3::UnitY, b.sRotation),
+                        Vector3::Transform(Vector3::UnitZ, b.sRotation)};
 
     Vector3 axes[15];
     int     axisCount = 0;
@@ -824,7 +824,7 @@ bool PhysWorld::GetContactInfo_OBB(const OBB& a, const OBB& b,
     }
 
     // より信頼できる方向を使う（localからtransformされた差ベクトル）
-    Vector3 dir  = b.mCenter - a.mCenter;
+    Vector3 dir  = b.sCenter - a.sCenter;
     float   fDir = Vector3::Dot(dir, bestAxis);
     if (fDir < 0.0f)
     {
@@ -847,10 +847,10 @@ bool PhysWorld::CollectContactPoints_Sphere_Sphere(
     const Sphere& a, const Sphere& b, std::vector<ContactPoint>& outContacts,
     float contactOffset)
 {
-    Vector3 diff = b.mCenter - a.mCenter;
+    Vector3 diff = b.sCenter - a.sCenter;
     float   dist = diff.Length();
 
-    float radiusSum   = a.mRadius + b.mRadius;
+    float radiusSum   = a.sRadius + b.sRadius;
     float penetration = radiusSum - dist;
 
     if (penetration + contactOffset > 0.0f)
@@ -859,7 +859,7 @@ bool PhysWorld::CollectContactPoints_Sphere_Sphere(
         // 接触点のワールド座標を計算
         // Sphere A の中心から法線方向に Sphere A の半径分進んだ点 (法線は A
         // から B に向かう)
-        Vector3 contactPoint = a.mCenter + normal * a.mRadius;
+        Vector3 contactPoint = a.sCenter + normal * a.sRadius;
 
         // ContactPoint に position を追加
         outContacts.emplace_back(
@@ -873,8 +873,8 @@ bool PhysWorld::CollectContactPoints_Capsule_Capsule(
     const Capsule& a, const Capsule& b, std::vector<ContactPoint>& outContacts,
     float contactOffset)
 {
-    float distSq    = LineSegment::MinDistSq(a.mSegment, b.mSegment);
-    float radiusSum = a.mRadius + b.mRadius;
+    float distSq    = LineSegment::MinDistSq(a.sSegment, b.sSegment);
+    float radiusSum = a.sRadius + b.sRadius;
 
     if (distSq <= (radiusSum + contactOffset) * (radiusSum + contactOffset))
     {
@@ -883,7 +883,7 @@ bool PhysWorld::CollectContactPoints_Capsule_Capsule(
 
         // 最近接点を計算
         Vector3 pa, pb;
-        ClosestPtsBetweenSegments(a.mSegment, b.mSegment, pa,
+        ClosestPtsBetweenSegments(a.sSegment, b.sSegment, pa,
                                   pb); // 最近接点計算
 
         Vector3 normal = pb - pa;
@@ -893,7 +893,7 @@ bool PhysWorld::CollectContactPoints_Capsule_Capsule(
             normal = Vector3::UnitX;
         // 接触点のワールド座標
         // pA と pB の中間点（あるいは pA から a.mRadius 分進んだ点）
-        Vector3 contactPoint = pa + normal * a.mRadius;
+        Vector3 contactPoint = pa + normal * a.sRadius;
 
         // ContactPoint に position を追加
         outContacts.emplace_back(
@@ -907,10 +907,10 @@ bool PhysWorld::CollectContactPoints_OBB_Sphere(
     const OBB& a, const Sphere& b, std::vector<ContactPoint>& outContacts,
     float contactOffset)
 {
-    Vector3 closest = ClosestPointOnOBB(b.mCenter, a);
-    Vector3 diff    = b.mCenter - closest;
+    Vector3 closest = ClosestPointOnOBB(b.sCenter, a);
+    Vector3 diff    = b.sCenter - closest;
     float   distSq  = diff.LengthSq();
-    float   radius  = b.mRadius;
+    float   radius  = b.sRadius;
 
     if (distSq <= (radius + contactOffset) * (radius + contactOffset))
     {
@@ -924,7 +924,7 @@ bool PhysWorld::CollectContactPoints_OBB_Sphere(
 
             // 接触点のワールド座標を計算
             // Sphereの中心から法線方向にSphereの半径分戻った点を接触点とする
-            Vector3 contactPoint = b.mCenter - normal * radius;
+            Vector3 contactPoint = b.sCenter - normal * radius;
 
             // 接触点を追加
             outContacts.emplace_back(
@@ -947,7 +947,7 @@ bool PhysWorld::CollectContactPoints_OBB_Capsule(
     {
         float   t = i / static_cast<float>(steps);
         Vector3 pointOnSeg =
-            Vector3::Lerp(b.mSegment.mStart, b.mSegment.mEnd, t);
+            Vector3::Lerp(b.sSegment.sStart, b.sSegment.sEnd, t);
         Vector3 pointOnOBB = ClosestPointOnOBB(pointOnSeg, a);
 
         float distSq = (pointOnSeg - pointOnOBB).LengthSq();
@@ -959,7 +959,7 @@ bool PhysWorld::CollectContactPoints_OBB_Capsule(
         }
     }
 
-    float radius = b.mRadius;
+    float radius = b.sRadius;
     if (minDistSq <= (radius + contactOffset) * (radius + contactOffset))
     {
         float dist        = std::sqrt(minDistSq);
@@ -987,19 +987,19 @@ bool PhysWorld::CollectContactPoints_Sphere_Capsule(
     const Sphere& a, const Capsule& b, std::vector<ContactPoint>& outContacts,
     float contactOffset)
 {
-    float distSq    = b.mSegment.MinDistSq(a.mCenter);
-    float radiusSum = a.mRadius + b.mRadius;
+    float distSq    = b.sSegment.MinDistSq(a.sCenter);
+    float radiusSum = a.sRadius + b.sRadius;
 
     if (distSq <= (radiusSum + contactOffset) * (radiusSum + contactOffset))
     {
-        Vector3 ab      = b.mSegment.mEnd - b.mSegment.mStart;
+        Vector3 ab      = b.sSegment.sEnd - b.sSegment.sStart;
         float   abLenSq = ab.LengthSq();
 
-        float t = Vector3::Dot(a.mCenter - b.mSegment.mStart, ab) / abLenSq;
+        float t = Vector3::Dot(a.sCenter - b.sSegment.sStart, ab) / abLenSq;
         t       = Math::Clamp(t, 0.0f, 1.0f);
 
-        Vector3 closest     = b.mSegment.mStart + ab * t;
-        Vector3 diff        = a.mCenter - closest;
+        Vector3 closest     = b.sSegment.sStart + ab * t;
+        Vector3 diff        = a.sCenter - closest;
         float   dist        = std::sqrt(distSq);
         float   penetration = radiusSum - dist;
 
@@ -1007,7 +1007,7 @@ bool PhysWorld::CollectContactPoints_Sphere_Capsule(
 
         // 接触点のワールド座標
         // Sphere A の中心から法線と逆方向に Sphere A の半径分戻った点
-        Vector3 contactPoint = a.mCenter - normal * a.mRadius;
+        Vector3 contactPoint = a.sCenter - normal * a.sRadius;
 
         // ContactPoint に position を追加
         outContacts.emplace_back(
