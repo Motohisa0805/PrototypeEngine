@@ -115,7 +115,7 @@ bool Animation::LoadFromBinary(const std::string& filePath)
         }
     }
 
-    for (size_t bone = 0; bone < mNumFrames; ++bone)
+    for (size_t bone = 0; bone < mNumBones; ++bone)
     {
         if (bones[bone].sParentIndex < 0)
         {

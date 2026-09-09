@@ -384,7 +384,15 @@ void AssetImporter::ConvertFBXToCustomFormat(const fs::path& fbxPath,
     {
         nlohmann::json nodeJson;
         nodeJson["node_hash"] = GenerateNameHash(node->mName.C_Str());
-        nodeJson["name"] = node->mName.C_Str();
+        //RootNodeならファイル名を付ける
+        if ((string)node->mName.C_Str() == "RootNode")
+        {
+            nodeJson["name"] = fbxPath.stem().string().c_str();
+        }
+        else
+        {
+            nodeJson["name"] = node->mName.C_Str();
+        }
 
         //ローカルトランスフォームの分解
         aiVector3D pos, scale;
@@ -808,9 +816,7 @@ void AssetImporter::ExportAnimationBinary(const fs::path& fbxPath,
     aiAnimation* anim = scene->mAnimations[index];
 
     float ticksPerSecond = (anim->mTicksPerSecond != 0) ? anim->mTicksPerSecond : 25.0f;
-    int duration            = static_cast<float>(anim->mDuration / ticksPerSecond);
-
-    double       durationInSeconds = anim->mDuration / ticksPerSecond;
+    double duration      = anim->mDuration / ticksPerSecond;
     //方式(A)Assimpのティック単位(1ティック = 1フレーム)で細かくベイクする場合
     uint32_t     numFrames = static_cast<uint32_t>(anim->mDuration) + 1;
     //方式(B)任意の固定フレームレート(例：30FPS)でサンプリングしてベイクする場合
@@ -916,7 +922,7 @@ void AssetImporter::ExportAnimationBinary(const fs::path& fbxPath,
     }
 
     AnimationBinHeader header;
-    header.sDuration  = duration;
+    header.sDuration  = static_cast<float>(duration);
     header.sNumFrames = static_cast<uint32_t>(numFrames);
     header.sNumBones  = static_cast<uint32_t>(numBones);
     out.write((char*)&header, sizeof(header));

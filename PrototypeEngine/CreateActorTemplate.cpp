@@ -71,10 +71,55 @@ uint64_t CreateActorTemplate::CreateFBXFileActor(const nlohmann::json& nodeJson,
     return newActor->GetID();
 }
 
+bool CreateActorTemplate::CreateBoneActor(const nlohmann::json& nodeJson,
+                                          ActorObject*          currentParent,
+                                          filesystem::path      path)
+{
+    if (nodeJson.contains("mesh_indices"))return false;
+
+    ActorObject* newActor = new ActorObject();
+    newActor->SetName(nodeJson.value("name", "UnnamedNode"));
+    // 親子関係の設定
+    if (currentParent)
+    {
+        newActor->GetTransform()->SetParent(currentParent);
+    }
+
+    // Transformの初期化
+    if (nodeJson.contains("transform"))
+    {
+        auto t = nodeJson["transform"];
+        newActor->GetTransform()->SetLocalPosition(Vector3(t[0], t[1], t[2]));
+    }
+    if (nodeJson.contains("rotation"))
+    {
+        auto r = nodeJson["rotation"];
+        newActor->GetTransform()->SetLocalRotation(
+            Quaternion(r[0], r[1], r[2], r[3]));
+    }
+    if (nodeJson.contains("scale"))
+    {
+        auto s = nodeJson["scale"];
+        newActor->GetTransform()->SetLocalScale(Vector3(s[0], s[1], s[2]));
+    }
+
+    // 子ノードの再起処理
+    if (nodeJson.contains("children"))
+    {
+        for (const auto& childJson : nodeJson["children"])
+        {
+            CreateBoneActor(childJson, newActor, path);
+        }
+    }
+
+    return true;
+}
+
 bool CreateActorTemplate::CreateSkinnedMeshActor(const nlohmann::json& nodeJson,
                                                  ActorObject*     currentParent,
                                                  filesystem::path path)
 {
+    if (!nodeJson.contains("mesh_indices"))return false;
     ActorObject* newActor = new ActorObject();
     newActor->SetName(nodeJson.value("name", "UnnamedNode"));
     // 親子関係の設定
@@ -102,16 +147,14 @@ bool CreateActorTemplate::CreateSkinnedMeshActor(const nlohmann::json& nodeJson,
     }
 
     // メッシュのアタッチ
-    if (nodeJson.contains("mesh_indices"))
+    for (const auto& idJson : nodeJson["mesh_indices"])
     {
-        for (const auto& idJson : nodeJson["mesh_indices"])
-        {
-            string        localID = idJson.get<string>();
-            SkeletalMeshRenderer* mesh    = new SkeletalMeshRenderer(newActor);
-            mesh->LoadSkeletonMesh(path.string().c_str(), localID.c_str(), currentParent);
-            mesh->SetLocalID(localID);
-            newActor->AddComponent(mesh);
-        }
+        string                localID = idJson.get<string>();
+        SkeletalMeshRenderer* mesh    = new SkeletalMeshRenderer(newActor);
+        mesh->LoadSkeletonMesh(path.string().c_str(), localID.c_str(),
+                               currentParent);
+        mesh->SetLocalID(localID);
+        newActor->AddComponent(mesh);
     }
 
     // 子ノードの再起処理
@@ -141,9 +184,16 @@ uint64_t CreateActorTemplate::CreateSkeletonActor(const nlohmann::json& metaJson
     Animator* animator = new Animator(newActor);
     newActor->AddComponent(animator);
 
-    //ここからサブメッシュ、ボーンのヒエラルキー順にオブジェクトの親子関係を構築
-    //サブメッシュを数分生成
-    //  子ノードの再起処理
+    //オブジェクトの生成はヒエラルキー(ボーン構造)→スキンメッシュの順で
+    //ボーン生成
+    if (nodeJson.contains("children"))
+    {
+        for (const auto& childJson : nodeJson["children"])
+        {
+            CreateBoneActor(childJson, newActor, path);
+        }
+    }
+    //スキンメッシュ生成
     if (nodeJson.contains("children"))
     {
         for (const auto& childJson : nodeJson["children"])

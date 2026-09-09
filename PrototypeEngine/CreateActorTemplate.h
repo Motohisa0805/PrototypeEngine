@@ -14,6 +14,7 @@ namespace CreateActorTemplate
 
 	uint64_t CreateFBXFileActor(const nlohmann::json& nodeJson,ActorObject* currentParent,filesystem::path path);
 
+	bool CreateBoneActor(const nlohmann::json& nodeJson,ActorObject* currentParent,filesystem::path path);
 	bool CreateSkinnedMeshActor(const nlohmann::json& nodeJson,ActorObject* currentParent,filesystem::path path);
 
 	uint64_t CreateSkeletonActor(const nlohmann::json& metaJson,const nlohmann::json& nodeJson,ActorObject* currentParent,filesystem::path path);

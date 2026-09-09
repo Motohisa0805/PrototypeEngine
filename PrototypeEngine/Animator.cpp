@@ -141,6 +141,8 @@ void Animator::Update(float deltaTime)
             finalScale = Vector3::Lerp(scaleA, scaleB, blendAlpha);
         }
 
+
+
         //ルートボーンのみアニメーション位置(補間後)を適用し、子ボーンはスケルトン位置を維持
         if (skeletonBones[i].sParentIndex == -1)
         {
@@ -151,8 +153,8 @@ void Animator::Update(float deltaTime)
             boneTransform->SetLocalPosition(skeletonBones[i].sLocalPos);
         }
 
-        boneTransform->SetLocalRotation(finalRot);
         boneTransform->SetLocalScale(finalScale);
+        boneTransform->SetLocalRotation(finalRot);
         boneTransform->ActiveDirty();
     }
 
