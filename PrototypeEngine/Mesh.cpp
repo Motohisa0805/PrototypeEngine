@@ -406,7 +406,11 @@ bool Mesh::LoadFromSubMesh(const string& fbxPath, const string& localID)
 
     mVertexArrays.push_back(va);
 
-
+    string       currntPath = "";
+    if (metaJson["import_settings"].contains("import_currentPath"))
+    {
+        currntPath = metaJson["import_settings"]["import_currentPath"];
+    }
     MaterialInfo info{Vector4(0, 0, 0, 0), Vector3(0, 0, 0), Vector3(0, 0, 0),
                       Vector3(0, 0, 0), 0};
     if (metaJson.contains("material_slots"))
@@ -456,7 +460,7 @@ bool Mesh::LoadFromSubMesh(const string& fbxPath, const string& localID)
                 if (!texMap.empty())
                 {
                     Texture* newTex = new Texture();
-                    newTex->Load(File_P::ModelTexturePath + texMap);
+                    newTex->Load(currntPath + "/" + texMap);
                     mTextures.push_back(newTex);
                 }
             }

@@ -9,7 +9,7 @@
 
 namespace fs = std::filesystem;
 
-constexpr int CURRENT_ASSET_VERSION = 5;
+constexpr int CURRENT_ASSET_VERSION = 4;
 
 class AssetImporter
 {
@@ -72,7 +72,7 @@ private:
 
 public:
     // GUIから呼ばれる用の関数。Assetsフォルダ内の全てのFBXファイルをチェックして、必要であればインポートする
-	static void                     CheckAndImportAssets(bool versionCheck = false);
+	static void                     CheckAndImportAssets(bool versionCheck = false,bool versionUpdate = false);
     // GUIから呼ばれる用の関数。1つのファイルをチェックして、必要であればインポートする
 	static void                     OneFileCheckAndImportAssets(const filesystem::path& filePath);
     //名前の変更を行った時に再度読み込みを行う関数(上書き)
@@ -82,8 +82,7 @@ public:
 
     static uint32_t                 GenerateNameHash(const string& name);
 
-	static void                     ConvertFBXToCustomFormat(const fs::path& fbxPath,
-                                         const fs::path& customPath);
+    static string                   ProcessTexture(const aiScene* scene,const aiString& texPath,const fs::path& fbxPath);
 
 	static void                     ExportMeshBinary(const fs::path& fbxPath,const fs::path& meshBinPath, int index);
 	static void                     ExportSkeletonBinary(const aiScene* scene,const fs::path& skelBinPath);
@@ -91,6 +90,7 @@ public:
     //再帰的にノードを走査して名前を取集する関数
     static void                     TraverseNode(aiNode* node,std::unordered_map<string,int>& boneNameToIndex,vector<string>& boneNames);
 
+	static void                     ConvertFBXToCustomFormat(const fs::path& fbxPath,const fs::path& customPath);
 
     static AllImportSettings        OutputFBXMetaFile(const fs::path& fbxPath);
 

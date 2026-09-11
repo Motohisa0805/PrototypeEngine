@@ -55,7 +55,14 @@
                     0.800000011920929,
                     1.0
                 ],
-                "name": "Box"
+                "emission_color": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "name": "Box",
+                "normal_map": "Box_01.fbm\\Box_Normal.png",
+                "roughness": 0.5
             }
         ],
         "meshes": [
@@ -81,10 +88,11 @@
             }
         ]
     },
-    "fileFormatVersion": 5,
+    "fileFormatVersion": 4,
     "guid": "47340f64-4da5-4297-bd4e-dd9de8699cbc",
     "import_settings": {
         "import_animation": false,
+        "import_currentPath": "Assets/Models",
         "import_mesh": true,
         "import_skeleton": false,
         "scale_factor": 1.0

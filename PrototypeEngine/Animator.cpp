@@ -53,11 +53,6 @@ bool Animator::Load(const string& fileName, bool animLoop, bool rootMotion)
         AddAnimation(anim);
         return true;
     }
-    else if (anim->Load(path))
-    {
-        AddAnimation(anim);
-        return true;
-    }
     else
     {
         delete anim;

@@ -410,7 +410,7 @@ void ProjectPanel::DrawFileSystemEntry(const filesystem::directory_entry& entry)
                         ImGui::ImageButton("##fbxItemIcon", fbxItemIconID,
                                            ImVec2(54, 54));
                         // サブアイテムの描画
-                        ImGui::TextWrapped(subMeshes[i].sSubMeshName);
+                        ImGui::TextWrapped(subMeshes[i].sAssetPath);
                         ImGui::EndGroup();
 
                         // サブメッシュ用のドラッグ&ドロップ元
@@ -419,16 +419,18 @@ void ProjectPanel::DrawFileSystemEntry(const filesystem::directory_entry& entry)
                         {
                             SubMeshPayload payloadData = {};
                             // パスとサブメッシュ名を安全にコピー
+                            strncpy_s(payloadData.sAssetPath,sizeof(payloadData.sAssetPath),
+                                      entry.path().string().c_str(), _TRUNCATE);
                             strncpy_s(payloadData.sSubMeshName,
                                       sizeof(payloadData.sSubMeshName),
-                                      entry.path().string().c_str(), _TRUNCATE);
+                                      subMeshes[i].sAssetPath, _TRUNCATE);
                             strncpy_s(payloadData.sLocalID,
                                       sizeof(payloadData.sLocalID),
                                       subMeshes[i].sLocalID, _TRUNCATE);
                             ImGui::SetDragDropPayload("SUB_MESH_ITEM",
                                                       &payloadData,
                                                       sizeof(payloadData));
-                            ImGui::Text("Mesh: %s", subMeshes[i].sSubMeshName);
+                            ImGui::Text("Mesh: %s", subMeshes[i].sAssetPath);
                             ImGui::EndDragDropSource();
                         }
                         ImGui::PopID();

@@ -1496,7 +1496,14 @@
                     0.21092401444911957,
                     1.0
                 ],
-                "name": "Beta_HighLimbsGeoSG3"
+                "emission_color": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "name": "Beta_HighLimbsGeoSG3",
+                "normal_map": "",
+                "roughness": 0.8082915544509888
             },
             {
                 "albedo_map": "",
@@ -1506,7 +1513,14 @@
                     0.08081179112195969,
                     1.0
                 ],
-                "name": "Beta_Joints_MAT1"
+                "emission_color": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "name": "Beta_Joints_MAT1",
+                "normal_map": "",
+                "roughness": 0.8585786819458008
             }
         ],
         "meshes": [
@@ -1556,10 +1570,11 @@
             "isAvatar": true
         }
     },
-    "fileFormatVersion": 5,
+    "fileFormatVersion": 4,
     "guid": "3ca98d98-cc52-40ed-b19c-50cb02fbf147",
     "import_settings": {
         "import_animation": true,
+        "import_currentPath": "Assets/Models\\SkeletonFolder",
         "import_mesh": true,
         "import_skeleton": true,
         "scale_factor": 1.0

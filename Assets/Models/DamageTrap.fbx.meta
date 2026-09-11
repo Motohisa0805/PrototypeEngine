@@ -55,7 +55,14 @@
                     0.8021868467330933,
                     1.0
                 ],
-                "name": "Material"
+                "emission_color": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "name": "Material",
+                "normal_map": "",
+                "roughness": 0.5
             }
         ],
         "meshes": [
@@ -81,10 +88,11 @@
             }
         ]
     },
-    "fileFormatVersion": 5,
+    "fileFormatVersion": 4,
     "guid": "709512cf-67d1-4fa2-b62b-bee62811415e",
     "import_settings": {
         "import_animation": false,
+        "import_currentPath": "Assets/Models",
         "import_mesh": true,
         "import_skeleton": false,
         "scale_factor": 1.0

@@ -862,14 +862,21 @@
         },
         "materials": [
             {
-                "albedo_map": "../../../../home/app/mixamo-mini/tmp/skins_ba87c1ae-330b-4879-aade-b4ce4a8d2411.fbm/Mutant_diffuse.png",
+                "albedo_map": "Mutant_diffuse.png",
                 "diffuse_color": [
                     1.0,
                     1.0,
                     1.0,
                     1.0
                 ],
-                "name": "mutant_M"
+                "emission_color": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "name": "mutant_M",
+                "normal_map": "Mutant_normal.png",
+                "roughness": 0.7519305348396301
             }
         ],
         "meshes": [
@@ -899,10 +906,11 @@
             "isAvatar": true
         }
     },
-    "fileFormatVersion": 5,
+    "fileFormatVersion": 4,
     "guid": "55fb708a-1074-444c-aa65-e68a6ea6cf45",
     "import_settings": {
         "import_animation": true,
+        "import_currentPath": "Assets/Models\\SkeletonFolder",
         "import_mesh": true,
         "import_skeleton": true,
         "scale_factor": 1.0

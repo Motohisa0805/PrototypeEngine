@@ -21,11 +21,7 @@ bool Texture::Load(const string& fileName)
         return false;
     }
 
-    int format = GL_RGB;
-    if (channels == TextureLayout::GL_RGBA_SIZE)
-    {
-        format = GL_RGBA;
-    }
+    int format = GL_RGBA;
 
     glGenTextures(1, &mTextureID);
     glBindTexture(GL_TEXTURE_2D, mTextureID);

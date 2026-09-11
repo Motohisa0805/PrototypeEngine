@@ -10,7 +10,7 @@
 namespace CreateActorTemplate
 {
 	//サブメッシュ1つをオブジェクト化関数
-	bool CreateOneSubMeshActor(ActorObject* target,uint64_t& id,const string& localID,filesystem::path path);
+	bool CreateOneSubMeshActor(ActorObject* target,uint64_t& id,const string& localID,filesystem::path path,const string& subMeshName);
 
 	uint64_t CreateFBXFileActor(const nlohmann::json& nodeJson,ActorObject* currentParent,filesystem::path path);
 

@@ -3,7 +3,14 @@
 
 struct SubMeshPayload
 {
+    char sAssetPath[256];
     char sSubMeshName[256];
+    char sLocalID[64];
+};
+
+struct MaterialPayload
+{
+    char sMaterialName[256];
     char sLocalID[64];
 };
 
@@ -18,6 +25,7 @@ struct AssetMetaData
 {
     string sGUID;
     vector<SubMeshPayload> sSubMeshs;   //FBXの場合
+    vector<MaterialPayload> sMaterials; //マテリアル情報
     AvatarPayload sAvatar;              // アバターのキャッシュデータ
 };
 
@@ -66,6 +74,17 @@ public:
         if (it != mAssetRegistry.end())
         {
             outAvatar = it->second.sAvatar;
+            return true;
+        }
+        return false;
+    }
+
+    bool GetMaterial(const std::filesystem::path& path, vector<MaterialPayload>& outMaterials) const
+    {
+        auto it = mAssetRegistry.find(path.generic_string());
+        if (it != mAssetRegistry.end())
+        {
+            outMaterials = it->second.sMaterials;
             return true;
         }
         return false;

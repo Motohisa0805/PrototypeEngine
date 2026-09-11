@@ -55,7 +55,14 @@
                     0.800000011920929,
                     1.0
                 ],
-                "name": "MainTecColor"
+                "emission_color": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "name": "MainTecColor",
+                "normal_map": "",
+                "roughness": 0.5118110179901123
             }
         ],
         "meshes": [
@@ -81,10 +88,11 @@
             }
         ]
     },
-    "fileFormatVersion": 5,
+    "fileFormatVersion": 4,
     "guid": "de5d4db1-d1ba-4574-9a3f-454d6c390cda",
     "import_settings": {
         "import_animation": false,
+        "import_currentPath": "Assets/Models",
         "import_mesh": true,
         "import_skeleton": false,
         "scale_factor": 1.0

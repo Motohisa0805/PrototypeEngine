@@ -1444,10 +1444,11 @@
         "materials": [],
         "meshes": []
     },
-    "fileFormatVersion": 5,
+    "fileFormatVersion": 4,
     "guid": "1f4ded9a-022b-4b9a-88fc-9b776361d9e3",
     "import_settings": {
         "import_animation": true,
+        "import_currentPath": "Assets/Animations",
         "import_mesh": false,
         "import_skeleton": false,
         "scale_factor": 1.0

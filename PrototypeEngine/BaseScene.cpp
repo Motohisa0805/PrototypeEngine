@@ -235,10 +235,6 @@ SkeletonData* BaseScene::GetSkeleton(const string& fileName)
         {
             mSkeletonMap.emplace(file, sk);
         }
-        else if (sk->Load(file))
-        {
-            mSkeletonMap.emplace(file, sk);
-        }
         else
         {
             delete sk;

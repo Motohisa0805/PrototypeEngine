@@ -311,7 +311,7 @@ void MeshRenderer::DrawCustomGUI(const std::vector<PropertyInfo>& properties)
             // ペイロードがファイルパスであると仮定
             const SubMeshPayload* data = (const SubMeshPayload*)payload->Data;
             // ファイルパスを使いロード処理を呼び出す
-            LoadFilePathAndID(data->sSubMeshName, data->sLocalID);
+            LoadFilePathAndID(data->sAssetPath, data->sLocalID);
             mLocalID = data->sLocalID;
         }
         ImGui::EndDragDropTarget();
