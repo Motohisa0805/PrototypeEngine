@@ -1529,14 +1529,21 @@
         },
         "materials": [
             {
-                "albedo_map": "../../../../home/app/mixamo-mini/tmp/skins_2d963a1d-334b-4ca4-8133-a2a15d50679e.fbm/Paladin_diffuse.png",
+                "albedo_map": "Paladin_diffuse.png",
                 "diffuse_color": [
                     1.0,
                     1.0,
                     1.0,
                     1.0
                 ],
-                "name": "Paladin_MAT"
+                "emission_color": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "name": "Paladin_MAT",
+                "normal_map": "Paladin_normal.png",
+                "roughness": 0.5527864098548889
             }
         ],
         "meshes": [
@@ -1586,10 +1593,11 @@
             "isAvatar": true
         }
     },
-    "fileFormatVersion": 5,
+    "fileFormatVersion": 4,
     "guid": "132875af-e412-41f1-b6fc-f5c135202f51",
     "import_settings": {
         "import_animation": true,
+        "import_currentPath": "Assets/Models\\SkeletonFolder",
         "import_mesh": true,
         "import_skeleton": true,
         "scale_factor": 1.0

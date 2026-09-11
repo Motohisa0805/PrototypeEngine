@@ -804,7 +804,7 @@
           "IsSkeletal": false,
           "LocalID": "c5533edd-8ad9-4cff-b8ef-c3af6dfb3de0",
           "MaterialPaths": [
-            "Assets\\Materials\\WoodMaterial.mat"
+            ""
           ],
           "ShadowFrag": true,
           "Type": "MeshRenderer",

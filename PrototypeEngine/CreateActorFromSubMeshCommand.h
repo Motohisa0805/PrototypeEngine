@@ -12,6 +12,7 @@ private:
     ActorObject*          mCreateParentActor;
 
     std::filesystem::path mAssetPath;
+    string                mSubMeshName;
     string                mLocalID;
 
     ActorObject*          mParentActor;
@@ -19,7 +20,7 @@ private:
     bool mIsActiveInScene;
 
 public:
-    CreateActorFromSubMeshCommand(const std::filesystem::path& assetPath,const string& localID,ActorObject* parentActor = nullptr);
+    CreateActorFromSubMeshCommand(const std::filesystem::path& assetPath,const string& subMeshName,const string& localID,ActorObject* parentActor = nullptr);
     ~CreateActorFromSubMeshCommand();
     
     void ReleasePasteActor(ActorObject* actor);

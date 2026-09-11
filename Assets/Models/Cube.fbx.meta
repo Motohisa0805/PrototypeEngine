@@ -55,7 +55,8 @@
                     0.800000011920929,
                     1.0
                 ],
-                "name": "DefaultMaterial"
+                "name": "DefaultMaterial",
+                "normal_map": ""
             }
         ],
         "meshes": [
@@ -81,10 +82,11 @@
             }
         ]
     },
-    "fileFormatVersion": 5,
+    "fileFormatVersion": 4,
     "guid": "39598d2a-6cdd-42f5-8bb0-dcf553043f66",
     "import_settings": {
         "import_animation": false,
+        "import_currentPath": "Assets/Models",
         "import_mesh": true,
         "import_skeleton": false,
         "scale_factor": 1.0

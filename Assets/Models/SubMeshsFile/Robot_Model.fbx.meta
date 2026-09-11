@@ -377,7 +377,14 @@
                     0.800000011920929,
                     1.0
                 ],
-                "name": "Material_Body"
+                "emission_color": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "name": "Material_Body",
+                "normal_map": "",
+                "roughness": 1.0
             }
         ],
         "meshes": [
@@ -683,10 +690,11 @@
             }
         ]
     },
-    "fileFormatVersion": 5,
+    "fileFormatVersion": 4,
     "guid": "e599e713-5508-4bd3-a6a8-c8e14fd70452",
     "import_settings": {
         "import_animation": false,
+        "import_currentPath": "Assets/Models\\SubMeshsFile",
         "import_mesh": true,
         "import_skeleton": false,
         "scale_factor": 1.0

@@ -7,11 +7,14 @@
 #include "CreateActorTemplate.h"
 
 CreateActorFromSubMeshCommand::CreateActorFromSubMeshCommand(
-    const std::filesystem::path& assetPath, const string& localID,
+    const std::filesystem::path& assetPath, 
+    const string& subMeshName,
+    const string& localID,
     ActorObject* parentActor)
     : mCreateParentID(-1)
     , mCreateParentActor(nullptr) 
     , mAssetPath(assetPath)
+    , mSubMeshName(subMeshName)
     , mLocalID(localID)
     , mParentActor(parentActor)
     , mIsActiveInScene(false)
@@ -43,7 +46,7 @@ void CreateActorFromSubMeshCommand::Execute()
     if (mCreateParentID == -1)
     {
         // 1. 完全なる初回実行時：新しくアクターを生成してシーンに登録する
-        CreateActorTemplate::CreateOneSubMeshActor(mCreateParentActor, mCreateParentID, mLocalID,mAssetPath);
+        CreateActorTemplate::CreateOneSubMeshActor(mCreateParentActor, mCreateParentID, mLocalID,mAssetPath,mSubMeshName);
 
         // シーンに所有権を渡したため、コマンド側のポインタは安全にクリアする
         mIsActiveInScene = true;

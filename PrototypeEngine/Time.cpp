@@ -29,19 +29,18 @@ void Time::UpdateDeltaTime()
     {
         Uint64 waitTime = targetTicks - currentTicks;
 
-        if (waitTime >
-            1'000'000) // 1ms以上待つ必要がある場合はSDL_DelayPreciseを使用
+        if (waitTime > 2'000'000) // 1ms以上待つ必要がある場合はSDL_DelayPreciseを使用
         {
-            SDL_DelayNS(waitTime - 500'000); // 5ms前に目覚める
+            SDL_DelayNS(waitTime - 1'500'000); // 1ms前に目覚める
         }
         // 最後の微調整は精度のためにビジーウェイトで行う
-        while (SDL_GetTicksNS() < targetTicks)
-            ;
+        while (SDL_GetTicksNS() < targetTicks);
         currentTicks = SDL_GetTicksNS();
     }
 
     // unscaledDeltaTimeをまず計算
-    gUnscaledDeltaTime = (currentTicks - gTicksCount) / 1'000'000'000.0f;
+    Uint64 elapsedTicks = currentTicks - gTicksCount;
+    gUnscaledDeltaTime = static_cast<float>(static_cast<double>(elapsedTicks)) / 1'000'000'000.0f;
 
     // クランプ (大きすぎるdeltaTimeを防ぐ)
     if (gUnscaledDeltaTime > mMaxDeltaTime)

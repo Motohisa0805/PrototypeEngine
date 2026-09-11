@@ -119,9 +119,7 @@ void HierarchyPanel::Draw(float width, float height)
 
                     if (assetPath.extension() == ".fbx")
                     {
-                        auto cmd =
-                            std::make_unique<CreateActorFromFBXFileCommand>(
-                                assetPath, nullptr);
+                        auto cmd = std::make_unique<CreateActorFromFBXFileCommand>(assetPath, nullptr);
                         CommandManager::Execute(std::move(cmd));
                     }
                 }
@@ -131,14 +129,12 @@ void HierarchyPanel::Draw(float width, float height)
                 {
                     if (payload->DataSize == sizeof(SubMeshPayload))
                     {
-                        const SubMeshPayload* payloadData =
-                            (const SubMeshPayload*)payload->Data;
-                        filesystem::path assetPath(payloadData->sSubMeshName);
-                        string           subMeshName(payloadData->sLocalID);
+                        const SubMeshPayload* payloadData = (const SubMeshPayload*)payload->Data;
+                        filesystem::path assetPath(payloadData->sAssetPath);
+                        string           subMeshName(payloadData->sSubMeshName);
+                        string           localID(payloadData->sLocalID);
 
-                        auto cmd =
-                            std::make_unique<CreateActorFromSubMeshCommand>(
-                                assetPath, subMeshName, nullptr);
+                        auto cmd = std::make_unique<CreateActorFromSubMeshCommand>(assetPath,subMeshName, localID, nullptr);
                         CommandManager::Execute(std::move(cmd));
                     }
                 }

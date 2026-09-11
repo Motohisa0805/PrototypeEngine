@@ -3,11 +3,11 @@
 #include "SkeletalMeshRenderer.h"
 #include "Animator.h"
 
-bool CreateActorTemplate::CreateOneSubMeshActor(ActorObject* target,uint64_t& id,const string& localID,filesystem::path path)
+bool CreateActorTemplate::CreateOneSubMeshActor(ActorObject* target,uint64_t& id,const string& localID,filesystem::path path,const string& subMeshName)
 {
     //オブジェクトの生成
     target = new ActorObject();
-    target->SetName(path.stem().filename().string());
+    target->SetName(subMeshName);
     id = target->GetID();
     //コンポーネントの追加
     MeshRenderer* mesh = new MeshRenderer(target);
@@ -202,6 +202,7 @@ uint64_t CreateActorTemplate::CreateSkeletonActor(const nlohmann::json& metaJson
         }
     }
     // AnimatorにSkeletonDataをロード
+    //TODO : 最終的にスケルトンのTポーズを読み込む予定
     animator->LoadSkeletonData(path.string().c_str(), newActor);
     // アニメーションのロード
     if (metaJson.contains("cached_data") && metaJson["cached_data"].contains("animations"))
@@ -210,7 +211,8 @@ uint64_t CreateActorTemplate::CreateSkeletonActor(const nlohmann::json& metaJson
         {
             filesystem::path binaryPath = animJson.value("binary_path", "");
             //animator->Load(binaryPath.string().c_str());
-            animator->Load("Idle_anim0.animbin");
+            //animator->Load("Idle_anim0.animbin");
+            animator->Load("Running_anim0.animbin");
         }
     }
 

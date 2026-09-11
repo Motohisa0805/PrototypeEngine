@@ -76,8 +76,6 @@ public:
 
 	//ボーンの連想配列のGetter
 	const std::unordered_map<string, int>&	GetBoneNameToIndex() const { return mBoneNameToIndex; }
-	//ActorObjectの親を設定
-	void									SetParentActor(ActorObject* parent);
 
 
 	static ActorObject*						FindActorByName(ActorObject* current, const string& name);

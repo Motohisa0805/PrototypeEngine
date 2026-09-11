@@ -190,16 +190,6 @@ void SkeletonData::SetParentBones(aiNode* node, int parentIndex,const aiMatrix4x
     }
 }
 
-void SkeletonData::SetParentActor(ActorObject* parent) 
-{
-    /*
-    if (!mBoneActors.empty())
-    {
-        mBoneActors[0]->GetTransform()->AddParentActor(parent);
-    }
-    */
-}
-
 ActorObject* SkeletonData::FindActorByName(ActorObject*  current,
                                                    const string& name)
 {

@@ -7,9 +7,10 @@
 #include "Collision.h"
 #include <stack>
 #include "AssetDataBase.h"
+#include "MaterialGenerater.h"
 
 //起動時に一回呼び出す
-void AssetImporter::CheckAndImportAssets(bool versionCheck)
+void AssetImporter::CheckAndImportAssets(bool versionCheck, bool versionUpdate)
 { 
 	string assetsDir = "Assets/";
 
@@ -46,6 +47,10 @@ void AssetImporter::CheckAndImportAssets(bool versionCheck)
                 {
                     needReimport = true;
                 }
+            }
+            else if (versionUpdate)
+            {
+                needReimport = true;
             }
             
             //独自ファイルが存在しない、またはFBXファイルの方が新しく更新されている場合
@@ -207,6 +212,59 @@ uint32_t AssetImporter::GenerateNameHash(const string& name)
     return static_cast<uint32_t>(std::hash<string>{}(name));
 }
 
+string AssetImporter::ProcessTexture(const aiScene*  scene,
+                                     const aiString& texPath,
+                                     const fs::path& fbxPath)
+{
+    if (texPath.length == 0)return "";
+    //テクスチャ出力先ディレクトリ(FBXファイルと同じファイル)
+    fs::path textureOutputDir = fbxPath.parent_path();
+    string   checkPath        = fs::path(texPath.C_Str()).string();
+    // FBXファイル内にしかテクスチャが無い場合
+    if (checkPath[0] == '.')
+    {
+        // テクスチャがFBXに埋め込まれているかチェック
+        const aiTexture* embeddedTex = scene->GetEmbeddedTexture(texPath.C_Str());
+        if (embeddedTex)
+        {
+            string ext = embeddedTex->achFormatHint;
+            if (ext.empty())
+                ext = "png";
+            if (ext[0] != '.')
+                ext = "." + ext;
+            // テクスチャパスを取得
+            string rawName = fs::path(texPath.C_Str()).string();
+            // 出力パスとしてFBXファイルと同じフォルダ内にテクスチャパスを指定
+            fs::path destPath =
+                textureOutputDir / (fs::path(rawName).stem().string() + ext);
+
+            rawName = fbxPath.stem().string() + "_embed" +
+                      std::to_string((uintptr_t)embeddedTex);
+
+            if (embeddedTex->mHeight == 0)
+            {
+                std::ofstream outTex(destPath, std::ios::binary);
+                if (outTex.is_open())
+                {
+                    outTex.write(reinterpret_cast<char*>(embeddedTex->pcData),
+                                 embeddedTex->mWidth);
+                    outTex.close();
+                    Debug::Log("Successfully extracted embedded texture: %s",
+                               destPath.string().c_str());
+                }
+            }
+            else
+            {
+                // 生データ(RGBA8888等)の場合は、必要に応じてstb_image_write等で保存するか
+                // 独自のテクスチャ書き出しを行う(今後検討予定)
+            }
+            return destPath.filename().string();
+        }
+    }
+
+    return fs::path(texPath.C_Str()).string();
+}
+
 void AssetImporter::ConvertFBXToCustomFormat(const fs::path& fbxPath,
                                              const fs::path& customPath)
 {
@@ -251,6 +309,8 @@ void AssetImporter::ConvertFBXToCustomFormat(const fs::path& fbxPath,
         metaJson["import_settings"]["scale_factor"] = 1.0f;
         metaJson["skeleton_settings"] = {{"skeleton_type", 0}};
     }
+    //ファイルの現在パス取得
+    metaJson["import_settings"]["import_currentPath"] = fbxPath.parent_path().string();
 
     vector<string> meshLocalIDs;
 
@@ -335,29 +395,76 @@ void AssetImporter::ConvertFBXToCustomFormat(const fs::path& fbxPath,
             nlohmann::json slotInfo;
 
             //マテリアル名の取得
-            matInfo["name"] = mat->GetName().C_Str();
+            string matName  = mat->GetName().C_Str();
+            matInfo["name"] = matName;
+
+            MaterialParameters matParams;
+
+            aiColor4D diffuseColor;
+            if (AI_SUCCESS == aiGetMaterialColor(mat, AI_MATKEY_COLOR_DIFFUSE, &diffuseColor))
+            {
+                matInfo["diffuse_color"] = {diffuseColor.r, diffuseColor.g,
+                                            diffuseColor.b, diffuseColor.a};
+
+                matParams.sDiffuse_color[0] - diffuseColor.r;
+                matParams.sDiffuse_color[1] - diffuseColor.g;
+                matParams.sDiffuse_color[2] - diffuseColor.b;
+                matParams.sDiffuse_color[3] - diffuseColor.a;
+            }
+            //ラフネス(粗さ)
+            float roughness = 0.5f;
+            if (AI_SUCCESS == aiGetMaterialFloat(mat, AI_MATKEY_ROUGHNESS_FACTOR, &roughness))
+            {
+                matInfo["roughness"] = roughness;
+                matParams.sRoughness = roughness;
+            }
+
+            float metallic = 0.0f;
+            if (AI_SUCCESS == aiGetMaterialFloat(mat, AI_MATKEY_METALLIC_FACTOR, &metallic))
+            {
+                matInfo["metallic"] = metallic;
+                matParams.sMetallic = metallic;
+            }
+
+            aiColor4D emissionColor;
+            if (AI_SUCCESS == aiGetMaterialColor(mat, AI_MATKEY_COLOR_EMISSIVE, &emissionColor))
+            {
+                matInfo["emission_color"] = {emissionColor.r,emissionColor.g,emissionColor.b};
+            }
+
             //ディフューズ(アルベド)テクスチャのパスを取得
             aiString texPath;
             if (mat->GetTexture(aiTextureType_DIFFUSE, 0, &texPath) == AI_SUCCESS)
             {
-                matInfo["albedo_map"] = texPath.C_Str();
+                string processedTexPath = ProcessTexture(scene,texPath,fbxPath);
+                matInfo["albedo_map"] = processedTexPath;
+
+                matParams.sAlbedo_map = processedTexPath;
             }
             else
             {
                 matInfo["albedo_map"] = "";
             }
-
-            aiColor4D diffuseColor;
-            if (AI_SUCCESS == aiGetMaterialColor(mat, AI_MATKEY_COLOR_DIFFUSE, &diffuseColor))
+            aiString normalPath;
+            if (mat->GetTexture(aiTextureType_NORMALS, 0, &normalPath) == AI_SUCCESS)
             {
-                matInfo["diffuse_color"] = 
-                {
-                 diffuseColor.r,
-                 diffuseColor.g,
-                 diffuseColor.b,
-                 diffuseColor.a
-                };
+                string processedNormalPath = ProcessTexture(scene, normalPath, fbxPath);
+                matInfo["normal_map"] = processedNormalPath;
+                matParams.sNormal_map = processedNormalPath;
             }
+            else
+            {
+                matInfo["normal_map"] = "";
+            }
+            //書き込み処理を停止
+            //fs::path matOutputDir = fbxPath.parent_path();
+            //string validMatName = matName.empty() ? ("Material_" + std::to_string(i)) : matName;
+            //fs::path newMatPath = matOutputDir / MaterialGenerater::GeneratedMatFilePath(validMatName);
+            ////ファイルがまだ存在しないなら生成
+            //if (!fs::exists(newMatPath))
+            //{
+            //    MaterialGenerater::GenerateMaterial(newMatPath, matParams);
+            //}
 
             materialsJson.push_back(matInfo);
 

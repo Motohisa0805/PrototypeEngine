@@ -65,7 +65,7 @@ AssetMetaData AssetDataBase::GetAssetMetaData(const filesystem::path& fbxPath)
                     strncpy_s(info.sLocalID, sizeof(info.sLocalID),
                               localID.c_str(), _TRUNCATE);
 
-                    strncpy_s(info.sSubMeshName, sizeof(info.sSubMeshName),
+                    strncpy_s(info.sAssetPath, sizeof(info.sAssetPath),
                               nodeName.c_str(), _TRUNCATE);
 
                     payloads.push_back(info);
@@ -81,6 +81,24 @@ AssetMetaData AssetDataBase::GetAssetMetaData(const filesystem::path& fbxPath)
             }
         }
         data.sSubMeshs = payloads;
+    }
+
+    
+    if (cachedData.contains("materials"))
+    {
+        vector<MaterialPayload> matPayloads;
+        for (const auto& matNode : cachedData["materials"])
+        {
+            MaterialPayload mat = {};
+            string          matName = matNode.value("name", "UnknownMaterial");
+            string          localID = matNode.value("local_id", "");
+
+            strncpy_s(mat.sMaterialName,sizeof(mat.sMaterialName),matName.c_str(),_TRUNCATE);
+            strncpy_s(mat.sLocalID, sizeof(mat.sLocalID), localID.c_str(),_TRUNCATE);
+
+            matPayloads.push_back(mat);
+        }
+        data.sMaterials = matPayloads;
     }
 
     //Avater(SkeletonData)âêÕ
