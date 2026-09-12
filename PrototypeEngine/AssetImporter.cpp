@@ -212,11 +212,9 @@ uint32_t AssetImporter::GenerateNameHash(const string& name)
     return static_cast<uint32_t>(std::hash<string>{}(name));
 }
 
-string AssetImporter::ProcessTexture(const aiScene*  scene,
-                                     const aiString& texPath,
-                                     const fs::path& fbxPath)
+bool AssetImporter::ProcessTexture(const aiScene*  scene,const aiString& texPath,const fs::path& fbxPath,TextureImportData& data)
 {
-    if (texPath.length == 0)return "";
+    //if (texPath.length == 0)return "";
     //テクスチャ出力先ディレクトリ(FBXファイルと同じファイル)
     fs::path textureOutputDir = fbxPath.parent_path();
     string   checkPath        = fs::path(texPath.C_Str()).string();
@@ -227,6 +225,7 @@ string AssetImporter::ProcessTexture(const aiScene*  scene,
         const aiTexture* embeddedTex = scene->GetEmbeddedTexture(texPath.C_Str());
         if (embeddedTex)
         {
+            data.sGuid = GenerateUUID();
             string ext = embeddedTex->achFormatHint;
             if (ext.empty())
                 ext = "png";
@@ -243,26 +242,37 @@ string AssetImporter::ProcessTexture(const aiScene*  scene,
 
             if (embeddedTex->mHeight == 0)
             {
-                std::ofstream outTex(destPath, std::ios::binary);
-                if (outTex.is_open())
+                int comp;
+                unsigned char* pixelData = stbi_load_from_memory(
+                    reinterpret_cast<const stbi_uc*>(embeddedTex->pcData),
+                    embeddedTex->mWidth, &data.sWidth, &data.sHeight, &comp,4);
+
+                if (pixelData)
                 {
-                    outTex.write(reinterpret_cast<char*>(embeddedTex->pcData),
-                                 embeddedTex->mWidth);
-                    outTex.close();
-                    Debug::Log("Successfully extracted embedded texture: %s",
-                               destPath.string().c_str());
+                    fs::path texBinPath = fs::path("Binary/texture") / (data.sGuid + ".texbin");
+                    
+                    ExportTextureBinary(texBinPath,data.sGuid,static_cast<size_t>(data.sWidth),data.sHeight,4,pixelData);
+                    //ロードしたメモリを解放
+                    stbi_image_free(pixelData);
+                    //メタデータ側のパスを.texbinを更新
+                    data.sPath = texBinPath.string();
                 }
             }
             else
             {
+                data.sWidth = embeddedTex->mWidth;
+                data.sHeight = embeddedTex->mHeight;
                 // 生データ(RGBA8888等)の場合は、必要に応じてstb_image_write等で保存するか
                 // 独自のテクスチャ書き出しを行う(今後検討予定)
             }
-            return destPath.filename().string();
+            //data.sPath = destPath.filename().string();
+            //埋め込みテクスチャなら
+            return true;
         }
     }
-
-    return fs::path(texPath.C_Str()).string();
+    data.sPath = fs::path(texPath.C_Str()).string();
+    //外部テクスチャなら
+    return false;
 }
 
 void AssetImporter::ConvertFBXToCustomFormat(const fs::path& fbxPath,
@@ -436,10 +446,15 @@ void AssetImporter::ConvertFBXToCustomFormat(const fs::path& fbxPath,
             aiString texPath;
             if (mat->GetTexture(aiTextureType_DIFFUSE, 0, &texPath) == AI_SUCCESS)
             {
-                string processedTexPath = ProcessTexture(scene,texPath,fbxPath);
-                matInfo["albedo_map"] = processedTexPath;
+                TextureImportData texData;
+                if (ProcessTexture(scene, texPath, fbxPath, texData))
+                {
+                    matInfo["albedo_binary_map"] = true;
+                }
+                
+                matInfo["albedo_map"] = texData.sPath;
 
-                matParams.sAlbedo_map = processedTexPath;
+                matParams.sAlbedo_map = texData.sPath;
             }
             else
             {
@@ -448,9 +463,15 @@ void AssetImporter::ConvertFBXToCustomFormat(const fs::path& fbxPath,
             aiString normalPath;
             if (mat->GetTexture(aiTextureType_NORMALS, 0, &normalPath) == AI_SUCCESS)
             {
-                string processedNormalPath = ProcessTexture(scene, normalPath, fbxPath);
-                matInfo["normal_map"] = processedNormalPath;
-                matParams.sNormal_map = processedNormalPath;
+                TextureImportData normalTexData;
+                if (ProcessTexture(scene, normalPath, fbxPath, normalTexData))
+                {
+                    matInfo["normal_map_guid"]   = normalTexData.sGuid;
+                    matInfo["normal_map_width"]  = normalTexData.sWidth;
+                    matInfo["normal_map_height"] = normalTexData.sHeight;
+                }
+                matInfo["normal_map"] = normalTexData.sPath;
+                matParams.sNormal_map = normalTexData.sPath;
             }
             else
             {
@@ -808,6 +829,25 @@ void AssetImporter::ExportMeshBinary(const fs::path& fbxPath,
     {
         Debug::Log("Failed to open mesh binary path for writing:%s", meshBinPath);
     }
+}
+
+void AssetImporter::ExportTextureBinary(const fs::path& outputPath,
+                                        const string&   uuid, size_t width,
+                                        int height, int channels,
+                                        const unsigned char* pixelData)
+{
+    std::ofstream out(outputPath, std::ios::binary);
+    if (!out)return;
+
+    size_t dataSize = width * height * channels;
+    TextureBinaryHeader header   = { {'T','E','X','B'}, "", width, height, channels, dataSize };
+    strncpy_s(header.sUUID, uuid.c_str(), 36);
+
+    //ヘッダーとピクセルデータの書き込み
+    out.write(reinterpret_cast<const char*>(&header), sizeof(TextureBinaryHeader));
+    out.write(reinterpret_cast<const char*>(pixelData), dataSize);
+
+    out.close();
 }
 
 void AssetImporter::ExportSkeletonBinary(const aiScene*  scene,

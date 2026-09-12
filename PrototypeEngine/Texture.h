@@ -45,6 +45,8 @@ public:
 					~Texture();
 	//‰æ‘œ“Ç‚İ‚İˆ—
 	bool			Load(const string& fileName);
+    bool			LoadFromMemoryData(const unsigned char* pixelData,int width,int height,int channels);
+    bool			LoadTextureFromBinary(const string& binaryPath);
 	//3Dƒ‚ƒfƒ‹‚©‚ç‰æ‘œ“Ç‚İ‚İˆ—
 	bool			LoadFromAssimp(const aiTexture* embeddedTex);
 	bool			LoadCubemapFromSingleImage(const std::string& fileName, int faceSize);

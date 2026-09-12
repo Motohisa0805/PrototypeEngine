@@ -1,5 +1,6 @@
 #define STB_IMAGE_RESIZE_IMPLEMENTATION
 #include "Texture.h"
+#include "AssetImporter.h"
 
 Texture* Texture::mWhiteTexture = nullptr;
 
@@ -49,6 +50,62 @@ bool Texture::Load(const string& fileName)
     }
 
     return true;
+}
+
+bool Texture::LoadFromMemoryData(const unsigned char* pixelData, int width,
+                                 int height, int channels)
+{
+    mWidth = width;
+    mHeight = height;
+
+    int format = (channels == 4) ? GL_RGBA : GL_RGB;
+    int internalFormat = (channels == 4) ? GL_RGBA8 : GL_RGB8;
+
+    glGenTextures(1, &mTextureID);
+    glBindTexture(GL_TEXTURE_2D, mTextureID);
+
+    glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+
+    glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, mWidth, mHeight, 0, format,
+                 GL_UNSIGNED_BYTE, pixelData);
+
+    glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
+    // Generate mipmaps for texture
+    glGenerateMipmap(GL_TEXTURE_2D);
+    // Enable linear filtering
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,
+                    GL_LINEAR_MIPMAP_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+    // Enable anisotropic filtering, if supported
+    if (GLEW_EXT_texture_filter_anisotropic)
+    {
+        // Get the maximum anisotropy value
+        GLfloat largest;
+        glGetFloatv(GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT, &largest);
+        // Enable it
+        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY_EXT, largest);
+    }
+
+    return true;
+}
+
+bool Texture::LoadTextureFromBinary(const string& binaryPath) 
+{
+    std::ifstream in(binaryPath, std::ios::binary);
+    if (!in)return false;
+
+    AssetImporter::TextureBinaryHeader header;
+    in.read(reinterpret_cast<char*>(&header), sizeof(AssetImporter::TextureBinaryHeader));
+
+    if (strncmp(header.sMagic, "TEXB",4) != 0) return false;
+
+    vector<unsigned char> pixelData(header.dataSize);
+    in.read(reinterpret_cast<char*>(pixelData.data()), header.dataSize);
+
+    LoadFromMemoryData(pixelData.data(),header.sWidth,header.sHeight,header.sChannels);
+
+    return true; 
 }
 
 bool Texture::LoadFromAssimp(const aiTexture* embeddedTex)
@@ -414,8 +471,8 @@ void Texture::SampleEquirect(const unsigned char* src, int srcW, int srcH,
 
     int x0 = static_cast<int>(floorf(fx));
     int y0 = static_cast<int>(floorf(fy));
-    int x1 = std::min(x0 + 1, srcW - 1);
-    int y1 = std::min(y0 + 1, srcH - 1);
+    int x1 = Math::Min(x0 + 1, srcW - 1);
+    int y1 = Math::Min(y0 + 1, srcH - 1);
 
     float sx = fx - x0;
     float sy = fy - y0;

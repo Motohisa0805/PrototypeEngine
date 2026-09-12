@@ -1529,7 +1529,8 @@
         },
         "materials": [
             {
-                "albedo_map": "Paladin_diffuse.png",
+                "albedo_binary_map": true,
+                "albedo_map": "Binary/texture\\d114ad4a-eb9a-4a2e-b193-0fed16ec61fa.texbin",
                 "diffuse_color": [
                     1.0,
                     1.0,
@@ -1542,7 +1543,10 @@
                     0.0
                 ],
                 "name": "Paladin_MAT",
-                "normal_map": "Paladin_normal.png",
+                "normal_map": "Binary/texture\\521aa965-318a-4689-938d-4e4e2f24078b.texbin",
+                "normal_map_guid": "521aa965-318a-4689-938d-4e4e2f24078b",
+                "normal_map_height": 2048,
+                "normal_map_width": 2048,
                 "roughness": 0.5527864098548889
             }
         ],

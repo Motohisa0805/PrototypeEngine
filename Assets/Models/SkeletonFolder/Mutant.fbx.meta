@@ -862,7 +862,8 @@
         },
         "materials": [
             {
-                "albedo_map": "Mutant_diffuse.png",
+                "albedo_binary_map": true,
+                "albedo_map": "Binary/texture\\43081078-2a7b-43b5-a178-a9ae605b8d2e.texbin",
                 "diffuse_color": [
                     1.0,
                     1.0,
@@ -875,7 +876,10 @@
                     0.0
                 ],
                 "name": "mutant_M",
-                "normal_map": "Mutant_normal.png",
+                "normal_map": "Binary/texture\\138cb22c-bfea-49cf-a619-64f3aeaa7f8c.texbin",
+                "normal_map_guid": "138cb22c-bfea-49cf-a619-64f3aeaa7f8c",
+                "normal_map_height": 2048,
+                "normal_map_width": 2048,
                 "roughness": 0.7519305348396301
             }
         ],
