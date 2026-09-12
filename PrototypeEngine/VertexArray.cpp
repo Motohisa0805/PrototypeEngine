@@ -44,28 +44,28 @@ VertexArray::VertexArray(const void* verts, unsigned int numVerts,
     {
         // スキニングメッシュ用の追加属性
         // Positionは3つの浮動小数点
-        glEnableVertexAttribArray(0);
-        glVertexAttribPointer(0, 3, GL_FLOAT,
-                              GL_FALSE, stride, 0);
+        glEnableVertexAttribArray(VertexLayout::ATTRIB_POSITION);
+        glVertexAttribPointer(VertexLayout::ATTRIB_POSITION, 3, GL_FLOAT,
+                              GL_FALSE, stride,(void*)offsetof(Vertex, sPos));
 
         // Normalは3つの浮動小数点
-        glEnableVertexAttribArray(1);
-        glVertexAttribPointer(1, 3, GL_FLOAT,
-                              GL_FALSE, stride,reinterpret_cast<void*>(sizeof(float) * 3));
+        glEnableVertexAttribArray(VertexLayout::ATTRIB_NORMAL);
+        glVertexAttribPointer(VertexLayout::ATTRIB_NORMAL, 3, GL_FLOAT,
+                              GL_FALSE, stride,(void*)offsetof(Vertex, sNormal));
 
         // Bone IDs（整数として保持）
-        glEnableVertexAttribArray(2);
-        glVertexAttribIPointer(2, 4,
-                               GL_UNSIGNED_BYTE, stride,reinterpret_cast<void*>(sizeof(float) * 6));
+        glEnableVertexAttribArray(VertexLayout::ATTRIB_BONE_IDS);
+        glVertexAttribIPointer(VertexLayout::ATTRIB_BONE_IDS, 4,
+                               GL_UNSIGNED_BYTE, stride,(void*)offsetof(Vertex, sBoneIDs));
 
         // Bone Weights（浮動小数点に変換）
-        glEnableVertexAttribArray(3);
-        glVertexAttribPointer(3, 4, GL_FLOAT,
-                              GL_FALSE, stride,reinterpret_cast<void*>(sizeof(float) * 6 + 4));
+        glEnableVertexAttribArray(VertexLayout::ATTRIB_BONE_WEIGHTS);
+        glVertexAttribPointer(VertexLayout::ATTRIB_BONE_WEIGHTS, 4, GL_FLOAT,
+                              GL_FALSE, stride,(void*)offsetof(Vertex, sWeights));
 
         // テクスチャ座標は2つの浮動小数点数
         glEnableVertexAttribArray(4);
-        glVertexAttribPointer(4, 2, GL_FLOAT, GL_FALSE, stride,reinterpret_cast<void*>(sizeof(float) * 6 + 8));
+        glVertexAttribPointer(4, 2, GL_FLOAT, GL_FALSE, stride,(void*)offsetof(Vertex, sUV));
     }
     else if (layout == Pos)
     {
