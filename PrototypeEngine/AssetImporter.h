@@ -24,6 +24,16 @@ public:
         float    sColliderRadius = 0;
     };
 
+    struct TextureBinaryHeader
+    {
+        char sMagic[4];
+        char sUUID[37];
+        int  sWidth;
+        int  sHeight;
+        int    sChannels;
+        size_t dataSize;
+    };
+
     // スケルトンのバイナリデータ構造体
     struct SkeletonBinHeader
     {
@@ -57,6 +67,15 @@ public:
         Vector3    sScale    = Vector3();
     };
 
+    struct TextureImportData
+    {
+        string sPath = "";
+        unsigned char* sPixelData;
+        int    sWidth = 0;
+        int    sHeight = 0;
+        string sGuid   = "";
+    };
+
 private:
     static size_t                   FindTranslation(float AnimationTime, const aiNodeAnim* pNodeAnim);
 
@@ -82,9 +101,10 @@ public:
 
     static uint32_t                 GenerateNameHash(const string& name);
 
-    static string                   ProcessTexture(const aiScene* scene,const aiString& texPath,const fs::path& fbxPath);
+    static bool                     ProcessTexture(const aiScene* scene,const aiString& texPath,const fs::path& fbxPath,TextureImportData& data);
 
 	static void                     ExportMeshBinary(const fs::path& fbxPath,const fs::path& meshBinPath, int index);
+	static void                     ExportTextureBinary(const fs::path& outputPath,const string& uuid, size_t width,int height,int channels,const unsigned char* pixelData);
 	static void                     ExportSkeletonBinary(const aiScene* scene,const fs::path& skelBinPath);
 	static void                     ExportAnimationBinary(const fs::path& fbxPath,const fs::path& animBinPath, int index);
     //再帰的にノードを走査して名前を取集する関数

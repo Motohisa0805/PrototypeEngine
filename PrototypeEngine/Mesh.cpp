@@ -455,13 +455,26 @@ bool Mesh::LoadFromSubMesh(const string& fbxPath, const string& localID)
                 shininess = shininess / 128.0f;
                 info.sShininess = shininess;
 
-                //テクスチャの読み込み
-                string texMap = cachedMat.value("albedo_map", "");
-                if (!texMap.empty())
+                if (cachedMat.contains("albedo_binary_map"))
                 {
-                    Texture* newTex = new Texture();
-                    newTex->Load(currntPath + "/" + texMap);
-                    mTextures.push_back(newTex);
+                    string texMap = cachedMat.value("albedo_map", "");
+                    if (!texMap.empty())
+                    {
+                        Texture* newTex = new Texture();
+                        newTex->LoadTextureFromBinary(texMap);
+                        mTextures.push_back(newTex);
+                    }
+                }
+                else
+                {
+                    //テクスチャの読み込み
+                    string texMap = cachedMat.value("albedo_map", "");
+                    if (!texMap.empty())
+                    {
+                        Texture* newTex = new Texture();
+                        newTex->Load(currntPath + "/" + texMap);
+                        mTextures.push_back(newTex);
+                    }
                 }
             }
             else
