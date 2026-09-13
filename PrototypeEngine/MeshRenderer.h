@@ -78,7 +78,7 @@ public:
 	void						Serialize(json& j) const override;
 	void						Deserialize(const json& j)override;
 
-	virtual void				LoadFilePathAndID(const char* path,const char* localID);
+	virtual void				LoadFilePathAndID(const char* path,const char* localID,uint32_t vertexType = -1);
 
 	void						DrawCustomGUI(const std::vector<PropertyInfo>& properties)override;
 

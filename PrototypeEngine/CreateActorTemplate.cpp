@@ -11,7 +11,7 @@ bool CreateActorTemplate::CreateOneSubMeshActor(ActorObject* target,uint64_t& id
     id = target->GetID();
     //コンポーネントの追加
     MeshRenderer* mesh = new MeshRenderer(target);
-    mesh->LoadFilePathAndID(path.string().c_str(), localID.c_str());
+    mesh->LoadFilePathAndID(path.string().c_str(), localID.c_str(),0);
     mesh->SetLocalID(localID);
     target->AddComponent(mesh);
     return true;
@@ -28,9 +28,9 @@ uint64_t CreateActorTemplate::CreateFBXFileActor(const nlohmann::json& nodeJson,
     }
 
     // Transformの初期化
-    if (nodeJson.contains("transform"))
+    if (nodeJson.contains("translation"))
     {
-        auto t = nodeJson["transform"];
+        auto t = nodeJson["translation"];
         newActor->GetTransform()->SetLocalPosition(Vector3(t[0], t[1], t[2]));
     }
     if (nodeJson.contains("rotation"))
@@ -52,8 +52,7 @@ uint64_t CreateActorTemplate::CreateFBXFileActor(const nlohmann::json& nodeJson,
         {
             string        localID = idJson.get<string>();
             MeshRenderer* mesh    = new MeshRenderer(newActor);
-            mesh->LoadFilePathAndID(path.string().c_str(),
-                                    localID.c_str());
+            mesh->LoadFilePathAndID(path.string().c_str(),localID.c_str(),0);
             mesh->SetLocalID(localID);
             newActor->AddComponent(mesh);
         }
@@ -86,9 +85,9 @@ bool CreateActorTemplate::CreateBoneActor(const nlohmann::json& nodeJson,
     }
 
     // Transformの初期化
-    if (nodeJson.contains("transform"))
+    if (nodeJson.contains("translation"))
     {
-        auto t = nodeJson["transform"];
+        auto t = nodeJson["translation"];
         newActor->GetTransform()->SetLocalPosition(Vector3(t[0], t[1], t[2]));
     }
     if (nodeJson.contains("rotation"))
@@ -129,9 +128,9 @@ bool CreateActorTemplate::CreateSkinnedMeshActor(const nlohmann::json& nodeJson,
     }
 
     // Transformの初期化
-    if (nodeJson.contains("transform"))
+    if (nodeJson.contains("translation"))
     {
-        auto t = nodeJson["transform"];
+        auto t = nodeJson["translation"];
         newActor->GetTransform()->SetLocalPosition(Vector3(t[0], t[1], t[2]));
     }
     if (nodeJson.contains("rotation"))
@@ -151,8 +150,7 @@ bool CreateActorTemplate::CreateSkinnedMeshActor(const nlohmann::json& nodeJson,
     {
         string                localID = idJson.get<string>();
         SkeletalMeshRenderer* mesh    = new SkeletalMeshRenderer(newActor);
-        mesh->LoadSkeletonMesh(path.string().c_str(), localID.c_str(),
-                               currentParent);
+        mesh->LoadSkeletonMesh(path.string().c_str(), localID.c_str(),currentParent);
         mesh->SetLocalID(localID);
         newActor->AddComponent(mesh);
     }

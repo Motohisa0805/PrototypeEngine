@@ -1483,10 +1483,10 @@ vector<class Mesh*> Renderer::GetMeshs(const string& fileName)
 }
 */
 
-Mesh* Renderer::GetSubMesh(const filesystem::path& fileName, const string& localID)
+Mesh* Renderer::GetSubMesh(const filesystem::path& fileName, const string& localID,uint32_t vertexType)
 {
     // キャッシュマップ用のキー(ファイルパス＋localID)
-    string cacheKey = fileName.filename().string() + "_" + localID;
+    string cacheKey = fileName.filename().string() + "_" + localID + "_" + std::to_string(vertexType);
 
     //すでに読み込み済みの場合はキャッシュから返す
     auto iter = mMeshesMap.find(cacheKey);
@@ -1498,7 +1498,7 @@ Mesh* Renderer::GetSubMesh(const filesystem::path& fileName, const string& local
     //新規メッシュの作成と読みこみ
     Mesh* mesh = new Mesh();
     //単一サブメッシュ用のロード関数を呼ぶ
-    if (mesh->LoadFromSubMesh(fileName.string(), localID))
+    if (mesh->LoadFromSubMesh(fileName.string(), localID, vertexType))
     {
         mMeshesMap.emplace(cacheKey, mesh);
         return mesh;

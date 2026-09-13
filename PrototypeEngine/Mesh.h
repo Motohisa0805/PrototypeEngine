@@ -65,7 +65,7 @@ public:
 	// バイナリファイルからの読み込み処理
 	bool						LoadFromMeshBin(const string& fileName, Renderer* renderer, int index = 0);
 
-	bool						LoadFromSubMesh(const string& fbxPath, const string& localID);
+	bool						LoadFromSubMesh(const string& fbxPath, const string& localID,uint32_t vertexType = -1);
 
 	//Meshの数を取得
 	int							CheckMeshIndex(const string& fileName, Renderer* renderer);

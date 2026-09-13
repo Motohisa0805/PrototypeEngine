@@ -54,6 +54,8 @@ public:
 
     //エンジン起動時やフォルダ更新時に一括で.metaを読み込んでキャッシュを構築
     void RefreshDataBase(const std::filesystem::path& assetsDirectory);
+    //単一ファイルのキャッシュ更新
+    void RefreshAssetData(const std::filesystem::path& pastFilePath,const std::filesystem::path& newFilePath);
     //単一ファイルのインポート完了後にキャッシュを更新
     void UpdateAssetData(const std::filesystem::path& filePath,const AssetMetaData& data);
     //プロジェクトパネルからO(1)で高速に情報を取得する

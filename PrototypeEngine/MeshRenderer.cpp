@@ -221,7 +221,7 @@ void MeshRenderer::Deserialize(const json& j)
 
         // 3. ファイルパスを使って、Rendererからメッシュをロードし、設定する
         //    元のコードにあった処理をここで実行します
-        Mesh* mesh = EngineWindow::GetRenderer()->GetSubMesh(mFilePath,mLocalID);
+        Mesh* mesh = EngineWindow::GetRenderer()->GetSubMesh(mFilePath,mLocalID,0);
         if (mesh)
         {
             SetMesh({mesh});
@@ -270,9 +270,9 @@ void MeshRenderer::Deserialize(const json& j)
     }
 }
 
-void MeshRenderer::LoadFilePathAndID(const char* path, const char* localID)
+void MeshRenderer::LoadFilePathAndID(const char* path, const char* localID,uint32_t vertexType)
 {
-    Mesh* mesh = EngineWindow::GetRenderer()->GetSubMesh(path,localID);
+    Mesh* mesh = EngineWindow::GetRenderer()->GetSubMesh(path,localID,vertexType);
     if (mesh)
     {
         SetMesh({mesh});
@@ -311,7 +311,7 @@ void MeshRenderer::DrawCustomGUI(const std::vector<PropertyInfo>& properties)
             // ペイロードがファイルパスであると仮定
             const SubMeshPayload* data = (const SubMeshPayload*)payload->Data;
             // ファイルパスを使いロード処理を呼び出す
-            LoadFilePathAndID(data->sAssetPath, data->sLocalID);
+            LoadFilePathAndID(data->sAssetPath, data->sLocalID,0);
             mLocalID = data->sLocalID;
         }
         ImGui::EndDragDropTarget();

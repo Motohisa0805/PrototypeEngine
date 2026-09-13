@@ -57,9 +57,7 @@ public:
 	static void						ShowInExplorer();
 	static void						OpenFile();
 	static void						DeleteFileOrFolder();
-	//名前変更メニューのカプセル化
 	static void						RenameMenu();
-	//CopyPathメニューのカプセル化
 	static void						CopyPathMenu();
 
 	//ショートカットキー入力

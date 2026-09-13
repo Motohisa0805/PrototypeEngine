@@ -281,7 +281,7 @@ if (header.sLayoutType == 0)
     return true;
 }
 
-bool Mesh::LoadFromSubMesh(const string& fbxPath, const string& localID)
+bool Mesh::LoadFromSubMesh(const string& fbxPath, const string& localID,uint32_t vertexType)
 {
     //.metaファイル(JSON)を読み込む
     filesystem::path metaPath = fbxPath + ".meta";
@@ -338,14 +338,13 @@ bool Mesh::LoadFromSubMesh(const string& fbxPath, const string& localID)
     // 宣言した構造体に読み込んだファイルの情報を読み込む
     in.read((char*)&header, sizeof(header));
     // Textureのタイプを代入
-    VertexArray::Layout layout = (header.sLayoutType == 0)
-                                     ? VertexArray::PosNormTex
-                                     : VertexArray::PosNormSkinTex;
+    uint32_t originalLayout = header.sLayoutType;
+
     // 頂点とインデックスの数を計算
     mVertices.resize(header.sVertexCount);
     mIndices.resize(header.sIndexCount);
 
-    if (header.sLayoutType == 0)
+    if (originalLayout == 0)
     {
         vector<StaticVertex> tempVerts(header.sVertexCount);
         in.read((char*)tempVerts.data(), sizeof(StaticVertex) * tempVerts.size());
@@ -368,6 +367,13 @@ bool Mesh::LoadFromSubMesh(const string& fbxPath, const string& localID)
     in.read((char*)mIndices.data(), sizeof(uint32_t) * mIndices.size());
     in.close();
 
+    if (vertexType != -1)
+    {
+        header.sLayoutType = vertexType;
+    }
+
+    VertexArray::Layout layout = (header.sLayoutType == 0) ? VertexArray::PosNormTex : VertexArray::PosNormSkinTex;
+
     // 中心位置や半径を再利用したい場合
     AABB box = AABB(Vector3::Infinity, Vector3::NegInfinity);
     box.sMin = header.sMin;
@@ -383,6 +389,7 @@ bool Mesh::LoadFromSubMesh(const string& fbxPath, const string& localID)
     mBoxs.push_back(box); // AABB中心などに使える
     mOBBBoxs.push_back(obbBox);
     mRadiusArray.push_back(header.sColliderRadius);
+    
 
     VertexArray* va = nullptr;
 
