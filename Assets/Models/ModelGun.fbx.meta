@@ -77,7 +77,7 @@
                     -2.026608467102051,
                     -2.035470724105835
                 ],
-                "binary_path": "TestGun_mesh0.meshbin",
+                "binary_path": "ModelGun_mesh0.meshbin",
                 "bounding_radius": 2.745779275894165,
                 "has_bones": false,
                 "index_count": 3354,
@@ -92,7 +92,7 @@
     "guid": "745ea03e-bab3-4958-8892-4e154043df51",
     "import_settings": {
         "import_animation": false,
-        "import_currentPath": "Assets/Models",
+        "import_currentPath": "Assets\\Models",
         "import_mesh": true,
         "import_skeleton": false,
         "scale_factor": 1.0

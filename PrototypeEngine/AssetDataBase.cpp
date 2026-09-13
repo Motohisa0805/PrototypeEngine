@@ -153,6 +153,24 @@ void AssetDataBase::RefreshDataBase(
     }
 }
 
+void AssetDataBase::RefreshAssetData(const std::filesystem::path& pastFilePath,
+                                     const std::filesystem::path& newFilePath)
+{
+    const string pastKey = pastFilePath.generic_string();
+    const string newKey = newFilePath.generic_string();
+
+    auto node = mAssetRegistry.extract(pastKey);
+    if (!node.empty())
+    {
+        node.key() = newKey;
+        mAssetRegistry.insert(std::move(node));
+    }
+    else
+    {
+        mAssetRegistry[newKey] = GetAssetMetaData(newFilePath);
+    }
+}
+
 void AssetDataBase::UpdateAssetData(const std::filesystem::path& filePath,
                                     const AssetMetaData&         data)
 {

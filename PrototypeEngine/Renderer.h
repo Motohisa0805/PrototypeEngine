@@ -205,7 +205,7 @@ public:
 	//Mesh配列のGetter
 	//vector<Mesh*>										GetMeshs(const string& fileName);
 
-	Mesh*												GetSubMesh(const filesystem::path& fileName, const string& localID);
+	Mesh*												GetSubMesh(const filesystem::path& fileName, const string& localID,uint32_t vertexType = -1);
 
 	Matrix4												GetEditorView() { return mEditorView; }
     // カメラのビュー行列のSetter

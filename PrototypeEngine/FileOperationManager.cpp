@@ -5,6 +5,7 @@
 #include "SceneSerializer.h"
 #include "ScriptEditManager.h"
 #include "AssetImporter.h"
+#include "AssetDataBase.h"
 
 vector<string> FileOperationManager::mDroppedFiles;
 
@@ -298,6 +299,7 @@ void FileOperationManager::RenameNormalFileOrFolder(
 
         filesystem::rename(oldPath, newPath);
 
+        AssetDataBase::GetInstance().RefreshAssetData(oldPath, newPath);
         //.metaファイルの名前変更処理
         filesystem::path newMetaPath = newPath.string() + ".meta";
         filesystem::path oldMetaPath = oldPath.string() + ".meta";

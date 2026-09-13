@@ -190,7 +190,6 @@ void ProjectPanel::DrawFolderTree(const filesystem::path& path)
         else
         {
             // ツリーノードの表示
-            // ImGuiTreeNodeFlags_Selected:
             // mSelectedPathと一致する場合にハイライト表示させる
             ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_OpenOnArrow |
                                        ImGuiTreeNodeFlags_SpanAvailWidth;
@@ -796,13 +795,17 @@ void ProjectPanel::DragDropFunction(const filesystem::path& path)
                     try
                     {
                         filesystem::rename(src, dst);
+                        AssetDataBase::GetInstance().RefreshAssetData(src, dst);
                         //.metaファイルも移動
                         filesystem::path srcMeta = src.string() + ".meta";
                         filesystem::path dstMeta = dst.string() + ".meta";
+                        AssetImporter::ReloadImportAssets(srcMeta, dstMeta);
+                        /*
                         if (filesystem::exists(srcMeta))
                         {
                             filesystem::rename(srcMeta, dstMeta);
                         }
+                        */
                     }
                     catch (const exception& e)
                     {

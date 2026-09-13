@@ -105,6 +105,13 @@ void AssetImporter::ReloadImportAssets(const filesystem::path& oldfilePath,
     string oldBaseName = oldfilePath.stem().stem().string();
     string newBaseName = newfilePath.stem().stem().string();
 
+    if (metaJson.contains("import_settings") && metaJson["import_settings"].contains("import_currentPath"))
+    {
+        string pastPath = metaJson["import_settings"]["import_currentPath"];
+        string currentPath = newfilePath.parent_path().string();
+        metaJson["import_settings"]["import_currentPath"] = currentPath;
+    }
+
     if (metaJson.contains("cached_data"))
     {
         //メッシュバイナリの名前変更とJSON内のパス書き換え

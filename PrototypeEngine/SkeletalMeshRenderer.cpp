@@ -205,7 +205,7 @@ void SkeletalMeshRenderer::LoadSkeleton(const char* path, ActorObject* rootBone)
 void SkeletalMeshRenderer::LoadSkeletonMesh(const char* path,const char*  localID,ActorObject* rootBone)
 {
     LoadSkeleton(path, rootBone);
-    Mesh* mesh = EngineWindow::GetRenderer()->GetSubMesh(path, localID);
+    Mesh* mesh = EngineWindow::GetRenderer()->GetSubMesh(path, localID,1);
     if (mesh)
     {
         SetMesh({mesh});
@@ -315,7 +315,7 @@ void SkeletalMeshRenderer::DrawCustomGUI(
             // ペイロードがファイルパスであると仮定
             const SubMeshPayload* data = (const SubMeshPayload*)payload->Data;
             // ファイルパスを使いロード処理を呼び出す
-            LoadFilePathAndID(data->sAssetPath, data->sLocalID);
+            LoadFilePathAndID(data->sAssetPath, data->sLocalID,1);
             mLocalID = data->sLocalID;
         }
         ImGui::EndDragDropTarget();
