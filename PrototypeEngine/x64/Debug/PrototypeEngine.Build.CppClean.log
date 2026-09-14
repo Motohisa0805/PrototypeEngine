@@ -10,7 +10,6 @@ c:\c++files\prototypeengine\prototypeengine\x64\debug\editorwindowfactory.obj
 c:\c++files\prototypeengine\prototypeengine\x64\debug\duplicatecommand.obj
 c:\c++files\prototypeengine\prototypeengine\x64\debug\createnewuiactorcommand.obj
 c:\c++files\prototypeengine\prototypeengine\x64\debug\createnewcanvascommand.obj
-c:\c++files\prototypeengine\prototypeengine\x64\debug\createactorfromassetcommand.obj
 c:\c++files\prototypeengine\prototypeengine\x64\debug\basetransform.obj
 c:\c++files\prototypeengine\prototypeengine\x64\debug\audiosystem.obj
 c:\c++files\prototypeengine\prototypeengine\x64\debug\audiocomponent.obj
@@ -115,11 +114,17 @@ c:\c++files\prototypeengine\prototypeengine\x64\debug\soundeventclip.obj
 c:\c++files\prototypeengine\prototypeengine\x64\debug\skyboxrenderer.obj
 c:\c++files\prototypeengine\prototypeengine\x64\debug\skeleton.obj
 c:\c++files\prototypeengine\prototypeengine\x64\debug\skeletalmeshrenderer.obj
+c:\c++files\prototypeengine\prototypeengine\x64\debug\createactorfromsubmeshcommand.obj
+c:\c++files\prototypeengine\prototypeengine\x64\debug\createactorfromfbxfilecommand.obj
+c:\c++files\prototypeengine\prototypeengine\x64\debug\assetdatabase.obj
+c:\c++files\prototypeengine\prototypeengine\x64\debug\tracyclient.obj
+c:\c++files\prototypeengine\prototypeengine\x64\debug\createactortemplate.obj
 c:\c++files\prototypeengine\bin\prototypeengine.exe
 c:\c++files\prototypeengine\bin\prototypeengine.pdb
 c:\c++files\prototypeengine\bin\prototypeengine.lib
 c:\c++files\prototypeengine\bin\prototypeengine.exp
 c:\c++files\prototypeengine\prototypeengine\x64\debug\prototypeengine.ilk
+c:\c++files\prototypeengine\prototypeengine\x64\debug\createactorfromassetcommand.obj
 c:\c++files\prototypeengine\prototypeengine\x64\debug\prototypeengine.tlog\cl.command.1.tlog
 c:\c++files\prototypeengine\prototypeengine\x64\debug\prototypeengine.tlog\cl.items.tlog
 c:\c++files\prototypeengine\prototypeengine\x64\debug\prototypeengine.tlog\cl.read.1.tlog
