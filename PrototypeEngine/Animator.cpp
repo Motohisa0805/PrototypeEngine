@@ -31,6 +31,70 @@ Animator::~Animator()
     }
 }
 
+bool Animator::LoadController(const string& filePath) 
+{
+    mControllerFilePath = filePath;
+    std::ifstream file(filePath);
+    if (!file.is_open())
+    {
+        Debug::Log("Failed to open controller file: %s", filePath.c_str());
+        return false;
+    }
+
+    try
+    {
+        nlohmann::json j;
+        file >> j;
+        mControllerData = j.get<AnimatorControllerParameters>();
+
+        for (auto* anim : mAnimations)
+        {
+            delete anim;
+        }
+        mAnimations.clear();
+        mAnimationInfo.clear();
+        mStateAnimations.clear();
+
+        for (const auto& state : mControllerData.sStates)
+        {
+            if (state.sAnimInfo.sPath.empty())continue;
+
+            Animation* anim = new Animation(mSkeleton);
+            anim->SetLoop(state.sAnimInfo.sIsLoop);
+            anim->SetRootMotion(state.sAnimInfo.sRootMotion);
+
+            if (anim->LoadFromBinary(state.sAnimInfo.sPath.string()))
+            {
+                mAnimations.push_back(anim);
+                mStateAnimations[state.sStateName] = anim;
+
+                AnimInfo info{};
+                info.sPath = anim->GetFilePath();
+                info.sIsLoop = anim->IsLoop();
+                info.sRootMotion = anim->IsRootMotion();
+                mAnimationInfo.push_back(info);
+
+                if (state.sStateName == mControllerData.sDefaultState)
+                {
+                    mAnimation = anim;
+                    mAnimPlayRate = state.sPlaybackSpeed;
+                    mAnimTime     = 0.0f;
+                }
+            }
+            else
+            {
+                delete anim;
+            }
+        }
+        return true; 
+    }
+    catch (const std::exception& e)
+    {
+        Debug::Log("JSON Parse Error in Controller: %s", e.what());
+        return false; 
+    }
+}
+
 /// <summary>
 /// アニメーションを読み込む処理
 /// </summary>
@@ -254,22 +318,7 @@ void Animator::Serialize(json& j) const
         j["SkeletonPath"] = mSkeleton->GetSkeletonFilePath();
     }
 
-    json animArray = json::array();
-    for (size_t i = 0; i < mAnimations.size(); ++i)
-    {
-        if (mAnimations[i])
-        {
-            json animJson;
-            animJson["Path"]       = mAnimations[i]->GetFilePath();
-            animJson["IsLoop"] = mAnimations[i]->IsLoop();
-            animJson["RootMotion"] = mAnimations[i]->IsRootMotion();
-
-            animArray.push_back(animJson);
-        }
-    }
-    j["Animations"] = animArray;
-
-
+    j["ControllerPath"] = mControllerFilePath.string();
 }
 
 void Animator::Deserialize(const json& j) 
@@ -277,20 +326,13 @@ void Animator::Deserialize(const json& j)
     Component::Deserialize(j);
     if (j.contains("SkeletonPath"))
     {
-        filesystem::path skeletonPath = j["SkeletonPath"];
+        filesystem::path skeletonPath = j.value("SkeletonPath", "");
         mSkeletonFilePath             = skeletonPath;
     }
 
-    if (j.contains("Animations"))
+    if (j.contains("ControllerPath"))
     {
-        for (const auto& animJson : j["Animations"])
-        {
-            AnimInfo         info{};
-            info.sPath = animJson.value("Path", "");
-            info.sIsLoop = animJson.value("IsLoop", false);
-            info.sRootMotion = animJson.value("RootMotion", false);
-            mAnimationInfo.push_back(info);
-        }
+        mControllerFilePath = j.value("ControllerPath", "");
     }
 }
 
@@ -298,9 +340,9 @@ void Animator::DeserializeAfterParentChildBuild()
 {
     LoadSkeletonData(mSkeletonFilePath.string(), static_cast<ActorObject*>(mOwner));
 
-    for (const auto& anim : mAnimationInfo)
+    if (!mControllerFilePath.empty())
     {
-        Load(anim.sPath.string(), anim.sIsLoop, anim.sRootMotion);
+        LoadController(mControllerFilePath.string());
     }
 }
 
@@ -342,6 +384,34 @@ void Animator::DrawCustomGUI(const std::vector<PropertyInfo>& properties)
     ImGui::NewLine();
     ImGui::Separator();
 
+    ImGui::Text("Animator Controller");
+    static char controllerPathBuffer[256];
+    strncpy_s(controllerPathBuffer, mControllerFilePath.filename().string().c_str(),sizeof(controllerPathBuffer));
+    controllerPathBuffer[sizeof(controllerPathBuffer) - 1] = '\0';
+
+    ImGui::InputText("Controller", controllerPathBuffer, sizeof(controllerPathBuffer),ImGuiInputTextFlags_ReadOnly);
+
+    if (ImGui::BeginDragDropTarget())
+    {
+        if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("CONTROLLER_ITEM"))
+        {
+            AvatarPayload data = *(AvatarPayload*)payload->Data;
+            LoadController(data.sAvatarBinaryPath.string());
+        }
+
+        ImGui::EndDragDropTarget();
+    }
+
+    if (ImGui::Button("Clear Controller"))
+    {
+        mControllerFilePath.clear();
+        mControllerData = AnimatorControllerParameters();
+        for (auto* anim : mAnimations)delete anim;
+        mAnimations.clear();
+        mStateAnimations.clear();
+        mAnimation = nullptr;
+    }
+
     ImGui::PopID();
 }
 
@@ -353,15 +423,10 @@ Component* Animator::Clone(Entity* newOwner) const
     clone->LoadSkeletonData(mSkeletonFilePath.string(),
                             static_cast<ActorObject*>(mOwner));
 
-    clone->mAnimationInfo.resize(this->mAnimationInfo.size());
-    for (int i = 0; i < this->mAnimationInfo.size(); ++i)
+    clone->mControllerFilePath = this->mControllerFilePath;
+    if (!clone->mControllerFilePath.empty())
     {
-        clone->mAnimationInfo[i] = this->mAnimationInfo[i];
-    }
-
-    for (const auto& anim : clone->mAnimationInfo)
-    {
-        clone->Load(anim.sPath.string(), anim.sIsLoop, anim.sRootMotion);
+        clone->LoadController(clone->mControllerFilePath.string());
     }
 
     clone->mAnimPlayRate  = this->mAnimPlayRate;

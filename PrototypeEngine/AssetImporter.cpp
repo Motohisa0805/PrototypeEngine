@@ -15,6 +15,7 @@ void AssetImporter::CheckAndImportAssets(bool versionCheck, bool versionUpdate)
 	string assetsDir = "Assets/";
 
 	for (const auto& entry : fs::recursive_directory_iterator(assetsDir)) {
+        //FBXファイル
 		if (entry.is_regular_file() && entry.path().extension() == ".fbx") {
             fs::path fbxPath = entry.path();
 			//対応する独自ファイル
@@ -60,6 +61,53 @@ void AssetImporter::CheckAndImportAssets(bool versionCheck, bool versionUpdate)
                 ConvertFBXToCustomFormat(fbxPath, customPath);
             }
 		}
+        //AnimationControllerファイル
+        else if (entry.is_regular_file() && entry.path().extension() == ".controller")
+        {
+            fs::path fbxPath = entry.path();
+            // 対応する独自ファイル
+            fs::path customPath = AssetDataBase::GetInstance().GeneratedMetaFilePath(fbxPath);
+            bool needReimport = false;
+
+            if (!fs::exists(customPath))
+            {
+                needReimport = true;
+            }
+            else if (fs::last_write_time(entry) >
+                     fs::last_write_time(customPath))
+            {
+                needReimport = true;
+            }
+            else if (versionCheck)
+            {
+                std::ifstream inFile(customPath);
+                if (inFile.is_open())
+                {
+                    nlohmann::json metaJson;
+                    inFile >> metaJson;
+                    int metaVersion = metaJson.value("fileFormatVersion", 0);
+                    if (metaVersion != CURRENT_ASSET_VERSION)
+                    {
+                        needReimport = true;
+                    }
+                }
+                else
+                {
+                    needReimport = true;
+                }
+            }
+            else if (versionUpdate)
+            {
+                needReimport = true;
+            }
+
+            // 独自ファイルが存在しない、またはFBXファイルの方が新しく更新されている場合
+            if (needReimport)
+            {
+                // ここでFBXを読み込み、独自ファイルへ書き出す処理を呼ぶ
+                ConvertAnimControllerToCustomFormat(fbxPath, customPath);
+            }
+        }
 	}
 }
 
@@ -76,6 +124,18 @@ void AssetImporter::OneFileCheckAndImportAssets(
         {
             // ここでFBXを読み込み、独自ファイルへ書き出す処理を呼ぶ
             ConvertFBXToCustomFormat(filePath, customPath);
+        }
+    }
+    else if (fs::exists(filePath) && filePath.extension() == ".controller")
+    {
+        // 対応する独自ファイル
+        fs::path customPath = AssetDataBase::GetInstance().GeneratedMetaFilePath(filePath);
+        // 独自ファイルが存在しない、またはFBXファイルの方が新しく更新されている場合
+        if (!fs::exists(customPath) ||
+            fs::last_write_time(filePath) > fs::last_write_time(customPath))
+        {
+            // ここでFBXを読み込み、独自ファイルへ書き出す処理を呼ぶ
+            ConvertAnimControllerToCustomFormat(filePath, customPath);
         }
     }
 }
@@ -1220,6 +1280,48 @@ vector<string> AssetImporter::GetSubMeshLocalID(const fs::path& fbxPath)
     }
 
     return meshLocalIDs;
+}
+
+void AssetImporter::ConvertAnimControllerToCustomFormat(const fs::path& animPath, const fs::path& customPath)
+{
+    nlohmann::json metaJson;
+    bool           isNewFile = !fs::exists(customPath);
+
+    if (!isNewFile)
+    {
+        std::ifstream inFile(customPath);
+        if (inFile.is_open())
+        {
+            inFile >> metaJson;
+            inFile.close();
+        }
+    }
+
+    metaJson["fileFormatVersion"] = CURRENT_ASSET_VERSION;
+    if (isNewFile)
+    {
+        metaJson["guid"]              = GenerateUUID();
+    }
+    //ファイルの現在パス取得
+    metaJson["import_settings"]["import_currentPath"] = animPath.parent_path().string();
+
+    std::ofstream outFile(customPath);
+    if (outFile.is_open())
+    {
+        outFile << metaJson.dump(4);
+    }
+    else
+    {
+        Debug::Log("Failed to open file for writing: %s", customPath.string().c_str());
+    }
+
+    AssetMetaData metaData;
+    if (metaJson.contains("guid"))
+    {
+        metaData.sGUID = metaJson["guid"].get<string>();
+    }
+
+    AssetDataBase::GetInstance().UpdateAssetData(animPath, metaData);
 }
 
 // 補間情報の計算、チュートリアルから引用

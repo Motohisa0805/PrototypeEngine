@@ -2,17 +2,11 @@
 #include "MatrixPalette.h"
 #include "Animation.h"
 #include "Skeleton.h"
+#include "AnimatorControllerParameters.h"
 
 /*
 * ===エンジン内部処理/Engine internal processing===
 */
-
-struct AnimInfo
-{
-    filesystem::path sPath;
-    bool             sIsLoop = false;
-    bool             sRootMotion = false;
-};
 
 //複数個あるアニメーションを管理するクラス
 //Unityの「Animator」を意識して設計
@@ -20,15 +14,16 @@ struct AnimInfo
 class Animator : public Component
 {
 private:
+	//アニメーションデータを管理する「AnimatiorController」
+    filesystem::path						mControllerFilePath;
+    AnimatorControllerParameters			mControllerData;
+    std::unordered_map<string, Animation*>  mStateAnimations;
 	//保存データ
+	//スケルトン(アバター)
     filesystem::path				mSkeletonFilePath;
-    vector<AnimInfo>				mAnimationInfo;
-
-	vector<ActorObject*>			mBones;
-	//アニメーションを配列で持ってる変数
-	vector<Animation*>				mAnimations;
 	SkeletonData*					mSkeleton;
 	//非保存データ
+	vector<ActorObject*>			mBones;
 	Animation*						mAnimation;
 	Animation*						mBlendAnimation;
 	//アニメーションの倍率
@@ -41,9 +36,17 @@ private:
 	float							mBlendElapsed;
 	//アニメーションのブレンドを行うためのフラグ
 	bool							mBlending;
+
+	//メモリ管理・互換性のため残す
+	//************************************************
+    vector<AnimInfo>				mAnimationInfo;
+	//アニメーションを配列で持ってる変数
+	vector<Animation*>				mAnimations;
+	//*************************************************
 public:
     Animator(Entity* owner);
 	~Animator();
+    bool							LoadController(const string& filePath);
 	//アニメーション読み込み処理
 	bool							Load(const string& fileName,bool animLoop = 0,bool rootMotion = 0);
 	// アニメーションの更新処理

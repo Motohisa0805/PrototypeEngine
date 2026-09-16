@@ -178,6 +178,15 @@
     <Filter Include="SourceCodes\A_Editor\Function\Components\Animations">
       <UniqueIdentifier>{3fbf1679-76d4-4f0a-89b8-0dd102a20dbe}</UniqueIdentifier>
     </Filter>
+    <Filter Include="SourceCodes\A_Editor\Function\Components\Animations\Animator">
+      <UniqueIdentifier>{2afaa1fa-605a-47e5-b60f-6dbfe41dcc95}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceCodes\A_Editor\Function\Components\Animations\Animation">
+      <UniqueIdentifier>{8020d68b-baf4-4f51-bad1-82384c2a69cb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceCodes\A_Editor\Function\Components\Animations\Animator\Controller">
+      <UniqueIdentifier>{c9bc768b-94eb-4c78-b975-d2f11bdb29ef}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Shaders\Arrow.frag">
@@ -243,12 +252,6 @@
   <ItemGroup>
     <ClCompile Include="BoneActor.cpp">
       <Filter>SourceCodes\A_Editor\Function\Actors\Bones</Filter>
-    </ClCompile>
-    <ClCompile Include="Animation.cpp">
-      <Filter>SourceCodes\A_Editor\Function\Components\Animations</Filter>
-    </ClCompile>
-    <ClCompile Include="Animator.cpp">
-      <Filter>SourceCodes\A_Editor\Function\Components\Animations</Filter>
     </ClCompile>
     <ClCompile Include="AudioComponent.cpp">
       <Filter>SourceCodes\A_Editor\Function\Audios</Filter>
@@ -598,16 +601,19 @@
     <ClCompile Include="AssetDataBase.cpp">
       <Filter>SourceCodes\A_Editor\Function\GUIs\Systems\Files\FBX</Filter>
     </ClCompile>
+    <ClCompile Include="Animator.cpp">
+      <Filter>SourceCodes\A_Editor\Function\Components\Animations\Animator</Filter>
+    </ClCompile>
+    <ClCompile Include="Animation.cpp">
+      <Filter>SourceCodes\A_Editor\Function\Components\Animations\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="AnimatorControllerGenerater.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BoneActor.h">
       <Filter>SourceCodes\A_Editor\Function\Actors\Bones</Filter>
-    </ClInclude>
-    <ClInclude Include="Animation.h">
-      <Filter>SourceCodes\A_Editor\Function\Components\Animations</Filter>
-    </ClInclude>
-    <ClInclude Include="Animator.h">
-      <Filter>SourceCodes\A_Editor\Function\Components\Animations</Filter>
     </ClInclude>
     <ClInclude Include="AudioComponent.h">
       <Filter>SourceCodes\A_Editor\Function\Audios</Filter>
@@ -1004,6 +1010,18 @@
     </ClInclude>
     <ClInclude Include="AssetDataBase.h">
       <Filter>SourceCodes\A_Editor\Function\GUIs\Systems\Files\FBX</Filter>
+    </ClInclude>
+    <ClInclude Include="Animator.h">
+      <Filter>SourceCodes\A_Editor\Function\Components\Animations\Animator</Filter>
+    </ClInclude>
+    <ClInclude Include="Animation.h">
+      <Filter>SourceCodes\A_Editor\Function\Components\Animations\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimatorControllerGenerater.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimatorControllerParameters.h">
+      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
