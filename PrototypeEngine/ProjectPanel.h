@@ -52,6 +52,7 @@ public:
 	bool							RightClickMenu();
 	static void						CreateNewFolder();
 	static void						CreateNewMaterial();
+	static void						CreateNewAnimatorController();
 	static void						CreateNewScene(const string& name,bool loadScene = false);
 	static void						CreateNewScript();
 	static void						ShowInExplorer();

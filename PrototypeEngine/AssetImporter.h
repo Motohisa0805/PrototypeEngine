@@ -116,4 +116,6 @@ public:
 
     static vector<string>           GetSubMeshNames(const fs::path& fbxPath);
     static vector<string>           GetSubMeshLocalID(const fs::path& fbxPath);
+
+	static void                     ConvertAnimControllerToCustomFormat(const fs::path& animPath,const fs::path& customPath);
 };

@@ -9,6 +9,7 @@
 #include "AssetImporter.h"
 #include "AssetDataBase.h"
 #include "MaterialGenerater.h"
+#include "AnimatorControllerGenerater.h"
 
 filesystem::path ProjectPanel::mPathToRename = "";
 
@@ -507,6 +508,7 @@ bool ProjectPanel::RightClickMenu()
         {
             // フォルダ、シーン、スクリプトの作成
             CreateNewFolder();
+            CreateNewAnimatorController(); 
             CreateNewMaterial();
             CreateNewScene("Scene");
             CreateNewScript();
@@ -583,6 +585,46 @@ void ProjectPanel::CreateNewMaterial()
         {
             // 成功ログ
             Debug::Log("Created new mat file: %s\n", newMatPath.string().c_str());
+
+            SelectionManager::SetSelectedFilePath(newMatPath);
+            RenameStart();
+        }
+        else
+        {
+            // 失敗ログ
+            Debug::Log("Failed to create mat file: %s\n",
+                       newMatPath.string().c_str());
+        }
+    }
+}
+
+void ProjectPanel::CreateNewAnimatorController() 
+{
+    if (ImGui::MenuItem("AnimatorController"))
+    {
+        string           uniqueName   = "NewAnimatorController.controller";
+        filesystem::path targetFolder = mSelectedFolderPath;
+        if (mSelectedFolderPath.has_extension())
+        {
+            targetFolder = mSelectedFolderPath.parent_path();
+        }
+
+        // 既に存在するファイル名かチェックし、ユニークな名前に変更する
+        int counter = 1;
+        while (filesystem::exists(targetFolder / uniqueName))
+        {
+            // NewScene(1).json, NewScene(2).json のように生成
+            uniqueName = "NewAnimatorController (" + std::to_string(counter++) + ").controller";
+        }
+
+        filesystem::path newMatPath = targetFolder / uniqueName;
+
+        // マテリアルファイル作成処理
+        if (AnimatorControllerGenerater::GeneratedBlankController(newMatPath))
+        {
+            // 成功ログ
+            Debug::Log("Created new mat file: %s\n",
+                       newMatPath.string().c_str());
 
             SelectionManager::SetSelectedFilePath(newMatPath);
             RenameStart();
