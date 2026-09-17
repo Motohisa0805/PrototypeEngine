@@ -13,6 +13,7 @@
 #include "Renderer.h"
 #include "SceneViewPanel.h"
 #include "ToolbarPanel.h"
+#include "AnimatorNodeEditorPanel.h"
 #include "WindowRenderProperty.h"
 
 std::unordered_map<string, WindowCreator> EditorWindowFactory::sCreators;
@@ -64,6 +65,7 @@ void RegisterAllEditorWindows()
     EditorWindowFactory::RegisterEditorWindow("Hierarchy",[](Renderer* r) -> EditorWindow* { return new HierarchyPanel(r); });
     EditorWindowFactory::RegisterEditorWindow("Project",[](Renderer* r) -> EditorWindow*{ return new ProjectPanel(r); });
     EditorWindowFactory::RegisterEditorWindow("Inspector",[](Renderer* r) -> EditorWindow* { return new InspectorPanel(r); });
+    EditorWindowFactory::RegisterEditorWindow("Animator Controller Editor",[](Renderer* r) -> EditorWindow* { return new AnimatorNodeEditorPanel(r); });
     EditorWindowFactory::RegisterEditorWindow("AboutEngine",[](Renderer* r) -> EditorWindow* { return new AboutEnginePanel(r); });
     EditorWindowFactory::RegisterEditorWindow("HierarchyExplanation", [](Renderer* r) -> EditorWindow*{ return new HierarchyExplanationPanel(r); });
     EditorWindowFactory::RegisterEditorWindow("ProjectExplanation", [](Renderer* r) -> EditorWindow*{ return new ProjectExplanationPanel(r); });

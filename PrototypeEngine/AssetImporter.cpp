@@ -637,6 +637,16 @@ void AssetImporter::ConvertFBXToCustomFormat(const fs::path& fbxPath,
             aiAnimation* anim = scene->mAnimations[i];
             nlohmann::json animInfo;
 
+            string clipName       = anim->mName.C_Str();
+            if (clipName.empty() || clipName == "mixamo.com" || clipName == "Take 001" || clipName == "Armature|mixamo.com")
+            {
+                clipName = fbxPath.stem().string();
+
+                if (scene->mNumAnimations > 1)
+                {
+                    clipName += "_" + std::to_string(i);
+                }
+            }
             animInfo["clip_name"] = anim->mName.C_Str();
             animInfo["duration"]  = anim->mDuration;
 

@@ -248,6 +248,15 @@
     </None>
     <None Include="packages.config" />
     <None Include="cpp.hint" />
+    <None Include="ImGui\imgui_bezier_math.inl">
+      <Filter>SourceCodes\C_OutsideLibrary\ImGui</Filter>
+    </None>
+    <None Include="ImGui\imgui_extra_math.inl">
+      <Filter>SourceCodes\C_OutsideLibrary\ImGui</Filter>
+    </None>
+    <None Include="ImGui\imgui_node_editor_internal.inl">
+      <Filter>SourceCodes\C_OutsideLibrary\ImGui</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BoneActor.cpp">
@@ -608,6 +617,21 @@
       <Filter>SourceCodes\A_Editor\Function\Components\Animations\Animation</Filter>
     </ClCompile>
     <ClCompile Include="AnimatorControllerGenerater.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGui\imgui_node_editor.cpp">
+      <Filter>SourceCodes\C_OutsideLibrary\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGui\imgui_canvas.cpp">
+      <Filter>SourceCodes\C_OutsideLibrary\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGui\imgui_node_editor_api.cpp">
+      <Filter>SourceCodes\C_OutsideLibrary\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGui\crude_json.cpp">
+      <Filter>SourceCodes\C_OutsideLibrary\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="AnimatorNodeEditorPanel.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1021,6 +1045,27 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="AnimatorControllerParameters.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\imgui_node_editor.h">
+      <Filter>SourceCodes\C_OutsideLibrary\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\imgui_node_editor_internal.h">
+      <Filter>SourceCodes\C_OutsideLibrary\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\imgui_bezier_math.h">
+      <Filter>SourceCodes\C_OutsideLibrary\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\imgui_canvas.h">
+      <Filter>SourceCodes\C_OutsideLibrary\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\imgui_extra_math.h">
+      <Filter>SourceCodes\C_OutsideLibrary\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\crude_json.h">
+      <Filter>SourceCodes\C_OutsideLibrary\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimatorNodeEditorPanel.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

@@ -1,32 +1,39 @@
 #pragma once
 #include "Typedefs.h"
-
+//サブメッシュ要素
 struct SubMeshPayload
 {
     char sAssetPath[256];
     char sSubMeshName[256];
     char sLocalID[64];
 };
-
+//マテリアル要素
 struct MaterialPayload
 {
     char sMaterialName[256];
     char sLocalID[64];
 };
-
+//アバター要素
 struct AvatarPayload
 {
     bool sIsAvatar = false;
     filesystem::path sAvatarBinaryPath;
+};
+//アニメ要素
+struct AnimPayload
+{
+    char             sAnimDataName[256];
+    char             sAnimBinaryPath[256];
 };
 
 //キャッシュしておくための構造体
 struct AssetMetaData
 {
     string sGUID;
-    vector<SubMeshPayload> sSubMeshs;   //FBXの場合
+    vector<SubMeshPayload>  sSubMeshs;  //FBXの場合
     vector<MaterialPayload> sMaterials; //マテリアル情報
-    AvatarPayload sAvatar;              // アバターのキャッシュデータ
+    AvatarPayload           sAvatar;    // アバターのキャッシュデータ
+    vector<AnimPayload>     sAnims;
 };
 
 class AssetDataBase
@@ -87,6 +94,17 @@ public:
         if (it != mAssetRegistry.end())
         {
             outMaterials = it->second.sMaterials;
+            return true;
+        }
+        return false;
+    }
+
+    bool GetAnimData(const std::filesystem::path& path, std::vector<AnimPayload>& outAnims)const
+    {
+        auto it = mAssetRegistry.find(path.generic_string());
+        if (it != mAssetRegistry.end())
+        {
+            outAnims = it->second.sAnims;
             return true;
         }
         return false;

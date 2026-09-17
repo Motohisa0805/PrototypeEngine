@@ -3,6 +3,7 @@ C:\C++Files\PrototypeEngine\PrototypeEngine\Actor.cpp;C:\C++Files\PrototypeEngin
 C:\C++Files\PrototypeEngine\PrototypeEngine\Animation.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\Animation.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\Animator.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\Animator.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\AnimatorControllerGenerater.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\AnimatorControllerGenerater.obj
+C:\C++Files\PrototypeEngine\PrototypeEngine\AnimatorNodeEditorPanel.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\AnimatorNodeEditorPanel.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\AssetDataBase.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\AssetDataBase.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\AssetImporter.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\AssetImporter.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\AudioBankProperty.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\AudioBankProperty.obj
@@ -32,6 +33,10 @@ C:\C++Files\PrototypeEngine\PrototypeEngine\CommandManager.cpp;C:\C++Files\Proto
 C:\C++Files\PrototypeEngine\PrototypeEngine\Component.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\Component.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\ComponentFactory.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\ComponentFactory.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\ExternalLibrary\public\TracyClient.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\TracyClient.obj
+C:\C++Files\PrototypeEngine\PrototypeEngine\ImGui\crude_json.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\crude_json.obj
+C:\C++Files\PrototypeEngine\PrototypeEngine\ImGui\imgui_canvas.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\imgui_canvas.obj
+C:\C++Files\PrototypeEngine\PrototypeEngine\ImGui\imgui_node_editor.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\imgui_node_editor.obj
+C:\C++Files\PrototypeEngine\PrototypeEngine\ImGui\imgui_node_editor_api.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\imgui_node_editor_api.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\ImportSettingsItem.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\ImportSettingsItem.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\LightingPanel.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\LightingPanel.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\LocalLight.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\LocalLight.obj

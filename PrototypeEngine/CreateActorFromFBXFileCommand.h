@@ -1,6 +1,5 @@
 #pragma once
 #include "ICommand.h"
-#include "SelectionManager.h"
 #include <filesystem>
 #include <string>
 

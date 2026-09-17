@@ -33,6 +33,8 @@ EditorWindow* GUIEditorManager::mRootMainWindow = nullptr;
 
 vector<SceneViewPanel*> GUIEditorManager::mSceneViewPanels;
 
+ne::EditorContext* GUIEditorManager::mNodeContext = nullptr;
+
 bool GUIEditorManager::InitializeImGui(SDL_Window*   window,
                                        SDL_GLContext glContext)
 {
@@ -50,6 +52,8 @@ bool GUIEditorManager::InitializeImGui(SDL_Window*   window,
     io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
     ImGui_ImplSDL3_InitForOpenGL(window, glContext);
     ImGui_ImplOpenGL3_Init("#version 330");
+    //ノードエディターの初期化
+    mNodeContext = ax::NodeEditor::CreateEditor();
     // GUI用のフォントを読み込む
     // フォントパス(Libraryフォルダーにアクセス)
     string fontpath = "Library/Noto_Sans_JP/static/NotoSansJP-Bold.ttf";
@@ -276,6 +280,13 @@ void GUIEditorManager::ApplyDefaultLayout_2by3()
 
 void GUIEditorManager::ShutdownImGui()
 {
+
+    if (mNodeContext)
+    {
+        ne::DestroyEditor(mNodeContext);
+        mNodeContext = nullptr;
+    }
+
     ImGui_ImplOpenGL3_Shutdown();
     ImGui_ImplSDL3_Shutdown();
     ImGui::DestroyContext();

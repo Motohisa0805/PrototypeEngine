@@ -400,7 +400,9 @@ void ProjectPanel::DrawFileSystemEntry(const filesystem::directory_entry& entry)
                 {
                     for (size_t i = 0; i < subMeshes.size(); ++i)
                     {
-                        ImGui::PushID(static_cast<int>(i));
+                        string id = subMeshes[i].sSubMeshName;
+                        id        = id + std::to_string(i);
+                        ImGui::PushID(id.c_str());
                         ImGui::BeginGroup();
                         ImTextureID fbxItemIconID =
                             (ImTextureID)(uintptr_t)
@@ -467,6 +469,42 @@ void ProjectPanel::DrawFileSystemEntry(const filesystem::directory_entry& entry)
                         ImGui::EndDragDropSource();
                     }
                     ImGui::PopID();
+                }
+                vector<AnimPayload> animDatas;
+                if (AssetDataBase::GetInstance().GetAnimData(entry.path(), animDatas))
+                {
+                    for (size_t i = 0; i < animDatas.size(); ++i)
+                    {
+                        string id = animDatas[i].sAnimDataName;
+                        id        = id + std::to_string(i);
+                        ImGui::PushID(id.c_str());
+                        ImGui::BeginGroup();
+                        ImTextureID fbxItemIconID =
+                            (ImTextureID)(uintptr_t)
+                                EditorTextureManager::GetInstance().GetFileIconTexture(entry.path().string(),".bank")->GetTextureID();
+
+                        ImGui::ImageButton("##fbxItemIcon", fbxItemIconID,ImVec2(54, 54));
+                        // サブアイテムの描画
+                        ImGui::TextWrapped(animDatas[i].sAnimDataName);
+                        ImGui::EndGroup();
+
+                        // アニメファイル用のドラッグ&ドロップ元
+                        if (ImGui::BeginDragDropSource(
+                                ImGuiDragDropFlags_SourceAllowNullID))
+                        {
+                            AnimPayload payloadData = {};
+                            // パスとアニメーション名を安全にコピー
+                            strncpy_s(payloadData.sAnimDataName,sizeof(payloadData.sAnimDataName),animDatas[i].sAnimDataName, _TRUNCATE);
+
+                            string pathStr = animDatas[i].sAnimBinaryPath;
+                            strncpy_s(payloadData.sAnimBinaryPath, sizeof(payloadData.sAnimBinaryPath),pathStr.c_str(),_TRUNCATE);
+
+                            ImGui::SetDragDropPayload("ANIM_ITEM",&payloadData,sizeof(payloadData));
+                            ImGui::Text("Anim: %s", animDatas[i].sAnimDataName);
+                            ImGui::EndDragDropSource();
+                        }
+                        ImGui::PopID();
+                    }
                 }
 
                 ImGui::TreePop();

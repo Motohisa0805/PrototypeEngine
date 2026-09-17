@@ -14,6 +14,9 @@
 class Animator : public Component
 {
 private:
+	//現在再生中のアニメーション名
+    string									mCurrentStateName;
+
 	//アニメーションデータを管理する「AnimatiorController」
     filesystem::path						mControllerFilePath;
     AnimatorControllerParameters			mControllerData;
@@ -43,6 +46,7 @@ private:
 	//アニメーションを配列で持ってる変数
 	vector<Animation*>				mAnimations;
 	//*************************************************
+    void CheckStateTransitions();
 public:
     Animator(Entity* owner);
 	~Animator();
@@ -61,6 +65,11 @@ public:
     void							AddAnimation(Animation* anim);
 	//スケルトンのGetter
 	SkeletonData*					GetSkeleton() { return mSkeleton; }
+
+	filesystem::path				GetControllerFilePath() { return mControllerFilePath; }
+
+	AnimatorControllerParameters&	GetControllerData() { return mControllerData; }
+
 	//スケルトンのSetter
 	void							ReloadBones(ActorObject* rootbone);
     void							LoadSkeletonData(const string& fileName,ActorObject* rootBone);

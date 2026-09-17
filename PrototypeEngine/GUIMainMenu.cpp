@@ -225,6 +225,12 @@ void GUIMainMenu::WindowMenuDraw()
                         EditorWindowFactory::CreateEditorWindow("Inspector",
                                                                 mRenderer));
                 }
+                if (ImGui::MenuItem("Animator"))
+                {
+                    GUIEditorManager::GetRootMainWindow()->AddEditorWindow(
+                        EditorWindowFactory::CreateEditorWindow("Animator Controller Editor",
+                                                                mRenderer));
+                }
                 ImGui::EndMenu();
             }
 

@@ -122,6 +122,25 @@ AssetMetaData AssetDataBase::GetAssetMetaData(const filesystem::path& fbxPath)
         }
         data.sAvatar = avatarPayload;
     }
+
+    if (cachedData.contains("animations"))
+    {
+        vector<AnimPayload> animPayloads;
+        for (const auto& animNode : cachedData["animations"])
+        {
+            AnimPayload anim = {};
+            
+            string animName = animNode.value("clip_name", "");
+
+            strncpy_s(anim.sAnimDataName, sizeof(anim.sAnimDataName), animName.c_str(),_TRUNCATE);
+
+            string animPath = animNode.value("binary_path", "");
+            strncpy_s(anim.sAnimBinaryPath, sizeof(anim.sAnimBinaryPath), animPath.c_str(),_TRUNCATE);
+
+            animPayloads.push_back(anim);
+        }
+        data.sAnims = animPayloads;
+    }
     return data;
 }
 

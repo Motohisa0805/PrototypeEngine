@@ -22,17 +22,27 @@ enum class AnimParamType
 // AnimatorÇ…ìnÇ∑ÉpÉâÉÅÅ[É^Å[
 struct AnimParameter
 {
-    string        sName;
+    string        sName = "";
     AnimParamType sType;
     float         sDefaultFloat = 0.0f;
     bool          sDefaultBool  = false;
+};
+enum class AnimNodeType
+{
+    sNormal,
+    sEntry,
+    sAnyState,
+    sExit
 };
 // èÛë‘ÉmÅ[Éh
 struct AnimState
 {
     string   sStateName;
+    AnimNodeType sNodeType = AnimNodeType::sNormal;
     AnimInfo sAnimInfo;
     float    sPlaybackSpeed = 1.0f;
+    //ï`âÊç¿ïW
+    Vector2  sPos = Vector2::Zero;
 };
 // ëJà⁄ÇÃèåè
 struct AnimCondition
@@ -78,10 +88,13 @@ inline void to_json(nlohmann::json& j, const AnimParameter& p)
 inline void to_json(nlohmann::json& j, const AnimState& s)
 {
     j = nlohmann::json{{"name", s.sStateName},
+                       {"nodeType", (int)s.sNodeType},
                        {"animPath", s.sAnimInfo.sPath.string()},
                        {"isLoop", s.sAnimInfo.sIsLoop},
                        {"rootMotion", s.sAnimInfo.sRootMotion},
-                       {"playbackSpeed", s.sPlaybackSpeed}};
+                       {"playbackSpeed", s.sPlaybackSpeed},
+                       {"posX", s.sPos.x},
+                       {"posY", s.sPos.y}};
 }
 
 inline void to_json(nlohmann::json& j, const AnimCondition& c)
@@ -128,10 +141,17 @@ inline void from_json(const nlohmann::json& j, AnimParameter& p)
 inline void from_json(const nlohmann::json& j, AnimState& s)
 {
     j.at("name").get_to(s.sStateName);
+    s.sNodeType             = j.at("nodeType").get<AnimNodeType>();
     s.sAnimInfo.sPath       = j.at("animPath").get<string>();
     s.sAnimInfo.sIsLoop     = j.at("isLoop").get<bool>();
     s.sAnimInfo.sRootMotion = j.at("rootMotion").get<bool>();
     s.sPlaybackSpeed        = j.at("playbackSpeed").get<float>();
+
+    if (j.contains("posX") && j.contains("posY"))
+    {
+        s.sPos.x = j.at("posX").get<float>();
+        s.sPos.y = j.at("posY").get<float>();
+    }
 }
 
 inline void from_json(const nlohmann::json& j, AnimCondition& c)

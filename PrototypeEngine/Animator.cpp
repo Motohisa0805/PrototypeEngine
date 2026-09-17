@@ -15,6 +15,8 @@ Animator::Animator(Entity* owner)
     , mAnimPlayRate(1.0f)
     , mBlendElapsed(0.1f)
     , mBlending(false)
+    , mControllerFilePath("")
+    , mControllerData()
 {
     mName = "Animator";
 }
@@ -86,6 +88,28 @@ bool Animator::LoadController(const string& filePath)
                 delete anim;
             }
         }
+
+        for (const auto& trans : mControllerData.sTransitions)
+        {
+            if (trans.sFromState == "Entry")
+            {
+                mCurrentStateName = trans.sToState;
+                break;
+            }
+        }
+        //見つからなければdefaultStateを使用
+        if (mCurrentStateName.empty())
+        {
+            mCurrentStateName = mControllerData.sDefaultState;
+        }
+
+        if (mStateAnimations.count(mCurrentStateName))
+        {
+            mAnimation = mStateAnimations[mCurrentStateName];
+            mAnimPlayRate = 1.0f;
+            mAnimTime     = 0.0f;
+        }
+        
         return true; 
     }
     catch (const std::exception& e)
@@ -125,6 +149,36 @@ bool Animator::Load(const string& fileName, bool animLoop, bool rootMotion)
     return false;
 }
 
+void Animator::CheckStateTransitions() 
+{
+    for (const auto& trans : mControllerData.sTransitions)
+    {
+        if (trans.sFromState == mCurrentStateName)
+        {
+            string nextState = trans.sToState;
+
+            if (nextState == "Exit")
+            {
+                for (const auto& entryTrans : mControllerData.sTransitions)
+                {
+                    if (entryTrans.sFromState == "Entry")
+                    {
+                        nextState = entryTrans.sToState;
+                        break;
+                    }
+                }
+            }
+
+            if (mStateAnimations.count(nextState) && nextState != mCurrentStateName)
+            {
+                mCurrentStateName = nextState;
+                PlayBlendAnimation(mStateAnimations[nextState]);
+                break;
+            }
+        }
+    }
+}
+
 void Animator::Update(float deltaTime)
 {
     if (!mAnimation || !mSkeleton) return;
@@ -152,6 +206,12 @@ void Animator::Update(float deltaTime)
                 mAnimation->SetIsAnimationEnd(true);
             }
         }
+    }
+
+    //アニメーションが終端に達した(またはループ時)に遷移判定を行う
+    if (mAnimation->IsAnimationEnd() || (mAnimTime >= mAnimation->GetDuration()))
+    {
+        CheckStateTransitions();
     }
 
     //ブレンド用サブアニメーションの再生時間更新と補間率の計算
@@ -393,10 +453,11 @@ void Animator::DrawCustomGUI(const std::vector<PropertyInfo>& properties)
 
     if (ImGui::BeginDragDropTarget())
     {
-        if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("CONTROLLER_ITEM"))
+        if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM"))
         {
-            AvatarPayload data = *(AvatarPayload*)payload->Data;
-            LoadController(data.sAvatarBinaryPath.string());
+            const char*      payloadPath = (const char*)payload->Data;
+            filesystem::path droppedPath(payloadPath);
+            LoadController(droppedPath.string());
         }
 
         ImGui::EndDragDropTarget();

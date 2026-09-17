@@ -209,8 +209,6 @@ uint64_t CreateActorTemplate::CreateSkeletonActor(const nlohmann::json& metaJson
         {
             filesystem::path binaryPath = animJson.value("binary_path", "");
             //animator->Load(binaryPath.string().c_str());
-            //animator->Load("Idle_anim0.animbin");
-            animator->Load("Running_anim0.animbin");
         }
     }
 

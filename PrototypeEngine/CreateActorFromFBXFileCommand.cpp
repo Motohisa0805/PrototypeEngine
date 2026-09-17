@@ -7,6 +7,7 @@
 #include <nlohmann/json.hpp>
 #include "DebugManager.h"
 #include "CreateActorTemplate.h"
+#include "SelectionManager.h"
 
 CreateActorFromFBXFileCommand::CreateActorFromFBXFileCommand(
     const std::filesystem::path& assetPath, ActorObject* parentActor)
