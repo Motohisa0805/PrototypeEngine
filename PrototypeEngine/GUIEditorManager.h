@@ -2,9 +2,12 @@
 #include "imgui.h"
 #include "imgui_impl_sdl3.h"
 #include "imgui_impl_opengl3.h"
+#include <imgui_node_editor.h>
 #include "EditorWindowFactory.h"
 #include "EditorWindow.h"
 #include "CommandManager.h"
+
+namespace ne = ax::NodeEditor;
 
 //前方宣言
 //描画クラス
@@ -27,6 +30,7 @@ class ProjectPanel;
 //アイテム選択用のパネル
 class InspectorPanel;
 
+class AnimatorNodeEditorPanel;
 
 class GUIEditorManager
 {
@@ -53,6 +57,9 @@ private:
 
 	//パネル全体で数えるSceneEditorCamera配列
 	static vector<SceneViewPanel*>						mSceneViewPanels;
+
+	static ne::EditorContext*							mNodeContext;
+
 public:
 							GUIEditorManager() = default;
 							~GUIEditorManager() = default;
@@ -91,4 +98,6 @@ public:
 	static vector<SceneViewPanel*>		GetSceneViewPanels() { return mSceneViewPanels; }
 	static void							AddSceneViewPanel(SceneViewPanel* panel);
 	static void							RemoveSceneViewPanel(SceneViewPanel* panel);
+
+	static ne::EditorContext*			GetNodeContext() { return mNodeContext; }
 };

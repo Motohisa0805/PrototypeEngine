@@ -165,6 +165,9 @@
     <None Include="..\Shaders\Sprite.frag" />
     <None Include="..\Shaders\Sprite.vert" />
     <None Include="cpp.hint" />
+    <None Include="ImGui\imgui_bezier_math.inl" />
+    <None Include="ImGui\imgui_extra_math.inl" />
+    <None Include="ImGui\imgui_node_editor_internal.inl" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -173,6 +176,7 @@
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="Animator.cpp" />
     <ClCompile Include="AnimatorControllerGenerater.cpp" />
+    <ClCompile Include="AnimatorNodeEditorPanel.cpp" />
     <ClCompile Include="AssetDataBase.cpp" />
     <ClCompile Include="AssetImporter.cpp" />
     <ClCompile Include="AudioBankProperty.cpp" />
@@ -202,6 +206,10 @@
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="ComponentFactory.cpp" />
     <ClCompile Include="ExternalLibrary\public\TracyClient.cpp" />
+    <ClCompile Include="ImGui\crude_json.cpp" />
+    <ClCompile Include="ImGui\imgui_canvas.cpp" />
+    <ClCompile Include="ImGui\imgui_node_editor.cpp" />
+    <ClCompile Include="ImGui\imgui_node_editor_api.cpp" />
     <ClCompile Include="ImportSettingsItem.cpp" />
     <ClCompile Include="LightingPanel.cpp" />
     <ClCompile Include="LocalLight.cpp" />
@@ -296,6 +304,7 @@
     <ClInclude Include="Animator.h" />
     <ClInclude Include="AnimatorControllerGenerater.h" />
     <ClInclude Include="AnimatorControllerParameters.h" />
+    <ClInclude Include="AnimatorNodeEditorPanel.h" />
     <ClInclude Include="AssetDataBase.h" />
     <ClInclude Include="AssetImporter.h" />
     <ClInclude Include="Assimp.h" />
@@ -326,6 +335,12 @@
     <ClInclude Include="CommandManager.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="ComponentFactory.h" />
+    <ClInclude Include="ImGui\crude_json.h" />
+    <ClInclude Include="ImGui\imgui_bezier_math.h" />
+    <ClInclude Include="ImGui\imgui_canvas.h" />
+    <ClInclude Include="ImGui\imgui_extra_math.h" />
+    <ClInclude Include="ImGui\imgui_node_editor.h" />
+    <ClInclude Include="ImGui\imgui_node_editor_internal.h" />
     <ClInclude Include="ImportSettingsItem.h" />
     <ClInclude Include="LightingPanel.h" />
     <ClInclude Include="LocalLight.h" />

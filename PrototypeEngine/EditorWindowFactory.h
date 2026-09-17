@@ -25,6 +25,8 @@ class ProjectPanel;
 //アイテム選択用のパネル
 class InspectorPanel;
 
+class AnimatorNodeEditorPanel;
+
 using WindowCreator = std::function<EditorWindow* (Renderer*)>;
 
 class EditorWindowFactory

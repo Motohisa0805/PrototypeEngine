@@ -863,7 +863,7 @@
         "materials": [
             {
                 "albedo_binary_map": true,
-                "albedo_map": "Binary/texture\\43081078-2a7b-43b5-a178-a9ae605b8d2e.texbin",
+                "albedo_map": "Binary/texture\\87ccc560-18b1-4183-aa09-7f46e46aff0e.texbin",
                 "diffuse_color": [
                     1.0,
                     1.0,
@@ -876,8 +876,8 @@
                     0.0
                 ],
                 "name": "mutant_M",
-                "normal_map": "Binary/texture\\138cb22c-bfea-49cf-a619-64f3aeaa7f8c.texbin",
-                "normal_map_guid": "138cb22c-bfea-49cf-a619-64f3aeaa7f8c",
+                "normal_map": "Binary/texture\\b4c885eb-6abd-4ef6-bc13-caaef31587cb.texbin",
+                "normal_map_guid": "b4c885eb-6abd-4ef6-bc13-caaef31587cb",
                 "normal_map_height": 2048,
                 "normal_map_width": 2048,
                 "roughness": 0.7519305348396301

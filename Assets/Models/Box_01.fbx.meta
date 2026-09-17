@@ -92,7 +92,7 @@
     "guid": "47340f64-4da5-4297-bd4e-dd9de8699cbc",
     "import_settings": {
         "import_animation": false,
-        "import_currentPath": "Assets\\Models",
+        "import_currentPath": "Assets/Models",
         "import_mesh": true,
         "import_skeleton": false,
         "scale_factor": 1.0
