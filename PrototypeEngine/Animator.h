@@ -66,6 +66,8 @@ public:
 	//ƒXƒPƒ‹ƒgƒ“‚ÌGetter
 	SkeletonData*						GetSkeleton() { return mSkeleton; }
 
+	const string					    GetCurrentStateName() const { return mCurrentStateName; }
+
 	filesystem::path					GetControllerFilePath() { return mControllerFilePath; }
 
 	AnimatorControllerParameters&		GetControllerData() { return mControllerData; }

@@ -178,9 +178,9 @@ void EngineWindow::EngineRunLoop()
                 // ゲームのロードが成功した場合の処理
                 mGameWindow->GameRunLoop();
             }
+            //編集中にゲームない時間を更新する処理
+            SceneManager::GetCurrentRunScene()->EditorUpdate(GUIEditorManager::IsPlaying());
         }
-        SceneManager::GetCurrentRunScene()->EditorUpdate(
-            GUIEditorManager::IsPlaying());
         // 終了ボタンが押されたら
         if (GUIEditorManager::IsPushEnd())
         {

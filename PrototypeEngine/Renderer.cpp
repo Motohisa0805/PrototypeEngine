@@ -145,7 +145,14 @@ bool Renderer::Initialize(float screenWidth, float screenHeight)
 
     GUIEditorManager::SetRenderer(this);
 
-    SDL_GL_SetSwapInterval(0);
+    if (SDL_GL_SetSwapInterval(0) < 0)
+    {
+        SDL_Log("VSync Disable Failed: %s",SDL_GetError());
+    }
+    else
+    {
+        SDL_Log("VSync Disable successfully.");
+    }
     return true;
 }
 

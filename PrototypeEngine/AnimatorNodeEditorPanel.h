@@ -18,6 +18,7 @@ public:
     // GUI‚Ì•`‰æ
     void             Draw(float width, float height) override;
 
+    void             DeletedNode(int index,AnimatorControllerParameters& controllerData);
 
     static Animator* GetSelectAnimator() { return mSelectAnimator; }
     static void      SetSelectAnimator(Animator* animator) {mSelectAnimator = animator;}

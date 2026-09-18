@@ -1,6 +1,6 @@
 #include "Time.h"
 
-float Time::mMaxDeltaTime = 0.05f;
+float Time::mMaxDeltaTime = 0.02f;
 
 float Time::mFrameRate = 0.0f;
 
