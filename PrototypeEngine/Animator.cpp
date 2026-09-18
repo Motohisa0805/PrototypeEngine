@@ -151,6 +151,7 @@ bool Animator::Load(const string& fileName, bool animLoop, bool rootMotion)
 
 void Animator::CheckStateTransitions() 
 {
+    //ŽŸ‚Ì‘JˆÚæ‚ð’T‚·
     for (const auto& trans : mControllerData.sTransitions)
     {
         if (trans.sFromState == mCurrentStateName)
@@ -172,6 +173,16 @@ void Animator::CheckStateTransitions()
             if (mStateAnimations.count(nextState) && nextState != mCurrentStateName)
             {
                 mCurrentStateName = nextState;
+
+                for (const auto& state : mControllerData.sStates)
+                {
+                    if (state.sStateName == nextState)
+                    {
+                        mAnimPlayRate = state.sPlaybackSpeed;
+                        break;
+                    }
+                }
+
                 PlayBlendAnimation(mStateAnimations[nextState]);
                 break;
             }
@@ -280,7 +291,8 @@ void Animator::Update(float deltaTime)
     //ƒuƒŒƒ“ƒhŠ®—¹ˆ—
     if (mBlending && mBlendAnimTime >= mBlendElapsed)
     {
-        mAnimTime = mBlendAnimTime;
+        mAnimation      = mBlendAnimation;
+        mAnimTime       = mBlendAnimTime;
         mBlendAnimation = nullptr;
         mBlending       = false;
     }
@@ -356,16 +368,21 @@ float Animator::PlayBlendAnimation(Animation* anim)
 
     mBlendAnimation = anim;
     mBlendAnimTime  = 0.0f;
-
-    mBlendAnimation->SetIsAnimationEnd(false);
-    mAnimation->SetIsAnimationEnd(false);
     mBlending = true;
+    mBlendAnimation->SetIsAnimationEnd(false);
+
+    mAnimTime = 0.0f;
+    mAnimation->SetIsAnimationEnd(false);
 
     return mAnimation->GetDuration();
 }
 
 float Animator::GetNormalizedTime()
 {
+    if (!mAnimation)
+    {
+        return 1.0f;
+    }
     return mAnimTime / mAnimation->GetDuration();
 }
 
