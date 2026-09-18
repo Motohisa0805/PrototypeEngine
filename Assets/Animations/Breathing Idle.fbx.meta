@@ -3,7 +3,7 @@
         "animations": [
             {
                 "binary_path": "Breathing Idle_anim0.animbin",
-                "clip_name": "mixamo.com",
+                "clip_name": "Breathing Idle",
                 "duration": 298.0,
                 "num_frames": 299,
                 "settings": {

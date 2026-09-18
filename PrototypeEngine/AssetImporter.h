@@ -101,7 +101,7 @@ public:
 
     static uint32_t                 GenerateNameHash(const string& name);
 
-    static bool                     ProcessTexture(const aiScene* scene,const aiString& texPath,const fs::path& fbxPath,TextureImportData& data);
+    static bool                     ProcessTexture(const aiScene* scene,const aiString& texPath,const fs::path& fbxPath,TextureImportData& data,const string& existinGuid = "");
 
 	static void                     ExportMeshBinary(const fs::path& fbxPath,const fs::path& meshBinPath, int index);
 	static void                     ExportTextureBinary(const fs::path& outputPath,const string& uuid, size_t width,int height,int channels,const unsigned char* pixelData);

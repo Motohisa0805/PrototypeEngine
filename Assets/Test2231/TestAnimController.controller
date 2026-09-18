@@ -1,5 +1,5 @@
 {
-    "defaultState": "mixamo.com",
+    "defaultState": "",
     "parameters": [],
     "states": [
         {
@@ -35,11 +35,21 @@
         {
             "animPath": "Breathing Idle_anim0.animbin",
             "isLoop": false,
-            "name": "mixamo.com",
+            "name": "Breathing Idle",
             "nodeType": 0,
             "playbackSpeed": 1.0,
-            "posX": -99.0,
-            "posY": 6.0,
+            "posX": -67.0,
+            "posY": -10.0,
+            "rootMotion": false
+        },
+        {
+            "animPath": "Running_anim0.animbin",
+            "isLoop": false,
+            "name": "Running",
+            "nodeType": 0,
+            "playbackSpeed": 1.0,
+            "posX": 153.0,
+            "posY": -10.0,
             "rootMotion": false
         }
     ],
@@ -48,7 +58,19 @@
             "blendDuration": 0.25,
             "conditions": [],
             "from": "Entry",
-            "to": "mixamo.com"
+            "to": "Breathing Idle"
+        },
+        {
+            "blendDuration": 0.25,
+            "conditions": [],
+            "from": "Breathing Idle",
+            "to": "Running"
+        },
+        {
+            "blendDuration": 0.25,
+            "conditions": [],
+            "from": "Running",
+            "to": "Exit"
         }
     ]
 }
