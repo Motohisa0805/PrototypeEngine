@@ -3,7 +3,7 @@
         "animations": [
             {
                 "binary_path": "Jumping_anim0.animbin",
-                "clip_name": "mixamo.com",
+                "clip_name": "Jumping",
                 "duration": 57.0,
                 "num_frames": 58,
                 "settings": {

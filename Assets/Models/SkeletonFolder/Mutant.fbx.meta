@@ -3,7 +3,7 @@
         "animations": [
             {
                 "binary_path": "Mutant_anim0.animbin",
-                "clip_name": "mixamo.com",
+                "clip_name": "Mutant",
                 "duration": 1.0,
                 "num_frames": 2,
                 "settings": {
@@ -863,7 +863,10 @@
         "materials": [
             {
                 "albedo_binary_map": true,
-                "albedo_map": "Binary/texture\\87ccc560-18b1-4183-aa09-7f46e46aff0e.texbin",
+                "albedo_map": "Binary/texture\\67bb71d7-8da3-457f-8f1c-133cf6161793.texbin",
+                "albedo_map_guid": "67bb71d7-8da3-457f-8f1c-133cf6161793",
+                "albedo_map_height": 2048,
+                "albedo_map_width": 2048,
                 "diffuse_color": [
                     1.0,
                     1.0,
@@ -876,8 +879,8 @@
                     0.0
                 ],
                 "name": "mutant_M",
-                "normal_map": "Binary/texture\\b4c885eb-6abd-4ef6-bc13-caaef31587cb.texbin",
-                "normal_map_guid": "b4c885eb-6abd-4ef6-bc13-caaef31587cb",
+                "normal_map": "Binary/texture\\bcfecfd8-fe45-485e-8df2-8b28f239d1c7.texbin",
+                "normal_map_guid": "bcfecfd8-fe45-485e-8df2-8b28f239d1c7",
                 "normal_map_height": 2048,
                 "normal_map_width": 2048,
                 "roughness": 0.7519305348396301

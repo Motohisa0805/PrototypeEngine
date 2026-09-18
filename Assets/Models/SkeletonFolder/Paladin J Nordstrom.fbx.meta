@@ -3,7 +3,7 @@
         "animations": [
             {
                 "binary_path": "Paladin J Nordstrom_anim0.animbin",
-                "clip_name": "mixamo.com",
+                "clip_name": "Paladin J Nordstrom",
                 "duration": 1.0,
                 "num_frames": 2,
                 "settings": {
@@ -1530,7 +1530,10 @@
         "materials": [
             {
                 "albedo_binary_map": true,
-                "albedo_map": "Binary/texture\\53fda195-72ec-42e6-bdb8-29dc1e2bac71.texbin",
+                "albedo_map": "Binary/texture\\f04d51a4-d5dc-4578-a8d3-2e09b3fcb481.texbin",
+                "albedo_map_guid": "f04d51a4-d5dc-4578-a8d3-2e09b3fcb481",
+                "albedo_map_height": 2048,
+                "albedo_map_width": 2048,
                 "diffuse_color": [
                     1.0,
                     1.0,
@@ -1543,8 +1546,8 @@
                     0.0
                 ],
                 "name": "Paladin_MAT",
-                "normal_map": "Binary/texture\\0f9c09d4-c25b-4850-bca0-2b4ed8bf400b.texbin",
-                "normal_map_guid": "0f9c09d4-c25b-4850-bca0-2b4ed8bf400b",
+                "normal_map": "Binary/texture\\3378707e-7c24-4fa4-8874-40b8dc03d218.texbin",
+                "normal_map_guid": "3378707e-7c24-4fa4-8874-40b8dc03d218",
                 "normal_map_height": 2048,
                 "normal_map_width": 2048,
                 "roughness": 0.5527864098548889

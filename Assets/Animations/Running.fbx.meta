@@ -3,7 +3,7 @@
         "animations": [
             {
                 "binary_path": "Running_anim0.animbin",
-                "clip_name": "mixamo.com",
+                "clip_name": "Running",
                 "duration": 21.0,
                 "num_frames": 22,
                 "settings": {

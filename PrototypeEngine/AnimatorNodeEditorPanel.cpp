@@ -24,8 +24,10 @@ void AnimatorNodeEditorPanel::Draw(float width, float height)
     ne::SetCurrentEditor(GUIEditorManager::GetNodeContext());
     ne::Begin("Animator Controller Editor");
 
-    if (mSelectAnimator)
+    if (mSelectAnimator && mSelectAnimator->GetOwner())
     {
+        auto& controllerData = mSelectAnimator->GetControllerData();
+
         if (mSelectAnimator != mPreviousAnimator)
         {
             mNeedSetNodePositions = true;
@@ -38,7 +40,7 @@ void AnimatorNodeEditorPanel::Draw(float width, float height)
         std::unordered_map<uint64_t, string> pinToStateMap; // 新規作成時の判定用
 
         int nodeIndex = 1;
-        for (auto& state : mSelectAnimator->GetControllerData().sStates)
+        for (auto& state : controllerData.sStates)
         {
             ne::NodeId nodeId = nodeIndex;
             //1ノードあたり固定の範囲でPinIDを振り分ける
@@ -83,7 +85,7 @@ void AnimatorNodeEditorPanel::Draw(float width, float height)
         mNeedSetNodePositions = false;
 
         int linkID = 1;
-        for (const auto& trans : mSelectAnimator->GetControllerData().sTransitions)
+        for (const auto& trans : controllerData.sTransitions)
         {
             if (outputPinMap.count(trans.sFromState) && inputPinMap.count(trans.sToState))
             {
@@ -113,12 +115,12 @@ void AnimatorNodeEditorPanel::Draw(float width, float height)
                             newTrans.sToState   = toState;
                             newTrans.sBlendDuration = 0.25f;
 
-                            mSelectAnimator->GetControllerData().sTransitions.push_back(newTrans);
+                            controllerData.sTransitions.push_back(newTrans);
 
                             //JSONへの書き出しと再ロード
                             AnimatorControllerGenerater::GenerateController(
                                 mSelectAnimator->GetControllerFilePath(),
-                                mSelectAnimator->GetControllerData()
+                                controllerData
                             );
                             mSelectAnimator->LoadController(mSelectAnimator->GetControllerFilePath().string());
                         }
@@ -137,7 +139,7 @@ void AnimatorNodeEditorPanel::Draw(float width, float height)
                 if (ne::AcceptDeletedItem())
                 {
                     int index = static_cast<int>(deletedLinkId.Get()) - 1;
-                    auto& transitions = mSelectAnimator->GetControllerData().sTransitions;
+                    auto& transitions = controllerData.sTransitions;
                     if (index >= 0 && index < transitions.size())
                     {
                         transitions.erase(transitions.begin() + index);
@@ -145,7 +147,7 @@ void AnimatorNodeEditorPanel::Draw(float width, float height)
                         // JSONへの書き出しと再ロード
                         AnimatorControllerGenerater::GenerateController(
                             mSelectAnimator->GetControllerFilePath(),
-                            mSelectAnimator->GetControllerData()
+                            controllerData
                         );
                         mSelectAnimator->LoadController(mSelectAnimator->GetControllerFilePath().string());
                     }
@@ -165,7 +167,7 @@ void AnimatorNodeEditorPanel::Draw(float width, float height)
         if (ImGui::BeginPopup("NodeContextMenu"))
         {
             int index = static_cast<int>(contextNodeId.Get()) - 1;
-            auto& states = mSelectAnimator->GetControllerData().sStates;
+            auto& states = controllerData.sStates;
 
             if (index >= 0 && index < states.size())
             {
@@ -177,12 +179,12 @@ void AnimatorNodeEditorPanel::Draw(float width, float height)
                 {
                     if (ImGui::MenuItem("Set as Default State"))
                     {
-                        mSelectAnimator->GetControllerData().sDefaultState = state.sStateName;
+                        controllerData.sDefaultState = state.sStateName;
 
                         // JSONへの書き出しと再ロード
                         AnimatorControllerGenerater::GenerateController(
                             mSelectAnimator->GetControllerFilePath(),
-                            mSelectAnimator->GetControllerData());
+                            controllerData);
                         mSelectAnimator->LoadController(mSelectAnimator->GetControllerFilePath().string());
                     }
                 }

@@ -279,9 +279,8 @@ uint32_t AssetImporter::GenerateNameHash(const string& name)
     return static_cast<uint32_t>(std::hash<string>{}(name));
 }
 
-bool AssetImporter::ProcessTexture(const aiScene*  scene,const aiString& texPath,const fs::path& fbxPath,TextureImportData& data)
+bool AssetImporter::ProcessTexture(const aiScene*  scene,const aiString& texPath,const fs::path& fbxPath,TextureImportData& data,const string& existinGuid)
 {
-    //if (texPath.length == 0)return "";
     //テクスチャ出力先ディレクトリ(FBXファイルと同じファイル)
     fs::path textureOutputDir = fbxPath.parent_path();
     string   checkPath        = fs::path(texPath.C_Str()).string();
@@ -292,7 +291,7 @@ bool AssetImporter::ProcessTexture(const aiScene*  scene,const aiString& texPath
         const aiTexture* embeddedTex = scene->GetEmbeddedTexture(texPath.C_Str());
         if (embeddedTex)
         {
-            data.sGuid = GenerateUUID();
+            data.sGuid = existinGuid.empty() ? GenerateUUID() : existinGuid;
             string ext = embeddedTex->achFormatHint;
             if (ext.empty())
                 ext = "png";
@@ -475,6 +474,16 @@ void AssetImporter::ConvertFBXToCustomFormat(const fs::path& fbxPath,
             string matName  = mat->GetName().C_Str();
             matInfo["name"] = matName;
 
+            string existingAlbedoGuid = "";
+            string existingNormalGuid = "";
+            if (!isNewFile && metaJson.contains("cached_data") &&
+                 metaJson["cached_data"].contains("materials") &&
+                metaJson["cached_data"]["materials"].size() > i)
+            {
+                existingAlbedoGuid = metaJson["cached_data"]["materials"][i].value("albedo_map_guid","");
+                existingNormalGuid = metaJson["cached_data"]["materials"][i].value("normal_map_guid","");
+            }
+
             MaterialParameters matParams;
 
             aiColor4D diffuseColor;
@@ -514,9 +523,13 @@ void AssetImporter::ConvertFBXToCustomFormat(const fs::path& fbxPath,
             if (mat->GetTexture(aiTextureType_DIFFUSE, 0, &texPath) == AI_SUCCESS)
             {
                 TextureImportData texData;
-                if (ProcessTexture(scene, texPath, fbxPath, texData))
+                if (ProcessTexture(scene, texPath, fbxPath, texData,existingAlbedoGuid))
                 {
                     matInfo["albedo_binary_map"] = true;
+
+                    matInfo["albedo_map_guid"]   = texData.sGuid;
+                    matInfo["albedo_map_width"]  = texData.sWidth;
+                    matInfo["albedo_map_height"] = texData.sHeight;
                 }
                 
                 matInfo["albedo_map"] = texData.sPath;
@@ -531,7 +544,7 @@ void AssetImporter::ConvertFBXToCustomFormat(const fs::path& fbxPath,
             if (mat->GetTexture(aiTextureType_NORMALS, 0, &normalPath) == AI_SUCCESS)
             {
                 TextureImportData normalTexData;
-                if (ProcessTexture(scene, normalPath, fbxPath, normalTexData))
+                if (ProcessTexture(scene, normalPath, fbxPath, normalTexData,existingNormalGuid))
                 {
                     matInfo["normal_map_guid"]   = normalTexData.sGuid;
                     matInfo["normal_map_width"]  = normalTexData.sWidth;
@@ -647,7 +660,7 @@ void AssetImporter::ConvertFBXToCustomFormat(const fs::path& fbxPath,
                     clipName += "_" + std::to_string(i);
                 }
             }
-            animInfo["clip_name"] = anim->mName.C_Str();
+            animInfo["clip_name"] = clipName;
             animInfo["duration"]  = anim->mDuration;
 
             float ticks =

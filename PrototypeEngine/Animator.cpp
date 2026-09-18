@@ -281,7 +281,6 @@ void Animator::Update(float deltaTime)
     if (mBlending && mBlendAnimTime >= mBlendElapsed)
     {
         mAnimTime = mBlendAnimTime;
-        mAnimation = nullptr;
         mBlendAnimation = nullptr;
         mBlending       = false;
     }

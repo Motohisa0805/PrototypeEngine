@@ -834,6 +834,1800 @@
       "Static": 0,
       "Tag": 0,
       "Type": "Transform"
+    },
+    {
+      "Components": [
+        {
+          "ControllerPath": "Assets\\Test2231\\TestAnimController.controller",
+          "SkeletonPath": "Assets\\Models\\SkeletonFolder\\TestBot.fbx",
+          "Type": "Animator"
+        }
+      ],
+      "ID": 25,
+      "LocalPosition": [
+        5.0,
+        0.0,
+        0.0
+      ],
+      "LocalRotation": [
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "LocalScale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "Name": "TestBot",
+      "ParentActorID": -1,
+      "State": 0,
+      "Static": 0,
+      "Tag": 0,
+      "Type": "Transform"
+    },
+    {
+      "Components": [],
+      "ID": 26,
+      "LocalPosition": [
+        0.0008647538488730788,
+        0.979795515537262,
+        -0.002792870393022895
+      ],
+      "LocalRotation": [
+        0.9998644590377808,
+        0.013264724984765053,
+        0.0010436641750857234,
+        -0.009695617482066154
+      ],
+      "LocalScale": [
+        1.0,
+        1.0,
+        0.9999999403953552
+      ],
+      "Name": "mixamorig:Hips",
+      "ParentActorID": 25,
+      "State": 0,
+      "Static": 0,
+      "Tag": 0,
+      "Type": "Transform"
+    },
+    {
+      "Components": [],
+      "ID": 27,
+      "LocalPosition": [
+        8.597855412517674e-06,
+        0.09923461824655533,
+        0.012273347936570644
+      ],
+      "LocalRotation": [
+        0.9986307621002197,
+        0.05229713022708893,
+        0.0011736673768609762,
+        0.0004997340147383511
+      ],
+      "LocalScale": [
+        0.9999999403953552,
+        1.0,
+        1.0
+      ],
+      "Name": "mixamorig:Spine",
+      "ParentActorID": 26,
+      "State": 0,
+      "Static": 0,
+      "Tag": 0,
+      "Type": "Transform"
+    },
+    {
+      "Components": [],
+      "ID": 28,
+      "LocalPosition": [
+        6.920259243691119e-21,
+        0.11731978505849838,
+        1.998401358298498e-17
+      ],
+      "LocalRotation": [
+        0.9997241497039795,
+        -0.009073745459318161,
+        0.021608520299196243,
+        -0.0015537918079644442
+      ],
+      "LocalScale": [
+        0.9999999403953552,
+        0.9999999403953552,
+        1.0
+      ],
+      "Name": "mixamorig:Spine1",
+      "ParentActorID": 27,
+      "State": 0,
+      "Static": 0,
+      "Tag": 0,
+      "Type": "Transform"
+    },
+    {
+      "Components": [],
+      "ID": 29,
+      "LocalPosition": [
+        1.9314919401294123e-13,
+        0.134588360786438,
+        -6.261657604775999e-15
+      ],
+      "LocalRotation": [
+        0.9975509643554688,
+        -0.06650658696889877,
+        0.021655449643731117,
+        9.21479077078402e-05
+      ],
+      "LocalScale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "Name": "mixamorig:Spine2",
+      "ParentActorID": 28,
+      "State": 0,
+      "Static": 0,
+      "Tag": 0,
+      "Type": "Transform"
+    },
+    {
+      "Components": [],
+      "ID": 30,
+      "LocalPosition": [
+        2.548122779444384e-07,
+        0.15027761459350586,
+        -0.008779068477451801
+      ],
+      "LocalRotation": [
+        0.9996668100357056,
+        0.02126317098736763,
+        -0.007418399676680565,
+        -0.012616390362381935
+      ],
+      "LocalScale": [
+        1.0,
+        0.9999999403953552,
+        1.0
+      ],
+      "Name": "mixamorig:Neck",
+      "ParentActorID": 29,
+      "State": 0,
+      "Static": 0,
+      "Tag": 0,
+      "Type": "Transform"
+    },
+    {
+      "Components": [],
+      "ID": 31,
+      "LocalPosition": [
+        2.5625485733371534e-08,
+        0.10321838408708572,
+        -0.03142428770661354
+      ],
+      "LocalRotation": [
+        0.9982292056083679,
+        -0.048195697367191315,
+        0.014850733801722527,
+        0.031546443700790405
+      ],
+      "LocalScale": [
+        0.9999999403953552,
+        0.9999999403953552,
+        1.0
+      ],
+      "Name": "mixamorig:Head",
+      "ParentActorID": 30,
+      "State": 0,
+      "Static": 0,
+      "Tag": 0,
+      "Type": "Transform"
+    },
+    {
+      "Components": [],
+      "ID": 32,
+      "LocalPosition": [
+        1.4939084849174833e-06,
+        -0.021690070629119873,
+        -0.0035154148936271667
+      ],
+      "LocalRotation": [
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "LocalScale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "Name": "mixamorig:HeadTop_End",
+      "ParentActorID": 31,
+      "State": 0,
+      "Static": 0,
+      "Tag": 0,
+      "Type": "Transform"
+    },
+    {
+      "Components": [],
+      "ID": 33,
+      "LocalPosition": [
+        0.06105824187397957,
+        0.09106291830539703,
+        -0.007570624817162752
+      ],
+      "LocalRotation": [
+        -0.40318286418914795,
+        0.4180448651313782,
+        0.5684082508087158,
+        0.5827471017837524
+      ],
+      "LocalScale": [
+        0.9999998807907104,
+        0.9999998807907104,
+        0.9999999403953552
+      ],
+      "Name": "mixamorig:LeftShoulder",
+      "ParentActorID": 29,
+      "State": 0,
+      "Static": 0,
+      "Tag": 0,
+      "Type": "Transform"
+    },
+    {
+      "Components": [],
+      "ID": 34,
+      "LocalPosition": [
+        4.425507928770569e-17,
+        0.12922285497188568,
+        -5.131805359221832e-17
+      ],
+      "LocalRotation": [
+        0.7806412577629089,
+        -0.5422120094299316,
+        -0.19737207889556885,
+        0.24010354280471802
+      ],
+      "LocalScale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "Name": "mixamorig:LeftArm",
+      "ParentActorID": 33,
+      "State": 0,
+      "Static": 0,
+      "Tag": 0,
+      "Type": "Transform"
+    },
+    {
+      "Components": [],
+      "ID": 35,
+      "LocalPosition": [
+        3.059411404771062e-11,
+        0.27404680848121643,
+        1.5165656405489298e-16
+      ],
+      "LocalRotation": [
+        0.9674997925758362,
+        -0.0,
+        0.0,
+        0.2528718411922455
+      ],
+      "LocalScale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "Name": "mixamorig:LeftForeArm",
+      "ParentActorID": 34,
+      "State": 0,
+      "Static": 0,
+      "Tag": 0,
+      "Type": "Transform"
+    },
+    {
+      "Components": [],
+      "ID": 36,
+      "LocalPosition": [
+        -1.282041779404608e-07,
+        0.2761446237564087,
+        -2.3361064194205028e-09
+      ],
+      "LocalRotation": [
+        0.9844031929969788,
+        -0.10676975548267365,
+        -0.0583462193608284,
+        -0.1270686686038971
+      ],
+      "LocalScale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "Name": "mixamorig:LeftHand",
+      "ParentActorID": 35,
+      "State": 0,
+      "Static": 0,
+      "Tag": 0,
+      "Type": "Transform"
+    },
+    {
+      "Components": [],
+      "ID": 37,
+      "LocalPosition": [
+        -0.030029749497771263,
+        0.037888091057538986,
+        -0.021671490743756294
+      ],
+      "LocalRotation": [
+        0.9592733383178711,
+        -0.1728483885526657,
+        0.17401963472366333,
+        0.14012600481510162
+      ],
+      "LocalScale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "Name": "mixamorig:LeftHandThumb1",
+      "ParentActorID": 36,
+      "State": 0,
+      "Static": 0,
+      "Tag": 0,
+      "Type": "Transform"
+    },
+    {
+      "Components": [],
+      "ID": 38,
+      "LocalPosition": [
+        -4.2914136796695976e-17,
+        0.04744970053434372,
+        -4.1509593381003796e-16
+      ],
+      "LocalRotation": [
+        0.989639163017273,
+        0.02123134955763817,
+        -0.025733374059200287,
+        -0.1396472007036209
+      ],
+      "LocalScale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "Name": "mixamorig:LeftHandThumb2",
+      "ParentActorID": 37,
+      "State": 0,
+      "Static": 0,
+      "Tag": 0,
+      "Type": "Transform"
+    },
+    {
+      "Components": [],
+      "ID": 39,
+      "LocalPosition": [
+        -5.884235393589007e-15,
+        0.04382128641009331,
+        -5.148568813580397e-14
+      ],
+      "LocalRotation": [
+        0.9994479417800903,
+        0.027722621336579323,
+        -0.00014333911531139165,
+        -0.01831085793673992
+      ],
+      "LocalScale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "Name": "mixamorig:LeftHandThumb3",
+      "ParentActorID": 38,
+      "State": 0,
+      "Static": 0,
+      "Tag": 0,
+      "Type": "Transform"
+    },
+    {
+      "Components": [],
+      "ID": 40,
+      "LocalPosition": [
+        -5.128464053427706e-08,
+        -0.053051795810461044,
+        -4.034531375651795e-09
+      ],
+      "LocalRotation": [
+        0.9894125461578369,
+        -0.009146816097199917,
+        -0.12563742697238922,
+        0.07207248359918594
+      ],
+      "LocalScale": [
+        0.9999998211860657,
+        1.0,
+        1.0
+      ],
+      "Name": "mixamorig:LeftHandThumb4",
+      "ParentActorID": 39,
+      "State": 0,
+      "Static": 0,
+      "Tag": 0,
+      "Type": "Transform"
+    },
+    {
+      "Components": [],
+      "ID": 41,
+      "LocalPosition": [
+        -0.028220437467098236,
+        0.12266616523265839,
+        -0.002318251645192504
+      ],
+      "LocalRotation": [
+        0.9830157160758972,
+        -0.18325376510620117,
+        0.0023092441260814667,
+        -0.009637557901442051
+      ],
+      "LocalScale": [
+        0.9999999403953552,
+        0.9999999403953552,
+        1.0
+      ],
+      "Name": "mixamorig:LeftHandIndex1",
+      "ParentActorID": 36,
+      "State": 0,
+      "Static": 0,
+      "Tag": 0,
+      "Type": "Transform"
+    },
+    {
+      "Components": [],
+      "ID": 42,
+      "LocalPosition": [
+        -1.4760152947753347e-17,
+        0.03891967609524727,
+        4.035611962986453e-18
+      ],
+      "LocalRotation": [
+        0.9519314169883728,
+        -0.3041055202484131,
+        -1.6049839359766338e-06,
+        -0.03669366240501404
+      ],
+      "LocalScale": [
+        1.0,
+        1.0,
+        0.9999999403953552
+      ],
+      "Name": "mixamorig:LeftHandIndex2",
+      "ParentActorID": 41,
+      "State": 0,
+      "Static": 0,
+      "Tag": 0,
+      "Type": "Transform"
+    },
+    {
+      "Components": [],
+      "ID": 43,
+      "LocalPosition": [
+        4.0713228144709235e-13,
+        0.03415160998702049,
+        8.802038162599628e-16
+      ],
+      "LocalRotation": [
+        0.9884263873100281,
+        -0.15060870349407196,
+        1.5122752472507273e-07,
+        -0.018175415694713593
+      ],
+      "LocalScale": [
+        0.9999999403953552,
+        1.0,
+        0.9999999403953552
+      ],
+      "Name": "mixamorig:LeftHandIndex3",
+      "ParentActorID": 42,
+      "State": 0,
+      "Static": 0,
+      "Tag": 0,
+      "Type": "Transform"
+    },
+    {
+      "Components": [],
+      "ID": 44,
+      "LocalPosition": [
+        5.853908024988641e-09,
+        -0.03752334415912628,
+        -1.9231078386108998e-15
+      ],
+      "LocalRotation": [
+        0.9999920129776001,
+        -1.039359290189168e-06,
+        -0.004001602530479431,
+        2.277957901242189e-05
+      ],
+      "LocalScale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "Name": "mixamorig:LeftHandIndex4",
+      "ParentActorID": 43,
+      "State": 0,
+      "Static": 0,
+      "Tag": 0,
+      "Type": "Transform"
+    },
+    {
+      "Components": [],
+      "ID": 45,
+      "LocalPosition": [
+        -1.8344154284477554e-07,
+        0.127755269408226,
+        1.0320898802262946e-08
+      ],
+      "LocalRotation": [
+        0.9716179966926575,
+        -0.23574133217334747,
+        0.002166853053495288,
+        -0.019489409402012825
+      ],
+      "LocalScale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "Name": "mixamorig:LeftHandMiddle1",
+      "ParentActorID": 36,
+      "State": 0,
+      "Static": 0,
+      "Tag": 0,
+      "Type": "Transform"
+    },
+    {
+      "Components": [],
+      "ID": 46,
+      "LocalPosition": [
+        -3.543738358872717e-17,
+        0.036139678210020065,
+        4.571065577672545e-17
+      ],
+      "LocalRotation": [
+        0.9780349731445313,
+        -0.20693936944007874,
+        2.2306187474896433e-07,
+        -0.02497350610792637
+      ],
+      "LocalScale": [
+        1.0,
+        1.0,
+        0.9999999403953552
+      ],
+      "Name": "mixamorig:LeftHandMiddle2",
+      "ParentActorID": 45,
+      "State": 0,
+      "Static": 0,
+      "Tag": 0,
+      "Type": "Transform"
+    },
+    {
+      "Components": [],
+      "ID": 47,
+      "LocalPosition": [
+        2.850849796232069e-07,
+        0.034597624093294144,
+        7.183179264686553e-16
+      ],
+      "LocalRotation": [
+        0.9915252327919006,
+        -0.12897884845733643,
+        1.9020475860997976e-08,
+        -0.01556521374732256
+      ],
+      "LocalScale": [
+        1.0,
+        0.9999999403953552,
+        1.0
+      ],
+      "Name": "mixamorig:LeftHandMiddle3",
+      "ParentActorID": 46,
+      "State": 0,
+      "Static": 0,
+      "Tag": 0,
+      "Type": "Transform"
+    },
+    {
+      "Components": [],
+      "ID": 48,
+      "LocalPosition": [
+        -8.749088351578393e-07,
+        -0.03239334002137184,
+        -8.781971952079174e-16
+      ],
+      "LocalRotation": [
+        0.9999892711639404,
+        1.3327272654350963e-06,
+        -0.004579424858093262,
+        -0.0006541441543959081
+      ],
+      "LocalScale": [
+        1.0,
+        1.0,
+        0.9999997615814209
+      ],
+      "Name": "mixamorig:LeftHandMiddle4",
+      "ParentActorID": 47,
+      "State": 0,
+      "Static": 0,
+      "Tag": 0,
+      "Type": "Transform"
+    },
+    {
+      "Components": [],
+      "ID": 49,
+      "LocalPosition": [
+        0.022166304290294647,
+        0.12147009372711182,
+        9.996225708164275e-05
+      ],
+      "LocalRotation": [
+        0.9575515985488892,
+        -0.28784024715423584,
+        0.0060782115906476974,
+        -0.01435370184481144
+      ],
+      "LocalScale": [
+        0.9999999403953552,
+        1.0,
+        1.0
+      ],
+      "Name": "mixamorig:LeftHandRing1",
+      "ParentActorID": 36,
+      "State": 0,
+      "Static": 0,
+      "Tag": 0,
+      "Type": "Transform"
+    },
+    {
+      "Components": [],
+      "ID": 50,
+      "LocalPosition": [
+        5.833690029259309e-18,
+        0.03601188585162163,
+        -1.3420341047204871e-16
+      ],
+      "LocalRotation": [
+        0.9885265231132507,
+        -0.14996026456356049,
+        -1.1163087947352324e-06,
+        -0.01808921992778778
+      ],
+      "LocalScale": [
+        0.9999999403953552,
+        1.0,
+        1.0
+      ],
+      "Name": "mixamorig:LeftHandRing2",
+      "ParentActorID": 49,
+      "State": 0,
+      "Static": 0,
+      "Tag": 0,
+      "Type": "Transform"
+    },
+    {
+      "Components": [],
+      "ID": 51,
+      "LocalPosition": [
+        -7.151610134984148e-15,
+        0.033073119819164276,
+        -2.018790586156877e-15
+      ],
+      "LocalRotation": [
+        0.9953269958496094,
+        -0.09586634486913681,
+        6.32763814678583e-08,
+        -0.011569262482225895
+      ],
+      "LocalScale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "Name": "mixamorig:LeftHandRing3",
+      "ParentActorID": 50,
+      "State": 0,
+      "Static": 0,
+      "Tag": 0,
+      "Type": "Transform"
+    },
+    {
+      "Components": [],
+      "ID": 52,
+      "LocalPosition": [
+        -2.4172632606678235e-07,
+        -0.02954505756497383,
+        -1.6886512810287968e-07
+      ],
+      "LocalRotation": [
+        0.9999723434448242,
+        -8.486034857924096e-06,
+        -0.007396476808935404,
+        0.0007707650074735284
+      ],
+      "LocalScale": [
+        0.9999997615814209,
+        1.0,
+        0.9999997615814209
+      ],
+      "Name": "mixamorig:LeftHandRing4",
+      "ParentActorID": 51,
+      "State": 0,
+      "Static": 0,
+      "Tag": 0,
+      "Type": "Transform"
+    },
+    {
+      "Components": [],
+      "ID": 53,
+      "LocalPosition": [
+        0.04725831374526024,
+        0.1090819463133812,
+        -0.002261321758851409
+      ],
+      "LocalRotation": [
+        0.9160148501396179,
+        -0.39566880464553833,
+        -0.007750759832561016,
+        -0.06559687107801437
+      ],
+      "LocalScale": [
+        0.9999999403953552,
+        1.0,
+        1.0
+      ],
+      "Name": "mixamorig:LeftHandPinky1",
+      "ParentActorID": 36,
+      "State": 0,
+      "Static": 0,
+      "Tag": 0,
+      "Type": "Transform"
+    },
+    {
+      "Components": [],
+      "ID": 54,
+      "LocalPosition": [
+        -6.590239922694087e-17,
+        0.0413665696978569,
+        -2.3783596589214634e-17
+      ],
+      "LocalRotation": [
+        0.9822291731834412,
+        -0.1871393769979477,
+        -0.00656719459220767,
+        0.012711741030216217
+      ],
+      "LocalScale": [
+        1.0,
+        0.9999999403953552,
+        1.0
+      ],
+      "Name": "mixamorig:LeftHandPinky2",
+      "ParentActorID": 53,
+      "State": 0,
+      "Static": 0,
+      "Tag": 0,
+      "Type": "Transform"
+    },
+    {
+      "Components": [],
+      "ID": 55,
+      "LocalPosition": [
+        4.385629974955861e-15,
+        0.02594834566116333,
+        -1.4550223441838004e-16
+      ],
+      "LocalRotation": [
+        0.9977339506149292,
+        -0.0667986124753952,
+        6.020673737339166e-08,
+        -0.008061300963163376
+      ],
+      "LocalScale": [
+        0.9999999403953552,
+        1.0,
+        0.9999999403953552
+      ],
+      "Name": "mixamorig:LeftHandPinky3",
+      "ParentActorID": 54,
+      "State": 0,
+      "Static": 0,
+      "Tag": 0,
+      "Type": "Transform"
+    },
+    {
+      "Components": [],
+      "ID": 56,
+      "LocalPosition": [
+        -8.901762157620396e-06,
+        -0.022658027708530426,
+        -1.4173949125506624e-07
+      ],
+      "LocalRotation": [
+        0.9999910593032837,
+        6.483670404122677e-06,
+        -0.004099888261407614,
+        -0.0010347090428695083
+      ],
+      "LocalScale": [
+        0.9999999403953552,
+        0.9999999403953552,
+        1.0
+      ],
+      "Name": "mixamorig:LeftHandPinky4",
+      "ParentActorID": 55,
+      "State": 0,
+      "Static": 0,
+      "Tag": 0,
+      "Type": "Transform"
+    },
+    {
+      "Components": [],
+      "ID": 57,
+      "LocalPosition": [
+        -0.0610569566488266,
+        0.09106383472681046,
+        -0.007570756133645773
+      ],
+      "LocalRotation": [
+        -0.4652908444404602,
+        0.4513532221317291,
+        -0.5539426207542419,
+        -0.5224292874336243
+      ],
+      "LocalScale": [
+        0.9999999403953552,
+        0.9999998807907104,
+        0.9999998807907104
+      ],
+      "Name": "mixamorig:RightShoulder",
+      "ParentActorID": 29,
+      "State": 0,
+      "Static": 0,
+      "Tag": 0,
+      "Type": "Transform"
+    },
+    {
+      "Components": [],
+      "ID": 58,
+      "LocalPosition": [
+        3.913536069159448e-17,
+        0.12922286987304688,
+        8.437694881272071e-17
+      ],
+      "LocalRotation": [
+        0.7603060603141785,
+        -0.5657905340194702,
+        0.1759423315525055,
+        -0.26619553565979004
+      ],
+      "LocalScale": [
+        1.0,
+        1.0,
+        0.9999999403953552
+      ],
+      "Name": "mixamorig:RightArm",
+      "ParentActorID": 57,
+      "State": 0,
+      "Static": 0,
+      "Tag": 0,
+      "Type": "Transform"
+    },
+    {
+      "Components": [],
+      "ID": 59,
+      "LocalPosition": [
+        8.327426248566638e-11,
+        0.27404680848121643,
+        1.7360678760827773e-16
+      ],
+      "LocalRotation": [
+        0.9721739888191223,
+        0.0,
+        -0.0,
+        -0.23426009714603424
+      ],
+      "LocalScale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "Name": "mixamorig:RightForeArm",
+      "ParentActorID": 58,
+      "State": 0,
+      "Static": 0,
+      "Tag": 0,
+      "Type": "Transform"
+    },
+    {
+      "Components": [],
+      "ID": 60,
+      "LocalPosition": [
+        1.2842842522786668e-07,
+        0.2761446237564087,
+        -1.549239954101722e-07
+      ],
+      "LocalRotation": [
+        0.9914842247962952,
+        -0.009410045109689236,
+        -0.018394334241747856,
+        0.1285775899887085
+      ],
+      "LocalScale": [
+        0.9999999403953552,
+        1.0,
+        1.0
+      ],
+      "Name": "mixamorig:RightHand",
+      "ParentActorID": 59,
+      "State": 0,
+      "Static": 0,
+      "Tag": 0,
+      "Type": "Transform"
+    },
+    {
+      "Components": [],
+      "ID": 61,
+      "LocalPosition": [
+        0.030029743909835815,
+        0.03788808733224869,
+        -0.021671490743756294
+      ],
+      "LocalRotation": [
+        0.9811192750930786,
+        -0.1889045089483261,
+        -0.036617401987314224,
+        -0.019474340602755547
+      ],
+      "LocalScale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "Name": "mixamorig:RightHandThumb1",
+      "ParentActorID": 60,
+      "State": 0,
+      "Static": 0,
+      "Tag": 0,
+      "Type": "Transform"
+    },
+    {
+      "Components": [],
+      "ID": 62,
+      "LocalPosition": [
+        -5.574370809739344e-17,
+        0.04744970053434372,
+        1.2016428935756192e-16
+      ],
+      "LocalRotation": [
+        0.9987569451332092,
+        -0.02025817148387432,
+        0.04287304729223251,
+        0.015366979874670506
+      ],
+      "LocalScale": [
+        1.0,
+        1.0,
+        0.9999999403953552
+      ],
+      "Name": "mixamorig:RightHandThumb2",
+      "ParentActorID": 61,
+      "State": 0,
+      "Static": 0,
+      "Tag": 0,
+      "Type": "Transform"
+    },
+    {
+      "Components": [],
+      "ID": 63,
+      "LocalPosition": [
+        -1.870511327751144e-15,
+        0.04382135346531868,
+        4.095821717810949e-14
+      ],
+      "LocalRotation": [
+        0.9994631409645081,
+        0.028111090883612633,
+        0.0013469172408804297,
+        -0.016777189448475838
+      ],
+      "LocalScale": [
+        0.9999999403953552,
+        0.9999999403953552,
+        0.9999999403953552
+      ],
+      "Name": "mixamorig:RightHandThumb3",
+      "ParentActorID": 62,
+      "State": 0,
+      "Static": 0,
+      "Tag": 0,
+      "Type": "Transform"
+    },
+    {
+      "Components": [],
+      "ID": 64,
+      "LocalPosition": [
+        1.1177532854844685e-07,
+        -0.05305199697613716,
+        2.3241850044541934e-07
+      ],
+      "LocalRotation": [
+        0.9892023801803589,
+        -0.00923206377774477,
+        0.12713022530078888,
+        -0.07232768833637238
+      ],
+      "LocalScale": [
+        1.0,
+        0.9999999403953552,
+        0.9999997019767761
+      ],
+      "Name": "mixamorig:RightHandThumb4",
+      "ParentActorID": 63,
+      "State": 0,
+      "Static": 0,
+      "Tag": 0,
+      "Type": "Transform"
+    },
+    {
+      "Components": [],
+      "ID": 65,
+      "LocalPosition": [
+        0.02822042442858219,
+        0.12266616523265839,
+        -0.0023182521108537912
+      ],
+      "LocalRotation": [
+        0.9943239092826843,
+        -0.09637583047151566,
+        0.003350521670654416,
+        0.04494914039969444
+      ],
+      "LocalScale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "Name": "mixamorig:RightHandIndex1",
+      "ParentActorID": 60,
+      "State": 0,
+      "Static": 0,
+      "Tag": 0,
+      "Type": "Transform"
+    },
+    {
+      "Components": [],
+      "ID": 66,
+      "LocalPosition": [
+        2.653051120227053e-18,
+        0.03891967609524727,
+        3.752315259050413e-17
+      ],
+      "LocalRotation": [
+        0.9432545304298401,
+        -0.32963261008262634,
+        1.8246232684759889e-06,
+        0.040165774524211884
+      ],
+      "LocalScale": [
+        1.0,
+        1.0,
+        0.9999999403953552
+      ],
+      "Name": "mixamorig:RightHandIndex2",
+      "ParentActorID": 65,
+      "State": 0,
+      "Static": 0,
+      "Tag": 0,
+      "Type": "Transform"
+    },
+    {
+      "Components": [],
+      "ID": 67,
+      "LocalPosition": [
+        -5.167483059292585e-14,
+        0.03415160998702049,
+        -9.823766361269208e-16
+      ],
+      "LocalRotation": [
+        0.9975106716156006,
+        -0.06999856978654861,
+        -1.0296373176288398e-07,
+        0.008530538529157639
+      ],
+      "LocalScale": [
+        0.9999999403953552,
+        0.9999999403953552,
+        1.0
+      ],
+      "Name": "mixamorig:RightHandIndex3",
+      "ParentActorID": 66,
+      "State": 0,
+      "Static": 0,
+      "Tag": 0,
+      "Type": "Transform"
+    },
+    {
+      "Components": [],
+      "ID": 68,
+      "LocalPosition": [
+        -1.2771469215522302e-08,
+        -0.03752334415912628,
+        1.956853631229511e-15
+      ],
+      "LocalRotation": [
+        0.9999765753746033,
+        7.290382927749306e-05,
+        0.00670930789783597,
+        0.0013745332835242152
+      ],
+      "LocalScale": [
+        1.0,
+        0.9999999403953552,
+        0.9999999403953552
+      ],
+      "Name": "mixamorig:RightHandIndex4",
+      "ParentActorID": 67,
+      "State": 0,
+      "Static": 0,
+      "Tag": 0,
+      "Type": "Transform"
+    },
+    {
+      "Components": [],
+      "ID": 69,
+      "LocalPosition": [
+        1.663215414282604e-07,
+        0.127755269408226,
+        1.0320893473192427e-08
+      ],
+      "LocalRotation": [
+        0.9820746183395386,
+        -0.17700135707855225,
+        0.0079283332452178,
+        0.06432077288627625
+      ],
+      "LocalScale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "Name": "mixamorig:RightHandMiddle1",
+      "ParentActorID": 60,
+      "State": 0,
+      "Static": 0,
+      "Tag": 0,
+      "Type": "Transform"
+    },
+    {
+      "Components": [],
+      "ID": 70,
+      "LocalPosition": [
+        1.9695803178056192e-18,
+        0.036139678210020065,
+        1.6965377748767051e-16
+      ],
+      "LocalRotation": [
+        0.9672985672950745,
+        -0.25177767872810364,
+        -1.9400576434236427e-07,
+        0.030683552846312523
+      ],
+      "LocalScale": [
+        0.9999999403953552,
+        1.0,
+        1.0
+      ],
+      "Name": "mixamorig:RightHandMiddle2",
+      "ParentActorID": 69,
+      "State": 0,
+      "Static": 0,
+      "Tag": 0,
+      "Type": "Transform"
+    },
+    {
+      "Components": [],
+      "ID": 71,
+      "LocalPosition": [
+        -2.942148000784073e-07,
+        0.034597624093294144,
+        -1.3562804842092552e-15
+      ],
+      "LocalRotation": [
+        0.9987938404083252,
+        -0.0466691255569458,
+        -0.01387851033359766,
+        0.006346642505377531
+      ],
+      "LocalScale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "Name": "mixamorig:RightHandMiddle3",
+      "ParentActorID": 70,
+      "State": 0,
+      "Static": 0,
+      "Tag": 0,
+      "Type": "Transform"
+    },
+    {
+      "Components": [],
+      "ID": 72,
+      "LocalPosition": [
+        8.73920271260431e-07,
+        -0.03239334002137184,
+        3.083068637898829e-15
+      ],
+      "LocalRotation": [
+        0.9999760985374451,
+        5.158123167348094e-05,
+        0.006695195101201534,
+        -0.0017083444399759173
+      ],
+      "LocalScale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "Name": "mixamorig:RightHandMiddle4",
+      "ParentActorID": 71,
+      "State": 0,
+      "Static": 0,
+      "Tag": 0,
+      "Type": "Transform"
+    },
+    {
+      "Components": [],
+      "ID": 73,
+      "LocalPosition": [
+        -0.02216632291674614,
+        0.12147002667188644,
+        9.99626936390996e-05
+      ],
+      "LocalRotation": [
+        0.966029942035675,
+        -0.25429680943489075,
+        0.0039406949654221535,
+        0.04586661979556084
+      ],
+      "LocalScale": [
+        1.0,
+        0.9999999403953552,
+        1.0
+      ],
+      "Name": "mixamorig:RightHandRing1",
+      "ParentActorID": 60,
+      "State": 0,
+      "Static": 0,
+      "Tag": 0,
+      "Type": "Transform"
+    },
+    {
+      "Components": [],
+      "ID": 74,
+      "LocalPosition": [
+        -1.0704183656301658e-17,
+        0.0360119603574276,
+        3.1102237200944136e-16
+      ],
+      "LocalRotation": [
+        0.981369137763977,
+        -0.19072175025939941,
+        1.3124715678713983e-06,
+        0.023235075175762177
+      ],
+      "LocalScale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "Name": "mixamorig:RightHandRing2",
+      "ParentActorID": 73,
+      "State": 0,
+      "Static": 0,
+      "Tag": 0,
+      "Type": "Transform"
+    },
+    {
+      "Components": [],
+      "ID": 75,
+      "LocalPosition": [
+        -6.053308082652059e-14,
+        0.033073119819164276,
+        8.903001313538788e-16
+      ],
+      "LocalRotation": [
+        0.9971387386322021,
+        -0.0731918066740036,
+        -0.015975715592503548,
+        0.010112058371305466
+      ],
+      "LocalScale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "Name": "mixamorig:RightHandRing3",
+      "ParentActorID": 74,
+      "State": 0,
+      "Static": 0,
+      "Tag": 0,
+      "Type": "Transform"
+    },
+    {
+      "Components": [],
+      "ID": 76,
+      "LocalPosition": [
+        2.417263544884918e-07,
+        -0.02954505756497383,
+        -1.354269733871592e-15
+      ],
+      "LocalRotation": [
+        0.9999709725379944,
+        6.16448960499838e-05,
+        0.0076132225804030895,
+        -0.0003002248704433441
+      ],
+      "LocalScale": [
+        0.9999999403953552,
+        1.0,
+        1.0
+      ],
+      "Name": "mixamorig:RightHandRing4",
+      "ParentActorID": 75,
+      "State": 0,
+      "Static": 0,
+      "Tag": 0,
+      "Type": "Transform"
+    },
+    {
+      "Components": [],
+      "ID": 77,
+      "LocalPosition": [
+        -0.04725832864642143,
+        0.1090819463133812,
+        -0.0022613208275288343
+      ],
+      "LocalRotation": [
+        0.9438984394073486,
+        -0.3227059245109558,
+        0.01037532463669777,
+        0.06934696435928345
+      ],
+      "LocalScale": [
+        1.0,
+        0.9999999403953552,
+        1.0
+      ],
+      "Name": "mixamorig:RightHandPinky1",
+      "ParentActorID": 60,
+      "State": 0,
+      "Static": 0,
+      "Tag": 0,
+      "Type": "Transform"
+    },
+    {
+      "Components": [],
+      "ID": 78,
+      "LocalPosition": [
+        -5.012842311475987e-18,
+        0.04136649891734123,
+        4.042816259444259e-16
+      ],
+      "LocalRotation": [
+        0.9885276556015015,
+        -0.14993128180503845,
+        -1.2129939364058373e-07,
+        0.01827176846563816
+      ],
+      "LocalScale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "Name": "mixamorig:RightHandPinky2",
+      "ParentActorID": 77,
+      "State": 0,
+      "Static": 0,
+      "Tag": 0,
+      "Type": "Transform"
+    },
+    {
+      "Components": [],
+      "ID": 79,
+      "LocalPosition": [
+        -3.949520154282113e-14,
+        0.025948408991098404,
+        4.292107055546264e-16
+      ],
+      "LocalRotation": [
+        0.9976735711097717,
+        -0.06767162680625916,
+        1.6044432449291435e-09,
+        0.008246959187090397
+      ],
+      "LocalScale": [
+        1.0,
+        0.9999999403953552,
+        0.9999999403953552
+      ],
+      "Name": "mixamorig:RightHandPinky3",
+      "ParentActorID": 78,
+      "State": 0,
+      "Static": 0,
+      "Tag": 0,
+      "Type": "Transform"
+    },
+    {
+      "Components": [],
+      "ID": 80,
+      "LocalPosition": [
+        4.0395514133706456e-07,
+        -0.022658156231045723,
+        -1.839147180021975e-15
+      ],
+      "LocalRotation": [
+        0.9999613761901855,
+        8.2089398347307e-05,
+        0.008498843759298325,
+        0.0022269629407674074
+      ],
+      "LocalScale": [
+        0.9999998807907104,
+        0.9999999403953552,
+        0.9999997615814209
+      ],
+      "Name": "mixamorig:RightHandPinky4",
+      "ParentActorID": 79,
+      "State": 0,
+      "Static": 0,
+      "Tag": 0,
+      "Type": "Transform"
+    },
+    {
+      "Components": [],
+      "ID": 81,
+      "LocalPosition": [
+        0.09123873710632324,
+        -0.06657188385725021,
+        0.0005540310521610081
+      ],
+      "LocalRotation": [
+        -0.023990394547581673,
+        -0.03736118972301483,
+        -0.0809435099363327,
+        0.9957292675971985
+      ],
+      "LocalScale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "Name": "mixamorig:LeftUpLeg",
+      "ParentActorID": 26,
+      "State": 0,
+      "Static": 0,
+      "Tag": 0,
+      "Type": "Transform"
+    },
+    {
+      "Components": [],
+      "ID": 82,
+      "LocalPosition": [
+        -4.796163127567497e-16,
+        0.40599435567855835,
+        -1.1701750637197503e-15
+      ],
+      "LocalRotation": [
+        0.9728273749351501,
+        0.2171405851840973,
+        0.0787358358502388,
+        0.016050562262535095
+      ],
+      "LocalScale": [
+        1.0,
+        0.9999999403953552,
+        0.9999999403953552
+      ],
+      "Name": "mixamorig:LeftLeg",
+      "ParentActorID": 81,
+      "State": 0,
+      "Static": 0,
+      "Tag": 0,
+      "Type": "Transform"
+    },
+    {
+      "Components": [],
+      "ID": 83,
+      "LocalPosition": [
+        -8.88178366760566e-17,
+        0.4209902584552765,
+        -2.0872192810013384e-16
+      ],
+      "LocalRotation": [
+        0.7849723100662231,
+        -0.6191033124923706,
+        0.021896526217460632,
+        0.007080154959112406
+      ],
+      "LocalScale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "Name": "mixamorig:LeftFoot",
+      "ParentActorID": 82,
+      "State": 0,
+      "Static": 0,
+      "Tag": 0,
+      "Type": "Transform"
+    },
+    {
+      "Components": [],
+      "ID": 84,
+      "LocalPosition": [
+        2.4546743496188706e-17,
+        0.15721559524536133,
+        1.5528809870223758e-16
+      ],
+      "LocalRotation": [
+        0.9721393585205078,
+        -0.23163408041000366,
+        0.032510146498680115,
+        -0.015293831937015057
+      ],
+      "LocalScale": [
+        1.0,
+        0.9999999403953552,
+        1.0
+      ],
+      "Name": "mixamorig:LeftToeBase",
+      "ParentActorID": 83,
+      "State": 0,
+      "Static": 0,
+      "Tag": 0,
+      "Type": "Transform"
+    },
+    {
+      "Components": [],
+      "ID": 85,
+      "LocalPosition": [
+        0.013297166675329208,
+        -0.17548421025276184,
+        -0.11460958421230316
+      ],
+      "LocalRotation": [
+        0.8937251567840576,
+        0.44312000274658203,
+        -0.06329125165939331,
+        0.029903560876846313
+      ],
+      "LocalScale": [
+        1.0000004768371582,
+        1.0000001192092896,
+        1.000000238418579
+      ],
+      "Name": "mixamorig:LeftToe_End",
+      "ParentActorID": 84,
+      "State": 0,
+      "Static": 0,
+      "Tag": 0,
+      "Type": "Transform"
+    },
+    {
+      "Components": [],
+      "ID": 86,
+      "LocalPosition": [
+        -0.09125032275915146,
+        -0.06655601412057877,
+        0.0005535274394787848
+      ],
+      "LocalRotation": [
+        0.047820866107940674,
+        0.12063215672969818,
+        -0.07850676774978638,
+        0.988431990146637
+      ],
+      "LocalScale": [
+        0.9999998211860657,
+        0.9999998807907104,
+        1.0
+      ],
+      "Name": "mixamorig:RightUpLeg",
+      "ParentActorID": 26,
+      "State": 0,
+      "Static": 0,
+      "Tag": 0,
+      "Type": "Transform"
+    },
+    {
+      "Components": [],
+      "ID": 87,
+      "LocalPosition": [
+        5.329070399086743e-17,
+        0.40599435567855835,
+        -2.664535100281698e-16
+      ],
+      "LocalRotation": [
+        0.9832788109779358,
+        0.178421288728714,
+        -0.03480025753378868,
+        -0.01084419246762991
+      ],
+      "LocalScale": [
+        1.0,
+        0.9999999403953552,
+        1.0
+      ],
+      "Name": "mixamorig:RightLeg",
+      "ParentActorID": 86,
+      "State": 0,
+      "Static": 0,
+      "Tag": 0,
+      "Type": "Transform"
+    },
+    {
+      "Components": [],
+      "ID": 88,
+      "LocalPosition": [
+        -2.1316281596346973e-16,
+        0.4209902584552765,
+        6.261657710655117e-16
+      ],
+      "LocalRotation": [
+        0.812626302242279,
+        -0.5808669924736023,
+        -0.04659469798207283,
+        0.007814045064151287
+      ],
+      "LocalScale": [
+        0.9999999403953552,
+        0.9999998807907104,
+        0.9999999403953552
+      ],
+      "Name": "mixamorig:RightFoot",
+      "ParentActorID": 87,
+      "State": 0,
+      "Static": 0,
+      "Tag": 0,
+      "Type": "Transform"
+    },
+    {
+      "Components": [],
+      "ID": 89,
+      "LocalPosition": [
+        2.3694831837681568e-17,
+        0.15721558034420013,
+        -3.4555691773806895e-17
+      ],
+      "LocalRotation": [
+        0.9730798006057739,
+        -0.22770868241786957,
+        -0.032119881361722946,
+        0.015257456339895725
+      ],
+      "LocalScale": [
+        0.9999999403953552,
+        1.0,
+        1.0
+      ],
+      "Name": "mixamorig:RightToeBase",
+      "ParentActorID": 88,
+      "State": 0,
+      "Static": 0,
+      "Tag": 0,
+      "Type": "Transform"
+    },
+    {
+      "Components": [],
+      "ID": 90,
+      "LocalPosition": [
+        -0.013175060041248798,
+        -0.175480455160141,
+        -0.11462869495153427
+      ],
+      "LocalRotation": [
+        0.8937685489654541,
+        0.44315749406814575,
+        0.06250988692045212,
+        -0.029694313183426857
+      ],
+      "LocalScale": [
+        1.000000238418579,
+        1.000000238418579,
+        1.000000238418579
+      ],
+      "Name": "mixamorig:RightToe_End",
+      "ParentActorID": 89,
+      "State": 0,
+      "Static": 0,
+      "Tag": 0,
+      "Type": "Transform"
+    },
+    {
+      "Components": [
+        {
+          "Alpha": 1.0,
+          "FilePath": "Assets\\Models\\SkeletonFolder\\TestBot.fbx",
+          "IsSkeletal": true,
+          "LocalID": "3f937f68-149b-42a9-8b6d-99f59b237ab3",
+          "ShadowFrag": true,
+          "Type": "SkeletalMeshRenderer",
+          "Visible": true
+        }
+      ],
+      "ID": 91,
+      "LocalPosition": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "LocalRotation": [
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "LocalScale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "Name": "Alpha_Surface",
+      "ParentActorID": 25,
+      "State": 0,
+      "Static": 0,
+      "Tag": 0,
+      "Type": "Transform"
+    },
+    {
+      "Components": [
+        {
+          "Alpha": 1.0,
+          "FilePath": "Assets\\Models\\SkeletonFolder\\TestBot.fbx",
+          "IsSkeletal": true,
+          "LocalID": "b95b9f4b-e0d9-4511-9017-6337c858a4c6",
+          "ShadowFrag": true,
+          "Type": "SkeletalMeshRenderer",
+          "Visible": true
+        }
+      ],
+      "ID": 92,
+      "LocalPosition": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "LocalRotation": [
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "LocalScale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "Name": "Alpha_Joints",
+      "ParentActorID": 25,
+      "State": 0,
+      "Static": 0,
+      "Tag": 0,
+      "Type": "Transform"
     }
   ],
   "Lighting": {

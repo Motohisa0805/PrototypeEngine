@@ -3,7 +3,7 @@
         "animations": [
             {
                 "binary_path": "TestBot_anim0.animbin",
-                "clip_name": "mixamo.com",
+                "clip_name": "TestBot",
                 "duration": 1.0,
                 "num_frames": 2,
                 "settings": {
