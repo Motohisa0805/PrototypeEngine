@@ -16,13 +16,13 @@ bool AnimatorControllerGenerater::GeneratedBlankController(const fs::path& path)
     AnimState anyStateNode;
     anyStateNode.sStateName = "Any State";
     anyStateNode.sNodeType  = AnimNodeType::sAnyState;
-    anyStateNode.sPos       = Vector2(-200.0f, -150.0f);
+    anyStateNode.sPos       = Vector2(-200.0f, -300.0f);
     blankParams.sStates.push_back(anyStateNode);
     //ExitÉmÅ[ÉhÇÃçÏê¨
     AnimState exitNode;
     exitNode.sStateName = "Exit";
     exitNode.sNodeType  = AnimNodeType::sExit;
-    exitNode.sPos       = Vector2(400.0f, 0);
+    exitNode.sPos       = Vector2(600.0f, 0);
     blankParams.sStates.push_back(exitNode);
 
     return GenerateController(path, blankParams);

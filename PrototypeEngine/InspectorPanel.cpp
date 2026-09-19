@@ -8,6 +8,7 @@
 #include "UIActor.h"
 #include "ImportSettingsItem.h"
 #include "MaterialSettingsItem.h"
+#include "AnimationSettingsItem.h"
 
 InspectorPanel::InspectorPanel(Renderer* renderer) : EditorWindow(renderer)
 {
@@ -37,6 +38,7 @@ void InspectorPanel::Draw(float width, float height)
         // 1.‘I‘ð’†‚ÌActor‚ðŽæ“¾
         Entity* selectedActor = SelectionManager::GetSelectedActor();
         filesystem::path selectedFilePath = SelectionManager::GetSelectedFilePath();
+        string selectedAnimState = SelectionManager::GetSelectedStateName();
         if (selectedActor)
         {
             ActorInspection(selectedActor);
@@ -44,6 +46,10 @@ void InspectorPanel::Draw(float width, float height)
         else if (selectedFilePath != "Assets")
         {
             FileInspection(selectedFilePath);
+        }
+        else if (!selectedAnimState.empty())
+        {
+            AnimationSettingsItem::DrawAnimStateSettings();
         }
         else
         {

@@ -28,28 +28,28 @@
             "name": "Exit",
             "nodeType": 3,
             "playbackSpeed": 1.0,
-            "posX": 400.0,
-            "posY": 0.0,
+            "posX": 569.0,
+            "posY": 2.0,
             "rootMotion": false
         },
         {
             "animPath": "Breathing Idle_anim0.animbin",
             "isLoop": false,
-            "name": "Breathing Idle",
+            "name": "Idle",
             "nodeType": 0,
             "playbackSpeed": 1.0,
-            "posX": -67.0,
-            "posY": -10.0,
+            "posX": 73.0,
+            "posY": -70.0,
             "rootMotion": false
         },
         {
             "animPath": "Running_anim0.animbin",
             "isLoop": false,
-            "name": "Running",
+            "name": "Run",
             "nodeType": 0,
             "playbackSpeed": 1.0,
-            "posX": 153.0,
-            "posY": -10.0,
+            "posX": 341.0,
+            "posY": -78.0,
             "rootMotion": false
         }
     ],
@@ -58,18 +58,18 @@
             "blendDuration": 0.25,
             "conditions": [],
             "from": "Entry",
-            "to": "Breathing Idle"
+            "to": "Idle"
         },
         {
             "blendDuration": 0.25,
             "conditions": [],
-            "from": "Breathing Idle",
-            "to": "Running"
+            "from": "Idle",
+            "to": "Run"
         },
         {
             "blendDuration": 0.25,
             "conditions": [],
-            "from": "Running",
+            "from": "Run",
             "to": "Exit"
         }
     ]

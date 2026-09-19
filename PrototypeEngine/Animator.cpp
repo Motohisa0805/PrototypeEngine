@@ -4,6 +4,7 @@
 #include "FilePath.h"
 #include "Skeleton.h"
 #include "AssetDataBase.h"
+#include "AnimatorNodeEditorPanel.h"
 
 Animator::Animator(Entity* owner)
     : Component(owner)
@@ -30,6 +31,10 @@ Animator::~Animator()
             delete mAnimations[i];
             mAnimations[i] = nullptr;
         }
+    }
+    if (AnimatorNodeEditorPanel::GetSelectAnimator() == this)
+    {
+        AnimatorNodeEditorPanel::SetSelectAnimator(nullptr);
     }
 }
 
