@@ -2,6 +2,7 @@
 #include "GUIEditorManager.h"
 #include "AssetDataBase.h"
 #include "AnimatorControllerGenerater.h"
+#include "SelectionManager.h"
 
 Animator* AnimatorNodeEditorPanel::mSelectAnimator             = nullptr;
 
@@ -62,7 +63,17 @@ void AnimatorNodeEditorPanel::Draw(float width, float height)
                                         ImVec2(state.sPos.x, state.sPos.y));
                 }
 
+                const float nodeWidth = 160.0f;
+
                 ne::BeginNode(nodeId);
+
+                ImGui::Dummy(ImVec2(nodeWidth, 0.0f));
+
+                float textWidth = ImGui::CalcTextSize(state.sStateName.c_str()).x;
+                if (textWidth < nodeWidth)
+                {
+                    ImGui::SetCursorPosX(ImGui::GetCursorPosX() + (nodeWidth - textWidth) * 0.5f);
+                }
                 ImGui::Text("%s", state.sStateName.c_str());
 
                 if (state.sStateName == mSelectAnimator->GetCurrentStateName())
@@ -75,8 +86,10 @@ void AnimatorNodeEditorPanel::Draw(float width, float height)
                     ImGui::PopStyleColor(2);
                 }
 
-                if (state.sNodeType != AnimNodeType::sEntry &&
-                    state.sNodeType != AnimNodeType::sAnyState)
+                bool hasInput = (state.sNodeType != AnimNodeType::sEntry && state.sNodeType != AnimNodeType::sAnyState);
+                bool hasOutput = (state.sNodeType != AnimNodeType::sExit);
+
+                if (hasInput)
                 {
                     ne::BeginPin(inPinId, ne::PinKind::Input);
                     ImGui::Text("-> In");
@@ -84,8 +97,14 @@ void AnimatorNodeEditorPanel::Draw(float width, float height)
                     ImGui::SameLine();
                 }
 
-                if (state.sNodeType != AnimNodeType::sExit)
+                if (hasOutput)
                 {
+                    if (hasInput)
+                    {
+                        ImGui::SameLine();
+                        float outTextWidth = ImGui::CalcTextSize("Out ->").x;
+                        ImGui::SetCursorPosX(ne::GetNodePosition(nodeId).x + nodeWidth - outTextWidth);
+                    }
                     ne::BeginPin(outPinId, ne::PinKind::Output);
                     ImGui::Text("Out ->");
                     ne::EndPin();
@@ -252,6 +271,43 @@ void AnimatorNodeEditorPanel::Draw(float width, float height)
             ne::Resume();
         }
         ne::End();
+
+        //画面クリック処理
+        if (ne::IsBackgroundClicked())
+        {
+            SelectionManager::ClearStateSelection();
+        }
+        //選択状態の変更(ノードやリンクをクリックして選択した時)
+        if (mSelectAnimator && ne::HasSelectionChanged())
+        {
+            int selectedCount = ne::GetSelectedObjectCount();
+            if (selectedCount > 0)
+            {
+                vector<ne::NodeId> selectedNodes(selectedCount);
+                int nodeCount = ne::GetSelectedNodes(selectedNodes.data(),selectedCount);
+
+                if (nodeCount > 0)
+                {
+                    int index = static_cast<int>(selectedNodes[0].Get()) - 1;
+                    if (index >= 0 && index < mSelectAnimator->GetControllerData().sStates.size())
+                    {
+                        auto& selectedState = mSelectAnimator->GetControllerData().sStates[index];
+                        SelectionManager::SetSelectedStateName(selectedState.sStateName);
+                    }
+                }
+            }
+        }
+        //特定のノードをダブルクリックした時の判定
+        ne::NodeId doubleClickedNodeId = ne::GetDoubleClickedNode();
+        if (doubleClickedNodeId.Get() != 0)
+        {
+            int index = static_cast<int>(doubleClickedNodeId.Get()) - 1;
+            if (index >= 0 && index < mSelectAnimator->GetControllerData().sStates.size())
+            {
+
+            }
+        }
+
     }
     ImGui::End();
 

@@ -637,6 +637,9 @@
     <ClCompile Include="AnimatorControllerGenerater.cpp">
       <Filter>SourceCodes\A_Editor\Function\GUIs\Systems\Files\Animator</Filter>
     </ClCompile>
+    <ClCompile Include="AnimationSettingsItem.cpp">
+      <Filter>SourceCodes\A_Editor\Function\GUIs\Panels\Inspector</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BoneActor.h">
@@ -1070,6 +1073,9 @@
     </ClInclude>
     <ClInclude Include="AnimatorControllerParameters.h">
       <Filter>SourceCodes\A_Editor\Function\GUIs\Systems\Files\Animator</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimationSettingsItem.h">
+      <Filter>SourceCodes\A_Editor\Function\GUIs\Panels\Inspector</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -49,6 +49,7 @@ Entity::~Entity()
     for (auto comp : mComponents)
     {
         delete comp;
+        comp = nullptr;
     }
     mComponents.clear();
 }

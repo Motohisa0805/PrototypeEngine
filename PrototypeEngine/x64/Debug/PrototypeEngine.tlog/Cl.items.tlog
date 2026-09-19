@@ -1,6 +1,7 @@
 C:\C++Files\PrototypeEngine\PrototypeEngine\AboutEnginePanel.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\AboutEnginePanel.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\Actor.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\Actor.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\Animation.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\Animation.obj
+C:\C++Files\PrototypeEngine\PrototypeEngine\AnimationSettingsItem.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\AnimationSettingsItem.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\Animator.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\Animator.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\AnimatorControllerGenerater.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\AnimatorControllerGenerater.obj
 C:\C++Files\PrototypeEngine\PrototypeEngine\AnimatorNodeEditorPanel.cpp;C:\C++Files\PrototypeEngine\PrototypeEngine\x64\Debug\AnimatorNodeEditorPanel.obj
