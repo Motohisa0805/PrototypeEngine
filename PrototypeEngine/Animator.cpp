@@ -54,6 +54,13 @@ bool Animator::LoadController(const string& filePath)
         file >> j;
         mControllerData = j.get<AnimatorControllerParameters>();
 
+        //パラメーターマップの初期化
+        mCurrentParameters.clear();
+        for (const auto& param : mControllerData.sParameters)
+        {
+            mCurrentParameters[param.sName] = param;
+        }
+
         for (auto* anim : mAnimations)
         {
             delete anim;
@@ -156,13 +163,49 @@ bool Animator::Load(const string& fileName, bool animLoop, bool rootMotion)
 
 void Animator::CheckStateTransitions() 
 {
+    //ブレンド中なら二重に遷移しない
+    if (mBlending) return;
     //次の遷移先を探す
     for (const auto& trans : mControllerData.sTransitions)
     {
-        if (trans.sFromState == mCurrentStateName)
+        if (trans.sFromState == mCurrentStateName || trans.sFromState == "Any State")
         {
-            string nextState = trans.sToState;
+            // 条件が無い場合：アニメーションの再生を待つ
+            if (trans.sConditions.empty())
+            {
+                if (!mAnimation->IsAnimationEnd() &&
+                    mAnimTime < mAnimation->GetDuration())
+                {
+                    continue;
+                }
+            }
+            else
+            {
+                bool allConditionsMat = true;
+                for (const auto& cond : trans.sConditions)
+                {
+                    if (!EvaluateCondition(cond))
+                    {
+                        allConditionsMat = false;
+                        break;
+                    }
+                }
+                if (!allConditionsMat) continue;
+            }
+            //遷移決定
+            for (const auto& cond : trans.sConditions)
+            {
+                if (mCurrentParameters.count(cond.sParameterName))
+                {
+                    if (mCurrentParameters[cond.sParameterName].sType == AnimParamType::sTrigger)
+                    {
+                        mCurrentParameters[cond.sParameterName].sDefaultTrigger = false;
+                    }
+                }
+            }
 
+            //次の遷移先決定
+            string nextState = trans.sToState;
             if (nextState == "Exit")
             {
                 for (const auto& entryTrans : mControllerData.sTransitions)
@@ -187,12 +230,37 @@ void Animator::CheckStateTransitions()
                         break;
                     }
                 }
-
+                mBlendElapsed = trans.sBlendDuration;
                 PlayBlendAnimation(mStateAnimations[nextState]);
                 break;
             }
         }
     }
+}
+
+bool Animator::EvaluateCondition(const AnimCondition& cond) 
+{
+    if (!mCurrentParameters.count(cond.sParameterName))return false;
+
+    const auto& param = mCurrentParameters[cond.sParameterName];
+
+    if (param.sType == AnimParamType::sBool || param.sType == AnimParamType::sTrigger)
+    {
+        if (cond.sMode == "If" || cond.sMode == "true")return param.sDefaultBool == true;
+        if (cond.sMode == "IfNot" || cond.sMode == "false")return param.sDefaultBool == false;
+    }
+    else
+    {
+        float val = param.sDefaultFloat;
+        float threshold = cond.sThreshold;
+
+        if (cond.sMode == ">" || cond.sMode == "Greater")return val > threshold;
+        if (cond.sMode == "<" || cond.sMode == "Less")return val < threshold;
+        if (cond.sMode == "==" || cond.sMode == "Equals")return Math::Abs(val - threshold) < 0.0001f;
+        if (cond.sMode == "!=" || cond.sMode == "NotEquals")return Math::Abs(val - threshold) >= 0.0001f;
+    }
+
+    return false; 
 }
 
 void Animator::Update(float deltaTime)
@@ -224,11 +292,8 @@ void Animator::Update(float deltaTime)
         }
     }
 
-    //アニメーションが終端に達した(またはループ時)に遷移判定を行う
-    if (mAnimation->IsAnimationEnd() || (mAnimTime >= mAnimation->GetDuration()))
-    {
-        CheckStateTransitions();
-    }
+    //毎フレーム遷移判定
+    CheckStateTransitions();
 
     //ブレンド用サブアニメーションの再生時間更新と補間率の計算
     float       blendAlpha    = 0.0f;
@@ -317,6 +382,53 @@ void Animator::AddAnimation(Animation* anim)
     info.sIsLoop = anim->IsLoop();
     info.sRootMotion = anim->IsRootMotion();
     mAnimationInfo.push_back(info);
+}
+
+void Animator::SetFloat(const string& name, float value) 
+{
+    if (mCurrentParameters.count(name))mCurrentParameters[name].sDefaultFloat = value;
+}
+
+void Animator::SetBool(const string& name, bool value) 
+{
+    if (mCurrentParameters.count(name))mCurrentParameters[name].sDefaultBool = value;
+}
+
+void Animator::SetInt(const string& name, int value) 
+{
+    if (mCurrentParameters.count(name))mCurrentParameters[name].sDefaultInt = value;
+}
+
+void Animator::SetTriger(const string& name) 
+{
+    if (mCurrentParameters.count(name))mCurrentParameters[name].sDefaultTrigger = true;
+}
+
+float Animator::GetFloat(const string& name) 
+{
+    if (mCurrentParameters.count(name))
+    {
+        return mCurrentParameters[name].sDefaultFloat;
+    }
+    return 0.0f; 
+}
+
+bool Animator::GetBool(const string& name) 
+{
+    if (mCurrentParameters.count(name))
+    {
+        return mCurrentParameters[name].sDefaultBool;
+    }
+    return false; 
+}
+
+bool Animator::GetInt(const string& name) 
+{
+    if (mCurrentParameters.count(name))
+    {
+        return mCurrentParameters[name].sDefaultInt;
+    }
+    return false; 
 }
 
 void Animator::ReloadBones(ActorObject* rootbone)

@@ -1,6 +1,25 @@
 {
     "defaultState": "",
-    "parameters": [],
+    "parameters": [
+        {
+            "defaultBool": false,
+            "defaultFloat": 0.0,
+            "name": "Jump",
+            "type": "Int"
+        },
+        {
+            "defaultBool": false,
+            "defaultFloat": 4.400000095367432,
+            "name": "Move",
+            "type": "Float"
+        },
+        {
+            "defaultBool": true,
+            "defaultFloat": 0.0,
+            "name": "Bool",
+            "type": "Bool"
+        }
+    ],
     "states": [
         {
             "animPath": "",
