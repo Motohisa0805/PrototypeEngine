@@ -11,6 +11,7 @@ Animator* AnimatorNodeEditorPanel::mPreviousAnimator             = nullptr;
 AnimatorNodeEditorPanel::AnimatorNodeEditorPanel(Renderer* renderer)
     : EditorWindow(renderer)
     , mNeedSetNodePositions(false)
+    , mIsTransitionUIFrag(false)
 {
     mID = "Animator Controller Editor";
 }
@@ -20,13 +21,161 @@ void AnimatorNodeEditorPanel::Initialize(float width, float height,
 {
 }
 
+void AnimatorNodeEditorPanel::ParameterDraw() 
+{
+    if (!mSelectAnimator)
+    {
+        ImGui::TextDisabled("No Animator Selected");
+        return;
+    }
+
+    auto& controllerData = mSelectAnimator->GetControllerData();
+    bool  isDataChanged  = false;
+
+    //ヘッダーと追加ボタン
+    ImGui::TextUnformatted("Parameters");
+    ImGui::SameLine(ImGui::GetContentRegionAvail().x - 20.0f);
+    if (ImGui::Button("+", ImVec2(20, 20)))
+    {
+        ImGui::OpenPopup("AddParameterPopup");
+    }
+
+    if (ImGui::BeginPopup("AddParameterPopup"))
+    {
+        if (ImGui::MenuItem("Float"))
+        {
+            AnimParameter param;
+            param.sName         = "New Float";
+            param.sType         = AnimParamType::sFloat;
+            param.sDefaultFloat = 0.0f;
+            controllerData.sParameters.push_back(param);
+            isDataChanged = true;
+        }
+        if (ImGui::MenuItem("Int"))
+        {
+            AnimParameter param;
+            param.sName         = "New Int";
+            param.sType         = AnimParamType::sInt;
+            param.sDefaultInt   = 0;
+            controllerData.sParameters.push_back(param);
+            isDataChanged = true;
+        }
+        if (ImGui::MenuItem("Bool"))
+        {
+            AnimParameter param;
+            param.sName          = "New Bool";
+            param.sType          = AnimParamType::sBool;
+            param.sDefaultBool   = false;
+            controllerData.sParameters.push_back(param);
+            isDataChanged = true;
+        }
+        if (ImGui::MenuItem("Trigger"))
+        {
+            AnimParameter param;
+            param.sName             = "New Trigger";
+            param.sType             = AnimParamType::sTrigger;
+            param.sDefaultTrigger   = false;
+            controllerData.sParameters.push_back(param);
+            isDataChanged = true;
+        }
+        ImGui::EndPopup();
+    }
+    ImGui::Separator();
+
+    int deleteIndex = -1;
+    for (int i = 0; i < static_cast<int>(controllerData.sParameters.size()); ++i)
+    {
+        auto& param = controllerData.sParameters[i];
+        ImGui::PushID(i);
+
+        char nameBuffer[64];
+        strncpy_s(nameBuffer, param.sName.c_str(), sizeof(nameBuffer));
+        ImGui::SetNextItemWidth(90.0f);
+        if (ImGui::InputText("##Name", nameBuffer, sizeof(nameBuffer), ImGuiInputTextFlags_EnterReturnsTrue))
+        {
+            param.sName = nameBuffer;
+            isDataChanged = true;
+        }
+
+        ImGui::SameLine();
+
+        //パラメーター型に応じて値編集コントロール
+        ImGui::SetNextItemWidth(60.0f);
+        switch (param.sType)
+        {
+        case AnimParamType::sFloat:
+            if (ImGui::DragFloat("##Value", &param.sDefaultFloat, 0.1f))
+            {
+                isDataChanged = true;
+            }
+            break;
+        case AnimParamType::sInt:
+        {
+            int intVal = param.sDefaultInt;
+            if (ImGui::DragInt("##Value", &intVal, 1.0f))
+            {
+                param.sDefaultInt = intVal;
+                isDataChanged     = true;
+            }
+        }
+            break;
+        case AnimParamType::sBool:
+            if (ImGui::Checkbox("##Value", &param.sDefaultBool))
+            {
+                isDataChanged = true;
+            }
+            break;
+        case AnimParamType::sTrigger:
+            if (ImGui::Checkbox("##Trigger", &param.sDefaultTrigger))
+            {
+                isDataChanged = true;
+            }
+            break;
+        }
+
+        ImGui::SameLine();
+
+        if (ImGui::Button("x##Delete", ImVec2(20, 20)))
+        {
+            deleteIndex = i;
+        }
+        ImGui::PopID();
+    }
+
+    //削除処理
+    if (deleteIndex != -1)
+    {
+        controllerData.sParameters.erase(controllerData.sParameters.begin() + deleteIndex);
+        isDataChanged = true;
+    }
+
+    if (isDataChanged)
+    {
+        AnimatorControllerGenerater::GenerateController(
+            mSelectAnimator->GetControllerFilePath(), controllerData);
+        mSelectAnimator->LoadController(
+            mSelectAnimator->GetControllerFilePath().string());
+    }
+}
+
 void AnimatorNodeEditorPanel::Draw(float width, float height) 
 {
     if (ImGui::Begin(mID.c_str()))
     {
+        //左側エリア
+        float leftWidth = 220.0f;
+        ImGui::BeginChild("ParameterPanel", ImVec2(leftWidth, 0.0f), true);
+        ParameterDraw();
+        ImGui::EndChild();
+        ImGui::SameLine();
+        //右側エリア
+        ImGui::BeginChild("NodeEditorPanel", ImVec2(0.0f, 0.0f), true);
+        // デバッグモード切り替えボタン
+        //ImGuiHelper::FragTextButton("O", ImVec2(0.0f, 0.0f),mIsTransitionUIFrag,false);
+
         ne::SetCurrentEditor(GUIEditorManager::GetNodeContext());
         ne::Begin("Animator Controller Editor");
-
+        std::unordered_map<uint64_t, int> linkToTransIndexMap;
         if (mSelectAnimator && mSelectAnimator->GetOwner())
         {
             auto& controllerData = mSelectAnimator->GetControllerData();
@@ -120,8 +269,9 @@ void AnimatorNodeEditorPanel::Draw(float width, float height)
             mNeedSetNodePositions = false;
 
             int linkID = 1;
-            for (const auto& trans : controllerData.sTransitions)
+            for (size_t i = 0; i < controllerData.sTransitions.size(); ++i)
             {
+                const auto& trans = controllerData.sTransitions[i];
                 if (outputPinMap.count(trans.sFromState) &&
                     inputPinMap.count(trans.sToState))
                 {
@@ -137,6 +287,8 @@ void AnimatorNodeEditorPanel::Draw(float width, float height)
                     //{
                     //    ne::Flow(id);
                     //}
+                    //LinkId(Get())とtransitionsの配列インデックスを紐づけ
+                    linkToTransIndexMap[id.Get()] = static_cast<int>(i);
                 }
             }
 
@@ -276,6 +428,7 @@ void AnimatorNodeEditorPanel::Draw(float width, float height)
         if (ne::IsBackgroundClicked())
         {
             SelectionManager::ClearStateSelection();
+            SelectionManager::ClearTransitionSelection();
         }
         //選択状態の変更(ノードやリンクをクリックして選択した時)
         if (mSelectAnimator && ne::HasSelectionChanged())
@@ -295,6 +448,25 @@ void AnimatorNodeEditorPanel::Draw(float width, float height)
                         SelectionManager::SetSelectedStateName(selectedState.sStateName);
                     }
                 }
+                else
+                {
+                    //接続線(リンク)選択の判定
+                    vector<ne::LinkId> selectedLinks(selectedCount);
+                    int                linkCount = ne::GetSelectedLinks(selectedLinks.data(),selectedCount);
+                    if (linkCount > 0)
+                    {
+                        uint64_t selectedLinkId = selectedLinks[0].Get();
+                        if (linkToTransIndexMap.count(selectedLinkId))
+                        {
+                            int transIndex = linkToTransIndexMap[selectedLinkId];
+                            const auto& trans =
+                                mSelectAnimator->GetControllerData().sTransitions[transIndex];
+
+                            string transName = trans.sFromState + "->" + trans.sToState;
+                            SelectionManager::SetSelectedTransitionName(transName);
+                        }
+                    }
+                }
             }
         }
         //特定のノードをダブルクリックした時の判定
@@ -307,7 +479,7 @@ void AnimatorNodeEditorPanel::Draw(float width, float height)
 
             }
         }
-
+        ImGui::EndChild();
     }
     ImGui::End();
 

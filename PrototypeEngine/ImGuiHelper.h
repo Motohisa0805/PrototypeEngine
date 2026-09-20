@@ -29,7 +29,7 @@ namespace ImGuiHelper
 
     bool TableCheckbox(const char* label, bool* v);
 
-	void FragTextButton(const char* lable,const ImVec2 &size,bool &frag);
+	void FragTextButton(const char* lable,const ImVec2 &size,bool &frag,bool on_off_TextFrag = true);
 
     bool IsAncestorOf(ActorObject* potentialAncestor, ActorObject* target);
 

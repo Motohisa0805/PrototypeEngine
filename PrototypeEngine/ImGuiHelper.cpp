@@ -70,14 +70,18 @@ bool ImGuiHelper::TableCheckbox(const char* label, bool* v)
 }
 
 void ImGuiHelper::FragTextButton(const char* lable, const ImVec2& size,
-                                 bool& frag)
+                                 bool& frag,bool on_off_TextFrag)
 {
-    string flag = "Off";
-    if (frag)
+    string buttonText = lable;
+    if (on_off_TextFrag)
     {
-        flag = "On";
+        string flag = "Off";
+        if (frag)
+        {
+            flag = "On";
+        }
+        buttonText = buttonText + flag;
     }
-    string buttonText = lable + flag;
     if (ImGui::Button(buttonText.c_str(), ImVec2(0.0f, 0.0f)))
     {
         frag = !frag;

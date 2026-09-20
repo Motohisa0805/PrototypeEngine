@@ -15,12 +15,13 @@ class Animator : public Component
 {
 private:
 	//現在再生中のアニメーション名
-    string									mCurrentStateName;
+    string										mCurrentStateName;
 
 	//アニメーションデータを管理する「AnimatiorController」
-    filesystem::path						mControllerFilePath;
-    AnimatorControllerParameters			mControllerData;
-    std::unordered_map<string, Animation*>  mStateAnimations;
+    filesystem::path							mControllerFilePath;
+    AnimatorControllerParameters				mControllerData;
+    std::unordered_map<string, Animation*>		mStateAnimations;
+    std::unordered_map<string, AnimParameter>	mCurrentParameters;
 	//保存データ
 	//スケルトン(アバター)
     filesystem::path				mSkeletonFilePath;
@@ -47,6 +48,9 @@ private:
 	vector<Animation*>				mAnimations;
 	//*************************************************
     void								CheckStateTransitions();
+
+	bool								EvaluateCondition(const AnimCondition& cond);
+
 public:
     Animator(Entity* owner);
 	~Animator();
@@ -73,6 +77,15 @@ public:
 	AnimatorControllerParameters&		GetControllerData() { return mControllerData; }
 	const AnimatorControllerParameters&	GetControllerData() const { return mControllerData; }
 
+	//---パラメータ操作用API---
+    void SetFloat(const string& name, float value);
+    void SetBool(const string& name, bool value);
+    void SetInt(const string& name, int value);
+    void SetTriger(const string& name);
+
+	float GetFloat(const string& name);
+	bool  GetBool(const string& name);
+	bool  GetInt(const string& name);
 	//スケルトンのSetter
 	void								ReloadBones(ActorObject* rootbone);
     void								LoadSkeletonData(const string& fileName,ActorObject* rootBone);

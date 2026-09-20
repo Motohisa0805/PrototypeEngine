@@ -26,6 +26,8 @@ struct AnimParameter
     AnimParamType sType;
     float         sDefaultFloat = 0.0f;
     bool          sDefaultBool  = false;
+    int           sDefaultInt   = 0;
+    bool          sDefaultTrigger = false;
 };
 enum class AnimNodeType
 {

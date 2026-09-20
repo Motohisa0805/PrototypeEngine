@@ -14,12 +14,15 @@ private:
 
 	static string			mSelectedStateName;
 
+	static string			mSelectedTransitionName;
+
 public:
 	static void		AllClear()
 	{
 		mSelectedActor    = nullptr;
         mSelectedFilePath = "Assets";
         mSelectedStateName.clear();
+        mSelectedTransitionName.clear();
 	}
 
 	static Entity*	GetSelectedActor() { return mSelectedActor; }
@@ -31,15 +34,27 @@ public:
 		mSelectedFilePath = path; 
 		mSelectedActor    = nullptr;
         mSelectedStateName.clear();
+        mSelectedTransitionName.clear();
 	}
 
 	static string	GetSelectedStateName() { return mSelectedStateName; }
     static void		SetSelectedStateName(string name) 
 	{
 		mSelectedStateName = name;
+        mSelectedTransitionName.clear();
         mSelectedActor     = nullptr;
         mSelectedFilePath  = "Assets";
 	}
     static void		ClearStateSelection() { mSelectedStateName.clear(); }
+
+	static string GetSelectedTransitionName() {return mSelectedTransitionName;}
+	static void SetSelectedTransitionName(string name)
+	{
+        mSelectedTransitionName = name;
+        mSelectedStateName.clear();
+        mSelectedActor          = nullptr;
+        mSelectedFilePath       = "Assets";
+	}
+    static void ClearTransitionSelection() { mSelectedTransitionName.clear(); }
 };
 
