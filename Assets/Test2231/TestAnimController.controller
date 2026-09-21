@@ -4,20 +4,8 @@
         {
             "defaultBool": false,
             "defaultFloat": 0.0,
-            "name": "Jump",
-            "type": "Int"
-        },
-        {
-            "defaultBool": false,
-            "defaultFloat": 4.400000095367432,
             "name": "Move",
             "type": "Float"
-        },
-        {
-            "defaultBool": true,
-            "defaultFloat": 0.0,
-            "name": "Bool",
-            "type": "Bool"
         }
     ],
     "states": [
@@ -63,7 +51,7 @@
         },
         {
             "animPath": "Running_anim0.animbin",
-            "isLoop": false,
+            "isLoop": true,
             "name": "Run",
             "nodeType": 0,
             "playbackSpeed": 1.0,
@@ -74,7 +62,7 @@
     ],
     "transitions": [
         {
-            "blendDuration": 0.25,
+            "blendDuration": 0.10000000149011612,
             "conditions": [],
             "from": "Entry",
             "to": "Idle"
