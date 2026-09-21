@@ -39,6 +39,7 @@ void InspectorPanel::Draw(float width, float height)
         Entity* selectedActor = SelectionManager::GetSelectedActor();
         filesystem::path selectedFilePath = SelectionManager::GetSelectedFilePath();
         string selectedAnimState = SelectionManager::GetSelectedStateName();
+        string selectedTrans = SelectionManager::GetSelectedTransitionName();
         if (selectedActor)
         {
             ActorInspection(selectedActor);
@@ -50,6 +51,10 @@ void InspectorPanel::Draw(float width, float height)
         else if (!selectedAnimState.empty())
         {
             AnimationSettingsItem::DrawAnimStateSettings();
+        }
+        else if (!selectedTrans.empty())
+        {
+            AnimationSettingsItem::DrawAnimTransitionSettings();
         }
         else
         {

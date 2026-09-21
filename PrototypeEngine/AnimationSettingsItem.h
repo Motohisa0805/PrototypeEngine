@@ -7,4 +7,5 @@ class AnimationSettingsItem
 {
 public:
     static void DrawAnimStateSettings();
+    static void DrawAnimTransitionSettings();
 };
