@@ -3,6 +3,7 @@
 #include "AssetDataBase.h"
 #include "AnimatorControllerGenerater.h"
 #include "SelectionManager.h"
+#include "ProjectPanel.h"
 
 Animator* AnimatorNodeEditorPanel::mSelectAnimator             = nullptr;
 
@@ -476,7 +477,11 @@ void AnimatorNodeEditorPanel::Draw(float width, float height)
             int index = static_cast<int>(doubleClickedNodeId.Get()) - 1;
             if (index >= 0 && index < mSelectAnimator->GetControllerData().sStates.size())
             {
-
+                const auto& targetState = mSelectAnimator->GetControllerData().sStates[index];
+                if (!targetState.sAnimInfo.sBinayPath.empty())
+                {
+                    ProjectPanel::SetSelectedFolderPath(targetState.sAnimInfo.sBinayPath);
+                }
             }
         }
         ImGui::EndChild();
@@ -498,7 +503,7 @@ void AnimatorNodeEditorPanel::Draw(float width, float height)
 
             AnimState newState;
             newState.sStateName = dropData->sAnimDataName;
-            newState.sAnimInfo.sPath = animPath;
+            newState.sAnimInfo.sBinayPath = animPath;
             newState.sPlaybackSpeed  = 1.0f;
 
             mSelectAnimator->GetControllerData().sStates.push_back(newState);

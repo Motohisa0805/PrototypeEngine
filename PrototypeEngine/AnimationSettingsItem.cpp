@@ -137,11 +137,11 @@ void AnimationSettingsItem::DrawAnimTransitionSettings()
             if (controllerData.sParameters[0].sType == AnimParamType::sBool ||
                 controllerData.sParameters[0].sType == AnimParamType::sTrigger)
             {
-                newCond.sMode = "If";
+                newCond.sMode = "true";
             }
             else
             {
-                newCond.sMode = ">";
+                newCond.sMode = "Greater";
             }
             newCond.sThreshold = 0.0f;
 
@@ -178,11 +178,11 @@ void AnimationSettingsItem::DrawAnimTransitionSettings()
 
                         if (param.sType == AnimParamType::sBool || param.sType == AnimParamType::sTrigger)
                         {
-                            cond.sMode = "If";
+                            cond.sMode = "true";
                         }
                         else
                         {
-                            cond.sMode = ">";
+                            cond.sMode = "Greater";
                         }
                         isDataChanged = true;
                     }
@@ -206,9 +206,9 @@ void AnimationSettingsItem::DrawAnimTransitionSettings()
             //”äŠrƒ‚[ƒh
             if (currentType == AnimParamType::sBool || currentType == AnimParamType::sTrigger)
             {
-                ImGui::SetNextItemWidth(65.0f);
-                const char* modes[] = {"If", "IfNot"};
-                int         currentModeIdx = (cond.sMode == "IfNot") ? 1 : 0;
+                ImGui::SetNextItemWidth(95.0f);
+                const char* modes[] = {"true", "false"};
+                int         currentModeIdx = (cond.sMode == "false") ? 1 : 0;
                 if (ImGui::Combo("##ModeCombo", &currentModeIdx, modes, IM_ARRAYSIZE(modes)))
                 {
                     cond.sMode = modes[currentModeIdx];
@@ -217,8 +217,8 @@ void AnimationSettingsItem::DrawAnimTransitionSettings()
             }
             else
             {
-                ImGui::SetNextItemWidth(55.0f);
-                const char* modes[] = {">", "<", "==", "!="};
+                ImGui::SetNextItemWidth(95.0f);
+                const char* modes[] = {"Greater", "Less", "Equals", "NotEquals"};
                 int         currentModeIdx = 0;
                 for (int m = 0; m < 4; ++m)
                 {

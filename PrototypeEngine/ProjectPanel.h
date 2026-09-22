@@ -34,6 +34,7 @@ public:
 	static void 					SetRenaming(bool renaming) { mIsRenaming = renaming; }
 
 	static filesystem::path			GetSelectedFolderPath() { return mSelectedFolderPath; }
+    static void						SetSelectedFolderPath(const filesystem::path& path) {mSelectedFolderPath = path;}
 	//コンストラクタ
 									ProjectPanel(Renderer* renderer);
 	//GUIの初期化

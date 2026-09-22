@@ -18,7 +18,8 @@ private:
     string										mCurrentStateName;
 
 	//アニメーションデータを管理する「AnimatiorController」
-    filesystem::path							mControllerFilePath;
+    string										mControllerGUID;
+
     AnimatorControllerParameters				mControllerData;
     std::unordered_map<string, Animation*>		mStateAnimations;
     std::unordered_map<string, AnimParameter>	mCurrentParameters;
@@ -72,7 +73,7 @@ public:
 
 	const string					    GetCurrentStateName() const { return mCurrentStateName; }
 
-	filesystem::path					GetControllerFilePath() { return mControllerFilePath; }
+	filesystem::path					GetControllerFilePath();
 
 	AnimatorControllerParameters&		GetControllerData() { return mControllerData; }
 	const AnimatorControllerParameters&	GetControllerData() const { return mControllerData; }
