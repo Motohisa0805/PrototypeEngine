@@ -11,6 +11,7 @@
 #include "WindowRenderProperty.h"
 #include "FileOperationManager.h"
 #include "AssetImporter.h"
+#include "AssetDataBase.h"
 #include "MaterialManager.h"
 
 EngineState EngineWindow::mEngineState = EngineState::Run;
@@ -62,6 +63,7 @@ bool EngineWindow::EngineInitialize()
     mGameWindow->Initialize();
     //Assetsフォルダ内のファイルを確認
     AssetImporter::CheckAndImportAssets(false);
+    AssetDataBase::GetInstance().RefreshDataBase("Assets/");
     // 起動時に最初のシーンを初期化
     SceneManager::InitializeScenes();
     //  ImGuiの初期化処理

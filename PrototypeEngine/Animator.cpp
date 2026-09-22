@@ -16,7 +16,6 @@ Animator::Animator(Entity* owner)
     , mAnimPlayRate(1.0f)
     , mBlendElapsed(0.1f)
     , mBlending(false)
-    , mControllerFilePath("")
     , mControllerData()
 {
     mName = "Animator";
@@ -40,7 +39,9 @@ Animator::~Animator()
 
 bool Animator::LoadController(const string& filePath) 
 {
-    mControllerFilePath = filePath;
+    AssetMetaData meta = AssetDataBase::GetInstance().GetAssetMetaData(filePath);
+    mControllerGUID = meta.sGUID;
+
     std::ifstream file(filePath);
     if (!file.is_open())
     {
@@ -71,19 +72,19 @@ bool Animator::LoadController(const string& filePath)
 
         for (const auto& state : mControllerData.sStates)
         {
-            if (state.sAnimInfo.sPath.empty())continue;
+            if (state.sAnimInfo.sBinayPath.empty())continue;
 
             Animation* anim = new Animation(mSkeleton);
             anim->SetLoop(state.sAnimInfo.sIsLoop);
             anim->SetRootMotion(state.sAnimInfo.sRootMotion);
 
-            if (anim->LoadFromBinary(state.sAnimInfo.sPath.string()))
+            if (anim->LoadFromBinary(state.sAnimInfo.sBinayPath.string()))
             {
                 mAnimations.push_back(anim);
                 mStateAnimations[state.sStateName] = anim;
 
                 AnimInfo info{};
-                info.sPath = anim->GetFilePath();
+                info.sBinayPath = anim->GetFilePath();
                 info.sIsLoop = anim->IsLoop();
                 info.sRootMotion = anim->IsRootMotion();
                 mAnimationInfo.push_back(info);
@@ -378,10 +379,15 @@ void Animator::AddAnimation(Animation* anim)
         mAnimation->SetLoop(true);
     }
     AnimInfo info{};
-    info.sPath = anim->GetFilePath();
+    info.sBinayPath = anim->GetFilePath();
     info.sIsLoop = anim->IsLoop();
     info.sRootMotion = anim->IsRootMotion();
     mAnimationInfo.push_back(info);
+}
+
+filesystem::path Animator::GetControllerFilePath()
+{
+    return AssetDataBase::GetInstance().GetAssetPathByGUID(mControllerGUID);
 }
 
 void Animator::SetFloat(const string& name, float value) 
@@ -510,8 +516,8 @@ void Animator::Serialize(json& j) const
     {
         j["SkeletonPath"] = mSkeleton->GetSkeletonFilePath();
     }
-
-    j["ControllerPath"] = mControllerFilePath.string();
+    j["ControllerGUID"] = mControllerGUID;
+    //j["ControllerPath"] = mControllerFilePath.string();
 }
 
 void Animator::Deserialize(const json& j) 
@@ -523,9 +529,9 @@ void Animator::Deserialize(const json& j)
         mSkeletonFilePath             = skeletonPath;
     }
 
-    if (j.contains("ControllerPath"))
+    if (j.contains("ControllerGUID"))
     {
-        mControllerFilePath = j.value("ControllerPath", "");
+        mControllerGUID = j.value("ControllerGUID", "");
     }
 }
 
@@ -533,9 +539,17 @@ void Animator::DeserializeAfterParentChildBuild()
 {
     LoadSkeletonData(mSkeletonFilePath.string(), static_cast<ActorObject*>(mOwner));
 
-    if (!mControllerFilePath.empty())
+    if (!mControllerGUID.empty())
     {
-        LoadController(mControllerFilePath.string());
+        string resolvedPath = AssetDataBase::GetInstance().GetAssetPathByGUID(mControllerGUID);
+        if (!resolvedPath.empty())
+        {
+            LoadController(resolvedPath);
+        }
+        else
+        {
+            Debug::Log("Warning: AnimatorController asset not found for GUID: %s",mControllerGUID.c_str());
+        }
     }
 }
 
@@ -579,7 +593,7 @@ void Animator::DrawCustomGUI(const std::vector<PropertyInfo>& properties)
 
     ImGui::Text("Animator Controller");
     static char controllerPathBuffer[256];
-    strncpy_s(controllerPathBuffer, mControllerFilePath.filename().string().c_str(),sizeof(controllerPathBuffer));
+    strncpy_s(controllerPathBuffer, GetControllerFilePath().filename().string().c_str(),sizeof(controllerPathBuffer));
     controllerPathBuffer[sizeof(controllerPathBuffer) - 1] = '\0';
 
     ImGui::InputText("Controller", controllerPathBuffer, sizeof(controllerPathBuffer),ImGuiInputTextFlags_ReadOnly);
@@ -598,7 +612,8 @@ void Animator::DrawCustomGUI(const std::vector<PropertyInfo>& properties)
 
     if (ImGui::Button("Clear Controller"))
     {
-        mControllerFilePath.clear();
+        GetControllerFilePath().clear();
+        mControllerGUID.clear();
         mControllerData = AnimatorControllerParameters();
         for (auto* anim : mAnimations)delete anim;
         mAnimations.clear();
@@ -617,10 +632,10 @@ Component* Animator::Clone(Entity* newOwner) const
     clone->LoadSkeletonData(mSkeletonFilePath.string(),
                             static_cast<ActorObject*>(mOwner));
 
-    clone->mControllerFilePath = this->mControllerFilePath;
-    if (!clone->mControllerFilePath.empty())
+    clone->mControllerGUID     = this->mControllerGUID;
+    if (!clone->GetControllerFilePath().empty())
     {
-        clone->LoadController(clone->mControllerFilePath.string());
+        clone->LoadController(clone->GetControllerFilePath().string());
     }
 
     clone->mAnimPlayRate  = this->mAnimPlayRate;

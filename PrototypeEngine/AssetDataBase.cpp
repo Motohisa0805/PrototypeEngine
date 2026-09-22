@@ -6,6 +6,16 @@ AssetDataBase::AssetDataBase()
 
 }
 
+string AssetDataBase::GetAssetPathByGUID(const string& guid)
+{
+    auto it = mGuidToPathMap.find(guid);
+    if (it != mGuidToPathMap.end())
+    {
+        return it->second;
+    }
+    return string();
+}
+
 AssetMetaData AssetDataBase::GetAssetMetaData(const filesystem::path& fbxPath)
 {
     AssetMetaData  data;
@@ -32,8 +42,7 @@ AssetMetaData AssetDataBase::GetAssetMetaData(const filesystem::path& fbxPath)
         data.sGUID = metaJson["guid"].get<string>();
     }
 
-    if (!metaJson.contains("cached_data") ||
-        !metaJson["cached_data"].contains("hierarchy"))
+    if (!metaJson.contains("cached_data"))
     {
         return data;
     }
@@ -162,12 +171,16 @@ void AssetDataBase::RefreshDataBase(
 
     for (const auto& entry : filesystem::recursive_directory_iterator(assetsDirectory))
     {
-        if (entry.is_regular_file() && entry.path().extension() == ".fbx")
+        if (!entry.is_regular_file())continue;
+
+        auto ext = entry.path().extension();
+
+        if (ext == ".fbx" || ext == ".controller")
         {
-            const filesystem::path fbxPath = entry.path();
+            const filesystem::path filePath = entry.path();
             // 対応する独自ファイル
-            AssetMetaData data = AssetDataBase::GetInstance().GetAssetMetaData(fbxPath);
-            mAssetRegistry[fbxPath.generic_string()]  = data;
+            AssetMetaData data = GetAssetMetaData(filePath);
+            UpdateAssetData(filePath, data);
         }
     }
 }
@@ -188,10 +201,23 @@ void AssetDataBase::RefreshAssetData(const std::filesystem::path& pastFilePath,
     {
         mAssetRegistry[newKey] = GetAssetMetaData(newFilePath);
     }
+
+    const string& guid = mAssetRegistry[newKey].sGUID;
+    if (!guid.empty())
+    {
+        mGuidToPathMap[guid] = newKey;
+    }
 }
 
 void AssetDataBase::UpdateAssetData(const std::filesystem::path& filePath,
                                     const AssetMetaData&         data)
 {
+    string pathStr = filePath.generic_string();
     mAssetRegistry[filePath.generic_string()] = data;
+
+    //GUIDが存在していれば逆引きマップにも登録
+    if (!data.sGUID.empty())
+    {
+        mGuidToPathMap[data.sGUID] = pathStr;
+    }
 }

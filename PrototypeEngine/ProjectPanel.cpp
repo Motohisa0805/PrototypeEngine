@@ -352,7 +352,6 @@ void ProjectPanel::DrawFileSystemEntry(const filesystem::directory_entry& entry)
             {
                 if (entry.is_directory())
                 {
-                    //SelectionManager::SetSelectedFilePath(entry.path());
                     mSelectedFolderPath = entry.path();
                 }
                 else
@@ -757,7 +756,6 @@ void ProjectPanel::OpenFile()
             // シーンファイルのロード処理を呼び出す
             // 実行中のシーンと切り替えるため、SceneManagerに処理を依頼します
             SceneManager::LoadSceneGUI(SelectionManager::GetSelectedFilePath().string());
-            // EditorSettingsManager::GetInstance().SetLastOpenedScene(entry.path().string());
         }
         else if (filesystem::is_directory(SelectionManager::GetSelectedFilePath()))
         {

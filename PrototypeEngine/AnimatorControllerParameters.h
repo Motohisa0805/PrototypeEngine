@@ -6,7 +6,7 @@ namespace fs = filesystem;
 
 struct AnimInfo
 {
-    filesystem::path sPath;
+    filesystem::path sBinayPath;
     bool             sIsLoop     = false;
     bool             sRootMotion = false;
 };
@@ -39,12 +39,12 @@ enum class AnimNodeType
 // èÛë‘ÉmÅ[Éh
 struct AnimState
 {
-    string   sStateName;
-    AnimNodeType sNodeType = AnimNodeType::sNormal;
-    AnimInfo sAnimInfo;
-    float    sPlaybackSpeed = 1.0f;
+    string          sStateName;
+    AnimNodeType    sNodeType = AnimNodeType::sNormal;
+    AnimInfo        sAnimInfo;
+    float           sPlaybackSpeed = 1.0f;
     //ï`âÊç¿ïW
-    Vector2  sPos = Vector2::Zero;
+    Vector2         sPos = Vector2::Zero;
 };
 // ëJà⁄ÇÃèåè
 struct AnimCondition
@@ -91,7 +91,7 @@ inline void to_json(nlohmann::json& j, const AnimState& s)
 {
     j = nlohmann::json{{"name", s.sStateName},
                        {"nodeType", (int)s.sNodeType},
-                       {"animPath", s.sAnimInfo.sPath.string()},
+                       {"animPath", s.sAnimInfo.sBinayPath.string()},
                        {"isLoop", s.sAnimInfo.sIsLoop},
                        {"rootMotion", s.sAnimInfo.sRootMotion},
                        {"playbackSpeed", s.sPlaybackSpeed},
@@ -144,7 +144,7 @@ inline void from_json(const nlohmann::json& j, AnimState& s)
 {
     j.at("name").get_to(s.sStateName);
     s.sNodeType             = j.at("nodeType").get<AnimNodeType>();
-    s.sAnimInfo.sPath       = j.at("animPath").get<string>();
+    s.sAnimInfo.sBinayPath       = j.at("animPath").get<string>();
     s.sAnimInfo.sIsLoop     = j.at("isLoop").get<bool>();
     s.sAnimInfo.sRootMotion = j.at("rootMotion").get<bool>();
     s.sPlaybackSpeed        = j.at("playbackSpeed").get<float>();

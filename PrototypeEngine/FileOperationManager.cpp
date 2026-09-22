@@ -304,10 +304,7 @@ void FileOperationManager::RenameNormalFileOrFolder(
         filesystem::path newMetaPath = newPath.string() + ".meta";
         filesystem::path oldMetaPath = oldPath.string() + ".meta";
         //各ファイルごとに対応
-        if (newPath.extension().string() == ".fbx")
-        {
-            AssetImporter::ReloadImportAssets(oldMetaPath, newMetaPath);
-        }
+        AssetImporter::ReloadImportAssets(oldMetaPath, newMetaPath);
 
         Debug::Log("Renamed: %s -> %s\n", oldPath.filename().string().c_str(),
                    newPath.filename().string().c_str());

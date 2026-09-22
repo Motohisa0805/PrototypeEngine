@@ -39,7 +39,9 @@ struct AssetMetaData
 class AssetDataBase
 {
 private:
-    std::unordered_map<string, AssetMetaData> mAssetRegistry;
+    std::unordered_map<string, AssetMetaData>   mAssetRegistry;
+    //GUIDからファイルパスを逆引きするためのマップを追加
+    std::unordered_map<string, string>          mGuidToPathMap;
 
     AssetDataBase();
 
@@ -53,18 +55,20 @@ public:
         return instance;
     }
 
-    AssetMetaData GetAssetMetaData(const filesystem::path& fbxPath);
+    string                  GetAssetPathByGUID(const string& guid);
 
-    filesystem::path GeneratedMetaFilePath(const filesystem::path& path);
+    AssetMetaData           GetAssetMetaData(const filesystem::path& fbxPath);
 
-    vector<SubMeshPayload> GetSubMeshPayload(const filesystem::path& fbxPath);
+    filesystem::path        GeneratedMetaFilePath(const filesystem::path& path);
+
+    vector<SubMeshPayload>  GetSubMeshPayload(const filesystem::path& fbxPath);
 
     //エンジン起動時やフォルダ更新時に一括で.metaを読み込んでキャッシュを構築
-    void RefreshDataBase(const std::filesystem::path& assetsDirectory);
+    void                    RefreshDataBase(const std::filesystem::path& assetsDirectory);
     //単一ファイルのキャッシュ更新
-    void RefreshAssetData(const std::filesystem::path& pastFilePath,const std::filesystem::path& newFilePath);
+    void                    RefreshAssetData(const std::filesystem::path& pastFilePath,const std::filesystem::path& newFilePath);
     //単一ファイルのインポート完了後にキャッシュを更新
-    void UpdateAssetData(const std::filesystem::path& filePath,const AssetMetaData& data);
+    void                    UpdateAssetData(const std::filesystem::path& filePath,const AssetMetaData& data);
     //プロジェクトパネルからO(1)で高速に情報を取得する
     bool GetSubMeshs(const std::filesystem::path& path, std::vector<SubMeshPayload>& outSubMeshs)const
     {
