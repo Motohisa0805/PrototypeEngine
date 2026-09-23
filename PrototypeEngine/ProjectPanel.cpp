@@ -35,8 +35,6 @@ void ProjectPanel::Initialize(float width, float height, ImTextureRef ref)
     mWidthSize  = width * 0.15f;
     mHeightSize = height - 55.0f;
     EditorWindow::Initialize(width, height, ref);
-    filesystem::path assetsPath = "Assets/";
-    AssetDataBase::GetInstance().RefreshDataBase(assetsPath);
 }
 
 void ProjectPanel::Draw(float width, float height)

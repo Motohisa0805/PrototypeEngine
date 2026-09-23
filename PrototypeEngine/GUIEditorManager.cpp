@@ -53,7 +53,10 @@ bool GUIEditorManager::InitializeImGui(SDL_Window*   window,
     ImGui_ImplSDL3_InitForOpenGL(window, glContext);
     ImGui_ImplOpenGL3_Init("#version 330");
     //ノードエディターの初期化
-    mNodeContext = ax::NodeEditor::CreateEditor();
+    ax::NodeEditor::Config nodeConfig;
+    //NodeEditor.jsonの保存先指定
+    nodeConfig.SettingsFile = "Library/NodeEditor.json";
+    mNodeContext            = ax::NodeEditor::CreateEditor(&nodeConfig);
     // GUI用のフォントを読み込む
     // フォントパス(Libraryフォルダーにアクセス)
     string fontpath = "Library/Noto_Sans_JP/static/NotoSansJP-Bold.ttf";

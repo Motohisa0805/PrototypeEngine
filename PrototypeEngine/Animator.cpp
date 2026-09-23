@@ -517,7 +517,6 @@ void Animator::Serialize(json& j) const
         j["SkeletonPath"] = mSkeleton->GetSkeletonFilePath();
     }
     j["ControllerGUID"] = mControllerGUID;
-    //j["ControllerPath"] = mControllerFilePath.string();
 }
 
 void Animator::Deserialize(const json& j) 

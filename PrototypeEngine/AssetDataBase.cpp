@@ -165,8 +165,7 @@ vector<SubMeshPayload> AssetDataBase::GetSubMeshPayload(const filesystem::path& 
     return data.sSubMeshs;
 }
 
-void AssetDataBase::RefreshDataBase(
-    const std::filesystem::path& assetsDirectory)
+void AssetDataBase::RefreshDataBase(const std::filesystem::path& assetsDirectory)
 {
 
     for (const auto& entry : filesystem::recursive_directory_iterator(assetsDirectory))
@@ -175,7 +174,7 @@ void AssetDataBase::RefreshDataBase(
 
         auto ext = entry.path().extension();
 
-        if (ext == ".fbx" || ext == ".controller")
+        if (ext == ".fbx" || ext == ".controller" || ext == ".mat")
         {
             const filesystem::path filePath = entry.path();
             // ‘Î‰ž‚·‚é“ÆŽ©ƒtƒ@ƒCƒ‹

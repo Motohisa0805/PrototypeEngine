@@ -5,6 +5,7 @@
 #include "VertexArray.h"
 #include "MaterialManager.h"
 #include "AssetDataBase.h"
+#include "DebugManager.h"
 
 MeshRenderer::MeshRenderer(Entity* owner, bool isSkeletal)
     : Component(owner)
@@ -177,6 +178,15 @@ void MeshRenderer::SetIsRun(bool run)
     }
 }
 
+void MeshRenderer::SetMaterialByGUID(size_t slotIndex, const string& guid) 
+{
+
+}
+
+void MeshRenderer::SetMaterialByPath(size_t slotIndex, const string& filePath)
+{
+}
+
 void MeshRenderer::Serialize(json& j) const
 {
     Component::Serialize(j);
@@ -184,7 +194,8 @@ void MeshRenderer::Serialize(json& j) const
     j["FilePath"] = mFilePath;
     j["LocalID"]  = mLocalID;
 
-    //マテリアルパス
+    //マテリアルGUID
+    /*
     json matPaths = json::array();
     for (size_t i = 0; i < mMaterials.size(); ++i)
     {
@@ -198,6 +209,13 @@ void MeshRenderer::Serialize(json& j) const
         }
         j["MaterialPaths"] = matPaths;
     }
+    */
+    json matGUIDs = json::array();
+    for (size_t i = 0; i < mMaterialGUIDs.size(); ++i)
+    {
+        matGUIDs.push_back(mMaterialGUIDs[i]);
+    }
+    j["MaterialGUIDs"] = matGUIDs;
 
     // メッシュレンダラー固有の他のプロパティも追加
     j["Visible"]    = mVisible;
@@ -250,6 +268,40 @@ void MeshRenderer::Deserialize(const json& j)
         }
     }
 
+    if (j.contains("MaterialGUIDs"))
+    {
+        auto matGUIDs = j["MaterialGUIDs"];
+
+        for (auto* mat : mMaterials)
+        {
+
+        }
+        mMaterials.clear();
+        mMaterialGUIDs.clear();
+
+        mMaterials.resize(matGUIDs.size(), nullptr);
+        mMaterialGUIDs.resize(matGUIDs.size(), "");
+
+        for (size_t i = 0; i < matGUIDs.size(); ++i)
+        {
+            string guid = matGUIDs[i].get<string>();
+            mMaterialGUIDs[i] = guid;
+
+            if (!guid.empty())
+            {
+                string path = AssetDataBase::GetInstance().GetAssetPathByGUID(guid);
+                if (!path.empty())
+                {
+                    mMaterials[i] = MaterialManager::GetMaterial(path);
+                }
+                else
+                {
+                    Debug::Log("Warning Material asset not found for GUID: %s",guid.c_str());
+                }
+            }
+        }
+    }
+
     // 4. その他のプロパティも読み込む
     if (j.contains("Visible"))
     {
@@ -281,6 +333,84 @@ void MeshRenderer::LoadFilePathAndID(const char* path, const char* localID,uint3
     }
 }
 
+void MeshRenderer::DrawMaterialGUI() 
+{
+    ImGui::Text("Materials");
+    if (!mMeshs.empty() && mMeshs[0])
+    {
+        // メッシュが持つサブメッシュの数(=マテリアルスロット数)を取得
+        int materialCount = mMeshs[0]->GetVertexArrays().size();
+
+        // 配列のサイズをスロット数に合わせる
+        if (mMaterials.size() != materialCount)
+        {
+            mMaterials.resize(materialCount, nullptr);
+            mMaterialGUIDs.resize(materialCount, "");
+        }
+
+        for (int i = 0; i < materialCount; i++)
+        {
+            ImGui::PushID(i);
+            string matLabel = "Element" + std::to_string(i);
+
+            // 割り当てられているか確認してパスを表示
+            string displayPath = mMaterials[i] ? mMaterials[i]->GetFilePath()
+                                               : "None (Mesh Default)";
+            if (i < mMaterialGUIDs.size() && !mMaterialGUIDs[i].empty())
+            {
+                string resolvedPath =
+                    AssetDataBase::GetInstance().GetAssetPathByGUID(
+                        mMaterialGUIDs[i]);
+                if (!resolvedPath.empty())
+                {
+                    displayPath =
+                        filesystem::path(resolvedPath).filename().string();
+                }
+                else
+                {
+                    displayPath = "Missing Material(" +
+                                  mMaterialGUIDs[i].substr(0, 8) + ")...";
+                }
+            }
+
+            char matBuffer[256];
+            strncpy_s(matBuffer, displayPath.c_str(), sizeof(matBuffer));
+            matBuffer[sizeof(matBuffer) - 1] = '\0';
+
+            ImGui::InputText(matLabel.c_str(), matBuffer, sizeof(matBuffer),
+                             ImGuiInputTextFlags_ReadOnly);
+
+            // ドラッグ&ドロップで.matを割り当てる
+            if (ImGui::BeginDragDropTarget())
+            {
+                if (const ImGuiPayload* payload =
+                        ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM"))
+                {
+                    const char*      payloadPath = (const char*)payload->Data;
+                    filesystem::path droppedPath(payloadPath);
+
+                    if (droppedPath.extension() == ".mat")
+                    {
+                        AssetMetaData meta =
+                            AssetDataBase::GetInstance().GetAssetMetaData(
+                                droppedPath.string());
+                        mMaterialGUIDs[i] = meta.sGUID;
+                        mMaterials[i] =
+                            MaterialManager::GetMaterial(droppedPath.string());
+                    }
+                }
+                ImGui::EndDragDropTarget();
+            }
+            ImGui::SameLine();
+            if (ImGui::Button("*"))
+            {
+                mMaterials[i] = nullptr;
+            }
+            ImGui::PopID();
+        }
+    }
+}
+
 void MeshRenderer::DrawCustomGUI(const std::vector<PropertyInfo>& properties)
 {
     ImGui::PushID(this);
@@ -293,13 +423,11 @@ void MeshRenderer::DrawCustomGUI(const std::vector<PropertyInfo>& properties)
      // 1.ファイルパスの取得
     filesystem::path currentPath = mFilePath;
     static char      pathBuffer[256];
-    strncpy_s(pathBuffer, currentPath.filename().stem().string().c_str(),
-              sizeof(pathBuffer));
+    strncpy_s(pathBuffer, currentPath.filename().stem().string().c_str(),sizeof(pathBuffer));
     pathBuffer[sizeof(pathBuffer) - 1] = '\0';
     ImGui::Text("Mesh");
     // 2.ファイルパスの入力フィールド
-    ImGui::InputText("Mesh File Path", pathBuffer, sizeof(pathBuffer),
-                     ImGuiInputTextFlags_ReadOnly);
+    ImGui::InputText("Mesh File Path", pathBuffer, sizeof(pathBuffer),ImGuiInputTextFlags_ReadOnly);
 
     // 3.ファイルロードボタン(ここでファイル選択UIを開くか、ProjectPanelからのDrag&Dropを想定)
     // Drag&Drop想定
@@ -325,61 +453,8 @@ void MeshRenderer::DrawCustomGUI(const std::vector<PropertyInfo>& properties)
 
     ImGui::NewLine();
     ImGui::Separator();
-    ImGui::Text("Materials");
-    if (!mMeshs.empty() && mMeshs[0])
-    {
-        // メッシュが持つサブメッシュの数(=マテリアルスロット数)を取得
-        int materialCount = mMeshs[0]->GetVertexArrays().size();
-
-        // 配列のサイズをスロット数に合わせる
-        if (mMaterials.size() != materialCount)
-        {
-            mMaterials.resize(materialCount, nullptr);
-        }
-
-        for (int i = 0; i < materialCount; i++)
-        {
-            ImGui::PushID(i);
-            string matLabel = "Element" + std::to_string(i);
-
-            // 割り当てられているか確認してパスを表示
-            string displayPath = mMaterials[i] ? mMaterials[i]->GetFilePath()
-                                               : "None (Mesh Default)";
-            filesystem::path p(displayPath);
-            displayPath = p.filename().string(); // ファイル名だけ表示
-
-            char matBuffer[256];
-            strncpy_s(matBuffer, displayPath.c_str(), sizeof(matBuffer));
-            matBuffer[sizeof(matBuffer) - 1] = '\0';
-
-            ImGui::InputText(matLabel.c_str(), matBuffer, sizeof(matBuffer),
-                             ImGuiInputTextFlags_ReadOnly);
-
-            // ドラッグ&ドロップで.matを割り当てる
-            if (ImGui::BeginDragDropTarget())
-            {
-                if (const ImGuiPayload* payload =
-                        ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM"))
-                {
-                    const char*      payloadPath = (const char*)payload->Data;
-                    filesystem::path droppedPath(payloadPath);
-
-                    if (droppedPath.extension() == ".mat")
-                    {
-                        mMaterials[i] =
-                            MaterialManager::GetMaterial(droppedPath.string());
-                    }
-                }
-                ImGui::EndDragDropTarget();
-            }
-            ImGui::SameLine();
-            if (ImGui::Button("*"))
-            {
-                mMaterials[i] = nullptr;
-            }
-            ImGui::PopID();
-        }
-    }
+    
+    DrawMaterialGUI();
 
     ImGui::NewLine();
 
@@ -432,11 +507,8 @@ Component* MeshRenderer::Clone(Entity* newOwner) const
     clone->mMeshs      = this->mMeshs;
     clone->mIsSkeletal = this->mIsSkeletal;
 
-    clone->mMaterials.resize(this->mMaterials.size(), nullptr);
-    for (int i = 0; i < this->mMaterials.size(); ++i)
-    {
-        clone->mMaterials[i] = this->mMaterials[i];
-    }
+    clone->mMaterials = this->mMaterials;
+    clone->mMaterialGUIDs = this->mMaterialGUIDs;
 
     return clone;
 }
