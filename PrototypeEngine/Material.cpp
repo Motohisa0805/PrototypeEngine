@@ -8,7 +8,9 @@
 
 Material::Material() 
 :mData()
-,mFilePath(""), mAlbedoTexture(nullptr) {}
+,mFilePath("")
+,mMatGUID("")
+,mAlbedoTexture(nullptr) {}
 
 Material::~Material() 
 {

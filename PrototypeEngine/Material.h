@@ -29,6 +29,7 @@ class Material
 private:
     MaterialData    mData;
 
+    string          mMatGUID;
     string          mFilePath;
 
     Texture*        mAlbedoTexture;
@@ -38,8 +39,6 @@ public:
 
     bool            LoadFromFile(const string& filePath);
     bool            SaveToFile(const string& filePath);
-
-    bool            ClearFile();
 
     MaterialData&   GetData() { return mData; }
 

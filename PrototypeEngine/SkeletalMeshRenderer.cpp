@@ -329,66 +329,12 @@ void SkeletalMeshRenderer::DrawCustomGUI(
 
     ImGui::NewLine();
     ImGui::Separator();
-    ImGui::Text("Materials");
-    if (!mMeshs.empty() && mMeshs[0])
-    {
-        // メッシュが持つサブメッシュの数(=マテリアルスロット数)を取得
-        int materialCount = mMeshs[0]->GetVertexArrays().size();
 
-        // 配列のサイズをスロット数に合わせる
-        if (mMaterials.size() != materialCount)
-        {
-            mMaterials.resize(materialCount, nullptr);
-        }
-
-        for (int i = 0; i < materialCount; i++)
-        {
-            ImGui::PushID(i);
-            string matLabel = "Element" + std::to_string(i);
-
-            // 割り当てられているか確認してパスを表示
-            string displayPath = mMaterials[i] ? mMaterials[i]->GetFilePath()
-                                               : "None (Mesh Default)";
-            filesystem::path p(displayPath);
-            displayPath = p.filename().string(); // ファイル名だけ表示
-
-            char matBuffer[256];
-            strncpy_s(matBuffer, displayPath.c_str(), sizeof(matBuffer));
-            matBuffer[sizeof(matBuffer) - 1] = '\0';
-
-            ImGui::InputText(matLabel.c_str(), matBuffer, sizeof(matBuffer),
-                             ImGuiInputTextFlags_ReadOnly);
-
-            // ドラッグ&ドロップで.matを割り当てる
-            if (ImGui::BeginDragDropTarget())
-            {
-                if (const ImGuiPayload* payload =
-                        ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM"))
-                {
-                    const char*      payloadPath = (const char*)payload->Data;
-                    filesystem::path droppedPath(payloadPath);
-
-                    if (droppedPath.extension() == ".mat")
-                    {
-                        mMaterials[i] =
-                            MaterialManager::GetMaterial(droppedPath.string());
-                    }
-                }
-                ImGui::EndDragDropTarget();
-            }
-            ImGui::SameLine();
-            if (ImGui::Button("*"))
-            {
-                mMaterials[i] = nullptr;
-            }
-            ImGui::PopID();
-        }
-    }
+    DrawMaterialGUI();
 
     ImGui::NewLine();
 
-    ImGuiTableFlags tableFlags =
-        ImGuiTableFlags_Resizable | ImGuiTableFlags_SizingStretchProp;
+    ImGuiTableFlags tableFlags = ImGuiTableFlags_Resizable | ImGuiTableFlags_SizingStretchProp;
 
     if (ImGui::BeginTable("MeshRendererSettingsTable", 2, tableFlags))
     {

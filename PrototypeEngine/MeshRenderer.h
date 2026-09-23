@@ -33,6 +33,7 @@ protected:
 	bool						mIsSkeletal;
 	//メッシュごとに割り当てられたマテリアルのパスの保持
 	vector<Material*>			mMaterials;
+    vector<string>				mMaterialGUIDs;
 
 public:
 								MeshRenderer(Entity* owner, bool isSkeletal = false);
@@ -75,10 +76,15 @@ public:
 
 	void						SetIsRun(bool run)override;
 
+	void						SetMaterialByGUID(size_t slotIndex, const string& guid);
+	void						SetMaterialByPath(size_t slotIndex, const string& filePath);
+
 	void						Serialize(json& j) const override;
 	void						Deserialize(const json& j)override;
 
 	virtual void				LoadFilePathAndID(const char* path,const char* localID,uint32_t vertexType = -1);
+
+	void						DrawMaterialGUI();
 
 	void						DrawCustomGUI(const std::vector<PropertyInfo>& properties)override;
 
