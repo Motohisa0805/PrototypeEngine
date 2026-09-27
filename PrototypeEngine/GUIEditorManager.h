@@ -66,6 +66,7 @@ public:
 	// Initialize ImGui
 	static bool				 InitializeImGui(SDL_Window* window, SDL_GLContext glContext);
 	static void				 InputUpdateImGuiState();
+    static void				 LoadPanelsFromIni(const char* filePath);
 	// Update ImGui state	 
 	static void				 UpdateImGuiState();
 	//GUIパネルのゲームシーン内のポインターをリセット

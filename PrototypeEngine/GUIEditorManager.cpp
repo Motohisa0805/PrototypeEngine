@@ -12,6 +12,7 @@
 #include "ToolbarPanel.h"
 #include "WindowRenderProperty.h"
 #include "imgui_internal.h"
+#include <regex>
 
 bool GUIEditorManager::mIsPaused = false;
 
@@ -82,16 +83,7 @@ bool GUIEditorManager::InitializeImGui(SDL_Window*   window,
     // ルートパネル追加
     mRootMainWindow = new EditorWindow(mRenderer);
 
-    mRootMainWindow->AddEditorWindow(
-        EditorWindowFactory::CreateEditorWindow("GameView", mRenderer));
-    mRootMainWindow->AddEditorWindow(
-        EditorWindowFactory::CreateEditorWindow("SceneView", mRenderer));
-    mRootMainWindow->AddEditorWindow(
-        EditorWindowFactory::CreateEditorWindow("Hierarchy", mRenderer));
-    mRootMainWindow->AddEditorWindow(
-        EditorWindowFactory::CreateEditorWindow("Project", mRenderer));
-    mRootMainWindow->AddEditorWindow(
-        EditorWindowFactory::CreateEditorWindow("Inspector", mRenderer));
+    LoadPanelsFromIni("Library/myLayout.ini");
 
     SelectionManager::SetSelectedActor(nullptr);
 
@@ -106,6 +98,59 @@ void GUIEditorManager::InputUpdateImGuiState()
     {
         window->InputUpdate();
     }
+}
+
+void GUIEditorManager::LoadPanelsFromIni(const char* filePath) 
+{
+    std::ifstream file(filePath);
+    if (!file.is_open())
+    {
+        mRootMainWindow->AddEditorWindow(
+            EditorWindowFactory::CreateEditorWindow("GameView", mRenderer));
+        mRootMainWindow->AddEditorWindow(
+            EditorWindowFactory::CreateEditorWindow("SceneView", mRenderer));
+        mRootMainWindow->AddEditorWindow(
+            EditorWindowFactory::CreateEditorWindow(
+                "Animator Controller Editor", mRenderer));
+        mRootMainWindow->AddEditorWindow(
+            EditorWindowFactory::CreateEditorWindow("Hierarchy", mRenderer));
+        mRootMainWindow->AddEditorWindow(
+            EditorWindowFactory::CreateEditorWindow("Project", mRenderer));
+        mRootMainWindow->AddEditorWindow(
+            EditorWindowFactory::CreateEditorWindow("Inspector", mRenderer));
+        return;
+    }
+
+    string line;
+    std::regex windowRegex(R"(\[Window\]\[(.*?)\])");
+    std::smatch match;
+
+    while (std::getline(file,line))
+    {
+        if (std::regex_search(line, match, windowRegex))
+        {
+            string fullWindowId = match[1].str();
+
+            if (fullWindowId == "MainDockSpaceWindow" || fullWindowId.empty())continue;
+
+            string panelType = fullWindowId;
+            size_t hashPos   = fullWindowId.find("###");
+            if (hashPos != string::npos)
+            {
+                panelType = fullWindowId.substr(0, hashPos);
+            }
+
+
+            EditorWindow* newWindow = EditorWindowFactory::CreateEditorWindow(panelType,mRenderer);
+            if (newWindow)
+            {
+                mRootMainWindow->AddEditorWindow(newWindow);
+            }
+        }
+    }
+    file.close();
+
+    ImGui::LoadIniSettingsFromDisk(filePath);
 }
 
 void GUIEditorManager::UpdateImGuiState()
