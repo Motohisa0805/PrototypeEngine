@@ -11,6 +11,8 @@ private:
 
     bool                                mNeedSetNodePositions;
 
+    bool                                mNeedRebuildController;
+
     //遷移フラグ管理UI表示フラグ
     bool                                mIsTransitionUIFrag;
 

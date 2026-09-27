@@ -3,7 +3,7 @@
     "parameters": [
         {
             "defaultBool": false,
-            "defaultFloat": 0.0,
+            "defaultFloat": 2.0,
             "name": "Move",
             "type": "Float"
         },
@@ -47,12 +47,12 @@
         },
         {
             "animPath": "Breathing Idle_anim0.animbin",
-            "isLoop": false,
+            "isLoop": true,
             "name": "Idle",
             "nodeType": 0,
             "playbackSpeed": 1.0,
-            "posX": 73.0,
-            "posY": -70.0,
+            "posX": 53.0,
+            "posY": -54.0,
             "rootMotion": false
         },
         {
@@ -61,21 +61,31 @@
             "name": "Run",
             "nodeType": 0,
             "playbackSpeed": 1.0,
-            "posX": 341.0,
-            "posY": -78.0,
+            "posX": 293.0,
+            "posY": -6.0,
+            "rootMotion": false
+        },
+        {
+            "animPath": "Jumping_anim0.animbin",
+            "isLoop": false,
+            "name": "Jumping",
+            "nodeType": 0,
+            "playbackSpeed": 1.0,
+            "posX": 293.0,
+            "posY": -126.0,
             "rootMotion": false
         }
     ],
     "transitions": [
         {
-            "blendDuration": 0.10000000149011612,
-            "conditions": [],
-            "from": "Entry",
-            "to": "Idle"
-        },
-        {
             "blendDuration": 0.25,
-            "conditions": [],
+            "conditions": [
+                {
+                    "mode": "Equals",
+                    "parameter": "Move",
+                    "threshold": 1.0
+                }
+            ],
             "from": "Idle",
             "to": "Run"
         },
@@ -83,17 +93,36 @@
             "blendDuration": 0.25,
             "conditions": [
                 {
-                    "mode": "Greater",
+                    "mode": "Equals",
                     "parameter": "Move",
-                    "threshold": 0.0
-                },
-                {
-                    "mode": "true",
-                    "parameter": "New Bool",
                     "threshold": 0.0
                 }
             ],
             "from": "Run",
+            "to": "Exit"
+        },
+        {
+            "blendDuration": 0.25,
+            "conditions": [],
+            "from": "Entry",
+            "to": "Idle"
+        },
+        {
+            "blendDuration": 0.25,
+            "conditions": [
+                {
+                    "mode": "Equals",
+                    "parameter": "Move",
+                    "threshold": 0.0
+                }
+            ],
+            "from": "Idle",
+            "to": "Jumping"
+        },
+        {
+            "blendDuration": 0.25,
+            "conditions": [],
+            "from": "Jumping",
             "to": "Exit"
         }
     ]

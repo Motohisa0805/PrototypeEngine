@@ -12,6 +12,7 @@ Animator* AnimatorNodeEditorPanel::mPreviousAnimator             = nullptr;
 AnimatorNodeEditorPanel::AnimatorNodeEditorPanel(Renderer* renderer)
     : EditorWindow(renderer)
     , mNeedSetNodePositions(false)
+    , mNeedRebuildController(false)
     , mIsTransitionUIFrag(false)
 {
     mID = "Animator Controller Editor";
@@ -174,6 +175,9 @@ void AnimatorNodeEditorPanel::Draw(float width, float height)
         // デバッグモード切り替えボタン
         //ImGuiHelper::FragTextButton("O", ImVec2(0.0f, 0.0f),mIsTransitionUIFrag,false);
 
+        // リビルドフラグ
+        mNeedRebuildController = false;
+
         ne::SetCurrentEditor(GUIEditorManager::GetNodeContext());
         ne::Begin("Animator Controller Editor");
         std::unordered_map<uint64_t, int> linkToTransIndexMap;
@@ -185,6 +189,11 @@ void AnimatorNodeEditorPanel::Draw(float width, float height)
             {
                 mNeedSetNodePositions = true;
                 mPreviousAnimator     = mSelectAnimator;
+
+                ne::End();
+                ImGui::EndChild();
+                ImGui::End();
+                return;
             }
 
             // ステート名からピンIDを引くためのマップ
@@ -269,6 +278,17 @@ void AnimatorNodeEditorPanel::Draw(float width, float height)
 
             mNeedSetNodePositions = false;
 
+            //タイマーの更新
+            //static float flowTimer = 0.0f;
+            //flowTimer += ImGui::GetIO().DeltaTime;
+            //
+            //bool shouldTriggerFlow = false;
+            //if (flowTimer >= 1.0f)
+            //{
+            //    shouldTriggerFlow = true;
+            //    flowTimer         = 0.0f;
+            //}
+
             int linkID = 1;
             for (size_t i = 0; i < controllerData.sTransitions.size(); ++i)
             {
@@ -279,10 +299,13 @@ void AnimatorNodeEditorPanel::Draw(float width, float height)
                     ne::PinId startPin = outputPinMap[trans.sFromState];
                     ne::PinId endPin   = inputPinMap[trans.sToState];
                     
-                    ne::LinkId id = linkID++;
+                    ne::LinkId id = static_cast<uint64_t>(2000 + i);
                     ne::Link(id, startPin, endPin);
                     //常時矢印を表示
-                    ne::Flow(id);
+                    //if (shouldTriggerFlow)
+                    //{
+                    //    ne::Flow(id);
+                    //}
                     //再生中のステート遷移のみ流す処理(現在は停止)
                     //if (mSelectAnimator->GetCurrentStateName() == trans.sFromState)
                     //{
@@ -316,13 +339,7 @@ void AnimatorNodeEditorPanel::Draw(float width, float height)
 
                                 controllerData.sTransitions.push_back(newTrans);
 
-                                // JSONへの書き出しと再ロード
-                                AnimatorControllerGenerater::GenerateController(
-                                    mSelectAnimator->GetControllerFilePath(),
-                                    controllerData);
-                                mSelectAnimator->LoadController(
-                                    mSelectAnimator->GetControllerFilePath()
-                                        .string());
+                                mNeedRebuildController = true;
                             }
                         }
                     }
@@ -361,19 +378,18 @@ void AnimatorNodeEditorPanel::Draw(float width, float height)
                 {
                     if (ne::AcceptDeletedItem())
                     {
-                        int   index = static_cast<int>(deletedLinkId.Get()) - 1;
-                        auto& transitions = controllerData.sTransitions;
-                        if (index >= 0 && index < transitions.size())
-                        {
-                            transitions.erase(transitions.begin() + index);
+                        uint64_t rawLinkId = deletedLinkId.Get();
 
-                            // JSONへの書き出しと再ロード
-                            AnimatorControllerGenerater::GenerateController(
-                                mSelectAnimator->GetControllerFilePath(),
-                                controllerData);
-                            mSelectAnimator->LoadController(
-                                mSelectAnimator->GetControllerFilePath()
-                                    .string());
+                        //描画時に作成したマップから正しい配列インデックスを取得
+                        if (linkToTransIndexMap.count(rawLinkId))
+                        {
+                            int   index       = linkToTransIndexMap[rawLinkId];
+                            auto& transitions = controllerData.sTransitions;
+                            if (index >= 0 && index < static_cast<int>(transitions.size()))
+                            {
+                                transitions.erase(transitions.begin() + index);
+                                mNeedRebuildController = true;
+                            }
                         }
                     }
                 }
@@ -405,13 +421,7 @@ void AnimatorNodeEditorPanel::Draw(float width, float height)
                         {
                             controllerData.sDefaultState = state.sStateName;
 
-                            // JSONへの書き出しと再ロード
-                            AnimatorControllerGenerater::GenerateController(
-                                mSelectAnimator->GetControllerFilePath(),
-                                controllerData);
-                            mSelectAnimator->LoadController(
-                                mSelectAnimator->GetControllerFilePath()
-                                    .string());
+                            mNeedRebuildController = true;
                         }
                         if (ImGui::MenuItem("Delete"))
                         {
@@ -485,38 +495,46 @@ void AnimatorNodeEditorPanel::Draw(float width, float height)
             }
         }
         ImGui::EndChild();
-    }
-    ImGui::End();
-
-    //ドラッグ&ドロップの受け取り処理
-    if (mSelectAnimator && ImGui::BeginDragDropTarget())
-    {
-        if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("ANIM_ITEM"))
+        // ドラッグ&ドロップの受け取り処理
+        if (mSelectAnimator && ImGui::BeginDragDropTarget())
         {
-            IM_ASSERT(payload->DataSize == sizeof(AnimPayload));
+            if (const ImGuiPayload* payload =
+                    ImGui::AcceptDragDropPayload("ANIM_ITEM"))
+            {
+                IM_ASSERT(payload->DataSize == sizeof(AnimPayload));
 
-            const AnimPayload* dropData = (const AnimPayload*)payload->Data;
+                const AnimPayload* dropData = (const AnimPayload*)payload->Data;
 
-            ImVec2 dropPos = ne::ScreenToCanvas(ImGui::GetMousePos());
+                ImVec2 dropPos = ne::ScreenToCanvas(ImGui::GetMousePos());
 
-            filesystem::path animPath = dropData->sAnimBinaryPath;
+                filesystem::path animPath = dropData->sAnimBinaryPath;
 
-            AnimState newState;
-            newState.sStateName = dropData->sAnimDataName;
-            newState.sAnimInfo.sBinayPath = animPath;
-            newState.sPlaybackSpeed  = 1.0f;
+                AnimState newState;
+                newState.sStateName           = dropData->sAnimDataName;
+                newState.sAnimInfo.sBinayPath = animPath;
+                newState.sPlaybackSpeed       = 1.0f;
 
-            mSelectAnimator->GetControllerData().sStates.push_back(newState);
+                mSelectAnimator->GetControllerData().sStates.push_back(
+                    newState);
 
+                mNeedRebuildController = true;
+            }
+            ImGui::EndDragDropTarget();
+        }
+
+        //リビルドが必要になったらまとめて更新
+        if (mNeedRebuildController)
+        {
+            // JSONへの書き出しと再ロード
             AnimatorControllerGenerater::GenerateController(
                 mSelectAnimator->GetControllerFilePath(),
-                mSelectAnimator->GetControllerData()
-            );
+                mSelectAnimator->GetControllerData());
 
-            mSelectAnimator->LoadController(mSelectAnimator->GetControllerFilePath().string());
+            mSelectAnimator->LoadController(
+                mSelectAnimator->GetControllerFilePath().string());
         }
-        ImGui::EndDragDropTarget();
     }
+    ImGui::End();
 }
 
 void AnimatorNodeEditorPanel::DeletedNode(int index,AnimatorControllerParameters& controllerData)
@@ -542,8 +560,5 @@ void AnimatorNodeEditorPanel::DeletedNode(int index,AnimatorControllerParameters
     // indexを直接使ってState配列から削除
     controllerData.sStates.erase(controllerData.sStates.begin() + index);
 
-    AnimatorControllerGenerater::GenerateController(
-        mSelectAnimator->GetControllerFilePath(), controllerData);
-    mSelectAnimator->LoadController(
-        mSelectAnimator->GetControllerFilePath().string());
+    mNeedRebuildController = true;
 }
