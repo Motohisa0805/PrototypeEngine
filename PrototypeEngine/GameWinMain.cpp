@@ -1,8 +1,8 @@
-#include "GameWinMain.h"
+ï»¿#include "GameWinMain.h"
 #include "DebugManager.h"
 #include "Time.h"
 
-// ‚±‚±‚Å’è‹`i‰Šú’l‚ðŽw’è‚µ‚Ä‚àOKj
+// ã“ã“ã§å®šç¾©ï¼ˆåˆæœŸå€¤ã‚’æŒ‡å®šã—ã¦ã‚‚OKï¼‰
 GameState GameStateClass::gGameState = GameState::GamePlay;
 
 bool GameStateClass::gGameEventFrag = false;
@@ -26,7 +26,7 @@ bool GameWinMain::Initialize()
 
 void GameWinMain::InputUpdate()
 {
-    // “ü—Íˆ—
+    // å…¥åŠ›å‡¦ç†
     mGameApp->ProcessInput();
 }
 
@@ -35,19 +35,19 @@ void GameWinMain::RunLoop()
     while (GameStateClass::gGameState != GameState::GameEnd)
     {
         Time::UpdateDeltaTime();
-        // ƒ[ƒhˆ—
+        // ãƒ­ãƒ¼ãƒ‰å‡¦ç†
         mGameApp->LoadUpdate();
-        // À•WXVˆ—
+        // åº§æ¨™æ›´æ–°å‡¦ç†
         mGameApp->Update();
     }
 }
 
-void GameWinMain::GameRunLoop()
+void GameWinMain::UpdateFrame()
 {
-    // ƒ[ƒhˆ—
+    // ãƒ­ãƒ¼ãƒ‰å‡¦ç†
     mGameApp->LoadUpdate();
 
-    // À•WXVˆ—
+    // åº§æ¨™æ›´æ–°å‡¦ç†
     mGameApp->Update();
 }
 

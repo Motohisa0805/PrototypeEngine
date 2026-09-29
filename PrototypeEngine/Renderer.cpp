@@ -491,8 +491,12 @@ void Renderer::StartDraw()
     for (SceneViewPanel* scene : GUIEditorManager::GetSceneViewPanels())
     {
         mEditorView = scene->GetSceneEditorCamera()->GetViewMatrix();
-        EditorDraw3DScene(scene, scene->GetSceneBuffer()->GetBufferID(),
-                          mEditorView,mProjection, 1.0f, true);
+        //画面サイズ取得
+        Vector2 panelSize = scene->GetSceneWinSize();
+        RenderSceneInternal(scene->GetSceneBuffer()->GetBufferID(), mEditorView,
+                            mProjection, panelSize.x * 1.0f, panelSize.y * 1.0f,
+                            true, scene);
+
         // Gバッファから描画する
         DrawFromGBufferForEditor(scene);
     }
@@ -501,7 +505,10 @@ void Renderer::StartDraw()
     mDrawCalls = 0;
     //***gameViewEditorのGameSceneFBOに描画***
     // G-bufferに3Dシーンを描画します。
-    Draw3DScene(mGBuffer->GetBufferID(), mView, mProjection, 1.0f, true);
+    RenderSceneInternal(mGBuffer->GetBufferID(), mView,mProjection, 
+                        static_cast<int>(WindowRenderProperty::GetWidth()) * 1.0f,
+                        static_cast<int>(WindowRenderProperty::GetHeight()) * 1.0f,
+                        false, nullptr);
     // Gバッファから描画する
     DrawFromGBuffer();
     // すべてのスプライトコンポーネントを描画する
@@ -593,39 +600,31 @@ void Renderer::EndDraw()
     SDL_GL_SwapWindow(mWindow);
 }
 
-void Renderer::EditorDraw3DScene(SceneViewPanel* scene,
-                                 unsigned int framebuffer, const Matrix4& view,
-                                 const Matrix4& proj, float viewPortScale,
-                                 bool lit)
+void Renderer::RenderSceneInternal(unsigned int   framebuffer,
+                                   const Matrix4& view, const Matrix4& proj,
+                                   int viewportWidth, int viewportHeight,bool isEditor,
+                                   class SceneViewPanel* editorPanel)
 {
     // 現在のフレームバッファを設定する
     glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
-
-    // スケールに基づいてビューポートサイズを設定します
-    Vector2 sceneWinSize = scene->GetSceneWinSize();
-    glViewport(0, 0, (int)sceneWinSize.x * viewPortScale,
-               (int)sceneWinSize.y * viewPortScale);
-
-    // カラー バッファ/深度バッファをクリア
-    glClearColor(Color::mClearColor.x, Color::mClearColor.y,
-                 Color::mClearColor.z, Color::mClearColor.w);
+    glViewport(0, 0, viewportWidth,viewportHeight);
+        // カラー バッファ/深度バッファをクリア
+    glClearColor(Color::mClearColor.x, Color::mClearColor.y,Color::mClearColor.z, Color::mClearColor.w);
     glDepthMask(GL_TRUE);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-        // スカイボックス描画
+    // スカイボックス描画
     mSkyBoxRenderer->Draw(mSkyBoxShader, view, proj);
-
     // メッシュコンポーネントを描画する深度バッファリングを有効にする
     // アルファブレンドを無効にする
     glEnable(GL_DEPTH_TEST);
     glDisable(GL_BLEND);
-
-    //バックフェイスカリングの処理
+    // バックフェイスカリングの処理
     glEnable(GL_CULL_FACE);
     glCullFace(GL_BACK);
     glFrontFace(GL_CW);
 
-    // メッシュ（静的）
+    //メッシュ・バッチ描画(共通処理)、スキンメッシュ・パーティクル描画
+    //  メッシュ（静的）
     mMeshShader->SetActive();
     mMeshShader->SetMatrixUniform("uViewProj", view * proj);
     SetLightUniforms(mMeshShader, view);
@@ -743,7 +742,8 @@ void Renderer::EditorDraw3DScene(SceneViewPanel* scene,
             p->Draw(mParticleShader);
         }
     }
-    for (SceneViewPanel* scene : GUIEditorManager::GetSceneViewPanels())
+
+    if (isEditor && editorPanel)
     {
         // デバッグ描画
         // オブジェクトの矢印描画
@@ -753,9 +753,10 @@ void Renderer::EditorDraw3DScene(SceneViewPanel* scene,
         if (actor != nullptr && actor->GetState() == ActorObject::EActive)
         {
             // 1.カメラとオブジェクトの位置を取得
-            Vector3 cameraPos =
-                scene->GetSceneEditorCamera()->GetTransform()->GetPosition();
-            Vector3 actorPos = actor->GetBaseTransform()->GetPosition();
+            Vector3 cameraPos = editorPanel->GetSceneEditorCamera()
+                                    ->GetTransform()
+                                    ->GetPosition();
+            Vector3 actorPos  = actor->GetBaseTransform()->GetPosition();
 
             // 2.カメラとオブジェクトの距離を計算
             float distance = (actorPos - cameraPos).Length();
@@ -795,168 +796,15 @@ void Renderer::EditorDraw3DScene(SceneViewPanel* scene,
             glDrawArrays(GL_LINES, 0, 6);
         }
         // デバッググリッド描画
-        if (scene->IsDebugGridFrag())
+        if (editorPanel->IsDebugGridFrag())
         {
-            if (mGridShader && scene->GetSceneEditorCamera())
+            if (mGridShader && editorPanel->GetSceneEditorCamera())
             {
                 mDebugGrid->Draw(mGridShader, view * proj,
-                                 scene->GetSceneEditorCamera()
-                                     ->GetTransform()
-                                     ->GetPosition());
+                                 editorPanel->GetSceneEditorCamera()->GetTransform()->GetPosition());
             }
         }
     }
-
-    glDepthMask(GL_TRUE); // 書き込みを戻す
-}
-
-void Renderer::Draw3DScene(unsigned int framebuffer, const Matrix4& view,
-                           const Matrix4& proj, float viewPortScale, bool lit)
-{
-    // 現在のフレームバッファを設定する
-    glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
-
-    // スケールに基づいてビューポートサイズを設定します
-    glViewport(
-        0, 0,
-        static_cast<int>(WindowRenderProperty::GetWidth() * viewPortScale),
-        static_cast<int>(WindowRenderProperty::GetHeight() * viewPortScale));
-
-    // カラー バッファ/深度バッファをクリア
-    glClearColor(Color::mClearColor.x, Color::mClearColor.y,
-                 Color::mClearColor.z, Color::mClearColor.w);
-    glDepthMask(GL_TRUE);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-    // スカイボックス描画
-    mSkyBoxRenderer->Draw(mSkyBoxShader, view, proj);
-
-    // メッシュコンポーネントを描画する深度バッファリングを有効にする
-    // アルファブレンドを無効にする
-    glEnable(GL_DEPTH_TEST);
-    glDisable(GL_BLEND);
-    // バックフェイスカリングの処理
-    glEnable(GL_CULL_FACE);
-    glCullFace(GL_BACK);
-    glFrontFace(GL_CW);
-    // メッシュ（静的）
-    mMeshShader->SetActive();
-    mMeshShader->SetMatrixUniform("uViewProj", view * proj);
-    SetLightUniforms(mMeshShader, view);
-
-    if (GUIEditorManager::IsPlaying())
-    {
-        for (auto& pair : mAntiTransparentBatchesMap)
-        {
-            StaticMeshBatch& batch = pair.second;
-            if (!batch.gBatchVertexArray)
-                continue;
-            mMeshShader->SetMatrixUniform("uWorldTransform", Matrix4::Identity);
-            Texture* tex = batch.gBatchTexture;
-            if (tex)
-            {
-                tex->SetActive();
-            }
-            else
-            {
-                mMeshShader->SetNoTexture();
-            }
-            MaterialInfo m = batch.gBatchMaterial;
-            mMeshShader->SetColorUniform(m);
-            batch.gBatchVertexArray->SetActive();
-            glDrawElements(GL_TRIANGLES,
-                           batch.gBatchVertexArray->GetNumIndices(),
-                           GL_UNSIGNED_INT, nullptr);
-        }
-        for (auto& pair : mTransparentBatchesMap)
-        {
-            StaticMeshBatch& batch = pair.second;
-            if (!batch.gBatchVertexArray)
-                continue;
-            mMeshShader->SetMatrixUniform("uWorldTransform", Matrix4::Identity);
-            Texture* tex = batch.gBatchTexture;
-            if (tex)
-            {
-                tex->SetActive();
-            }
-            else
-            {
-                mMeshShader->SetNoTexture();
-            }
-            MaterialInfo m = batch.gBatchMaterial;
-            mMeshShader->SetColorUniform(m);
-            glEnable(GL_BLEND);
-            glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-            glDepthMask(GL_FALSE); // 透明物体は深度書き込み無効（任意）
-            batch.gBatchVertexArray->SetActive();
-            glDrawElements(GL_TRIANGLES,
-                           batch.gBatchVertexArray->GetNumIndices(),
-                           GL_UNSIGNED_INT, nullptr);
-        }
-    }
-
-    for (auto mc : mMeshCompArray)
-    {
-        // 静的オブジェクトは実行中のみ描画する
-        if (GUIEditorManager::IsPlaying())
-        {
-            if (mc->GetVisible() &&
-                mc->GetOwner()->GetStatic() !=
-                    ActorInformation::StaticTag::Occluder_Static)
-            {
-                if (mc->Draw(mMeshShader))
-                {
-                    mDrawCalls++;
-                }
-            }
-        }
-        else
-        {
-            if (mc->GetVisible())
-            {
-                if (mc->Draw(mMeshShader))
-                {
-                    mDrawCalls++;
-                }
-            }
-        }
-    }
-
-    // スキンメッシュを有効
-    mSkinnedShader->SetActive();
-    // ビュー投影行列を更新する
-    mSkinnedShader->SetMatrixUniform("uViewProj", view * proj);
-    // 照明のユニフォームを更新する
-    SetLightUniforms(mSkinnedShader, view);
-    for (auto sk : mSkeletalMeshArray)
-    {
-        if (sk->GetVisible())
-        {
-            sk->Draw(mSkinnedShader);
-        }
-    }
-    // 2. パーティクルなど半透明物体を描画
-    //  Z比較を有効（必須）
-    glEnable(GL_DEPTH_TEST);
-    //  Zバッファ書き込みを防ぐ
-    glDepthMask(GL_FALSE);
-    //  透過合成
-    glEnable(GL_BLEND);
-    // アルファブレンド
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    // パーティクルシステムの描画
-    mParticleShader->SetActive();
-    // パーティクルで使うため板ポリをアクティブに設定
-    mSpriteVerts->SetActive(); // 板ポリ
-    mParticleShader->SetMatrixUniform("uViewProj", view * proj);
-    for (auto p : mParticlesCompArray)
-    {
-        if (p->IsVisible())
-        {
-            p->Draw(mParticleShader);
-        }
-    }
-
     glDepthMask(GL_TRUE); // 書き込みを戻す
 }
 
