@@ -1,4 +1,4 @@
-#include "EngineWindow.h"
+ï»¿#include "EngineWindow.h"
 #include "ComponentFactory.h"
 #include "DebugManager.h"
 #include "GUIEditorManager.h"
@@ -26,7 +26,7 @@ EngineWindow::~EngineWindow() {}
 
 bool EngineWindow::EngineInitialize()
 {
-    // SDL‚Ì‰Šú‰»
+    // SDLã®åˆæœŸåŒ–
     int sdlResult = SDL_Init(SDL_INIT_VIDEO);
     if (sdlResult < 0)
     {
@@ -34,7 +34,7 @@ bool EngineWindow::EngineInitialize()
         return false;
     }
 
-    // Renderer‚Ì¶¬
+    // Rendererã®ç”Ÿæˆ
     mRenderer = new Renderer();
     if (!mRenderer->Initialize(WindowRenderProperty::GetWidth(),
                                WindowRenderProperty::GetHeight()))
@@ -48,32 +48,32 @@ bool EngineWindow::EngineInitialize()
 
     RegisterAllComponents();
 
-    // SDL_ttf‚Ì‰Šú‰»
+    // SDL_ttfã®åˆæœŸåŒ–
     if (!TTF_Init())
     {
         Debug::ErrorLog("Failed to initialize SDL_ttf");
         return false;
     }
-    // ƒGƒ“ƒWƒ““à•”‚Ìˆ—ƒtƒŒ[ƒ€‚Ì‰Šú‰»
+    // ã‚¨ãƒ³ã‚¸ãƒ³å†…éƒ¨ã®å‡¦ç†ãƒ•ãƒ¬ãƒ¼ãƒ ã®åˆæœŸåŒ–
     Time::InitializeDeltaTime();
-    // ƒGƒ“ƒWƒ“ó‘Ô‚ğÀs’†‚Éİ’è
+    // ã‚¨ãƒ³ã‚¸ãƒ³çŠ¶æ…‹ã‚’å®Ÿè¡Œä¸­ã«è¨­å®š
     EngineWindow::mEngineState = EngineState::Run;
-    // ƒQ[ƒ€ƒEƒBƒ“ƒhƒE‚Ì¶¬‚Æ‰Šú‰»
+    // ã‚²ãƒ¼ãƒ ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã®ç”Ÿæˆã¨åˆæœŸåŒ–
     mGameWindow = new GameWinMain();
     mGameWindow->Initialize();
-    //AssetsƒtƒHƒ‹ƒ_“à‚Ìƒtƒ@ƒCƒ‹‚ğŠm”F
+    //Assetsãƒ•ã‚©ãƒ«ãƒ€å†…ã®ãƒ•ã‚¡ã‚¤ãƒ«ã‚’ç¢ºèª
     AssetImporter::CheckAndImportAssets(false);
     AssetDataBase::GetInstance().RefreshDataBase("Assets/");
-    // ‹N“®‚ÉÅ‰‚ÌƒV[ƒ“‚ğ‰Šú‰»
+    // èµ·å‹•æ™‚ã«æœ€åˆã®ã‚·ãƒ¼ãƒ³ã‚’åˆæœŸåŒ–
     SceneManager::InitializeScenes();
-    //  ImGui‚Ì‰Šú‰»ˆ—
+    //  ImGuiã®åˆæœŸåŒ–å‡¦ç†
     GUIEditorManager::InitializeImGui(mRenderer->GetWindow(),
                                       mRenderer->GetContext());
-    // ‰¼‚Åˆê‰ñXV‚ğs‚¤
-    mGameWindow->GameRunLoop();
-    // ƒXƒNƒŠƒvƒg‚ÌƒzƒbƒgƒŠƒ[ƒhƒ}ƒl[ƒWƒƒ[‚ğ¶¬
+    // ä»®ã§ä¸€å›æ›´æ–°ã‚’è¡Œã†
+    mGameWindow->UpdateFrame();
+    // ã‚¹ã‚¯ãƒªãƒ—ãƒˆã®ãƒ›ãƒƒãƒˆãƒªãƒ­ãƒ¼ãƒ‰ãƒãƒãƒ¼ã‚¸ãƒ£ãƒ¼ã‚’ç”Ÿæˆ
     mHotReloadManager = std::make_unique<ScriptHotReloadManager>();
-    // ƒXƒNƒŠƒvƒgDLL‚ğƒ[ƒh‚·‚é
+    // ã‚¹ã‚¯ãƒªãƒ—ãƒˆDLLã‚’ãƒ­ãƒ¼ãƒ‰ã™ã‚‹
     mHotReloadManager.get()->Initialize();
     return true;
 }
@@ -83,16 +83,16 @@ void EngineWindow::EngineProcessInput()
     const InputState& state = InputSystem::GetState();
     InputSystem::Update();
 
-    // “ü—Í‘€ì
+    // å…¥åŠ›æ“ä½œ
     SDL_Event event;
     while (SDL_PollEvent(&event))
     {
-        // ImGui—p‚ÌƒCƒxƒ“ƒgˆ—
+        // ImGuiç”¨ã®ã‚¤ãƒ™ãƒ³ãƒˆå‡¦ç†
         ImGui_ImplSDL3_ProcessEvent(&event);
         InputSystem::ProcessEvent(event);
         switch (event.type)
         {
-            // Às‚ªI—¹‚·‚é‚Ætrue
+            // å®Ÿè¡ŒãŒçµ‚äº†ã™ã‚‹ã¨true
         case SDL_EVENT_QUIT:
             if (!GUIEditorManager::IsPlaying())
             {
@@ -107,9 +107,9 @@ void EngineWindow::EngineProcessInput()
         }
     }
     //-------------------------------------------------------
-    // ƒQ[ƒ€ƒGƒ“ƒWƒ““à‚Ì“ü—Íˆ—
+    // ã‚²ãƒ¼ãƒ ã‚¨ãƒ³ã‚¸ãƒ³å†…ã®å…¥åŠ›å‡¦ç†
     //-------------------------------------------------------
-    // ESCƒL[‚ğ‰Ÿ‚µ‚ÄƒQ[ƒ€“ü—Í‚ğ‰ğœ
+    // ESCã‚­ãƒ¼ã‚’æŠ¼ã—ã¦ã‚²ãƒ¼ãƒ å…¥åŠ›ã‚’è§£é™¤
     // auto window = GUIEditorManager::GetEditorWindow("GameView");
     if (state.Keyboard.GetKeyDown(
             KEY_ESCAPE)) //||(window != nullptr && !window->IsMouseHovered()))
@@ -120,14 +120,14 @@ void EngineWindow::EngineProcessInput()
         }
     }
 
-    // ƒV[ƒ“ƒrƒ…[‚ÌƒGƒfƒBƒ^[ƒJƒƒ‰“ü—Í
+    // ã‚·ãƒ¼ãƒ³ãƒ“ãƒ¥ãƒ¼ã®ã‚¨ãƒ‡ã‚£ã‚¿ãƒ¼ã‚«ãƒ¡ãƒ©å…¥åŠ›
     GUIEditorManager::InputUpdateImGuiState();
-    // ƒV[ƒ“‚Ì“ü—Íˆ—
+    // ã‚·ãƒ¼ãƒ³ã®å…¥åŠ›å‡¦ç†
     if (GUIEditorManager::IsPlaying() && !GUIEditorManager::IsPaused())
     {
         if (InputContextManager::IsGameInputActive())
         {
-            // ƒQ[ƒ€‚ªÀs’†‚È‚ç
+            // ã‚²ãƒ¼ãƒ ãŒå®Ÿè¡Œä¸­ãªã‚‰
             mGameWindow->InputUpdate();
         }
     }
@@ -135,29 +135,29 @@ void EngineWindow::EngineProcessInput()
     InputSystem::PrepareForUpdate();
 }
 
-// ƒGƒ“ƒWƒ“ƒvƒƒWƒFƒNƒg‚Ìƒ‹[ƒvˆ—
+// ã‚¨ãƒ³ã‚¸ãƒ³ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ãƒˆã®ãƒ«ãƒ¼ãƒ—å‡¦ç†
 void EngineWindow::EngineRunLoop()
 {
     while (EngineWindow::mEngineState != EngineState::End)
     {
-        // ƒXƒNƒŠƒvƒgDLL‚Ì•ÏX‚ğŠÄ‹‚µAƒŠƒ[ƒh‚ª•K—v‚È‚çÀs
+        // ã‚¹ã‚¯ãƒªãƒ—ãƒˆDLLã®å¤‰æ›´ã‚’ç›£è¦–ã—ã€ãƒªãƒ­ãƒ¼ãƒ‰ãŒå¿…è¦ãªã‚‰å®Ÿè¡Œ
         mHotReloadManager.get()->CheckForChanges(Time::gDeltaTime);
-        // ƒfƒ‹ƒ^ƒ^ƒCƒ€XV
+        // ãƒ‡ãƒ«ã‚¿ã‚¿ã‚¤ãƒ æ›´æ–°
         Time::UpdateDeltaTime();
-        // “ü—Íˆ—
+        // å…¥åŠ›å‡¦ç†
         EngineProcessInput();
-        // ImGui‚Ìó‘ÔXV
+        // ImGuiã®çŠ¶æ…‹æ›´æ–°
         GUIEditorManager::UpdateImGuiState();
-        // ‚±‚±‚©‚çƒQ[ƒ€“à‚ÌXVŠJn
-        // ƒQ[ƒ€‚ªŠJn‚µ‚½‚ç
+        // ã“ã“ã‹ã‚‰ã‚²ãƒ¼ãƒ å†…ã®æ›´æ–°é–‹å§‹
+        // ã‚²ãƒ¼ãƒ ãŒé–‹å§‹ã—ãŸã‚‰
         if (GUIEditorManager::IsPlaying())
         {
             if (!GUIEditorManager::IsPaused())
             {
-                // ŠJn‚µ‚½uŠÔ‚È‚ç
+                // é–‹å§‹ã—ãŸç¬é–“ãªã‚‰
                 if (GUIEditorManager::IsStarting())
                 {
-                    // •ÒW‚Å‚Ì•ÏX‚ª‚ ‚ê‚Î‚»‚ê‚ğ‹L˜^‚·‚é
+                    // ç·¨é›†ã§ã®å¤‰æ›´ãŒã‚ã‚Œã°ãã‚Œã‚’è¨˜éŒ²ã™ã‚‹
                     string startupScenePath =
                         EditorSettingsManager::GetInstance()
                             .GetLastOpenedScene();
@@ -167,29 +167,29 @@ void EngineWindow::EngineRunLoop()
                     GUIEditorManager::ResetPointer();
                     GameStateClass::SetGameState(GameState::GamePlay);
                     GUIEditorManager::SetIsStarting(false);
-                    // Ã“Iƒoƒbƒ`‚Ì\’z
+                    // é™çš„ãƒãƒƒãƒã®æ§‹ç¯‰
                     mRenderer->BuildStaticBatch();
                 }
-                mGameWindow->GameRunLoop();
+                mGameWindow->UpdateFrame();
             }
         }
         else
         {
             if (mGameWindow->LoadGame_Engine())
             {
-                // ƒQ[ƒ€‚Ìƒ[ƒh‚ª¬Œ÷‚µ‚½ê‡‚Ìˆ—
-                mGameWindow->GameRunLoop();
+                // ã‚²ãƒ¼ãƒ ã®ãƒ­ãƒ¼ãƒ‰ãŒæˆåŠŸã—ãŸå ´åˆã®å‡¦ç†
+                mGameWindow->UpdateFrame();
             }
-            //•ÒW’†‚ÉƒQ[ƒ€‚È‚¢ŠÔ‚ğXV‚·‚éˆ—
+            //ç·¨é›†ä¸­ã«ã‚²ãƒ¼ãƒ ãªã„æ™‚é–“ã‚’æ›´æ–°ã™ã‚‹å‡¦ç†
             SceneManager::GetCurrentRunScene()->EditorUpdate(GUIEditorManager::IsPlaying());
         }
-        // I—¹ƒ{ƒ^ƒ“‚ª‰Ÿ‚³‚ê‚½‚ç
+        // çµ‚äº†ãƒœã‚¿ãƒ³ãŒæŠ¼ã•ã‚ŒãŸã‚‰
         if (GUIEditorManager::IsPushEnd())
         {
-            // ÀsI—¹ƒAƒ“ƒ[ƒh‚µ‚Ä‚¢‚é‚ª‚±‚±‚Íì‹Æ‹L˜^‚Ì•¨‚ğ“Ç‚İ‚Ş
+            // å®Ÿè¡Œçµ‚äº†æ™‚ã‚¢ãƒ³ãƒ­ãƒ¼ãƒ‰ã—ã¦ã„ã‚‹ãŒã“ã“ã¯ä½œæ¥­è¨˜éŒ²ã®ç‰©ã‚’èª­ã¿è¾¼ã‚€
             SceneManager::GamePlayEndInitilaizeScene();
-            // ‰¼‚Åˆê‰ñXV‚ğs‚¤
-            mGameWindow->GameRunLoop();
+            // ä»®ã§ä¸€å›æ›´æ–°ã‚’è¡Œã†
+            mGameWindow->UpdateFrame();
             GUIEditorManager::SetIsPushEnd(false);
         }
         EngineRender();
@@ -198,23 +198,23 @@ void EngineWindow::EngineRunLoop()
 
 void EngineWindow::EngineRender()
 {
-    // Renderer‚Ì•`‰æŠJn
+    // Rendererã®æç”»é–‹å§‹
     mRenderer->StartDraw();
-    // ImGui‚Ì•`‰æ
+    // ImGuiã®æç”»
     GUIEditorManager::RenderImGui();
-    // Renderer‚Ì•`‰æI—¹
+    // Rendererã®æç”»çµ‚äº†
     mRenderer->EndDraw();
 }
 
 void EngineWindow::EngineShutdown()
 {
-    // ƒGƒ“ƒWƒ“‚ÌƒVƒƒƒbƒgƒ_ƒEƒ“ˆ—
+    // ã‚¨ãƒ³ã‚¸ãƒ³ã®ã‚·ãƒ£ãƒƒãƒˆãƒ€ã‚¦ãƒ³å‡¦ç†
     if (mHotReloadManager)
     {
         mHotReloadManager.get()->UnloadScripts();
         mHotReloadManager.reset();
     }
-    // ƒQ[ƒ€ƒEƒBƒ“ƒhƒE‚ÌƒVƒƒƒbƒgƒ_ƒEƒ“‚Æ‰ğ•ú
+    // ã‚²ãƒ¼ãƒ ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã®ã‚·ãƒ£ãƒƒãƒˆãƒ€ã‚¦ãƒ³ã¨è§£æ”¾
     if (mGameWindow)
     {
         CommandManager::Shutdown();
@@ -230,7 +230,7 @@ void EngineWindow::EngineShutdown()
         mPhysWorld = nullptr;
     }
     MaterialManager::AllMaterialClear();
-    // Renderer‚Ì‰ğ•ú
+    // Rendererã®è§£æ”¾
     if (mRenderer)
     {
         mRenderer->UnloadData();

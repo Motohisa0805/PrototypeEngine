@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "GameApp.h"
 
 enum GameState
@@ -18,28 +18,28 @@ public:
 
 class GameApp;
 
-//ƒQ[ƒ€‚Ì•`‰æˆ—ŠÇ—ƒNƒ‰ƒX
-//å‚ÉRenderern‚È‚Ç‚Ì‰æ–Ê‚Ì\¬‚ğŠÇ—‚µ‚Ä‚¢‚éƒNƒ‰ƒX
+//ã‚²ãƒ¼ãƒ ã®æç”»å‡¦ç†ç®¡ç†ã‚¯ãƒ©ã‚¹
+//ä¸»ã«Renderernãªã©ã®ç”»é¢ã®æ§‹æˆã‚’ç®¡ç†ã—ã¦ã„ã‚‹ã‚¯ãƒ©ã‚¹
 class GameWinMain
 {
 private:
 
-	//ƒQ[ƒ€“àˆ—
+	//ã‚²ãƒ¼ãƒ å†…å‡¦ç†
 	GameApp*			mGameApp;
 
-	//ƒV[ƒ“‘JˆÚ‚Ì‰ğ•úˆ—
+	//ã‚·ãƒ¼ãƒ³é·ç§»æ™‚ã®è§£æ”¾å‡¦ç†
 	void				UnloadData();
 
 public:
 						GameWinMain();
 						~GameWinMain();
-	//‰Šú‰»
+	//åˆæœŸåŒ–
 	bool				Initialize();
 	void				InputUpdate();
-	//ƒQ[ƒ€ˆ—
+	//ã‚²ãƒ¼ãƒ å‡¦ç†
 	void				RunLoop();
-	void				GameRunLoop();
+	void				UpdateFrame();
 	bool				LoadGame_Engine();
-	//ƒQ[ƒ€I—¹ˆ—
+	//ã‚²ãƒ¼ãƒ çµ‚äº†å‡¦ç†
 	void				Shutdown();
 };

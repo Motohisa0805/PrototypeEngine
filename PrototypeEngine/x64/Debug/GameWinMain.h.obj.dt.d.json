@@ -1,0 +1,12 @@
+{
+    "Version": "1.2",
+    "Data": {
+        "Source": "c:\\c++files\\prototypeengine\\prototypeengine\\gamewinmain.h",
+        "ProvidedModule": "",
+        "Includes": [
+            "c:\\c++files\\prototypeengine\\prototypeengine\\gameapp.h"
+        ],
+        "ImportedModules": [],
+        "ImportedHeaderUnits": []
+    }
+}

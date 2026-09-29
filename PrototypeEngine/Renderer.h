@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "SDL3.h"
 #include "Typedefs.h"
 #include "VertexArray.h"
@@ -8,10 +8,10 @@
 #include "SelectionManager.h"
 #include "SkyBoxRenderer.h"
 /*
-* ===ƒGƒ“ƒWƒ““à•”ˆ—/Engine internal processing===
+* ===ã‚¨ãƒ³ã‚¸ãƒ³å†…éƒ¨å‡¦ç†/Engine internal processing===
 */
 
-//ŠÂ‹«Œõ‚Ì\‘¢‘Ì
+//ç’°å¢ƒå…‰ã®æ§‹é€ ä½“
 struct DirectionalLightData
 {
 	// Direction of light
@@ -23,7 +23,7 @@ struct DirectionalLightData
 	float	sAmbientIntensity = 1.0f;
 	// Specular color
 	Vector3 sSpecColor = Vector3();
-	//ˆÊ’u
+	//ä½ç½®
 	Vector3 sPosition = Vector3();
 };
 
@@ -45,15 +45,15 @@ class ShadowMap;
 class SkyBoxRenderer;
 class DebugGrid;
 class SceneViewEditor;
-// 3D•`‰æ‚ÌƒŒƒ“ƒ_ƒ‰[
-//ƒQ[ƒ€‚ÌƒŒƒ“ƒ_ƒŠƒ“ƒO‚ğ’S“–‚·‚éƒNƒ‰ƒX
+// 3Dæç”»ã®ãƒ¬ãƒ³ãƒ€ãƒ©ãƒ¼
+//ã‚²ãƒ¼ãƒ ã®ãƒ¬ãƒ³ãƒ€ãƒªãƒ³ã‚°ã‚’æ‹…å½“ã™ã‚‹ã‚¯ãƒ©ã‚¹
 class Renderer
 {
 private:
 	string												mWindowTitle;
 	// BaseScene
 	BaseScene*											mRunScene;
-	// ƒeƒNƒXƒ`ƒƒ‚Ìƒ}ƒbƒv‚ª“Ç‚İ‚İ•Ï”
+	// ãƒ†ã‚¯ã‚¹ãƒãƒ£ã®ãƒãƒƒãƒ—ãŒèª­ã¿è¾¼ã¿å¤‰æ•°
 	std::unordered_map<string,Texture*>					mTexturesMap;
 	vector<Image*>										mImageCompArray;
 	vector<Canvas*>										mCanvasActorArray;
@@ -61,15 +61,15 @@ private:
 	Shader*												mSpriteShader;
 	// Sprite vertex array
 	VertexArray*										mSpriteVerts;
-	//2D‰æ‘œ—p‚Ì’¸“_”z—ñ
+	//2Dç”»åƒç”¨ã®é ‚ç‚¹é…åˆ—
 	VertexArray*										mFanSpriteVerts;
-	//ƒp[ƒeƒBƒNƒ‹ƒVƒXƒeƒ€‚Ì”z—ñ
+	//ãƒ‘ãƒ¼ãƒ†ã‚£ã‚¯ãƒ«ã‚·ã‚¹ãƒ†ãƒ ã®é…åˆ—
 	vector<ParticleSystem*>								mParticlesCompArray;
-	//ƒp[ƒeƒBƒNƒ‹ƒVƒF[ƒ_[
+	//ãƒ‘ãƒ¼ãƒ†ã‚£ã‚¯ãƒ«ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼
 	Shader*												mParticleShader;
-	// ƒƒbƒVƒ…‚Ì’n}‚ªƒ[ƒh
+	// ãƒ¡ãƒƒã‚·ãƒ¥ã®åœ°å›³ãŒãƒ­ãƒ¼ãƒ‰
 	std::unordered_map<string,Mesh*>					mMeshesMap;
-	// ‚·‚×‚Ä‚ÌiœŠiˆÈŠO‚ÌjƒƒbƒVƒ…ƒRƒ“ƒ|[ƒlƒ“ƒg
+	// ã™ã¹ã¦ã®ï¼ˆéª¨æ ¼ä»¥å¤–ã®ï¼‰ãƒ¡ãƒƒã‚·ãƒ¥ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆ
 	vector<MeshRenderer*>								mMeshCompArray;
 	vector<SkeletalMeshRenderer*>						mSkeletalMeshArray;
 	// Mesh shader
@@ -81,90 +81,89 @@ private:
 	// View/projection for 3D shaders
 	Matrix4												mView;
 	Matrix4												mProjection;
-	//ŠÂ‹«Œõ‚Ìƒf[ƒ^\‘¢‘Ì
+	//ç’°å¢ƒå…‰ã®ãƒ‡ãƒ¼ã‚¿æ§‹é€ ä½“
 	DirectionalLightData								mDirLight;
 	// Window
 	SDL_Window*											mWindow;
 	// OpenGL context
 	SDL_GLContext										mContext;
-	//GBufferƒNƒ‰ƒX
+	//GBufferã‚¯ãƒ©ã‚¹
 	GBuffer*											mGBuffer;
 
 	// GBuffer shader
 	Shader*												mGGlobalShader;
 
-	//ƒVƒƒƒhƒEƒ}ƒbƒv‚ÌƒNƒ‰ƒX
+	//ã‚·ãƒ£ãƒ‰ã‚¦ãƒãƒƒãƒ—ã®ã‚¯ãƒ©ã‚¹
 	ShadowMap*											mShadowMap;
 	Shader*												mShadowShader;
 	Shader*												mSkinnedShadowShader;
 
-	//ƒ|ƒCƒ“ƒgƒ‰ƒCƒg‚Ì”z—ñ
+	//ãƒã‚¤ãƒ³ãƒˆãƒ©ã‚¤ãƒˆã®é…åˆ—
 	vector<LocalLight*>									mTypeLights;
 
 	Mesh*												mPointLightMesh;
-	//ƒXƒJƒCƒ{ƒbƒNƒX‚ÌƒŒƒ“ƒ_ƒ‰[
+	//ã‚¹ã‚«ã‚¤ãƒœãƒƒã‚¯ã‚¹ã®ãƒ¬ãƒ³ãƒ€ãƒ©ãƒ¼
 	SkyBoxRenderer*										mSkyBoxRenderer;
 	Shader*												mSkyBoxShader;
-	//ƒfƒoƒbƒOƒOƒŠƒbƒh‚Ìƒ|ƒCƒ“ƒ^ƒNƒ‰ƒX
+	//ãƒ‡ãƒãƒƒã‚°ã‚°ãƒªãƒƒãƒ‰ã®ãƒã‚¤ãƒ³ã‚¿ã‚¯ãƒ©ã‚¹
 	DebugGrid*											mDebugGrid;
-	//ƒOƒŠƒbƒh‚ÌƒVƒF[ƒ_[
+	//ã‚°ãƒªãƒƒãƒ‰ã®ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼
 	Shader*												mGridShader;
 	Shader*												mArrowShader;
-	//ƒIƒuƒWƒFƒNƒg‚Ì•ûŒü–îˆó—p‚Ì’¸“_”z—ñ
+	//ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®æ–¹å‘çŸ¢å°ç”¨ã®é ‚ç‚¹é…åˆ—
 	VertexArray*										mAxisVAO;
 
-	//ƒQ[ƒ€ƒV[ƒ“‚Ìƒf[ƒ^
+	//ã‚²ãƒ¼ãƒ ã‚·ãƒ¼ãƒ³ã®ãƒ‡ãƒ¼ã‚¿
 	SceneViewEditor*									mGameSceneViewEditor;
-	//ƒV[ƒ“‚²‚Æ‚É•Û‘¶‚µ‚Ä‚¢‚éƒIƒuƒWƒFƒNƒg‚Ìƒoƒbƒ`
-	// ƒAƒ“ƒ`”¼“§–¾ƒoƒbƒ`
+	//ã‚·ãƒ¼ãƒ³ã”ã¨ã«ä¿å­˜ã—ã¦ã„ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ãƒãƒƒãƒ
+	// ã‚¢ãƒ³ãƒåŠé€æ˜ãƒãƒƒãƒ
 	std::map<MaterialInfo*, StaticMeshBatch>			mAntiTransparentBatchesMap;      
-	// ”¼“§–¾ƒoƒbƒ`
+	// åŠé€æ˜ãƒãƒƒãƒ
 	std::map<MaterialInfo*, StaticMeshBatch>			mTransparentBatchesMap; 
 
-	//•`‰æ‰ñ”‚ÌƒJƒEƒ“ƒ^[
+	//æç”»å›æ•°ã®ã‚«ã‚¦ãƒ³ã‚¿ãƒ¼
 	int													mDrawCalls;
 
-	//3D•`‰æˆ—
-	void												EditorDraw3DScene(class SceneViewPanel* scene,unsigned int framebuffer, const Matrix4& view, const Matrix4& proj,
-		float viewPortScale = 1.0f, bool lit = true);
-	//3D•`‰æˆ—
-	void												Draw3DScene(unsigned int framebuffer, const Matrix4& view, const Matrix4& proj,
-		float viewPortScale = 1.0f, bool lit = true);
+
+	//ã‚¨ãƒ‡ã‚£ã‚¿ãƒ¼ã¨ã‚²ãƒ¼ãƒ ã‚·ãƒ¼ãƒ³ã‚’æç”»ã™ã‚‹é–¢æ•°
+    void												RenderSceneInternal(unsigned int framebuffer, const Matrix4& view,
+																			const Matrix4& proj,int viewportWidth,int viewportHeight,
+																			bool isEditor, class SceneViewPanel* scene);
 	void												DrawShadow3DScene();
 
 	void												DrawFromGBufferForEditor(class SceneViewPanel* scene);
-	//ƒ‰ƒCƒg•`‰æˆ—
+	//ãƒ©ã‚¤ãƒˆæç”»å‡¦ç†
 	void												DrawFromGBuffer();
-	//Shader‚Ì“Ç‚İ‚İ
+	//Shaderã®èª­ã¿è¾¼ã¿
 	bool												LoadShaders();
-	//Sprite‚Ì’¸“_‚ğì¬
+	//Spriteã®é ‚ç‚¹ã‚’ä½œæˆ
 	void												CreateSpriteVerts();
-	//îŒ^ƒXƒvƒ‰ƒCƒg‚Ì’¸“_‚ğì¬
-	int 												CreateFanSpriteVerts(float fillRatio /*0.0`1.0: î‚ÌŠ„‡*/, int segments);
-	//ƒIƒuƒWƒFƒNƒg‚Ì•ûŒü–îˆó‚Ì’¸“_‚ğì¬
+	//æ‰‡å‹ã‚¹ãƒ—ãƒ©ã‚¤ãƒˆã®é ‚ç‚¹ã‚’ä½œæˆ
+	int 												CreateFanSpriteVerts(float fillRatio /*0.0ï½1.0: æ‰‡ã®å‰²åˆ*/, int segments);
+	//ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®æ–¹å‘çŸ¢å°ã®é ‚ç‚¹ã‚’ä½œæˆ
 	void 												CreateAxisVerts();
 
 	void												SetPointLightUniforms(Shader* shader);
 
-	//ƒ‰ƒCƒg‚ÌShaderAƒ}ƒgƒŠƒbƒNƒX‚ÌSetter
+	//ãƒ©ã‚¤ãƒˆã®Shaderã€ãƒãƒˆãƒªãƒƒã‚¯ã‚¹ã®Setter
 	void												SetLightUniforms(class Shader* shader, const Matrix4& view);
 public:
 														Renderer();
 														~Renderer();
 
 	bool												Initialize(float screenWidth, float screenHeight);
-	//ƒQ[ƒ€Às‚Éˆê“x‚¾‚¯ŒÄ‚Ño‚³‚ê‚é‰Šú‰»ˆ—
+	//ã‚²ãƒ¼ãƒ å®Ÿè¡Œæ™‚ã«ä¸€åº¦ã ã‘å‘¼ã³å‡ºã•ã‚Œã‚‹åˆæœŸåŒ–å‡¦ç†
 	void												BuildStaticBatch();
 
 	void 												BuildMeshBatch(Mesh* mesh, Matrix4 world, StaticMeshBatch& outBatch, int index);
 
-	//•`‰æ•”•ª‚ÌƒAƒ“ƒ[ƒh(Shader‚È‚Ç)
+	//æç”»éƒ¨åˆ†ã®ã‚¢ãƒ³ãƒ­ãƒ¼ãƒ‰(Shaderãªã©)
 	void												Shutdown();
-	//ƒV[ƒ“•Ê‚É•Û‘¶‚µ‚Ä‚¢‚éƒIƒuƒWƒFƒNƒg‚ğƒAƒ“ƒ[ƒh‚·‚éˆ—
+	//ã‚·ãƒ¼ãƒ³åˆ¥ã«ä¿å­˜ã—ã¦ã„ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ã‚¢ãƒ³ãƒ­ãƒ¼ãƒ‰ã™ã‚‹å‡¦ç†
 	void												UnloadData();
 	void												MeshOrderUpdate();
 	void												DrawWindowTitle();
-	//•`‰æˆ—
+	//æç”»å‡¦ç†
 	void												StartDraw();
 	void												EndDraw();
 
@@ -174,17 +173,17 @@ public:
 	void												AddCanvasActor(Canvas* canvas);
 	void												RemoveCanvasActor(Canvas* canvas);
 
-	//Mesh’Ç‰Áˆ—
+	//Meshè¿½åŠ å‡¦ç†
 	void												AddMeshComp(class MeshRenderer* mesh);
-	//Meshíœˆ—
+	//Meshå‰Šé™¤å‡¦ç†
 	void												RemoveMeshComp(class MeshRenderer* mesh);
-	//Mesh’Ç‰Áˆ—
+	//Meshè¿½åŠ å‡¦ç†
 	void												AddParticleComp(class ParticleSystem* particle);
-	//Meshíœˆ—
+	//Meshå‰Šé™¤å‡¦ç†
 	void												RemoveParticleComp(class ParticleSystem* particle);
-	//PointLight’Ç‰Áˆ—
+	//PointLightè¿½åŠ å‡¦ç†
 	void												AddPointLight(class LocalLight* light);
-	//PointLightíœˆ—
+	//PointLightå‰Šé™¤å‡¦ç†
 	void												RemovePointLight(class LocalLight* light);
 	// Given a screen space point, unprojects it into world space,
 	// based on the current 3D view/projection matrices
@@ -192,35 +191,35 @@ public:
 	// x = [-screenWidth/2, +screenWidth/2]
 	// y = [-screenHeight/2, +screenHeight/2]
 	// z = [0, 1) -- 0 is closer to camera, 1 is further
-	// ƒXƒNƒŠ[ƒ“À•W‚©‚çƒ[ƒ‹ƒhÀ•W‚Ö‚Ì•ÏŠ·
+	// ã‚¹ã‚¯ãƒªãƒ¼ãƒ³åº§æ¨™ã‹ã‚‰ãƒ¯ãƒ¼ãƒ«ãƒ‰åº§æ¨™ã¸ã®å¤‰æ›
 	Vector3												Unproject(const Vector3& screenPoint) const;
-	//ƒXƒJƒCƒ{ƒbƒNƒX‚ÌGetter
+	//ã‚¹ã‚«ã‚¤ãƒœãƒƒã‚¯ã‚¹ã®Getter
 	SkyBoxRenderer*										GetSkyBoxRenderer() { return mSkyBoxRenderer; }
-	//PointLightMesh‚Ìİ’èˆ—
+	//PointLightMeshã®è¨­å®šå‡¦ç†
 	void												SetPointLightMesh(class Mesh* mesh) { mPointLightMesh = mesh; }
-	//Texture‚ÌGetter
+	//Textureã®Getter
 	Texture*											GetTexture(const string& fileName);
-	//Mesh‚ÌGetter(¡‚Íg‚Á‚Ä‚¢‚È‚¢)
+	//Meshã®Getter(ä»Šã¯ä½¿ã£ã¦ã„ãªã„)
 	//Mesh*												GetMesh(const string& fileName);
-	//Mesh”z—ñ‚ÌGetter
+	//Meshé…åˆ—ã®Getter
 	//vector<Mesh*>										GetMeshs(const string& fileName);
 
 	Mesh*												GetSubMesh(const filesystem::path& fileName, const string& localID,uint32_t vertexType = -1);
 
 	Matrix4												GetEditorView() { return mEditorView; }
-    // ƒJƒƒ‰‚Ìƒrƒ…[s—ñ‚ÌSetter
+    // ã‚«ãƒ¡ãƒ©ã®ãƒ“ãƒ¥ãƒ¼è¡Œåˆ—ã®Setter
     void												SetEditorViewMatrix(const Matrix4& view) { mEditorView = view; }
 
 	Matrix4												GetView() { return mView; }
-	//ƒJƒƒ‰‚Ìƒrƒ…[s—ñ‚ÌSetter
+	//ã‚«ãƒ¡ãƒ©ã®ãƒ“ãƒ¥ãƒ¼è¡Œåˆ—ã®Setter
 	void												SetViewMatrix(const Matrix4& view) { mView = view; }
-	//DirLight‚ÌGetter
+	//DirLightã®Getter
 	DirectionalLightData								GetDirectionalLight() { return mDirLight; }
-	//DirLight‚ÌSetter
+	//DirLightã®Setter
 	void												SetDirectionalLight(DirectionalLightData dirLight) { mDirLight = dirLight; }
-	//ƒXƒNƒŠ[ƒ“‚Ì•ûŒü‚ğæ“¾
+	//ã‚¹ã‚¯ãƒªãƒ¼ãƒ³ã®æ–¹å‘ã‚’å–å¾—
 	void												GetScreenDirection(Vector3& outStart, Vector3& outDir) const;
-	//GBuffer‚ÌGetter
+	//GBufferã®Getter
 	GBuffer*											GetGBuffer() { return mGBuffer; }
 
 	Shader*												GetGGlobalShader() { return mGGlobalShader; }
@@ -230,16 +229,16 @@ public:
 	Shader*												GetSkinnedShader() { return mSkinnedShader; }
 
 	class BaseScene*									GetRunScene() { return mRunScene; }
-	//BaseScene‚ÌGetter
+	//BaseSceneã®Getter
 	void												SetBaseScene(class BaseScene* scene) { mRunScene = scene; }
-	//mWindow‚ÌGetter
+	//mWindowã®Getter
 	SDL_Window*											GetWindow() { return mWindow; }
-	// mContext‚ÌGetter
+	// mContextã®Getter
 	SDL_GLContext										GetContext() { return mContext; }
 
 	ShadowMap*											GetShadowMap() { return mShadowMap; }
 
-	// mGameSceneViewEditor‚ÌGetter
+	// mGameSceneViewEditorã®Getter
 	SceneViewEditor*									GetGameSceneViewEditor() { return mGameSceneViewEditor; }
 
 	int 												GetDrawCalls() { return mDrawCalls; }
