@@ -36,8 +36,7 @@ bool EngineWindow::EngineInitialize()
 
     // Rendererの生成
     mRenderer = new Renderer();
-    if (!mRenderer->Initialize(WindowRenderProperty::GetWidth(),
-                               WindowRenderProperty::GetHeight()))
+    if (!mRenderer->Initialize(WindowRenderProperty::GetWidth(),WindowRenderProperty::GetHeight()))
     {
         Debug::ErrorLog("Failed to initialize Renderer");
         delete mRenderer;
@@ -67,8 +66,7 @@ bool EngineWindow::EngineInitialize()
     // 起動時に最初のシーンを初期化
     SceneManager::InitializeScenes();
     //  ImGuiの初期化処理
-    GUIEditorManager::InitializeImGui(mRenderer->GetWindow(),
-                                      mRenderer->GetContext());
+    GUIEditorManager::InitializeImGui(mRenderer->GetWindow(),mRenderer->GetContext());
     // 仮で一回更新を行う
     mGameWindow->UpdateFrame();
     // スクリプトのホットリロードマネージャーを生成
@@ -158,11 +156,8 @@ void EngineWindow::EngineRunLoop()
                 if (GUIEditorManager::IsStarting())
                 {
                     // 編集での変更があればそれを記録する
-                    string startupScenePath =
-                        EditorSettingsManager::GetInstance()
-                            .GetLastOpenedScene();
-                    SceneSerializer::WriteEditingSceneData(
-                        startupScenePath, SceneManager::GetCurrentRunScene());
+                    string startupScenePath = EditorSettingsManager::GetInstance().GetLastOpenedScene();
+                    SceneSerializer::WriteEditingSceneData(startupScenePath, SceneManager::GetCurrentRunScene());
 
                     GUIEditorManager::ResetPointer();
                     GameStateClass::SetGameState(GameState::GamePlay);

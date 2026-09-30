@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "Typedefs.h"
 #include "GameWinMain.h"
 #include "PhysWorld.h"
@@ -9,21 +9,20 @@ enum EngineState
 	End
 };
 
-//‘O•ûéŒ¾
+//å‰æ–¹å®£è¨€
 class Renderer;
-class GameWinMain;
 class SceneEditorCamera;
 class ScriptHotReloadManager;
 
 class EngineWindow
 {
 private:
-	//ƒGƒ“ƒWƒ“—p‚ÌRenderer‚ğ—pˆÓ	
+	//ã‚¨ãƒ³ã‚¸ãƒ³ç”¨ã®Rendererã‚’ç”¨æ„	
 	static Renderer*						mRenderer;
 
 	static PhysWorld*						mPhysWorld;
 
-	//ƒQ[ƒ€“à‚ÌƒEƒBƒ“ƒhƒE
+	//ã‚²ãƒ¼ãƒ å†…ã®ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦
 	GameWinMain*							mGameWindow;
 
 	static EngineState						mEngineState;
